@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/logo">
+        <file>ImageD_Logo.png</file>
+    </qresource>
+    <qresource prefix="/Init_2D">
+        <file>VD_init_2d.png</file>
+        <file>VD_init_2d_logo.png</file>
+    </qresource>
+    <qresource prefix="/Init_3D">
+        <file>VD_init_3d_00.png</file>
+        <file>VD_init_3d_01.png</file>
+        <file>VD_init_3d_02.png</file>
+        <file>VD_init_3d_03.png</file>
+        <file>VD_init_3d_04.png</file>
+        <file>VD_init_3d_05.png</file>
+        <file>VD_init_3d_06.png</file>
+        <file>VD_init_3d_07.png</file>
+        <file>VD_init_3d_08.png</file>
+        <file>VD_init_3d_09.png</file>
+        <file>VD_init_3d_10.png</file>
+        <file>VD_init_3d_11.png</file>
+        <file>VD_init_3d_12.png</file>
+    </qresource>
+    <qresource prefix="/Icon">
+        <file>icon_gsi.png</file>
+        <file>icon_hda.png</file>
+        <file>icon_mail.png</file>
+        <file>icon_opencv.png</file>
+        <file>icon_qt.png</file>
+        <file>icon_quote.png</file>
+        <file>icon_aperture.png</file>
+        <file>icon_dna.png</file>
+        <file>icon_C.png</file>
+    </qresource>
+    <qresource prefix="/other">
+        <file>pill_blue.jpg</file>
+        <file>pill_red.jpg</file>
+    </qresource>
+</RCC>

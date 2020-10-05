@@ -1,0 +1,4887 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>D_MAKRO_CoreFoci</class>
+ <widget class="QMainWindow" name="D_MAKRO_CoreFoci">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1352</width>
+    <height>906</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_12">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout_Viewer">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="groupBox_View_Result">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>375</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>View - Result</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
+          <widget class="QTabWidget" name="tabWidget_View_Results">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <widget class="QWidget" name="tab_Result_Image">
+            <attribute name="title">
+             <string>Image</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_View_Result_R">
+               <property name="maximumSize">
+                <size>
+                 <width>10</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>R:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="comboBox_View_Result_R">
+               <item>
+                <property name="text">
+                 <string>Empty</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Seeds</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Selected</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Dot</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Regions_Edges</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_View_Result_G">
+               <property name="maximumSize">
+                <size>
+                 <width>10</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>G:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
+              <widget class="QLabel" name="label_View_Result_B">
+               <property name="maximumSize">
+                <size>
+                 <width>10</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>B:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QComboBox" name="comboBox_View_Result_G">
+               <item>
+                <property name="text">
+                 <string>Empty</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Seeds</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Selected</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Dot</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Regions_Edges</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QComboBox" name="comboBox_View_Result_B">
+               <item>
+                <property name="text">
+                 <string>Empty</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Seeds</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nuclei_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cytoplasma_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Contrast</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Binary</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Selected</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Foci_Dot</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>ROI_Edges</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Regions_Edges</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="6">
+              <widget class="QGraphicsView" name="graphicsView_Result">
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="6">
+              <layout class="QHBoxLayout" name="horizontalLayout_ResCol_Preset">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_NormalAll">
+                 <property name="text">
+                  <string>Normal</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_ContrastAll">
+                 <property name="text">
+                  <string>Contrast</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_NucSegmentation">
+                 <property name="text">
+                  <string>Nuclei</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_Plasma">
+                 <property name="text">
+                  <string>Plasma</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_Foci">
+                 <property name="text">
+                  <string>Foci</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ResCol_Preset_Regions">
+                 <property name="text">
+                  <string>Regions</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_ResPlo_Cells">
+            <attribute name="title">
+             <string>Plot - Image</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="0">
+              <widget class="QComboBox" name="comboBox_ResPlo_Cells_Type"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QStackedWidget" name="stackedWidget_ResPlo_Cells">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <widget class="QWidget" name="page_ResPlo_Cells_Att">
+                <layout class="QGridLayout" name="gridLayout_14">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Cells_Att_Att"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_ResPlo_Cells_Att_Hist">
+                <layout class="QGridLayout" name="gridLayout_17">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Cells_Att_Hist_Att"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="Line" name="lineResPlo_Cells_Att_Hist">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_ResPlo_Cells_Att_Hist_Classes">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Classes:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QSpinBox" name="spinBox_ResPlo_Cells_Att_Hist_Classes">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>10000</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QCheckBox" name="checkBox_ResPlo_Cells_Att_Hist_Uni">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Uni</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="5">
+                  <widget class="QCheckBox" name="checkBox_ResPlo_Cells_Att_Hist_Acc">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Acc</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_ResPlo_Cells_Att_Scatter">
+                <layout class="QGridLayout" name="gridLayout_18">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Cells_Att_Scatter_Att_X"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Cells_Att_Scatter_Att_Y"/>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+             <item row="2" column="0" rowspan="2">
+              <layout class="QGridLayout" name="gridLayout_ResPlo_Cells"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_ResTab_Cells">
+            <attribute name="title">
+             <string>Table - Image</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_19">
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>9</number>
+             </property>
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <property name="bottomMargin">
+              <number>9</number>
+             </property>
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QTableWidget" name="tableWidget_Cells"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QComboBox" name="comboBox_TabCell_Type"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_ResPlo_Image">
+            <attribute name="title">
+             <string>Plot - Stack</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_11">
+             <item row="2" column="0">
+              <layout class="QGridLayout" name="gridLayout_ResPlo_Image"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QComboBox" name="comboBox_ResPlo_Img_Type"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QStackedWidget" name="stackedWidget_ResPlo_Img">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="currentIndex">
+                <number>1</number>
+               </property>
+               <widget class="QWidget" name="page_ResPlo_Img_Att">
+                <layout class="QGridLayout" name="gridLayout_21">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Img_Att_Att"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_ResPlo_Img_Att_Hist">
+                <layout class="QGridLayout" name="gridLayout_22">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Img_Att_Hist_Att"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="Line" name="line_ResPlo_Img_Att_Hist">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_ResPlo_Img_Att_Hist_Classes">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Classes:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QSpinBox" name="spinBox_ResPlo_Img_Att_Hist_Classes">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>10000</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QCheckBox" name="checkBox_ResPlo_Img_Att_Hist_Uni">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Uni</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="5">
+                  <widget class="QCheckBox" name="checkBox_ResPlo_Img_Att_Hist_Acc">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Acc</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_ResPlo_Img_Att_Scatter">
+                <layout class="QGridLayout" name="gridLayout_23">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Img_Att_Scatter_Att_X"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboBox_ResPlo_Img_Att_Scatter_Att_Y"/>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_ResTab_Image">
+            <attribute name="title">
+             <string>Table - Stack</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_20">
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>9</number>
+             </property>
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <property name="bottomMargin">
+              <number>9</number>
+             </property>
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QTableWidget" name="tableWidget_Image"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QComboBox" name="comboBox_TabImg_Type"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QGroupBox" name="groupBox_View_Cyto">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>375</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>View - Cytoplasm</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <widget class="QComboBox" name="comboBox_View_Cyto">
+           <item>
+            <property name="text">
+             <string>00   -   Input Image   -   Loaded From File</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>01   -   Input Image   -   Convert Depth to 8bit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>02   -   Input Image   -   Contrast Improved</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>03   -   Input Image   -   Gauss Filter</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>04   -   Binarization   -   Local Adaptive Thres</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>05   -   Morphology   -   Closing Holes</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>06   -   Morphology   -   Dilation</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>07   -   Region   -   Cytoplasma</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>08   -   Region   -   Cytoplasma Edges</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_View_Cyto_Format_QI">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format QI</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_View_Cyto_Format_MA">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format MA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="3">
+          <widget class="QGraphicsView" name="graphicsView_Cyto">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="groupBox_View_Cores">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>375</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>View - Nuclei</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="1" column="0" colspan="3">
+          <widget class="QGraphicsView" name="graphicsView_Cores">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QComboBox" name="comboBox_View_Cores">
+           <item>
+            <property name="text">
+             <string>00   -   Input Image   -   Loaded From File</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>01   -   Input Image   -   Convert Depth to 8bit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>02   -   Input Image   -   Improved Contrast</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>03   -   Remove Noise   -   Gauss Filter</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>04   -   Binarization   -   Local Adaptive Mean</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>05   -   Binarization   -   Fill Holes by Area</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>06   -   Binarization   -   Invert</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>07   -   Distance   -   Transformation</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>08   -   Lokal Rank   -   Eilenstein Filter</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>09   -   Lokal Rank   -   Convert Depth to 8bit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10   -   Lokal Maxima   -   Binarization</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>11   -   Remove Small   -   Opening</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>12   -   Connect Near   -   Dilation</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>13   -   Segments   -   Watershade Transformation</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>14   -   Segments   -   Binary</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15   -   Segments   -   Connect Small to nearby Big</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>16   -   Segments   -   Labels Final</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>17   -   Segments   -   Edges</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_View_Cores_QI_Format">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format QI</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_View_Cores_MA_Format">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format MA</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="groupBox_View_Foci">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>375</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>View - Foci</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QComboBox" name="comboBox_View_Foci">
+           <item>
+            <property name="text">
+             <string>00   -   Input Image   -   Loaded From File</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>01   -   Input Image   -   Converted Depth to 8bit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>02   -   Input Image   -   Contrast Improved</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>03   -   Input Image   -   Remove Noise</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>04   -   Binarization   -   Local Adaptive Mean</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>05   -   ROI   -   Margin to Nuclei</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>06   -   ROI   -   Out of Nuclei and in Cytoplasma</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>07   -   ROI   -   Edges</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>08   -   ROI   -   Mask applyed</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>09   -   ROI  -   Connect near Foci</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10   -   ROI   -   Select by Area</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>11   -   Centroid   -   Reduced to Centroid</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>12   -   Regions   -   Watershed of Nuclei in Cytoplasm</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>13   -   Regions   -   Convert to 8bit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>14   -   Centroid   -   Assign to Cores</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_View_Foci_QI_Format">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format QI</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_View_Foci_MA_Format">
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Format MA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="3">
+          <widget class="QGraphicsView" name="graphicsView_Foci">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox_Settings">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>1</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>480</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>480</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Settings and Output</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_13">
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>600</height>
+          </size>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="tab_InputDefinition">
+          <attribute name="title">
+           <string>Input</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_35">
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox_MikroPreset">
+             <property name="title">
+              <string>Mikroscope Presets</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_34">
+              <item row="0" column="0">
+               <widget class="QComboBox" name="comboBox_Preset"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="pushButton_PresetActivate">
+                <property name="text">
+                 <string>preset -&gt; settings</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_PageIndex">
+             <property name="title">
+              <string>Page Indices</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_36">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_37">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Nuclei</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_38">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Foci</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_39">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Cytoplasm</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QSpinBox" name="spinBox_IndexNuclei">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_IndexFoci">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>2</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QSpinBox" name="spinBox_IndexCytoplasm">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>3</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>367</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_Settings">
+          <attribute name="title">
+           <string>Settings</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_24">
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox_File">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>466</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Image</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_15">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="0" column="0" colspan="2">
+               <widget class="QComboBox" name="comboBox_FileName"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QGroupBox" name="groupBox_Settings_Foci">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>466</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Foci</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="1" column="4">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Black: Background, White: Potential foci</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_6">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>04</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetFoci_02_Sigma">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>10000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>6.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Bluring strength</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QSpinBox" name="spinBox_SetFoci_02_Size">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>13</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Sigma</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>03</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QSpinBox" name="spinBox_SetFoci_03_Size">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>3</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>63</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetFoci_03_Offset">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <double>-256.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>0.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>-13.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_8">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>Add margin to nuclei</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetFoci_04_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>25</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>05</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_13">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>09</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_14">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Connect near foci</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetFoci_05_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>3</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_16">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>10</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="label_17">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Area Min/Max</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="4">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>Select range of area allowed for foci</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QSpinBox" name="spinBox_SetFoci_06_Size_Min">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+                <property name="singleStep">
+                 <number>5</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QSpinBox" name="spinBox_SetFoci_06_Size_Max">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>1000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_32">
+                <property name="text">
+                 <string>15</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="label_31">
+                <property name="text">
+                 <string>Options</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2" colspan="2">
+               <widget class="QCheckBox" name="checkBox_SetFoci_13_ExcludeBordered">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Exclude bordered</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="4">
+               <widget class="QLabel" name="label_33">
+                <property name="text">
+                 <string>Segmentation (Cells and Analysis)</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_Settings_Cores">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>466</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Nuclei</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="10" column="3">
+               <widget class="QSpinBox" name="spinBox_SetCore_14_AreaMinOfBig">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>99999999</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>4000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="label_SetCore_04_Thres_Desription">
+                <property name="text">
+                 <string>Black: Nuclei, White: Background</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_SetCore_05_Fill_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Area</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="4">
+               <widget class="QLabel" name="label_SetCore_08_Desription">
+                <property name="text">
+                 <string>Eilenstein filter</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_SetCore_02_Gauss_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>03</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_SetCore_04_Thres_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>04</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_SetCore_02_Gauss_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Sigma</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetCore_02_Gauss_Sigma">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>100000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>26.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_SetCore_12_Open_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>11</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_09_Eilenstein_Size">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>25</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetCore_04_Thres_Offset">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <double>-256.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>255.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>-2.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="4">
+               <widget class="QLabel" name="label_SetCore_12_Open_Desription">
+                <property name="text">
+                 <string>Remove small and disconnect big objects</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLabel" name="label_SetCore_12_Open_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_SetCore_09_Eilenstein_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>08</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="label_SetCore_09_Eilenstein_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_12_Open_Area">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_SetCore_04_Thres_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_02_Gauss_Size">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>3</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>33</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_04_Thres_Size">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>3</number>
+                </property>
+                <property name="maximum">
+                 <number>100000</number>
+                </property>
+                <property name="singleStep">
+                 <number>10</number>
+                </property>
+                <property name="value">
+                 <number>401</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="label_SetCore_02_Gauss_Desription">
+                <property name="text">
+                 <string>Bluring strength</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QLabel" name="label_SetCore_05_Fill_Description">
+                <property name="text">
+                 <string>Fill holes in nuclei</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_05_Fill_Area">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+                <property name="singleStep">
+                 <number>10000</number>
+                </property>
+                <property name="value">
+                 <number>450000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_SetCore_05_Fill_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>05</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_SetCore_13_Dilation_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>12</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="4">
+               <widget class="QLabel" name="label_SetCore_13_Dilation_Description">
+                <property name="text">
+                 <string>Minimum size / connect near</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_SetCore_11_Thresh_Pos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>10</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_13_Dilation_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>29</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_Set_Core_09_Eilenstein_Offset">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string notr="true"/>
+                </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
+                <property name="minimum">
+                 <double>-100000.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_11_Thresh_Thres">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <number>255</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
+                </property>
+                <property name="value">
+                 <number>208</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="4">
+               <widget class="QLabel" name="label_SetCore_11_Thresh_Desription">
+                <property name="text">
+                 <string>Local maxima</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="label_SetCore_11_Thresh_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Threshold</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QLabel" name="label_SetCore_13_Dilation_Title">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0">
+               <widget class="QLabel" name="label_34">
+                <property name="text">
+                 <string>13</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="QLabel" name="label_35">
+                <property name="text">
+                 <string>Options</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="4">
+               <widget class="QLabel" name="label_36">
+                <property name="text">
+                 <string>Segmentation (Nuclei)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="2" colspan="2">
+               <widget class="QCheckBox" name="checkBox_SetCore_13_ExcludeBordered">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Exclude  bordered</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="1">
+               <widget class="QLabel" name="label_41">
+                <property name="text">
+                 <string>Area</string>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_14_AreaMaxOfSmall">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>2500</number>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="4">
+               <widget class="QLabel" name="label_42">
+                <property name="text">
+                 <string>Small (max of) connect with big (min of)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="QLabel" name="label_43">
+                <property name="text">
+                 <string>Distance</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0" rowspan="2">
+               <widget class="QLabel" name="label_40">
+                <property name="text">
+                 <string>15</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="4">
+               <widget class="QLabel" name="label_44">
+                <property name="text">
+                 <string>Distance interval for connecting objects</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCore_14_AreaDistMin">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="3">
+               <widget class="QSpinBox" name="spinBox_SetCore_14_AreaDistMax">
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QGroupBox" name="groupBox_Settings_Cyto">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>466</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Cytoplasma</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_11">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size/Sigma</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCyto_Gauss_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>15</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>03</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_20">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>05</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="4">
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>Add margin to cytoplasma</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCyto_Dilation_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>27</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBox_SetCyto_Closing_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>85</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetCyto_Gauss_Sigma">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>1000000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>7.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Closing holes</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>Bluring strength</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_23">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>15</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>15</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>06</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="label_24">
+                <property name="minimumSize">
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>75</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_28">
+                <property name="text">
+                 <string>04</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_29">
+                <property name="text">
+                 <string>Size/Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QLabel" name="label_30">
+                <property name="text">
+                 <string>Black: Backgr., White: Cytoplasma</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QSpinBox" name="spinBox_SetCyto_Thresh_Size">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100001</number>
+                </property>
+                <property name="singleStep">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>31</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_SetCyto_Thresh_Offset">
+                <property name="minimumSize">
+                 <size>
+                  <width>65</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <double>-256.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>255.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>-2.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QGroupBox" name="groupBox_Results">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>466</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Results</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_16">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_27">
+                <property name="minimumSize">
+                 <size>
+                  <width>20</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>20</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Col</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_25">
+                <property name="minimumSize">
+                 <size>
+                  <width>70</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>70</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Max Expected</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QSpinBox" name="spinBox_Results_SpreadMax">
+                <property name="minimumSize">
+                 <size>
+                  <width>133</width>
+                  <height>19</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>133</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>255</number>
+                </property>
+                <property name="maximum">
+                 <number>65535</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>15000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_26">
+                <property name="text">
+                 <string>Range to spread to 8bit for visualisation</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_Output">
+          <attribute name="title">
+           <string>Output</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_25">
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox_OutImg">
+             <property name="title">
+              <string>Images</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_27">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="groupBox_OutImg_Img">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Images</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_26">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="3" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Plasma">
+                   <property name="text">
+                    <string>Plasma</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Contrast">
+                   <property name="text">
+                    <string>Contrast</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_ProcSteps">
+                   <property name="text">
+                    <string>Processing Steps</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Nuclei">
+                   <property name="text">
+                    <string>Nuclei</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <spacer name="verticalSpacer_OutImg_Img">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Foci">
+                   <property name="text">
+                    <string>Foci</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Regions">
+                   <property name="text">
+                    <string>Regions</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Img_Normal">
+                   <property name="text">
+                    <string>Normal</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="Line" name="line_OutImg_Img">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QGroupBox" name="groupBox_OutImg_Plots">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>2</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Plots</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_33">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="7" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_FocArea">
+                   <property name="text">
+                    <string>Foci Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_Bar">
+                   <property name="text">
+                    <string>Attributes Bar</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_Hist">
+                   <property name="text">
+                    <string>Attributes Histogram</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_FocNumber">
+                   <property name="text">
+                    <string>Foci Number</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_CytArea">
+                   <property name="text">
+                    <string>Cytoplasma Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_Scatter">
+                   <property name="text">
+                    <string>Attributes Scatter</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_NucArea">
+                   <property name="text">
+                    <string>Nucleus Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="Line" name="line_OutImg_Plots">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <spacer name="verticalSpacer_OutImg_Plots">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>31</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Plots_NucMeanInt">
+                   <property name="text">
+                    <string>Nucleus Mean Intensity</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QGroupBox" name="groupBox_OutImg_Table">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Tables</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_30">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Table_Stat">
+                   <property name="text">
+                    <string>Attributes Stats</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutImg_Table_Raw">
+                   <property name="text">
+                    <string>Attributes Raw</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_OutImg_Table">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>133</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_OutStack">
+             <property name="title">
+              <string>Stack</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_28">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="groupBox_OutStack_Img">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Images</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_31">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="3" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Plasma">
+                   <property name="text">
+                    <string>Plasma</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Nuclei">
+                   <property name="text">
+                    <string>Nuclei</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Regions">
+                   <property name="text">
+                    <string>Regions</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Foci">
+                   <property name="text">
+                    <string>Foci</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Normal">
+                   <property name="text">
+                    <string>Normal</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Img_Contrast">
+                   <property name="text">
+                    <string>Contrast</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <spacer name="verticalSpacer_OutStack_Img">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>200</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QGroupBox" name="groupBox_OutStack_Plots">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>2</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Plots</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_32">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="11" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocNumberMean">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Number Mean</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_CytArea_Sum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Cytoplasma Area Sum</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="12" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocNumber_p_NucNumber">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Number / Nuclei Number</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_NucNumberSum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Nuclei Number Sum</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_Hist">
+                   <property name="text">
+                    <string>Attributes Histogram</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_Bar">
+                   <property name="text">
+                    <string>Attributes Bar</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="14" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocNumber_p_CytArea">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Number / Cytoplasma Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_NucAreaSum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Nuclei Area Sum</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="Line" name="line_OutStack_Plots">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="16" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocAreaMean">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Area Mean</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_Scatter">
+                   <property name="text">
+                    <string>Attributes Scatter</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_CytAreaMean">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Cytoplasma Area Mean</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="15" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocAreaSum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Area Sum</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="13" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocNumber_p_NucArea">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Number / Nuclei Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="18" column="0">
+                  <spacer name="verticalSpacer_OutStack_Plots">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>24</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_FocNumberSum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Foci Number Sum</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_NucAreaMean">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Nuclei Area Mean</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Plots_CytArea_p_NucArea">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Cytoplasma Area / Nuclei Area</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tristate">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QGroupBox" name="groupBox_OutStack_Table">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Tables</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_29">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Table_Raw">
+                   <property name="text">
+                    <string>Attributes Raw</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_OutStack_Table_Stat">
+                   <property name="text">
+                    <string>Attributes Stats</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_OutStack_Table">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>280</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox_Summary">
+         <property name="title">
+          <string>Summary (current image)</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QTableWidget" name="tableWidget_Summary_CurrentCell_Single">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>2</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QTableWidget" name="tableWidget_Summary_CurrentCell_Quotients">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1352</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuLayout">
+    <property name="title">
+     <string>Layout</string>
+    </property>
+    <addaction name="action_Show_View_Nuclei"/>
+    <addaction name="action_Show_View_Cytoplasma"/>
+    <addaction name="action_Show_View_Foci"/>
+    <addaction name="action_Show_View_Results"/>
+    <addaction name="action_Show_Settings_and_Other"/>
+   </widget>
+   <widget class="QMenu" name="menuViewer">
+    <property name="title">
+     <string>Viewer</string>
+    </property>
+    <addaction name="action_Smooth_Transformation"/>
+    <addaction name="action_Keep_Aspect_Ratio"/>
+   </widget>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>Data</string>
+    </property>
+    <addaction name="action_Load_Images"/>
+    <addaction name="action_Next_Image"/>
+    <addaction name="separator"/>
+    <addaction name="action_Clear_Images"/>
+    <addaction name="separator"/>
+    <addaction name="action_Save_Image_Cores"/>
+    <addaction name="action_Save_image_cytoplasma"/>
+    <addaction name="action_Save_Image_Foci"/>
+    <addaction name="action_Save_Image_Results"/>
+    <addaction name="separator"/>
+    <addaction name="action_Save_plot_image"/>
+    <addaction name="action_Save_plot_stack"/>
+   </widget>
+   <widget class="QMenu" name="menuUpdate">
+    <property name="title">
+     <string>Update</string>
+    </property>
+    <addaction name="action_Update_All"/>
+    <addaction name="separator"/>
+    <addaction name="action_Update_Cores"/>
+    <addaction name="action_Update_Foci"/>
+    <addaction name="action_Update_Results"/>
+    <addaction name="separator"/>
+    <addaction name="action_Update_View"/>
+   </widget>
+   <widget class="QMenu" name="menuStack_Processing">
+    <property name="title">
+     <string>Stack</string>
+    </property>
+    <addaction name="action_Process_Stack"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="action_Show_Minimized"/>
+    <addaction name="action_Show_Normal"/>
+    <addaction name="action_Show_Maximized"/>
+    <addaction name="action_Show_Fullscreen"/>
+   </widget>
+   <addaction name="menuData"/>
+   <addaction name="menuLayout"/>
+   <addaction name="menuViewer"/>
+   <addaction name="menuUpdate"/>
+   <addaction name="menuStack_Processing"/>
+   <addaction name="menuWindow"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_Smooth_Transformation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Smooth Transformation</string>
+   </property>
+  </action>
+  <action name="action_Keep_Aspect_Ratio">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keep Aspect Ratio</string>
+   </property>
+  </action>
+  <action name="action_Load_Images">
+   <property name="text">
+    <string>Load images to queue</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_Update_All">
+   <property name="text">
+    <string>Update All</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="action_Update_Cores">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Update Cores</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="action_Update_Foci">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Update Foci</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
+  </action>
+  <action name="action_Update_Results">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Update Results</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+  </action>
+  <action name="action_Update_View">
+   <property name="text">
+    <string>Update all Viewers</string>
+   </property>
+  </action>
+  <action name="action_Next_Image">
+   <property name="text">
+    <string>Next image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_Clear_Images">
+   <property name="text">
+    <string>Clear image queue</string>
+   </property>
+  </action>
+  <action name="action_Save_Image_Cores">
+   <property name="text">
+    <string>Save image nuclei</string>
+   </property>
+  </action>
+  <action name="action_Save_Image_Foci">
+   <property name="text">
+    <string>Save image foci</string>
+   </property>
+  </action>
+  <action name="action_Save_Image_Results">
+   <property name="text">
+    <string>Save image results</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_Stack_Process">
+   <property name="text">
+    <string>Process and Save Stack</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="action_Save_image_cytoplasma">
+   <property name="text">
+    <string>Save image cytoplasma</string>
+   </property>
+  </action>
+  <action name="action_Show_View_Nuclei">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show View Nuclei</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_Show_View_Cytoplasma">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show View Cytoplasma</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="action_Show_View_Foci">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show View Foci</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="action_Show_View_Results">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show View Results</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="action_Show_Settings_and_Other">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Settings and Other</string>
+   </property>
+  </action>
+  <action name="action_Show_Minimized">
+   <property name="text">
+    <string>Show Minimized</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="action_Show_Normal">
+   <property name="text">
+    <string>Show Normal</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
+   </property>
+  </action>
+  <action name="action_Show_Maximized">
+   <property name="text">
+    <string>Show Maximized</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
+  </action>
+  <action name="action_Show_Fullscreen">
+   <property name="text">
+    <string>Show Fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
+  </action>
+  <action name="action_Process_Stack">
+   <property name="text">
+    <string>Process Stack</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F5</string>
+   </property>
+  </action>
+  <action name="action_Save_plot_image">
+   <property name="text">
+    <string>Save plot image</string>
+   </property>
+  </action>
+  <action name="action_Save_plot_stack">
+   <property name="text">
+    <string>Save plot stack</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>action_Show_View_Cytoplasma</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>groupBox_View_Cyto</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>644</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_View_Foci</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>groupBox_View_Foci</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_View_Nuclei</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>groupBox_View_Cores</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_View_Results</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>groupBox_View_Result</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>644</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_Settings_and_Other</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>groupBox_Settings</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1120</x>
+     <y>410</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_Minimized</sender>
+   <signal>triggered()</signal>
+   <receiver>D_MAKRO_CoreFoci</receiver>
+   <slot>showMinimized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_Normal</sender>
+   <signal>triggered()</signal>
+   <receiver>D_MAKRO_CoreFoci</receiver>
+   <slot>showNormal()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_Maximized</sender>
+   <signal>triggered()</signal>
+   <receiver>D_MAKRO_CoreFoci</receiver>
+   <slot>showMaximized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Show_Fullscreen</sender>
+   <signal>triggered()</signal>
+   <receiver>D_MAKRO_CoreFoci</receiver>
+   <slot>showFullScreen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_ResPlo_Cells_Type</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_ResPlo_Cells</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>618</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>618</x>
+     <y>836</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_ResPlo_Img_Type</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_ResPlo_Img</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>618</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>618</x>
+     <y>540</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

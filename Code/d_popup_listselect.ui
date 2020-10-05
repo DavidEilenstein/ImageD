@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>D_Popup_ListSelect</class>
+ <widget class="QDialog" name="D_Popup_ListSelect">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>67</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QComboBox" name="comboBox_List"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="pushButton_Done">
+     <property name="text">
+      <string>Done</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>pushButton_Done</tabstop>
+  <tabstop>comboBox_List</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

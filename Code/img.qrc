@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/ImageD_Logo.png</file>
+    </qresource>
+</RCC>
