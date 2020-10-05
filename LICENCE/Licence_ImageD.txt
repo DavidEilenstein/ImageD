@@ -1,0 +1,79 @@
+ImageD
+GSI Helmholzzentrum for heavy ion research GmbH
+David Eilenstein
+D.Eilenstein@gsi.de
+Biophysics department 
+===========================================================
+
+========
+COPYRIGHT
+========
+ImageD
+Copyright 2020
+GSI Helmholtzzentrum fuer Schwerionenforschung/David Eilenstein
+Contact : D.Eilenstein@gsi.de
+
+========
+LICENCE TYPE
+========
+This software is distributed under the terms of the GNU General Public Licence version 3 
+(GPL Version 3), copied verbatim in the file </GPL3.txt>. For copy of the GNU General Public 
+License see <https://www.gnu.org/licenses/gpl-3.0.txt>.
+
+========
+PURPOSE/WARRANTY STATEMENT
+========
+ImageD is an image processing software for rapid prototyping and implementing algorithms 
+and solutions for science, research and teaching.
+ImageD is not intended to be used for industrial applications or high speed solutions.
+
+This program is free software: you can redistribute it and/or modify it under the terms 
+of the GNU General Public License Version 3 as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details:
+
+See </GPL3.txt> or <https://www.gnu.org/licenses/gpl-3.0.txt>.
+
+========
+CITATION
+========
+If you use the software, please cite as follows:
+"ImageD version <version number>, David Eilenstein, Gesellschaft fuer Schwerionenforschung Darmstadt, <year>"
+You can see the <version number> and the <year> in the bottom right corner of ImageD's main window.
+
+========
+PURE CONSCIENCE
+========
+By using this software you agree to take a deep breath everytime you launch ImageD and ask yourself:
+"Is it right what i do? Am i happy? Do i create value not only for me but for others too?"
+If you need help answering this question, this website may help you: <https://80000hours.org/>
+If the answer is yes: Enjoy working with ImageD :-)
+If the answer is no: Shame on you!
+
+========
+THIRD PARTY SOFTWARE
+========
+The various components of the release include Open Source licensed software components.
+These components, listed by the component where such Open Source licensed software appears, 
+are described as follows:
+
+--------
+Qt Framework
+--------
+See the following files in the same directory as this one:
+</Qt_Licence/LICENCE>
+</Qt_Licence/LICENCE.FDL>
+</Qt_Licence/LICENCE.PYTHON>
+</Qt_Licence/ThirdPartySoftware_Listing.txt>
+
+--------
+OpenCV
+--------
+See the following files in the same directory as this one:
+</OpenCV_Licence/Licence_OpenCV.txt>
+
+
+===========================================================
+END OF LICENCE DOCUMENT
