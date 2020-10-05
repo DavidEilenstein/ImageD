@@ -1,0 +1,26 @@
+digraph "D_VisDat_Proc::Save_VD_ToBinaryFile"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Proc::Save\l_VD_ToBinaryFile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_VisDat_Obj::pDim",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#ab4cee8385af854cafa24ee21766d208f",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_VisDat_Obj::pMA_full",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a1b759f59f5c13875d94961642bdd943e",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_VisDat_Obj::size_Byte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a3962cb8ddb9680dddbb7549976d6e99f",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_VisDat_Obj::size_Bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a6c9d98c7f7bf15602917c7a3872841f9",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_VisDat_Obj::size\l_BitPerPixel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a29385dedb4e03bf37650ce3e6085fd8a",tooltip=" "];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_VisDat_Obj::size\l_PixelCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a8e48a053eb8940e7a96d96644f88c9d0",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="D_VisDat_Dim::size\l_PixelCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___dim.html#a5dd1092a709e5c2a5312ddacd2225527",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="D_VisDat_Dim::size\l_DimsVec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___dim.html#a53561afb22110c3d940cfc8e2c778665",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="D_VisDat_Obj::type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#ac5826459ed7f3f1cd6a3a5ff89d4fbc8",tooltip=" "];
+}

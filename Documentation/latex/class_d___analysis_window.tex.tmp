@@ -1,0 +1,63 @@
+\hypertarget{class_d___analysis_window}{}\doxysection{D\+\_\+\+Analysis\+Window Class Reference}
+\label{class_d___analysis_window}\index{D\_AnalysisWindow@{D\_AnalysisWindow}}
+
+
+The \mbox{\hyperlink{class_d___analysis_window}{D\+\_\+\+Analysis\+Window}} class is made for G\+UI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these.  
+
+
+
+
+{\ttfamily \#include $<$d\+\_\+analysiswindow.\+h$>$}
+
+
+
+Inheritance diagram for D\+\_\+\+Analysis\+Window\+:
+% FIG 0
+
+
+Collaboration diagram for D\+\_\+\+Analysis\+Window\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d___analysis_window_a1570fd8f4c870b140c24a74f5164e863}{D\+\_\+\+Analysis\+Window}} (\mbox{\hyperlink{class_d___storage}{D\+\_\+\+Storage}} $\ast$p\+Storage, Q\+Widget $\ast$parent=0)
+\item 
+\mbox{\hyperlink{class_d___analysis_window_a5e3841bce9101110fb9ce5bc50201311}{$\sim$\+D\+\_\+\+Analysis\+Window}} ()
+\item 
+void \mbox{\hyperlink{class_d___analysis_window_ac861aab66e0d32eb7cca28e96bb8d0b0}{resize\+Event}} (Q\+Resize\+Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_d___analysis_window}{D\+\_\+\+Analysis\+Window}} class is made for G\+UI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_d___analysis_window_a1570fd8f4c870b140c24a74f5164e863}\label{class_d___analysis_window_a1570fd8f4c870b140c24a74f5164e863}} 
+\index{D\_AnalysisWindow@{D\_AnalysisWindow}!D\_AnalysisWindow@{D\_AnalysisWindow}}
+\index{D\_AnalysisWindow@{D\_AnalysisWindow}!D\_AnalysisWindow@{D\_AnalysisWindow}}
+\doxysubsubsection{\texorpdfstring{D\_AnalysisWindow()}{D\_AnalysisWindow()}}
+{\footnotesize\ttfamily D\+\_\+\+Analysis\+Window\+::\+D\+\_\+\+Analysis\+Window (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_d___storage}{D\+\_\+\+Storage}} $\ast$}]{p\+Storage,  }\item[{Q\+Widget $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{class_d___analysis_window_a5e3841bce9101110fb9ce5bc50201311}\label{class_d___analysis_window_a5e3841bce9101110fb9ce5bc50201311}} 
+\index{D\_AnalysisWindow@{D\_AnalysisWindow}!````~D\_AnalysisWindow@{$\sim$D\_AnalysisWindow}}
+\index{````~D\_AnalysisWindow@{$\sim$D\_AnalysisWindow}!D\_AnalysisWindow@{D\_AnalysisWindow}}
+\doxysubsubsection{\texorpdfstring{$\sim$D\_AnalysisWindow()}{~D\_AnalysisWindow()}}
+{\footnotesize\ttfamily D\+\_\+\+Analysis\+Window\+::$\sim$\+D\+\_\+\+Analysis\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_d___analysis_window_ac861aab66e0d32eb7cca28e96bb8d0b0}\label{class_d___analysis_window_ac861aab66e0d32eb7cca28e96bb8d0b0}} 
+\index{D\_AnalysisWindow@{D\_AnalysisWindow}!resizeEvent@{resizeEvent}}
+\index{resizeEvent@{resizeEvent}!D\_AnalysisWindow@{D\_AnalysisWindow}}
+\doxysubsubsection{\texorpdfstring{resizeEvent()}{resizeEvent()}}
+{\footnotesize\ttfamily void D\+\_\+\+Analysis\+Window\+::resize\+Event (\begin{DoxyParamCaption}\item[{Q\+Resize\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__analysiswindow_8h}{d\+\_\+analysiswindow.\+h}}\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__analysiswindow_8cpp}{d\+\_\+analysiswindow.\+cpp}}\end{DoxyCompactItemize}

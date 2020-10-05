@@ -1,0 +1,20 @@
+digraph "D_VisDat_Proc::Channels_Merge"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Proc::Channels\l_Merge",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Img_Proc_2dFactory\l::Channel_Merge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#ac974ed531246b5a416cab2a8edc443cb",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc::Merge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a4428edcff98c5f736292f9bd86691e32",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_VisDat_Obj::Dim",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a9b255993f402cca1b61ca82beae51b20",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_VisDat_Obj::pMA_full",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a1b759f59f5c13875d94961642bdd943e",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_Img_Proc::TypeIndex\l_of_Mat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a2510f13d853ef084a341c647b4a17292",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_VisDat_Proc::Wrap_VD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a08a25f3f05db4e112c651456fd1ae7e5",tooltip=" "];
+}

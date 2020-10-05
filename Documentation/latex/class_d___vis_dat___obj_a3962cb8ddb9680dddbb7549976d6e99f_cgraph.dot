@@ -1,0 +1,16 @@
+digraph "D_VisDat_Obj::size_Byte"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Obj::size_Byte",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_VisDat_Obj::size_Bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a6c9d98c7f7bf15602917c7a3872841f9",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_VisDat_Obj::size\l_BitPerPixel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a29385dedb4e03bf37650ce3e6085fd8a",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="D_VisDat_Obj::size\l_PixelCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a8e48a053eb8940e7a96d96644f88c9d0",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="D_VisDat_Dim::size\l_PixelCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___dim.html#a5dd1092a709e5c2a5312ddacd2225527",tooltip=" "];
+}

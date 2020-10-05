@@ -1,0 +1,28 @@
+digraph "D_Img_Proc::ObjectsMovement"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_Img_Proc::ObjectsMovement",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Math::AngleRad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc::Calc_Centroids",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#aa07495213b3660a8427279706eb6eac1",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_Img_Proc::Duplicate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ae211633bc292fe33bb171bd38d4dd110",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_Img_Proc::Labeling",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#aa8f040c84197aa8170e2f46fe628e00c",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_Img_Proc::Split_img2vv\l_coord",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a19759333b034da4f570c308b0e7b849c",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_Img_Proc::MinMax\l_of_Mat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a610c8b5d541644948c3267fedcda5cb7",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="D_Img_Proc::MinMax\l_of_Mat_1C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ab630a1029be7b20ea6edf45332e733fd",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="D_Math::Center",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#a13aac9762731bf6c35179b68055de139",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="D_Math::Distance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#ad0ba92bd6d2062cf8297b14054a6da6a",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="D_Stat::Optimize_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___stat.html#aab9e0ac401ae70feb35acfaf42144e4e",tooltip=" "];
+}

@@ -1,0 +1,48 @@
+digraph "D_Img_Proc_3D::Filter_Function"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_Img_Proc_3D::Filter\l_Function",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Img_Proc_3D::Filter\l_Eilenstein_Greater_Sum",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#aa974f651f870dc02693472812ffa3576",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc_3dFactory\l::Filter_Eilenstein_Greater_Sum",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a7279b120dd414524fb309c4ff3dd745a",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_VisDat_Proc::Filter\l_Eilenstein_Greater_Sum",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a84f84890bad375febafc49950c259d89",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_Img_Proc_3dFactory\l::Filter_Function",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a330550a8b742be296675a5c035983c82",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_VisDat_Proc::Filter\l_Function",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a4a7bc7c618f2b0d0aa95fd9231dad247",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_Img_Proc_3D::Filter\l_Median",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#abd3b48cc3b815b7eace13b884997bb30",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="D_Img_Proc_3dFactory\l::Filter_Median",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a1ce27277458ee2f48464a10d935379fc",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="D_VisDat_Proc::Filter\l_Median",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a83f091f40126c7c654a4044af6f1e49d",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="D_Img_Proc_3D::Morphology\l_Dilation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#aac0eaccd66f0ab807a632787ab746440",tooltip=" "];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="D_Img_Proc_3dFactory\l::Morphology_Dilation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a7b8467fa22c7fd925b9c18f76ecb364a",tooltip=" "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="D_VisDat_Proc::Morphology\l_Dilation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a48b018524c557317d907cb5e0bbdc929",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="D_Img_Proc_3D::Morphology\l_Erosion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#a6db57be078110d78bbf7e8800b09fd5f",tooltip=" "];
+  Node13 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="D_Img_Proc_3dFactory\l::Morphology_Erosion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a180d07b31ed5f658000e190b2aab8385",tooltip=" "];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="D_VisDat_Proc::Morphology\l_Erosion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#af7a01a597f28eb5f8986e5dcf7a61361",tooltip=" "];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="D_Img_Proc_3D::Neighborhood\l_Configs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#af93253308066e1e4c495d75e0b4a2ce5",tooltip=" "];
+  Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="D_Img_Proc_3D::EulerNumber",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3_d.html#a19a1bd9f1ebda10835c020c08578c79c",tooltip=" "];
+  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="D_Img_Proc_3dFactory\l::Euler_Number",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a3fc7282da00af1e41de7c7694c882a9c",tooltip=" "];
+  Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="D_VisDat_Proc::Euler\l_Number",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a5f1bf390e4a95e850831393b0329cd5f",tooltip=" "];
+  Node16 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="D_Img_Proc_3dFactory\l::Neighborhood_Configs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__3d_factory.html#a7ea4b074b764127ffd815a4b1c0e0d37",tooltip=" "];
+  Node20 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="D_VisDat_Proc::Neighborhood\l_Configs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#acfc0bc833aaefe9b3b7ec74ecb3081da",tooltip=" "];
+}

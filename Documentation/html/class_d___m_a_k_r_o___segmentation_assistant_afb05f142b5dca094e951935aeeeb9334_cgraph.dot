@@ -1,0 +1,10 @@
+digraph "D_MAKRO_SegmentationAssistant::Populate_CB"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_MAKRO_SegmentationAssistant\l::Populate_CB",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_MAKRO_SegmentationAssistant\l::Populate_CB_Single",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___m_a_k_r_o___segmentation_assistant.html#af801fb8c7d65c34cf59d16cf286491c0",tooltip=" "];
+}

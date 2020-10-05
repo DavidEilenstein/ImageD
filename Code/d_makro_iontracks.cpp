@@ -1,3 +1,11 @@
+/************************************
+ *   added:     ??.01.2019          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #include "d_makro_iontracks.h"
 #include "ui_d_makro_iontracks.h"
 

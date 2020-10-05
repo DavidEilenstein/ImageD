@@ -1,0 +1,20 @@
+digraph "D_VisDat_Dim::size_DimsVec"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_VisDat_Dim::size\l_DimsVec",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_VisDat_Proc::Dim\l_Deserialise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a80a40163813289fa2bc517af9fc2b18d",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_VisDat_Proc::Dim\l_Pages2Color",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a11235ca305efacd10f9f43a579e698ad",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_VisDat_Proc::Dim\l_Project",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#ad7e00883cfb7526afa9e4224556b3832",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_VisDat_Proc::HDR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a9f79d0b101bfeeb69122879fd76d4d7a",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_VisDat_Proc::Instert\l_atPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#aab6b0ee6654eea99842bb58a16d4d6be",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_VisDat_Proc::Save\l_VD_ToBinaryFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#ab065595c5ee40ec19d32c1cf0d2a1404",tooltip=" "];
+}

@@ -1,0 +1,35 @@
+digraph "D_VisDat_Dim::size_X"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_VisDat_Dim::size_X",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_VisDat_Proc::Create\l_VD_ValueFunction_6D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#aab4d1e92084c61df30fa3fa166f5e9e7",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_VisDat_Proc::Dim\l_Pages2Color",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a11235ca305efacd10f9f43a579e698ad",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="D_VisDat_Dim::DimOutRanged",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___dim.html#a3df3b7ac971e2ecfa81660320c6b245d",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="D_VisDat_Obj::Info_Dims",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a76fea770c39013d5a48328cfbdbe9363",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="D_VisDat_Obj::info\l_short",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a4650228abe90579d750ee3056c79a281",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="D_VisDat_Obj::Info_Type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a470c4a8ea26b436c680a6d6f7762f6cc",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="D_VisDat_Obj::info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a01a4349772351925aee3695ef511883b",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="D_VisDat_Proc::MotionField",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#ac04338e235835340bbf40a8dbf961f03",tooltip=" "];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="D_VisDat_Proc::Stitch\l_Border_abs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a9a4b7f04d049dc9148fbb0db73c443f4",tooltip=" "];
+  Node8 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="D_VisDat_Proc::Stitch\l_Border_abs_custom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#aeaa77fb73c685004e8a7114c5458fda6",tooltip=" "];
+  Node8 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="D_VisDat_Proc::Stitch\l_Border_rel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a6aa06e70a13a5514050b6a4d47514c03",tooltip=" "];
+  Node8 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="D_VisDat_Proc::Stitch\l_Border_rel_custom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a1bd673dadbbca90ace5df193b495d0f3",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="D_VisDat_Proc::ZernikeStack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a808ae484d9b87b4dc9a624e893a28c26",tooltip=" "];
+}

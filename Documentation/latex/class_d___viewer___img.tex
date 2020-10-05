@@ -1,0 +1,623 @@
+\hypertarget{class_d___viewer___img}{}\doxysection{D\+\_\+\+Viewer\+\_\+\+Img Class Reference}
+\label{class_d___viewer___img}\index{D\_Viewer\_Img@{D\_Viewer\_Img}}
+
+
+{\ttfamily \#include $<$d\+\_\+viewer\+\_\+img.\+h$>$}
+
+
+
+Inheritance diagram for D\+\_\+\+Viewer\+\_\+\+Img\+:
+% FIG 0
+
+
+Collaboration diagram for D\+\_\+\+Viewer\+\_\+\+Img\+:
+% FIG 1
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a4efe4e0b0ee3407fc3f159f5d538f90f}{Set\+\_\+\+Image}} (Mat $\ast$M\+A\+\_\+new)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a3f736582b45e620e2e1362b4f9bfa277}{Update\+\_\+\+Image}} (Mat $\ast$M\+A\+\_\+new)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a91559ee0413b89014c81766ca6b87731}{Update\+\_\+\+Image}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ac3f0f7a2528aa7cd7aaeb035357eaa37}{Update\+\_\+\+View}} ()
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_a2d09251263751648a3ae9fafa284c795}{Save\+\_\+\+Image\+\_\+\+Dialog}} ()
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_ac7622c9b9c8b7c1bf6cfb847736408e8}{Save\+\_\+\+Image\+\_\+\+Dialog}} (Q\+String path\+\_\+default)
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_af47ee5ed4c1f69136766eeeb5039be1a}{Save\+\_\+\+Image}} ()
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_a49ee39c20d1a822ac1eea204ae948152}{Save\+\_\+\+Image}} (Q\+String path)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a1075b319fa3494fa706254d322fd6b08}{Set\+\_\+\+Transformation\+\_\+\+Mode}} (bool smooth)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_adae3540d0b61d95ed586b9e6bc8e514e}{Set\+\_\+\+Aspect\+\_\+\+Mode}} (bool keep)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a78310800ebcb6e4159676a4ca0cd9049}{Set\+\_\+\+Gamma\+Spread}} (int gammaspread=1)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a93ebd56d499b8033e685cba97cacba48}{Set\+\_\+\+Gamma}} (double gamma=1)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a1ae76aa946f541a75cbf25232cd58677}{Set\+\_\+\+Spread\+In\+Min}} (double spread\+\_\+min=0)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a0ae49917f378c9018ee6189dbbda7ce0}{Set\+\_\+\+Spread\+In\+Max}} (double spread\+\_\+max=255)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a0d8114af85d41ba259a5b66e083c1b45}{Set\+\_\+\+Spread\+Out\+Min}} (double spread\+\_\+min=0)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a50c6396e1733e94ac41a38f435dafc6f}{Set\+\_\+\+Spread\+Out\+Max}} (double spread\+\_\+max=255)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ad0e5aba4d63299dd8378da971f0c0983}{Set\+\_\+\+Zomm}} (int x, int y, double factor)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_af8bda4082dc3cb200ab4e4175ec28cf4}{Mouse\+Moved}} (int x, int y)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ad389a7e78d28edf119fdeeef50492cf5}{Mouse\+Clicked}} (int x, int y)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a0e89ab05bef885dff1a8603ad84540bd}{Mouse\+Scrolled}} (int x, int y, int delta)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a64b7fb98c3b931d87c17258976a3624a}{Mouse\+Scrolled\+\_\+\+Ctrl}} (int x, int y, int delta)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a009ab9541f3892be1f75bb85720beef6}{Update\+\_\+\+Zoom}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a69d6069f802493d6dea97a5eb48f18cc}{Mouse\+Moved}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a52a0776dc3ca9372e9823f30d7190e26}{Mouse\+Moved\+\_\+\+Pos}} (int x, int y)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ab6e0e74c53338f355113f34bb2772d42}{Mouse\+Moved\+\_\+\+Pos}} (Q\+String pos)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a4e0facfd26235a23898ade33b8a83de3}{Mouse\+Moved\+\_\+\+Value}} (vector$<$ double $>$ val)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a181ba91ced530a63ee66082b59f17fe7}{Mouse\+Moved\+\_\+\+Value}} (Q\+String val)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a3bd60af738bec7d3a559dc5f23aea566}{Mouse\+Clicked}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ac03fac4bcc817cdd0d1124d91d9adba0}{Mouse\+Clicked\+\_\+\+Pos}} (int x, int y)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ae0eae23eb7a553c5ae2ae0570953a51e}{Mouse\+Clicked\+\_\+\+Pos}} (Q\+String pos)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a5b4bf72c1e416c4d78d7953b3c47d842}{Mouse\+Clicked\+\_\+\+Value}} (vector$<$ double $>$ val)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a9e77dcb1a26c0e382c6b6b73fa96bc03}{Mouse\+Clicked\+\_\+\+Value}} (Q\+String val)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_abd2e45feb185efa477aa1eae13c58fa5}{Type\+Changed}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a5caeca6ed3525aed0e68ef203c8c6738}{Type\+Changed\+\_\+\+QI}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a78f325e04d45877325dc13adc05b0f4e}{Type\+Changed\+\_\+\+QI}} (Q\+String type)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_ab7d14099023e462c498bf114fe04ec85}{Type\+Changed\+\_\+\+MA}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_aa505bf9804febabaaa9c4b4e442245eb}{Type\+Changed\+\_\+\+MA}} (Q\+String type)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a96ebc87d2d2a7264c7ca25ce7ad50164}{Image\+\_\+\+Size\+\_\+\+Changed}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a150fd6e6350db6b4220cdba92ccc51b0}{Image\+\_\+\+Size\+\_\+\+Changed}} (int width, int height)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_aed229f7167c50916c0b0d9996526c6b2}{Image\+\_\+\+Size\+\_\+\+Changed}} (Q\+String size)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a4977c6ee11eef55e4949edc8686c5b7a}{View\+\_\+\+Updated}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_aef5a26829201f4e18bf916e98db9be59}{Scaled}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a4415120596706421539c56f47ab95516}{Scaled\+\_\+\+Factor}} (double f\+\_\+x, double f\+\_\+y)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a4dd1fcec062589423552946b9687d6d2}{Scaled\+\_\+\+Factor}} (Q\+String scale)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_afc30de512a9d76635e1fc5f57ab9205f}{Scaled\+\_\+\+Factor\+\_\+\+Prz}} (Q\+String scale\+\_\+prz)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a3a05f77a3fef695c23deb967732a649d}{Zoomed}} (int x, int y, double factor)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a5432ab0e5e7905ebacc63400ea3c2f68}{Time\+\_\+\+View\+\_\+\+Update}} (unsigned int time\+\_\+ms)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a516278b190474147c24f3ccfc8a67e63}{Time\+\_\+\+Image\+\_\+\+Cvt}} (unsigned int time\+\_\+ms)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a1cac0601b624c8d5c7b1b65bb0ff6606}{Image\+\_\+\+Saved}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_afc3d681ccfcd54a3fefb7ab36635c142}{Image\+\_\+\+Saved}} (Q\+String path)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d___viewer___img_aa38ca4c2d8fae37e0a607fc32a436496}{D\+\_\+\+Viewer\+\_\+\+Img}} ()
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_abf32e1ab747098d70eab51041a9261b3}{set\+\_\+\+Name}} (Q\+String viewer\+\_\+name)
+\item 
+void \mbox{\hyperlink{class_d___viewer___img_a68c91d0eafdb2455d070c809bb648b24}{clear\+\_\+\+Image}} ()
+\item 
+Mat $\ast$ \mbox{\hyperlink{class_d___viewer___img_a1c86161bd2f1d50165c3616c26289efd}{MA}} ()
+\item 
+Q\+Image $\ast$ \mbox{\hyperlink{class_d___viewer___img_ab857f118ff2213a6d45376d657ec2758}{QI}} ()
+\item 
+Q\+Pixmap $\ast$ \mbox{\hyperlink{class_d___viewer___img_a0d8dd8cc24ada6fe0b5b2f7fb923cf53}{PX}} ()
+\item 
+\mbox{\hyperlink{class_scene_mouse_track}{Scene\+Mouse\+Track}} $\ast$ \mbox{\hyperlink{class_d___viewer___img_a3c916d8225a160ea635f6e9cd952e41f}{SC}} ()
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_a743896a08eb216fe26c6f127d07d5743}{Type\+\_\+\+MA}} ()
+\item 
+Q\+String \mbox{\hyperlink{class_d___viewer___img_afe75577f9a498982046dfd6ea4435e78}{Type\+\_\+\+QI}} ()
+\item 
+int \mbox{\hyperlink{class_d___viewer___img_a39e3ddd27127bf7c8025df2882b8142b}{img\+\_\+width}} ()
+\item 
+int \mbox{\hyperlink{class_d___viewer___img_a326177ba9133f0000b26c72333097d02}{img\+\_\+height}} ()
+\item 
+double \mbox{\hyperlink{class_d___viewer___img_a8d6c2b19da756475f21a7b6917cb7e82}{img\+\_\+val\+\_\+min}} ()
+\item 
+double \mbox{\hyperlink{class_d___viewer___img_a0c98fa84d1e9eb901ef28359d0b7ebcd}{img\+\_\+val\+\_\+max}} ()
+\item 
+double \mbox{\hyperlink{class_d___viewer___img_a394965d33cc91a2472b08e39fe3c56aa}{img\+\_\+val\+\_\+range}} ()
+\item 
+double \mbox{\hyperlink{class_d___viewer___img_a2274732025b6bb7e831970351908a080}{scale\+\_\+f\+\_\+x}} ()
+\item 
+double \mbox{\hyperlink{class_d___viewer___img_a449c006bcf80d0813bf712d219a5261c}{scale\+\_\+f\+\_\+y}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_d___viewer___img_aa38ca4c2d8fae37e0a607fc32a436496}\label{class_d___viewer___img_aa38ca4c2d8fae37e0a607fc32a436496}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{D\_Viewer\_Img()}{D\_Viewer\_Img()}}
+{\footnotesize\ttfamily D\+\_\+\+Viewer\+\_\+\+Img\+::\+D\+\_\+\+Viewer\+\_\+\+Img (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_d___viewer___img_a68c91d0eafdb2455d070c809bb648b24}\label{class_d___viewer___img_a68c91d0eafdb2455d070c809bb648b24}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!clear\_Image@{clear\_Image}}
+\index{clear\_Image@{clear\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{clear\_Image()}{clear\_Image()}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::clear\+\_\+\+Image (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_d___viewer___img_a1cac0601b624c8d5c7b1b65bb0ff6606}\label{class_d___viewer___img_a1cac0601b624c8d5c7b1b65bb0ff6606}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Image\_Saved@{Image\_Saved}}
+\index{Image\_Saved@{Image\_Saved}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Image\_Saved}{Image\_Saved}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Image\+\_\+\+Saved (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{class_d___viewer___img_afc3d681ccfcd54a3fefb7ab36635c142}\label{class_d___viewer___img_afc3d681ccfcd54a3fefb7ab36635c142}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Image\_Saved@{Image\_Saved}}
+\index{Image\_Saved@{Image\_Saved}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Image\_Saved}{Image\_Saved}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Image\+\_\+\+Saved (\begin{DoxyParamCaption}\item[{Q\+String}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a96ebc87d2d2a7264c7ca25ce7ad50164}\label{class_d___viewer___img_a96ebc87d2d2a7264c7ca25ce7ad50164}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Image\_Size\_Changed@{Image\_Size\_Changed}}
+\index{Image\_Size\_Changed@{Image\_Size\_Changed}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Image\_Size\_Changed}{Image\_Size\_Changed}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Image\+\_\+\+Size\+\_\+\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{class_d___viewer___img_a150fd6e6350db6b4220cdba92ccc51b0}\label{class_d___viewer___img_a150fd6e6350db6b4220cdba92ccc51b0}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Image\_Size\_Changed@{Image\_Size\_Changed}}
+\index{Image\_Size\_Changed@{Image\_Size\_Changed}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Image\_Size\_Changed}{Image\_Size\_Changed}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Image\+\_\+\+Size\+\_\+\+Changed (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_aed229f7167c50916c0b0d9996526c6b2}\label{class_d___viewer___img_aed229f7167c50916c0b0d9996526c6b2}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Image\_Size\_Changed@{Image\_Size\_Changed}}
+\index{Image\_Size\_Changed@{Image\_Size\_Changed}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Image\_Size\_Changed}{Image\_Size\_Changed}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Image\+\_\+\+Size\+\_\+\+Changed (\begin{DoxyParamCaption}\item[{Q\+String}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a326177ba9133f0000b26c72333097d02}\label{class_d___viewer___img_a326177ba9133f0000b26c72333097d02}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!img\_height@{img\_height}}
+\index{img\_height@{img\_height}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{img\_height()}{img\_height()}}
+{\footnotesize\ttfamily int D\+\_\+\+Viewer\+\_\+\+Img\+::img\+\_\+height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a0c98fa84d1e9eb901ef28359d0b7ebcd}\label{class_d___viewer___img_a0c98fa84d1e9eb901ef28359d0b7ebcd}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!img\_val\_max@{img\_val\_max}}
+\index{img\_val\_max@{img\_val\_max}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{img\_val\_max()}{img\_val\_max()}}
+{\footnotesize\ttfamily double D\+\_\+\+Viewer\+\_\+\+Img\+::img\+\_\+val\+\_\+max (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{class_d___viewer___img_a8d6c2b19da756475f21a7b6917cb7e82}\label{class_d___viewer___img_a8d6c2b19da756475f21a7b6917cb7e82}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!img\_val\_min@{img\_val\_min}}
+\index{img\_val\_min@{img\_val\_min}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{img\_val\_min()}{img\_val\_min()}}
+{\footnotesize\ttfamily double D\+\_\+\+Viewer\+\_\+\+Img\+::img\+\_\+val\+\_\+min (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{class_d___viewer___img_a394965d33cc91a2472b08e39fe3c56aa}\label{class_d___viewer___img_a394965d33cc91a2472b08e39fe3c56aa}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!img\_val\_range@{img\_val\_range}}
+\index{img\_val\_range@{img\_val\_range}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{img\_val\_range()}{img\_val\_range()}}
+{\footnotesize\ttfamily double D\+\_\+\+Viewer\+\_\+\+Img\+::img\+\_\+val\+\_\+range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{class_d___viewer___img_a39e3ddd27127bf7c8025df2882b8142b}\label{class_d___viewer___img_a39e3ddd27127bf7c8025df2882b8142b}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!img\_width@{img\_width}}
+\index{img\_width@{img\_width}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{img\_width()}{img\_width()}}
+{\footnotesize\ttfamily int D\+\_\+\+Viewer\+\_\+\+Img\+::img\+\_\+width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a1c86161bd2f1d50165c3616c26289efd}\label{class_d___viewer___img_a1c86161bd2f1d50165c3616c26289efd}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MA@{MA}}
+\index{MA@{MA}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MA()}{MA()}}
+{\footnotesize\ttfamily Mat$\ast$ D\+\_\+\+Viewer\+\_\+\+Img\+::\+MA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a3bd60af738bec7d3a559dc5f23aea566}\label{class_d___viewer___img_a3bd60af738bec7d3a559dc5f23aea566}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked@{MouseClicked}}
+\index{MouseClicked@{MouseClicked}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked}{MouseClicked}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{class_d___viewer___img_ad389a7e78d28edf119fdeeef50492cf5}\label{class_d___viewer___img_ad389a7e78d28edf119fdeeef50492cf5}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked@{MouseClicked}}
+\index{MouseClicked@{MouseClicked}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked}{MouseClicked}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{class_d___viewer___img_ac03fac4bcc817cdd0d1124d91d9adba0}\label{class_d___viewer___img_ac03fac4bcc817cdd0d1124d91d9adba0}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked\_Pos@{MouseClicked\_Pos}}
+\index{MouseClicked\_Pos@{MouseClicked\_Pos}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked\_Pos}{MouseClicked\_Pos}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked\+\_\+\+Pos (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{class_d___viewer___img_ae0eae23eb7a553c5ae2ae0570953a51e}\label{class_d___viewer___img_ae0eae23eb7a553c5ae2ae0570953a51e}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked\_Pos@{MouseClicked\_Pos}}
+\index{MouseClicked\_Pos@{MouseClicked\_Pos}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked\_Pos}{MouseClicked\_Pos}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked\+\_\+\+Pos (\begin{DoxyParamCaption}\item[{Q\+String}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a9e77dcb1a26c0e382c6b6b73fa96bc03}\label{class_d___viewer___img_a9e77dcb1a26c0e382c6b6b73fa96bc03}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked\_Value@{MouseClicked\_Value}}
+\index{MouseClicked\_Value@{MouseClicked\_Value}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked\_Value}{MouseClicked\_Value}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked\+\_\+\+Value (\begin{DoxyParamCaption}\item[{Q\+String}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a5b4bf72c1e416c4d78d7953b3c47d842}\label{class_d___viewer___img_a5b4bf72c1e416c4d78d7953b3c47d842}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseClicked\_Value@{MouseClicked\_Value}}
+\index{MouseClicked\_Value@{MouseClicked\_Value}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseClicked\_Value}{MouseClicked\_Value}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Clicked\+\_\+\+Value (\begin{DoxyParamCaption}\item[{vector$<$ double $>$}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{class_d___viewer___img_a69d6069f802493d6dea97a5eb48f18cc}\label{class_d___viewer___img_a69d6069f802493d6dea97a5eb48f18cc}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved@{MouseMoved}}
+\index{MouseMoved@{MouseMoved}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved}{MouseMoved}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 11
+\mbox{\Hypertarget{class_d___viewer___img_af8bda4082dc3cb200ab4e4175ec28cf4}\label{class_d___viewer___img_af8bda4082dc3cb200ab4e4175ec28cf4}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved@{MouseMoved}}
+\index{MouseMoved@{MouseMoved}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved}{MouseMoved}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{class_d___viewer___img_a52a0776dc3ca9372e9823f30d7190e26}\label{class_d___viewer___img_a52a0776dc3ca9372e9823f30d7190e26}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved\_Pos@{MouseMoved\_Pos}}
+\index{MouseMoved\_Pos@{MouseMoved\_Pos}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved\_Pos}{MouseMoved\_Pos}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved\+\_\+\+Pos (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{class_d___viewer___img_ab6e0e74c53338f355113f34bb2772d42}\label{class_d___viewer___img_ab6e0e74c53338f355113f34bb2772d42}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved\_Pos@{MouseMoved\_Pos}}
+\index{MouseMoved\_Pos@{MouseMoved\_Pos}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved\_Pos}{MouseMoved\_Pos}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved\+\_\+\+Pos (\begin{DoxyParamCaption}\item[{Q\+String}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a181ba91ced530a63ee66082b59f17fe7}\label{class_d___viewer___img_a181ba91ced530a63ee66082b59f17fe7}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved\_Value@{MouseMoved\_Value}}
+\index{MouseMoved\_Value@{MouseMoved\_Value}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved\_Value}{MouseMoved\_Value}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved\+\_\+\+Value (\begin{DoxyParamCaption}\item[{Q\+String}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a4e0facfd26235a23898ade33b8a83de3}\label{class_d___viewer___img_a4e0facfd26235a23898ade33b8a83de3}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseMoved\_Value@{MouseMoved\_Value}}
+\index{MouseMoved\_Value@{MouseMoved\_Value}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseMoved\_Value}{MouseMoved\_Value}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Moved\+\_\+\+Value (\begin{DoxyParamCaption}\item[{vector$<$ double $>$}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 14
+\mbox{\Hypertarget{class_d___viewer___img_a0e89ab05bef885dff1a8603ad84540bd}\label{class_d___viewer___img_a0e89ab05bef885dff1a8603ad84540bd}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseScrolled@{MouseScrolled}}
+\index{MouseScrolled@{MouseScrolled}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseScrolled}{MouseScrolled}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Scrolled (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{delta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a64b7fb98c3b931d87c17258976a3624a}\label{class_d___viewer___img_a64b7fb98c3b931d87c17258976a3624a}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!MouseScrolled\_Ctrl@{MouseScrolled\_Ctrl}}
+\index{MouseScrolled\_Ctrl@{MouseScrolled\_Ctrl}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{MouseScrolled\_Ctrl}{MouseScrolled\_Ctrl}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Mouse\+Scrolled\+\_\+\+Ctrl (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{delta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{class_d___viewer___img_a0d8dd8cc24ada6fe0b5b2f7fb923cf53}\label{class_d___viewer___img_a0d8dd8cc24ada6fe0b5b2f7fb923cf53}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!PX@{PX}}
+\index{PX@{PX}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{PX()}{PX()}}
+{\footnotesize\ttfamily Q\+Pixmap$\ast$ D\+\_\+\+Viewer\+\_\+\+Img\+::\+PX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_ab857f118ff2213a6d45376d657ec2758}\label{class_d___viewer___img_ab857f118ff2213a6d45376d657ec2758}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!QI@{QI}}
+\index{QI@{QI}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{QI()}{QI()}}
+{\footnotesize\ttfamily Q\+Image$\ast$ D\+\_\+\+Viewer\+\_\+\+Img\+::\+QI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_af47ee5ed4c1f69136766eeeb5039be1a}\label{class_d___viewer___img_af47ee5ed4c1f69136766eeeb5039be1a}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Save\_Image@{Save\_Image}}
+\index{Save\_Image@{Save\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Save\_Image}{Save\_Image}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Save\+\_\+\+Image (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+% FIG 16
+\mbox{\Hypertarget{class_d___viewer___img_a49ee39c20d1a822ac1eea204ae948152}\label{class_d___viewer___img_a49ee39c20d1a822ac1eea204ae948152}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Save\_Image@{Save\_Image}}
+\index{Save\_Image@{Save\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Save\_Image}{Save\_Image}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Save\+\_\+\+Image (\begin{DoxyParamCaption}\item[{Q\+String}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a2d09251263751648a3ae9fafa284c795}\label{class_d___viewer___img_a2d09251263751648a3ae9fafa284c795}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Save\_Image\_Dialog@{Save\_Image\_Dialog}}
+\index{Save\_Image\_Dialog@{Save\_Image\_Dialog}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Save\_Image\_Dialog}{Save\_Image\_Dialog}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Save\+\_\+\+Image\+\_\+\+Dialog (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 17
+\mbox{\Hypertarget{class_d___viewer___img_ac7622c9b9c8b7c1bf6cfb847736408e8}\label{class_d___viewer___img_ac7622c9b9c8b7c1bf6cfb847736408e8}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Save\_Image\_Dialog@{Save\_Image\_Dialog}}
+\index{Save\_Image\_Dialog@{Save\_Image\_Dialog}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Save\_Image\_Dialog}{Save\_Image\_Dialog}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Save\+\_\+\+Image\+\_\+\+Dialog (\begin{DoxyParamCaption}\item[{Q\+String}]{path\+\_\+default }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 18
+\mbox{\Hypertarget{class_d___viewer___img_a3c916d8225a160ea635f6e9cd952e41f}\label{class_d___viewer___img_a3c916d8225a160ea635f6e9cd952e41f}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!SC@{SC}}
+\index{SC@{SC}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{SC()}{SC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_scene_mouse_track}{Scene\+Mouse\+Track}}$\ast$ D\+\_\+\+Viewer\+\_\+\+Img\+::\+SC (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a2274732025b6bb7e831970351908a080}\label{class_d___viewer___img_a2274732025b6bb7e831970351908a080}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!scale\_f\_x@{scale\_f\_x}}
+\index{scale\_f\_x@{scale\_f\_x}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{scale\_f\_x()}{scale\_f\_x()}}
+{\footnotesize\ttfamily double D\+\_\+\+Viewer\+\_\+\+Img\+::scale\+\_\+f\+\_\+x (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a449c006bcf80d0813bf712d219a5261c}\label{class_d___viewer___img_a449c006bcf80d0813bf712d219a5261c}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!scale\_f\_y@{scale\_f\_y}}
+\index{scale\_f\_y@{scale\_f\_y}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{scale\_f\_y()}{scale\_f\_y()}}
+{\footnotesize\ttfamily double D\+\_\+\+Viewer\+\_\+\+Img\+::scale\+\_\+f\+\_\+y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_aef5a26829201f4e18bf916e98db9be59}\label{class_d___viewer___img_aef5a26829201f4e18bf916e98db9be59}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Scaled@{Scaled}}
+\index{Scaled@{Scaled}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Scaled}{Scaled}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Scaled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a4415120596706421539c56f47ab95516}\label{class_d___viewer___img_a4415120596706421539c56f47ab95516}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Scaled\_Factor@{Scaled\_Factor}}
+\index{Scaled\_Factor@{Scaled\_Factor}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Scaled\_Factor}{Scaled\_Factor}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Scaled\+\_\+\+Factor (\begin{DoxyParamCaption}\item[{double}]{f\+\_\+x,  }\item[{double}]{f\+\_\+y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a4dd1fcec062589423552946b9687d6d2}\label{class_d___viewer___img_a4dd1fcec062589423552946b9687d6d2}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Scaled\_Factor@{Scaled\_Factor}}
+\index{Scaled\_Factor@{Scaled\_Factor}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Scaled\_Factor}{Scaled\_Factor}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Scaled\+\_\+\+Factor (\begin{DoxyParamCaption}\item[{Q\+String}]{scale }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_afc30de512a9d76635e1fc5f57ab9205f}\label{class_d___viewer___img_afc30de512a9d76635e1fc5f57ab9205f}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Scaled\_Factor\_Prz@{Scaled\_Factor\_Prz}}
+\index{Scaled\_Factor\_Prz@{Scaled\_Factor\_Prz}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Scaled\_Factor\_Prz}{Scaled\_Factor\_Prz}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Scaled\+\_\+\+Factor\+\_\+\+Prz (\begin{DoxyParamCaption}\item[{Q\+String}]{scale\+\_\+prz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_adae3540d0b61d95ed586b9e6bc8e514e}\label{class_d___viewer___img_adae3540d0b61d95ed586b9e6bc8e514e}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_Aspect\_Mode@{Set\_Aspect\_Mode}}
+\index{Set\_Aspect\_Mode@{Set\_Aspect\_Mode}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_Aspect\_Mode}{Set\_Aspect\_Mode}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Aspect\+\_\+\+Mode (\begin{DoxyParamCaption}\item[{bool}]{keep }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 19
+\mbox{\Hypertarget{class_d___viewer___img_a93ebd56d499b8033e685cba97cacba48}\label{class_d___viewer___img_a93ebd56d499b8033e685cba97cacba48}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_Gamma@{Set\_Gamma}}
+\index{Set\_Gamma@{Set\_Gamma}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_Gamma}{Set\_Gamma}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Gamma (\begin{DoxyParamCaption}\item[{double}]{gamma = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a78310800ebcb6e4159676a4ca0cd9049}\label{class_d___viewer___img_a78310800ebcb6e4159676a4ca0cd9049}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_GammaSpread@{Set\_GammaSpread}}
+\index{Set\_GammaSpread@{Set\_GammaSpread}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_GammaSpread}{Set\_GammaSpread}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Gamma\+Spread (\begin{DoxyParamCaption}\item[{int}]{gammaspread = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a4efe4e0b0ee3407fc3f159f5d538f90f}\label{class_d___viewer___img_a4efe4e0b0ee3407fc3f159f5d538f90f}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_Image@{Set\_Image}}
+\index{Set\_Image@{Set\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_Image}{Set\_Image}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Image (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{M\+A\+\_\+new }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 20
+Here is the caller graph for this function\+:
+% FIG 21
+\mbox{\Hypertarget{class_d___viewer___img_abf32e1ab747098d70eab51041a9261b3}\label{class_d___viewer___img_abf32e1ab747098d70eab51041a9261b3}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!set\_Name@{set\_Name}}
+\index{set\_Name@{set\_Name}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{set\_Name()}{set\_Name()}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::set\+\_\+\+Name (\begin{DoxyParamCaption}\item[{Q\+String}]{viewer\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a0ae49917f378c9018ee6189dbbda7ce0}\label{class_d___viewer___img_a0ae49917f378c9018ee6189dbbda7ce0}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_SpreadInMax@{Set\_SpreadInMax}}
+\index{Set\_SpreadInMax@{Set\_SpreadInMax}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_SpreadInMax}{Set\_SpreadInMax}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Spread\+In\+Max (\begin{DoxyParamCaption}\item[{double}]{spread\+\_\+max = {\ttfamily 255} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a1ae76aa946f541a75cbf25232cd58677}\label{class_d___viewer___img_a1ae76aa946f541a75cbf25232cd58677}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_SpreadInMin@{Set\_SpreadInMin}}
+\index{Set\_SpreadInMin@{Set\_SpreadInMin}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_SpreadInMin}{Set\_SpreadInMin}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Spread\+In\+Min (\begin{DoxyParamCaption}\item[{double}]{spread\+\_\+min = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a50c6396e1733e94ac41a38f435dafc6f}\label{class_d___viewer___img_a50c6396e1733e94ac41a38f435dafc6f}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_SpreadOutMax@{Set\_SpreadOutMax}}
+\index{Set\_SpreadOutMax@{Set\_SpreadOutMax}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_SpreadOutMax}{Set\_SpreadOutMax}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Spread\+Out\+Max (\begin{DoxyParamCaption}\item[{double}]{spread\+\_\+max = {\ttfamily 255} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a0d8114af85d41ba259a5b66e083c1b45}\label{class_d___viewer___img_a0d8114af85d41ba259a5b66e083c1b45}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_SpreadOutMin@{Set\_SpreadOutMin}}
+\index{Set\_SpreadOutMin@{Set\_SpreadOutMin}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_SpreadOutMin}{Set\_SpreadOutMin}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Spread\+Out\+Min (\begin{DoxyParamCaption}\item[{double}]{spread\+\_\+min = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a1075b319fa3494fa706254d322fd6b08}\label{class_d___viewer___img_a1075b319fa3494fa706254d322fd6b08}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_Transformation\_Mode@{Set\_Transformation\_Mode}}
+\index{Set\_Transformation\_Mode@{Set\_Transformation\_Mode}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_Transformation\_Mode}{Set\_Transformation\_Mode}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Transformation\+\_\+\+Mode (\begin{DoxyParamCaption}\item[{bool}]{smooth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 22
+\mbox{\Hypertarget{class_d___viewer___img_ad0e5aba4d63299dd8378da971f0c0983}\label{class_d___viewer___img_ad0e5aba4d63299dd8378da971f0c0983}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Set\_Zomm@{Set\_Zomm}}
+\index{Set\_Zomm@{Set\_Zomm}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Set\_Zomm}{Set\_Zomm}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Set\+\_\+\+Zomm (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{double}]{factor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a516278b190474147c24f3ccfc8a67e63}\label{class_d___viewer___img_a516278b190474147c24f3ccfc8a67e63}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Time\_Image\_Cvt@{Time\_Image\_Cvt}}
+\index{Time\_Image\_Cvt@{Time\_Image\_Cvt}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Time\_Image\_Cvt}{Time\_Image\_Cvt}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Time\+\_\+\+Image\+\_\+\+Cvt (\begin{DoxyParamCaption}\item[{unsigned int}]{time\+\_\+ms }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a5432ab0e5e7905ebacc63400ea3c2f68}\label{class_d___viewer___img_a5432ab0e5e7905ebacc63400ea3c2f68}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Time\_View\_Update@{Time\_View\_Update}}
+\index{Time\_View\_Update@{Time\_View\_Update}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Time\_View\_Update}{Time\_View\_Update}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Time\+\_\+\+View\+\_\+\+Update (\begin{DoxyParamCaption}\item[{unsigned int}]{time\+\_\+ms }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a743896a08eb216fe26c6f127d07d5743}\label{class_d___viewer___img_a743896a08eb216fe26c6f127d07d5743}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Type\_MA@{Type\_MA}}
+\index{Type\_MA@{Type\_MA}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Type\_MA()}{Type\_MA()}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+\_\+\+MA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:
+% FIG 23
+\mbox{\Hypertarget{class_d___viewer___img_afe75577f9a498982046dfd6ea4435e78}\label{class_d___viewer___img_afe75577f9a498982046dfd6ea4435e78}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Type\_QI@{Type\_QI}}
+\index{Type\_QI@{Type\_QI}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Type\_QI()}{Type\_QI()}}
+{\footnotesize\ttfamily Q\+String D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+\_\+\+QI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:
+% FIG 24
+\mbox{\Hypertarget{class_d___viewer___img_abd2e45feb185efa477aa1eae13c58fa5}\label{class_d___viewer___img_abd2e45feb185efa477aa1eae13c58fa5}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!TypeChanged@{TypeChanged}}
+\index{TypeChanged@{TypeChanged}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{TypeChanged}{TypeChanged}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 25
+\mbox{\Hypertarget{class_d___viewer___img_ab7d14099023e462c498bf114fe04ec85}\label{class_d___viewer___img_ab7d14099023e462c498bf114fe04ec85}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!TypeChanged\_MA@{TypeChanged\_MA}}
+\index{TypeChanged\_MA@{TypeChanged\_MA}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{TypeChanged\_MA}{TypeChanged\_MA}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+Changed\+\_\+\+MA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 26
+\mbox{\Hypertarget{class_d___viewer___img_aa505bf9804febabaaa9c4b4e442245eb}\label{class_d___viewer___img_aa505bf9804febabaaa9c4b4e442245eb}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!TypeChanged\_MA@{TypeChanged\_MA}}
+\index{TypeChanged\_MA@{TypeChanged\_MA}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{TypeChanged\_MA}{TypeChanged\_MA}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+Changed\+\_\+\+MA (\begin{DoxyParamCaption}\item[{Q\+String}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a5caeca6ed3525aed0e68ef203c8c6738}\label{class_d___viewer___img_a5caeca6ed3525aed0e68ef203c8c6738}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!TypeChanged\_QI@{TypeChanged\_QI}}
+\index{TypeChanged\_QI@{TypeChanged\_QI}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{TypeChanged\_QI}{TypeChanged\_QI}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+Changed\+\_\+\+QI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a78f325e04d45877325dc13adc05b0f4e}\label{class_d___viewer___img_a78f325e04d45877325dc13adc05b0f4e}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!TypeChanged\_QI@{TypeChanged\_QI}}
+\index{TypeChanged\_QI@{TypeChanged\_QI}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{TypeChanged\_QI}{TypeChanged\_QI}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Type\+Changed\+\_\+\+QI (\begin{DoxyParamCaption}\item[{Q\+String}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a91559ee0413b89014c81766ca6b87731}\label{class_d___viewer___img_a91559ee0413b89014c81766ca6b87731}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Update\_Image@{Update\_Image}}
+\index{Update\_Image@{Update\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Update\_Image}{Update\_Image}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Update\+\_\+\+Image (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+% FIG 27
+\mbox{\Hypertarget{class_d___viewer___img_a3f736582b45e620e2e1362b4f9bfa277}\label{class_d___viewer___img_a3f736582b45e620e2e1362b4f9bfa277}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Update\_Image@{Update\_Image}}
+\index{Update\_Image@{Update\_Image}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Update\_Image}{Update\_Image}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Update\+\_\+\+Image (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{M\+A\+\_\+new }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+% FIG 28
+\mbox{\Hypertarget{class_d___viewer___img_ac3f0f7a2528aa7cd7aaeb035357eaa37}\label{class_d___viewer___img_ac3f0f7a2528aa7cd7aaeb035357eaa37}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Update\_View@{Update\_View}}
+\index{Update\_View@{Update\_View}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Update\_View}{Update\_View}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Update\+\_\+\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+% FIG 29
+\mbox{\Hypertarget{class_d___viewer___img_a009ab9541f3892be1f75bb85720beef6}\label{class_d___viewer___img_a009ab9541f3892be1f75bb85720beef6}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Update\_Zoom@{Update\_Zoom}}
+\index{Update\_Zoom@{Update\_Zoom}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Update\_Zoom}{Update\_Zoom}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Update\+\_\+\+Zoom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+% FIG 30
+\mbox{\Hypertarget{class_d___viewer___img_a4977c6ee11eef55e4949edc8686c5b7a}\label{class_d___viewer___img_a4977c6ee11eef55e4949edc8686c5b7a}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!View\_Updated@{View\_Updated}}
+\index{View\_Updated@{View\_Updated}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{View\_Updated}{View\_Updated}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+View\+\_\+\+Updated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{class_d___viewer___img_a3a05f77a3fef695c23deb967732a649d}\label{class_d___viewer___img_a3a05f77a3fef695c23deb967732a649d}} 
+\index{D\_Viewer\_Img@{D\_Viewer\_Img}!Zoomed@{Zoomed}}
+\index{Zoomed@{Zoomed}!D\_Viewer\_Img@{D\_Viewer\_Img}}
+\doxysubsubsection{\texorpdfstring{Zoomed}{Zoomed}}
+{\footnotesize\ttfamily void D\+\_\+\+Viewer\+\_\+\+Img\+::\+Zoomed (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{double}]{factor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+% FIG 31
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__viewer__img_8h}{d\+\_\+viewer\+\_\+img.\+h}}\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__viewer__img_8cpp}{d\+\_\+viewer\+\_\+img.\+cpp}}\end{DoxyCompactItemize}

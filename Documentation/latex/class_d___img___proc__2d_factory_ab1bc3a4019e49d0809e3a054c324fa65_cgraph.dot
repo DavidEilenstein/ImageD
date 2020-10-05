@@ -1,0 +1,22 @@
+digraph "D_Img_Proc_2dFactory::Stitch_Border_rel"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_Img_Proc_2dFactory\l::Stitch_Border_rel",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_Img_Proc::Stitch\l_Border_rel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ac8bd5b72f410325b6b050a0c8538bc70",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_Img_Proc::Stitch\l_Border_abs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a3f539429f39b1f1561acd7fcf98907ca",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="D_Img_Proc::ForceSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ac9f67126d0a420b9750f725b7e4d6295",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="D_Img_Proc::Crop_Rect_Abs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a7d8de715a15ff62db57fdc8a2d86809f",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="D_Img_Proc::Duplicate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ae211633bc292fe33bb171bd38d4dd110",tooltip=" "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="D_Img_Proc::Padding",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a722d985072ba953a6fc7cfa100a0eaaf",tooltip=" "];
+  Node3 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="D_Img_Proc::Stitch\l_Border_abs_custom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a23fcb1c971eff58bfa3386e7a0f7588f",tooltip=" "];
+}

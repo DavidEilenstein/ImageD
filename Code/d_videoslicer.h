@@ -1,3 +1,11 @@
+/************************************
+ *   added:     ??.??.2019          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_VIDEOSLICER_H
 #define D_VIDEOSLICER_H
 

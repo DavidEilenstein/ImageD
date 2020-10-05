@@ -1,3 +1,11 @@
+/************************************
+ *   added:     ??.01.2019          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_MAKRO_IONTRACKS_H
 #define D_MAKRO_IONTRACKS_H
 

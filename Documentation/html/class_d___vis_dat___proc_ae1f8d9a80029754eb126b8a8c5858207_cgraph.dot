@@ -1,0 +1,26 @@
+digraph "D_VisDat_Proc::ClassBorder_kNN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Proc::ClassBorder_kNN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Img_Proc_2dFactory\l::ClassBorder_kNN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#a5ac2327d1e79d80b719c4f2deca2726e",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc::ClassBorder_kNN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a8011ee36a56304e711a0b83da06b17e8",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_Math::Distance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#ad0ba92bd6d2062cf8297b14054a6da6a",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_Component_List::get\l_CentroidVector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a7f78b6d76aa3a491319fbd9f30b9d758",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_Component_List::get\l_Centroid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a3f65b83dac537d2f35e2328f4d201436",tooltip=" "];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_Component_List::size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a39d1b2ce304399503e229f83e3f4e6f4",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="D_VisDat_Obj::Dim",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___obj.html#a9b255993f402cca1b61ca82beae51b20",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="D_VisDat_Slicing::is_2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___slicing.html#a6e5f7f2a4448f135c77a06e04f678974",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="D_VisDat_Proc::Wrap_VD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a08a25f3f05db4e112c651456fd1ae7e5",tooltip=" "];
+}

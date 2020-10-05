@@ -1,3 +1,11 @@
+/************************************
+ *   added:     22.05.2020          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #include "d_visdat_header.h"
 
 D_VisDat_Header::D_VisDat_Header()

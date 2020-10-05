@@ -1,0 +1,14 @@
+digraph "D_VisDat_Proc::Math_1img_Inversion"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Proc::Math\l_1img_Inversion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Img_Proc_2dFactory\l::Math_1img_Inversion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#ab38255597b9fe89ca1f3b7173b354030",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc::Math_ImgSelf_Not",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a16a22a2617292a637345bf93fcd7934f",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_VisDat_Proc::Wrap\l_VD_SameSizeType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a25807fb990dbe9c2a20fd1ce4ab6bf69",tooltip=" "];
+}

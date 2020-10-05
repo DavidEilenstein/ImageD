@@ -1,0 +1,24 @@
+digraph "D_Img_Proc::Math_MagnitudeSquared"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_Img_Proc::Math_Magnitude\lSquared",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_Img_Proc::Convert\l_Complex2Real_1C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a89d9a703e9ff67bee747177107d9f2d7",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc::Convert\l_Complex2Real_1C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a9d93e4dc7368d4d3e1224bac3dd8aad9",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_Img_Proc::Transformation\l_Fourier_1C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#aaf5ac6e18dddfab80db7779ea8677c8d",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_Img_Proc::Transformation\l_Fourier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a8a4460f6f7bbe8b41ac03531b3808f7c",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="D_Img_Proc::Visualize\l_to8bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#ae1397956ae15b4aa10e0790c0141a809",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="D_Img_Proc_2dFactory\l::Visualize_to8bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#a6d73d62f6bda6ede8bd5eb140b6452a2",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="D_VisDat_Proc::Visualize\l_to8bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#abc100ab81245d52152bcb396fbf19b31",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="D_VisDat_Proc::Save\l_VD_ListFull",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#aa19c0cf814fb82dbc0c7aa619f74551f",tooltip=" "];
+}

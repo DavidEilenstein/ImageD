@@ -1,0 +1,26 @@
+digraph "D_Stat::Calc_Stats"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_Stat::Calc_Stats",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_Value_Distribution\l_List::calc_ComAxeClaSta",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___value___distribution___list.html#aeb5cd05b44aea5a0aae0f0b046976039",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_Value_Distribution\l_List::calc_All",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___value___distribution___list.html#ad2d04cb753b1d3fcdf1142aacd251e4a",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="D_Value_Distribution\l_List::get_Axe",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___value___distribution___list.html#affab350766321fb0ec332a3012d1fb65",tooltip=" "];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="D_Value_Distribution\l_List::get_Stat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___value___distribution___list.html#ae12da639b226f972c6e2971a155b6718",tooltip=" "];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="D_Value_Distribution\l_List::get_Values",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___value___distribution___list.html#a535491f7cc814c7d56d2ab8de6e4d23f",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="D_Stat::Calc_Stats_2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___stat.html#a954eccdcbb4c8f245e85819eb6c84594",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="D_Plot::Plot_Scatter\l_2D_Single_Y",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___plot.html#aef8e20d17ba388d952eb8ddde07f9a48",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="D_Popup_Plot::D_Popup_Plot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___popup___plot.html#a66aa2d013d4d280e3dff7f9b84d4651b",tooltip=" "];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="D_Plot::Plot_Stat_Multi\l_Custom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___plot.html#a21a34050fd4a67235e4f197b30e9135b",tooltip=" "];
+}

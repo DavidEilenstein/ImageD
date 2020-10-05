@@ -58,6 +58,9 @@ namespace Ui {
 class D_AnalysisWindow;
 }
 
+/*!
+ * \brief The D_AnalysisWindow class is made for GUI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these.
+ */
 class D_AnalysisWindow : public QMainWindow
 {
     Q_OBJECT

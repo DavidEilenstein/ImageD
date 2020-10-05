@@ -1,0 +1,256 @@
+\hypertarget{class_d___img___proc__3_d}{}\doxysection{D\+\_\+\+Img\+\_\+\+Proc\+\_\+3D Class Reference}
+\label{class_d___img___proc__3_d}\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+
+
+{\ttfamily \#include $<$d\+\_\+img\+\_\+proc\+\_\+3d.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d___img___proc__3_d_af6f96f00694dc2a32fef324ebe624670}{D\+\_\+\+Img\+\_\+\+Proc\+\_\+3D}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a10b8fd455795037cb01cc62fcdfd9a5b}{Duplicate}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a5a3ae9e6616dd75c645e2e078f19c751}{Convert\+\_\+\+Uchar\+\_\+1C}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_ace2df1ab2ddbac0432ac717919e79b01}{Convert\+\_\+\+Double\+\_\+1C}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a378b55f6d9fe3d562506e581d2956671}{Convert\+\_\+\+Double}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_affd0f67f25819e340f3ce56ba49c4edb}{Pad\+\_\+\+Border}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, int border\+\_\+size\+\_\+x, int border\+\_\+size\+\_\+y, int border\+\_\+size\+\_\+z, int border\+\_\+type=B\+O\+R\+D\+E\+R\+\_\+\+C\+O\+N\+S\+T\+A\+NT, double border\+\_\+val=0)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_af27da29afb8294d88388069fbd14f230}{Filter\+\_\+\+Function}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ double(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ double(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ double(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ double(double f3r, double cen)$>$ F4\+\_\+f3center, int border\+\_\+type=B\+O\+R\+D\+E\+R\+\_\+\+C\+O\+N\+S\+T\+A\+NT, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a894cdd41ee1a2618b1473af9e26f6009}{Filter\+\_\+\+Function\+\_\+1C}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ double(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ double(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ double(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ double(double f3r, double cen)$>$ F4\+\_\+f3center, int border\+\_\+type=B\+O\+R\+D\+E\+R\+\_\+\+C\+O\+N\+S\+T\+A\+NT, int thread\+\_\+number=8, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_ac6836ee99a41d534b424167b7e4ef406}{Filter\+\_\+\+Function\+\_\+1\+C\+\_\+\+Thread}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ double(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ double(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ double(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ double(double f3r, double cen)$>$ F4\+\_\+f3center, int z\+\_\+start, int z\+\_\+end, int y\+\_\+start, int y\+\_\+end, int x\+\_\+start, int x\+\_\+end, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a2141f8e866da264091276c5334581c10}{Filter\+\_\+\+Function\+\_\+8bit}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ uchar(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ uchar(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ uchar(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ uchar(double f3r, double cen)$>$ F4\+\_\+f3center, int border\+\_\+type=B\+O\+R\+D\+E\+R\+\_\+\+C\+O\+N\+S\+T\+A\+NT, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_ab315e40da0954c7eeb06f82c4d9dd6dd}{Filter\+\_\+\+Function\+\_\+8bit\+\_\+1C}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ uchar(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ uchar(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ uchar(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ uchar(double f3r, double cen)$>$ F4\+\_\+f3center, int border\+\_\+type=B\+O\+R\+D\+E\+R\+\_\+\+C\+O\+N\+S\+T\+A\+NT, int thread\+\_\+number=8, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a76225c420d09517b1151362cf7ffeb67}{Filter\+\_\+\+Function\+\_\+8bit\+\_\+1\+C\+\_\+\+Thread}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, Mat $\ast$p\+M\+A\+\_\+\+Mask, function$<$ uchar(double cur, double nei)$>$ F1\+\_\+\+Center\+Image, function$<$ uchar(double f1r, double msk)$>$ F2\+\_\+f1mask, function$<$ uchar(vector$<$ double $>$ vf2r)$>$ F3\+\_\+\+Combine, function$<$ uchar(double f3r, double cen)$>$ F4\+\_\+f3center, int z\+\_\+start, int z\+\_\+end, int y\+\_\+start, int y\+\_\+end, int x\+\_\+start, int x\+\_\+end, bool Do\+Non\+Zero\+Mask\+Only=false)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_abd3b48cc3b815b7eace13b884997bb30}{Filter\+\_\+\+Median}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, int size\+\_\+x=3, int size\+\_\+y=3, int size\+\_\+z=3)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_aa974f651f870dc02693472812ffa3576}{Filter\+\_\+\+Eilenstein\+\_\+\+Greater\+\_\+\+Sum}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, int size\+\_\+x=3, int size\+\_\+y=3, int size\+\_\+z=3)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_aac0eaccd66f0ab807a632787ab746440}{Morphology\+\_\+\+Dilation}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, int size\+\_\+x=3, int size\+\_\+y=3, int size\+\_\+z=3)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a6db57be078110d78bbf7e8800b09fd5f}{Morphology\+\_\+\+Erosion}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, int size\+\_\+x=3, int size\+\_\+y=3, int size\+\_\+z=3)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_af93253308066e1e4c495d75e0b4a2ce5}{Neighborhood\+\_\+\+Configs}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a8af03bcef327ac117ea57d01a61b9a75}{Distance\+\_\+\+Transformation\+\_\+\+E\+DT}} (Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In, double spacing\+\_\+x=1, double spacing\+\_\+y=1, double spacing\+\_\+z=1)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a19a1bd9f1ebda10835c020c08578c79c}{Euler\+Number}} (double $\ast$euler\+\_\+number, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_afcd5b7b4b263185e754124b8f8167e6c}{Euler\+Number}} (double $\ast$euler\+\_\+number, Mat $\ast$p\+M\+A\+\_\+\+Out, Mat $\ast$p\+M\+A\+\_\+\+In)
+\item 
+static int \mbox{\hyperlink{class_d___img___proc__3_d_a0619451de9d84c1435212c1a0a04fe6b}{Calc\+\_\+\+Hist\+\_\+8bit\+\_\+1C}} (vector$<$ double $>$ $\ast$v\+\_\+hist, Mat $\ast$p\+M\+A\+\_\+\+In, bool uniform, bool accum)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_d___img___proc__3_d_af6f96f00694dc2a32fef324ebe624670}\label{class_d___img___proc__3_d_af6f96f00694dc2a32fef324ebe624670}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{D\_Img\_Proc\_3D()}{D\_Img\_Proc\_3D()}}
+{\footnotesize\ttfamily D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+D\+\_\+\+Img\+\_\+\+Proc\+\_\+3D (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_d___img___proc__3_d_a0619451de9d84c1435212c1a0a04fe6b}\label{class_d___img___proc__3_d_a0619451de9d84c1435212c1a0a04fe6b}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Calc\_Hist\_8bit\_1C@{Calc\_Hist\_8bit\_1C}}
+\index{Calc\_Hist\_8bit\_1C@{Calc\_Hist\_8bit\_1C}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Calc\_Hist\_8bit\_1C()}{Calc\_Hist\_8bit\_1C()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Calc\+\_\+\+Hist\+\_\+8bit\+\_\+1C (\begin{DoxyParamCaption}\item[{vector$<$ double $>$ $\ast$}]{v\+\_\+hist,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{bool}]{uniform,  }\item[{bool}]{accum }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{class_d___img___proc__3_d_a378b55f6d9fe3d562506e581d2956671}\label{class_d___img___proc__3_d_a378b55f6d9fe3d562506e581d2956671}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Convert\_Double@{Convert\_Double}}
+\index{Convert\_Double@{Convert\_Double}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Convert\_Double()}{Convert\_Double()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Convert\+\_\+\+Double (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{class_d___img___proc__3_d_ace2df1ab2ddbac0432ac717919e79b01}\label{class_d___img___proc__3_d_ace2df1ab2ddbac0432ac717919e79b01}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Convert\_Double\_1C@{Convert\_Double\_1C}}
+\index{Convert\_Double\_1C@{Convert\_Double\_1C}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Convert\_Double\_1C()}{Convert\_Double\_1C()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Convert\+\_\+\+Double\+\_\+1C (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{class_d___img___proc__3_d_a5a3ae9e6616dd75c645e2e078f19c751}\label{class_d___img___proc__3_d_a5a3ae9e6616dd75c645e2e078f19c751}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Convert\_Uchar\_1C@{Convert\_Uchar\_1C}}
+\index{Convert\_Uchar\_1C@{Convert\_Uchar\_1C}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Convert\_Uchar\_1C()}{Convert\_Uchar\_1C()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Convert\+\_\+\+Uchar\+\_\+1C (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{class_d___img___proc__3_d_a8af03bcef327ac117ea57d01a61b9a75}\label{class_d___img___proc__3_d_a8af03bcef327ac117ea57d01a61b9a75}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Distance\_Transformation\_EDT@{Distance\_Transformation\_EDT}}
+\index{Distance\_Transformation\_EDT@{Distance\_Transformation\_EDT}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Distance\_Transformation\_EDT()}{Distance\_Transformation\_EDT()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Distance\+\_\+\+Transformation\+\_\+\+E\+DT (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{double}]{spacing\+\_\+x = {\ttfamily 1},  }\item[{double}]{spacing\+\_\+y = {\ttfamily 1},  }\item[{double}]{spacing\+\_\+z = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{class_d___img___proc__3_d_a10b8fd455795037cb01cc62fcdfd9a5b}\label{class_d___img___proc__3_d_a10b8fd455795037cb01cc62fcdfd9a5b}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Duplicate@{Duplicate}}
+\index{Duplicate@{Duplicate}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Duplicate()}{Duplicate()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Duplicate (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{class_d___img___proc__3_d_a19a1bd9f1ebda10835c020c08578c79c}\label{class_d___img___proc__3_d_a19a1bd9f1ebda10835c020c08578c79c}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!EulerNumber@{EulerNumber}}
+\index{EulerNumber@{EulerNumber}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{EulerNumber()}{EulerNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Euler\+Number (\begin{DoxyParamCaption}\item[{double $\ast$}]{euler\+\_\+number,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 8
+Here is the caller graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{class_d___img___proc__3_d_afcd5b7b4b263185e754124b8f8167e6c}\label{class_d___img___proc__3_d_afcd5b7b4b263185e754124b8f8167e6c}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!EulerNumber@{EulerNumber}}
+\index{EulerNumber@{EulerNumber}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{EulerNumber()}{EulerNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Euler\+Number (\begin{DoxyParamCaption}\item[{double $\ast$}]{euler\+\_\+number,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{class_d___img___proc__3_d_aa974f651f870dc02693472812ffa3576}\label{class_d___img___proc__3_d_aa974f651f870dc02693472812ffa3576}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Eilenstein\_Greater\_Sum@{Filter\_Eilenstein\_Greater\_Sum}}
+\index{Filter\_Eilenstein\_Greater\_Sum@{Filter\_Eilenstein\_Greater\_Sum}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Eilenstein\_Greater\_Sum()}{Filter\_Eilenstein\_Greater\_Sum()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Eilenstein\+\_\+\+Greater\+\_\+\+Sum (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{int}]{size\+\_\+x = {\ttfamily 3},  }\item[{int}]{size\+\_\+y = {\ttfamily 3},  }\item[{int}]{size\+\_\+z = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 11
+Here is the caller graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{class_d___img___proc__3_d_af27da29afb8294d88388069fbd14f230}\label{class_d___img___proc__3_d_af27da29afb8294d88388069fbd14f230}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function@{Filter\_Function}}
+\index{Filter\_Function@{Filter\_Function}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function()}{Filter\_Function()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ double(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ double(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ double(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ double(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{border\+\_\+type = {\ttfamily BORDER\+\_\+CONSTANT},  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 13
+Here is the caller graph for this function\+:
+% FIG 14
+\mbox{\Hypertarget{class_d___img___proc__3_d_a894cdd41ee1a2618b1473af9e26f6009}\label{class_d___img___proc__3_d_a894cdd41ee1a2618b1473af9e26f6009}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function\_1C@{Filter\_Function\_1C}}
+\index{Filter\_Function\_1C@{Filter\_Function\_1C}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function\_1C()}{Filter\_Function\_1C()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function\+\_\+1C (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ double(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ double(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ double(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ double(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{border\+\_\+type = {\ttfamily BORDER\+\_\+CONSTANT},  }\item[{int}]{thread\+\_\+number = {\ttfamily 8},  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 15
+Here is the caller graph for this function\+:
+% FIG 16
+\mbox{\Hypertarget{class_d___img___proc__3_d_ac6836ee99a41d534b424167b7e4ef406}\label{class_d___img___proc__3_d_ac6836ee99a41d534b424167b7e4ef406}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function\_1C\_Thread@{Filter\_Function\_1C\_Thread}}
+\index{Filter\_Function\_1C\_Thread@{Filter\_Function\_1C\_Thread}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function\_1C\_Thread()}{Filter\_Function\_1C\_Thread()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function\+\_\+1\+C\+\_\+\+Thread (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ double(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ double(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ double(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ double(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{z\+\_\+start,  }\item[{int}]{z\+\_\+end,  }\item[{int}]{y\+\_\+start,  }\item[{int}]{y\+\_\+end,  }\item[{int}]{x\+\_\+start,  }\item[{int}]{x\+\_\+end,  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 17
+\mbox{\Hypertarget{class_d___img___proc__3_d_a2141f8e866da264091276c5334581c10}\label{class_d___img___proc__3_d_a2141f8e866da264091276c5334581c10}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function\_8bit@{Filter\_Function\_8bit}}
+\index{Filter\_Function\_8bit@{Filter\_Function\_8bit}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function\_8bit()}{Filter\_Function\_8bit()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function\+\_\+8bit (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ uchar(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ uchar(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ uchar(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ uchar(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{border\+\_\+type = {\ttfamily BORDER\+\_\+CONSTANT},  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 18
+Here is the caller graph for this function\+:
+% FIG 19
+\mbox{\Hypertarget{class_d___img___proc__3_d_ab315e40da0954c7eeb06f82c4d9dd6dd}\label{class_d___img___proc__3_d_ab315e40da0954c7eeb06f82c4d9dd6dd}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function\_8bit\_1C@{Filter\_Function\_8bit\_1C}}
+\index{Filter\_Function\_8bit\_1C@{Filter\_Function\_8bit\_1C}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function\_8bit\_1C()}{Filter\_Function\_8bit\_1C()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function\+\_\+8bit\+\_\+1C (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ uchar(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ uchar(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ uchar(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ uchar(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{border\+\_\+type = {\ttfamily BORDER\+\_\+CONSTANT},  }\item[{int}]{thread\+\_\+number = {\ttfamily 8},  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 20
+Here is the caller graph for this function\+:
+% FIG 21
+\mbox{\Hypertarget{class_d___img___proc__3_d_a76225c420d09517b1151362cf7ffeb67}\label{class_d___img___proc__3_d_a76225c420d09517b1151362cf7ffeb67}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Function\_8bit\_1C\_Thread@{Filter\_Function\_8bit\_1C\_Thread}}
+\index{Filter\_Function\_8bit\_1C\_Thread@{Filter\_Function\_8bit\_1C\_Thread}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Function\_8bit\_1C\_Thread()}{Filter\_Function\_8bit\_1C\_Thread()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Function\+\_\+8bit\+\_\+1\+C\+\_\+\+Thread (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Mask,  }\item[{function$<$ uchar(double cur, double nei)$>$}]{F1\+\_\+\+Center\+Image,  }\item[{function$<$ uchar(double f1r, double msk)$>$}]{F2\+\_\+f1mask,  }\item[{function$<$ uchar(vector$<$ double $>$ vf2r)$>$}]{F3\+\_\+\+Combine,  }\item[{function$<$ uchar(double f3r, double cen)$>$}]{F4\+\_\+f3center,  }\item[{int}]{z\+\_\+start,  }\item[{int}]{z\+\_\+end,  }\item[{int}]{y\+\_\+start,  }\item[{int}]{y\+\_\+end,  }\item[{int}]{x\+\_\+start,  }\item[{int}]{x\+\_\+end,  }\item[{bool}]{Do\+Non\+Zero\+Mask\+Only = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 22
+\mbox{\Hypertarget{class_d___img___proc__3_d_abd3b48cc3b815b7eace13b884997bb30}\label{class_d___img___proc__3_d_abd3b48cc3b815b7eace13b884997bb30}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Filter\_Median@{Filter\_Median}}
+\index{Filter\_Median@{Filter\_Median}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Filter\_Median()}{Filter\_Median()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Filter\+\_\+\+Median (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{int}]{size\+\_\+x = {\ttfamily 3},  }\item[{int}]{size\+\_\+y = {\ttfamily 3},  }\item[{int}]{size\+\_\+z = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 23
+Here is the caller graph for this function\+:
+% FIG 24
+\mbox{\Hypertarget{class_d___img___proc__3_d_aac0eaccd66f0ab807a632787ab746440}\label{class_d___img___proc__3_d_aac0eaccd66f0ab807a632787ab746440}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Morphology\_Dilation@{Morphology\_Dilation}}
+\index{Morphology\_Dilation@{Morphology\_Dilation}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Morphology\_Dilation()}{Morphology\_Dilation()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Morphology\+\_\+\+Dilation (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{int}]{size\+\_\+x = {\ttfamily 3},  }\item[{int}]{size\+\_\+y = {\ttfamily 3},  }\item[{int}]{size\+\_\+z = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 25
+Here is the caller graph for this function\+:
+% FIG 26
+\mbox{\Hypertarget{class_d___img___proc__3_d_a6db57be078110d78bbf7e8800b09fd5f}\label{class_d___img___proc__3_d_a6db57be078110d78bbf7e8800b09fd5f}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Morphology\_Erosion@{Morphology\_Erosion}}
+\index{Morphology\_Erosion@{Morphology\_Erosion}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Morphology\_Erosion()}{Morphology\_Erosion()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Morphology\+\_\+\+Erosion (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{int}]{size\+\_\+x = {\ttfamily 3},  }\item[{int}]{size\+\_\+y = {\ttfamily 3},  }\item[{int}]{size\+\_\+z = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 27
+Here is the caller graph for this function\+:
+% FIG 28
+\mbox{\Hypertarget{class_d___img___proc__3_d_af93253308066e1e4c495d75e0b4a2ce5}\label{class_d___img___proc__3_d_af93253308066e1e4c495d75e0b4a2ce5}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Neighborhood\_Configs@{Neighborhood\_Configs}}
+\index{Neighborhood\_Configs@{Neighborhood\_Configs}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Neighborhood\_Configs()}{Neighborhood\_Configs()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Neighborhood\+\_\+\+Configs (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 29
+Here is the caller graph for this function\+:
+% FIG 30
+\mbox{\Hypertarget{class_d___img___proc__3_d_affd0f67f25819e340f3ce56ba49c4edb}\label{class_d___img___proc__3_d_affd0f67f25819e340f3ce56ba49c4edb}} 
+\index{D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}!Pad\_Border@{Pad\_Border}}
+\index{Pad\_Border@{Pad\_Border}!D\_Img\_Proc\_3D@{D\_Img\_Proc\_3D}}
+\doxysubsubsection{\texorpdfstring{Pad\_Border()}{Pad\_Border()}}
+{\footnotesize\ttfamily int D\+\_\+\+Img\+\_\+\+Proc\+\_\+3\+D\+::\+Pad\+\_\+\+Border (\begin{DoxyParamCaption}\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+Out,  }\item[{Mat $\ast$}]{p\+M\+A\+\_\+\+In,  }\item[{int}]{border\+\_\+size\+\_\+x,  }\item[{int}]{border\+\_\+size\+\_\+y,  }\item[{int}]{border\+\_\+size\+\_\+z,  }\item[{int}]{border\+\_\+type = {\ttfamily BORDER\+\_\+CONSTANT},  }\item[{double}]{border\+\_\+val = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+% FIG 31
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__img__proc__3d_8h}{d\+\_\+img\+\_\+proc\+\_\+3d.\+h}}\item 
+D\+:/\+Projekte/\+Qt/\+Image\+D/\+Code/\mbox{\hyperlink{d__img__proc__3d_8cpp}{d\+\_\+img\+\_\+proc\+\_\+3d.\+cpp}}\end{DoxyCompactItemize}

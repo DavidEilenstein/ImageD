@@ -32,6 +32,9 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Component class represents a blob in a 2D binary image. It calculates features of the blob.
+ */
 class D_Component
 {
 public:

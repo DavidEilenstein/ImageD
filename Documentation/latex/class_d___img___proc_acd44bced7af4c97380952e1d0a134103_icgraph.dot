@@ -1,0 +1,12 @@
+digraph "D_Img_Proc::Math_ImgScal_Log"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="D_Img_Proc::Math_ImgScal_Log",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_Img_Proc_2dFactory\l::Math_1img_Log",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#a2be710d74bb88bec77fe646c5906624a",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_VisDat_Proc::Math\l_1img_Log",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a85c6641fb72b5ea7cda813e40bc23cca",tooltip=" "];
+}

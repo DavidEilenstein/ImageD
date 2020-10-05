@@ -1,0 +1,16 @@
+digraph "D_VisDat_Proc::Morphology_Elemental"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_VisDat_Proc::Morphology\l_Elemental",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="D_VisDat_Slicing::is_2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___slicing.html#a6e5f7f2a4448f135c77a06e04f678974",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="D_Img_Proc_2dFactory\l::Morphology_Elemental",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc__2d_factory.html#a457b9096562b9f66374c92f914a09acd",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="D_Img_Proc::Morphology\l_Elemental",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___img___proc.html#a4210f59c80b73b231d9212964a765e54",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="D_VisDat_Proc::Wrap\l_VD_SameSizeType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___vis_dat___proc.html#a25807fb990dbe9c2a20fd1ce4ab6bf69",tooltip=" "];
+}

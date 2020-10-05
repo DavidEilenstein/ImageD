@@ -1,0 +1,45 @@
+digraph "D_Img_Proc::Feature_Connect"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="D_Img_Proc::Feature\l_Connect",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="D_Component_List_Context\l::get_pCompList",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list___context.html#ae5363383c10e7cbb767d9bc0ef26f019",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="D_Component_List::get\l_pMatBinary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a92e89eac20d1e705f3b848110d8ebea3",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="D_Component_List_Context\l::get_PointCouples_AllInRange",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list___context.html#aa2693a797d2a71aa8501356f415167f3",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="D_Math::Distance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#ad0ba92bd6d2062cf8297b14054a6da6a",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="D_Component_List::get\l_Component",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a3b4a2ca95e800d37848edb76c18dc9cc",tooltip=" "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="D_Component::get_Contour",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component.html#af4d590e6a8f8cffb349b2726ab69125a",tooltip=" "];
+  Node4 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="D_Component::get_Contour\l_ConvexHull",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component.html#af0ecbc4d02f46e7be83664896eeb4f87",tooltip=" "];
+  Node4 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="D_Component_List::get\l_Feature",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#ac2d0aaf98eaa50836b2b4f9e3b7097f2",tooltip=" "];
+  Node4 -> Node10 [color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="D_Stat::Optimize_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___stat.html#aab9e0ac401ae70feb35acfaf42144e4e",tooltip=" "];
+  Node4 -> Node11 [color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="D_Math::Pythagoras",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___math.html#ab371dcece8b3a078f250e0f9d2ff5cf5",tooltip=" "];
+  Node4 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="D_Component_List::size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#a39d1b2ce304399503e229f83e3f4e6f4",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="D_Component_List_Context\l::get_PointCouples_Closest",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list___context.html#a80b1d0a6ca9b54f30ef65db5d8b75e2d",tooltip=" "];
+  Node13 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node10 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node11 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="D_Component_List_Context\l::set_Mat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list___context.html#a4d54b3e813aa6cc5686cca65b7fed6ca",tooltip=" "];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="D_Component_List::set_Mat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___component___list.html#ae6c31cc0df881423def2950e72306c29",tooltip=" "];
+  Node14 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+}

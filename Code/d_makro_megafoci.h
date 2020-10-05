@@ -1,3 +1,11 @@
+/************************************
+ *   added:     ??.03.2020          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_MAKRO_MEGAFOCI_H
 #define D_MAKRO_MEGAFOCI_H
 

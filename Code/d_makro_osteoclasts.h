@@ -1,3 +1,11 @@
+/************************************
+ *   added:     ??.??.2019          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_MAKRO_OSTEOCLASTS_H
 #define D_MAKRO_OSTEOCLASTS_H
 
