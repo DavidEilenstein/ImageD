@@ -25,6 +25,19 @@
 var NAVTREE =
 [
   [ "ImageD", "index.html", [
+    [ "ImageD Documentation Mainpage", "index.html", [
+      [ "Introduction", "index.html#intro_sec", null ],
+      [ "Installation", "index.html#istall_sec", null ],
+      [ "Documentation", "index.html#doc_sec", null ],
+      [ "Weblinks", "index.html#links_sec", [
+        [ "Projects", "index.html#links_sec_projects", null ],
+        [ "Third Party Software", "index.html#links_sec_3rdPartySoftware", null ]
+      ] ],
+      [ "Other", "index.html#other_sec", [
+        [ "Thanks", "index.html#other_sec_thanks", null ],
+        [ "Developer", "index.html#other_sec_dev", null ]
+      ] ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ]
     ] ],
