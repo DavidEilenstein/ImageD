@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('class_d___analysis_window.html',''); i
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_d___analysis_window.html" title="The D_AnalysisWindow class is made for GUI based custom analysis of images. It takes a label image an...">D_AnalysisWindow</a> class is made for GUI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these.  
+<p>The <a class="el" href="class_d___analysis_window.html" title="The D_AnalysisWindow class is made for GUI based custom analysis of images.">D_AnalysisWindow</a> class is made for GUI based custom analysis of images.  
  <a href="class_d___analysis_window.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="d__analysiswindow_8h_source.html">d_analysiswindow.h</a>&gt;</code></p>
@@ -110,14 +110,18 @@ Collaboration diagram for D_AnalysisWindow:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1570fd8f4c870b140c24a74f5164e863"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863">D_AnalysisWindow</a> (<a class="el" href="class_d___storage.html">D_Storage</a> *pStorage, QWidget *parent=0)</td></tr>
+<tr class="memdesc:a1570fd8f4c870b140c24a74f5164e863"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863" title="D_AnalysisWindow::D_AnalysisWindow Constructor.">D_AnalysisWindow::D_AnalysisWindow</a> Constructor.  <a href="class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863">More...</a><br /></td></tr>
 <tr class="separator:a1570fd8f4c870b140c24a74f5164e863"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e3841bce9101110fb9ce5bc50201311"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___analysis_window.html#a5e3841bce9101110fb9ce5bc50201311">~D_AnalysisWindow</a> ()</td></tr>
+<tr class="memdesc:a5e3841bce9101110fb9ce5bc50201311"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___analysis_window.html#a5e3841bce9101110fb9ce5bc50201311" title="D_AnalysisWindow::~D_AnalysisWindow Destructor.">D_AnalysisWindow::~D_AnalysisWindow</a> Destructor.  <a href="class_d___analysis_window.html#a5e3841bce9101110fb9ce5bc50201311">More...</a><br /></td></tr>
 <tr class="separator:a5e3841bce9101110fb9ce5bc50201311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac861aab66e0d32eb7cca28e96bb8d0b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___analysis_window.html#ac861aab66e0d32eb7cca28e96bb8d0b0">resizeEvent</a> (QResizeEvent *event)</td></tr>
+<tr class="memdesc:ac861aab66e0d32eb7cca28e96bb8d0b0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___analysis_window.html#ac861aab66e0d32eb7cca28e96bb8d0b0" title="D_AnalysisWindow::resizeEvent called when window is resized.">D_AnalysisWindow::resizeEvent</a> called when window is resized.  <a href="class_d___analysis_window.html#ac861aab66e0d32eb7cca28e96bb8d0b0">More...</a><br /></td></tr>
 <tr class="separator:ac861aab66e0d32eb7cca28e96bb8d0b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_d___analysis_window.html" title="The D_AnalysisWindow class is made for GUI based custom analysis of images. It takes a label image an...">D_AnalysisWindow</a> class is made for GUI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these. </p>
+<div class="textblock"><p>The <a class="el" href="class_d___analysis_window.html" title="The D_AnalysisWindow class is made for GUI based custom analysis of images.">D_AnalysisWindow</a> class is made for GUI based custom analysis of images. </p>
+<p>It takes a label image and any number of value images and generates lots of statistics and graphs based on these. There are "features" that describe the shape of an object and there are "statistics" that describe the distribution of values in the blobs. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1570fd8f4c870b140c24a74f5164e863"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1570fd8f4c870b140c24a74f5164e863">&#9670;&nbsp;</a></span>D_AnalysisWindow()</h2>
@@ -152,6 +156,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863" title="D_AnalysisWindow::D_AnalysisWindow Constructor.">D_AnalysisWindow::D_AnalysisWindow</a> Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pStorage</td><td>Pointer to <a class="el" href="class_d___storage.html">D_Storage</a> Object where image of <a class="el" href="class_d___step_window.html">D_StepWindow</a> are saved. Used to get images from. </td></tr>
+    <tr><td class="paramname">parent</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -175,6 +188,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___analysis_window.html#a5e3841bce9101110fb9ce5bc50201311" title="D_AnalysisWindow::~D_AnalysisWindow Destructor.">D_AnalysisWindow::~D_AnalysisWindow</a> Destructor. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -194,11 +209,19 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___analysis_window.html#ac861aab66e0d32eb7cca28e96bb8d0b0" title="D_AnalysisWindow::resizeEvent called when window is resized.">D_AnalysisWindow::resizeEvent</a> called when window is resized. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>Resize the <a class="el" href="class_d___viewer.html">D_Viewer</a> s fitting to the <a class="el" href="class_d___analysis_window.html" title="The D_AnalysisWindow class is made for GUI based custom analysis of images.">D_AnalysisWindow</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Projekte/Qt/ImageD/Code/<a class="el" href="d__analysiswindow_8h_source.html">d_analysiswindow.h</a></li>
-<li>D:/Projekte/Qt/ImageD/Code/<a class="el" href="d__analysiswindow_8cpp.html">d_analysiswindow.cpp</a></li>
+<li>C:/Users/David/Documents/GitHub/ImageD/Code/<a class="el" href="d__analysiswindow_8h_source.html">d_analysiswindow.h</a></li>
+<li>C:/Users/David/Documents/GitHub/ImageD/Code/<a class="el" href="d__analysiswindow_8cpp.html">d_analysiswindow.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

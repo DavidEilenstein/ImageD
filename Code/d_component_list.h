@@ -38,8 +38,8 @@ using namespace std;
 using namespace cv;
 
 /*!
- * \brief The D_Component_List class is a list of D_Component representing a binary image's blobs.
- * D_Component_List constructor or (<D_Component_List>"::")n<set_Mat>"(Mat *pMA_BinaryOrLabel, int connectivity = 8)" can be used to make the D_Component_List represent the blobs in a 2D binary image.
+ * \brief The D_Component_List class is a list of D_Component representing the blobs in a binary image.
+ *
  */
 class D_Component_List
 {

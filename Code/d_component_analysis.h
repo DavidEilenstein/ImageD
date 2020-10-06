@@ -40,6 +40,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Component_Analysis class WIP
+ * \details It shall be a more complex version of D_Component_List that takes stats of pixelvalues in blobs into account.
+ */
 class D_Component_Analysis
 {
 public:

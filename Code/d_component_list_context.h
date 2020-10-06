@@ -40,6 +40,14 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Component_List_Context class inherits D_Component_List and calculates features of the blobs depending on the relation to other blobs in the same represented 2D binary image.
+ * \details Takes a distance interval and two point/line types (D_COMPDIST) to measure the distance from/to.
+ * For each blob (D_Component) a list with each blob within that distance is created.
+ * A feature (D_FEATURE_ENUM) is selected.
+ * For each blob in the mentioned list this feature is determined.
+ * The values in this list are summarized using the chosen statistic quantity (D_STATISTIC_ENUM)
+ */
 class D_Component_List_Context
 {
 public:

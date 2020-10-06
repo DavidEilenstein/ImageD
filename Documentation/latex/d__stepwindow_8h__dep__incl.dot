@@ -1,15 +1,15 @@
-digraph "D:/Projekte/Qt/ImageD/Code/d_stepwindow.h"
+digraph "C:/Users/David/Documents/GitHub/ImageD/Code/d_stepwindow.h"
 {
  // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="D:/Projekte/Qt/ImageD\l/Code/d_stepwindow.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 [label="C:/Users/David/Documents\l/GitHub/ImageD/Code/d_stepwindow.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node2 [label="D:/Projekte/Qt/ImageD\l/Code/d_mainwindow.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__mainwindow_8h.html",tooltip=" "];
+  Node2 [label="C:/Users/David/Documents\l/GitHub/ImageD/Code/d_mainwindow.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__mainwindow_8h.html",tooltip=" "];
   Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node3 [label="D:/Projekte/Qt/ImageD\l/Code/d_mainwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__mainwindow_8cpp.html",tooltip=" "];
+  Node3 [label="C:/Users/David/Documents\l/GitHub/ImageD/Code/d_mainwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__mainwindow_8cpp.html",tooltip=" "];
   Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node4 [label="D:/Projekte/Qt/ImageD\l/Code/main.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8cpp.html",tooltip=" "];
+  Node4 [label="C:/Users/David/Documents\l/GitHub/ImageD/Code/main.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8cpp.html",tooltip=" "];
   Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node5 [label="D:/Projekte/Qt/ImageD\l/Code/d_stepwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__stepwindow_8cpp.html",tooltip=" "];
+  Node5 [label="C:/Users/David/Documents\l/GitHub/ImageD/Code/d_stepwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d__stepwindow_8cpp.html",tooltip=" "];
 }

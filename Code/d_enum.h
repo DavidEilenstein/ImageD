@@ -1066,7 +1066,6 @@ enum D_FEATURE_ENUM {
 
     c_FEAT_NUMBER_OF_FEATS
 };
-
 const QStringList QSL_FeatureList = {
 
     "Label Number",

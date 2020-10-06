@@ -10,7 +10,7 @@ digraph "D_Table::clear_data"
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node3 [label="D_Table::set_TW",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___table.html#ae9907a0ef635b7509efec6beea8cfb27",tooltip=" "];
   Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node4 [label="D_AnalysisWindow::D\l_AnalysisWindow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863",tooltip=" "];
+  Node4 [label="D_AnalysisWindow::D\l_AnalysisWindow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863",tooltip="D_AnalysisWindow::D_AnalysisWindow Constructor."];
   Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node5 [label="D_MAKRO_CerebralOrganoids\l::D_MAKRO_CerebralOrganoids",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___m_a_k_r_o___cerebral_organoids.html#a3f9374fc355a9fc5a89eb0e011083394",tooltip=" "];
   Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];

@@ -9,6 +9,11 @@
 #include "d_analysiswindow.h"
 #include "ui_d_analysiswindow.h"
 
+/*!
+ * \brief D_AnalysisWindow::D_AnalysisWindow Constructor.
+ * \param pStorage Pointer to D_Storage Object where image of D_StepWindow are saved. Used to get images from.
+ * \param parent
+ */
 D_AnalysisWindow::D_AnalysisWindow(D_Storage *pStorage, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::D_AnalysisWindow)
@@ -217,17 +222,29 @@ D_AnalysisWindow::D_AnalysisWindow(D_Storage *pStorage, QWidget *parent) :
     setWindowIcon(QIcon(":/logo/ImageD_Logo.png"));
 }
 
+/*!
+ * \brief D_AnalysisWindow::~D_AnalysisWindow Destructor
+ */
 D_AnalysisWindow::~D_AnalysisWindow()
 {
     delete ui;
 }
 
+/*!
+ * \brief D_AnalysisWindow::resizeEvent called when window is resized.
+ * \param event
+ * \details Resize the D_Viewer s fitting to the D_AnalysisWindow.
+ */
 void D_AnalysisWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     Update_Views();
 }
 
+/*!
+ * \brief D_AnalysisWindow::Image_Label_Get
+ * \details Opens a dialog to select the label image for the analysis. This image is used to determine where the blobs are.
+ */
 void D_AnalysisWindow::Image_Label_Get()
 {
     bool ok;

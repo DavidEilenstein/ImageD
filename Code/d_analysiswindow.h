@@ -59,7 +59,9 @@ class D_AnalysisWindow;
 }
 
 /*!
- * \brief The D_AnalysisWindow class is made for GUI based custom analysis of images. It takes a label image and any number of value images and generates lots of statistics and graphs based on these.
+ * \brief The D_AnalysisWindow class GUI based custom analysis of images.
+ * \details It takes a label image and any number of value images and generates lots of statistics and graphs based on these.
+ * There are "features" that describe the shape of an object and there are "statistics" that describe the distribution of values in the blobs.
  */
 class D_AnalysisWindow : public QMainWindow
 {

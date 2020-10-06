@@ -6,7 +6,7 @@ digraph "D_Viewer::set_GV"
   rankdir="RL";
   Node1 [label="D_Viewer::set_GV",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node2 [label="D_AnalysisWindow::D\l_AnalysisWindow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863",tooltip=" "];
+  Node2 [label="D_AnalysisWindow::D\l_AnalysisWindow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___analysis_window.html#a1570fd8f4c870b140c24a74f5164e863",tooltip="D_AnalysisWindow::D_AnalysisWindow Constructor."];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node3 [label="D_MAKRO_AirDragTrack\l::D_MAKRO_AirDragTrack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_d___m_a_k_r_o___air_drag_track.html#a56f8a405d0bf60439e8f374fd3a072a0",tooltip=" "];
   Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];

@@ -47,6 +47,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Img_Proc class static 2D image processing functions.
+ * \details Most methods take pointers to in
+ */
 class D_Img_Proc
 {
 public:
