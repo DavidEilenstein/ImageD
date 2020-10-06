@@ -31,6 +31,8 @@
         <file>icon_aperture.png</file>
         <file>icon_dna.png</file>
         <file>icon_C.png</file>
+        <file>icon_docs.png</file>
+        <file>icon_github.png</file>
     </qresource>
     <qresource prefix="/other">
         <file>pill_blue.jpg</file>

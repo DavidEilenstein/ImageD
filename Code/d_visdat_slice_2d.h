@@ -12,7 +12,7 @@
 #include <d_visdat_slice_nd.h>
 
 /*!
- * \brief The D_VisDat_Slice_2D class Represents a 2D slice from a D_VisDat_Obj
+ * \brief The D_VisDat_Slice_2D class Represents a 2D slice through a D_VisDat_Obj
  */
 class D_VisDat_Slice_2D : public D_VisDat_Slice_Nd
 {

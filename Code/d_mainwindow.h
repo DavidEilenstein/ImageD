@@ -63,6 +63,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSysInfo>
+#include <QLabel>
 
 //Qt-Charts
 #include <QChartView>
@@ -163,6 +164,10 @@ private slots:
 
     void on_actionTest_DPF_Writer_triggered();
 
+    void on_pushButton_Ref_Docs_clicked();
+
+    void on_pushButton_Ref_Github_clicked();
+
 private:
     Ui::D_MainWindow        *ui;
 
@@ -221,6 +226,7 @@ private:
     QLabel                  *SB_L_Status;
     QLabel                  *SB_L_Author;
     QLabel                  *SB_L_Facility;
+  //QLabel                  *SB_L_UseCounter;
 
     //Useful variables to avoid checking ui often
     unsigned int            current_step = 0;

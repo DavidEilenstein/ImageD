@@ -37,6 +37,8 @@ D_MainWindow::D_MainWindow(QWidget *parent) :
     SB_L_Version    = new QLabel(this);
     SB_L_Date       = new QLabel(this);
     SB_L_Status     = new QLabel(this);
+    //SB_L_UseCounter = new QLabel(this);
+    //SB_L_UseCounter->setText(QS_SpacerFront + QString::number(Store.get_UseCounter()) + " uses" + QS_SpacerBack);
     SB_L_Author->setText(   QS_SpacerFront + D_QS_Author    + QS_SpacerBack);
     SB_L_Facility->setText( QS_SpacerFront + D_QS_Facility  + QS_SpacerBack);
     SB_L_Version->setText(  QS_SpacerFront + D_QS_Version   + QS_SpacerBack);
@@ -47,6 +49,7 @@ D_MainWindow::D_MainWindow(QWidget *parent) :
     ui->statusBar->addPermanentWidget(SB_L_Status);
     ui->statusBar->addPermanentWidget(SB_L_Date);
     ui->statusBar->addPermanentWidget(SB_L_Version);
+    //ui->statusBar->addPermanentWidget(SB_L_UseCounter);
 
     //TIMES
     //Init chart and chartview
@@ -109,6 +112,10 @@ D_MainWindow::D_MainWindow(QWidget *parent) :
     ui->pushButton_Ref_OpenCV->setIconSize(RefIconSize);
     ui->pushButton_Ref_Qt->setIcon(QIcon(":Icon/icon_qt.png"));
     ui->pushButton_Ref_Qt->setIconSize(RefIconSize);
+    ui->pushButton_Ref_Docs->setIcon(QIcon(":Icon/icon_docs.png"));
+    ui->pushButton_Ref_Docs->setIconSize(RefIconSize);
+    ui->pushButton_Ref_Github->setIcon(QIcon(":Icon/icon_github.png"));
+    ui->pushButton_Ref_Github->setIconSize(RefIconSize);
 }
 
 D_MainWindow::~D_MainWindow()
@@ -1012,6 +1019,15 @@ void D_MainWindow::on_pushButton_Ref_Qt_clicked()
     QDesktopServices::openUrl(QUrl("https://www.qt.io/"));
 }
 
+void D_MainWindow::on_pushButton_Ref_Docs_clicked()
+{
+    QDesktopServices::openUrl(QUrl("https://davideilenstein.github.io/ImageD/index.html"));
+}
+
+void D_MainWindow::on_pushButton_Ref_Github_clicked()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/DavidEilenstein/ImageD"));
+}
 void D_MainWindow::on_actionTest_DPF_Writer_triggered()
 {
     QString QS_Path = QFileDialog::getSaveFileName(
@@ -1045,3 +1061,5 @@ void D_MainWindow::on_actionTest_DPF_Writer_triggered()
     pdf_writer.add_Image(&QI_Step_Image, 0, 0.5, 0.5, 1);
     pdf_writer.save_PDF();
 }
+
+

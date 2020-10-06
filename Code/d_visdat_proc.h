@@ -61,7 +61,7 @@ using namespace cv;
 /*!
  * \brief The D_VisDat_Proc class 6D image processing and efficeint loops of image processing performed on stacks of 2D or 3D images.
  * \details Some methods are implemented right in this class. These are the more complex ones that are about multiple dimensions.
- * Other methods (that is true for most methods here) just wrap the methods from D_ImgProc and D_ImgProc_3D .
+ * Other methods (that is true for most methods here) just wrap the methods from D_Img_Proc and D_Img_Proc_3D .
  *
  * The factories D_Img_Proc_2dFactory and D_Img_Proc_3dFactory are used to create a function object, that is used multiple times on the independent 2D/3D slices of the 6D image.
  * This way performance is increased using automatic multithreading. D_VisDat_Slicing describes how a D_VisDat_Obj shall be sliced.

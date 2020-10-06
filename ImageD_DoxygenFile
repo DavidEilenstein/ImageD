@@ -38,13 +38,13 @@ PROJECT_NAME           = ImageD
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = v0
+PROJECT_NUMBER         = "pre release v0_1_1"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "ImageD is designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching. ImageD is not intended to be used for industrial applications or high speed solutions. It is developed by David Eilenstein at GSI Helmholtz Centre for Heavy Ion Research."
+PROJECT_BRIEF          = "ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching."
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -58,7 +58,7 @@ PROJECT_LOGO           = D:/Projekte/Qt/ImageD/Code/img/ImageD_Logo_small.png
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = ../docs
+OUTPUT_DIRECTORY       = D:\Projekte\Qt\ImageD\docs
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and

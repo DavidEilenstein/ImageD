@@ -45,7 +45,7 @@ using namespace std;
 using namespace cv;
 
 /*!
- * \brief The D_Img_Proc_3dFactory class Factory that turns methods from D_ImgProc_3D into function objects.
+ * \brief The D_Img_Proc_3dFactory class Factory that turns methods from D_Img_Proc_3D into function objects.
  * \details The generated function objects can be passed to other methods. Mostly use in D_VisDat_Proc.
  */
 class D_Img_Proc_3dFactory

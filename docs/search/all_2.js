@@ -556,7 +556,7 @@ var searchData=
   ['convert_5fmat_5fto_5fqimage_571',['Convert_Mat_to_QImage',['../class_d___img___proc.html#ade384a94caf4fcebb2f8e5654824a030',1,'D_Img_Proc']]],
   ['convert_5fqimage_5fto_5fmat_572',['Convert_QImage_to_Mat',['../class_d___img___proc.html#a0c24dccbe0aa390afdfdd9ec6082a236',1,'D_Img_Proc']]],
   ['convert_5fuchar_573',['Convert_UChar',['../class_d___img___proc.html#a643b05c270e91413182a626d9fdd8596',1,'D_Img_Proc']]],
-  ['convert_5fuchar_5f1c_574',['Convert_Uchar_1C',['../class_d___img___proc__3_d.html#a5a3ae9e6616dd75c645e2e078f19c751',1,'D_Img_Proc_3D::Convert_Uchar_1C()'],['../class_d___img___proc.html#a8ac0c5e84db9b9820474d4335aba1e4f',1,'D_Img_Proc::Convert_UChar_1C()']]],
+  ['convert_5fuchar_5f1c_574',['Convert_UChar_1C',['../class_d___img___proc.html#a8ac0c5e84db9b9820474d4335aba1e4f',1,'D_Img_Proc::Convert_UChar_1C()'],['../class_d___img___proc__3_d.html#a5a3ae9e6616dd75c645e2e078f19c751',1,'D_Img_Proc_3D::Convert_Uchar_1C()']]],
   ['copy_575',['Copy',['../class_d___vis_dat___proc.html#ae187346790427ff1ff9d65703b9abfee',1,'D_VisDat_Proc']]],
   ['copyvalue_576',['CopyValue',['../class_d___math.html#a80aad30e04d2e4d76db55b3e5b2f046d',1,'D_Math']]],
   ['create_5fvd_5ffrombinaryfile_577',['Create_VD_FromBinaryFile',['../class_d___vis_dat___proc.html#a6e2e483da37f26176df1b191e37b0064',1,'D_VisDat_Proc']]],

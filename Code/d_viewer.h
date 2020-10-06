@@ -50,7 +50,7 @@ using namespace cv;
 
 /*!
  * \brief The D_Table class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface.
- * \details Put a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> somewhere in the user interface and pass a pointer to it to (<D_Viewer>"::")n<set_GV>"("<(QGraphicsView *GV_ui)")" and changes made to the D_Viewer will be displayed in the UI.
+ * \details Put a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> somewhere in the user interface and pass a pointer to D_Viewer and changes made to the D_Viewer will be displayed in the UI.
  * There is lots of additional functionality like zooming, format handling, value transformation and emmited signals that can be connecetd with slots and interface elements.
  */
 class D_Viewer : public QWidget
