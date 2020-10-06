@@ -29,7 +29,7 @@
    <div id="projectname">ImageD
    &#160;<span id="projectnumber">v0</span>
    </div>
-   <div id="projectbrief">ImageD is an image processing software developed by DavidEilenstein at GSI Helmholtz Centre for Heavy Ion Research in the biophysics department (Darmstadt, GER). ImageD is designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching. ImageD is not intended to be used for industrial applications or high speed solutions.</div>
+   <div id="projectbrief">ImageD is designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching. ImageD is not intended to be used for industrial applications or high speed solutions. It is developed by David Eilenstein at GSI Helmholtz Centre for Heavy Ion Research.</div>
   </td>
  </tr>
  </tbody>
@@ -92,6 +92,9 @@ $(document).ready(function(){initNavTree('class_d___component___list___context.h
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="class_d___component___list___context.html" title="The D_Component_List_Context class inherits D_Component_List and calculates features of the blobs dep...">D_Component_List_Context</a> class inherits <a class="el" href="class_d___component___list.html" title="The D_Component_List class is a list of D_Component representing the blobs in a binary image.">D_Component_List</a> and calculates features of the blobs depending on the relation to other blobs in the same represented 2D binary image.  
+ <a href="class_d___component___list___context.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="d__component__list__context_8h_source.html">d_component_list_context.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -119,7 +122,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae5363383c10e7cbb767d9bc0ef26f019"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___component___list.html">D_Component_List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___component___list___context.html#ae5363383c10e7cbb767d9bc0ef26f019">get_pCompList</a> ()</td></tr>
 <tr class="separator:ae5363383c10e7cbb767d9bc0ef26f019"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="class_d___component___list___context.html" title="The D_Component_List_Context class inherits D_Component_List and calculates features of the blobs dep...">D_Component_List_Context</a> class inherits <a class="el" href="class_d___component___list.html" title="The D_Component_List class is a list of D_Component representing the blobs in a binary image.">D_Component_List</a> and calculates features of the blobs depending on the relation to other blobs in the same represented 2D binary image. </p>
+<p>Takes a distance interval and two point/line types (D_COMPDIST) to measure the distance from/to. For each blob (<a class="el" href="class_d___component.html" title="The D_Component class A blob and its features in a 2D binary/label image.">D_Component</a>) a list with each blob within that distance is created. A feature (D_FEATURE_ENUM) is selected. For each blob in the mentioned list this feature is determined. The values in this list are summarized using the chosen statistic quantity (D_STATISTIC_ENUM) </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9312b3fcf3150f6787ec4fc02422cb6c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9312b3fcf3150f6787ec4fc02422cb6c">&#9670;&nbsp;</a></span>D_Component_List_Context() <span class="overload">[1/2]</span></h2>
 
@@ -162,11 +168,6 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a1e1ce71bd0b220a23a44f8240d1e37dc_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a1e1ce71bd0b220a23a44f8240d1e37dc_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -220,11 +221,6 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a069ef9b42e2b576714d570b238d1f370_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a069ef9b42e2b576714d570b238d1f370_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -277,16 +273,6 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_ab332aa2d2d9de980915b5ff551cc8e94_cgraph.png" border="0" usemap="#aclass_d___component___list___context_ab332aa2d2d9de980915b5ff551cc8e94_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_ab332aa2d2d9de980915b5ff551cc8e94_icgraph.png" border="0" usemap="#aclass_d___component___list___context_ab332aa2d2d9de980915b5ff551cc8e94_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -312,11 +298,6 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_ae5363383c10e7cbb767d9bc0ef26f019_icgraph.png" border="0" usemap="#aclass_d___component___list___context_ae5363383c10e7cbb767d9bc0ef26f019_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -375,16 +356,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_aa2693a797d2a71aa8501356f415167f3_cgraph.png" border="0" usemap="#aclass_d___component___list___context_aa2693a797d2a71aa8501356f415167f3_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_aa2693a797d2a71aa8501356f415167f3_icgraph.png" border="0" usemap="#aclass_d___component___list___context_aa2693a797d2a71aa8501356f415167f3_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -443,16 +414,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a80b1d0a6ca9b54f30ef65db5d8b75e2d_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a80b1d0a6ca9b54f30ef65db5d8b75e2d_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a80b1d0a6ca9b54f30ef65db5d8b75e2d_icgraph.png" border="0" usemap="#aclass_d___component___list___context_a80b1d0a6ca9b54f30ef65db5d8b75e2d_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -505,16 +466,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a5bb27c99a1beebc3e1b6226ed0e5add5_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a5bb27c99a1beebc3e1b6226ed0e5add5_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a5bb27c99a1beebc3e1b6226ed0e5add5_icgraph.png" border="0" usemap="#aclass_d___component___list___context_a5bb27c99a1beebc3e1b6226ed0e5add5_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -561,16 +512,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_aa7d11d9c8d85eaeeab484c79ad2c2d92_cgraph.png" border="0" usemap="#aclass_d___component___list___context_aa7d11d9c8d85eaeeab484c79ad2c2d92_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_aa7d11d9c8d85eaeeab484c79ad2c2d92_icgraph.png" border="0" usemap="#aclass_d___component___list___context_aa7d11d9c8d85eaeeab484c79ad2c2d92_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -617,11 +558,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a3e292ffa3a1fd10d9a975110219d9ab5_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a3e292ffa3a1fd10d9a975110219d9ab5_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -650,22 +586,12 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a4d54b3e813aa6cc5686cca65b7fed6ca_cgraph.png" border="0" usemap="#aclass_d___component___list___context_a4d54b3e813aa6cc5686cca65b7fed6ca_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_d___component___list___context_a4d54b3e813aa6cc5686cca65b7fed6ca_icgraph.png" border="0" usemap="#aclass_d___component___list___context_a4d54b3e813aa6cc5686cca65b7fed6ca_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/David/Documents/GitHub/ImageD/Code/<a class="el" href="d__component__list__context_8h_source.html">d_component_list_context.h</a></li>
-<li>C:/Users/David/Documents/GitHub/ImageD/Code/<a class="el" href="d__component__list__context_8cpp.html">d_component_list_context.cpp</a></li>
+<li>D:/Projekte/Qt/ImageD/Code/<a class="el" href="d__component__list__context_8h_source.html">d_component_list_context.h</a></li>
+<li>D:/Projekte/Qt/ImageD/Code/<a class="el" href="d__component__list__context_8cpp.html">d_component_list_context.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
