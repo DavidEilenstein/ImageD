@@ -34,6 +34,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Math class Mathematic functionalities.
+ * \details Mathematic functions for static use and some factory methods for function objects taking enums: D_MATH_1D_TO_1D , D_MATH_2D_TO_1D , D_MATH_2D_TO_1D_COMPLEX , D_MATH_6D_TO_1D and D_COND_2D
+ */
 class D_Math
 {
 public:

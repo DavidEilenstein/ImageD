@@ -1714,7 +1714,7 @@ PH_g_earth              = 9.80665;
 
 //mainpage for documentation (doxygen)
 /*!
- * \mainpage ImageD Documentation Mainpage
+ * \mainpage Welcome to ImageD
  * \section intro_sec Introduction
  *
  * ImageD is an image processing software.
@@ -1740,7 +1740,7 @@ PH_g_earth              = 9.80665;
  *
  * Installation:
  *      1. Go to <a href="https://github.com/DavidEilenstein/ImageD/releases">https://github.com/DavidEilenstein/ImageD/releases</a>
- *      2. Select the version you want to dowload (click on the blue headline)
+ *      2. Select the version you want to dowload (click on the blue headline with v<number> in it. You can see the current version number at the top of this page)
  *      3. Download the "ImageD_v<number>.zip"
  *      4. Unzip it in a folder of your choice
  *      5. Double click the ImageD.exe to run the program
@@ -1751,16 +1751,17 @@ PH_g_earth              = 9.80665;
  *
  * \section doc_sec Documentation
  *
- * There are three types of dosumentation:
- *      1. The documentation of the code is done on this webpage. Just navigate with the panels on the right and on the top or use the serach function.
- *      2. There are user manual PDFs for each modul of the program. They are not public yet. Please contact me for more information.
- *      3. My bachelor thesis about the concepts of ImageD. Not published yet.
+ * There are three types of documentation:
+ *      1. Code:    The documentation of the code is done on this webpage. Just navigate with the panels on the right and on the top or use the serach function.
+ *      2. Manuals: There are user manual PDFs for each modul of the program. They are not public yet. Please contact me for more information.
+ *      3. Theory:  My bachelor thesis about the concepts of ImageD. Not published yet. Please contact me for more information.
  *
  * \section links_sec Weblinks
  *
  * \subsection links_sec_projects Projects
  *
  * ImageD is used mainly in the field of <a href="https://www.gsi.de/en/work/research/biophysics.htm">biophysics</a> at <a href="https://www.gsi.de/en/start/news.htm">GSI Darmstadt</a>:
+ *      - <a href="https://pubmed.ncbi.nlm.nih.gov/32168789/">Correlative Light and Electron Microscopy (CLEM) Analysis of Nuclear Reorganization Induced by Clustered DNA Damage Upon Charged Particle Irradiation</a>
  *      - example project (permissions needed to publish links here. To be updated as soon as possible.)
  *
  * \subsection links_sec_3rdPartySoftware Third Party Software

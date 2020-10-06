@@ -81,6 +81,10 @@ namespace Ui {
 class D_MainWindow;
 }
 
+/*!
+ * \brief The D_MainWindow class The main window you see when ImageD starts.
+ * \details Hosts the only D_Storage object. Functions as a master window from where other windows and moduls can be opened. Has access to all D_StepWindow s.
+ */
 class D_MainWindow : public QMainWindow
 {
     Q_OBJECT

@@ -27,7 +27,7 @@
 using namespace std;
 
 /*!
- * \brief The D_Error_Handler class takes error codes (D_ERROR_ENUM) and shows a popup if an error occured.
+ * \brief The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.
  * \details Create an instance of this in your class and call you possibly error code returning functionsin its ::ERR method.
  */
 class D_Error_Handler

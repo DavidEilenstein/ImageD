@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "ImageD", "index.html", [
-    [ "ImageD Documentation Mainpage", "index.html", [
+    [ "Welcome to ImageD", "index.html", [
       [ "Introduction", "index.html#intro_sec", null ],
       [ "Installation", "index.html#istall_sec", null ],
       [ "Documentation", "index.html#doc_sec", null ],
