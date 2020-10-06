@@ -231,9 +231,8 @@ D_AnalysisWindow::~D_AnalysisWindow()
 }
 
 /*!
- * \brief D_AnalysisWindow::resizeEvent called when window is resized.
+ * \brief D_AnalysisWindow::resizeEvent called when window is resized and resizes the D_Viewer s.
  * \param event
- * \details Resize the D_Viewer s fitting to the D_AnalysisWindow.
  */
 void D_AnalysisWindow::resizeEvent(QResizeEvent *event)
 {
@@ -242,8 +241,7 @@ void D_AnalysisWindow::resizeEvent(QResizeEvent *event)
 }
 
 /*!
- * \brief D_AnalysisWindow::Image_Label_Get
- * \details Opens a dialog to select the label image for the analysis. This image is used to determine where the blobs are.
+ * \brief D_AnalysisWindow::Image_Label_Get Opens a dialog to select the label image for the analysis. This image is used to determine where the blobs are.
  */
 void D_AnalysisWindow::Image_Label_Get()
 {

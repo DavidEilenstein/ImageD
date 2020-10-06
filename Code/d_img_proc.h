@@ -49,7 +49,9 @@ using namespace cv;
 
 /*!
  * \brief The D_Img_Proc class static 2D image processing functions.
- * \details Most methods take pointers to in
+ * \details Most methods take pointers to input and/or ouput <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a> plus additional parameters.
+ * This class is where you find most of the image processing functions in ImageD.
+ * Some are just wrapped from <a href="https://docs.opencv.org/master/index.html">OpenCV</a> others are selfmade.
  */
 class D_Img_Proc
 {
