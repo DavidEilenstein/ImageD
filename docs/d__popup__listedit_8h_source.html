@@ -119,41 +119,41 @@ $(document).ready(function(){initNavTree('d__popup__listedit_8h_source.html','')
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a>;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_d___popup___list_edit.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a> : <span class="keyword">public</span> QDialog</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a>(QString Title, vector&lt;int&gt; *Indices, QStringList Names, <span class="keywordtype">int</span> init_index, QWidget *parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ~<a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_d___popup___list_edit.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a> : <span class="keyword">public</span> QDialog</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    Q_OBJECT</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> ShowSelection();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Add_clicked();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> on_pushButton_All_clicked();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a>(QString Title, vector&lt;int&gt; *Indices, QStringList Names, <span class="keywordtype">int</span> init_index, QWidget *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ~<a class="code" href="class_d___popup___list_edit.html">D_Popup_ListEdit</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> ShowSelection();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Remove_clicked();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Add_clicked();</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Clear_clicked();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> on_pushButton_All_clicked();</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Reset_clicked();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Remove_clicked();</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Done_clicked();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Clear_clicked();</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Ui::D_Popup_ListEdit *ui;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    vector&lt;int&gt; *pvIndices;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    vector&lt;int&gt; vIndicesBackup;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    QStringList QSL_IndicesNames;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif // D_POPUP_LISTEDIT_H</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Reset_clicked();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Done_clicked();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Ui::D_Popup_ListEdit *ui;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    vector&lt;int&gt; *pvIndices;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    vector&lt;int&gt; vIndicesBackup;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    QStringList QSL_IndicesNames;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif // D_POPUP_LISTEDIT_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_d___popup___list_edit_html"><div class="ttname"><a href="class_d___popup___list_edit.html">D_Popup_ListEdit</a></div><div class="ttdef"><b>Definition:</b> d_popup_listedit.h:33</div></div>
+<div class="ttc" id="aclass_d___popup___list_edit_html"><div class="ttname"><a href="class_d___popup___list_edit.html">D_Popup_ListEdit</a></div><div class="ttdoc">The D_Popup_ListEdit class Lets the user choose any number of entries from a QStringList</div><div class="ttdef"><b>Definition:</b> d_popup_listedit.h:37</div></div>
 <div class="ttc" id="aclass_d___popup___list_edit_html_a0ea3550fe78c631678ab9cfef02383b1"><div class="ttname"><a href="class_d___popup___list_edit.html#a0ea3550fe78c631678ab9cfef02383b1">D_Popup_ListEdit::D_Popup_ListEdit</a></div><div class="ttdeci">D_Popup_ListEdit(QString Title, vector&lt; int &gt; *Indices, QStringList Names, int init_index, QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> d_popup_listedit.cpp:12</div></div>
 <div class="ttc" id="aclass_d___popup___list_edit_html_afc37b8cbaaa15a68ba7617ab55645be7"><div class="ttname"><a href="class_d___popup___list_edit.html#afc37b8cbaaa15a68ba7617ab55645be7">D_Popup_ListEdit::~D_Popup_ListEdit</a></div><div class="ttdeci">~D_Popup_ListEdit()</div><div class="ttdef"><b>Definition:</b> d_popup_listedit.cpp:29</div></div>
 <div class="ttc" id="ad__popup__listedit_8h_html"><div class="ttname"><a href="d__popup__listedit_8h.html">d_popup_listedit.h</a></div></div>

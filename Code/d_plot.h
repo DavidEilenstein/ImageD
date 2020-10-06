@@ -55,7 +55,10 @@ using namespace std;
 using namespace cv;
 QT_CHARTS_USE_NAMESPACE
 
-
+/*!
+ * \brief The D_Plot class Plot data in <a href="https://doc.qt.io/qt-5/qchartview.html">QChartView</a> in the user interface.
+ * \details Wrapper functions for <a href="https://doc.qt.io/qt-5/qtcharts-index.html">OpenCV</a> methods to plot data in <a href="https://doc.qt.io/qt-5/qchartview.html">QChartView</a>
+ */
 class D_Plot
 {
 public:

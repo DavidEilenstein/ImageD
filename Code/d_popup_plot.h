@@ -33,6 +33,10 @@ namespace Ui {
 class D_Popup_Plot;
 }
 
+/*!
+ * \brief The D_Popup_Plot class WIP
+ * \details Shall be able to plot data when needed temporarily only.
+ */
 class D_Popup_Plot : public QDialog
 {
     Q_OBJECT

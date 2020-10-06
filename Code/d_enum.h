@@ -434,7 +434,6 @@ enum D_STATISTIC_ENUM {
     c_STAT_CONST_1,
     c_STAT_NUMBER_OF_STATS
 };
-
 const QStringList QSL_StatList = {
     "Count",
     "Sum",
@@ -1760,8 +1759,10 @@ PH_g_earth              = 9.80665;
  *
  * \subsection links_sec_projects Projects
  *
- * ImageD is used mainly in the field of <a href="https://www.gsi.de/en/work/research/biophysics.htm">biophysics</a> at <a href="https://www.gsi.de/en/start/news.htm">GSI Darmstadt</a>. List of projects, where ImageD was used:
- *      - <a href="https://pubmed.ncbi.nlm.nih.gov/32168789/">Correlative Light and Electron Microscopy (CLEM) Analysis of Nuclear Reorganization Induced by Clustered DNA Damage Upon Charged Particle Irradiation</a>
+ * ImageD is used mainly in the field of <a href="https://www.gsi.de/en/work/research/biophysics.htm">biophysics</a> at <a href="https://www.gsi.de/en/start/news.htm">GSI Darmstadt</a>.
+ *
+ * List of projects, where ImageD was used:
+ *      - Estimating DNA fiber thickness: <a href="https://pubmed.ncbi.nlm.nih.gov/32168789/">Correlative Light and Electron Microscopy (CLEM) Analysis of Nuclear Reorganization Induced by Clustered DNA Damage Upon Charged Particle Irradiation</a>
  *      - More projects will be added soon. Permissions needed to publish links here.
  *
  * \subsection links_sec_3rdPartySoftware Third Party Software

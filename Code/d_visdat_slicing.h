@@ -41,6 +41,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VisDat_Slicing class Describes how a D_VisDat_Obj shall be sliced.
+ * \details D_VisDat_Proc uses objects of this class to determine how to slice 6D images.
+ */
 class D_VisDat_Slicing : D_VisDat_Range
 {
 public:

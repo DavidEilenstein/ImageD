@@ -36,6 +36,11 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VisDat_Slice_Nd class Represents a nD slice through a D_VisDat_Obj
+ * \details Never used directly.
+ * There are child versions of this class that have a fix dimensionality: D_VisDat_Slice_3d , D_VisDat_Slice_2d and D_VisDat_Slice_1d
+ */
 class D_VisDat_Slice_Nd
 {
 public:

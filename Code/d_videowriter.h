@@ -45,6 +45,9 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VideoWriter class Creates a video from a sequence of images and saves it as a file.
+ */
 class D_VideoWriter
 {
 public:

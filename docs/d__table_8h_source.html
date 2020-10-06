@@ -124,62 +124,62 @@ $(document).ready(function(){initNavTree('d__table_8h_source.html',''); initResi
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//namespaces</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_d___table.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___table.html">D_Table</a> : <span class="keyword">public</span> QWidget</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//constructor</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="class_d___table.html">D_Table</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">//setter</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span>            set_TW(QTableWidget *TW);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_qsl    (vector&lt;double&gt; v_data,             QString qs_col_name,          QStringList qsl_row_names);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_vd     (vector&lt;double&gt; v_data,             QString qs_col_name,          vector&lt;double&gt; v_row_names);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_count  (vector&lt;double&gt; v_data,             QString qs_col_name);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_step   (vector&lt;double&gt; v_data,             QString qs_col_name,          <span class="keywordtype">double</span> row_names_start,        <span class="keywordtype">double</span> row_names_step);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_qsl   (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    QStringList qsl_row_names);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_vd    (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    vector&lt;double&gt; v_row_names);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_count (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_vd_vd     (vector&lt;vector&lt;double&gt;&gt; vv_data,    vector&lt;double&gt; v_col_names,   vector&lt;double&gt; v_row_names);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_vd_qsl    (vector&lt;vector&lt;double&gt;&gt; vv_data,    vector&lt;double&gt; v_col_names,   QStringList qsl_row_names);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_step  (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    <span class="keywordtype">double</span> row_names_start,        <span class="keywordtype">double</span> row_names_step);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span>            clear_data();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">//getter</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">   62</a></span>&#160;    QTableWidget    *<a class="code" href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">get_pTableWidget</a>       ()     {<span class="keywordflow">return</span> TW_table;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">//Save</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    QString     Save_Table_Dialog           ();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    QString     Save_Table_Dialog           (QString path_default);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    QString     Save_Table                  ();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    QString     Save_Table                  (QString path);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">bool</span>            TW_is_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    QTableWidget    *TW_table;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_d___table.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___table.html">D_Table</a> : <span class="keyword">public</span> QWidget</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//constructor</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="class_d___table.html">D_Table</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//setter</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span>            set_TW(QTableWidget *TW);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_qsl    (vector&lt;double&gt; v_data,             QString qs_col_name,          QStringList qsl_row_names);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_vd     (vector&lt;double&gt; v_data,             QString qs_col_name,          vector&lt;double&gt; v_row_names);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_count  (vector&lt;double&gt; v_data,             QString qs_col_name);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span>            set_data_d_1D_qs_step   (vector&lt;double&gt; v_data,             QString qs_col_name,          <span class="keywordtype">double</span> row_names_start,        <span class="keywordtype">double</span> row_names_step);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_qsl   (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    QStringList qsl_row_names);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_vd    (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    vector&lt;double&gt; v_row_names);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_count (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_vd_vd     (vector&lt;vector&lt;double&gt;&gt; vv_data,    vector&lt;double&gt; v_col_names,   vector&lt;double&gt; v_row_names);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_vd_qsl    (vector&lt;vector&lt;double&gt;&gt; vv_data,    vector&lt;double&gt; v_col_names,   QStringList qsl_row_names);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span>            set_data_d_2D_qsl_step  (vector&lt;vector&lt;double&gt;&gt; vv_data,    QStringList qsl_col_names,    <span class="keywordtype">double</span> row_names_start,        <span class="keywordtype">double</span> row_names_step);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span>            clear_data();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">//getter</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">   66</a></span>&#160;    QTableWidget    *<a class="code" href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">get_pTableWidget</a>       ()     {<span class="keywordflow">return</span> TW_table;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//Save</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    QString     Save_Table_Dialog           ();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    QString     Save_Table_Dialog           (QString path_default);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    QString     Save_Table                  ();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    QString     Save_Table                  (QString path);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> Data_2_TableWidget();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    QFileInfo               FI_LastSaved;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">bool</span>            TW_is_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    QTableWidget    *TW_table;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    QString                 QS_Name;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    QStringList             QSL_Col_Names;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    QStringList             QSL_Row_Names;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    vector&lt;vector&lt;double&gt;&gt;  vv_Data;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">//Error handler</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a> ER;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span>            ERR(<span class="keywordtype">int</span> err, QString func = <span class="stringliteral">&quot;not specified&quot;</span>, QString detail = <span class="stringliteral">&quot;not specified&quot;</span>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> Data_2_TableWidget();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    QFileInfo               FI_LastSaved;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    QString                 QS_Name;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    QStringList             QSL_Col_Names;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    QStringList             QSL_Row_Names;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    vector&lt;vector&lt;double&gt;&gt;  vv_Data;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif // D_TABLE_H</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">//Error handler</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a> ER;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span>            ERR(<span class="keywordtype">int</span> err, QString func = <span class="stringliteral">&quot;not specified&quot;</span>, QString detail = <span class="stringliteral">&quot;not specified&quot;</span>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif // D_TABLE_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_d___table_html_acc81ed650eed17cea5a8909e0f706e96"><div class="ttname"><a href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">D_Table::get_pTableWidget</a></div><div class="ttdeci">QTableWidget * get_pTableWidget()</div><div class="ttdef"><b>Definition:</b> d_table.h:62</div></div>
+<div class="ttc" id="aclass_d___table_html_acc81ed650eed17cea5a8909e0f706e96"><div class="ttname"><a href="class_d___table.html#acc81ed650eed17cea5a8909e0f706e96">D_Table::get_pTableWidget</a></div><div class="ttdeci">QTableWidget * get_pTableWidget()</div><div class="ttdef"><b>Definition:</b> d_table.h:66</div></div>
 <div class="ttc" id="aclass_d___table_html_a600cb72c92a236fe86445e31613c208a"><div class="ttname"><a href="class_d___table.html#a600cb72c92a236fe86445e31613c208a">D_Table::set_data_d_1D_qs_count</a></div><div class="ttdeci">void set_data_d_1D_qs_count(vector&lt; double &gt; v_data, QString qs_col_name)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:50</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a2236d5e5ecf711349875186cddcfa253"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a2236d5e5ecf711349875186cddcfa253">ER_size_missmatch</a></div><div class="ttdeci">@ ER_size_missmatch</div><div class="ttdef"><b>Definition:</b> d_enum.h:84</div></div>
 <div class="ttc" id="aclass_d___table_html_aeb6734b82bde040482dd187f84d1e0d4"><div class="ttname"><a href="class_d___table.html#aeb6734b82bde040482dd187f84d1e0d4">D_Table::set_data_d_2D_qsl_count</a></div><div class="ttdeci">void set_data_d_2D_qsl_count(vector&lt; vector&lt; double &gt;&gt; vv_data, QStringList qsl_col_names)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:98</div></div>
@@ -190,7 +190,7 @@ $(document).ready(function(){initNavTree('d__table_8h_source.html',''); initResi
 <div class="ttc" id="aclass_d___table_html_ae9907a0ef635b7509efec6beea8cfb27"><div class="ttname"><a href="class_d___table.html#ae9907a0ef635b7509efec6beea8cfb27">D_Table::set_TW</a></div><div class="ttdeci">void set_TW(QTableWidget *TW)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:16</div></div>
 <div class="ttc" id="aclass_d___table_html_af9c8fd6e59f83ed5daa65d146d76055c"><div class="ttname"><a href="class_d___table.html#af9c8fd6e59f83ed5daa65d146d76055c">D_Table::set_data_d_1D_qs_qsl</a></div><div class="ttdeci">void set_data_d_1D_qs_qsl(vector&lt; double &gt; v_data, QString qs_col_name, QStringList qsl_row_names)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:23</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a56bd60e495090ae20aa4c3834eed3d52"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a56bd60e495090ae20aa4c3834eed3d52">ER_type_bad</a></div><div class="ttdeci">@ ER_type_bad</div><div class="ttdef"><b>Definition:</b> d_enum.h:79</div></div>
-<div class="ttc" id="aclass_d___table_html"><div class="ttname"><a href="class_d___table.html">D_Table</a></div><div class="ttdef"><b>Definition:</b> d_table.h:38</div></div>
+<div class="ttc" id="aclass_d___table_html"><div class="ttname"><a href="class_d___table.html">D_Table</a></div><div class="ttdoc">The D_Table class Display tables in QTableWidget in the user interface.</div><div class="ttdef"><b>Definition:</b> d_table.h:42</div></div>
 <div class="ttc" id="aclass_d___error___handler_html"><div class="ttname"><a href="class_d___error___handler.html">D_Error_Handler</a></div><div class="ttdoc">The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:34</div></div>
 <div class="ttc" id="aclass_d___table_html_ae5a066f4a75cdf39bc8bbc2db61d17a1"><div class="ttname"><a href="class_d___table.html#ae5a066f4a75cdf39bc8bbc2db61d17a1">D_Table::set_data_d_2D_qsl_vd</a></div><div class="ttdeci">void set_data_d_2D_qsl_vd(vector&lt; vector&lt; double &gt;&gt; vv_data, QStringList qsl_col_names, vector&lt; double &gt; v_row_names)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:85</div></div>
 <div class="ttc" id="aclass_d___table_html_a779b19bf561f42b1eee1834ec2ea2f01"><div class="ttname"><a href="class_d___table.html#a779b19bf561f42b1eee1834ec2ea2f01">D_Table::set_data_d_2D_qsl_qsl</a></div><div class="ttdeci">void set_data_d_2D_qsl_qsl(vector&lt; vector&lt; double &gt;&gt; vv_data, QStringList qsl_col_names, QStringList qsl_row_names)</div><div class="ttdef"><b>Definition:</b> d_table.cpp:74</div></div>

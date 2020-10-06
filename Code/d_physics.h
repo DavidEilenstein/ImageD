@@ -35,6 +35,9 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Physics class Basic physics formulas.
+ */
 class D_Physics
 {
 public:

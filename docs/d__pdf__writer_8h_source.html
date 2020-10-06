@@ -136,63 +136,63 @@ $(document).ready(function(){initNavTree('d__pdf__writer_8h_source.html',''); in
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">using namespace </span>cv;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_d___p_d_f___writer.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a> : <span class="keyword">public</span> QPdfWriter</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a>(QString QS_Dest);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a>(QFileInfo FI_Dest);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> init();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">int</span> add_Text                    (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> add_Text                    (QString QS_text, <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_d___p_d_f___writer.html">   53</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a> : <span class="keyword">public</span> QPdfWriter</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a>(QString QS_Dest);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="class_d___p_d_f___writer.html">D_PDF_Writer</a>(QFileInfo FI_Dest);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> init();</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">int</span> add_Headline                (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignCenter);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> add_Header                  (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span> add_Header_FileDescription  (                 <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span> add_DateTimeCurrent         (                 <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">int</span> add_DateTime                (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   QString QS_text = <span class="stringliteral">&quot;&quot;</span>, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> add_Image(Mat *pMA_img);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> add_Text                    (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span> add_Text                    (QString QS_text, <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">int</span> add_Headline                (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignCenter);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">int</span> add_Header                  (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">int</span> add_Header_FileDescription  (                 <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">int</span> add_DateTimeCurrent         (                 <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> add_DateTime                (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> add_NewLine(<span class="keywordtype">int</span> count = 1);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> add_NewPage();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">int</span> save_PDF();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> set_Margins(<span class="keywordtype">int</span> t, <span class="keywordtype">int</span> l, <span class="keywordtype">int</span> b, <span class="keywordtype">int</span> r);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    QRectF                      Rect_FromRelCorrd   (<span class="keywordtype">double</span> x1_rel, <span class="keywordtype">double</span> x2_rel, <span class="keywordtype">double</span> y1_rel,    <span class="keywordtype">double</span> y2_rel);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    QRectF                      Rect_FromRelCorrd   (<span class="keywordtype">double</span> x1_rel, <span class="keywordtype">double</span> x2_rel, <span class="keywordtype">double</span> y1_rel,    <span class="keywordtype">double</span> y2_rel,     QRect R_Source);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    QRectF                      Rect_FromRelRect    (<span class="keywordtype">double</span> x_rel,  <span class="keywordtype">double</span> y_rel,  <span class="keywordtype">double</span> width_rel, <span class="keywordtype">double</span> height_rel);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    QRectF                      Rect_FromRelRect    (<span class="keywordtype">double</span> x_rel,  <span class="keywordtype">double</span> y_rel,  <span class="keywordtype">double</span> width_rel, <span class="keywordtype">double</span> height_rel, QRect R_Source);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    QRectF                      Rect_FitToAspectRatio(QRectF R_Target, QRectF R_Source);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    QFileInfo                   FI_Destination;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    QPainter                    PDF_Painter;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">bool</span>                        PDF_Painter_is_active   = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    QPagedPaintDevice::PageSize PDF_PageSize            = QPagedPaintDevice::A4;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Top          = 15;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Left         = 15;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Bottom       = 15;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Right        = 15;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    QColor                      PDF_Color               = Qt::black;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    QString                     PDF_Font                = <span class="stringliteral">&quot;Times&quot;</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Default    = 10;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Text       = 10;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Date       = 10;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Header     = 12;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Headline   = 20;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif // D_PDF_WRITER_H</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   QString QS_text = <span class="stringliteral">&quot;&quot;</span>, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">int</span> add_Image(Mat *pMA_img);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">int</span> add_NewLine(<span class="keywordtype">int</span> count = 1);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">int</span> add_NewPage();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">int</span> save_PDF();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> set_Margins(<span class="keywordtype">int</span> t, <span class="keywordtype">int</span> l, <span class="keywordtype">int</span> b, <span class="keywordtype">int</span> r);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    QRectF                      Rect_FromRelCorrd   (<span class="keywordtype">double</span> x1_rel, <span class="keywordtype">double</span> x2_rel, <span class="keywordtype">double</span> y1_rel,    <span class="keywordtype">double</span> y2_rel);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    QRectF                      Rect_FromRelCorrd   (<span class="keywordtype">double</span> x1_rel, <span class="keywordtype">double</span> x2_rel, <span class="keywordtype">double</span> y1_rel,    <span class="keywordtype">double</span> y2_rel,     QRect R_Source);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    QRectF                      Rect_FromRelRect    (<span class="keywordtype">double</span> x_rel,  <span class="keywordtype">double</span> y_rel,  <span class="keywordtype">double</span> width_rel, <span class="keywordtype">double</span> height_rel);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    QRectF                      Rect_FromRelRect    (<span class="keywordtype">double</span> x_rel,  <span class="keywordtype">double</span> y_rel,  <span class="keywordtype">double</span> width_rel, <span class="keywordtype">double</span> height_rel, QRect R_Source);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    QRectF                      Rect_FitToAspectRatio(QRectF R_Target, QRectF R_Source);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    QFileInfo                   FI_Destination;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    QPainter                    PDF_Painter;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">bool</span>                        PDF_Painter_is_active   = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    QPagedPaintDevice::PageSize PDF_PageSize            = QPagedPaintDevice::A4;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Top          = 15;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Left         = 15;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Bottom       = 15;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">int</span>                         PDF_Margin_Right        = 15;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    QColor                      PDF_Color               = Qt::black;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    QString                     PDF_Font                = <span class="stringliteral">&quot;Times&quot;</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Default    = 10;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Text       = 10;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Date       = 10;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Header     = 12;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">int</span>                         PDF_FontSize_Headline   = 20;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;};</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#endif // D_PDF_WRITER_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_d___p_d_f___writer_html_aaf5257f8b9f374246f739d56a19a5e5b"><div class="ttname"><a href="class_d___p_d_f___writer.html#aaf5257f8b9f374246f739d56a19a5e5b">D_PDF_Writer::add_Header_FileDescription</a></div><div class="ttdeci">int add_Header_FileDescription(int size=-1, int align=Qt::AlignLeft)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:109</div></div>
@@ -209,7 +209,7 @@ $(document).ready(function(){initNavTree('d__pdf__writer_8h_source.html',''); in
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a508cdf5ebb182f3c65053ba5066bde76"><div class="ttname"><a href="class_d___p_d_f___writer.html#a508cdf5ebb182f3c65053ba5066bde76">D_PDF_Writer::D_PDF_Writer</a></div><div class="ttdeci">D_PDF_Writer(QString QS_Dest)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:11</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242">ER_other</a></div><div class="ttdeci">@ ER_other</div><div class="ttdef"><b>Definition:</b> d_enum.h:77</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a84892d28ca3564c64759903970e4801a"><div class="ttname"><a href="class_d___p_d_f___writer.html#a84892d28ca3564c64759903970e4801a">D_PDF_Writer::add_Image</a></div><div class="ttdeci">int add_Image(QImage *pQI_img, QString QS_text=&quot;&quot;, int size=-1, int align=Qt::AlignLeft)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:145</div></div>
-<div class="ttc" id="aclass_d___p_d_f___writer_html"><div class="ttname"><a href="class_d___p_d_f___writer.html">D_PDF_Writer</a></div><div class="ttdef"><b>Definition:</b> d_pdf_writer.h:50</div></div>
+<div class="ttc" id="aclass_d___p_d_f___writer_html"><div class="ttname"><a href="class_d___p_d_f___writer.html">D_PDF_Writer</a></div><div class="ttdoc">The D_PDF_Writer class Create PDFs by calling simple to use methods.</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.h:54</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_ad5a42269ff3fdc0e8d33de73dabb8852"><div class="ttname"><a href="class_d___p_d_f___writer.html#ad5a42269ff3fdc0e8d33de73dabb8852">D_PDF_Writer::add_NewPage</a></div><div class="ttdeci">int add_NewPage()</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:265</div></div>

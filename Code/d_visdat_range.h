@@ -37,6 +37,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VisDat_Range class Describes the intersect of two D_VisDat_Dim , so it is a 6D subvolume.
+ * \details Can be used to set 6D hyper cuboid regions of interest.
+ */
 class D_VisDat_Range
 {
 public:

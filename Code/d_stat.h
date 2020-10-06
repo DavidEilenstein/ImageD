@@ -33,6 +33,11 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Stat class Calculate statistical quantities of vectors of values.
+ * \details There are methods that function as a factory for functors for statistical quantities as well as methods that calculate a list of stats from a list of numbers.
+ * There are linear statistics, circular statistics and 2D statistics. Use these enumerators: D_STATISTIC_ENUM , D_STATISTIC_2D_ENUM and D_STATISTIC_CIRC_ENUM
+ */
 class D_Stat
 {
 public:

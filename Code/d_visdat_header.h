@@ -28,6 +28,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VisDat_Header class Contains the meta data of a D_VisDat_Obj
+ * \details Used to save non-simple images represented by D_VisDat_Obj on the hard drive.
+ */
 class D_VisDat_Header
 {
 public:

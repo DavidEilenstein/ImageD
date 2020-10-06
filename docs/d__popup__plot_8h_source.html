@@ -123,29 +123,29 @@ $(document).ready(function(){initNavTree('d__popup__plot_8h_source.html',''); in
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_d___popup___plot.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a> : <span class="keyword">public</span> QDialog</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a>(QString Title, QString nameX, QString nameY, QString namePlot, QString nameSeries, vector&lt;double&gt; *pvX, vector&lt;double&gt; *pvY, QWidget *parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ~<a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_d___popup___plot.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a> : <span class="keyword">public</span> QDialog</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    Q_OBJECT</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    Ui::D_Popup_Plot *ui;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a>(QString Title, QString nameX, QString nameY, QString namePlot, QString nameSeries, vector&lt;double&gt; *pvX, vector&lt;double&gt; *pvY, QWidget *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ~<a class="code" href="class_d___popup___plot.html">D_Popup_Plot</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> Init_Ui(QString QS_Titel);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    QChartView *pChartView;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    Ui::D_Popup_Plot *ui;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif // D_POPUP_PLOT_H</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> Init_Ui(QString QS_Titel);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    QChartView *pChartView;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif // D_POPUP_PLOT_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_d___plot_html_aef8e20d17ba388d952eb8ddde07f9a48"><div class="ttname"><a href="class_d___plot.html#aef8e20d17ba388d952eb8ddde07f9a48">D_Plot::Plot_Scatter_2D_Single_Y</a></div><div class="ttdeci">static int Plot_Scatter_2D_Single_Y(QChartView *pChartView, vector&lt; double &gt; *v_X_Val, vector&lt; double &gt; *v_Y_Val, QString name_title, QString name_series, QString name_x, QString name_y)</div><div class="ttdef"><b>Definition:</b> d_plot.cpp:1077</div></div>
 <div class="ttc" id="ad__plot_8h_html"><div class="ttname"><a href="d__plot_8h.html">d_plot.h</a></div></div>
-<div class="ttc" id="aclass_d___popup___plot_html"><div class="ttname"><a href="class_d___popup___plot.html">D_Popup_Plot</a></div><div class="ttdef"><b>Definition:</b> d_popup_plot.h:37</div></div>
+<div class="ttc" id="aclass_d___popup___plot_html"><div class="ttname"><a href="class_d___popup___plot.html">D_Popup_Plot</a></div><div class="ttdoc">The D_Popup_Plot class WIP.</div><div class="ttdef"><b>Definition:</b> d_popup_plot.h:41</div></div>
 <div class="ttc" id="ad__popup__plot_8h_html"><div class="ttname"><a href="d__popup__plot_8h.html">d_popup_plot.h</a></div></div>
 <div class="ttc" id="anamespace_ui_html"><div class="ttname"><a href="namespace_ui.html">Ui</a></div><div class="ttdef"><b>Definition:</b> d_analysiswindow.h:57</div></div>
 <div class="ttc" id="aclass_d___popup___plot_html_a431ea6ef4242215198f04efabff3359a"><div class="ttname"><a href="class_d___popup___plot.html#a431ea6ef4242215198f04efabff3359a">D_Popup_Plot::~D_Popup_Plot</a></div><div class="ttdeci">~D_Popup_Plot()</div><div class="ttdef"><b>Definition:</b> d_popup_plot.cpp:27</div></div>

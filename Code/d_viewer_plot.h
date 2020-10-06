@@ -44,6 +44,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Viewer_Plot class WIP
+ * \details Shall work like D_Viewer but for plots.
+ */
 class D_Viewer_Plot : public QWidget
 {
     Q_OBJECT

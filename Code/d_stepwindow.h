@@ -86,6 +86,12 @@ namespace Ui {
 class D_StepWindow;
 }
 
+/*!
+ * \brief The D_StepWindow class Represents an image processing step in an image processing chain.
+ * \details Any number of these can be created via the D_MainWindow .
+ * The basic funcionality is to chose a type of image processing and source image(s) for it.
+ * There are some more features like displaying histograms, time measurement, information about its position in the image processing chain, etc.
+ */
 class D_StepWindow : public QMainWindow
 {
     Q_OBJECT

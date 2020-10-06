@@ -32,6 +32,10 @@ namespace Ui {
 class D_Popup_FeedbackRequest;
 }
 
+/*!
+ * \brief The D_Popup_FeedbackRequest class Popup that askes the user for feedback about ImageD
+ * \details Pops up after a given number of uses and asks for feedback.
+ */
 class D_Popup_FeedbackRequest : public QDialog
 {
     Q_OBJECT

@@ -93,6 +93,9 @@ $(document).ready(function(){initNavTree('class_d___vis_dat___proc.html',''); in
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="class_d___vis_dat___proc.html" title="The D_VisDat_Proc class 6D image processing and efficeint loops of image processing performed on stac...">D_VisDat_Proc</a> class 6D image processing and efficeint loops of image processing performed on stacks of 2D or 3D images.  
+ <a href="class_d___vis_dat___proc.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="d__visdat__proc_8h_source.html">d_visdat_proc.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -455,7 +458,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:abc7138e7a9bd3b9a72c7ab661e64e7a8"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#abc7138e7a9bd3b9a72c7ab661e64e7a8">Calc_DataVector_1C</a> (vector&lt; double &gt; *v_data_out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, bool ignore_zeros)</td></tr>
 <tr class="separator:abc7138e7a9bd3b9a72c7ab661e64e7a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="class_d___vis_dat___proc.html" title="The D_VisDat_Proc class 6D image processing and efficeint loops of image processing performed on stac...">D_VisDat_Proc</a> class 6D image processing and efficeint loops of image processing performed on stacks of 2D or 3D images. </p>
+<p>Some methods are implemented right in this class. These are the more complex ones that are about multiple dimensions. Other methods (that is true for most methods here) just wrap the methods from D_ImgProc and D_ImgProc_3D .</p>
+<p>The factories <a class="el" href="class_d___img___proc__2d_factory.html" title="The D_Img_Proc_2dFactory class Factory that turns methods from D_ImgProc into function objects.">D_Img_Proc_2dFactory</a> and <a class="el" href="class_d___img___proc__3d_factory.html" title="The D_Img_Proc_3dFactory class Factory that turns methods from D_ImgProc_3D into function objects.">D_Img_Proc_3dFactory</a> are used to create a function object, that is used multiple times on the independent 2D/3D slices of the 6D image. This way performance is increased using automatic multithreading. <a class="el" href="class_d___vis_dat___slicing.html" title="The D_VisDat_Slicing class Describes how a D_VisDat_Obj shall be sliced.">D_VisDat_Slicing</a> describes how a <a class="el" href="class_d___vis_dat___obj.html" title="The D_VisDat_Obj class Represents a 6D image.">D_VisDat_Obj</a> shall be sliced.</p>
+<p><a class="el" href="class_d___step_window.html" title="The D_StepWindow class Represents an image processing step in an image processing chain.">D_StepWindow</a> uses the methods from this class to perform image processing steps. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aab1390fd8658ff036b62f5a3c565e9e8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aab1390fd8658ff036b62f5a3c565e9e8">&#9670;&nbsp;</a></span>D_VisDat_Proc()</h2>
 

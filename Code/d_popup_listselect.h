@@ -29,6 +29,10 @@ namespace Ui {
 class D_Popup_ListSelect;
 }
 
+/*!
+ * \brief The D_Popup_ListSelect class Lets the user choose an entry from a <a href="https://doc.qt.io/qt-5/qstringlist.html">QStringList</a>
+ * \details Pass a <a href="https://doc.qt.io/qt-5/qstringlist.html">QStringList</a> and a pointer to an index corresponding to that list. The user may choose an entry from the list by using a user interface popup.
+ */
 class D_Popup_ListSelect : public QDialog
 {
     Q_OBJECT

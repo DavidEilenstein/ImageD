@@ -34,6 +34,10 @@
 //namespaces
 using namespace std;
 
+/*!
+ * \brief The D_Table class Display tables in <a href="https://doc.qt.io/archives/qt-4.8/qtablewidget.html">QTableWidget</a> in the user interface.
+ * \details Put a <a href="https://doc.qt.io/archives/qt-4.8/qtablewidget.html">QTableWidget</a> somewhere in the user interface and pass a pointer to it to (<D_Table>"::")n<set_TW>"("<(QTableWidget *TW)")" and changes made to the D_Table will be displayed in the UI
+ */
 class D_Table : public QWidget
 {
     Q_OBJECT

@@ -36,6 +36,14 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VisDat_Dim class Represents a 6D volume.
+ * \details There are basic functionalities describing and changing the 6D volume.
+ * This is used to describe the size of a multidimensional image D_VisDat_Obj .
+ * There is a method for looping through such a volume pixel by pixel.
+ *
+ * The six dimensions are: Spacial X, spacial Y, spacial Z, time T, stack S and pages P. See: D_DIM_INDICES
+ */
 class D_VisDat_Dim
 {
 

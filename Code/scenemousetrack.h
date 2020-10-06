@@ -29,6 +29,9 @@ using namespace std;
 
 //==================================================================
 
+/*!
+ * \brief The SceneMouseTrack class Scene to put in a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> that emits additional signals.
+ */
 class SceneMouseTrack : public QGraphicsScene
 {
     Q_OBJECT

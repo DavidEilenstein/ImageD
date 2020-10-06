@@ -45,6 +45,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_VideoSlicer class Extracts frames from videos as images.
+ * \details Used do process videos in a memory saving way.
+ */
 class D_VideoSlicer
 {
 public:

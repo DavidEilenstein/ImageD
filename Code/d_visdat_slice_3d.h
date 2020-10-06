@@ -11,6 +11,9 @@
 
 #include <d_visdat_slice_nd.h>
 
+/*!
+ * \brief The D_VisDat_Slice_3D class Represents a 3D slice from a D_VisDat_Obj
+ */
 class D_VisDat_Slice_3D : public D_VisDat_Slice_Nd
 {
 public:

@@ -37,6 +37,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Value_Distribution_List class inherits D_Component_List and calculates the statistical distribution of pixel values in the blobs.
+ * \details Takes a index from D_AXE_ENUM (representing an geometrical axis) and calculates the distribution of pixel values using this axe. For example a the mean intensity at radius=5px is calculated.
+ */
 class D_Value_Distribution_List
 {
 public:

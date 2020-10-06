@@ -29,6 +29,10 @@ namespace Ui {
 class D_Popup_ListEdit;
 }
 
+/*!
+ * \brief The D_Popup_ListEdit class Lets the user choose any number of entries from a <a href="https://doc.qt.io/qt-5/qstringlist.html">QStringList</a>
+ * \details Pass a <a href="https://doc.qt.io/qt-5/qstringlist.html">QStringList</a> and a pointer to a vector with indices corresponding to that list. The user may change the selected entries by using a user interface popup.
+ */
 class D_Popup_ListEdit : public QDialog
 {
     Q_OBJECT

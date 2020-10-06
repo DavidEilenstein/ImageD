@@ -28,6 +28,10 @@ namespace Ui {
 class D_stat_tester;
 }
 
+/*!
+ * \brief The D_stat_tester class Little tool to play with statistic functions.
+ * \details Can be accesed via D_MainWindow and offers tools for experimenting with linear and circular statistics.
+ */
 class D_stat_tester : public QMainWindow
 {
     Q_OBJECT

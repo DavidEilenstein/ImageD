@@ -40,6 +40,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_Storage class Used for storing data. There is only one instance in D_MainWindow .
+ * \details There is only one instance of this in D_MainWindow . All others modules with acces to this get a pointer to that object.
+ */
 class D_Storage
 {
 public:

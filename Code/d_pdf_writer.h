@@ -46,6 +46,10 @@
 using namespace std;
 using namespace cv;
 
+/*!
+ * \brief The D_PDF_Writer class Create PDFs by calling simple to use methods.
+ * \details Initialize with output path of your choice. Add elements using methods from this class. Call save_PDF"()" to close created PDF.
+ */
 class D_PDF_Writer : public QPdfWriter
 {
 public:
