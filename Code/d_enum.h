@@ -1762,6 +1762,7 @@ PH_g_earth              = 9.80665;
  *
  * List of projects, where ImageD was used:
  *      - Estimating DNA fiber thickness: <a href="https://pubmed.ncbi.nlm.nih.gov/32168789/">Correlative Light and Electron Microscopy (CLEM) Analysis of Nuclear Reorganization Induced by Clustered DNA Damage Upon Charged Particle Irradiation</a>
+ *      - Mouse tumor staining quantification: <a href="https://www.sciencedirect.com/science/article/pii/S0360301620343431?via%3Dihub">Reduction of lung metastases in a mouse osteosarcoma model treated with carbon ions and immune checkpoint inhibitors</a>
  *      - More projects will be added soon. Permissions needed to publish links here.
  *
  * \subsection links_sec_3rdPartySoftware Third Party Software
