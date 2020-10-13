@@ -13938,6 +13938,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
 
     if(pvMA_In->empty())                                    return ER_empty;
     if(pvvCentroids->empty())                               return ER_empty;
+    if(pvMA_In->size() <= 1)                                return ER_size_bad;
     if(pvMA_In->size() != pvvCentroids->size())             return ER_size_missmatch;
     if(connectivity != 4 && connectivity != 8)              return ER_parameter_bad;
     if(index_NewImg >= pvMA_In->size())                     return ER_index_out_of_range;
@@ -14080,7 +14081,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
             */
 
             //calc shift attributes
-            (*pvShift_PxPerFrame)[lab_pers] = D_Math::Distance(Centroid_Oldest, Centroid_Newest) / n;
+            (*pvShift_PxPerFrame)[lab_pers] = D_Math::Distance(Centroid_Oldest, Centroid_Newest) / (n - 1); //(n-1) because there are n-1 gaps between n frames.
             (*pvDirection_Rad)[lab_pers]    = D_Math::AngleRad(Centroid_Oldest, Centroid_Newest);
             (*pvPositions)[lab_pers]        = D_Math::Center(Centroid_Oldest, Centroid_Newest);
 

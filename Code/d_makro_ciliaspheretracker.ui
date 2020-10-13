@@ -1839,13 +1839,6 @@
        <property name="spacing">
         <number>3</number>
        </property>
-       <item row="2" column="0" colspan="4">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="7" column="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_Blur_Sigma">
          <property name="minimumSize">
@@ -1874,7 +1867,7 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="1" colspan="2">
+       <item row="9" column="1" colspan="2">
         <widget class="QSpinBox" name="spinBox_Param_FrameCountSmooth">
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::NoButtons</enum>
@@ -1924,6 +1917,35 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0" colspan="4">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_Scale_mm">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string/>
+         </property>
+         <property name="suffix">
+          <string>mm</string>
+         </property>
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="maximum">
+          <double>9999.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.850000000000000</double>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="1">
         <widget class="QSpinBox" name="spinBox_Param_Crop_Left">
          <property name="minimumSize">
@@ -1955,35 +1977,6 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="3">
-        <widget class="QLabel" name="label_Param_CropHeight">
-         <property name="text">
-          <string>Crop Height</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_Scale_mm">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string/>
-         </property>
-         <property name="suffix">
-          <string>mm</string>
-         </property>
-         <property name="decimals">
-          <number>3</number>
-         </property>
-         <property name="maximum">
-          <double>9999.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.850000000000000</double>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -1991,8 +1984,15 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" rowspan="3">
-        <widget class="QLabel" name="label_3">
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_Param_CropHeight">
+         <property name="text">
+          <string>Crop Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_9">
          <property name="minimumSize">
           <size>
            <width>75</width>
@@ -2006,7 +2006,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Crop</string>
+          <string>Blur</string>
          </property>
         </widget>
        </item>
@@ -2078,8 +2078,15 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_9">
+       <item row="6" column="0" colspan="4">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" rowspan="3">
+        <widget class="QLabel" name="label_3">
          <property name="minimumSize">
           <size>
            <width>75</width>
@@ -2093,21 +2100,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Blur</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="4">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QLabel" name="label_Param_CropTime">
-         <property name="text">
-          <string>Crop Time</string>
+          <string>Crop</string>
          </property>
         </widget>
        </item>
@@ -2152,52 +2145,17 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="3">
+       <item row="3" column="3">
+        <widget class="QLabel" name="label_Param_CropTime">
+         <property name="text">
+          <string>Crop Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="3">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>Smooth</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_Crop_End">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>end: </string>
-         </property>
-         <property name="suffix">
-          <string>s</string>
-         </property>
-         <property name="value">
-          <double>6.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="4">
-        <widget class="Line" name="line_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QLabel" name="label_Param_CropWidth">
-         <property name="text">
-          <string>Crop Width</string>
          </property>
         </widget>
        </item>
@@ -2242,21 +2200,63 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="4">
-        <widget class="Line" name="line_5">
+       <item row="8" column="0" colspan="4">
+        <widget class="Line" name="line_6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" rowspan="2">
+       <item row="5" column="3">
+        <widget class="QLabel" name="label_Param_CropWidth">
+         <property name="text">
+          <string>Crop Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_Crop_End">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>end: </string>
+         </property>
+         <property name="suffix">
+          <string>s</string>
+         </property>
+         <property name="value">
+          <double>6.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="3">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Maximum Speed</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" rowspan="2">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Tracking</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="1" colspan="2">
+       <item row="10" column="1" colspan="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_Param_MaxSpeed">
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::NoButtons</enum>
@@ -2272,13 +2272,6 @@
          </property>
          <property name="value">
           <double>20.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="3">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Maximum Speed</string>
          </property>
         </widget>
        </item>
