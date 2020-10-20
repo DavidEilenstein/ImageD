@@ -798,6 +798,22 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
         return;
     }
 
+    //max movements detected
+    double value_min, value_max;
+    ER = D_Img_Proc::MinMax_of_Mat(
+                &MA_TimeProject_Sum,
+                &value_min,
+                &value_max);
+    if(ER != ER_okay)
+    {
+        ERR(
+                    ER,
+                    "Update_Result_GraphicsHeatmap",
+                    "MinMax_of_Mat");
+        MA_tmp_Value_Gray.release();
+        return;
+    }
+
     //Heatmap
     ER = D_Img_Proc::ObjectsMovement_Heatmap(
                 &MA_Result,
@@ -807,6 +823,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
                 vv_FrmObjShifts,
                 vv_FrmObjAngles,
                 conv_px2um * VS_InputVideo.get_FrameRateFps(),  // px/frm -> um/sec (as a factor to be applied to px/frm value)
+                value_max / 255.0,                              // factor for 8bit gray value to movements count
                 5, 5,                                           //blur
                 ui->comboBox_Res_Heat_Mode->currentIndex(),     //what to show
                 1500, 99,                                       //legend size

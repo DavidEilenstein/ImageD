@@ -13571,13 +13571,14 @@ Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
     else                S = range / max;
                         V = max;
 
-    //"inversion"
+    //"contrast color"
+    qDebug() << "HSV in" << H << S << V;
     if(H >= PI)         H -= PI;
     else                H += PI;
-    if(S >= 0.5)        S = 1;
-    else                S = 0;
+    /*always*/          S = 0;
     if(V >= 0.5)        V = 0;
     else                V = 1;
+    qDebug() << "HSV out" << H << S << V;
 
     //HSV transfrom invers
     int     hi  = floor(H / (PI / 3.0));
@@ -14353,7 +14354,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
     return ER_okay;
 }
 
-int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel)
+int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel)
 {
     //errors
     if(pMA_InValue->empty())            return ER_empty;
@@ -14627,8 +14628,8 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         for(size_t i = 0; i < legend_examples; i++)
         {
             QSL_H.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
-            QSL_S.append("");
-            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+            QSL_S.append("-");
+            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;
@@ -14641,8 +14642,8 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         for(size_t i = 0; i < legend_examples; i++)
         {
             QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
-            QSL_S.append("");
-            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+            QSL_S.append("-");
+            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;
@@ -14656,7 +14657,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         {
             QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
             QSL_S.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
-            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;
