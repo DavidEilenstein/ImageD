@@ -7,7 +7,7 @@ var class_d___p_d_f___writer =
     [ "add_Header", "class_d___p_d_f___writer.html#a512a229b0ac7dddb4fc36ece82d22668", null ],
     [ "add_Header_FileDescription", "class_d___p_d_f___writer.html#aaf5257f8b9f374246f739d56a19a5e5b", null ],
     [ "add_Headline", "class_d___p_d_f___writer.html#a3018633873ebd4611592c6410a916fbb", null ],
-    [ "add_Image", "class_d___p_d_f___writer.html#aee18a2fc642dbc2ad6cfcb03a2990c92", null ],
+    [ "add_Image", "class_d___p_d_f___writer.html#ad761f6ebc8113918085d3c3f53596d70", null ],
     [ "add_Image", "class_d___p_d_f___writer.html#a4cbcd70dfe0d5ccd4ece24610cbb362e", null ],
     [ "add_Image", "class_d___p_d_f___writer.html#a84892d28ca3564c64759903970e4801a", null ],
     [ "add_NewLine", "class_d___p_d_f___writer.html#a583fc6f08140cc71a375a18fe1f5c93b", null ],

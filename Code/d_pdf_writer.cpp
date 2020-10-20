@@ -242,15 +242,24 @@ int D_PDF_Writer::add_Image(QImage *pQI_img, double x1_rel, double x2_rel, doubl
     return ER_okay;
 }
 
-int D_PDF_Writer::add_Image(Mat *pMA_img)
+int D_PDF_Writer::add_Image(Mat *pMA_img, double x1_rel, double x2_rel, double y1_rel, double y2_rel)
 {
-    if(!PDF_Painter_is_active)
+    if(pMA_img->empty())    return ER_empty;
+
+    QImage QI_tmp;
+    int ER = D_Img_Proc::Convert_Mat_to_QImage(
+                &QI_tmp,
+                pMA_img);
+
+    if(ER == ER_okay)
+        return add_Image(
+                    &QI_tmp,
+                    x1_rel,
+                    x2_rel,
+                    y1_rel,
+                    y2_rel);
+    else
         return ER_other;
-
-    if(pMA_img->empty())
-        return ER_empty;
-
-    return ER_okay;
 }
 
 int D_PDF_Writer::add_NewLine(int count)

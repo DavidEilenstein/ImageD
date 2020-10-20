@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_1 (13.10.2020)</span>
+   &#160;<span id="projectnumber">v1_0_2 (20.10.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -561,6 +561,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a4ab22b817688fb2a09f28d6030b718de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1e0153f9a1f862c0cd11b5454151e34"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ae1e0153f9a1f862c0cd11b5454151e34">Draw_Text</a> (Mat *pMA_Target, QString text, int x=0, int y=0, int thickness=1, double scale=1.0, double value=255)</td></tr>
 <tr class="separator:ae1e0153f9a1f862c0cd11b5454151e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5185cbb0af5366e711bc476548e3f79"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad5185cbb0af5366e711bc476548e3f79">Draw_Text_ContrastColor</a> (Mat *pMA_Target, QString text, int x=0, int y=0, int thickness=1, double scale=1.0)</td></tr>
+<tr class="separator:ad5185cbb0af5366e711bc476548e3f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93b1cb1d1964b35a598dfe01af3db64b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a93b1cb1d1964b35a598dfe01af3db64b">Draw_Label_Numbers_LUT</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector&lt; double &gt; v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r=0, uchar g=0, uchar b=0)</td></tr>
 <tr class="separator:a93b1cb1d1964b35a598dfe01af3db64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e48e58dba425096cfc2be632d61ed20"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1e48e58dba425096cfc2be632d61ed20">Draw_Label_Numbers_LUT_Gray</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector&lt; double &gt; v_LUT, int geometric, double scale, int thickness, bool center, int precision)</td></tr>
@@ -573,18 +575,22 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:acfaa9d7fd3bf5138a932cff492a33997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051f7c69ad6ccc3c00a7fa194663006c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a051f7c69ad6ccc3c00a7fa194663006c">Draw_Label_Numbers_Center</a> (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness)</td></tr>
 <tr class="separator:a051f7c69ad6ccc3c00a7fa194663006c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44b54da102aaf64fe743625ba132884b"><td class="memItemLeft" align="right" valign="top">static Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a44b54da102aaf64fe743625ba132884b">Contrast_Color</a> (Vec3d val_RGB)</td></tr>
+<tr class="separator:a44b54da102aaf64fe743625ba132884b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab518aa5728b97fd9602f4871554feef0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ab518aa5728b97fd9602f4871554feef0">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
 <tr class="separator:ab518aa5728b97fd9602f4871554feef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a025590f8a2b49c63c4843984fcd039ab"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a025590f8a2b49c63c4843984fcd039ab">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
 <tr class="separator:a025590f8a2b49c63c4843984fcd039ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeee67909e5bafb5a97623b67347997ed"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aeee67909e5bafb5a97623b67347997ed">ExtremeValuesColor</a> (Mat *pMA_Out, Mat *pMA_In, double rel_low=0.1, double rel_high=0.9, double gamma=1.0, bool color_low=false, bool color_high=true, bool zero_as_lowest=true)</td></tr>
 <tr class="separator:aeee67909e5bafb5a97623b67347997ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac9846dd6d1b28240043e02a59f50d72"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aac9846dd6d1b28240043e02a59f50d72">Legend_HSV</a> (Mat *pMA_Out, int width, int height, QStringList QSL_H, QStringList QSL_S, QStringList QSL_V, QString QS_H, QString QS_S, QString QS_V, double H_angle_min, double H_angle_range, double scale=1, double thickness=1)</td></tr>
+<tr class="separator:aac9846dd6d1b28240043e02a59f50d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8011ee36a56304e711a0b83da06b17e8"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8011ee36a56304e711a0b83da06b17e8">ClassBorder_kNN</a> (Mat *pMA_Out, Mat *pMA_Class0, Mat *pMA_Class1, int n)</td></tr>
 <tr class="separator:a8011ee36a56304e711a0b83da06b17e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed0c01b572b5af1f88929cc144667b44"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aed0c01b572b5af1f88929cc144667b44">ObjectsMovement</a> (vector&lt; double &gt; *pvShift_PxPerFrame, vector&lt; double &gt; *pvDirection_Rad, vector&lt; Point2f &gt; *pvPositions, vector&lt; Mat &gt; *pvMA_In, vector&lt; vector&lt; Point2f &gt;&gt; *pvvCentroids, double max_Shift_PxPerFrame=INFINITY, size_t index_NewImg=0, int connectivity=8)</td></tr>
 <tr class="separator:aed0c01b572b5af1f88929cc144667b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad456949e7fe4285d4215d3bbcded33e2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad456949e7fe4285d4215d3bbcded33e2">ObjectsMovement_Heatmap</a> (Mat *pMA_Out, Mat *pMA_InValue, vector&lt; vector&lt; Point2f &gt;&gt; vv_FrmObjPositions, vector&lt; vector&lt; double &gt;&gt; vv_FrmObjShifts, vector&lt; vector&lt; double &gt;&gt; vv_FrmObjAngles, int blur_size_x, int blur_size_y, int mode, double min_rel=0.1, double max_rel=0.9)</td></tr>
-<tr class="separator:ad456949e7fe4285d4215d3bbcded33e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a725537c2e7b0797b7ba9515e12b86663"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a725537c2e7b0797b7ba9515e12b86663">ObjectsMovement_Heatmap</a> (Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector&lt; vector&lt; Point2f &gt;&gt; vv_FrmObjPositions, vector&lt; vector&lt; double &gt;&gt; vv_FrmObjShifts, vector&lt; vector&lt; double &gt;&gt; vv_FrmObjAngles, double shift_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples=5, double min_rel=0.1, double max_rel=0.9)</td></tr>
+<tr class="separator:a725537c2e7b0797b7ba9515e12b86663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b1a6909b775a8cc81243ac2ef68bc2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad7b1a6909b775a8cc81243ac2ef68bc2">DistancesStat</a> (Mat *pMA_Out, Mat *pMA_In, function&lt; double(vector&lt; double &gt;)&gt; F_Stat)</td></tr>
 <tr class="separator:ad7b1a6909b775a8cc81243ac2ef68bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a355d3f057f1f4f9cf96b0a6255deda8f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a355d3f057f1f4f9cf96b0a6255deda8f">RadiometricStereo</a> (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode)</td></tr>
@@ -1091,6 +1097,32 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44b54da102aaf64fe743625ba132884b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44b54da102aaf64fe743625ba132884b">&#9670;&nbsp;</a></span>Contrast_Color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Scalar D_Img_Proc::Contrast_Color </td>
+          <td>(</td>
+          <td class="paramtype">Vec3d&#160;</td>
+          <td class="paramname"><em>val_RGB</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -3156,6 +3188,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">QColor&#160;</td>
           <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad5185cbb0af5366e711bc476548e3f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5185cbb0af5366e711bc476548e3f79">&#9670;&nbsp;</a></span>Draw_Text_ContrastColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_Text_ContrastColor </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>thickness</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>1.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -6228,6 +6320,108 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>out_depth</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac9846dd6d1b28240043e02a59f50d72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac9846dd6d1b28240043e02a59f50d72">&#9670;&nbsp;</a></span>Legend_HSV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Legend_HSV </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_H</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_S</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_V</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>QS_H</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>QS_S</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>QS_V</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>H_angle_min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>H_angle_range</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -10438,8 +10632,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad456949e7fe4285d4215d3bbcded33e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad456949e7fe4285d4215d3bbcded33e2">&#9670;&nbsp;</a></span>ObjectsMovement_Heatmap()</h2>
+<a id="a725537c2e7b0797b7ba9515e12b86663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a725537c2e7b0797b7ba9515e12b86663">&#9670;&nbsp;</a></span>ObjectsMovement_Heatmap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10451,7 +10645,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">int D_Img_Proc::ObjectsMovement_Heatmap </td>
           <td>(</td>
           <td class="paramtype">Mat *&#160;</td>
-          <td class="paramname"><em>pMA_Out</em>, </td>
+          <td class="paramname"><em>pMA_OutHeatmap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_OutLegend</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -10480,6 +10680,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>shift_scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>blur_size_x</em>, </td>
         </tr>
@@ -10494,6 +10700,36 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>legend_width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>legend_height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>legend_scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>legend_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>legend_examples</em> = <code>5</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -13881,8 +14117,8 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>ImageD/Code/<a class="el" href="d__img__proc_8h_source.html">d_img_proc.h</a></li>
-<li>ImageD/Code/<a class="el" href="d__img__proc_8cpp.html">d_img_proc.cpp</a></li>
+<li>Code/<a class="el" href="d__img__proc_8h_source.html">d_img_proc.h</a></li>
+<li>Code/<a class="el" href="d__img__proc_8cpp.html">d_img_proc.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

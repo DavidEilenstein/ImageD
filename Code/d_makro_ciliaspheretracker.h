@@ -222,6 +222,7 @@ private:
     D_VideoSlicer                       VS_InputVideo;
     vector<Mat>                         vMA_ProcSteps;
     Mat                                 MA_Result;
+    Mat                                 MA_Result_HeatmapLegend;
     Mat                                 MA_TimeProject_Sum;
     Mat                                 MA_TimeProject_Show;
     Mat                                 MA_TimeProject_LastBinary;

@@ -13234,6 +13234,26 @@ int D_Img_Proc::Draw_Text(Mat *pMA_Target, QString text, int x, int y, int thick
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Text_ContrastColor(Mat *pMA_Target, QString text, int x, int y, int thickness, double scale)
+{
+    if(pMA_Target->empty())             return ER_empty;
+    if(x < 0 || x > pMA_Target->cols)   return ER_index_out_of_range;
+    if(y < 0 || y > pMA_Target->rows)   return ER_index_out_of_range;
+    if(pMA_Target->type() != CV_64FC3)  return ER_type_bad;
+
+    putText(
+                *pMA_Target,
+                text.toStdString(),
+                Point(x, y),
+                FONT_HERSHEY_TRIPLEX,
+                scale,
+                Contrast_Color(pMA_Target->at<Vec3d>(y, x)),
+                thickness,
+                CV_AA);
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Draw_Label_Numbers_LUT(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r, uchar g, uchar b)
 {
     if(pMA_In->empty() || pMA_Label->empty())                               return ER_empty;
@@ -13531,6 +13551,52 @@ int D_Img_Proc::Draw_Label_Numbers_Center(Mat *pMA_Out, Mat *pMA_Label, double s
     return ER_okay;
 }
 
+Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
+{
+    //original RGB
+    double R = val_RGB[2];
+    double G = val_RGB[1];
+    double B = val_RGB[0];
+
+    //HSV transform
+    double H, S, V;
+    double max = std::max(R, std::max(G, B));
+    double min = std::min(R, std::min(G, B));
+    double range = max - min;
+    if(range == 0)      H = 0;
+    else if(max == R)   H = (PI / 3.0) * (0 + ((G - B)/range));
+    else if(max == G)   H = (PI / 3.0) * (2 + ((B - R)/range));
+    else /*(max == B)*/ H = (PI / 3.0) * (4 + ((R - G)/range));
+    if(max == 0)        S = 0;
+    else                S = range / max;
+                        V = max;
+
+    //"inversion"
+    if(H >= PI)         H -= PI;
+    else                H += PI;
+    if(S >= 0.5)        S = 1;
+    else                S = 0;
+    if(V >= 0.5)        V = 0;
+    else                V = 1;
+
+    //HSV transfrom invers
+    int     hi  = floor(H / (PI / 3.0));
+    double  f   = (H / (PI / 3.0)) - hi;
+    double  p   = V * (1 - S);
+    double  q   = V * (1 - (S * f));
+    double  t   = V * (1 - (S * (1 - f)));
+    switch (hi) {
+    case 1:     R = q;      G = V;      B = p;      break;
+    case 2:     R = p;      G = V;      B = t;      break;
+    case 3:     R = p;      G = q;      B = V;      break;
+    case 4:     R = t;      G = p;      B = V;      break;
+    case 5:     R = V;      G = p;      B = q;      break;
+    default:    R = V;      G = t;      B = p;      break;}
+
+    //contrast RGB
+    return Scalar(B, G, R);
+}
+
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay, double intensity_backgr)
 {
     return OverlayOverwrite(
@@ -13820,6 +13886,199 @@ int D_Img_Proc::ExtremeValuesColor(Mat *pMA_Out, Mat *pMA_In, double rel_low, do
     return ER_okay;
 }
 
+int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_H, QStringList QSL_S, QStringList QSL_V, QString QS_H, QString QS_S, QString QS_V, double H_angle_min, double H_angle_range, double scale, double thickness)
+{
+    qDebug() << "Legend_HSV" << "Errors";
+    if(QSL_H.empty())                           return ER_empty;
+    if(QSL_S.empty())                           return ER_empty;
+    if(QSL_V.empty())                           return ER_empty;
+    if(QSL_H.size() < 2)                        return ER_size_bad;
+    if(QSL_S.size() < 2)                        return ER_size_bad;
+    if(QSL_V.size() < 2)                        return ER_size_bad;
+    if(QSL_H.size() != QSL_S.size())            return ER_size_missmatch;
+    if(QSL_H.size() != QSL_V.size())            return ER_size_missmatch;
+    if(width <= 30 || height <= 30)             return ER_size_bad;
+
+    //alloc out
+    qDebug() << "Legend_HSV" << "Alloc";
+    *pMA_Out = Mat::zeros(height, width, CV_64FC3);
+
+    //Segments
+    //horizontal
+    qDebug() << "Legend_HSV" << "Segments horizontal";
+    size_t n_horizontal = QSL_H.size() + 1;
+    vector<size_t> vOffsets_horizontal(n_horizontal+1);
+    for(size_t i = 0; i < vOffsets_horizontal.size(); i++)
+        vOffsets_horizontal[i] = i * (static_cast<double>(width)/n_horizontal);
+    qDebug() << "Legend_HSV" << "Segments horizontal" << vOffsets_horizontal;
+
+    size_t width_colored = (width/n_horizontal) * (n_horizontal - 2);
+
+    //vertical
+    qDebug() << "Legend_HSV" << "Segments vertical";
+    size_t n_vertical = 3;
+    vector<size_t> vOffsets_vertical(n_vertical+1);
+    for(size_t i = 0; i < vOffsets_vertical.size(); i++)
+        vOffsets_vertical[i] = i * (static_cast<double>(height)/n_vertical);
+    qDebug() << "Legend_HSV" << "Segments vertical" << vOffsets_vertical;
+
+    size_t height_segment_vertical = height/n_vertical;
+
+    //init img with color
+
+    //hue
+    qDebug() << "Legend_HSV" << "Color init hue";
+    for(size_t x = 0; x < width_colored; x++)
+    {
+        double H    = ((H_angle_range - (static_cast<double>(x) / width_colored) * H_angle_range)) + H_angle_min;
+        double S    = 1;
+        double V    = 1;
+
+        int     hi      = floor(H / (PI / 3.0));
+        double  f       = (H / (PI / 3.0)) - hi;
+        double  p       = V * (1 - S);
+        double  q       = V * (1 - (S * f));
+        double  t       = V * (1 - (S * (1 - f)));
+
+        //invers HSV Transfrom
+        double R, G, B;
+        switch (hi) {
+        case 1:     R = q;      G = V;      B = p;      break;
+        case 2:     R = p;      G = V;      B = t;      break;
+        case 3:     R = p;      G = q;      B = V;      break;
+        case 4:     R = t;      G = p;      B = V;      break;
+        case 5:     R = V;      G = p;      B = q;      break;
+        default:    R = V;      G = t;      B = p;      break;}
+        Vec3d col(B, G, R);
+
+        for(size_t y = 0; y < height_segment_vertical; y++)
+            pMA_Out->at<Vec3d>(y + vOffsets_vertical[0], x + vOffsets_horizontal[1]) = col;
+    }
+
+    //saturation
+    qDebug() << "Legend_HSV" << "Color init saturation";
+    for(size_t x = 0; x < width_colored; x++)
+    {
+        qDebug() << "Legend_HSV" << "Color init saturation x=" << x;
+        double H    = 0;
+        double S    = (static_cast<double>(x) / width_colored);
+        double V    = 1;
+
+        int     hi      = floor(H / (PI / 3.0));
+        double  f       = (H / (PI / 3.0)) - hi;
+        double  p       = V * (1 - S);
+        double  q       = V * (1 - (S * f));
+        double  t       = V * (1 - (S * (1 - f)));
+
+        //invers HSV Transfrom
+        double R, G, B;
+        switch (hi) {
+        case 1:     R = q;      G = V;      B = p;      break;
+        case 2:     R = p;      G = V;      B = t;      break;
+        case 3:     R = p;      G = q;      B = V;      break;
+        case 4:     R = t;      G = p;      B = V;      break;
+        case 5:     R = V;      G = p;      B = q;      break;
+        default:    R = V;      G = t;      B = p;      break;}
+        Vec3d col(B, G, R);
+        qDebug() << "Legend_HSV" << "Color init saturation R/G/B" << R << G << B;
+
+        for(size_t y = 0; y < height_segment_vertical; y++)
+            pMA_Out->at<Vec3d>(y + vOffsets_vertical[1], x + vOffsets_horizontal[1]) = col;
+    }
+
+    //value
+    qDebug() << "Legend_HSV" << "Color init value";
+    for(size_t x = 0; x < width_colored; x++)
+    {
+        double H    = 0;
+        double S    = 0;
+        double V    = (static_cast<double>(x) / width_colored);
+
+        int     hi      = floor(H / (PI / 3.0));
+        double  f       = (H / (PI / 3.0)) - hi;
+        double  p       = V * (1 - S);
+        double  q       = V * (1 - (S * f));
+        double  t       = V * (1 - (S * (1 - f)));
+
+        //invers HSV Transfrom
+        double R, G, B;
+        switch (hi) {
+        case 1:     R = q;      G = V;      B = p;      break;
+        case 2:     R = p;      G = V;      B = t;      break;
+        case 3:     R = p;      G = q;      B = V;      break;
+        case 4:     R = t;      G = p;      B = V;      break;
+        case 5:     R = V;      G = p;      B = q;      break;
+        default:    R = V;      G = t;      B = p;      break;}
+        Vec3d col(B, G, R);
+
+        for(size_t y = 0; y < height_segment_vertical; y++)
+            pMA_Out->at<Vec3d>(y + vOffsets_vertical[2], x + vOffsets_horizontal[1]) = col;
+    }
+
+    //text offsets
+    size_t text_offset_v = -5;//px
+    size_t text_offset_h = +1;//px
+
+    //put text on it
+    qDebug() << "Legend_HSV" << "Put text";
+    Draw_Text_ContrastColor(
+            pMA_Out,
+            QS_H,
+            vOffsets_horizontal[0] + text_offset_h,
+            vOffsets_vertical[1] + text_offset_v,
+            thickness,
+            scale);
+    Draw_Text_ContrastColor(
+            pMA_Out,
+            QS_S,
+            vOffsets_horizontal[0] + text_offset_h,
+            vOffsets_vertical[2] + text_offset_v,
+            thickness,
+            scale);
+    Draw_Text_ContrastColor(
+            pMA_Out,
+            QS_V,
+            vOffsets_horizontal[0] + text_offset_h,
+            vOffsets_vertical[3] + text_offset_v,
+            thickness,
+            scale);
+
+    //put values on it
+    qDebug() << "Legend_HSV" << "Put values hue";
+    //hue
+    for(int i = 0; i < QSL_H.size(); i++)
+        Draw_Text_ContrastColor(
+                pMA_Out,
+                QSL_H[i],
+                vOffsets_horizontal[i+1] + text_offset_h,
+                vOffsets_vertical[1] + text_offset_v,
+                thickness,
+                scale);
+    //saturation
+    qDebug() << "Legend_HSV" << "Put values saturation";
+    for(int i = 0; i < QSL_S.size(); i++)
+        Draw_Text_ContrastColor(
+                pMA_Out,
+                QSL_S[i],
+                vOffsets_horizontal[i+1] + text_offset_h,
+                vOffsets_vertical[2] + text_offset_v,
+                thickness,
+                scale);
+    //value
+    qDebug() << "Legend_HSV" << "Put values value";
+    for(int i = 0; i < QSL_V.size(); i++)
+        Draw_Text_ContrastColor(
+                pMA_Out,
+                QSL_V[i],
+                vOffsets_horizontal[i+1] + text_offset_h,
+                vOffsets_vertical[3] + text_offset_v,
+                thickness,
+                scale);
+
+    qDebug() << "Legend_HSV" << "end";
+    return ER_okay;
+}
+
 int D_Img_Proc::ClassBorder_kNN(Mat *pMA_Out, Mat *pMA_Class0, Mat *pMA_Class1, int n)
 {
     if(pMA_Class0->empty())                                                                                 return ER_empty;
@@ -14094,7 +14353,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
     return ER_okay;
 }
 
-int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, int blur_size_x, int blur_size_y, int mode, double min_rel, double max_rel)
+int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel)
 {
     //errors
     if(pMA_InValue->empty())            return ER_empty;
@@ -14246,7 +14505,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<v
         return ER;
     }
 
-    //get extrema and range of shifts
+    //get quantiles and range of shifts
     qDebug() << "get extrema";
     double shift_min, shift_max;
     ER = Quantiles_ofPixelvalues(
@@ -14271,7 +14530,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<v
     double range_shifts = shift_max - shift_min;
     qDebug() << "Shift range" << range_shifts << shift_min << shift_max;
 
-    //get extrema and range of value
+    //get quantiles and range of value
     double value_max, value_min;
     ER = MinMax_of_Mat(
                 &MA_tmp_Value_Double,
@@ -14294,14 +14553,14 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<v
 
 
     //alloc out
-    *pMA_Out = Mat(pMA_InValue->size(), CV_64FC3);
+    *pMA_OutHeatmap = Mat(pMA_InValue->size(), CV_64FC3);
 
     //invers HSV transform
     double* ptr_value   = reinterpret_cast<double*>(MA_tmp_Value_Double.data);
     ptr_shift           = reinterpret_cast<double*>(MA_tmp_Mean_Shift.data);
     ptr_a_sin           = reinterpret_cast<double*>(MA_tmp_Mean_A_Sin.data);
     ptr_a_cos           = reinterpret_cast<double*>(MA_tmp_Mean_A_Cos.data);
-    Vec3d* ptr_out      = reinterpret_cast<Vec3d*>(pMA_Out->data);
+    Vec3d* ptr_out      = reinterpret_cast<Vec3d*>(pMA_OutHeatmap->data);
     for(size_t px = 0; px < area; px++, ptr_shift++, ptr_a_cos++, ptr_a_sin++, ptr_value++, ptr_out++)
     {
         double shift = *ptr_shift;
@@ -14332,54 +14591,104 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<v
         double  p       = V * (1 - S);
         double  q       = V * (1 - (S * f));
         double  t       = V * (1 - (S * (1 - f)));
-        double  R;
-        double  G;
-        double  B;
 
         //invers HSV Transfrom
+        double R, G, B;
         switch (hi) {
-
-        case 1:
-            R = q;
-            G = V;
-            B = p;
-            break;
-
-        case 2:
-            R = p;
-            G = V;
-            B = t;
-            break;
-
-        case 3:
-            R = p;
-            G = q;
-            B = V;
-            break;
-
-        case 4:
-            R = t;
-            G = p;
-            B = V;
-            break;
-
-        case 5:
-            R = V;
-            G = p;
-            B = q;
-            break;
-
-        default:
-            R = V;
-            G = t;
-            B = p;
-            break;
-        }
+        case 1:     R = q;      G = V;      B = p;      break;
+        case 2:     R = p;      G = V;      B = t;      break;
+        case 3:     R = p;      G = q;      B = V;      break;
+        case 4:     R = t;      G = p;      B = V;      break;
+        case 5:     R = V;      G = p;      B = q;      break;
+        default:    R = V;      G = t;      B = p;      break;}
 
         //if(V != 0) qDebug() << "HSV" << H << S << V << "RGB" << R << G << B;
 
         *ptr_out = Vec3d(B, G, R);
     }
+
+    //Legend
+    QStringList QSL_H;
+    QStringList QSL_S;
+    QStringList QSL_V;
+    QString QS_H;
+    QString QS_S;
+    QString QS_V;
+    double H_angle_min = 0;
+    double H_angle_range = PI_2_0;
+    switch (mode) {
+
+    case 0://speed only
+    {
+        QS_H = "Speed um/s";
+        QS_S = "-";
+        QS_V = "Count";
+        H_angle_range = 1.5 * PI;
+        for(size_t i = 0; i < legend_examples; i++)
+        {
+            QSL_H.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            QSL_S.append("");
+            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+        }
+    }
+        break;
+
+    case 1://angle only
+    {
+        QS_H = "Angle °";
+        QS_S = "-";
+        QS_V = "Count";
+        for(size_t i = 0; i < legend_examples; i++)
+        {
+            QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
+            QSL_S.append("");
+            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+        }
+    }
+        break;
+
+    case 2://both
+    {
+        QS_H = "Angle °";
+        QS_S = "Speed um/s";
+        QS_V = "Count";
+        for(size_t i = 0; i < legend_examples; i++)
+        {
+            QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
+            QSL_S.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            QSL_V.append(QString::number(i * (range_value / (legend_examples-1)) + value_min, 'g', 3));
+        }
+    }
+        break;
+
+    default:
+    {
+        MA_tmp_Acc_Count.release();
+        MA_tmp_Acc_Shift.release();
+        MA_tmp_Acc_A_Sin.release();
+        MA_tmp_Acc_A_Cos.release();
+        MA_tmp_Mean_Shift.release();
+        MA_tmp_Mean_A_Cos.release();
+        MA_tmp_Mean_A_Sin.release();
+        MA_tmp_Value_Double.release();
+        return ER_parameter_bad;
+    }
+        break;
+    }
+
+    ER = Legend_HSV(
+                pMA_OutLegend,
+                legend_width,
+                legend_height,
+                QSL_H,
+                QSL_S,
+                QSL_V,
+                QS_H,
+                QS_S,
+                QS_V,
+                H_angle_min,
+                H_angle_range);
+
 
     MA_tmp_Acc_Count.release();
     MA_tmp_Acc_Shift.release();
@@ -14389,7 +14698,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_Out, Mat *pMA_InValue, vector<v
     MA_tmp_Mean_A_Cos.release();
     MA_tmp_Mean_A_Sin.release();
     MA_tmp_Value_Double.release();
-    return ER_okay;
+    return ER;
 }
 
 

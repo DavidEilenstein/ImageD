@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ImageD: ImageD/Code/d_pdf_writer.h Source File</title>
+<title>ImageD: Code/d_pdf_writer.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_1 (13.10.2020)</span>
+   &#160;<span id="projectnumber">v1_0_2 (20.10.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -155,9 +155,9 @@ $(document).ready(function(){initNavTree('d__pdf__writer_8h_source.html',''); in
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">int</span> add_DateTimeCurrent         (                 <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> add_DateTime                (QString QS_text, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignRight);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   QString QS_text = <span class="stringliteral">&quot;&quot;</span>, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,   <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">int</span> add_Image(Mat *pMA_img);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,  QString QS_text = <span class="stringliteral">&quot;&quot;</span>, <span class="keywordtype">int</span> size = -1, <span class="keywordtype">int</span> align = Qt::AlignLeft);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> add_Image(QImage *pQI_img,  <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">int</span> add_Image(Mat *pMA_img,     <span class="keywordtype">double</span> x1_rel,  <span class="keywordtype">double</span> x2_rel,  <span class="keywordtype">double</span> y1_rel, <span class="keywordtype">double</span> y2_rel);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">int</span> add_NewLine(<span class="keywordtype">int</span> count = 1);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">int</span> add_NewPage();</div>
@@ -200,26 +200,27 @@ $(document).ready(function(){initNavTree('d__pdf__writer_8h_source.html',''); in
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a0a424a35b8182f7b0c5d9eb645bf1139"><div class="ttname"><a href="class_d___p_d_f___writer.html#a0a424a35b8182f7b0c5d9eb645bf1139">D_PDF_Writer::add_DateTimeCurrent</a></div><div class="ttdeci">int add_DateTimeCurrent(int size=-1, int align=Qt::AlignRight)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:126</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a2236d5e5ecf711349875186cddcfa253"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a2236d5e5ecf711349875186cddcfa253">ER_size_missmatch</a></div><div class="ttdeci">@ ER_size_missmatch</div><div class="ttdef"><b>Definition:</b> d_enum.h:83</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_ade535bf0b66810bcf84d1646cf317057"><div class="ttname"><a href="class_d___p_d_f___writer.html#ade535bf0b66810bcf84d1646cf317057">D_PDF_Writer::add_Text</a></div><div class="ttdeci">int add_Text(QString QS_text, int size=-1, int align=Qt::AlignLeft)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:44</div></div>
-<div class="ttc" id="aclass_d___p_d_f___writer_html_aa5c89c34d642a8eaf6f87ec8385fd502"><div class="ttname"><a href="class_d___p_d_f___writer.html#aa5c89c34d642a8eaf6f87ec8385fd502">D_PDF_Writer::save_PDF</a></div><div class="ttdeci">int save_PDF()</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:271</div></div>
+<div class="ttc" id="aclass_d___p_d_f___writer_html_aa5c89c34d642a8eaf6f87ec8385fd502"><div class="ttname"><a href="class_d___p_d_f___writer.html#aa5c89c34d642a8eaf6f87ec8385fd502">D_PDF_Writer::save_PDF</a></div><div class="ttdeci">int save_PDF()</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:280</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_acd7de5ddbecacdb55061e2901542729c"><div class="ttname"><a href="class_d___p_d_f___writer.html#acd7de5ddbecacdb55061e2901542729c">D_PDF_Writer::add_DateTime</a></div><div class="ttdeci">int add_DateTime(QString QS_text, int size=-1, int align=Qt::AlignRight)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:131</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a3018633873ebd4611592c6410a916fbb"><div class="ttname"><a href="class_d___p_d_f___writer.html#a3018633873ebd4611592c6410a916fbb">D_PDF_Writer::add_Headline</a></div><div class="ttdeci">int add_Headline(QString QS_text, int size=-1, int align=Qt::AlignCenter)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:81</div></div>
 <div class="ttc" id="ad__img__proc_8h_html"><div class="ttname"><a href="d__img__proc_8h.html">d_img_proc.h</a></div></div>
-<div class="ttc" id="aclass_d___p_d_f___writer_html_a583fc6f08140cc71a375a18fe1f5c93b"><div class="ttname"><a href="class_d___p_d_f___writer.html#a583fc6f08140cc71a375a18fe1f5c93b">D_PDF_Writer::add_NewLine</a></div><div class="ttdeci">int add_NewLine(int count=1)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:256</div></div>
+<div class="ttc" id="aclass_d___p_d_f___writer_html_a583fc6f08140cc71a375a18fe1f5c93b"><div class="ttname"><a href="class_d___p_d_f___writer.html#a583fc6f08140cc71a375a18fe1f5c93b">D_PDF_Writer::add_NewLine</a></div><div class="ttdeci">int add_NewLine(int count=1)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:265</div></div>
 <div class="ttc" id="ad__pdf__writer_8h_html"><div class="ttname"><a href="d__pdf__writer_8h.html">d_pdf_writer.h</a></div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a508cdf5ebb182f3c65053ba5066bde76"><div class="ttname"><a href="class_d___p_d_f___writer.html#a508cdf5ebb182f3c65053ba5066bde76">D_PDF_Writer::D_PDF_Writer</a></div><div class="ttdeci">D_PDF_Writer(QString QS_Dest)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:11</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242">ER_other</a></div><div class="ttdeci">@ ER_other</div><div class="ttdef"><b>Definition:</b> d_enum.h:76</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_ade384a94caf4fcebb2f8e5654824a030"><div class="ttname"><a href="class_d___img___proc.html#ade384a94caf4fcebb2f8e5654824a030">D_Img_Proc::Convert_Mat_to_QImage</a></div><div class="ttdeci">static int Convert_Mat_to_QImage(QImage *pQI_Out, Mat *pMA_In)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:814</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a84892d28ca3564c64759903970e4801a"><div class="ttname"><a href="class_d___p_d_f___writer.html#a84892d28ca3564c64759903970e4801a">D_PDF_Writer::add_Image</a></div><div class="ttdeci">int add_Image(QImage *pQI_img, QString QS_text=&quot;&quot;, int size=-1, int align=Qt::AlignLeft)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:145</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html"><div class="ttname"><a href="class_d___p_d_f___writer.html">D_PDF_Writer</a></div><div class="ttdoc">The D_PDF_Writer class Create PDFs by calling simple to use methods.</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.h:54</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
-<div class="ttc" id="aclass_d___p_d_f___writer_html_ad5a42269ff3fdc0e8d33de73dabb8852"><div class="ttname"><a href="class_d___p_d_f___writer.html#ad5a42269ff3fdc0e8d33de73dabb8852">D_PDF_Writer::add_NewPage</a></div><div class="ttdeci">int add_NewPage()</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:265</div></div>
+<div class="ttc" id="aclass_d___p_d_f___writer_html_ad5a42269ff3fdc0e8d33de73dabb8852"><div class="ttname"><a href="class_d___p_d_f___writer.html#ad5a42269ff3fdc0e8d33de73dabb8852">D_PDF_Writer::add_NewPage</a></div><div class="ttdeci">int add_NewPage()</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:274</div></div>
 <div class="ttc" id="aclass_d___p_d_f___writer_html_a512a229b0ac7dddb4fc36ece82d22668"><div class="ttname"><a href="class_d___p_d_f___writer.html#a512a229b0ac7dddb4fc36ece82d22668">D_PDF_Writer::add_Header</a></div><div class="ttdeci">int add_Header(QString QS_text, int size=-1, int align=Qt::AlignLeft)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:95</div></div>
-<div class="ttc" id="aclass_d___p_d_f___writer_html_a3a8061da7b40ffd9d7651cc15f1ec83a"><div class="ttname"><a href="class_d___p_d_f___writer.html#a3a8061da7b40ffd9d7651cc15f1ec83a">D_PDF_Writer::set_Margins</a></div><div class="ttdeci">void set_Margins(int t, int l, int b, int r)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:277</div></div>
+<div class="ttc" id="aclass_d___p_d_f___writer_html_a3a8061da7b40ffd9d7651cc15f1ec83a"><div class="ttname"><a href="class_d___p_d_f___writer.html#a3a8061da7b40ffd9d7651cc15f1ec83a">D_PDF_Writer::set_Margins</a></div><div class="ttdeci">void set_Margins(int t, int l, int b, int r)</div><div class="ttdef"><b>Definition:</b> d_pdf_writer.cpp:286</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a744f04314a53f4761555c89b2937f178"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a744f04314a53f4761555c89b2937f178">ER_empty</a></div><div class="ttdeci">@ ER_empty</div><div class="ttdef"><b>Definition:</b> d_enum.h:77</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_a17eb9754363fa3dae2a2913741bfe14.html">ImageD</a></li><li class="navelem"><a class="el" href="dir_beea103afa4aa469f5adf7213042067f.html">Code</a></li><li class="navelem"><a class="el" href="d__pdf__writer_8h.html">d_pdf_writer.h</a></li>
+    <li class="navelem"><a class="el" href="dir_23fdee2f6995db16c755697cdf620cf4.html">Code</a></li><li class="navelem"><a class="el" href="d__pdf__writer_8h.html">d_pdf_writer.h</a></li>
     <li class="footer">Generated by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>

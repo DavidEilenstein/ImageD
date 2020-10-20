@@ -69,9 +69,9 @@ public slots:
     int add_DateTimeCurrent         (                 int size = -1, int align = Qt::AlignRight);
     int add_DateTime                (QString QS_text, int size = -1, int align = Qt::AlignRight);
 
-    int add_Image(QImage *pQI_img,   QString QS_text = "", int size = -1, int align = Qt::AlignLeft);
-    int add_Image(QImage *pQI_img,   double x1_rel,  double x2_rel,  double y1_rel, double y2_rel);
-    int add_Image(Mat *pMA_img);
+    int add_Image(QImage *pQI_img,  QString QS_text = "", int size = -1, int align = Qt::AlignLeft);
+    int add_Image(QImage *pQI_img,  double x1_rel,  double x2_rel,  double y1_rel, double y2_rel);
+    int add_Image(Mat *pMA_img,     double x1_rel,  double x2_rel,  double y1_rel, double y2_rel);
 
     int add_NewLine(int count = 1);
     int add_NewPage();

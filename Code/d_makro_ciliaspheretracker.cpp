@@ -401,6 +401,7 @@ void D_MAKRO_CiliaSphereTracker::Update_VideoProc_All()
 
             //result containers for this frame
             vector<Point2f> vPositions;
+            vector<double> vShifts_PxPerFrm;
             vector<double> vShifts;
             vector<double> vAngles;
 
@@ -797,18 +798,21 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
         return;
     }
 
-    //create heatmap
+    //Heatmap
     ER = D_Img_Proc::ObjectsMovement_Heatmap(
                 &MA_Result,
+                &MA_Result_HeatmapLegend,
                 &MA_tmp_Value_Gray,
                 vv_FrmObjPositions,
                 vv_FrmObjShifts,
                 vv_FrmObjAngles,
-                5,
-                5,
-                ui->comboBox_Res_Heat_Mode->currentIndex(),
-                0.1,
-                0.9);
+                conv_px2um * VS_InputVideo.get_FrameRateFps(),  // px/frm -> um/sec (as a factor to be applied to px/frm value)
+                5, 5,                                           //blur
+                ui->comboBox_Res_Heat_Mode->currentIndex(),     //what to show
+                1500, 99,                                       //legend size
+                1.0, 1,                                         //font size
+                5,                                              //examples on legend count
+                0.1, 0.9);                                      //quantile range dor values to be shown
     if(ER != ER_okay)
     {
         ERR(
@@ -1814,7 +1818,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     PDF_Summary.add_Image(
                 View_Results.QI(),
-                0.51, 0.95, 0.25, 0.55);
+                0.51, 0.95, 0.25, 0.50);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.51, 0.95, 0.51, 0.54);
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
                 View_Results.QI(),
@@ -1961,7 +1968,12 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //same img to summary
     PDF_Summary.add_Image(
                 View_Results.QI(),
-                0.05, 0.49, 0.25, 0.55);
+                0.05, 0.49, 0.25, 0.50);
+    /*PDF_Summary.add_Text(
+                "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s",
+                0.05, 0.49, 0.51, 0.58,
+                10,
+                Qt::AlignCenter);*/
 
     //save motion vector field video
     Save_ResultVectorFieldVideo(

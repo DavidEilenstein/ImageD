@@ -328,6 +328,7 @@ public:
     static int      Floodfill                   (Mat *pMA_Out, Mat *pMA_In, unsigned int seed_x, unsigned int seed_y, double new_val);
     static int      Floodfill                   (Mat *pMA_Target, unsigned int seed_x, unsigned int seed_y, double new_val);
     static int      Floodfill_Boundary          (Mat *pMA_Out, Mat *pMA_In, double new_val);
+
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r = 1, uchar val = 255);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double value = 255);
     static int      Draw_Line_Angle             (Mat *pMA_Target, double length, double center_x, double center_y, double angle, unsigned int thickness = 1, double value = 255);
@@ -342,6 +343,7 @@ public:
     static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);
     static int      Draw_Text                   (QImage *pQI_Target, QString text_tl, QString text_tr, QString text_bl, QString text_br, unsigned int size, QColor color);
     static int      Draw_Text                   (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0, double value = 255);
+    static int      Draw_Text_ContrastColor     (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0);
     static int      Draw_Label_Numbers_LUT      (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
     static int      Draw_Label_Numbers_LUT_Gray (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, int geometric, double scale, int thickness, bool center, int precision);
     static int      Draw_Label_Numbers          (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, double scale, double thickness, bool center);
@@ -349,14 +351,17 @@ public:
     static int      Draw_Label_Numbers_Corner   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
     static int      Draw_Label_Numbers_Center   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);
+    static Scalar   Contrast_Color              (Vec3d val_RGB);
+
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      ExtremeValuesColor          (Mat *pMA_Out, Mat *pMA_In, double rel_low = 0.1, double rel_high = 0.9, double gamma = 1.0, bool color_low = false, bool color_high = true, bool zero_as_lowest = true);
+    static int      Legend_HSV                  (Mat *pMA_Out, int width, int height, QStringList QSL_H, QStringList QSL_S, QStringList QSL_V, QString QS_H, QString QS_S, QString QS_V, double H_angle_min, double H_angle_range, double scale = 1, double thickness = 1);
 
     static int      ClassBorder_kNN             (Mat *pMA_Out, Mat *pMA_Class0, Mat *pMA_Class1, int n);
 
     static int      ObjectsMovement             (vector<double> *pvShift_PxPerFrame, vector<double> *pvDirection_Rad, vector<Point2f> *pvPositions, vector<Mat> *pvMA_In, vector<vector<Point2f>> *pvvCentroids, double max_Shift_PxPerFrame = INFINITY, size_t index_NewImg = 0, int connectivity = 8);
-    static int      ObjectsMovement_Heatmap     (Mat *pMA_Out, Mat *pMA_InValue, vector<vector<Point2f>> vv_FrmObjPositions, vector<vector<double>> vv_FrmObjShifts, vector<vector<double>> vv_FrmObjAngles, int blur_size_x, int blur_size_y, int mode, double min_rel = 0.1, double max_rel = 0.9);
+    static int      ObjectsMovement_Heatmap     (Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f>> vv_FrmObjPositions, vector<vector<double>> vv_FrmObjShifts, vector<vector<double>> vv_FrmObjAngles, double shift_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples = 5, double min_rel = 0.1, double max_rel = 0.9);
 
     static int      DistancesStat               (Mat *pMA_Out, Mat *pMA_In, function<double (vector<double>)> F_Stat);
     static int      RadiometricStereo           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode);
