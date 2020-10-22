@@ -13571,13 +13571,14 @@ Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
     else                S = range / max;
                         V = max;
 
-    //"contrast color"
+    //"contrast color" (not a nice version, but it works for the moment)
     qDebug() << "HSV in" << H << S << V;
+    if(V >= 0.5)        V = 0;
+    else                V = 1;
+    if(((7.0 / 12) * PI_2_0) < H && H < ((9.0 / 12) * PI_2_0))  V = 1;  //white on blue is always better than black on blue
     if(H >= PI)         H -= PI;
     else                H += PI;
     /*always*/          S = 0;
-    if(V >= 0.5)        V = 0;
-    else                V = 1;
     qDebug() << "HSV out" << H << S << V;
 
     //HSV transfrom invers
@@ -13931,7 +13932,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
     qDebug() << "Legend_HSV" << "Color init hue";
     for(size_t x = 0; x < width_colored; x++)
     {
-        double H    = ((H_angle_range - (static_cast<double>(x) / width_colored) * H_angle_range)) + H_angle_min;
+        double H    = ((static_cast<double>(x) / width_colored) * H_angle_range) + H_angle_min;
         double S    = 1;
         double V    = 1;
 
@@ -14572,17 +14573,19 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         double S;
         if(mode == 0)//speed only
         {
-            H           = range_shifts > 0 ? (1.5 * PI) * (1 - ((shift - shift_min) / range_shifts)) : (1.5 * PI);
+            H           = range_shifts > 0 ? ((2/3.0) * PI_2_0) * (1 - ((shift - shift_min) / range_shifts)) : ((2/3.0) * PI_2_0);
             S           = 1;
         }
         else if(mode == 1)//angle only
         {
-            H           = atan2(*ptr_a_cos, *ptr_a_sin) + PI;
+            H           = atan2(*ptr_a_cos, *ptr_a_sin);
+            if(H < 0)   H += PI_2_0;
             S           = 1;
         }
         else//both
         {
-            H           = atan2(*ptr_a_cos, *ptr_a_sin) + PI;
+            H           = atan2(*ptr_a_cos, *ptr_a_sin);
+            if(H < 0)   H += PI_2_0;
             S           = range_shifts > 0 ? (shift - shift_min) / range_shifts : 0;
         }
 
@@ -14623,41 +14626,45 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     {
         QS_H = "Speed um/s";
         QS_S = "-";
-        QS_V = "Count";
-        H_angle_range = 1.5 * PI;
+        QS_V = "\"Count\"";
+        H_angle_range = (2/3.0) * PI_2_0;
         for(size_t i = 0; i < legend_examples; i++)
         {
-            QSL_H.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
             QSL_S.append("-");
-            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
+            QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;
 
     case 1://angle only
     {
-        QS_H = "Angle °";
+        QS_H = "Angle deg";
         QS_S = "-";
-        QS_V = "Count";
+        QS_V = "\"Count\"";
         for(size_t i = 0; i < legend_examples; i++)
         {
-            QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
+            double h = i * (360.0 / static_cast<double>(legend_examples-1));
+            if(h > 180.0) h -= 360.0;
+            QSL_H.append(QString::number(h, 'g', 3));
             QSL_S.append("-");
-            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
+            QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;
 
     case 2://both
     {
-        QS_H = "Angle °";
+        QS_H = "Angle deg";
         QS_S = "Speed um/s";
-        QS_V = "Count";
+        QS_V = "\"Count\"";
         for(size_t i = 0; i < legend_examples; i++)
         {
-            QSL_H.append(QString::number(i * (360.0 / (legend_examples-1)), 'g', 3));
-            QSL_S.append(QString::number((i * (range_shifts / (legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
-            QSL_V.append(QString::number((i * (range_value / (legend_examples-1)) * value_scale) + value_min, 'g', 3));
+            double h = i * (360.0 / static_cast<double>(legend_examples-1));
+            if(h > 180.0) h -= 360.0;
+            QSL_H.append(QString::number(h, 'g', 3));
+            QSL_S.append(QString::number((i * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
         break;

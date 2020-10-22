@@ -1741,7 +1741,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
             << "Path,"      << DIR_SaveStackOverview.path().toStdString() << "\n"
             << "DateTime,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
             << "\n"
-            << "Base unit," << "grad"
+            << "Base unit," << "degree"
             << "\n";
 
     //stats as header of columns
@@ -1825,6 +1825,50 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 20,
                 Qt::AlignCenter);
 
+    //Stats--------------------------------------------------------------- (Graphics will be continued)
+
+    //stat list
+    //Speed
+    //long
+    QString QS_Stats_Speed = "Statistics of speed in full video:\n"
+                             "\n"
+                             "Base speed unit is um/s.\n";
+    for(size_t s = 0; s < v_VideoStats_Shifts_um_s.size(); s++)
+        QS_Stats_Speed.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_um_s[s]));
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Text(QS_Stats_Speed);
+    //short
+    PDF_Summary.add_Text(
+                "Speed Stats:\n"
+                "Average " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "um/s\n"
+                "STD " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "um/s\n"
+                "10%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_10], 'g', 4) + "um/s\n"
+                "Median " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEDIAN], 'g', 4) + "um/s\n"
+                "90%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_90], 'g', 4) + "um/s",
+                0.35, 0.65, 0.13, 0.25,
+                10,
+                Qt::AlignCenter);
+    //Angle
+    //long
+    QString QS_Stats_Angle = "Statistics of angle in full video:\n"
+                             "\n"
+                             "Base angle unit is degree.\n";
+    for(size_t s = 0; s < v_VideoStats_Angles_Grad.size(); s++)
+        QS_Stats_Angle.append("\n" + QSL_StatListCirc[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Angles_Grad[s]));
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Text(QS_Stats_Angle);
+    //short
+    PDF_Summary.add_Text(
+                "Angle Stats:\n"
+                "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
+                "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
+                "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°",
+                0.65, 0.95, 0.13, 0.25,
+                10,
+                Qt::AlignCenter);
+
+    //Graphics (again)---------------------------------------------------------------
+
     //Heatmap
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_HEATMAP);
 
@@ -1855,6 +1899,9 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeed - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeed.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
 
     ui->comboBox_Res_Heat_Mode->setCurrentIndex(1);
     Update_Ui();
@@ -1865,7 +1912,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 View_Results.QI(),
                 "Heatmap (Angle)\n"
                 "\n"
-                "Color: Angle (red=0°, yellow=60°, green=120°, cyan=180°, blue=240°, magenta=300°)\n"
+                "Color: Angle (See legend at the bottom of this page)\n"
                 "Saturation: 100% (no information)\n"
                 "Value: Default tracks-graphics"
                 "\n"
@@ -1874,6 +1921,9 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapAngle - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
 
     ui->comboBox_Res_Heat_Mode->setCurrentIndex(2);
     Update_Ui();
@@ -1884,7 +1934,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 View_Results.QI(),
                 "Heatmap (Spped and Angle)\n"
                 "\n"
-                "Color: Angle (red=0°, yellow=60°, green=120°, cyan=180°, blue=240°, magenta=300°)\n"
+                "Color: Angle (see legend at the bottom of this page)\n"
                 "Saturation: Speed (gray <= 10%-Quantil, intense color >= 90%-Quantil\n"
                 "Value: Default tracks-graphics"
                 "\n"
@@ -1893,46 +1943,9 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngle - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
-
-    //stat list
-    //Speed
-    //long
-    QString QS_Stats_Speed = "Statistics of speed in full video:\n"
-                             "\n"
-                             "Base speed unit is um/s.\n";
-    for(size_t s = 0; s < v_VideoStats_Shifts_um_s.size(); s++)
-        QS_Stats_Speed.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_um_s[s]));
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Text(QS_Stats_Speed);
-    //short
-    PDF_Summary.add_Text(
-                "Speed Stats:\n"
-                "Average " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "um/s\n"
-                "STD " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "um/s\n"
-                "10%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_10], 'g', 4) + "um/s\n"
-                "Median " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEDIAN], 'g', 4) + "um/s\n"
-                "90%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_90], 'g', 4) + "um/s",
-                0.35, 0.65, 0.13, 0.25,
-                10,
-                Qt::AlignCenter);
-    //Angle
-    //long
-    QString QS_Stats_Angle = "Statistics of angle in full video:\n"
-                             "\n"
-                             "Base angle unit is grad.\n";
-    for(size_t s = 0; s < v_VideoStats_Angles_Grad.size(); s++)
-        QS_Stats_Angle.append("\n" + QSL_StatListCirc[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Angles_Grad[s]));
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Text(QS_Stats_Angle);
-    //short
-    PDF_Summary.add_Text(
-                "Angle Stats:\n"
-                "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
-                "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
-                "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°",
-                0.65, 0.95, 0.13, 0.25,
-                10,
-                Qt::AlignCenter);
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
 
     //vector field
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VECTORS);

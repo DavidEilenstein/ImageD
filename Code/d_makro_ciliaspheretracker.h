@@ -182,8 +182,6 @@ private slots:
 
     void on_checkBox_Res_PlotLine_FixRange_A_stateChanged(int arg1);
 
-
-
     void on_spinBox_Res_PlotPoincare_Shift_Frames_valueChanged(int arg1);
 
     void on_doubleSpinBox_Res_PlotPoincare_Shift_Seconds_valueChanged(double arg1);
