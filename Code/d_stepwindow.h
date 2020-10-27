@@ -121,7 +121,7 @@ public slots:
     void                    Update_Chain_Info(bool update_sources);
     unsigned int            get_root_toUpdate();
 
-    QImage                  *get_pQI_Step_Image()                   {return Viewer.QI();}
+    QImage                  *get_pQI_Step_Image()                   {return Viewer.pQI();}
 
     void                    Update_Source_Info();
 

@@ -80,6 +80,5 @@ var searchData=
   ['get_5fvd_1072',['get_VD',['../class_d___storage.html#a8d95f67af88d204197f5ae4db412ba8b',1,'D_Storage']]],
   ['get_5fwidth_1073',['get_Width',['../class_d___video_slicer.html#a21cf4c427e67c4479dfc32c781206906',1,'D_VideoSlicer']]],
   ['grab_5fcolor_1074',['Grab_Color',['../class_d___img___proc__2d_factory.html#aa3a1a957a8d4b367b343c0b11d05e67e',1,'D_Img_Proc_2dFactory']]],
-  ['grad2rad_1075',['Grad2Rad',['../d__enum_8h.html#ae57adf68b7488138c6f954b5dca2260d',1,'d_enum.h']]],
-  ['gv_1076',['GV',['../class_d___viewer.html#a01c968cf80a5946ca824393da5a58ac4',1,'D_Viewer']]]
+  ['grad2rad_1075',['Grad2Rad',['../d__enum_8h.html#ae57adf68b7488138c6f954b5dca2260d',1,'d_enum.h']]]
 ];

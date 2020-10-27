@@ -8,7 +8,8 @@ var indexSectionsWithContent =
   5: "acdegmpqrsv",
   6: "d",
   7: "ce",
-  8: "w"
+  8: "pw",
+  9: "w"
 };
 
 var indexSectionNames =
@@ -21,7 +22,8 @@ var indexSectionNames =
   5: "variables",
   6: "enums",
   7: "enumvalues",
-  8: "pages"
+  8: "groups",
+  9: "pages"
 };
 
 var indexSectionLabels =
@@ -34,6 +36,7 @@ var indexSectionLabels =
   5: "Variables",
   6: "Enumerations",
   7: "Enumerator",
-  8: "Pages"
+  8: "Modules",
+  9: "Pages"
 };
 

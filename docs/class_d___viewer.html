@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_3 (22.10.20)</span>
+   &#160;<span id="projectnumber">v1_0_4 (27.10.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('class_d___viewer.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_d___table.html" title="The D_Table class Display tables in QTableWidget in the user interface.">D_Table</a> class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface.  
+<p>The <a class="el" href="class_d___viewer.html" title="The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface.  
  <a href="class_d___viewer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="d__viewer_8h_source.html">d_viewer.h</a>&gt;</code></p>
@@ -108,26 +108,37 @@ Inheritance diagram for D_Viewer:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
 <tr class="memitem:afd944649f022f14ab883e45c40581618"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#afd944649f022f14ab883e45c40581618">Set_Image</a> (Mat *MA_new)</td></tr>
+<tr class="memdesc:afd944649f022f14ab883e45c40581618"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#afd944649f022f14ab883e45c40581618" title="D_Viewer::Set_Image Set image.">D_Viewer::Set_Image</a> Set image.  <a href="class_d___viewer.html#afd944649f022f14ab883e45c40581618">More...</a><br /></td></tr>
 <tr class="separator:afd944649f022f14ab883e45c40581618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad930d0f9d7b3158439e86badac21cd7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d">Update_Image</a> (Mat *MA_new)</td></tr>
+<tr class="memdesc:ad930d0f9d7b3158439e86badac21cd7d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d" title="D_Viewer::Update_Image Set and show image.">D_Viewer::Update_Image</a> Set and show image.  <a href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d">More...</a><br /></td></tr>
 <tr class="separator:ad930d0f9d7b3158439e86badac21cd7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af32a5a09291e7044cd134d021b966d59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#af32a5a09291e7044cd134d021b966d59">Update_Image</a> ()</td></tr>
+<tr class="memdesc:af32a5a09291e7044cd134d021b966d59"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d" title="D_Viewer::Update_Image Set and show image.">D_Viewer::Update_Image</a> Starts the workflow to process and show an image as image or plot.  <a href="class_d___viewer.html#af32a5a09291e7044cd134d021b966d59">More...</a><br /></td></tr>
 <tr class="separator:af32a5a09291e7044cd134d021b966d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3faadc8fb614af80ad7b2849348d78a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7">Update_View</a> ()</td></tr>
+<tr class="memdesc:a3faadc8fb614af80ad7b2849348d78a7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7" title="D_Viewer::Update_View Starts the workflow to show an image.">D_Viewer::Update_View</a> Starts the workflow to show an image.  <a href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7">More...</a><br /></td></tr>
 <tr class="separator:a3faadc8fb614af80ad7b2849348d78a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abef866cbc0717fc321682c4a65ff6492"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492">Save_Image_Dialog</a> ()</td></tr>
+<tr class="memdesc:abef866cbc0717fc321682c4a65ff6492"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492" title="D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (generated default path)">D_Viewer::Save_Image_Dialog</a> Opens a dialog to save the show image (generated default path)  <a href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492">More...</a><br /></td></tr>
 <tr class="separator:abef866cbc0717fc321682c4a65ff6492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a499ba76de52c35fe4fc0d106ae96e5cc"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a499ba76de52c35fe4fc0d106ae96e5cc">Save_Image_Dialog</a> (QString path_default)</td></tr>
+<tr class="memdesc:a499ba76de52c35fe4fc0d106ae96e5cc"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492" title="D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (generated default path)">D_Viewer::Save_Image_Dialog</a> Opens a dialog to save the show image (given default path)  <a href="class_d___viewer.html#a499ba76de52c35fe4fc0d106ae96e5cc">More...</a><br /></td></tr>
 <tr class="separator:a499ba76de52c35fe4fc0d106ae96e5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac444f86ec7b38cf46330cff20c0ffee8"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8">Save_Image</a> ()</td></tr>
+<tr class="memdesc:ac444f86ec7b38cf46330cff20c0ffee8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8" title="D_Viewer::Save_Image Saves the image at FI_LastSaved.">D_Viewer::Save_Image</a> Saves the image at FI_LastSaved.  <a href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8">More...</a><br /></td></tr>
 <tr class="separator:ac444f86ec7b38cf46330cff20c0ffee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba6e86bc3848f2555c4538c9bbfe121c"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#aba6e86bc3848f2555c4538c9bbfe121c">Save_Image</a> (QString path)</td></tr>
+<tr class="memdesc:aba6e86bc3848f2555c4538c9bbfe121c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8" title="D_Viewer::Save_Image Saves the image at FI_LastSaved.">D_Viewer::Save_Image</a> Saves the image and sets FI_LastSaved.  <a href="class_d___viewer.html#aba6e86bc3848f2555c4538c9bbfe121c">More...</a><br /></td></tr>
 <tr class="separator:aba6e86bc3848f2555c4538c9bbfe121c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ccd99d77dea40f9440412a4f7cd4b42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a8ccd99d77dea40f9440412a4f7cd4b42">Set_ViewerMode</a> (int mode)</td></tr>
+<tr class="memdesc:a8ccd99d77dea40f9440412a4f7cd4b42"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#a8ccd99d77dea40f9440412a4f7cd4b42" title="D_Viewer::Set_ViewerMode Set view mode to image or plot and show image or plot.">D_Viewer::Set_ViewerMode</a> Set view mode to image or plot and show image or plot.  <a href="class_d___viewer.html#a8ccd99d77dea40f9440412a4f7cd4b42">More...</a><br /></td></tr>
 <tr class="separator:a8ccd99d77dea40f9440412a4f7cd4b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad977c49b76111cbdfe1c77e4ebbf2cf0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ad977c49b76111cbdfe1c77e4ebbf2cf0">Set_Transformation_Mode</a> (bool smooth)</td></tr>
+<tr class="memdesc:ad977c49b76111cbdfe1c77e4ebbf2cf0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ad977c49b76111cbdfe1c77e4ebbf2cf0" title="D_Viewer::Set_Transformation_Mode Set transformation mode to fit an image to a viewer of different si...">D_Viewer::Set_Transformation_Mode</a> Set transformation mode to fit an image to a viewer of different size.  <a href="class_d___viewer.html#ad977c49b76111cbdfe1c77e4ebbf2cf0">More...</a><br /></td></tr>
 <tr class="separator:ad977c49b76111cbdfe1c77e4ebbf2cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1aa24259b8d2c889c05b2f63a343dc49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a1aa24259b8d2c889c05b2f63a343dc49">Set_Aspect_Mode</a> (bool keep)</td></tr>
+<tr class="memdesc:a1aa24259b8d2c889c05b2f63a343dc49"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#a1aa24259b8d2c889c05b2f63a343dc49" title="D_Viewer::Set_Aspect_Mode Set aspect ratio handling mode to fit an image to a viewer of different siz...">D_Viewer::Set_Aspect_Mode</a> Set aspect ratio handling mode to fit an image to a viewer of different size.  <a href="class_d___viewer.html#a1aa24259b8d2c889c05b2f63a343dc49">More...</a><br /></td></tr>
 <tr class="separator:a1aa24259b8d2c889c05b2f63a343dc49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3ed9c43c51012178886c78ae8ab143"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#afd3ed9c43c51012178886c78ae8ab143">Set_PlotType</a> (int mode)</td></tr>
 <tr class="separator:afd3ed9c43c51012178886c78ae8ab143"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,12 +171,16 @@ Public Slots</h2></td></tr>
 <tr class="memitem:ace8f66e223171bd2d87aec3e0724c791"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ace8f66e223171bd2d87aec3e0724c791">Set_VisTrafo_Mode_Complex</a> (int mode=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>)</td></tr>
 <tr class="separator:ace8f66e223171bd2d87aec3e0724c791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e9ae3f5b572305a112de1fc5f82f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ab6e9ae3f5b572305a112de1fc5f82f0b">Set_Zomm</a> (double x_rel, double y_rel, double factor)</td></tr>
+<tr class="memdesc:ab6e9ae3f5b572305a112de1fc5f82f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ab6e9ae3f5b572305a112de1fc5f82f0b" title="D_Viewer::Set_Zomm Set zoom parameters and apply zoom.">D_Viewer::Set_Zomm</a> Set zoom parameters and apply zoom.  <a href="class_d___viewer.html#ab6e9ae3f5b572305a112de1fc5f82f0b">More...</a><br /></td></tr>
 <tr class="separator:ab6e9ae3f5b572305a112de1fc5f82f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac589e81dbf1b2172fc0883c910e4bef4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#ac589e81dbf1b2172fc0883c910e4bef4">Set_ZoomReset</a> ()</td></tr>
+<tr class="memdesc:ac589e81dbf1b2172fc0883c910e4bef4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#ac589e81dbf1b2172fc0883c910e4bef4" title="D_Viewer::Set_ZoomReset Reset zoom parameters to no zoom.">D_Viewer::Set_ZoomReset</a> Reset zoom parameters to no zoom.  <a href="class_d___viewer.html#ac589e81dbf1b2172fc0883c910e4bef4">More...</a><br /></td></tr>
 <tr class="separator:ac589e81dbf1b2172fc0883c910e4bef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afdea9a5093f7a3f26256d6f6edbd41b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#afdea9a5093f7a3f26256d6f6edbd41b5">MouseMoved</a> (int x, int y)</td></tr>
+<tr class="memdesc:afdea9a5093f7a3f26256d6f6edbd41b5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#afdea9a5093f7a3f26256d6f6edbd41b5" title="D_Viewer::MouseMoved slot that is executed when mouse is moved.">D_Viewer::MouseMoved</a> slot that is executed when mouse is moved.  <a href="class_d___viewer.html#afdea9a5093f7a3f26256d6f6edbd41b5">More...</a><br /></td></tr>
 <tr class="separator:afdea9a5093f7a3f26256d6f6edbd41b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc22d01a2119acfbe8eec62d13e2cbeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#adc22d01a2119acfbe8eec62d13e2cbeb">MouseClicked</a> (int x, int y)</td></tr>
+<tr class="memdesc:adc22d01a2119acfbe8eec62d13e2cbeb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___viewer.html#adc22d01a2119acfbe8eec62d13e2cbeb" title="D_Viewer::MouseClicked slot that is executed when mouse is clicked.">D_Viewer::MouseClicked</a> slot that is executed when mouse is clicked.  <a href="class_d___viewer.html#adc22d01a2119acfbe8eec62d13e2cbeb">More...</a><br /></td></tr>
 <tr class="separator:adc22d01a2119acfbe8eec62d13e2cbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a117478fd3ab2b2baa40a04b9863a9d60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a117478fd3ab2b2baa40a04b9863a9d60">MouseClicked_Left</a> (int x, int y)</td></tr>
 <tr class="separator:a117478fd3ab2b2baa40a04b9863a9d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,16 +284,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2999e87381aaf6911e9609c954c776dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46b5cfb7c9e755c1fade796b74ba0eb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a46b5cfb7c9e755c1fade796b74ba0eb1">connect_Zoom</a> (<a class="el" href="class_d___viewer.html">D_Viewer</a> *viewer)</td></tr>
 <tr class="separator:a46b5cfb7c9e755c1fade796b74ba0eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25221aa959e1900a3da95bc30200e667"><td class="memItemLeft" align="right" valign="top">Mat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a25221aa959e1900a3da95bc30200e667">MA</a> ()</td></tr>
-<tr class="separator:a25221aa959e1900a3da95bc30200e667"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c1aac86fa3484a3411ff7e8e2358336"><td class="memItemLeft" align="right" valign="top">QImage *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a6c1aac86fa3484a3411ff7e8e2358336">QI</a> ()</td></tr>
-<tr class="separator:a6c1aac86fa3484a3411ff7e8e2358336"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5af945c4ea7b0a5660213fef825425eb"><td class="memItemLeft" align="right" valign="top">QPixmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a5af945c4ea7b0a5660213fef825425eb">PX</a> ()</td></tr>
-<tr class="separator:a5af945c4ea7b0a5660213fef825425eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72b060a5afd4e503a292c36d25ff262a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_scene_mouse_track.html">SceneMouseTrack</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a72b060a5afd4e503a292c36d25ff262a">SC</a> ()</td></tr>
-<tr class="separator:a72b060a5afd4e503a292c36d25ff262a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01c968cf80a5946ca824393da5a58ac4"><td class="memItemLeft" align="right" valign="top">QGraphicsView *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a01c968cf80a5946ca824393da5a58ac4">GV</a> ()</td></tr>
-<tr class="separator:a01c968cf80a5946ca824393da5a58ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f00281f27f7afb9fca498077d0afc30"><td class="memItemLeft" align="right" valign="top">Mat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a8f00281f27f7afb9fca498077d0afc30">pMA</a> ()</td></tr>
+<tr class="separator:a8f00281f27f7afb9fca498077d0afc30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a003c87ccb4ec3eaa15681e34735f03c2"><td class="memItemLeft" align="right" valign="top">QImage *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a003c87ccb4ec3eaa15681e34735f03c2">pQI</a> ()</td></tr>
+<tr class="separator:a003c87ccb4ec3eaa15681e34735f03c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0c4cebe093b4ef1080b50f9ae41a2a"><td class="memItemLeft" align="right" valign="top">QPixmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a7f0c4cebe093b4ef1080b50f9ae41a2a">pPX</a> ()</td></tr>
+<tr class="separator:a7f0c4cebe093b4ef1080b50f9ae41a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c01381985574b3b518087951ccfd857"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_scene_mouse_track.html">SceneMouseTrack</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a6c01381985574b3b518087951ccfd857">pSC</a> ()</td></tr>
+<tr class="separator:a6c01381985574b3b518087951ccfd857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a753f9405f52f840d10583b7f84529c9d"><td class="memItemLeft" align="right" valign="top">QGraphicsView *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a753f9405f52f840d10583b7f84529c9d">pGV</a> ()</td></tr>
+<tr class="separator:a753f9405f52f840d10583b7f84529c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bf578f19db3cb859617751b5a012dce"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a7bf578f19db3cb859617751b5a012dce">Type_MA</a> ()</td></tr>
 <tr class="separator:a7bf578f19db3cb859617751b5a012dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f79181e836d2241aef4b18bcbaaae6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a57f79181e836d2241aef4b18bcbaaae6">Type_QI</a> ()</td></tr>
@@ -305,8 +320,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8dedd40214270beb4dfaed83e0db67ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_d___table.html" title="The D_Table class Display tables in QTableWidget in the user interface.">D_Table</a> class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface. </p>
-<p>Put a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> somewhere in the user interface and pass a pointer to <a class="el" href="class_d___viewer.html" title="The D_Table class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> and changes made to the <a class="el" href="class_d___viewer.html" title="The D_Table class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> will be displayed in the UI. There is lots of additional functionality like zooming, format handling, value transformation and emmited signals that can be connecetd with slots and interface elements. </p>
+<div class="textblock"><p>The <a class="el" href="class_d___viewer.html" title="The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface. </p>
+<p>Put a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> somewhere in the user interface and pass a pointer to <a class="el" href="class_d___viewer.html" title="The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> and changes made to the <a class="el" href="class_d___viewer.html" title="The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.">D_Viewer</a> will be displayed in the UI. There is lots of additional functionality like zooming, format handling, value transformation and emmited signals that can be connecetd with slots and interface elements. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac72aac692581de94288d460b90f8b758"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac72aac692581de94288d460b90f8b758">&#9670;&nbsp;</a></span>D_Viewer() <span class="overload">[1/5]</span></h2>
@@ -465,31 +480,6 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01c968cf80a5946ca824393da5a58ac4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01c968cf80a5946ca824393da5a58ac4">&#9670;&nbsp;</a></span>GV()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QGraphicsView* D_Viewer::GV </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -733,31 +723,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a25221aa959e1900a3da95bc30200e667"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25221aa959e1900a3da95bc30200e667">&#9670;&nbsp;</a></span>MA()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Mat* D_Viewer::MA </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a0a254a29b425dabf6f53f68159d9d09b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a254a29b425dabf6f53f68159d9d09b">&#9670;&nbsp;</a></span>MouseClicked <span class="overload">[1/2]</span></h2>
 
@@ -816,6 +781,20 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#adc22d01a2119acfbe8eec62d13e2cbeb" title="D_Viewer::MouseClicked slot that is executed when mouse is clicked.">D_Viewer::MouseClicked</a> slot that is executed when mouse is clicked. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>mouse position x </td></tr>
+    <tr><td class="paramname">y</td><td>mouse position y  emits signals with information about mose click and its position </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Workflow:</p><ul>
+<li>scaling to image coordinates</li>
+<li>x and y are now correct image corrdinates</li>
+<li>emit signals</li>
+</ul>
 
 </div>
 </div>
@@ -1283,6 +1262,21 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#afdea9a5093f7a3f26256d6f6edbd41b5" title="D_Viewer::MouseMoved slot that is executed when mouse is moved.">D_Viewer::MouseMoved</a> slot that is executed when mouse is moved. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>mouse position x </td></tr>
+    <tr><td class="paramname">y</td><td>mouse position y  emits signals with information about mouse movement </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Workflow:</p><ul>
+<li>scaling to image coordinates</li>
+<li>offset of image, if zoom is active</li>
+<li>x and y are now correct image corrdinates</li>
+<li>emit signals</li>
+</ul>
+
 </div>
 </div>
 <a id="a9db3c81a092125cbd0c8e06960f32129"></a>
@@ -1399,8 +1393,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5af945c4ea7b0a5660213fef825425eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5af945c4ea7b0a5660213fef825425eb">&#9670;&nbsp;</a></span>PX()</h2>
+<a id="a753f9405f52f840d10583b7f84529c9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a753f9405f52f840d10583b7f84529c9d">&#9670;&nbsp;</a></span>pGV()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1409,7 +1403,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QPixmap* D_Viewer::PX </td>
+          <td class="memname">QGraphicsView* D_Viewer::pGV </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1424,8 +1418,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6c1aac86fa3484a3411ff7e8e2358336"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c1aac86fa3484a3411ff7e8e2358336">&#9670;&nbsp;</a></span>QI()</h2>
+<a id="a8f00281f27f7afb9fca498077d0afc30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f00281f27f7afb9fca498077d0afc30">&#9670;&nbsp;</a></span>pMA()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1434,7 +1428,82 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QImage* D_Viewer::QI </td>
+          <td class="memname">Mat* D_Viewer::pMA </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f0c4cebe093b4ef1080b50f9ae41a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0c4cebe093b4ef1080b50f9ae41a2a">&#9670;&nbsp;</a></span>pPX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPixmap* D_Viewer::pPX </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a003c87ccb4ec3eaa15681e34735f03c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a003c87ccb4ec3eaa15681e34735f03c2">&#9670;&nbsp;</a></span>pQI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QImage* D_Viewer::pQI </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c01381985574b3b518087951ccfd857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c01381985574b3b518087951ccfd857">&#9670;&nbsp;</a></span>pSC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_scene_mouse_track.html">SceneMouseTrack</a>* D_Viewer::pSC </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1472,6 +1541,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8" title="D_Viewer::Save_Image Saves the image at FI_LastSaved.">D_Viewer::Save_Image</a> Saves the image at FI_LastSaved. </p>
+<dl class="section return"><dt>Returns</dt><dd>Save path </dd></dl>
+
 </div>
 </div>
 <a id="aba6e86bc3848f2555c4538c9bbfe121c"></a>
@@ -1498,6 +1570,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8" title="D_Viewer::Save_Image Saves the image at FI_LastSaved.">D_Viewer::Save_Image</a> Saves the image and sets FI_LastSaved. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Save path </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Save path </dd></dl>
+
 </div>
 </div>
 <a id="abef866cbc0717fc321682c4a65ff6492"></a>
@@ -1522,6 +1603,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492" title="D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (generated default path)">D_Viewer::Save_Image_Dialog</a> Opens a dialog to save the show image (generated default path) </p>
+<dl class="section return"><dt>Returns</dt><dd>Save path </dd></dl>
 
 </div>
 </div>
@@ -1549,30 +1633,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a72b060a5afd4e503a292c36d25ff262a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72b060a5afd4e503a292c36d25ff262a">&#9670;&nbsp;</a></span>SC()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_scene_mouse_track.html">SceneMouseTrack</a>* D_Viewer::SC </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p><a class="el" href="class_d___viewer.html#abef866cbc0717fc321682c4a65ff6492" title="D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (generated default path)">D_Viewer::Save_Image_Dialog</a> Opens a dialog to save the show image (given default path) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path_default</td><td>default path of dialog </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Save path </dd></dl>
 
 </div>
 </div>
@@ -1763,6 +1831,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#a1aa24259b8d2c889c05b2f63a343dc49" title="D_Viewer::Set_Aspect_Mode Set aspect ratio handling mode to fit an image to a viewer of different siz...">D_Viewer::Set_Aspect_Mode</a> Set aspect ratio handling mode to fit an image to a viewer of different size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keep</td><td>true for Qt::KeepAspectRatio or false for Qt::IgnoreAspectRatio </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="af9cd5ac702f1e0d5fc2fd6ecf9ea6493"></a>
@@ -1824,6 +1900,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#afd944649f022f14ab883e45c40581618" title="D_Viewer::Set_Image Set image.">D_Viewer::Set_Image</a> Set image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MA_new</td><td>Image to be set  emits signals ::TypeChanged, ::TypeChanged_MA() and ::Image_Size_Changed() </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1895,6 +1979,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ad977c49b76111cbdfe1c77e4ebbf2cf0" title="D_Viewer::Set_Transformation_Mode Set transformation mode to fit an image to a viewer of different si...">D_Viewer::Set_Transformation_Mode</a> Set transformation mode to fit an image to a viewer of different size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">smooth</td><td>true for Qt::SmoothTransformation or false for Qt::FastTransformation </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a8ccd99d77dea40f9440412a4f7cd4b42"></a>
@@ -1920,6 +2012,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#a8ccd99d77dea40f9440412a4f7cd4b42" title="D_Viewer::Set_ViewerMode Set view mode to image or plot and show image or plot.">D_Viewer::Set_ViewerMode</a> Set view mode to image or plot and show image or plot. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>enum from D_VIEWER_MODE </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2327,6 +2427,16 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ab6e9ae3f5b572305a112de1fc5f82f0b" title="D_Viewer::Set_Zomm Set zoom parameters and apply zoom.">D_Viewer::Set_Zomm</a> Set zoom parameters and apply zoom. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x_rel</td><td>relative zoom position in x [0, 1] </td></tr>
+    <tr><td class="paramname">y_rel</td><td>relative zoom position in y [0, 1] </td></tr>
+    <tr><td class="paramname">factor</td><td>zoom factor (0, 1] </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ac589e81dbf1b2172fc0883c910e4bef4"></a>
@@ -2351,6 +2461,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#ac589e81dbf1b2172fc0883c910e4bef4" title="D_Viewer::Set_ZoomReset Reset zoom parameters to no zoom.">D_Viewer::Set_ZoomReset</a> Reset zoom parameters to no zoom. </p>
 
 </div>
 </div>
@@ -2606,6 +2718,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d" title="D_Viewer::Update_Image Set and show image.">D_Viewer::Update_Image</a> Starts the workflow to process and show an image as image or plot. </p>
+
 </div>
 </div>
 <a id="ad930d0f9d7b3158439e86badac21cd7d"></a>
@@ -2632,6 +2746,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d" title="D_Viewer::Update_Image Set and show image.">D_Viewer::Update_Image</a> Set and show image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MA_new</td><td>image to be set and shown </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a3faadc8fb614af80ad7b2849348d78a7"></a>
@@ -2656,6 +2778,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7" title="D_Viewer::Update_View Starts the workflow to show an image.">D_Viewer::Update_View</a> Starts the workflow to show an image. </p>
 
 </div>
 </div>

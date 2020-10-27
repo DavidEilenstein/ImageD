@@ -49,7 +49,7 @@ using namespace std;
 using namespace cv;
 
 /*!
- * \brief The D_Table class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface.
+ * \brief The D_Viewer class Display images (<a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>) in <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> in the user interface.
  * \details Put a <a href="https://doc.qt.io/qt-5/qgraphicsview.html">QGraphicsView</a> somewhere in the user interface and pass a pointer to D_Viewer and changes made to the D_Viewer will be displayed in the UI.
  * There is lots of additional functionality like zooming, format handling, value transformation and emmited signals that can be connecetd with slots and interface elements.
  */
@@ -76,11 +76,11 @@ public:
     void                    connect_Zoom(D_Viewer *viewer);
 
     //get pointers to members
-    Mat                     *MA()           {return &MA_Data;}
-    QImage                  *QI()           {return &QI_View;}
-    QPixmap                 *PX()           {return &PX_View;}
-    SceneMouseTrack         *SC()           {return &SC_View;}
-    QGraphicsView           *GV()           {return GV_View;}
+    Mat                     *pMA()          {return &MA_Data;}
+    QImage                  *pQI()          {return &QI_View;}
+    QPixmap                 *pPX()          {return &PX_View;}
+    SceneMouseTrack         *pSC()          {return &SC_View;}
+    QGraphicsView           *pGV()          {return GV_View;}
 
     //image attributes
     QString                 Type_MA()       {return D_Img_Proc::Type_of_Mat(&MA_Data);}
@@ -102,12 +102,16 @@ private:
     void        Init                        (QGraphicsView *GV_ui);
 
     //Processing image->view
-    void        Proc_ShowImgOrPlot          ();
-    void        Proc_MA_2_QI                ();
-    void        Proc_QI_2_PX                ();
-    void        Proc_PX_Scale               ();
-    void        Proc_PX_2_SC                ();
-    void        Proc_Plot                  ();
+    void        Proc_ShowImgOrPlot              ();
+    void        Proc_MA_2_QI                    ();
+    int         Proc_MA_2_QI_NoZoom_NoVistrafo  ();
+    int         Proc_MA_2_QI_NoZoom_ButVistrafo ();
+    int         Proc_MA_2_QI_Zoom_ButNoVistrafo ();
+    int         Proc_MA_2_QI_Zoom_And_Vistrafo  ();
+    void        Proc_QI_2_PX                    ();
+    void        Proc_PX_Scale                   ();
+    void        Proc_PX_2_SC                    ();
+    void        Proc_Plot                       ();
 
     //check if mouse is over image
     bool        Is_MouseOverScene           (int x,  int y);
@@ -253,8 +257,8 @@ private:    //members
 
     //view attributes
     bool                    scale;
-    double                  scale_x;
-    double                  scale_y;
+    double                  scale_x = 1;
+    double                  scale_y = 1;
 
     Qt::TransformationMode  TransMode;
     Qt::AspectRatioMode     AspectMode;

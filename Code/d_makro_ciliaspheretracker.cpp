@@ -1816,7 +1816,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //movement tracks only
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_TIME_SUM_PROJ);
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 name_current + "\n"
                 "Video analysis overview\n"
                 "\n"
@@ -1878,14 +1878,14 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeed.png");
 
     PDF_Summary.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 0.51, 0.95, 0.25, 0.50);
     PDF_Summary.add_Image(
                 &MA_Result_HeatmapLegend,
                 0.51, 0.95, 0.51, 0.54);
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Heatmap (Speed)\n"
                 "\n"
                 "Color: Speed (red <= 10%-quantil, blue => 90%-quantil)\n"
@@ -1909,7 +1909,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Heatmap (Angle)\n"
                 "\n"
                 "Color: Angle (See legend at the bottom of this page)\n"
@@ -1931,7 +1931,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Heatmap (Spped and Angle)\n"
                 "\n"
                 "Color: Angle (see legend at the bottom of this page)\n"
@@ -1970,7 +1970,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Vector Field 4x5\n"
                 "\n"
                 "Vector length: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"
@@ -1997,7 +1997,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 Qt::AlignCenter);
     //same img to summary
     PDF_Summary.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 0.05, 0.49, 0.25, 0.50);
     /*PDF_Summary.add_Text(
                 "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s",
@@ -2033,7 +2033,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Vector Field 10x8\n"
                 "\n"
                 "Vector length: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"
@@ -2069,7 +2069,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Vector Field 20x16\n"
                 "\n"
                 "Vector length: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"
@@ -2106,7 +2106,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Vector Field Angle\n"
                 "\n"
                 "Vector length: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"
@@ -2144,7 +2144,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
-                View_Results.QI(),
+                View_Results.pQI(),
                 "Vector Field Speed\n"
                 "\n"
                 "Vector length: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"

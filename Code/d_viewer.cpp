@@ -146,6 +146,8 @@ void D_Viewer::Init(QGraphicsView *GV_ui)
 
     //Scale
     scale = true;
+    scale_x = 1.0;
+    scale_y = 1.0;
     TransMode = Qt::SmoothTransformation;
     AspectMode = Qt::KeepAspectRatio;
 
@@ -173,6 +175,14 @@ void D_Viewer::Init(QGraphicsView *GV_ui)
     Proc_MA_2_QI();
 }
 
+/// \defgroup proc Processing workflow data to view
+/// \brief Workflow: Mat->QImage->QPixmap->SceneMouseTrack->QGraphicsview
+/// \details Including zoom, scale, transformations and the option to be shown as plot instead of image
+
+/*!
+ * \brief D_Viewer::Proc_ShowImgOrPlot triggers proc image workflow or proc plot workflow
+ * \ingroup proc
+ */
 void D_Viewer::Proc_ShowImgOrPlot()
 {
     if(ViewerMode == c_VIEWER_MODE_IMG)
@@ -181,134 +191,29 @@ void D_Viewer::Proc_ShowImgOrPlot()
         Proc_Plot();
 }
 
+/*!
+ * \brief D_Viewer::Proc_MA_2_QI Convert Mat to QImage and apply value transformation and zoom
+ * \ingroup proc
+ * \details emit signals Time_Image_Cvt, TypeChanged, TypeChanged_QI and Zoomed/Zoom_Reset if zoomed. Calls Proc_QI_2_PX. Includes time measurement.
+ */
 void D_Viewer::Proc_MA_2_QI()
 {
-    int ER;
-
     QET_convert.start();
 
-    if(zoom_active && vis_trafo_active)
-    {
-        //qDebug() << "zoom" << cursor_x_rel << cursor_y_rel << zoom_factor;
-        //MA_Data->MA_Zoom
-        //MA_Zoom->MA_GS
-
-        ER = D_Img_Proc::Zoom(
-                    &MA_Zoom,
-                    &MA_Data,
-                    cursor_x_rel,
-                    cursor_y_rel,
-                    zoom_factor_cur,
-                    &zoom_offset_x,
-                    &zoom_offset_y,
-                    &zoom_width,
-                    &zoom_height);
-        if(ER == ER_size_bad)
-        {
-            qDebug() << "Proc_MA_2_QI(zoom_active && gs_active): ER == ER_size_bad -> Set_ZoomReset";
-            Set_ZoomReset();
-            return;
-        }
-        else if(ER != ER_okay && ER != ER_size_bad)
-            ERR(ER,
-                "Proc_MA_2_QI - zoom active, vis trafo active",
-                "D_Img_Proc::Zoom");
-
-        ERR(D_Img_Proc::Visualize_to8bit(
-                &MA_VisTrafo,
-                &MA_Zoom,
-                vis_trafo_mode_crop,
-                vis_trafo_mode_trafo,
-                vis_trafo_mode_anchor,
-                vis_trafo_mode_range,
-                vis_trafo_anchor,
-                vis_trafo_range,
-                vis_trafo_in_min,
-                vis_trafo_in_max,
-                vis_trafo_gamma,
-                vis_trafo_center,
-                vis_trafo_divisor,
-                false,
-                vis_trafo_mode_complex),
-            "Proc_MA_2_QI - zoom active, vis trafo active",
-            "Visualize_to8bit");
-
-        ERR(D_Img_Proc::Convert_Mat_to_QImage(
-                &QI_View,
-                &MA_VisTrafo),
-            "Proc_MA_2_QI - zoom active, vis trafo active",
-            "D_Img_Proc::Convert_Mat_to_QImage");
-    }
-    else if(zoom_active && !vis_trafo_active)
-    {
-        //qDebug() << "zoom" << cursor_x_rel << cursor_y_rel << zoom_factor;
-        //MA_Data->MA_Zoom
-
-        ER = D_Img_Proc::Zoom(
-                &MA_Zoom,
-                &MA_Data,
-                cursor_x_rel,
-                cursor_y_rel,
-                zoom_factor_cur,
-                &zoom_offset_x,
-                &zoom_offset_y,
-                &zoom_width,
-                &zoom_height);
-        if(ER == ER_size_bad)
-        {
-            qDebug() << "Proc_MA_2_QI(zoom_active && !gs_active): ER == ER_size_bad -> Set_ZoomReset";
-            Set_ZoomReset();
-            return;
-        }
-        else if(ER != ER_okay && ER != ER_size_bad)
-            ERR(ER,
-                "Proc_MA_2_QI - zoom active, vis trafo inactive",
-                "D_Img_Proc::Zoom");
-
-        ERR(D_Img_Proc::Convert_Mat_to_QImage(
-                &QI_View,
-                &MA_Zoom),
-            "Proc_MA_2_QI - zoom active, vis trafo inactive",
-            "D_Img_Proc::Convert_Mat_to_QImage");
-    }
-    else if(!zoom_active && vis_trafo_active)
-    {
-        //MA_Data->MA_GS
-        ERR(D_Img_Proc::Visualize_to8bit(
-                &MA_VisTrafo,
-                &MA_Data,
-                vis_trafo_mode_crop,
-                vis_trafo_mode_trafo,
-                vis_trafo_mode_anchor,
-                vis_trafo_mode_range,
-                vis_trafo_anchor,
-                vis_trafo_range,
-                vis_trafo_in_min,
-                vis_trafo_in_max,
-                vis_trafo_gamma,
-                vis_trafo_center,
-                vis_trafo_divisor,
-                false,
-                vis_trafo_mode_complex),
-            "Proc_MA_2_QI",
-            "D_Img_Proc::Visualize_to8bit");
-
-        ERR(D_Img_Proc::Convert_Mat_to_QImage(
-                &QI_View,
-                &MA_VisTrafo),
-            "Proc_MA_2_QI - zoom inactive, vis trafo active",
-            "D_Img_Proc::Convert_Mat_to_QImage");
-    }
-    else if(!zoom_active && !vis_trafo_active)
-    {
-        ERR(D_Img_Proc::Convert_Mat_to_QImage(
-                &QI_View,
-                &MA_Data),
-            "Proc_MA_2_QI - zoom inactive, vis trafo inactive",
-            "D_Img_Proc::Convert_Mat_to_QImage");
-    }
+    int ER;
+    if(zoom_active && vis_trafo_active)             //ZOOM  VISTRAFO
+        ER = Proc_MA_2_QI_Zoom_And_Vistrafo();
+    else if(zoom_active && !vis_trafo_active)       //ZOOM  vistrafo
+        ER = Proc_MA_2_QI_Zoom_ButNoVistrafo();
+    else if(!zoom_active && vis_trafo_active)       //zoom  VISTRAFO
+        ER = Proc_MA_2_QI_NoZoom_ButVistrafo();
+    else /*if(!zoom_active && !vis_trafo_active)*/  //zoom  vistrafo
+        ER = Proc_MA_2_QI_NoZoom_NoVistrafo();
 
     time_convert = static_cast<unsigned int>(QET_convert.elapsed());
+
+    if(ER != ER_okay)
+        return;
 
     emit Time_Image_Cvt(time_convert);
     emit TypeChanged();
@@ -326,6 +231,235 @@ void D_Viewer::Proc_MA_2_QI()
     Proc_QI_2_PX();
 }
 
+/// \defgroup proc_MA_2_QI Workflow Mat to QImage
+/// \ingroup proc
+/// \details zoom and value transformation are apllied
+
+/*!
+ * \brief D_Viewer::Proc_MA_2_QI_NoZoom_NoVistrafo Mat->QImage (zoom NO, value transformation NO)
+ * \ingroup proc_MA_2_QI
+ * \return  error code
+ */
+int D_Viewer::Proc_MA_2_QI_NoZoom_NoVistrafo()
+{
+    int ER = D_Img_Proc::Convert_Mat_to_QImage(
+                &QI_View,
+                &MA_Data);
+
+    ERR(ER,
+        "Proc_MA_2_QI_NoZoom_NoVistrafo",
+        "D_Img_Proc::Convert_Mat_to_QImage");
+
+    return ER;
+}
+
+/*!
+ * \brief D_Viewer::Proc_MA_2_QI_NoZoom_ButVistrafo Mat->QImage (zoom NO, value transformation YES)
+ * \ingroup proc_MA_2_QI
+ * \return  error code
+ */
+int D_Viewer::Proc_MA_2_QI_NoZoom_ButVistrafo()
+{
+    qDebug() << "Proc_MA_2_QI_NoZoom_ButVistrafo"
+             << "vis_trafo_mode_crop" << QSL_VisTrafo_Crop[vis_trafo_mode_crop]
+             << "vis_trafo_mode_trafo" << QSL_VisTrafo[vis_trafo_mode_trafo]
+             << "vis_trafo_mode_anchor" << QSL_VisTrafo_Anchor[vis_trafo_mode_anchor]
+             << "vis_trafo_mode_range" << QSL_VisTrafo_Range[vis_trafo_mode_range]
+             << "vis_trafo_anchor" << vis_trafo_anchor
+             << "vis_trafo_range" << vis_trafo_range
+             << "vis_trafo_in_min" << vis_trafo_in_min
+             << "vis_trafo_in_max" << vis_trafo_in_max
+             << "vis_trafo_gamma" << vis_trafo_gamma
+             << "vis_trafo_center" << vis_trafo_center
+             << "vis_trafo_divisor" << vis_trafo_divisor
+             << "keep_min_max" << false
+             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];
+    int ER = D_Img_Proc::Visualize_to8bit(
+                &MA_VisTrafo,
+                &MA_Data,
+                vis_trafo_mode_crop,
+                vis_trafo_mode_trafo,
+                vis_trafo_mode_anchor,
+                vis_trafo_mode_range,
+                vis_trafo_anchor,
+                vis_trafo_range,
+                vis_trafo_in_min,
+                vis_trafo_in_max,
+                vis_trafo_gamma,
+                vis_trafo_center,
+                vis_trafo_divisor,
+                false,
+                vis_trafo_mode_complex);
+    if(ER != ER_okay)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI",
+            "D_Img_Proc::Visualize_to8bit");
+        return ER;
+    }
+
+    ER = D_Img_Proc::Convert_Mat_to_QImage(
+                &QI_View,
+                &MA_VisTrafo);
+    if(ER != ER_okay)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom inactive, vis trafo active",
+            "D_Img_Proc::Convert_Mat_to_QImage");
+        return ER;
+    }
+
+    return ER_okay;
+}
+
+/*!
+ * \brief D_Viewer::Proc_MA_2_QI_Zoom_ButNoVistrafo Mat->QImage (zoom YES, value transformation NO)
+ * \ingroup proc_MA_2_QI
+ * \return  error code
+ */
+int D_Viewer::Proc_MA_2_QI_Zoom_ButNoVistrafo()
+{
+    qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
+             << "cursor_x_rel" << cursor_x_rel
+             << "cursor_y_rel" << cursor_y_rel
+             << "zoom_factor_cur" << zoom_factor_cur
+             << "zoom_offset_x" << zoom_offset_x
+             << "zoom_offset_y" << zoom_offset_y
+             << "zoom_width" << zoom_width
+             << "zoom_height" << zoom_height;
+    int ER = D_Img_Proc::Zoom(
+            &MA_Zoom,
+            &MA_Data,
+            cursor_x_rel,
+            cursor_y_rel,
+            zoom_factor_cur,
+            &zoom_offset_x,
+            &zoom_offset_y,
+            &zoom_width,
+            &zoom_height);
+    if(ER == ER_size_bad)
+    {
+        qDebug() << "Proc_MA_2_QI(zoom_active && !gs_active): ER == ER_size_bad -> Set_ZoomReset";
+        Set_ZoomReset();
+        return ER;
+    }
+    else if(ER != ER_okay && ER != ER_size_bad)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom active, vis trafo inactive",
+            "D_Img_Proc::Zoom");
+        return ER;
+    }
+
+    ER = D_Img_Proc::Convert_Mat_to_QImage(
+                &QI_View,
+                &MA_Zoom);
+    if(ER != ER_okay)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom active, vis trafo inactive",
+            "D_Img_Proc::Convert_Mat_to_QImage");
+        return ER;
+    }
+
+    return ER_okay;
+}
+
+/*!
+ * \brief D_Viewer::Proc_MA_2_QI_Zoom_And_Vistrafo Mat->QImage (zoom YES, value transformation YES)
+ * \ingroup proc_MA_2_QI
+ * \return  error code
+ */
+int D_Viewer::Proc_MA_2_QI_Zoom_And_Vistrafo()
+{
+    qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
+             << "cursor_x_rel" << cursor_x_rel
+             << "cursor_y_rel" << cursor_y_rel
+             << "zoom_factor_cur" << zoom_factor_cur
+             << "zoom_offset_x" << zoom_offset_x
+             << "zoom_offset_y" << zoom_offset_y
+             << "zoom_width" << zoom_width
+             << "zoom_height" << zoom_height;
+    int ER = D_Img_Proc::Zoom(
+                &MA_Zoom,
+                &MA_Data,
+                cursor_x_rel,
+                cursor_y_rel,
+                zoom_factor_cur,
+                &zoom_offset_x,
+                &zoom_offset_y,
+                &zoom_width,
+                &zoom_height);
+    if(ER == ER_size_bad)
+    {
+        qDebug() << "Proc_MA_2_QI(zoom_active && gs_active): ER == ER_size_bad -> Set_ZoomReset";
+        Set_ZoomReset();
+        return ER;
+    }
+    else if(ER != ER_okay && ER != ER_size_bad)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom active, vis trafo active",
+            "D_Img_Proc::Zoom");
+        return ER;
+    }
+
+    qDebug() << "Proc_MA_2_QI_Zoom_And_Vistrafo"
+             << "vis_trafo_mode_crop" << QSL_VisTrafo_Crop[vis_trafo_mode_crop]
+             << "vis_trafo_mode_trafo" << QSL_VisTrafo[vis_trafo_mode_trafo]
+             << "vis_trafo_mode_anchor" << QSL_VisTrafo_Anchor[vis_trafo_mode_anchor]
+             << "vis_trafo_mode_range" << QSL_VisTrafo_Range[vis_trafo_mode_range]
+             << "vis_trafo_anchor" << vis_trafo_anchor
+             << "vis_trafo_range" << vis_trafo_range
+             << "vis_trafo_in_min" << vis_trafo_in_min
+             << "vis_trafo_in_max" << vis_trafo_in_max
+             << "vis_trafo_gamma" << vis_trafo_gamma
+             << "vis_trafo_center" << vis_trafo_center
+             << "vis_trafo_divisor" << vis_trafo_divisor
+             << "keep_min_max" << false
+             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];
+    ER = D_Img_Proc::Visualize_to8bit(
+                &MA_VisTrafo,
+                &MA_Zoom,
+                vis_trafo_mode_crop,
+                vis_trafo_mode_trafo,
+                vis_trafo_mode_anchor,
+                vis_trafo_mode_range,
+                vis_trafo_anchor,
+                vis_trafo_range,
+                vis_trafo_in_min,
+                vis_trafo_in_max,
+                vis_trafo_gamma,
+                vis_trafo_center,
+                vis_trafo_divisor,
+                false,
+                vis_trafo_mode_complex);
+    if(ER != ER_okay)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom active, vis trafo active",
+            "Visualize_to8bit");
+        return ER;
+    }
+
+    ER = D_Img_Proc::Convert_Mat_to_QImage(
+                &QI_View,
+                &MA_VisTrafo);
+    if(ER != ER_okay)
+    {
+        ERR(ER,
+            "Proc_MA_2_QI - zoom active, vis trafo active",
+            "D_Img_Proc::Convert_Mat_to_QImage");
+        return ER;
+    }
+
+    return ER_okay;
+}
+
+/*!
+ * \brief D_Viewer::Proc_QI_2_PX Converts QImage to Pixmap that shall be shown later
+ * \ingroup proc
+ */
 void D_Viewer::Proc_QI_2_PX()
 {
     QET_view.start();
@@ -338,6 +472,10 @@ void D_Viewer::Proc_QI_2_PX()
     Proc_PX_2_SC();
 }
 
+/*!
+ * \brief D_Viewer::Proc_PX_Scale Sclae the pixmap to fit viewer size
+ * \ingroup proc
+ */
 void D_Viewer::Proc_PX_Scale()
 {
     PX_View = PX_View.scaled(
@@ -346,8 +484,11 @@ void D_Viewer::Proc_PX_Scale()
                 AspectMode,
                 TransMode);
 
-    scale_x = static_cast<double>(PX_View.width() / QI_View.width());
-    scale_y = static_cast<double>(PX_View.height() / QI_View.height());
+    if(QI_View.width() != 0 && QI_View.height() != 0)
+    {
+        scale_x = static_cast<double>(PX_View.width())  / static_cast<double>(QI_View.width());
+        scale_y = static_cast<double>(PX_View.height()) / static_cast<double>(QI_View.height());
+    }
 
     emit Scaled();
 
@@ -364,6 +505,10 @@ void D_Viewer::Proc_PX_Scale()
                 QString::number(static_cast<int>(scale_y * 100.0)) + "%");
 }
 
+/*!
+ * \brief D_Viewer::Proc_PX_2_SC Put (scaled) pixmap to view
+ * \ingroup proc
+ */
 void D_Viewer::Proc_PX_2_SC()
 {
     SC_View.clear();
@@ -375,6 +520,10 @@ void D_Viewer::Proc_PX_2_SC()
     emit View_Updated();
 }
 
+/*!
+ * \brief D_Viewer::Proc_Plot Shows image line by line / channel by channel as plot
+ * \ingroup proc
+ */
 void D_Viewer::Proc_Plot()
 {
     //basic dims
@@ -1704,6 +1853,12 @@ void D_Viewer::Proc_Plot()
     CV_View->setChart(chart);
 }
 
+/*!
+ * \brief D_Viewer::Is_MouseOverScene check, if mouse is over scene
+ * \param x mouse position x
+ * \param y mouse position y
+ * \return true if mouse is over scene / false if mouse is not over scene
+ */
 bool D_Viewer::Is_MouseOverScene(int x, int y)
 {
     if(zoom_active)
@@ -1712,24 +1867,51 @@ bool D_Viewer::Is_MouseOverScene(int x, int y)
         return (x >= 0) && (x < MA_Data.cols) && (y >= 0) && (y < MA_Data.rows);
 }
 
+/*!
+ * \brief D_Viewer::CalcRelativePos calculates the relative position of the cursor over the scene
+ * \param x mouse position x
+ * \param y mouse position y
+ * \return indicator if it worked as intended
+ */
 bool D_Viewer::CalcRelativePos(int x, int y)
 {
+    if(scale_x == 0 || scale_y == 0)
+        return false;
+
     //relative position
     cursor_x_rel = x / (static_cast<double>(QI_View.width())  * scale_x);
     cursor_y_rel = y / (static_cast<double>(QI_View.height()) * scale_y);
     return true;
 }
 
+/*!
+ * \brief D_Viewer::Scene2OriginalXY_Scale Scene coordinates scaling to image coordinates
+ * \param x mouse position x
+ * \param y mouse position y
+ * \return if mouse is over scene
+ */
 bool D_Viewer::Scene2OriginalXY_Scale(int *x, int *y)
 {
+    //only needed for debugging
+    int x_old = *x;
+    int y_old = *y;
+
     //scaling of scene
     *x /= scale_x;
     *y /= scale_y;
+
+    qDebug() << "Scene2OriginalXY_Scale" << "scaling" << x_old << y_old << "by" << scale_x << scale_y << "to" << *x << *y << "returns" << Is_MouseOverScene(*x, *y);
 
     //mouse over scene?
     return Is_MouseOverScene(*x, *y);
 }
 
+/*!
+ * \brief D_Viewer::Scene2OriginalXY_Offset Scene coordinates offset to image coordinates, if zoom is active
+ * \param x mouse position x
+ * \param y mouse position y
+ * \return indicator if it worked as intended
+ */
 bool D_Viewer::Scene2OriginalXY_Offset(int *x, int *y)
 {
     //offset of zoom
@@ -1742,6 +1924,12 @@ bool D_Viewer::Scene2OriginalXY_Offset(int *x, int *y)
     return true;
 }
 
+/*!
+ * \brief D_Viewer::Scene2OriginalXY_Transform Scene coordinates to image coordinates (scale and offset)
+ * \param x mouse position x
+ * \param y mouse position y
+ * \return indicator if it worked as intended
+ */
 bool D_Viewer::Scene2OriginalXY_Transform(int *x, int *y)
 {
     //Scale
@@ -1752,11 +1940,22 @@ bool D_Viewer::Scene2OriginalXY_Transform(int *x, int *y)
     return Scene2OriginalXY_Offset(x, y);
 }
 
+/*!
+ * \brief D_Viewer::ERR Error popup, if something went wrong
+ * \param err call an error code returning function here
+ * \param func function name
+ * \param detail context details
+ */
 void D_Viewer::ERR(int err, QString func, QString detail)
 {
     ER.ERR(err, "D_Vievwer", func, detail);
 }
 
+/*!
+ * \brief D_Viewer::Set_Image Set image
+ * \param MA_new Image to be set
+ * \details emits signals ::TypeChanged, ::TypeChanged_MA() and ::Image_Size_Changed()
+ */
 void D_Viewer::Set_Image(Mat *MA_new)
 {
     MA_Data = MA_new->clone();
@@ -1774,22 +1973,36 @@ void D_Viewer::Set_Image(Mat *MA_new)
                 QString::number(MA_Data.rows));
 }
 
+/*!
+ * \brief D_Viewer::Update_Image Set and show image
+ * \param MA_new image to be set and shown
+ */
 void D_Viewer::Update_Image(Mat *MA_new)
 {
     Set_Image(MA_new);
     Update_Image();
 }
 
+/*!
+ * \brief D_Viewer::Update_Image Starts the workflow to process and show an image as image or plot
+ */
 void D_Viewer::Update_Image()
 {
     Proc_ShowImgOrPlot();
 }
 
+/*!
+ * \brief D_Viewer::Update_View Starts the workflow to show an image
+ */
 void D_Viewer::Update_View()
 {
     Proc_QI_2_PX();
 }
 
+/*!
+ * \brief D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (generated default path)
+ * \return Save path
+ */
 QString D_Viewer::Save_Image_Dialog()
 {
     QString name_default = FI_LastSaved.dir().path() + "/" + FI_LastSaved.baseName();
@@ -1811,6 +2024,11 @@ QString D_Viewer::Save_Image_Dialog()
     return Save_Image(path);
 }
 
+/*!
+ * \brief D_Viewer::Save_Image_Dialog Opens a dialog to save the show image (given default path)
+ * \param path_default default path of dialog
+ * \return Save path
+ */
 QString D_Viewer::Save_Image_Dialog(QString path_default)
 {
     QFileInfo FI_saveDefault(path_default);
@@ -1833,11 +2051,20 @@ QString D_Viewer::Save_Image_Dialog(QString path_default)
     return Save_Image(path);
 }
 
+/*!
+ * \brief D_Viewer::Save_Image Saves the image at FI_LastSaved
+ * \return Save path
+ */
 QString D_Viewer::Save_Image()
 {
     return Save_Image(FI_LastSaved.absoluteFilePath());
 }
 
+/*!
+ * \brief D_Viewer::Save_Image Saves the image and sets FI_LastSaved
+ * \param path Save path
+ * \return Save path
+ */
 QString D_Viewer::Save_Image(QString path)
 {
     if(path == 0)
@@ -1852,6 +2079,10 @@ QString D_Viewer::Save_Image(QString path)
     return path;
 }
 
+/*!
+ * \brief D_Viewer::Set_ViewerMode Set view mode to image or plot and show image or plot
+ * \param mode enum from D_VIEWER_MODE
+ */
 void D_Viewer::Set_ViewerMode(int mode)
 {
     if(mode < 0 || mode >= c_VIEWER_MODE_NUMBER_OF)
@@ -1876,6 +2107,10 @@ void D_Viewer::Set_ViewerMode(int mode)
     Proc_ShowImgOrPlot();
 }
 
+/*!
+ * \brief D_Viewer::Set_Transformation_Mode Set transformation mode to fit an image to a viewer of different size
+ * \param smooth true for Qt::SmoothTransformation or false for Qt::FastTransformation
+ */
 void D_Viewer::Set_Transformation_Mode(bool smooth)
 {
     if(smooth)
@@ -1886,6 +2121,10 @@ void D_Viewer::Set_Transformation_Mode(bool smooth)
     Update_View();
 }
 
+/*!
+ * \brief D_Viewer::Set_Aspect_Mode Set aspect ratio handling mode to fit an image to a viewer of different size
+ * \param keep true for Qt::KeepAspectRatio or false for Qt::IgnoreAspectRatio
+ */
 void D_Viewer::Set_Aspect_Mode(bool keep)
 {
     if(keep)
@@ -1896,6 +2135,12 @@ void D_Viewer::Set_Aspect_Mode(bool keep)
     Update_View();
 }
 
+/*!
+ * \brief D_Viewer::Set_Zomm Set zoom parameters and apply zoom
+ * \param x_rel relative zoom position in x [0, 1]
+ * \param y_rel relative zoom position in y [0, 1]
+ * \param factor zoom factor (0, 1]
+ */
 void D_Viewer::Set_Zomm(double x_rel, double y_rel, double factor)
 {
     cursor_x_rel = x_rel;
@@ -1908,6 +2153,9 @@ void D_Viewer::Set_Zomm(double x_rel, double y_rel, double factor)
     blockSignals(false);
 }
 
+/*!
+ * \brief D_Viewer::Set_ZoomReset Reset zoom parameters to no zoom
+ */
 void D_Viewer::Set_ZoomReset()
 {
     zoom_factor_old = zoom_factor_cur;
@@ -1918,13 +2166,28 @@ void D_Viewer::Set_ZoomReset()
     blockSignals(false);
 }
 
+/*!
+ * \brief D_Viewer::MouseMoved slot that is executed when mouse is moved
+ * \param x mouse position x
+ * \param y mouse position y
+ * \details emits signals with information about mouse movement
+ */
 void D_Viewer::MouseMoved(int x, int y)
 {
+    qDebug() << "D_Viewer::MouseMoved" << x << y << "(in)";
+
+    /// Workflow:
+    /// - scaling to image coordinates
     if(!Scene2OriginalXY_Scale(&x, &y))
         return;
 
+    /// - offset of image, if zoom is active
     if(!Scene2OriginalXY_Offset(&x, &y))
         return;
+
+    /// - x and y are now correct image corrdinates
+    qDebug() << "D_Viewer::MouseMoved" << x << y << "(out)";
+    /// - emit signals
 
     emit MouseMoved();
 
@@ -1958,10 +2221,24 @@ void D_Viewer::MouseMoved(int x, int y)
     emit MouseMoved_Value(qs_val);
 }
 
+/*!
+ * \brief D_Viewer::MouseClicked slot that is executed when mouse is clicked
+ * \param x mouse position x
+ * \param y mouse position y
+ * \details emits signals with information about mose click and its position
+ */
 void D_Viewer::MouseClicked(int x, int y)
 {
+    qDebug() << "D_Viewer::MouseClicked" << x << y << "(in)";
+
+    /// Workflow:
+    /// - scaling to image coordinates
     if(!Scene2OriginalXY_Transform(&x, &y))
         return;
+
+    /// - x and y are now correct image corrdinates
+    qDebug() << "D_Viewer::MouseClicked" << x << y << "(out)";
+    /// - emit signals
 
     emit MouseClicked();
 
