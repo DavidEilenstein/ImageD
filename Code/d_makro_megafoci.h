@@ -127,6 +127,22 @@ private slots:
 
     void on_tabWidget_Control_currentChanged(int index);
 
+    void on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1);
+
+    void on_spinBox_ImgProc_Foc_BlurMedianSize_valueChanged(int arg1);
+
+    void on_spinBox_ImgProc_Foc_BinarySize_valueChanged(int arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_BinaryOffset_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_AreaMin_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_AreaMax_valueChanged(double arg1);
+
 private:
     Ui::D_MAKRO_MegaFoci *ui;
     bool ClosingPossible = false;
@@ -203,43 +219,59 @@ private:
 
     //Img Proc Step
     enum STEPS {
-        STEP_LOAD_MAIN,
-        STEP_LOAD_RIGHT,
-        STEP_LOAD_BOTTOM,
-        STEP_LOAD_BOTTOM_RIGHT,
-        STEP_STITCH,
-        STEP_PROJECT_Z,
-        STEP_P0_PICK,
-        STEP_P1_PICK,
-        STEP_PAGES_AS_COLOR,
-        STEP_P0_BLUR_MEDIAN,
-        STEP_P0_EDGE_CV,
-        STEP_P0_BINARY_THRES,
-        STEP_P0_BINARY_FILL_HOLES,
-        STEP_P0_BINARY_AREA_SELECT,
-        STEP_P0_DISTANCE,
-        STEP_P0_SEEDS,
-        STEP_P0_WATERSHED,
+        //Prepare (Load, Stitch, Project)
+        STEP_PRE_LOAD_MAIN,
+        STEP_PRE_LOAD_RIGHT,
+        STEP_PRE_LOAD_BOTTOM,
+        STEP_PRE_LOAD_BOTTOM_RIGHT,
+        STEP_PRE_STITCH,
+        STEP_PRE_PROJECT_Z,
+        //Pick Channels
+        STEP_PCK_P0,
+        STEP_PCK_P1,
+        STEP_VIS_PAGES_AS_COLOR,
+        //Find Nuclei
+        STEP_NUC_P0_BLUR_MEDIAN,
+        STEP_NUC_P0_EDGE_CV,
+        STEP_NUC_P0_BINARY_THRES,
+        STEP_NUC_BINARY_FILL_HOLES,
+        STEP_NUC_BINARY_AREA_SELECT,
+        STEP_NUC_DISTANCE,
+        STEP_NUC_SEEDS,
+        STEP_NUC_WATERSHED,
+        STEP_NUC_SELECT_AREA,
+        STEP_NUC_P1_SELECT_MEAN,
+        //Find Foci
+        STEP_FOC_P0_BLUR_MEDIAN,
+        STEP_FOC_P0_BINARY_THRES,
+        STEP_FOC_MASK_IN_NUC,
+        STEP_FOC_SELECT_AREA,
         STEP_NUMBER_OF
     };
     const QStringList QSL_Steps = {
-        "00 Load main image",
-        "01 Load border image R",
-        "02 Load border image B",
-        "03 Load border image BR",
-        "04 Stitch borders to main image",
-        "05 Z-Projection",
-        "06 GFP pick signal",
-        "07 RFP pick Signal",
-        "08 Color GFP blue RFP green",
-        "09 GFP circular median blur",
-        "10 GFP circular CV edges",
-        "11 GFP binarize edge image",
-        "12 GFP fill holes in edge image",
-        "13 GFP select nuclei sized",
-        "14 GFP distance transformation",
-        "15 GFP nuclei segmentation seeds",
-        "16 Nuclei watershed segmentation"
+        "pre-0 Load main image",
+        "pre-1 Load border image R",
+        "pre-2 Load border image B",
+        "pre-3 Load border image BR",
+        "pre-4 Stitch borders to main image",
+        "pre-5 Z-Projection",
+        "pck-0 GFP pick signal",
+        "pck-1 RFP pick Signal",
+        "vis-0 Color GFP blue RFP green",
+        "nuc-0 GFP circular median blur",
+        "nuc-1 GFP circular CV edges",
+        "nuc-2 GFP binarize edge image",
+        "nuc-3 fill holes in edge image",
+        "nuc-4 select nuclei sized",
+        "nuc-5 distance transformation",
+        "nuc-6 nuclei segmentation seeds",
+        "nuc-7 watershed segmentation",
+        "nuc-8 Select by Area",
+        "nuc-9 Select by Mean RFP Signal",
+        "foc-0 GFP circular median blur",
+        "foc-1 GFP binarize by threshold",
+        "foc-2 Mask by selected nuclei",
+        "foc-3 Select by Area",
     };
 
     //Tabs

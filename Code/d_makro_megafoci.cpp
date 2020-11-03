@@ -342,10 +342,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     StatusSet("ImgProc: " + QSL_Steps[static_cast<int>(step)]);
     switch (step) {
 
-    case STEP_LOAD_MAIN:
+    case STEP_PRE_LOAD_MAIN:
     {
         ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_LOAD_MAIN]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
                 dataset_pos_x,
                 dataset_pos_y,
                 dataset_pos_t),
@@ -354,10 +354,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_LOAD_RIGHT:
+    case STEP_PRE_LOAD_RIGHT:
     {
         ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_LOAD_RIGHT]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
                 dataset_pos_x + 1,
                 dataset_pos_y,
                 dataset_pos_t),
@@ -366,10 +366,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_LOAD_BOTTOM:
+    case STEP_PRE_LOAD_BOTTOM:
     {
         ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_LOAD_BOTTOM]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
                 dataset_pos_x,
                 dataset_pos_y + 1,
                 dataset_pos_t),
@@ -378,10 +378,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_LOAD_BOTTOM_RIGHT:
+    case STEP_PRE_LOAD_BOTTOM_RIGHT:
     {
         ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_LOAD_BOTTOM_RIGHT]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
                 dataset_pos_x + 1,
                 dataset_pos_y + 1,
                 dataset_pos_t),
@@ -390,34 +390,34 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_STITCH:
+    case STEP_PRE_STITCH:
     {
         ERR(D_VisDat_Proc::Stitch_Border_rel_custom(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_STITCH]),
-                &(vVD_ImgProcSteps[STEP_LOAD_MAIN]),
-                &(vVD_ImgProcSteps[STEP_LOAD_RIGHT]),
-                &(vVD_ImgProcSteps[STEP_LOAD_BOTTOM]),
-                &(vVD_ImgProcSteps[STEP_LOAD_BOTTOM_RIGHT]),
+                &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
             "STEP_STITCH"
-            "<br>VD Main: " + vVD_ImgProcSteps[STEP_LOAD_MAIN].info() +
-            "<br>VD Right: " + vVD_ImgProcSteps[STEP_LOAD_RIGHT].info() +
-            "<br>VD Bottom: " + vVD_ImgProcSteps[STEP_LOAD_BOTTOM].info() +
-            "<br>VD Bottom Right: " + vVD_ImgProcSteps[STEP_LOAD_BOTTOM_RIGHT].info() +
-            "<br>VD Stitched: " + vVD_ImgProcSteps[STEP_STITCH].info());
+            "<br>VD Main: " + vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN].info() +
+            "<br>VD Right: " + vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT].info() +
+            "<br>VD Bottom: " + vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM].info() +
+            "<br>VD Bottom Right: " + vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT].info() +
+            "<br>VD Stitched: " + vVD_ImgProcSteps[STEP_PRE_STITCH].info());
     }
         break;
 
-    case STEP_PROJECT_Z:
+    case STEP_PRE_PROJECT_Z:
     {
         ERR(D_VisDat_Proc::Dim_Project(
-                &(vVD_ImgProcSteps[STEP_PROJECT_Z]),
-                &(vVD_ImgProcSteps[STEP_STITCH]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
+                &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
                 c_DIM_Z,
                 ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex()),
             "Update_ImageProcessing_StepSingle",
@@ -425,39 +425,39 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_P0_PICK:
+    case STEP_PCK_P0:
     {
         vector<int> v_pick_dims = {-1, -1, -1, -1, -1, 0};
         ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_P0_PICK]),
-                &(vVD_ImgProcSteps[STEP_PROJECT_Z]),
+                &(vVD_ImgProcSteps[STEP_PCK_P0]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
                 v_pick_dims),
             "Update_ImageProcessing_StepSingle",
             "STEP_P0_PICK");
     }
         break;
 
-    case STEP_P1_PICK:
+    case STEP_PCK_P1:
     {
         vector<int> v_pick_dims = {-1, -1, -1, -1, -1, 1};
         ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_P1_PICK]),
-                &(vVD_ImgProcSteps[STEP_PROJECT_Z]),
+                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
                 v_pick_dims),
             "Update_ImageProcessing_StepSingle",
             "STEP_P1_PICK");
     }
         break;
 
-    case STEP_PAGES_AS_COLOR:
+    case STEP_VIS_PAGES_AS_COLOR:
     {
         bool use_channels[4] = {true, true, false, false};
         ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_PAGES_AS_COLOR]),
-                &(vVD_ImgProcSteps[STEP_P1_PICK]),
-                &(vVD_ImgProcSteps[STEP_P0_PICK]),
-                &(vVD_ImgProcSteps[STEP_P1_PICK]),
-                &(vVD_ImgProcSteps[STEP_P1_PICK]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
+                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_PCK_P0]),
+                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_PCK_P1]),
                 3,
                 use_channels),
             "Update_ImageProcessing_StepSingle",
@@ -467,12 +467,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_P0_BLUR_MEDIAN:
+    case STEP_NUC_P0_BLUR_MEDIAN:
     {
         ERR(D_VisDat_Proc::Filter_Stat_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_P0_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_P0_PICK]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_PCK_P0]),
                 ui->spinBox_ImgProc_GFP_BlurMedianSize->value(),
                 c_STAT_MEDIAN,
                 BORDER_REPLICATE),
@@ -481,12 +481,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_P0_EDGE_CV:
+    case STEP_NUC_P0_EDGE_CV:
     {
         ERR(D_VisDat_Proc::Filter_Stat_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_P0_EDGE_CV]),
-                &(vVD_ImgProcSteps[STEP_P0_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_EDGE_CV]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_GFP_EdgeCVSize->value(),
                 c_STAT_VAR_COEF_TOTAL,
                 BORDER_REPLICATE),
@@ -495,80 +495,80 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_P0_BINARY_THRES:
+    case STEP_NUC_P0_BINARY_THRES:
     {
         ERR(D_VisDat_Proc::Threshold_Relative(
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_P0_EDGE_CV]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_EDGE_CV]),
                 100.0,
                 ui->doubleSpinBox_ImgProc_GFP_ThresEdges->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_BINARY_THRES");
+            "STEP_NUC_P0_BINARY_THRES");
     }
         break;
 
-    case STEP_P0_BINARY_FILL_HOLES:
+    case STEP_NUC_BINARY_FILL_HOLES:
     {
         ERR(D_VisDat_Proc::Fill_Holes(
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_THRES])),
+                &(vVD_ImgProcSteps[STEP_NUC_BINARY_FILL_HOLES]),
+                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_THRES])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_BINARY_FILL_HOLES");
+            "STEP_NUC_BINARY_FILL_HOLES");
     }
         break;
 
-    case STEP_P0_BINARY_AREA_SELECT:
+    case STEP_NUC_BINARY_AREA_SELECT:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_AREA_SELECT]),
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_FILL_HOLES]),
+                &(vVD_ImgProcSteps[STEP_NUC_BINARY_AREA_SELECT]),
+                &(vVD_ImgProcSteps[STEP_NUC_BINARY_FILL_HOLES]),
                 c_FEAT_AREA,
                 ui->doubleSpinBox_ImgProc_GFP_AreaMin->value(),
                 ui->doubleSpinBox_ImgProc_GFP_AreaMax->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_BINARY_AREA_SELECT");
+            "STEP_NUC_BINARY_AREA_SELECT");
     }
         break;
 
-    case STEP_P0_DISTANCE:
+    case STEP_NUC_DISTANCE:
     {
         ERR(D_VisDat_Proc::Transformation_Distance(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_P0_DISTANCE]),
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_AREA_SELECT]),
+                &(vVD_ImgProcSteps[STEP_NUC_DISTANCE]),
+                &(vVD_ImgProcSteps[STEP_NUC_BINARY_AREA_SELECT]),
                 CV_DIST_L2,
                 CV_DIST_MASK_PRECISE),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_DISTANCE");
+            "STEP_NUC_DISTANCE");
     }
         break;
 
-    case STEP_P0_SEEDS:
+    case STEP_NUC_SEEDS:
     {
         ERR(D_VisDat_Proc::Threshold_Relative(
-                &(vVD_ImgProcSteps[STEP_P0_SEEDS]),
-                &(vVD_ImgProcSteps[STEP_P0_DISTANCE]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEEDS]),
+                &(vVD_ImgProcSteps[STEP_NUC_DISTANCE]),
                 1000.0,
                 ui->doubleSpinBox_ImgProc_GFP_DistThres->value() / 1000.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_SEEDS");
+            "STEP_NUC_SEEDS");
     }
         break;
 
-    case STEP_P0_WATERSHED:
+    case STEP_NUC_WATERSHED:
     {
         ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_P0_WATERSHED]),
-                &(vVD_ImgProcSteps[STEP_P0_BINARY_AREA_SELECT]),
-                &(vVD_ImgProcSteps[STEP_P0_SEEDS]),
+                &(vVD_ImgProcSteps[STEP_NUC_WATERSHED]),
+                &(vVD_ImgProcSteps[STEP_NUC_BINARY_AREA_SELECT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEEDS]),
                 ui->checkBox_ImgProc_NucWatershed_NonSeed->isChecked(),
                 false,
                 ui->checkBox_ImgProc_NucWatershed_ExBordered->isChecked()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_P0_WATERSHED");
+            "STEP_NUC_WATERSHED");
     }
         break;
     }
@@ -583,7 +583,7 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
     Populate_CB_Single(ui->comboBox_VisTrafo_AnchorMode,                    QSL_VisTrafo_Anchor,c_VIS_TRAFO_ANCHOR_DYNAMIC);
     Populate_CB_Single(ui->comboBox_VisTrafo_RangeMode,                     QSL_VisTrafo_Range, c_VIS_TRAFO_RANGE_DYNAMIC);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_PAGES_AS_COLOR);
+    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_VIS_PAGES_AS_COLOR);
 
     Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,       c_STAT_MAXIMUM);
 }
@@ -741,7 +741,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
     ERR(D_VisDat_Proc::Scale_ToSize(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &VD_tmp_CurrentColorScaled,
-                &(vVD_ImgProcSteps[STEP_PAGES_AS_COLOR]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
                 static_cast<int>(overview_SubImgSizeX * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0)),
                 static_cast<int>(overview_SubImgSizeY * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0))),
         "Overview_Update",
@@ -985,8 +985,8 @@ void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_RangeMode_currentIndexChanged(int in
 
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int index)
 {
-    ui->spinBox_Viewport_Z->setEnabled(index < STEP_PROJECT_Z);
-    ui->spinBox_Viewport_P->setEnabled(index < STEP_P0_PICK);
+    ui->spinBox_Viewport_Z->setEnabled(index < STEP_PRE_PROJECT_Z);
+    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_P0);
 
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
     Update_Images_Proc();
@@ -1001,25 +1001,25 @@ void D_MAKRO_MegaFoci::on_spinBox_Viewport_P_valueChanged(int arg1)
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1)
 {
     arg1;
-    Update_ImageProcessing_StepFrom(STEP_STITCH);
+    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Overlap_valueChanged(double arg1)
 {
     arg1;
-    Update_ImageProcessing_StepFrom(STEP_STITCH);
+    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index)
 {
     index;
-    Update_ImageProcessing_StepFrom(STEP_PROJECT_Z);
+    Update_ImageProcessing_StepFrom(STEP_PRE_PROJECT_Z);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
     if(arg1 % 2)
-        Update_ImageProcessing_StepFrom(STEP_P0_BLUR_MEDIAN);
+        Update_ImageProcessing_StepFrom(STEP_NUC_P0_BLUR_MEDIAN);
     else
         ui->spinBox_ImgProc_GFP_BlurMedianSize->setValue(arg1 + 1);
 }
@@ -1027,7 +1027,7 @@ void D_MAKRO_MegaFoci::on_spinBox_ImgProc_GFP_BlurMedianSize_valueChanged(int ar
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_ThresEdges_valueChanged(double arg1)
 {
     arg1;
-    Update_ImageProcessing_StepFrom(STEP_P0_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_NUC_P0_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_AreaMin_valueChanged(double arg1)
@@ -1035,7 +1035,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_AreaMin_valueChanged(double 
     if(arg1 > ui->doubleSpinBox_ImgProc_GFP_AreaMax->value())
         ui->doubleSpinBox_ImgProc_GFP_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_P0_BINARY_AREA_SELECT);
+        Update_ImageProcessing_StepFrom(STEP_NUC_BINARY_AREA_SELECT);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_AreaMax_valueChanged(double arg1)
@@ -1043,23 +1043,23 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_AreaMax_valueChanged(double 
     if(arg1 < ui->doubleSpinBox_ImgProc_GFP_AreaMin->value())
         ui->doubleSpinBox_ImgProc_GFP_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_P0_BINARY_AREA_SELECT);
+        Update_ImageProcessing_StepFrom(STEP_NUC_BINARY_AREA_SELECT);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_GFP_DistThres_valueChanged(double arg1)
 {
     arg1;
-    Update_ImageProcessing_StepFrom(STEP_P0_DISTANCE);
+    Update_ImageProcessing_StepFrom(STEP_NUC_DISTANCE);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_ImgProc_NucWatershed_NonSeed_clicked()
 {
-    Update_ImageProcessing_StepFrom(STEP_P0_WATERSHED);
+    Update_ImageProcessing_StepFrom(STEP_NUC_WATERSHED);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_ImgProc_NucWatershed_ExBordered_clicked()
 {
-    Update_ImageProcessing_StepFrom(STEP_P0_WATERSHED);
+    Update_ImageProcessing_StepFrom(STEP_NUC_WATERSHED);
 }
 
 void D_MAKRO_MegaFoci::on_tabWidget_Control_currentChanged(int index)
@@ -1083,4 +1083,60 @@ void D_MAKRO_MegaFoci::on_tabWidget_Control_currentChanged(int index)
         break;
 
     }
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1)
+{
+    if(arg1 > ui->doubleSpinBox_ImgProc_Nuc_AreaMax->value())
+        ui->doubleSpinBox_ImgProc_Nuc_AreaMax->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_NUC_SELECT_AREA);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1)
+{
+    if(arg1 < ui->doubleSpinBox_ImgProc_Nuc_AreaMin->value())
+        ui->doubleSpinBox_ImgProc_Nuc_AreaMin->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_NUC_SELECT_AREA);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1)
+{
+    arg1;
+    Update_ImageProcessing_StepFrom(STEP_NUC_P1_SELECT_MEAN);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_BlurMedianSize_valueChanged(int arg1)
+{
+    arg1;
+    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BLUR_MEDIAN);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_BinarySize_valueChanged(int arg1)
+{
+    arg1;
+    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BINARY_THRES);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_BinaryOffset_valueChanged(double arg1)
+{
+    arg1;
+    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BINARY_THRES);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_AreaMin_valueChanged(double arg1)
+{
+    if(arg1 > ui->doubleSpinBox_ImgProc_Foc_AreaMax->value())
+        ui->doubleSpinBox_ImgProc_Foc_AreaMax->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_FOC_SELECT_AREA);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_AreaMax_valueChanged(double arg1)
+{
+    if(arg1 < ui->doubleSpinBox_ImgProc_Foc_AreaMin->value())
+        ui->doubleSpinBox_ImgProc_Foc_AreaMin->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_FOC_SELECT_AREA);
 }
