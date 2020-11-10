@@ -328,6 +328,8 @@ public:
     static int      Floodfill                   (Mat *pMA_Out, Mat *pMA_In, unsigned int seed_x, unsigned int seed_y, double new_val);
     static int      Floodfill                   (Mat *pMA_Target, unsigned int seed_x, unsigned int seed_y, double new_val);
     static int      Floodfill_Boundary          (Mat *pMA_Out, Mat *pMA_In, double new_val);
+    static int      Floodfill_Delta             (Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_y, uchar val_new, uchar val_delta);
+    static bool     Floodfill_Delta_Step        (Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin);
 
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r = 1, uchar val = 255);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double value = 255);

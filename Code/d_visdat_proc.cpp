@@ -4326,6 +4326,22 @@ int D_VisDat_Proc::Floodfill_Border(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Ou
                 pVD_In);
 }
 
+int D_VisDat_Proc::Floodfill_Delta(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int seed_x, int seed_y, uchar val_new, uchar val_delta)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD_SameSizeType(
+                slice,
+                D_Img_Proc_2dFactory::Floodfill_Delta(
+                    seed_x,
+                    seed_y,
+                    val_new,
+                    val_delta),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Scale_Factor(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double scale_dim_0, double scale_dim_1)
 {
     if(!slice.is_2D())

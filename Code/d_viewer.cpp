@@ -1900,7 +1900,7 @@ bool D_Viewer::Scene2OriginalXY_Scale(int *x, int *y)
     *x /= scale_x;
     *y /= scale_y;
 
-    qDebug() << "Scene2OriginalXY_Scale" << "scaling" << x_old << y_old << "by" << scale_x << scale_y << "to" << *x << *y << "returns" << Is_MouseOverScene(*x, *y);
+    //qDebug() << "Scene2OriginalXY_Scale" << "scaling" << x_old << y_old << "by" << scale_x << scale_y << "to" << *x << *y << "returns" << Is_MouseOverScene(*x, *y);
 
     //mouse over scene?
     return Is_MouseOverScene(*x, *y);
@@ -2174,7 +2174,7 @@ void D_Viewer::Set_ZoomReset()
  */
 void D_Viewer::MouseMoved(int x, int y)
 {
-    qDebug() << "D_Viewer::MouseMoved" << x << y << "(in)";
+    //qDebug() << "D_Viewer::MouseMoved" << x << y << "(in)";
 
     /// Workflow:
     /// - scaling to image coordinates
@@ -2186,7 +2186,7 @@ void D_Viewer::MouseMoved(int x, int y)
         return;
 
     /// - x and y are now correct image corrdinates
-    qDebug() << "D_Viewer::MouseMoved" << x << y << "(out)";
+    //qDebug() << "D_Viewer::MouseMoved" << x << y << "(out)";
     /// - emit signals
 
     emit MouseMoved();

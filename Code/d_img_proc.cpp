@@ -12612,6 +12612,88 @@ int D_Img_Proc::Floodfill_Boundary(Mat *pMA_Out, Mat *pMA_In, double new_val)
     return ER_okay;
 }
 
+int D_Img_Proc::Floodfill_Delta(Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_y, uchar val_new, uchar val_delta)
+{
+    //Errors
+    if(pMA_In->empty())                 return ER_empty;
+    if(pMA_In->type() != CV_8UC1)       return ER_type_bad;
+
+    //Init Out img
+    *pMA_Out = pMA_In->clone();
+
+    //Errors 2
+    if(seed_x < 0)                      return ER_index_out_of_range;
+    if(seed_x > pMA_In->cols - 1)       return ER_index_out_of_range;
+    if(seed_y < 0)                      return ER_index_out_of_range;
+    if(seed_y > pMA_In->rows - 1)       return ER_index_out_of_range;
+
+    //Label image
+    Mat MA_tmp_label = Mat::zeros(pMA_In->size(), CV_16UC1);
+
+    //start recursion
+    qDebug() << "Floodfill_Delta Start recursion: Floodfill_Delta_Step";
+    Floodfill_Delta_Step(
+                pMA_Out,
+                &MA_tmp_label,
+                seed_x,
+                seed_y,
+                0,
+                0,
+                val_new,
+                val_delta,
+                pMA_Out->at<uchar>(seed_y,seed_x));
+
+    return ER_okay;
+}
+
+bool D_Img_Proc::Floodfill_Delta_Step(Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin)
+{
+    //type check
+    if(pMA_Check->type() != CV_16UC1)   return false;
+    if(pMA_Target->type() != CV_8UC1)   return false;
+
+    //change coordinates
+    x += dx;
+    y += dy;
+
+    //check coordinates
+    if(x < 0)                       {qDebug() << "Floodfill_Delta_Step: x to small" << x  << y; return false;}
+    if(x > pMA_Target->cols - 1)    {qDebug() << "Floodfill_Delta_Step: x to big"   << x  << y; return false;}
+    if(y < 0)                       {qDebug() << "Floodfill_Delta_Step: y to small" << x  << y; return false;}
+    if(y > pMA_Target->rows - 1)    {qDebug() << "Floodfill_Delta_Step: y to big"   << x  << y; return false;}
+
+    //position allready drawn to?
+    if(pMA_Check->at<ushort>(y, x) != 0)
+    {
+        qDebug() << "Floodfill_Delta_Step: pixel" << x << y << "already painted to.";
+        return false;
+    }
+
+    //get values
+    int val_current = pMA_Target->at<uchar>(y, x);
+
+    //value out of draw value range?
+    if(abs(val_current - val_origin) > val_delta)
+    {
+        qDebug() << "Floodfill_Delta_Step: Value difference to origin is too high" << "val_current" << val_current << "val_origin" << val_origin << "val_delta" << val_delta;
+        return false;
+    }
+
+    //replace value in out image
+    pMA_Target->at<uchar>(y, x) = val_new;
+    pMA_Check->at<ushort>(y, x) = 1;
+    qDebug() << "Set pixel" << x << y << "to value" << val_new;
+
+    //recursive call to neighbors
+    Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y, +1,  0, val_new, val_delta, val_current);
+    Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y, -1,  0, val_new, val_delta, val_current);
+    Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y,  0, +1, val_new, val_delta, val_current);
+    Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y,  0, -1, val_new, val_delta, val_current);
+    return true;
+}
+
+
+
 int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int r, uchar val)
 {
     if(pMA_Target->empty())             return ER_empty;

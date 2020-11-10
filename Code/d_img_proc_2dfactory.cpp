@@ -860,6 +860,21 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Floodfill_Border(double new_v
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Floodfill_Delta(int seed_x, int seed_y, uchar val_new, uchar val_delta)
+{
+    return
+            [seed_x, seed_y, val_new, val_delta](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Floodfill_Delta(
+                    pMA_Out,
+                    pMA_In,
+                    seed_x,
+                    seed_y,
+                    val_new,
+                    val_delta);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Morphology_Elemental(int morph_type, int elem_type, int elem_size_X, int elem_size_Y, int border_type, int iterations)
 {
     return

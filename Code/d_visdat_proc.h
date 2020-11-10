@@ -161,6 +161,7 @@ public:
     static int  Pad_Border              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y, int size_z, int type = BORDER_CONSTANT, double border_value = 0);
     static int  ForceSize               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int width, int heigth, int border_type = BORDER_CONSTANT);
     static int  Floodfill_Border        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double new_val);
+    static int  Floodfill_Delta         (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int seed_x, int seed_y, uchar val_new, uchar val_delta);
     static int  Scale_Factor            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double scale_dim_0, double scale_dim_1);
     static int  Scale_ToSize            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_dim_0, int size_dim_1);
 

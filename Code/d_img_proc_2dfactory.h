@@ -88,6 +88,7 @@ public:
     static function<int (Mat *, Mat *)>                         Pad_Border                      (int size_x, int size_y, int type = BORDER_CONSTANT);
     static function<int (Mat *, Mat *)>                         ForceSize                       (int width, int heigth, int border_type = BORDER_CONSTANT);
     static function<int (Mat *, Mat *)>                         Floodfill_Border                (double new_val);
+    static function<int (Mat *, Mat *)>                         Floodfill_Delta                 (int seed_x, int seed_y, uchar val_new, uchar val_delta);
 
     static function<int (Mat *, Mat *)>                         Morphology_Elemental            (int morph_type, int elem_type, int elem_size_X, int elem_size_Y, int border_type, int iterations);
     static function<int (Mat *, Mat *)>                         Morphology_Skeleton             (int elem_type, int elem_size_X, int elem_size_Y, int border_type);

@@ -815,6 +815,7 @@ void D_StepWindow::Update_Img_Proc()
         case c_sT_ED_FLOODFILL:  //-------------------------------------------------------------------   Floodfill
         {
             switch (ui->comboBox_01_Floodfill_Type->currentIndex()) {
+
             case 0://Boundary
                 ERR(D_VisDat_Proc::Floodfill_Border(
                         SlicingFromUi(),
@@ -824,6 +825,20 @@ void D_StepWindow::Update_Img_Proc()
                     "Update_Img_Proc",
                     "Floodfill_Border");
                 break;
+
+            case 1://Delta
+                ERR(D_VisDat_Proc::Floodfill_Delta(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->spinBox_01_Floodfill_Delta_SeedX->value(),
+                        ui->spinBox_01_Floodfill_Delta_SeedY->value(),
+                        ui->doubleSpinBox_01_Floodfill_Value_Fill->value(),
+                        ui->doubleSpinBox_01_Floodfill_Delta_Delta->value()),
+                    "Update_Img_Proc",
+                    "Floodfill_Delta");
+                break;
+
             default:
                 break;
             }
@@ -5014,6 +5029,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         //Floodfill
         connect(ui->comboBox_01_Floodfill_Type,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_01_Floodfill_Value_Fill,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_01_Floodfill_Delta_Delta, SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_01_Floodfill_Delta_SeedX,       SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_01_Floodfill_Delta_SeedY,       SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+
         //Padding
         connect(ui->spinBox_01_Padding_Width_X,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_Padding_Width_Y,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
