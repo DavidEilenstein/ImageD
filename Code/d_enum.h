@@ -16,8 +16,8 @@
 #include <complex>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_0_4";
-const QString           D_QS_Release  = "27.10.2020";
+const QString           D_QS_Version  = "v1_0_5";
+const QString           D_QS_Release  = "10.11.2020";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -1721,7 +1721,7 @@ PH_g_earth              = 9.80665;
  *      - Graphical user interface
  *      - Easy to handle for beginner users
  *      - Lots of parametric functions for advanced users
- *      - Multidimension images and videos (up to 6D)
+ *      - Multidimensional images and videos (up to 6D)
  *      - Rapid prototyping
  *      - Dynamic image processing chains
  *      - Interactive image analysis
@@ -1729,7 +1729,7 @@ PH_g_earth              = 9.80665;
  *
  * What ImageD is not intended to do:
  *      - Industrial applications like quality control
- *      - High high speed optimization
+ *      - High speed optimization
  *
  * \section istall_sec Installation
  *

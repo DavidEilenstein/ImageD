@@ -212,6 +212,20 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive(int mode, 
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(int size, double sigma, double offset)
+{
+    return
+            [size, sigma, offset](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Threshold_Adaptive_Gauss(
+                    pMA_Out,
+                    pMA_In,
+                    size,
+                    sigma,
+                    offset);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Labeling(int connectivity, int out_depth)
 {
     return

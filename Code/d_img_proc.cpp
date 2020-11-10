@@ -5099,6 +5099,7 @@ int D_Img_Proc::Threshold_Adaptive(Mat *pMA_Out, Mat *pMA_In, int out_mode, doub
     if(pMA_In->channels() > 1)                                                  return ER_channel_bad;
     if((out_mode != CV_THRESH_BINARY) && (out_mode != CV_THRESH_BINARY_INV))    return ER_type_bad;
 
+    qDebug() << "Fix 2 * mask_size + 1 in D_Img_Proc::Threshold_Adaptive!!!!!!!!!!!";
     adaptiveThreshold(
                 *pMA_In,
                 *pMA_Out,
@@ -5108,6 +5109,146 @@ int D_Img_Proc::Threshold_Adaptive(Mat *pMA_Out, Mat *pMA_In, int out_mode, doub
                 2 * mask_size + 1,
                 offset);
 
+    return ER_okay;
+}
+
+int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)
+{
+    //multichannel vaersion will be added when needed
+    return Threshold_Adaptive_Gauss_1C(
+                pMA_Out,
+                pMA_In,
+                size,
+                sigma,
+                offset);
+}
+
+/*!
+ * \brief D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered image
+ * \details Per pixel: (in + offset > blur(in, size, sigma)) ? 255 : 0
+ * \param pMA_Out binary CV_8UC1 image
+ * \param pMA_In 1C gray value image
+ * \param size gauss filter size (must be odd)
+ * \param sigma gauss filter sigma (>= 0)
+ * \param offset comparision needed offset
+ * \return error code
+*/
+int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)
+{
+    if(pMA_In->empty())                     return ER_empty;
+    if(pMA_In->channels() > 1)              return ER_channel_bad;
+    if(size < 1)                            return ER_parameter_bad;
+    if((size % 2) != 1)                     return ER_parameter_bad;
+    if(sigma < 0)                           return ER_parameter_bad;
+    int ER;
+
+    Mat MA_tmp_Blur;
+    ER = Filter_Gauss(
+                &MA_tmp_Blur,
+                pMA_In,
+                size,
+                size,
+                BORDER_REPLICATE,
+                sigma,
+                sigma);
+    if(ER != ER_okay)
+    {
+        MA_tmp_Blur.release();
+        return ER;
+    }
+
+    size_t area = pMA_In->cols * pMA_In->rows;
+
+    *pMA_Out = Mat::zeros(pMA_In->size(), CV_8UC1);
+
+    switch (pMA_In->type()) {
+
+    case CV_8UC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        uchar* ptr_in       = reinterpret_cast<uchar*>(pMA_In->data);
+        uchar* ptr_blur     = reinterpret_cast<uchar*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_8SC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        char* ptr_in        = reinterpret_cast<char*>(pMA_In->data);
+        char* ptr_blur      = reinterpret_cast<char*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        ushort* ptr_in      = reinterpret_cast<ushort*>(pMA_In->data);
+        ushort* ptr_blur    = reinterpret_cast<ushort*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_16SC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        short* ptr_in       = reinterpret_cast<short*>(pMA_In->data);
+        short* ptr_blur     = reinterpret_cast<short*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_32SC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        int* ptr_in         = reinterpret_cast<int*>(pMA_In->data);
+        int* ptr_blur       = reinterpret_cast<int*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_32FC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        float* ptr_in       = reinterpret_cast<float*>(pMA_In->data);
+        float* ptr_blur     = reinterpret_cast<float*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        uchar* ptr_out      = reinterpret_cast<uchar*>(pMA_Out->data);
+        double* ptr_in      = reinterpret_cast<double*>(pMA_In->data);
+        double* ptr_blur    = reinterpret_cast<double*>(MA_tmp_Blur.data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
+            if(*ptr_in + offset > *ptr_blur)
+                *ptr_out = 255;
+    }
+        break;
+
+    default:
+    {
+        MA_tmp_Blur.release();
+        return ER_type_bad;
+    }
+
+    }
+
+    MA_tmp_Blur.release();
     return ER_okay;
 }
 

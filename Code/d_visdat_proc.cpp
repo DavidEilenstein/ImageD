@@ -4486,6 +4486,23 @@ int D_VisDat_Proc::Channels_Merge(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, 
                 pVD_In3);
 }
 
+int D_VisDat_Proc::Channels_Merge(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2)
+{
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In0->Dim(),
+                D_Img_Proc::TypeIndex_of_Mat(
+                    3,
+                    pVD_In0->pMA_full()->depth()));
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Channel_Merge(),
+                pVD_Out,
+                pVD_In0,
+                pVD_In1,
+                pVD_In2);
+}
+
 int D_VisDat_Proc::Channels_Split(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel)
 {
     *pVD_Out = D_VisDat_Obj(
@@ -4644,6 +4661,27 @@ int D_VisDat_Proc::Threshold_Adaptive(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_I
                     max,
                     mask_type,
                     mask_size,
+                    offset),
+                pVD_Out,
+                pVD_In);
+}
+
+int D_VisDat_Proc::Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                D_Img_Proc::TypeIndex_of_Mat(
+                    pVD_In->pMA_full()->channels(),
+                    CV_8U));
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(
+                    size,
+                    sigma,
                     offset),
                 pVD_Out,
                 pVD_In);

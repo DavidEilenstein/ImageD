@@ -171,6 +171,7 @@ public:
     static int  Normalize               (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int norm, int type, double min, double max);
     static int  Convert_Double          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4]);
+    static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
     static int  Channels_Split          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel);
     static int  Convert_8UC1_binary     (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Visualize_to8bit        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
@@ -184,6 +185,7 @@ public:
     static int  Threshold_Relative_8U   (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh_rel);
     static int  Threshold_Relative      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double base, double thresh_rel);
     static int  Threshold_Adaptive      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int mask_type, int mask_size, double offset);
+    static int  Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset);
 
     //Grab Color
     static int  Color_Grab              (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);

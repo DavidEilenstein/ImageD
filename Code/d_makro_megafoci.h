@@ -114,34 +114,47 @@ private slots:
 
     void on_spinBox_Viewport_P_valueChanged(int arg1);
 
+    void on_tabWidget_Control_currentChanged(int index);
+
     void on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Stitch_Overlap_valueChanged(double arg1);
     void on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
-    void on_spinBox_ImgProc_GFP_BlurMedianSize_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_GFP_ThresEdges_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_GFP_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_GFP_AreaMax_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_GFP_DistThres_valueChanged(double arg1);
-    void on_checkBox_ImgProc_NucWatershed_NonSeed_clicked();
-    void on_checkBox_ImgProc_NucWatershed_ExBordered_clicked();
-
-    void on_tabWidget_Control_currentChanged(int index);
 
     void on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Nuc_GFP_BlurMedianSize_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Nuc_GFP_EdgeCVSize_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Nuc_GFP_AreaMin_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Nuc_GFP_AreaMax_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Nuc_GFP_DistThres_valueChanged(double arg1);
+    void on_checkBox_ImgProc_Nuc_Watershed_NonSeed_stateChanged(int arg1);
+    void on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged(int arg1);
 
+    /*
     void on_spinBox_ImgProc_Foc_BlurMedianSize_valueChanged(int arg1);
-
     void on_spinBox_ImgProc_Foc_BinarySize_valueChanged(int arg1);
-
     void on_doubleSpinBox_ImgProc_Foc_BinaryOffset_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Foc_AreaMin_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Foc_AreaMax_valueChanged(double arg1);
+    */
+
+    void on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1);
+
+    void on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1);
 
 private:
     Ui::D_MAKRO_MegaFoci *ui;
@@ -229,23 +242,41 @@ private:
         //Pick Channels
         STEP_PCK_P0,
         STEP_PCK_P1,
+        //Visualization
         STEP_VIS_PAGES_AS_COLOR,
         //Find Nuclei
         STEP_NUC_P0_BLUR_MEDIAN,
         STEP_NUC_P0_EDGE_CV,
         STEP_NUC_P0_BINARY_THRES,
-        STEP_NUC_BINARY_FILL_HOLES,
-        STEP_NUC_BINARY_AREA_SELECT,
+        STEP_NUC_P0_BINARY_FILL_HOLES,
+        STEP_NUC_P0_BINARY_AREA_SELECT,
         STEP_NUC_DISTANCE,
         STEP_NUC_SEEDS,
         STEP_NUC_WATERSHED,
         STEP_NUC_SELECT_AREA,
         STEP_NUC_P1_SELECT_MEAN,
-        //Find Foci
+        STEP_VIS_NUC_BORDERS,
+        //Find Foci GFP
         STEP_FOC_P0_BLUR_MEDIAN,
         STEP_FOC_P0_BINARY_THRES,
-        STEP_FOC_MASK_IN_NUC,
-        STEP_FOC_SELECT_AREA,
+        STEP_FOC_P0_MASK_IN_NUC,
+        STEP_FOC_P0_SELECT_AREA,
+        //Find Foci RFP
+        STEP_FOC_P1_BLUR_MEDIAN,
+        STEP_FOC_P1_BINARY_THRES,
+        STEP_FOC_P1_MASK_IN_NUC,
+        STEP_FOC_P1_SELECT_AREA,
+        //Match Foci
+        STEP_FOC_BOTH_INTERSECT,
+        STEP_FOC_BOTH_SELECT_AREA,
+        //Classification
+        STEP_CLA_FOC_ALL,
+        STEP_CLA_FOC_IN_ONE_ONLY,
+        STEP_CLA_FOC_IN_P0_ONLY,
+        STEP_CLA_FOC_IN_P1_ONLY,
+        //Visualization
+        STEP_VIS_REGIONS,
+        STEP_VIS_REGIONS_BACKGROUND,
         STEP_NUMBER_OF
     };
     const QStringList QSL_Steps = {
@@ -255,9 +286,12 @@ private:
         "pre-3 Load border image BR",
         "pre-4 Stitch borders to main image",
         "pre-5 Z-Projection",
+
         "pck-0 GFP pick signal",
         "pck-1 RFP pick Signal",
+
         "vis-0 Color GFP blue RFP green",
+
         "nuc-0 GFP circular median blur",
         "nuc-1 GFP circular CV edges",
         "nuc-2 GFP binarize edge image",
@@ -268,10 +302,29 @@ private:
         "nuc-7 watershed segmentation",
         "nuc-8 Select by Area",
         "nuc-9 Select by Mean RFP Signal",
-        "foc-0 GFP circular median blur",
-        "foc-1 GFP binarize by threshold",
-        "foc-2 Mask by selected nuclei",
-        "foc-3 Select by Area",
+
+        "vis-1 Nuclei segemntation borders",
+
+        "foc-gfp-0 circular median blur",
+        "foc-gfp-1 binarize by threshold",
+        "foc-gfp-2 Mask by selected nuclei",
+        "foc-gfp-3 Select by Area",
+
+        "foc-rfp-0 circular median blur",
+        "foc-rfp-1 binarize by threshold",
+        "foc-rfp-2 Mask by selected nuclei",
+        "foc-rfp-3 Select by Area",
+
+        "foc-both-0 foci detected in GFP and RFP",
+        "foc-both-0 Select by Area",
+
+        "cla-0 Foci in at least one channel",
+        "cla-1 Foci in one channel only",
+        "cla-2 Foci in GFP only",
+        "cla-3 Foci in RFP only",
+
+        "vis-2 Regions",
+        "vis-3 Regions with background"
     };
 
     //Tabs

@@ -260,7 +260,7 @@ int D_Viewer::Proc_MA_2_QI_NoZoom_NoVistrafo()
  */
 int D_Viewer::Proc_MA_2_QI_NoZoom_ButVistrafo()
 {
-    qDebug() << "Proc_MA_2_QI_NoZoom_ButVistrafo"
+    /*qDebug() << "Proc_MA_2_QI_NoZoom_ButVistrafo"
              << "vis_trafo_mode_crop" << QSL_VisTrafo_Crop[vis_trafo_mode_crop]
              << "vis_trafo_mode_trafo" << QSL_VisTrafo[vis_trafo_mode_trafo]
              << "vis_trafo_mode_anchor" << QSL_VisTrafo_Anchor[vis_trafo_mode_anchor]
@@ -273,7 +273,7 @@ int D_Viewer::Proc_MA_2_QI_NoZoom_ButVistrafo()
              << "vis_trafo_center" << vis_trafo_center
              << "vis_trafo_divisor" << vis_trafo_divisor
              << "keep_min_max" << false
-             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];
+             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];*/
     int ER = D_Img_Proc::Visualize_to8bit(
                 &MA_VisTrafo,
                 &MA_Data,
@@ -319,14 +319,14 @@ int D_Viewer::Proc_MA_2_QI_NoZoom_ButVistrafo()
  */
 int D_Viewer::Proc_MA_2_QI_Zoom_ButNoVistrafo()
 {
-    qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
+    /*qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
              << "cursor_x_rel" << cursor_x_rel
              << "cursor_y_rel" << cursor_y_rel
              << "zoom_factor_cur" << zoom_factor_cur
              << "zoom_offset_x" << zoom_offset_x
              << "zoom_offset_y" << zoom_offset_y
              << "zoom_width" << zoom_width
-             << "zoom_height" << zoom_height;
+             << "zoom_height" << zoom_height;*/
     int ER = D_Img_Proc::Zoom(
             &MA_Zoom,
             &MA_Data,
@@ -372,14 +372,14 @@ int D_Viewer::Proc_MA_2_QI_Zoom_ButNoVistrafo()
  */
 int D_Viewer::Proc_MA_2_QI_Zoom_And_Vistrafo()
 {
-    qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
+    /*qDebug() << "Proc_MA_2_QI_Zoom_ButNoVistrafo"
              << "cursor_x_rel" << cursor_x_rel
              << "cursor_y_rel" << cursor_y_rel
              << "zoom_factor_cur" << zoom_factor_cur
              << "zoom_offset_x" << zoom_offset_x
              << "zoom_offset_y" << zoom_offset_y
              << "zoom_width" << zoom_width
-             << "zoom_height" << zoom_height;
+             << "zoom_height" << zoom_height;*/
     int ER = D_Img_Proc::Zoom(
                 &MA_Zoom,
                 &MA_Data,
@@ -404,7 +404,7 @@ int D_Viewer::Proc_MA_2_QI_Zoom_And_Vistrafo()
         return ER;
     }
 
-    qDebug() << "Proc_MA_2_QI_Zoom_And_Vistrafo"
+    /*qDebug() << "Proc_MA_2_QI_Zoom_And_Vistrafo"
              << "vis_trafo_mode_crop" << QSL_VisTrafo_Crop[vis_trafo_mode_crop]
              << "vis_trafo_mode_trafo" << QSL_VisTrafo[vis_trafo_mode_trafo]
              << "vis_trafo_mode_anchor" << QSL_VisTrafo_Anchor[vis_trafo_mode_anchor]
@@ -417,7 +417,7 @@ int D_Viewer::Proc_MA_2_QI_Zoom_And_Vistrafo()
              << "vis_trafo_center" << vis_trafo_center
              << "vis_trafo_divisor" << vis_trafo_divisor
              << "keep_min_max" << false
-             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];
+             << "vis_trafo_mode_complex" << QSL_Complex2Real[vis_trafo_mode_complex];*/
     ER = D_Img_Proc::Visualize_to8bit(
                 &MA_VisTrafo,
                 &MA_Zoom,

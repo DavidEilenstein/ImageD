@@ -143,6 +143,8 @@ public:
     static int      Threshold_Value             (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, double thres);
     static int      Threshold_Auto              (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int auto_mode);
     static int      Threshold_Adaptive          (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int adapt_mode, unsigned int mask_size, double offset);
+    static int      Threshold_Adaptive_Gauss    (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset);
+    static int      Threshold_Adaptive_Gauss_1C (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset);
     static int      Threshold_BlurThres         (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres);
     static int      Color_Grab                  (Mat *pMA_Out, Mat *pMA_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);
 
