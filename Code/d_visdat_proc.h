@@ -217,6 +217,7 @@ public:
     static int  Filter_Function_8bit            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask, function<uchar  (double cur, double nei)> F1_CenterImage, function<uchar  (double f1r, double msk)> F2_f1mask, function<uchar  (vector<double> vf2r)> F3_Combine, function<uchar  (double f3r, double cen)> F4_f3center, int border_type = BORDER_CONSTANT, bool DoNonZeroMaskOnly = false);
     static int  Filter_Stat                     (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask, int stat, int border_type = BORDER_CONSTANT);
     static int  Filter_Stat_Circular            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius, int stat, int border_type = BORDER_CONSTANT);
+    static int  Filter_Stat_Rect                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y, int stat, int border_type = BORDER_CONSTANT);
 
     //Morphology
     static int  Morphology_Elemental            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int morph_type, int elem_type, int elem_size_X, int elem_size_Y, int border_type, int iterations);

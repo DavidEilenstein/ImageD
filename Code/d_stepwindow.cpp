@@ -172,6 +172,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->comboBox_04_Eilenstein_Type,            SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     connect(ui->comboBox_03_Thres_Type,                 SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     connect(ui->comboBox_04_Blur_Type,                  SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
+    connect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     //Statusbar Updates and other info
     connect(&Viewer,                                    SIGNAL(MouseMoved_Value(QString)),          L_SB_ValAtPos,  SLOT(setText(QString)));
     connect(&Viewer,                                    SIGNAL(MouseClicked_Pos(int, int)),         this,           SLOT(Measure_SaveClick(int, int)));
@@ -1553,6 +1554,57 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_FI_STAT: //---------------------------------------------------------------   statistic filter
+        {
+            switch (ui->comboBox_04_Statistic_MaskType->currentIndex()) {
+
+            case c_MASK_MODE_CIRC:
+            {
+                ERR(D_VisDat_Proc::Filter_Stat_Circular(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->doubleSpinBox_04_Statistic_Radius->value(),
+                        ui->comboBox_04_Statistic_Stat->currentIndex(),
+                        border_type),
+                    "Update_Img_Proc",
+                    "Filter_Stat_Circular");
+            }
+                break;
+
+            case c_MASK_MODE_RECT:
+            {
+                ERR(D_VisDat_Proc::Filter_Stat_Rect(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->spinBox_04_Statistic_Size_x->value(),
+                        ui->spinBox_04_Statistic_Size_y->value(),
+                        ui->comboBox_04_Statistic_Stat->currentIndex(),
+                        border_type),
+                    "Update_Img_Proc",
+                    "Filter_Stat_Rect");
+            }
+                break;
+
+            case c_MASK_MODE_CUSTOM:
+            {
+                ERR(D_VisDat_Proc::Filter_Stat(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        pStore->get_pVD(pos_Source2),
+                        ui->comboBox_04_Statistic_Stat->currentIndex(),
+                        border_type),
+                    "Update_Img_Proc",
+                    "Filter_Stat");
+            }
+                break;
+
+            }
+        }
+            break;
+
         case c_sT_FI_SPEC: //---------------------------------------------------------------   special
         {
             switch (ui->comboBox_04_Special_Type->currentIndex()) {
@@ -1587,11 +1639,11 @@ void D_StepWindow::Update_Img_Proc()
                 double theta        = ui->doubleSpinBox_04_Special_Theta->value() * Grad2Rad;
                 double psi          = ui->doubleSpinBox_04_Special_Psi->value()  * Grad2Rad;
 
-                int out_depth;
+                int out_depth = CV_32F;
                 switch (ui->comboBox_04_Special_Depth->currentIndex()) {
                 case 0:     out_depth = CV_32F;     break;
                 case 1:     out_depth = CV_64F;     break;
-                default:                        break;}
+                default:                            break;}
 
                 ERR(D_VisDat_Proc::Filter_Gabor(
                         SlicingFromUi(),
@@ -4270,10 +4322,10 @@ void D_StepWindow::Update_Chain_Info(bool update_sources)
     if(S4_in_use && (pos_Source4 > 0))      (*pSteps)[pos_Source4]->Update_Chain_Info(false);
 }
 
-unsigned int D_StepWindow::get_root_toUpdate()
+size_t D_StepWindow::get_root_toUpdate()
 {
     if(vUI_Sources.size() > 0)                                              //Do you have sources?
-        for(unsigned int s = 0; s < vUI_Sources.size(); s++)                //Loop Sources
+        for(size_t s = 0; s < vUI_Sources.size(); s++)                      //Loop Sources
             if(vUI_Sources[s] > 0)                                          //if source is not 0
                 if((*pSteps)[vUI_Sources[s]]->needs_Update())               //Find first Source not updated
                     return (*pSteps)[vUI_Sources[s]]->get_root_toUpdate();  //get its root
@@ -4304,7 +4356,7 @@ void D_StepWindow::Save_Steps(QDir *dir_save, ofstream *os_stream)
 
     //get List of Sources
     QString QS_Sources = "";
-    for(int i = 0; i < vUI_Sources.size(); i++)
+    for(size_t i = 0; i < vUI_Sources.size(); i++)
     {
         if(i != 0)
             QS_Sources.append("-");
@@ -4313,7 +4365,7 @@ void D_StepWindow::Save_Steps(QDir *dir_save, ofstream *os_stream)
 
     //get List of Destinations
     QString QS_Destinations = "";
-    for(int i = 0; i < vUI_Destinations.size(); i++)
+    for(size_t i = 0; i < vUI_Destinations.size(); i++)
     {
         if(i != 0)
             QS_Destinations.append("-");
@@ -5204,6 +5256,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->doubleSpinBox_04_Function_f4_f,         SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_04_Function_f4_nan,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_04_Function_f4_inf,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //Statistic filter
+        connect(ui->comboBox_04_Statistic_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_04_Statistic_Radius,      SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_04_Statistic_Size_x,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_04_Statistic_Size_y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //Custom
         //MORPHOLOGY
         //Elemental
@@ -5734,7 +5792,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->doubleSpinBox_04_Function_f4_f,         SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_04_Function_f4_nan,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_04_Function_f4_inf,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
-        //Custom
+        //Statistic filter
+        disconnect(ui->comboBox_04_Statistic_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_04_Statistic_Radius,      SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_04_Statistic_Size_x,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_04_Statistic_Size_y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //MORPHOLOGY
         //Elemental
         disconnect(ui->comboBox_05_Elem_Border_Type,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -6391,6 +6454,10 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
 
         if(ui->comboBox_Type_04_Filter->currentIndex() == c_sT_FI_FUNCTION)
             source_2 = true;
+
+        if(ui->comboBox_Type_04_Filter->currentIndex() == c_sT_FI_STAT)
+            if(ui->comboBox_04_Statistic_MaskType->currentIndex() == c_MASK_MODE_CUSTOM)
+                source_2 = true;
     }
         break;
 
@@ -6543,6 +6610,7 @@ void D_StepWindow::Populate_CB_Statistics()
 {
     Populate_CB_Single(ui->comboBox_04_Eilenstein_Response,         QSL_StatList,       c_STAT_MEAN_ARITMETIC);
     Populate_CB_Single(ui->comboBox_04_Function_f3_vF2,             QSL_StatList,       c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_04_Statistic_Stat,              QSL_StatList,       c_STAT_MEAN_ARITMETIC);
 
     Populate_CB_Single(ui->comboBox_10_Project_Stat,                QSL_StatList,       c_STAT_MEAN_ARITMETIC);
 
@@ -6656,6 +6724,7 @@ void D_StepWindow::Populate_CB_VisTrafo()
 void D_StepWindow::Populate_CB_Other()
 {
     Populate_CB_Single(ui->comboBox_09_RadiometricStereo_OutMode,   QSL_StereoOutput,   c_STEREO_NORMAL);
+    Populate_CB_Single(ui->comboBox_04_Statistic_MaskType,          QSL_MaskMode,       c_MASK_MODE_CIRC);
 }
 
 void D_StepWindow::Test_Feature_Visualize()
@@ -7535,4 +7604,13 @@ void D_StepWindow::on_radioButton_09_RelationStat_Angle_clicked(bool checked)
 {
     ui->comboBox_09_RelationStat_StatDistance->setEnabled(!checked);
     ui->comboBox_09_RelationStat_StatAngle->setEnabled(checked);
+}
+
+void D_StepWindow::on_comboBox_04_Statistic_MaskType_currentIndexChanged(int index)
+{
+    ui->label_04_Statistic_Radius->setEnabled(index == c_MASK_MODE_CIRC);
+    ui->doubleSpinBox_04_Statistic_Radius->setEnabled(index == c_MASK_MODE_CIRC);
+    ui->label_04_Statistic_Size->setEnabled(index == c_MASK_MODE_RECT);
+    ui->spinBox_04_Statistic_Size_x->setEnabled(index == c_MASK_MODE_RECT);
+    ui->spinBox_04_Statistic_Size_y->setEnabled(index == c_MASK_MODE_RECT);
 }

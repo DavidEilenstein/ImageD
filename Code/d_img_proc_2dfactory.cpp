@@ -441,6 +441,21 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_Stat_Circular(double r
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_Stat_Rect(int size_x, int size_y, int stat, int border_type)
+{
+    return
+            [size_x, size_y, stat, border_type](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Filter_Stat_Rect(
+                    pMA_Out,
+                    pMA_In,
+                    size_x,
+                    size_y,
+                    stat,
+                    border_type);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Math_1img_Inversion()
 {
     return

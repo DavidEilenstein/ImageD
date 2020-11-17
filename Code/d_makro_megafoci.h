@@ -20,6 +20,7 @@
 #include <d_table.h>
 #include <d_popup_listedit.h>
 #include <d_videowriter.h>
+#include <d_finishtimeprognosis.h>
 
 //Qt
 #include <QMainWindow>
@@ -68,11 +69,14 @@ public:
     explicit D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent = nullptr);
     ~D_MAKRO_MegaFoci();
 
+    //overladed events
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *event);
     void set_ClosingPossible(bool closeable)     {ClosingPossible = closeable;}
 
 private slots:
+
+    //show and update (images)
     void Update_Ui();
     void Update_Views();
     void Update_Images();
@@ -80,10 +84,16 @@ private slots:
     void Update_Images_OverviewSmall();
     void Update_Images_OverviewBig();
 
+    //image processing
     void Update_ImageProcessing_CurrentImage();
     void Update_ImageProcessing_StepFrom(size_t step_start);
     void Update_ImageProcessing_StepSingle(size_t step);
 
+    //stack processing
+    void Stack_Process_All();
+    void Stack_Porcess_Single_XYT_Viewport();
+
+    //populate ui
     void Populate_CB_AtStart();
     void Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index = 0);
 
@@ -91,6 +101,7 @@ private slots:
     void Overview_Init();
     void Overview_Update();
 
+    //load image operations
     bool LoadShow_Image_UiSelected();    
     int  Load_Image_full_ZP_Stitched_UiSelected(D_VisDat_Obj *pVD_Target);
     bool Load_Image_UiSelected(Mat *pMA_Target);
@@ -98,13 +109,16 @@ private slots:
     int  Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t);
     int  Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t);
 
+    //set dims
     void set_dataset_dim_x(int x) {if(!state_dataset_dim_set) {dataset_dim_mosaic_x = x; dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
     void set_dataset_dim_y(int y) {if(!state_dataset_dim_set) {dataset_dim_mosaic_y = y; dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
     void set_dataset_dim_t(int t) {if(!state_dataset_dim_set) {dataset_dim_t = t; dataset_dim_tzp = dataset_dim_t * dataset_dim_z * dataset_dim_p;}}
     void set_dataset_dim_z(int z) {if(!state_dataset_dim_set) {dataset_dim_z = z; dataset_dim_tzp = dataset_dim_t * dataset_dim_z * dataset_dim_p;}}
 
+    //status info to statius panel
     void StatusSet(QString NewStatus);
 
+    //vis trafo
     void on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index);
     void on_comboBox_VisTrafo_TransformationMode_currentIndexChanged(int index);
     void on_comboBox_VisTrafo_AnchorMode_currentIndexChanged(int index);
@@ -116,45 +130,42 @@ private slots:
 
     void on_tabWidget_Control_currentChanged(int index);
 
+    //img proc prepare
     void on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Stitch_Overlap_valueChanged(double arg1);
     void on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
 
+    //img proc nuclei
     void on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1);
     void on_spinBox_ImgProc_Nuc_GFP_BlurMedianSize_valueChanged(int arg1);
     void on_spinBox_ImgProc_Nuc_GFP_EdgeCVSize_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_GFP_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_GFP_AreaMax_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Nuc_ErodeBorder_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Nuc_GFP_DistThres_valueChanged(double arg1);
     void on_checkBox_ImgProc_Nuc_Watershed_NonSeed_stateChanged(int arg1);
     void on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Nuc_RoundnesMin_valueChanged(double arg1);
 
-    /*
-    void on_spinBox_ImgProc_Foc_BlurMedianSize_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Foc_BinarySize_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Foc_BinaryOffset_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_AreaMax_valueChanged(double arg1);
-    */
-
+    //img proc foci gfp
     void on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1);
     void on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1);
 
+    //img proc foci rfp
     void on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1);
     void on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1);
-
-    void on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1);
+
+
+    void on_action_Process_full_stack_triggered();
 
 private:
     Ui::D_MAKRO_MegaFoci *ui;
@@ -171,12 +182,17 @@ private:
     bool                                state_dataset_dim_set = false;
     bool                                state_dataset_img_list_loaded = false;
     bool                                state_overview_init = false;
+    bool                                state_stack_processing = false;
 
     //data files
     QFileInfoList                       FIL_Images;
     QStringList                         QSL_Images_Paths;
     QStringList                         QSL_Images_Names;
     QStringList                         QSL_Images_Suffix;
+
+    //save dirs
+    QDir                                DIR_SaveMaster;
+    QDir                                DIR_SaveMosaik;
 
     //dataset dimension
     size_t                              dataset_dim_mosaic_x = 15;
@@ -219,6 +235,9 @@ private:
     QLabel                              *L_SB_ValueAtCursor;
     QLabel                              *L_SB_InfoVD;
 
+    //time measurement
+    qint64                              time_LastSingleImgProc = 0;
+
     //Pages
     enum PAGES {
         PAGE_GFP,
@@ -249,11 +268,12 @@ private:
         STEP_NUC_P0_EDGE_CV,
         STEP_NUC_P0_BINARY_THRES,
         STEP_NUC_P0_BINARY_FILL_HOLES,
-        STEP_NUC_P0_BINARY_AREA_SELECT,
+        STEP_NUC_P0_BINARY_MORPH_ERODE,
         STEP_NUC_DISTANCE,
         STEP_NUC_SEEDS,
         STEP_NUC_WATERSHED,
         STEP_NUC_SELECT_AREA,
+        STEP_NUC_SELECT_ROUNDNESS,
         STEP_NUC_P1_SELECT_MEAN,
         STEP_VIS_NUC_BORDERS,
         //Find Foci GFP
@@ -296,12 +316,13 @@ private:
         "nuc-1 GFP circular CV edges",
         "nuc-2 GFP binarize edge image",
         "nuc-3 fill holes in edge image",
-        "nuc-4 select nuclei sized",
+        "nuc-4 erode border",
         "nuc-5 distance transformation",
         "nuc-6 nuclei segmentation seeds",
         "nuc-7 watershed segmentation",
         "nuc-8 Select by Area",
-        "nuc-9 Select by Mean RFP Signal",
+        "nuc-9 Select by Roundness",
+        "nuc-10 Select by Mean RFP Signal",
 
         "vis-1 Nuclei segemntation borders",
 
@@ -338,6 +359,7 @@ private:
     enum VIEW_PAGE {
         VIEW_PAGE_IMG_PROC,
         VIEW_PAGE_OVERVIEW_BIG,
+        VIEW_PAGE_STACK,
         VIEW_PAGE_PLOT
     };
 

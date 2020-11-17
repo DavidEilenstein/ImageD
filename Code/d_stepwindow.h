@@ -114,12 +114,12 @@ public slots:
     void                    set_ViewPlanePos(vector<int> pos);
     void                    set_ViewZoom(double x_rel, double y_rel, double factor, int plane);
     bool                    needs_Update()                          {return Need_Update;}
-    vector<unsigned int>    *sources()                              {return &vUI_Sources;}
-    vector<unsigned int>    *destinations()                         {return &vUI_Destinations;}
+    vector<size_t>          *sources()                              {return &vUI_Sources;}
+    vector<size_t>          *destinations()                         {return &vUI_Destinations;}
     void                    add_destination(unsigned int dest)      {vUI_Destinations.push_back(dest);}
     void                    pop_destination(unsigned int dest)      {vUI_Destinations.erase(remove(vUI_Destinations.begin(), vUI_Destinations.end(), dest), vUI_Destinations.end());}
     void                    Update_Chain_Info(bool update_sources);
-    unsigned int            get_root_toUpdate();
+    size_t                  get_root_toUpdate();
 
     QImage                  *get_pQI_Step_Image()                   {return Viewer.pQI();}
 
@@ -308,6 +308,8 @@ private slots:
     void on_radioButton_09_RelationStat_Distance_clicked(bool checked);
     void on_radioButton_09_RelationStat_Angle_clicked(bool checked);
 
+    void on_comboBox_04_Statistic_MaskType_currentIndexChanged(int index);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -320,19 +322,19 @@ private:
 
     //Data Storage (shared)
     D_Storage               *pStore;
-    unsigned int            pos_Dest;
-    unsigned int            pos_Source1 = 0;
-    unsigned int            pos_Source2 = 0;
-    unsigned int            pos_Source3 = 0;
-    unsigned int            pos_Source4 = 0;
-    unsigned int            pos_Source1_last_Update = 0;
-    unsigned int            pos_Source2_last_Update = 0;
-    unsigned int            pos_Source3_last_Update = 0;
-    unsigned int            pos_Source4_last_Update = 0;
-    unsigned int            pos_in_chain = 0;
+    size_t                  pos_Dest;
+    size_t                  pos_Source1 = 0;
+    size_t                  pos_Source2 = 0;
+    size_t                  pos_Source3 = 0;
+    size_t                  pos_Source4 = 0;
+    size_t                  pos_Source1_last_Update = 0;
+    size_t                  pos_Source2_last_Update = 0;
+    size_t                  pos_Source3_last_Update = 0;
+    size_t                  pos_Source4_last_Update = 0;
+    size_t                  pos_in_chain = 0;
 
-    vector<unsigned int>    vUI_Sources;
-    vector<unsigned int>    vUI_Destinations;
+    vector<size_t>          vUI_Sources;
+    vector<size_t>          vUI_Destinations;
     bool                    Need_Update = false;
     vector<D_StepWindow*>   *pSteps;
     bool                    ClosingPossible = false;
@@ -457,7 +459,8 @@ private:
         c_ST_FI_EDGE,
         c_sT_FI_SPEC,
         c_sT_FI_EILENSTEIN,
-        c_sT_FI_FUNCTION
+        c_sT_FI_FUNCTION,
+        c_sT_FI_STAT
     };
 
     //Subsubtypes: Filter
@@ -538,6 +541,20 @@ private:
         c_ssT_MA_3_4_AND,
         c_ssT_MA_3_4_OR
     };
+
+    //Statistic filter mask modi
+    enum c_MASK_MODE {
+        c_MASK_MODE_CIRC,
+        c_MASK_MODE_RECT,
+        c_MASK_MODE_CUSTOM,
+        c_MASK_MODE_NUMBER_OF
+    };
+    const QStringList QSL_MaskMode = {
+        "Circle",
+        "Rectangle",
+        "Custom Source"
+    };
+
 };
 
 #endif // D_STEPWINDOW_H

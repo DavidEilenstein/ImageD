@@ -6,6 +6,7 @@ var annotated_dup =
     [ "D_Component_List", "class_d___component___list.html", "class_d___component___list" ],
     [ "D_Component_List_Context", "class_d___component___list___context.html", "class_d___component___list___context" ],
     [ "D_Error_Handler", "class_d___error___handler.html", "class_d___error___handler" ],
+    [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", "class_d___finish_time_prognosis" ],
     [ "D_Img_Proc", "class_d___img___proc.html", "class_d___img___proc" ],
     [ "D_Img_Proc_2dFactory", "class_d___img___proc__2d_factory.html", "class_d___img___proc__2d_factory" ],
     [ "D_Img_Proc_3D", "class_d___img___proc__3_d.html", "class_d___img___proc__3_d" ],

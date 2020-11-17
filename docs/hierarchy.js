@@ -65,6 +65,9 @@ var hierarchy =
       [ "D_StepWindow", "class_d___step_window.html", null ],
       [ "m_makro_foci", "classm__makro__foci.html", null ]
     ] ],
+    [ "QObject", null, [
+      [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", null ]
+    ] ],
     [ "QPdfWriter", null, [
       [ "D_PDF_Writer", "class_d___p_d_f___writer.html", null ]
     ] ],

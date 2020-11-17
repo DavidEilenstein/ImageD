@@ -198,6 +198,7 @@ public:
 
     static int      Filter_Stat                     (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, int stat, int border_type = BORDER_CONSTANT);
     static int      Filter_Stat_Circular            (Mat *pMA_Out, Mat *pMA_In, double radius, int stat, int border_type = BORDER_CONSTANT);
+    static int      Filter_Stat_Rect                (Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y, int stat, int border_type = BORDER_CONSTANT);
 
     static int      Fill_Holes                  (Mat *pMA_Out, Mat *pMA_In);
     static int      Exclude_BorderConnected     (Mat *pMA_Out, Mat *pMA_In);

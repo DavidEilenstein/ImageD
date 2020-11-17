@@ -25,6 +25,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_error_handler.h", "d__error__handler_8h.html", [
       [ "D_Error_Handler", "class_d___error___handler.html", "class_d___error___handler" ]
     ] ],
+    [ "d_finishtimeprognosis.cpp", "d__finishtimeprognosis_8cpp.html", null ],
+    [ "d_finishtimeprognosis.h", "d__finishtimeprognosis_8h.html", [
+      [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", "class_d___finish_time_prognosis" ]
+    ] ],
     [ "d_img_proc.cpp", "d__img__proc_8cpp.html", null ],
     [ "d_img_proc.h", "d__img__proc_8h.html", [
       [ "D_Img_Proc", "class_d___img___proc.html", "class_d___img___proc" ]

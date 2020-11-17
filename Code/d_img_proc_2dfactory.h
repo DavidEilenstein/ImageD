@@ -106,6 +106,7 @@ public:
     static function<int (Mat *, Mat *)>                         Filter_Gabor                    (int size_x, int size_y, int border, int out_depth, double sigma, double theta, double lambda, double gamma, double psi, double delta);
     static function<int (Mat *, Mat *)>                         Filter_Eilenstein               (int comp, int size_x, int size_y, bool normalized, double constant);
     static function<int (Mat *, Mat *)>                         Filter_Stat_Circular            (double radius, int stat, int border_type = BORDER_CONSTANT);
+    static function<int (Mat *, Mat *)>                         Filter_Stat_Rect                (int size_x, int size_y, int stat, int border_type = BORDER_CONSTANT);
 
     static function<int (Mat *, Mat *)>                         Math_1img_Inversion             ();
     static function<int (Mat *, Mat *)>                         Math_1img_Addition              (double summmand);

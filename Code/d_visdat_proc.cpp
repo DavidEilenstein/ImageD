@@ -5156,8 +5156,30 @@ int D_VisDat_Proc::Filter_Stat_Circular(D_VisDat_Slicing slice, D_VisDat_Obj *pV
         return Wrap_VD(
                     slice,
                     D_Img_Proc_2dFactory::Filter_Stat_Circular(
-                        stat,
                         radius,
+                        stat,
+                        border_type),
+                    pVD_Out,
+                    pVD_In);
+}
+
+int D_VisDat_Proc::Filter_Stat_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y, int stat, int border_type)
+{
+    if(!slice.is_2D())
+            return ER_dim_2D_only;
+
+        *pVD_Out = D_VisDat_Obj(
+                    pVD_In->Dim(),
+                    D_Img_Proc::TypeIndex_of_Mat(
+                        pVD_In->pMA_full()->channels(),
+                        CV_64F));
+
+        return Wrap_VD(
+                    slice,
+                    D_Img_Proc_2dFactory::Filter_Stat_Rect(
+                        stat,
+                        size_x,
+                        size_y,
                         border_type),
                     pVD_Out,
                     pVD_In);

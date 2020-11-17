@@ -35,6 +35,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    d_finishtimeprognosis.cpp \
     d_makro_airdragtrack.cpp \
     d_makro_ciliaspheretracker.cpp \
     d_makro_focicounter.cpp \
@@ -96,6 +97,7 @@ SOURCES += \
     d_makro_manuelsegmentation.cpp
 
 HEADERS += \
+    d_finishtimeprognosis.h \
         d_mainwindow.h \
     d_makro_airdragtrack.h \
     d_makro_ciliaspheretracker.h \

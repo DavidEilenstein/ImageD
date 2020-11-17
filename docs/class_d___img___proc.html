@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_5 (10.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_6 (17.11.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -350,6 +350,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3462a515b8fa28ff2ea2e3acfcc27576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae12a04c48cbbcc29441f9c1d0a917e6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aae12a04c48cbbcc29441f9c1d0a917e6">Filter_Stat_Circular</a> (Mat *pMA_Out, Mat *pMA_In, double radius, int stat, int border_type=BORDER_CONSTANT)</td></tr>
 <tr class="separator:aae12a04c48cbbcc29441f9c1d0a917e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b05808b81525d314a34e70d7ce4ef19"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1b05808b81525d314a34e70d7ce4ef19">Filter_Stat_Rect</a> (Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y, int stat, int border_type=BORDER_CONSTANT)</td></tr>
+<tr class="separator:a1b05808b81525d314a34e70d7ce4ef19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab5ab8317fa82ebeb23544e2512b1a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6ab5ab8317fa82ebeb23544e2512b1a3">Fill_Holes</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:a6ab5ab8317fa82ebeb23544e2512b1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad44d2c980c0c18d95328e680ed47ed0c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad44d2c980c0c18d95328e680ed47ed0c">Exclude_BorderConnected</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
@@ -546,6 +548,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:abe921e703560620725d50a23dc609a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3e6299e2de72041310ee0cbb31bec9d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad3e6299e2de72041310ee0cbb31bec9d">Draw_Line</a> (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness=1, double value=255)</td></tr>
 <tr class="separator:ad3e6299e2de72041310ee0cbb31bec9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b5ffd4263af70e59230e2593bc6031f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8b5ffd4263af70e59230e2593bc6031f">Draw_Line_Bresenham</a> (Mat *pMA_Target, Point P1, Point P2, double val)</td></tr>
+<tr class="memdesc:a8b5ffd4263af70e59230e2593bc6031f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a8b5ffd4263af70e59230e2593bc6031f" title="D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°">D_Img_Proc::Draw_Line_Bresenham</a> custum function to draw a line between 0° and 45°  <a href="class_d___img___proc.html#a8b5ffd4263af70e59230e2593bc6031f">More...</a><br /></td></tr>
+<tr class="separator:a8b5ffd4263af70e59230e2593bc6031f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a630322f2f4010e44153a7b376b6a026f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a630322f2f4010e44153a7b376b6a026f">Draw_Line_Angle</a> (Mat *pMA_Target, double length, double center_x, double center_y, double angle, unsigned int thickness=1, double value=255)</td></tr>
 <tr class="separator:a630322f2f4010e44153a7b376b6a026f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9731a7315436313a7282780c72e35c95"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a9731a7315436313a7282780c72e35c95">Draw_Vector</a> (Mat *pMA_Target, int offset_x, int offset_y, double length_value, double angle_value, double length_error=0, double angle_error=0, int vector_thickness=1, uchar value=255, int error_steps=360, int error_thickness=1)</td></tr>
@@ -2964,6 +2969,65 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b5ffd4263af70e59230e2593bc6031f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b5ffd4263af70e59230e2593bc6031f">&#9670;&nbsp;</a></span>Draw_Line_Bresenham()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_Line_Bresenham </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point&#160;</td>
+          <td class="paramname"><em>P1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point&#160;</td>
+          <td class="paramname"><em>P2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___img___proc.html#a8b5ffd4263af70e59230e2593bc6031f" title="D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°">D_Img_Proc::Draw_Line_Bresenham</a> custum function to draw a line between 0° and 45° </p>
+<p>recommended to use cv's draw line function instead. This code is limited in fuction and is not tested! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMA_Target</td><td>image to draw to </td></tr>
+    <tr><td class="paramname">P1</td><td>start point </td></tr>
+    <tr><td class="paramname">P2</td><td>end point </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error code </dd></dl>
 
 </div>
 </div>
@@ -5795,6 +5859,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>stat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>border_type</em> = <code>BORDER_CONSTANT</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b05808b81525d314a34e70d7ce4ef19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b05808b81525d314a34e70d7ce4ef19">&#9670;&nbsp;</a></span>Filter_Stat_Rect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_Stat_Rect </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

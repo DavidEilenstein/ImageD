@@ -8671,8 +8671,7 @@ int D_Img_Proc::Filter_Stat(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, int stat, 
 
 int D_Img_Proc::Filter_Stat_Circular(Mat *pMA_Out, Mat *pMA_In, double radius, int stat, int border_type)
 {
-    //radius must be positive
-    radius = abs(radius);
+    if(radius < 0)              return ER_parameter_bad;
 
     //image size must be an odd int
     int img_size = 2 * static_cast<int>(radius) + 1;
@@ -8693,6 +8692,43 @@ int D_Img_Proc::Filter_Stat_Circular(Mat *pMA_Out, Mat *pMA_In, double radius, i
                     0,
                     0,
                     0));
+    qDebug() << "Filter_Stat_Circular" << radius << img_size << img_size / 2;
+
+    //correct channel count
+    Mat MA_tmp_Mask;
+    int ER = Duplicate2Channels(
+                &MA_tmp_Mask,
+                &MA_tmp_Mask_1C,
+                pMA_In->channels());
+    if(ER != ER_okay)
+    {
+        MA_tmp_Mask_1C.release();
+        MA_tmp_Mask.release();
+        return ER;
+    }
+
+    //apply filter
+    ER = Filter_Stat(
+                pMA_Out,
+                pMA_In,
+                &MA_tmp_Mask,
+                stat,
+                border_type);
+
+    MA_tmp_Mask_1C.release();
+    MA_tmp_Mask.release();
+    return ER;
+}
+
+int D_Img_Proc::Filter_Stat_Rect(Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y, int stat, int border_type)
+{
+    if(size_x < 1)                          return ER_parameter_bad;
+    if(size_y < 1)                          return ER_parameter_bad;
+    if(size_x % 2 != 1)                     return ER_parameter_bad;
+    if(size_y % 2 != 1)                     return ER_parameter_bad;
+
+    //generate mask
+    Mat MA_tmp_Mask_1C = Mat::ones(size_x, size_y, CV_64FC1);
 
     //correct channel count
     Mat MA_tmp_Mask;

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_5 (10.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_6 (17.11.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -177,6 +177,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a9373d7a2d954d63efc90f1e1a4739a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0c435d2b6171f6f9f5e48211fd029ee"><td class="memItemLeft" align="right" valign="top">static function&lt; double(double val_in)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#ad0c435d2b6171f6f9f5e48211fd029ee">Log_Centered</a> (double min, double max, double center, double divisor)</td></tr>
 <tr class="separator:ad0c435d2b6171f6f9f5e48211fd029ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="memItemLeft" align="right" valign="top">static Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e">Minimum_TrisectionInterval</a> (function&lt; double(double)&gt; F, double start_border_low, double start_border_high, double resolution_needed)</td></tr>
+<tr class="memdesc:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e" title="D_Math::Minimum_TrisectionInterval use trisection of interval to determin the minimum of a convex fun...">D_Math::Minimum_TrisectionInterval</a> use trisection of interval to determin the minimum of a convex function within a given interval.  <a href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e">More...</a><br /></td></tr>
+<tr class="separator:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___math.html" title="The D_Math class Mathematic functionalities.">D_Math</a> class Mathematic functionalities. </p>
@@ -1652,6 +1655,66 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ac29ce6f48d08cb56af83d4aed9559e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ac29ce6f48d08cb56af83d4aed9559e">&#9670;&nbsp;</a></span>Minimum_TrisectionInterval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point D_Math::Minimum_TrisectionInterval </td>
+          <td>(</td>
+          <td class="paramtype">function&lt; double(double)&gt;&#160;</td>
+          <td class="paramname"><em>F</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>start_border_low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>start_border_high</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>resolution_needed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e" title="D_Math::Minimum_TrisectionInterval use trisection of interval to determin the minimum of a convex fun...">D_Math::Minimum_TrisectionInterval</a> use trisection of interval to determin the minimum of a convex function within a given interval. </p>
+<p>NOT TESTED YET! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">F</td><td>function to search for minimum </td></tr>
+    <tr><td class="paramname">start_border_low</td><td></td></tr>
+    <tr><td class="paramname">start_border_high</td><td></td></tr>
+    <tr><td class="paramname">resolution_needed</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
 </div>
