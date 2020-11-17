@@ -6166,25 +6166,6 @@
                    <property name="spacing">
                     <number>3</number>
                    </property>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_01_Floodfill_Delta_Delta">
-                     <property name="minimumSize">
-                      <size>
-                       <width>75</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>75</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Delta</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="3">
                     <spacer name="horizontalSpacer_01_Floodfill_Delta">
                      <property name="orientation">
@@ -6194,38 +6175,6 @@
                       <size>
                        <width>229</width>
                        <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QSpinBox" name="spinBox_01_Floodfill_Delta_SeedX">
-                     <property name="minimumSize">
-                      <size>
-                       <width>48</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>48</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="maximum">
-                      <number>999999</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="3">
-                    <spacer name="verticalSpacer_01_Floodfill_Delta">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>116</height>
                       </size>
                      </property>
                     </spacer>
@@ -6274,6 +6223,57 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="0" column="1">
+                    <widget class="QSpinBox" name="spinBox_01_Floodfill_Delta_SeedX">
+                     <property name="minimumSize">
+                      <size>
+                       <width>48</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>48</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="maximum">
+                      <number>999999</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <spacer name="verticalSpacer_01_Floodfill_Delta">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>116</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_01_Floodfill_Delta_Delta">
+                     <property name="minimumSize">
+                      <size>
+                       <width>75</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>75</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Delta</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="0" column="2">
                     <widget class="QSpinBox" name="spinBox_01_Floodfill_Delta_SeedY">
                      <property name="minimumSize">
@@ -6290,6 +6290,32 @@
                      </property>
                      <property name="maximum">
                       <number>999999</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1" colspan="3">
+                    <widget class="QLabel" name="label_13">
+                     <property name="styleSheet">
+                      <string notr="true">color: red</string>
+                     </property>
+                     <property name="text">
+                      <string>Only call this on very small images or recursion</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1" colspan="3">
+                    <widget class="QLabel" name="label_14">
+                     <property name="styleSheet">
+                      <string notr="true">color: red</string>
+                     </property>
+                     <property name="text">
+                      <string> limit will be reached and programm will crash!</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>

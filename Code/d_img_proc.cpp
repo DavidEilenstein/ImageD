@@ -12789,6 +12789,8 @@ int D_Img_Proc::Floodfill_Delta(Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_
 
 bool D_Img_Proc::Floodfill_Delta_Step(Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin)
 {
+    //recursion onnly works on small images!!!!!!!!!!!!!!!!!!!!!! avoid to use this if possible
+
     //type check
     if(pMA_Check->type() != CV_16UC1)   return false;
     if(pMA_Target->type() != CV_8UC1)   return false;
@@ -12900,6 +12902,60 @@ int D_Img_Proc::Draw_Line(Mat *pMA_Target, unsigned int x1, unsigned int y1, uns
 
     default:
         break;
+    }
+
+    return ER_okay;
+}
+
+/*!
+ * \brief D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°
+ * \details recommended to use cv's draw line function instead. This code is limited in fuction and is not tested!
+ * \param pMA_Target image to draw to
+ * \param P1 start point
+ * \param P2 end point
+ * \return error code
+ */
+int D_Img_Proc::Draw_Line_Bresenham(Mat *pMA_Target, Point P1, Point P2, double val)
+{
+    if(pMA_Target->empty())                     return ER_empty;
+    if(P1.x < 0 || P1.x >= pMA_Target->cols)    return ER_index_out_of_range;
+    if(P1.y < 0 || P1.y >= pMA_Target->rows)    return ER_index_out_of_range;
+    if(P2.x < 0 || P2.x >= pMA_Target->cols)    return ER_index_out_of_range;
+    if(P2.y < 0 || P2.y >= pMA_Target->rows)    return ER_index_out_of_range;
+    if(pMA_Target->type() != CV_8UC1)           return ER_type_bad;
+
+    //shifts in x and y
+    int dx = P2.x - P1.x;
+    int dy = P2.y - P1.y;
+
+    //point to draw to (changes in while loop)
+    int x = P1.x;
+    int y = P1.y;
+
+    //set starting pixel
+    pMA_Target->at<uchar>(y, x) = static_cast<uchar>(val);
+
+    //error
+    int errorXdx = 0;
+
+    //loop line in x direction
+    while(x < P2.x)
+    {
+        //step to the right
+        x++;
+
+        //deviation of point to line as an effect of the slope of the line and discretisation
+        errorXdx += dy;
+
+        //check, if correction is needed
+        if(errorXdx > (dx / 2.0))
+        {
+            y++;
+            errorXdx -= dx;
+        }
+
+        //set new pixel
+        pMA_Target->at<uchar>(y, x) = static_cast<uchar>(val);
     }
 
     return ER_okay;

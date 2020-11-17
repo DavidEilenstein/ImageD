@@ -1588,6 +1588,66 @@ function<double (double val_in)> D_Math::Log_Centered(double min, double max, do
     };
 }
 
+/*!
+ * \brief D_Math::Minimum_TrisectionInterval use trisection of interval to determin the minimum of a convex function within a given interval
+ * \details NOT TESTED YET!
+ * \param F function to search for minimum
+ * \param start_border_low
+ * \param start_border_high
+ * \param resolution_needed
+ * \return
+ */
+Point D_Math::Minimum_TrisectionInterval(function<double (double)> F, double start_border_low, double start_border_high, double resolution_needed)
+{
+    //interval borders
+    double x0 = start_border_low;
+    double x3 = start_border_high;
+
+    //interval size
+    double dx_full = x3 - x0;
+
+    //loop until precision is reached
+    while(dx_full > resolution_needed)
+    {
+        //subinterval size
+        double dx_sub = dx_full / 3.0;
+
+        //calc interval borders
+        double x1 = x0 + dx_sub;
+        double x2 = x1 + dx_sub;
+
+        //calc function values
+        double y0 = F(x0);
+        double y1 = F(x1);
+        double y2 = F(x2);
+        double y3 = F(x3);
+
+        //calc signs of the interval border differences (true means +)
+        bool s01 = y0 > y1;
+        bool s12 = y1 > y2;
+        bool s23 = y2 > y3;
+
+        //check sign constellation and chancge interval borders
+        if(!s01 && s12 && s23)
+            x3 = x2;
+        else if(!s01 && !s12 && s23)
+            x0 = x1;
+        else
+        {
+            qDebug() << "Feeding D_Math::Minimum_TrisectionInterval with non convex function or wrong interval causes stomach pain. Point(0|0) is vomitted.";
+            return Point(0,0);
+        }
+
+        //new interval size
+        dx_full = x3 - x0;
+    }
+
+    //clac result
+    double x_final = (x0 + x3) / 2.0;
+    double y_final = F(x_final);
+    return Point(x_final, y_final);
+}
+
 
 
 
