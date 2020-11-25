@@ -16,8 +16,8 @@
 #include <complex>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_0_8";
-const QString           D_QS_Release  = "25.11.2020";
+const QString           D_QS_Version  = "v1_0_7";
+const QString           D_QS_Release  = "20.11.2020";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -59,28 +59,6 @@ const QStringList QSL_Plugins = {
     "Fourier Transformator (WIP)",
     "Air Drag Detect",
     "Mega Foci tracker (WIP)"
-};
-
-enum D_NUMBER_TYPE {
-    c_NUMBER_TYPE_UCHAR,
-    c_NUMBER_TYPE_CHAR,
-    c_NUMBER_TYPE_USHORT,
-    c_NUMBER_TYPE_SHORT,
-    c_NUMBER_TYPE_UINT,
-    c_NUMBER_TYPE_INT,
-    c_NUMBER_TYPE_FLOAT,
-    c_NUMBER_TYPE_DOUBLE,
-    c_NUMBER_TYPE_NUMBER_OF
-};
-const QStringList QSL_Number_Type = {
-    "uchar",
-    "char",
-    "ushort",
-    "short",
-    "uint",
-    "int",
-    "float",
-    "double"
 };
 
 enum D_STEP_WINDOW_DEFAULTS {
@@ -276,15 +254,15 @@ const QStringList QSL_ViewerMode = {
     "Plot"
 };
 
-enum D_PLOT_SIMPLE {
-    c_PLOT_SIMPLE_POINT,
-    c_PLOT_SIMPLE_LINE,
-    c_PLOT_SIMPLE_LINE_POINT,
-    c_PLOT_SIMPLE_SPLINE,
-    c_PLOT_SIMPLE_SPLINE_POINT,
-    c_PLOT_SIMPLE_NUMBER_OF
+enum D_IMG2PLOT {
+    c_IMG2PLOT_POINT,
+    c_IMG2PLOT_LINE,
+    c_IMG2PLOT_LINE_POINT,
+    c_IMG2PLOT_SPLINE,
+    c_IMG2PLOT_SPLINE_POINT,
+    c_IMG2PLOT_NUMBER_OF
 };
-const QStringList QSL_PLOT_SIMPLE = {
+const QStringList QSL_Img2Plot = {
     "Points",
     "Lines",
     "Lines and Points",

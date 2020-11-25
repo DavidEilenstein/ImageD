@@ -66,6 +66,8 @@ public:
 
     static int      Plot_Empty                  (QChartView *pChartView, QString QS_Text = "No_Additional_Information");
 
+    static int      Plot_AnyReal                (QChartView *pChartView, vector<vector<double>> *vvX, vector<vector<double>> *vvY, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, int plot_mode = c_PLOT_SIMPLE_LINE, int mode_crop_y = c_VIS_TRAFO_CROP_DYNAMIC, double in_min_y = 0, double in_max_y = 255, int mode_trafo_y = c_VIS_TRAFO_LINEAR, double gamma_y = 1, double center_y = 0, double divisor_y = 1, int mode_crop_x = c_VIS_TRAFO_CROP_DYNAMIC, double in_min_x = 0, double in_max_x = 255, int mode_trafo_x = c_VIS_TRAFO_LINEAR, double gamma_x = 1, double center_x = 0, double divisor_x = 1);
+
     static int      Plot_Hist                   (QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool uniform, bool accum, double *max_occured);
     static int      Plot_Hist_Single_Classes    (QChartView *pChartView, vector<double> *v_hist, double min, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first);
     static int      Plot_Hist_Multi_Classes     (QChartView *pChartView, vector<vector<double>> *vv_hist, double min_x, double max_x, double max_y, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first);

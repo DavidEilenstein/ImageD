@@ -948,13 +948,12 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     state_stack_processing = true;
 
     //finish time prognosis
-    D_FinishTimePrognosis Prognosis(
+    D_FinishTimePrognosis TimePrognosis(
                 ui->progressBar_StackLoop,
-                dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y,
-                time_LastSingleImgProc);
+                dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y);
 
     //loop viewports
-    Prognosis.start();
+    TimePrognosis.start();
     for(size_t t = 0; t < dataset_dim_t; t++)
         for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
             for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
@@ -968,10 +967,10 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
                 Stack_Porcess_Single_XYT_Viewport();
 
-                Prognosis.step();
+                TimePrognosis.step();
             }
 
-    Prognosis.end();
+    TimePrognosis.end();
     StatusSet("STACK PROC FINISHED :-)");
 
     state_stack_processing = false;
@@ -982,6 +981,7 @@ void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
     //Update_ImageProcessing_CurrentImage();
 
     //Overwrite and update mosaik
+    Update_Images_OverviewBig();
     Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_T" + QString::number(ui->spinBox_DataDim_T->value()) + ".png");
 }
 

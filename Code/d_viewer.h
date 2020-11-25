@@ -232,7 +232,7 @@ private:    //members
 
     QtCharts::QChartView    *CV_View;
     bool                    state_CV_set = false;
-    int                     PlotType = c_IMG2PLOT_LINE;
+    int                     PlotType = c_PLOT_SIMPLE_LINE;
     QString                 QS_DimX = "X";
     double                  PlotX_Offset = 0;
     double                  PlotX_Step = 1;

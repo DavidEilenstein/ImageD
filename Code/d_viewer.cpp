@@ -619,7 +619,7 @@ void D_Viewer::Proc_Plot()
     //series
     switch (PlotType) {
 
-    case c_IMG2PLOT_POINT://========================================Point
+    case c_PLOT_SIMPLE_POINT://========================================Point
     {
         //series (for all img types)
         vector<QScatterSeries*> v_series(series_count);
@@ -863,7 +863,7 @@ void D_Viewer::Proc_Plot()
     }
         break;
 
-    case c_IMG2PLOT_LINE://========================================Line
+    case c_PLOT_SIMPLE_LINE://========================================Line
     {
         //series (for all img types)
         vector<QLineSeries*> v_series(series_count);
@@ -1107,7 +1107,7 @@ void D_Viewer::Proc_Plot()
     }
         break;
 
-    case c_IMG2PLOT_LINE_POINT://========================================Line Point
+    case c_PLOT_SIMPLE_LINE_POINT://========================================Line Point
     {
         //series (for all img types)
         vector<QLineSeries*> v_series(series_count);
@@ -1352,7 +1352,7 @@ void D_Viewer::Proc_Plot()
     }
         break;
 
-    case c_IMG2PLOT_SPLINE://========================================Spline
+    case c_PLOT_SIMPLE_SPLINE://========================================Spline
     {
         //series (for all img types)
         vector<QSplineSeries*> v_series(series_count);
@@ -1596,7 +1596,7 @@ void D_Viewer::Proc_Plot()
     }
         break;
 
-    case c_IMG2PLOT_SPLINE_POINT://========================================Spline Points
+    case c_PLOT_SIMPLE_SPLINE_POINT://========================================Spline Points
     {
         //series (for all img types)
         vector<QSplineSeries*> v_series(series_count);

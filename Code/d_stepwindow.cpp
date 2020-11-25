@@ -6716,7 +6716,7 @@ void D_StepWindow::Populate_CB_VisTrafo()
     Populate_CB_Single(ui->comboBox_View_Transform,                 QSL_VisTrafo,       c_VIS_TRAFO_LINEAR);
     Populate_CB_Single(ui->comboBox_View_Anchor,                    QSL_VisTrafo_Anchor,c_VIS_TRAFO_ANCHOR_DYNAMIC);
     Populate_CB_Single(ui->comboBox_View_Range,                     QSL_VisTrafo_Range, c_VIS_TRAFO_RANGE_DYNAMIC);
-    Populate_CB_Single(ui->comboBox_FunctionView_Mode,              QSL_Img2Plot,       c_IMG2PLOT_LINE);
+    Populate_CB_Single(ui->comboBox_FunctionView_Mode,              QSL_PLOT_SIMPLE,    c_PLOT_SIMPLE_LINE);
 
     Populate_CB_Single(ui->comboBox_View_Complex,                   QSL_Complex2Real_Short, c_COMPLEX2REAL_RE_IM);
 }

@@ -4073,7 +4073,7 @@ int D_VisDat_Proc::Stitch_Border_rel_custom(D_VisDat_Slicing slice, D_VisDat_Obj
     *pVD_Out = D_VisDat_Obj(
                 DimNew,
                 pVD_In_Main->type());
-    qDebug() << "D_VisDat_Proc::Stitch_Border_rel_custom" << "VD size(y/x):" << pVD_Out->info();
+    //qDebug() << "D_VisDat_Proc::Stitch_Border_rel_custom" << "VD size(y/x):" << pVD_Out->info();
 
     return Wrap_VD(
                 slice,

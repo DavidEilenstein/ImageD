@@ -246,7 +246,7 @@ void D_stat_tester::Update_CircStats()
             double value = QSL_Line[0].toDouble(&ok);
             if(ok)
             {
-                int count = QSL_Line[1].toDouble(&ok);
+                int count = QSL_Line[1].toInt(&ok);
                 if(ok)
                 {
                     for(int i = 0; i < count; i++)

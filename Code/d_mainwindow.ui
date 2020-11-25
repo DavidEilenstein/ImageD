@@ -852,6 +852,8 @@
     <addaction name="separator"/>
     <addaction name="action_Test_1D_EDT"/>
     <addaction name="actionTest_DPF_Writer"/>
+    <addaction name="separator"/>
+    <addaction name="actionTest_Running_Median"/>
    </widget>
    <addaction name="menuViewer"/>
    <addaction name="menuWindow"/>
@@ -1066,6 +1068,11 @@
   <action name="actionTest_DPF_Writer">
    <property name="text">
     <string>Test DPF Writer</string>
+   </property>
+  </action>
+  <action name="actionTest_Running_Median">
+   <property name="text">
+    <string>Test Running Median</string>
    </property>
   </action>
  </widget>

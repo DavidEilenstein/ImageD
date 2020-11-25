@@ -27,6 +27,8 @@
 #include <d_popup_listselect.h>
 #include <d_pdf_writer.h>
 #include <d_popup_feedbackrequest.h>
+#include <d_popup_listedit_numbers.h>
+#include <d_popup_plot.h>
 
 //makros
 #include <d_makro_corefoci.h>
@@ -167,6 +169,8 @@ private slots:
     void on_pushButton_Ref_Docs_clicked();
 
     void on_pushButton_Ref_Github_clicked();
+
+    void on_actionTest_Running_Median_triggered();
 
 private:
     Ui::D_MainWindow        *ui;

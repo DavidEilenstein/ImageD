@@ -92,6 +92,7 @@ public:
     static function<double (double val_in)>         Log_Centered            (double min, double max, double center, double divisor);
 
     static Point                                    Minimum_TrisectionInterval  (function<double (double)> F, double start_border_low, double start_border_high, double resolution_needed);
+    static int                                      MedianRunning               (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size);
 private:
 
 

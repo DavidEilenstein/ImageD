@@ -1648,6 +1648,101 @@ Point D_Math::Minimum_TrisectionInterval(function<double (double)> F, double sta
     return Point(x_final, y_final);
 }
 
+int D_Math::MedianRunning(vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size)
+{
+    if(vDataIn.size() < mask_size + 1)          return ER_size_missmatch;
+
+    //size
+    size_t n = vDataIn.size();
+
+    //hist
+    vector<size_t> hist(256, 0);
+    for(size_t i = 0; i < mask_size; i++)
+        hist[vDataIn[i]]++;
+
+    //init out
+    vDataOut->clear();
+
+    //median
+    vector<size_t> val_init(mask_size);
+    for(size_t i = 0; i < mask_size; i++)
+        val_init[i] = vDataIn[i];
+    sort(val_init.begin(), val_init.end());
+    uchar median = val_init[val_init.size() / 2];
+    vDataOut->push_back(median);
+
+    //count of values smaller than median
+    size_t mass_smaller = 0;
+    for(size_t i = 0; i < static_cast<size_t>(median) - 1; i++)
+        mass_smaller += hist[i];
+
+    //count of values equal to median value
+    size_t mass_median = hist[static_cast<size_t>(median) - 1];
+
+    //count of values greater than median
+    size_t mass_greater = 0;
+    for(size_t i = static_cast<size_t>(median) + 1; i < hist.size(); i++)
+        mass_greater += hist[i];
+
+    //comparison value of needed absolute count for median determination
+    double mass_smaller_or_equal_needed = 0.5 * mask_size;
+    double mass_greater_or_equal_needed = 0.5 * mask_size;
+
+    qDebug() << "D_Math::MedianRunning:" << "n" << n << "mass_smaller" << mass_smaller << "mass_median" << mass_median << "mass_greater" << mass_greater << "median" << median;
+
+    //data loop
+    for(size_t i = 0; i < n - mask_size; i++)
+    {
+        //relevant values
+        uchar val_add = vDataIn[i + mask_size];
+        uchar val_rem = vDataIn[i];
+
+        //update histogram
+        hist[val_add]++;
+        hist[val_rem]--;
+
+        //update masses
+        //add
+        if(val_add > median)        mass_greater++;
+        else if (val_add < median)  mass_smaller++;
+        else                        mass_median++;
+        //remove
+        if(val_rem > median)        mass_greater--;
+        else if (val_rem < median)  mass_smaller--;
+        else                        mass_median--;
+
+        //update median
+        bool check_smaller = mass_smaller + mass_median >= mass_smaller_or_equal_needed;
+        bool check_greater = mass_greater + mass_median >= mass_greater_or_equal_needed;
+        //qDebug() << "D_Img_Proc::Filter_Median_1C" << "check_smaller" << check_smaller << "check_greater" << check_greater;
+        if(check_smaller && !check_greater)
+        {
+            //decrease median
+            do
+            {
+                median -= 1;
+            }
+            while (hist[static_cast<size_t>(median)] == 0);
+        }
+        if(!check_smaller && check_greater)
+        {
+            //increase median
+            do
+            {
+                median += 1;
+            }
+            while (hist[static_cast<size_t>(median)] == 0);
+        }
+
+        //write result
+        vDataOut->push_back(median);
+
+        qDebug() << "D_Math::MedianRunning:" << "pos" << i << "of" << n << "add" << val_add << "remove" << val_rem << "mass_smaller" << mass_smaller << "mass_median" << mass_median << "mass_greater" << mass_greater << "check_smaller" << check_smaller << "check_greater" << check_greater << "median" << median;
+    }
+
+    return ER_okay;
+}
+
 
 
 

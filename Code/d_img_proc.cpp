@@ -9179,7 +9179,7 @@ int D_Img_Proc::Filter_Stat_Circular(Mat *pMA_Out, Mat *pMA_In, double radius, i
                     0,
                     0,
                     0));
-    qDebug() << "Filter_Stat_Circular" << radius << img_size << img_size / 2;
+    //qDebug() << "Filter_Stat_Circular" << radius << img_size << img_size / 2;
 
     //correct channel count
     Mat MA_tmp_Mask;

@@ -62,6 +62,250 @@ int D_Plot::Plot_Empty(QChartView *pChartView, QString QS_Text)
 }
 
 
+int D_Plot::Plot_AnyReal(QChartView *pChartView, vector<vector<double> > *vvX, vector<vector<double> > *vvY, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, int plot_mode, int mode_crop_y, double in_min_y, double in_max_y, int mode_trafo_y, double gamma_y, double center_y, double divisor_y, int mode_crop_x, double in_min_x, double in_max_x, int mode_trafo_x, double gamma_x, double center_x, double divisor_x)
+{
+    if(vvX->empty())                                                        return ER_empty;
+    if(vvY->empty())                                                        return ER_empty;
+    if((*vvY)[0].empty())                                                   return ER_empty;
+    if((*vvX)[0].empty())                                                   return ER_empty;
+    if(vvX->size() != vvY->size())                                          return ER_size_missmatch;
+    if(static_cast<size_t>(qsl_name_series.size()) != vvX->size())          return ER_size_missmatch;
+
+    //min/max & size check
+    //qDebug() << "min/max";
+    double x_min = (*vvX)[0][0];
+    double x_max = (*vvX)[0][0];
+    double y_min = (*vvY)[0][0];
+    double y_max = (*vvY)[0][0];
+    for(size_t s = 0; s < vvY->size(); s++)
+    {
+        if((*vvX)[s].size() != (*vvY)[s].size())  return ER_size_missmatch;
+
+        for(size_t i = 0; i < (*vvX)[s].size(); i++)
+        {
+            //cehck min/max x
+            double x = (*vvX)[s][i];
+            if(x < x_min)   x_min = x;
+            if(x > x_max)   x_max = x;
+
+            //cehck min/max y
+            double y = (*vvY)[s][i];
+            if(y < y_min)   y_min = y;
+            if(y > y_max)   y_max = y;
+        }
+    }
+
+    //min max used (croped or not)
+    if(mode_crop_y == c_VIS_TRAFO_CROP_FIXED)
+    {
+        y_min = in_min_y;
+        y_max = in_max_y;
+    }
+    if(mode_crop_x == c_VIS_TRAFO_CROP_FIXED)
+    {
+        x_min = in_min_x;
+        x_max = in_max_x;
+    }
+
+    //Trafo y---------------------------------------------------------------------
+    function<double(double)> F_Trafo_y = D_Math::CopyValue();
+    QString QS_TrafoDescription_y = "Showed linear";
+    switch (mode_trafo_y) {
+
+    case c_VIS_TRAFO_LINEAR:
+        F_Trafo_y = D_Math::CopyValue();
+        QS_TrafoDescription_y = "Showed linear";
+        break;
+
+    case c_VIS_TRAFO_GAMMA:
+        F_Trafo_y = D_Math::GammaCorrect_to01(y_min, y_max, gamma_y);
+        if(mode_crop_y == c_VIS_TRAFO_CROP_FIXED)
+            QS_TrafoDescription_y = "Showed gamma (" + QString::number(gamma_y) + ") corrected in range " +  QString::number(y_min) + " to " + QString::number(y_max);
+        else
+            QS_TrafoDescription_y = "Showed gamma (" + QString::number(gamma_y) + ") corrected";
+        break;
+
+    case c_VIS_TRAFO_LOG:
+        F_Trafo_y = D_Math::Log_Centered(y_min, y_max, center_y, divisor_y);
+        if(mode_crop_y == c_VIS_TRAFO_CROP_FIXED)
+            QS_TrafoDescription_y = "Showed logarithmic (divisor=" + QString::number(divisor_y) + ", center=" + QString::number(center_y) + ") in range " +  QString::number(y_min) + " to " + QString::number(y_max);
+        else
+            QS_TrafoDescription_y = "Showed logarithmic (divisor=" + QString::number(divisor_y) + ", center=" + QString::number(center_y) + ")";
+        break;
+
+    default:
+        return ER_parameter_bad;
+    }
+
+    //Trafo x---------------------------------------------------------------------
+    function<double(double)> F_Trafo_x = D_Math::CopyValue();
+    QString QS_TrafoDescription_x = "Showed linear";
+    switch (mode_trafo_x) {
+
+    case c_VIS_TRAFO_LINEAR:
+        F_Trafo_x = D_Math::CopyValue();
+        QS_TrafoDescription_x = "Showed linear";
+        break;
+
+    case c_VIS_TRAFO_GAMMA:
+        F_Trafo_x = D_Math::GammaCorrect_to01(x_min, x_max, gamma_x);
+        if(mode_crop_x == c_VIS_TRAFO_CROP_FIXED)
+            QS_TrafoDescription_x = "Showed gamma (" + QString::number(gamma_x) + ") corrected in range " +  QString::number(x_min) + " to " + QString::number(x_max);
+        else
+            QS_TrafoDescription_x = "Showed gamma (" + QString::number(gamma_x) + ") corrected";
+        break;
+
+    case c_VIS_TRAFO_LOG:
+        F_Trafo_x = D_Math::Log_Centered(x_min, x_max, center_x, divisor_x);
+        if(mode_crop_x == c_VIS_TRAFO_CROP_FIXED)
+            QS_TrafoDescription_x = "Showed logarithmic (divisor=" + QString::number(divisor_x) + ", center=" + QString::number(center_x) + ") in range " +  QString::number(x_min) + " to " + QString::number(x_max);
+        else
+            QS_TrafoDescription_x = "Showed logarithmic (divisor=" + QString::number(divisor_x) + ", center=" + QString::number(center_x) + ")";
+        break;
+
+    default:
+        return ER_parameter_bad;
+    }
+
+    //clear old content
+    Free_Memory(pChartView);
+
+    //Chart
+    //qDebug() << "==================================Chart";
+    QChart *chart = new QChart();
+    chart->setTitle(name_title);
+
+    //Axis
+    //qDebug() << "Axis";
+    QValueAxis *x_axis = new QValueAxis();
+    x_axis->setTitleText(name_x + "\n" + QS_TrafoDescription_x);
+    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisX(x_axis);
+    x_axis->setMin(F_Trafo_x(x_min));
+    x_axis->setMax(F_Trafo_x(x_max));
+
+    QValueAxis *y_axis = new QValueAxis();
+    y_axis->setTitleText(name_y + "\n" + QS_TrafoDescription_y);
+    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisY(y_axis);
+    y_axis->setMin(F_Trafo_y(y_min));
+    y_axis->setMax(F_Trafo_y(y_max));
+
+
+    switch (plot_mode) {
+
+    case c_PLOT_SIMPLE_POINT://========================================Point
+    {
+        //series (for all img types)
+        vector<QScatterSeries*> v_series(vvX->size());
+        for(size_t s = 0; s < vvX->size(); s++)
+        {
+            //create series
+            v_series[s] = new QScatterSeries;
+            v_series[s]->setName(qsl_name_series[static_cast<int>(s)]);
+            //v_series[s]->setUseOpenGL(true);
+
+            //color series
+            QColor series_color;
+            series_color.setHsv(static_cast<uchar>(255 * (s / static_cast<double>(v_series.size() - 1))), 255, 255);
+            v_series[s]->setColor(series_color);
+
+            //add data
+            for(size_t i = 0; i < (*vvX)[s].size(); i++)
+                v_series[s]->append(
+                            F_Trafo_x((*vvX)[s][i]),
+                            F_Trafo_y((*vvY)[s][i]));
+
+            //other stuff
+            chart->addSeries(v_series[s]);
+            v_series[s]->attachAxis(x_axis);
+            v_series[s]->attachAxis(y_axis);
+            //v_series[s]->setUseOpenGL(false);
+        }
+    }
+
+    case c_PLOT_SIMPLE_LINE://========================================Line
+    case c_PLOT_SIMPLE_LINE_POINT:
+    {
+        //series (for all img types)
+        vector<QLineSeries*> v_series(vvX->size());
+        for(size_t s = 0; s < vvX->size(); s++)
+        {
+            //create series
+            v_series[s] = new QLineSeries;
+            v_series[s]->setName(qsl_name_series[static_cast<int>(s)]);
+            //v_series[s]->setUseOpenGL(true);
+            if(plot_mode == c_PLOT_SIMPLE_LINE_POINT)
+                v_series[s]->setPointsVisible(true);
+
+            //color series
+            QColor series_color;
+            series_color.setHsv(static_cast<uchar>(255 * (s / static_cast<double>(v_series.size() - 1))), 255, 255);
+            v_series[s]->setColor(series_color);
+
+            //add data
+            for(size_t i = 0; i < (*vvX)[s].size(); i++)
+                v_series[s]->append(
+                            F_Trafo_x((*vvX)[s][i]),
+                            F_Trafo_y((*vvY)[s][i]));
+
+            //other stuff
+            chart->addSeries(v_series[s]);
+            v_series[s]->attachAxis(x_axis);
+            v_series[s]->attachAxis(y_axis);
+            //v_series[s]->setUseOpenGL(false);
+        }
+    }
+
+    case c_PLOT_SIMPLE_SPLINE://========================================Spline
+    case c_PLOT_SIMPLE_SPLINE_POINT:
+    {
+        //series (for all img types)
+        vector<QSplineSeries*> v_series(vvX->size());
+        for(size_t s = 0; s < vvX->size(); s++)
+        {
+            //create series
+            v_series[s] = new QSplineSeries;
+            v_series[s]->setName(qsl_name_series[static_cast<int>(s)]);
+            //v_series[s]->setUseOpenGL(true);
+            if(plot_mode == c_PLOT_SIMPLE_LINE_POINT)
+                v_series[s]->setPointsVisible(true);
+
+            //color series
+            QColor series_color;
+            series_color.setHsv(static_cast<uchar>(255 * (s / static_cast<double>(v_series.size() - 1))), 255, 255);
+            v_series[s]->setColor(series_color);
+
+            //add data
+            for(size_t i = 0; i < (*vvX)[s].size(); i++)
+                v_series[s]->append(
+                            F_Trafo_x((*vvX)[s][i]),
+                            F_Trafo_y((*vvY)[s][i]));
+
+            //other stuff
+            chart->addSeries(v_series[s]);
+            v_series[s]->attachAxis(x_axis);
+            v_series[s]->attachAxis(y_axis);
+            //v_series[s]->setUseOpenGL(false);
+        }
+    }
+
+    default:
+        return ER_parameter_bad;
+    }
+
+    //cosmetic
+    chart->legend()->setVisible(true);
+    //chart->legend()->setAlignment(legend_pos);
+
+    //attach chart
+    pChartView->setChart(chart);
+
+    return  ER_okay;
+}
+
+
+
 int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool uniform, bool accum, double* max_occured)
 {
     //clear old content

@@ -1063,3 +1063,49 @@ void D_MainWindow::on_actionTest_DPF_Writer_triggered()
 }
 
 
+
+void D_MainWindow::on_actionTest_Running_Median_triggered()
+{
+    //data
+    qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "get data";
+    vector<double> vDataInit = {1, 2, 3, 4, 5, 10, 0, 10, 0, 1, 3, 5, 7, 100, 1, 100, 100, 100, 1, 1, 100, 1, 1};
+    D_Popup_ListEdit_Numbers pop_edit(&vDataInit, "Plese enter values to be filtered", this);
+    pop_edit.exec();
+    vector<uchar> vDataIn = pop_edit.vData_UChar();
+
+
+    //filter
+    qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "filter";
+    vector<uchar> vDataOut;
+    D_Math::MedianRunning(
+                &vDataOut,
+                vDataIn,
+                3);
+
+    //combined results
+    qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "combine";
+    vector<vector<double>> vvInOut(2);
+    vvInOut[0].reserve(vDataIn.size());
+    for(size_t i = 0; i < vDataIn.size(); i++)
+        vvInOut[0][i] = vDataIn[i];
+    vvInOut[0].reserve(vDataIn.size());
+    for(size_t i = 0; i < vDataIn.size(); i++)
+        vvInOut[0][i] = vDataIn[i];
+    QStringList QSL_SeriesNames = {"In", "Out"};
+
+    //show results
+    qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "show plot";
+    D_Popup_Plot pop_plot(
+                "Median Filtering Results",
+                "order",
+                "value",
+                "Running median filtering",
+                QSL_SeriesNames,
+                vvInOut,
+                c_PLOT_SIMPLE_LINE_POINT,
+                true,
+                this);
+    pop_plot.exec();
+
+    qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "end";
+}
