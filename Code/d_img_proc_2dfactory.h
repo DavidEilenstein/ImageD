@@ -108,6 +108,9 @@ public:
     static function<int (Mat *, Mat *)>                         Filter_Stat_Circular            (double radius, int stat, int border_type = BORDER_CONSTANT);
     static function<int (Mat *, Mat *)>                         Filter_Stat_Rect                (int size_x, int size_y, int stat, int border_type = BORDER_CONSTANT);
 
+    static function<int (Mat *, Mat *)>                         Filter_RankOrder_Circular       (double quantil, double radius);
+    static function<int (Mat *, Mat *)>                         Filter_RankOrder_Rect           (double quantil, int size_x, int size_y);
+
     static function<int (Mat *, Mat *)>                         Math_1img_Inversion             ();
     static function<int (Mat *, Mat *)>                         Math_1img_Addition              (double summmand);
     static function<int (Mat *, Mat *)>                         Math_1img_Subtraction           (double subtrahend);
@@ -140,6 +143,7 @@ public:
     //2 Input -> 1 Output
     static function<int (Mat *, Mat *, Mat *)>                  Shading_Correct                 ();
 
+    static function<int (Mat *, Mat *, Mat *)>                  Filter_RankOrder                (double quantil);
     static function<int (Mat *, Mat *, Mat *)>                  Filter_Median                   ();
     static function<int (Mat *, Mat *, Mat *)>                  Filter_Eilenstein               (function<double (double cur, double nei)> response_CurNei, function<double (double res, double wei)> weight_ResWeigth, function<double (vector<double> v_res)> combine_Responses);
     static function<int (Mat *, Mat *, Mat *)>                  Filter_Function                 (function<double (double cur, double nei)> F1_CenterImage, function<double (double f1r, double msk)> F2_f1mask, function<double (vector<double> vf2r)> F3_Combine, function<double (double f3r, double cen)> F4_f3center, int border_type = BORDER_CONSTANT, bool DoNonZeroMaskOnly = false);

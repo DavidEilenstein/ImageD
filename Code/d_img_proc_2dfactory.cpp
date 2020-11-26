@@ -456,6 +456,33 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_Stat_Rect(int size_x, 
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_RankOrder_Circular(double quantil, double radius)
+{
+    return
+                [quantil, radius](Mat *pMA_Out, Mat *pMA_In)
+        {
+            return D_Img_Proc::Filter_RankOrder_Circular(
+                        pMA_Out,
+                        pMA_In,
+                        quantil,
+                        radius);
+        };
+}
+
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_RankOrder_Rect(double quantil, int size_x, int size_y)
+{
+    return
+            [quantil, size_x, size_y](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Filter_RankOrder_Rect(
+                    pMA_Out,
+                    pMA_In,
+                    quantil,
+                    size_x,
+                    size_y);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Math_1img_Inversion()
 {
     return
@@ -958,6 +985,19 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Shading_Correct()
                     pMA_Out,
                     pMA_In,
                     pMA_Ref);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_RankOrder(double quantil)
+{
+    return
+            [quantil](Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
+    {
+        return D_Img_Proc::Filter_RankOrder(
+                    pMA_Out,
+                    pMA_In,
+                    pMA_Mask,
+                    quantil);
     };
 }
 

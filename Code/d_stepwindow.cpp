@@ -173,6 +173,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->comboBox_03_Thres_Type,                 SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     connect(ui->comboBox_04_Blur_Type,                  SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     connect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
+    connect(ui->comboBox_04_RankOrder_MaskType,         SIGNAL(currentIndexChanged(int)),           this,   SLOT(AdaptUi_SourceNumber_ProcDims()));
     //Statusbar Updates and other info
     connect(&Viewer,                                    SIGNAL(MouseMoved_Value(QString)),          L_SB_ValAtPos,  SLOT(setText(QString)));
     connect(&Viewer,                                    SIGNAL(MouseClicked_Pos(int, int)),         this,           SLOT(Measure_SaveClick(int, int)));
@@ -1551,6 +1552,54 @@ void D_StepWindow::Update_Img_Proc()
                         ui->checkBox_04_Function_OnlyNonZero->isChecked()),
                     "Update_Img_Proc",
                     "Filter_Function");
+        }
+            break;
+
+        case c_sT_FI_RANKORDER: //---------------------------------------------------------------   rank order filter
+        {
+            switch (ui->comboBox_04_RankOrder_MaskType->currentIndex()) {
+
+            case c_MASK_MODE_CIRC:
+            {
+                ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->doubleSpinBox_04_RankOrder_Quantil->value() / 100.0,
+                        ui->doubleSpinBox_04_RankOrder_Radius->value()),
+                    "Update_Img_Proc",
+                    "Filter_RankOrder_Circular");
+            }
+                break;
+
+            case c_MASK_MODE_RECT:
+            {
+                ERR(D_VisDat_Proc::Filter_RankOrder_Rect(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->doubleSpinBox_04_RankOrder_Quantil->value() / 100.0,
+                        ui->spinBox_04_RankOrder_Size_x->value(),
+                        ui->spinBox_04_RankOrder_Size_y->value()),
+                    "Update_Img_Proc",
+                    "Filter_RankOrder_Rect");
+            }
+                break;
+
+            case c_MASK_MODE_CUSTOM:
+            {
+                ERR(D_VisDat_Proc::Filter_RankOrder(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        pStore->get_pVD(pos_Source2),
+                        ui->doubleSpinBox_04_RankOrder_Quantil->value() / 100.0),
+                    "Update_Img_Proc",
+                    "Filter_RankOrder");
+            }
+                break;
+
+            }
         }
             break;
 
@@ -5256,6 +5305,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->doubleSpinBox_04_Function_f4_f,         SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_04_Function_f4_nan,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_04_Function_f4_inf,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //Rank Order
+        connect(ui->doubleSpinBox_04_RankOrder_Quantil,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //connect(ui->comboBox_04_RankOrder_MaskType,       SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_04_RankOrder_Radius,      SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_04_RankOrder_Size_x,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_04_RankOrder_Size_y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //Statistic filter
         connect(ui->comboBox_04_Statistic_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -5792,6 +5847,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->doubleSpinBox_04_Function_f4_f,         SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_04_Function_f4_nan,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_04_Function_f4_inf,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //Rank Order
+        disconnect(ui->doubleSpinBox_04_RankOrder_Quantil,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //disconnect(ui->comboBox_04_RankOrder_MaskType,       SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_04_RankOrder_Radius,      SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_04_RankOrder_Size_x,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_04_RankOrder_Size_y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //Statistic filter
         disconnect(ui->comboBox_04_Statistic_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->comboBox_04_Statistic_MaskType,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -6455,6 +6516,10 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
         if(ui->comboBox_Type_04_Filter->currentIndex() == c_sT_FI_FUNCTION)
             source_2 = true;
 
+        if(ui->comboBox_Type_04_Filter->currentIndex() == c_sT_FI_RANKORDER)
+            if(ui->comboBox_04_RankOrder_MaskType->currentIndex() == c_MASK_MODE_CUSTOM)
+                source_2 = true;
+
         if(ui->comboBox_Type_04_Filter->currentIndex() == c_sT_FI_STAT)
             if(ui->comboBox_04_Statistic_MaskType->currentIndex() == c_MASK_MODE_CUSTOM)
                 source_2 = true;
@@ -6725,6 +6790,7 @@ void D_StepWindow::Populate_CB_Other()
 {
     Populate_CB_Single(ui->comboBox_09_RadiometricStereo_OutMode,   QSL_StereoOutput,   c_STEREO_NORMAL);
     Populate_CB_Single(ui->comboBox_04_Statistic_MaskType,          QSL_MaskMode,       c_MASK_MODE_CIRC);
+    Populate_CB_Single(ui->comboBox_04_RankOrder_MaskType,          QSL_MaskMode,       c_MASK_MODE_CIRC);
 }
 
 void D_StepWindow::Test_Feature_Visualize()
@@ -7613,4 +7679,23 @@ void D_StepWindow::on_comboBox_04_Statistic_MaskType_currentIndexChanged(int ind
     ui->label_04_Statistic_Size->setEnabled(index == c_MASK_MODE_RECT);
     ui->spinBox_04_Statistic_Size_x->setEnabled(index == c_MASK_MODE_RECT);
     ui->spinBox_04_Statistic_Size_y->setEnabled(index == c_MASK_MODE_RECT);
+}
+
+void D_StepWindow::on_doubleSpinBox_04_RankOrder_Quantil_valueChanged(double arg1)
+{
+    ui->horizontalSlider_04_RankOrder_Quantil->setValue(arg1 * 100);
+}
+
+void D_StepWindow::on_horizontalSlider_04_RankOrder_Quantil_valueChanged(int value)
+{
+    ui->doubleSpinBox_04_RankOrder_Quantil->setValue(value / 100.0);
+}
+
+void D_StepWindow::on_comboBox_04_RankOrder_MaskType_currentIndexChanged(int index)
+{
+    ui->label_04_RankOrder_Radius->setEnabled(index == c_MASK_MODE_CIRC);
+    ui->doubleSpinBox_04_RankOrder_Radius->setEnabled(index == c_MASK_MODE_CIRC);
+    ui->label_04_RankOrder_Size->setEnabled(index == c_MASK_MODE_RECT);
+    ui->spinBox_04_RankOrder_Size_x->setEnabled(index == c_MASK_MODE_RECT);
+    ui->spinBox_04_RankOrder_Size_y->setEnabled(index == c_MASK_MODE_RECT);
 }

@@ -310,6 +310,12 @@ private slots:
 
     void on_comboBox_04_Statistic_MaskType_currentIndexChanged(int index);
 
+    void on_doubleSpinBox_04_RankOrder_Quantil_valueChanged(double arg1);
+
+    void on_horizontalSlider_04_RankOrder_Quantil_valueChanged(int value);
+
+    void on_comboBox_04_RankOrder_MaskType_currentIndexChanged(int index);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -460,6 +466,7 @@ private:
         c_sT_FI_SPEC,
         c_sT_FI_EILENSTEIN,
         c_sT_FI_FUNCTION,
+        c_sT_FI_RANKORDER,
         c_sT_FI_STAT
     };
 

@@ -6758,6 +6758,15 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size)
 
 int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
 {
+    return Filter_RankOrder(
+                pMA_Out,
+                pMA_In,
+                pMA_Mask,
+                0.5);
+}
+
+int D_Img_Proc::Filter_RankOrder(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)
+{
     if(pMA_In->empty())                             return ER_empty;
     if(pMA_Mask->empty())                           return ER_empty;
     if(pMA_Mask->channels() != 1)                   return ER_channel_bad;
@@ -6767,10 +6776,11 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
 
     case 1:
     {
-        int ER = Filter_Median_1C(
+        int ER = Filter_RankOrder_1C(
                     pMA_Out,
                     pMA_In,
-                    pMA_Mask);
+                    pMA_Mask,
+                    quantil_relPos);
         if(ER != ER_okay)   return ER;
     }
         break;
@@ -6785,10 +6795,11 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
         Mat MA_tmp_thres[2];
         for(int c = 0; c < pMA_In->channels(); c++)
         {
-            int ER = Filter_Median_1C(
+            int ER = Filter_RankOrder_1C(
                         &(MA_tmp_thres[c]),
                         &(MA_tmp_in[c]),
-                        pMA_Mask);
+                        pMA_Mask,
+                        quantil_relPos);
             if(ER != ER_okay)   return ER;
         }
 
@@ -6815,10 +6826,11 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
         Mat MA_tmp_thres[3];
         for(int c = 0; c < pMA_In->channels(); c++)
         {
-            int ER = Filter_Median_1C(
+            int ER = Filter_RankOrder_1C(
                         &(MA_tmp_thres[c]),
                         &(MA_tmp_in[c]),
-                        pMA_Mask);
+                        pMA_Mask,
+                        quantil_relPos);
             if(ER != ER_okay)   return ER;
         }
 
@@ -6845,10 +6857,11 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
         Mat MA_tmp_thres[4];
         for(int c = 0; c < pMA_In->channels(); c++)
         {
-            int ER = Filter_Median_1C(
+            int ER = Filter_RankOrder_1C(
                         &(MA_tmp_thres[c]),
                         &(MA_tmp_in[c]),
-                        pMA_Mask);
+                        pMA_Mask,
+                        quantil_relPos);
             if(ER != ER_okay)   return ER;
         }
 
@@ -6872,378 +6885,92 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     return ER_okay;
 }
 
-/*
-int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
+int D_Img_Proc::Filter_RankOrder_Circular(Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, double radius)
 {
-    //Errors
-    if(pMA_In->empty())                     return ER_empty;
-    if(pMA_Mask->empty())                   return ER_empty;
-    if(pMA_In->channels() != 1)             return ER_channel_bad;
-    if(pMA_Mask->channels() != 1)           return ER_channel_bad;
-    if(pMA_In->cols < pMA_Mask->cols)       return ER_size_missmatch;
-    if(pMA_In->rows < pMA_Mask->rows)       return ER_size_missmatch;
-    if(pMA_In->depth() == CV_8S)            return ER_bitdepth_bad;
-    if(pMA_In->depth() == CV_16S)           return ER_bitdepth_bad;
-    if(pMA_In->depth() == CV_32S)           return ER_bitdepth_bad;
-    if(pMA_In->depth() == CV_32F)           return ER_bitdepth_bad;
-    if(pMA_In->depth() == CV_64F)           return ER_bitdepth_bad;
-    int ER;
+    if(radius < 0)              return ER_parameter_bad;
 
-    //binarize mask (should be binary input, but just to be safe it is)
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "thresh mask";
-    Mat MA_tmp_MaskBinary;
-    ER = Threshold_Relative_1C(
-                &MA_tmp_MaskBinary,
-                pMA_Mask,
-                1,
-                0);
+    //image size must be an odd int
+    int img_size = 2 * static_cast<int>(radius) + 1;
+
+    //generate mask
+    Mat MA_tmp_Mask_1C;
+    Generate_byValueFunction(
+                &MA_tmp_Mask_1C,
+                img_size,
+                img_size,
+                D_Math::Function_2D_to_1D(
+                    c_MATH_2D_TO_1D_ELLIPSE,
+                    radius,
+                    img_size / 2,
+                    radius,
+                    img_size / 2,
+                    1,
+                    0,
+                    0,
+                    0));
+    //qDebug() << "Filter_RankOrder_Circular" << radius << img_size << img_size / 2;
+
+    //correct channel count
+    Mat MA_tmp_Mask;
+    int ER = Duplicate2Channels(
+                &MA_tmp_Mask,
+                &MA_tmp_Mask_1C,
+                pMA_In->channels());
     if(ER != ER_okay)
     {
-        MA_tmp_MaskBinary.release();
+        MA_tmp_Mask_1C.release();
+        MA_tmp_Mask.release();
         return ER;
     }
 
-    //input img parameters
-    //sizes
-    size_t in_sx = pMA_In->cols;
-    size_t in_sy = pMA_In->rows;
-    //max index
-    size_t in_max_x = in_sx - 1;
-    size_t in_max_y = in_sy - 1;
-
-    //mask parameters
-    //sizes
-    int mask_sx = MA_tmp_MaskBinary.cols;
-    int mask_sy = MA_tmp_MaskBinary.rows;
-    //centers
-    int mask_cx = mask_sx / 2;
-    int mask_cy = mask_sy / 2;
-    //center to border
-    int mask_c2l = 0 - mask_cx;
-    int mask_c2r = mask_sx - mask_cx - 1;
-    int mask_c2t = 0 - mask_cy;
-    int mask_c2b = mask_sy - mask_cy - 1;
-
-    //pad input image
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "pad input";
-    Mat MA_tmp_InPadded;
-    ER = Padding(
-                &MA_tmp_InPadded,
+    //apply filter
+    ER = Filter_RankOrder(
+                pMA_Out,
                 pMA_In,
-                abs(mask_c2r),
-                abs(mask_c2l),
-                abs(mask_c2t),
-                abs(mask_c2b),
-                BORDER_REPLICATE);
-    if(ER != ER_okay)
-    {
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
-        return ER;
-    }
+                &MA_tmp_Mask,
+                quantil_relPos);
 
-    //get range of values to deal with (for size of histogram)
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "get extreme values";
-    double val_min;
-    double val_max;
-    ER = MinMax_of_Mat_1C(
-                &MA_tmp_InPadded,
-                &val_min,
-                &val_max);
-    if(ER != ER_okay)
-    {
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
-        return ER;
-    }
-
-    //lists of indices to add/remove on shift
-    vector<Point> vBorderL;
-    vector<Point> vBorderR;
-    vector<Point> vBorderT;
-    vector<Point> vBorderB;
-
-    //create histogram
-    vector<size_t> hist(static_cast<size_t>(val_max), 0);
-    vector<double> values_init;
-
-    //--------------------------------------- init relative shift coordinates and histogram --------------------------------
-
-    //init shift inidices and hist
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "init mask inidices";
-    for(int y = 0; y < mask_sy; y++)
-        for(int x = 0; x < mask_sx; x++)
-        {
-            //current point (relative corrdinates) & value
-            Point P_rel = Point(x - mask_cx, y - mask_cy);
-            uchar V_Mask = MA_tmp_MaskBinary.at<uchar>(y, x);
-            qDebug() << y << x << V_Mask;
-
-            //increase hist entry and add value to list for init median
-            if(V_Mask > 0)
-                switch (pMA_In->type()) {
-
-                case CV_8UC1:
-                    hist[MA_tmp_InPadded.at<uchar>(y, x)]++;
-                    values_init.push_back(static_cast<double>(MA_tmp_InPadded.at<uchar>(y, x)));
-                    break;
-
-                case CV_16UC1:
-                    hist[MA_tmp_InPadded.at<ushort>(y, x)]++;
-                    values_init.push_back(static_cast<double>(MA_tmp_InPadded.at<ushort>(y, x)));
-                    break;
-
-                default:
-                    MA_tmp_MaskBinary.release();
-                    MA_tmp_InPadded.release();
-                    return ER_type_bad;
-                }
-
-
-            //check left border
-            if(x == 0)
-            {
-                if(V_Mask > 0)
-                    vBorderL.push_back(P_rel);
-            }
-            else
-            {
-                if(V_Mask > pMA_Mask->at<uchar>(y, x-1))
-                    vBorderL.push_back(P_rel);
-            }
-
-            //check right border
-            if(x == mask_sx - 1)
-            {
-                if(V_Mask > 0)
-                    vBorderR.push_back(P_rel);
-            }
-            else
-            {
-                if(V_Mask > pMA_Mask->at<uchar>(y, x+1))
-                    vBorderR.push_back(P_rel);
-            }
-
-            //check top border
-            if(y == 0)
-            {
-                if(V_Mask > 0)
-                    vBorderT.push_back(P_rel);
-            }
-            else
-            {
-                if(V_Mask > pMA_Mask->at<uchar>(y-1, x))
-                    vBorderT.push_back(P_rel);
-            }
-
-            //check bottom border
-            if(y == mask_sy - 1)
-            {
-                if(V_Mask > 0)
-                    vBorderB.push_back(P_rel);
-            }
-            else
-            {
-                if(V_Mask > pMA_Mask->at<uchar>(y+1, x))
-                    vBorderB.push_back(P_rel);
-            }
-        }
-
-    //------------------------------------------ init median --------------------------------
-
-    //init median
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "init median";
-    if(values_init.empty())
-    {
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
-        return ER_empty;
-    }
-    sort(values_init.begin(), values_init.end());
-    double median = values_init[values_init.size() / 2];
-
-    //init output
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "init out";
-    *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
-
-    //looping parameters
-    bool at_end = false;
-    size_t x = 0;
-    size_t y = 0;
-    int direction = c_DIR2D_R;
-
-    //type switch
-    switch (pMA_In->type()) {
-
-    case CV_8UC1:
-    {
-        qDebug() << "D_Img_Proc::Filter_Median_1C" << "CV_8UC1";
-
-        while(!at_end)
-        {
-            //update hist
-            int greater_values = 0;
-            switch (direction) {
-
-            case c_DIR2D_R:
-                //add new
-                for(size_t i = 0; i < vBorderR.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderR[i].y, x + vBorderR[i].x);
-                    hist[val]++;
-                    if(val > median)
-                        greater_values++;
-                    if(val < median)
-                        greater_values--;
-                }
-                //remove old
-                for(size_t i = 0; i < vBorderL.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderL[i].y, x + vBorderL[i].x);
-                    hist[val]--;
-                    if(val > median)
-                        greater_values--;
-                    if(val < median)
-                        greater_values++;
-                }
-                break;
-
-            case c_DIR2D_L:
-                //add new
-                for(size_t i = 0; i < vBorderL.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderL[i].y, x + vBorderL[i].x);
-                    hist[val]++;
-                    if(val > median)
-                        greater_values++;
-                    if(val < median)
-                        greater_values--;
-                }
-                //remove old
-                for(size_t i = 0; i < vBorderR.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderR[i].y, x + vBorderR[i].x);
-                    hist[val]--;
-                    if(val > median)
-                        greater_values--;
-                    if(val < median)
-                        greater_values++;
-                }
-                break;
-
-            case c_DIR2D_D:
-                //add new
-                for(size_t i = 0; i < vBorderB.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderB[i].y, x + vBorderB[i].x);
-                    hist[val]++;
-                    if(val > median)
-                        greater_values++;
-                    if(val < median)
-                        greater_values--;
-                }
-                //remove old
-                for(size_t i = 0; i < vBorderT.size(); i++)
-                {
-                    uchar val = MA_tmp_InPadded.at<uchar>(y + vBorderT[i].y, x + vBorderT[i].x);
-                    hist[val]--;
-                    if(val > median)
-                        greater_values--;
-                    if(val < median)
-                        greater_values++;
-                }
-                break;
-
-            default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
-                return ER_parameter_bad;
-            }
-
-            //update median
-            if(greater_values > 0)
-                while (greater_values > 0)
-                {
-                    greater_values -= hist[median];
-                    median--;
-                }
-            else if(greater_values < 0)
-                while (greater_values > 0)
-                {
-                    greater_values += hist[median];
-                    median++;
-                }
-
-            //write median to output image
-            pMA_Out->at<uchar>(y, x) = median;
-
-            //check for direction change or end
-            switch (direction) {
-
-            case c_DIR2D_R:
-                if(x >= in_max_x)
-                    direction = c_DIR2D_D;
-                break;
-
-            case c_DIR2D_L:
-                if(x <= 0)
-                    direction = c_DIR2D_D;
-                break;
-
-            case c_DIR2D_D:
-                if(y >= in_max_y)
-                    at_end = true;
-                else if(x >= in_max_x)
-                    direction = c_DIR2D_L;
-                else if(x <= 0)
-                    direction = c_DIR2D_R;
-                break;
-
-            default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
-                return ER_parameter_bad;
-            }
-
-            //change indices based on direction
-            switch (direction) {
-
-            case c_DIR2D_R:
-                x++;
-                break;
-
-            case c_DIR2D_L:
-                x--;
-                break;
-
-            case c_DIR2D_D:
-                y++;
-                break;
-
-            default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
-                return ER_parameter_bad;
-            }
-        }
-    }
-        break;
-
-    default:
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
-        return ER_type_bad;
-    }
-
-
-    //clear & return
-    MA_tmp_MaskBinary.release();
-    MA_tmp_InPadded.release();
-    return ER_okay;
+    MA_tmp_Mask_1C.release();
+    MA_tmp_Mask.release();
+    return ER;
 }
-*/
 
-int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
+int D_Img_Proc::Filter_RankOrder_Rect(Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, int size_x, int size_y)
+{
+    if(size_x < 1)                          return ER_parameter_bad;
+    if(size_y < 1)                          return ER_parameter_bad;
+    if(size_x % 2 != 1)                     return ER_parameter_bad;
+    if(size_y % 2 != 1)                     return ER_parameter_bad;
+
+    //generate mask
+    Mat MA_tmp_Mask_1C = Mat::ones(size_x, size_y, CV_64FC1);
+
+    //correct channel count
+    Mat MA_tmp_Mask;
+    int ER = Duplicate2Channels(
+                &MA_tmp_Mask,
+                &MA_tmp_Mask_1C,
+                pMA_In->channels());
+    if(ER != ER_okay)
+    {
+        MA_tmp_Mask_1C.release();
+        MA_tmp_Mask.release();
+        return ER;
+    }
+
+    //apply filter
+    ER = Filter_RankOrder(
+                pMA_Out,
+                pMA_In,
+                &MA_tmp_Mask,
+                quantil_relPos);
+
+    MA_tmp_Mask_1C.release();
+    MA_tmp_Mask.release();
+    return ER;
+}
+
+int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)
 {
     //------------------------------------------------------- Error checks
 
@@ -7255,6 +6982,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     if(pMA_In->cols < pMA_Mask->cols)                           return ER_size_missmatch;
     if(pMA_In->rows < pMA_Mask->rows)                           return ER_size_missmatch;
     if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U)   return ER_bitdepth_bad;
+    if(quantil_relPos < 0 || quantil_relPos > 1)                              return ER_parameter_bad;
     int ER;
 
 
@@ -7262,7 +6990,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     //------------------------------------------------------- mask preprocessing
 
     //binarize mask (should be binary input, but just to be safe it is binarized)
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "thresh mask";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "thresh mask";
     Mat MA_tmp_MaskBinary;
     ER = Threshold_Relative_1C(
                 &MA_tmp_MaskBinary,
@@ -7305,7 +7033,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     //------------------------------------------------------- border handling
 
     //pad input image
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "pad input";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "pad input";
     Mat MA_tmp_InPadded;
     ER = Padding(
                 &MA_tmp_InPadded,
@@ -7327,7 +7055,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     //------------------------------------------------------- create and init histogram
 
     //get range of values to deal with (for size of histogram)
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "get extreme values";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "get extreme values";
     double val_min;
     double val_max;
     ER = MinMax_of_Mat_1C(
@@ -7366,7 +7094,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
 
 
 
-    //------------------------------------------------------- inital median
+    //------------------------------------------------------- inital quantil
 
     //list of mask congruent pixel values at start position
     vector<double> values_init;
@@ -7399,10 +7127,10 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
             return ER_empty;
         }
 
-    //init median
-    //qDebug() << "D_Img_Proc::Filter_Median_1C" << "init median";
+    //init quantil value
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "init quantil value";
     sort(values_init.begin(), values_init.end());
-    double median = values_init[values_init.size() / 2];
+    double quantil_val = values_init[(values_init.size() - 1) * quantil_relPos];
 
 
 
@@ -7421,8 +7149,8 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
         {
             //current point (relative corrdinates) & value
             Point P_rel = Point(x - mask_cx, y - mask_cy);
-            uchar V_Mask = MA_tmp_MaskBinary.at<uchar>(y, x);
-            qDebug() << "mask position" << x << y << "value" << V_Mask << "relative coordinates to add" << x - mask_cx << y - mask_cy;
+            uchar Val_Mask = MA_tmp_MaskBinary.at<uchar>(y, x);
+            //qDebug() << "mask position" << x << y << "value" << Val_Mask << "relative coordinates to add" << x - mask_cx << y - mask_cy;
 
             //count relevant pixels
             mask_relevant_px_count++;
@@ -7435,63 +7163,62 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
             //check left border
             if(x == 0)
             {
-                if(V_Mask > 0)
+                if(Val_Mask > 0)
                 {
                     vBorderL.push_back(P_rel);
-                    qDebug() << "added to vBorderL beacuse (x == 0) is true and (V_Mask > 0) is true";
+                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- ADD - Left mask border and foreground";
                 }
                 else
                 {
-                    qDebug() << "NOT added to vBorderLbeacuse (x == 0) is true but (V_Mask > 0) is false";
+                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- NOT - Left mask border but background";
                 }
             }
             else
             {
-                qDebug() << "value at pos" << V_Mask << "value left neighbour" << MA_tmp_MaskBinary.at<uchar>(y, x-1);
-                if(V_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1))
+                if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1))
                 {
                     vBorderL.push_back(P_rel);
-                    qDebug() << "added to vBorderL beacuse (x == 0) is false and (V_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1)) is true";
+                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- ADD - Not left mask border but lower left neighbour";
                 }
                 else
                 {
-                    qDebug() << "NOT added to vBorderL beacuse (x == 0) is false and (V_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1)) is false";
+                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- NOT - Not left mask border and no lower left neigbour";
                 }
             }
 
             //check right border
             if(x == mask_sx - 1)
             {
-                if(V_Mask > 0)
+                if(Val_Mask > 0)
                     vBorderR.push_back(P_rel);
             }
             else
             {
-                if(V_Mask > MA_tmp_MaskBinary.at<uchar>(y, x+1))
+                if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y, x+1))
                     vBorderR.push_back(P_rel);
             }
 
             //check top border
             if(y == 0)
             {
-                if(V_Mask > 0)
+                if(Val_Mask > 0)
                     vBorderT.push_back(P_rel);
             }
             else
             {
-                if(V_Mask > MA_tmp_MaskBinary.at<uchar>(y-1, x))
+                if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y-1, x))
                     vBorderT.push_back(P_rel);
             }
 
             //check bottom border
             if(y == mask_sy - 1)
             {
-                if(V_Mask > 0)
+                if(Val_Mask > 0)
                     vBorderB.push_back(P_rel);
             }
             else
             {
-                if(V_Mask > MA_tmp_MaskBinary.at<uchar>(y+1, x))
+                if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y+1, x))
                     vBorderB.push_back(P_rel);
             }
         }
@@ -7499,31 +7226,32 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     //check if there is a deficit (there should never be one)
     if(vBorderB.size() != vBorderT.size() || vBorderL.size() != vBorderR.size())
     {
-        qDebug() << "D_Img_Proc::Filter_Median_1C" << "shift coordinate lists size missmatch";
+        //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "shift coordinate lists size missmatch";
         MA_tmp_MaskBinary.release();
         MA_tmp_InPadded.release();
         return ER_size_missmatch;
     }
 
+    /*
     //debug print border lists
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "vBorderL:";
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderL:";
     for(size_t i = 0; i < vBorderL.size(); i++)
         qDebug() << "(" << vBorderL[i].x << "|" << vBorderL[i].y << ")";
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "vBorderR:";
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderR:";
     for(size_t i = 0; i < vBorderR.size(); i++)
         qDebug() << "(" << vBorderR[i].x << "|" << vBorderR[i].y << ")";
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "vBorderT:";
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderT:";
     for(size_t i = 0; i < vBorderT.size(); i++)
         qDebug() << "(" << vBorderT[i].x << "|" << vBorderT[i].y << ")";
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "vBorderB:";
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderB:";
     for(size_t i = 0; i < vBorderB.size(); i++)
         qDebug() << "(" << vBorderB[i].x << "|" << vBorderB[i].y << ")";
-
+    */
 
     //------------------------------------------------------- init out image
 
     //init output
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "init out";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "init out";
     *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
 
 
@@ -7532,45 +7260,45 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
 
     //looping parameters
     bool at_end = false;
-    int x = 0;
-    int y = 0;
+    size_t x = 0;
+    size_t y = 0;
     int direction = c_DIR2D_R;
 
 
 
-    //------------------------------------------------------- assistant values for median calculation on steps
+    //------------------------------------------------------- assistant values for quantil value calculation on steps
 
-    //count of values smaller than median
+    //count of values smaller than quantil value
     size_t mass_smaller = 0;
-    for(size_t i = 0; i < static_cast<size_t>(median); i++)
+    for(size_t i = 0; i < static_cast<size_t>(quantil_val); i++)
         mass_smaller += hist[i];
 
-    //count of values equal to median value
-    size_t mass_median = hist[static_cast<size_t>(median)];
+    //count of values equal to quantil value
+    size_t mass_quantil = hist[static_cast<size_t>(quantil_val)];
 
-    //count of values greater than median
+    //count of values greater than quantil value
     size_t mass_greater = 0;
-    for(size_t i = static_cast<size_t>(median) + 1; i < hist.size(); i++)
+    for(size_t i = static_cast<size_t>(quantil_val) + 1; i < hist.size(); i++)
         mass_greater += hist[i];
 
-    //comparison value of needed absolute count for median determination
-    double mass_smaller_or_equal_needed = 0.5 * mask_relevant_px_count;
-    double mass_greater_or_equal_needed = 0.5 * mask_relevant_px_count;
+    //comparison value of needed absolute count for quantil determination
+    double mass_smaller_or_equal_needed = quantil_relPos * mask_relevant_px_count;
+    double mass_greater_or_equal_needed = (1 - quantil_relPos) * mask_relevant_px_count;
 
     //------------------------------------------------------- loop image and type switch
 
     //type switch
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "start looping image";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "start looping image";
     switch (pMA_In->type()) {
 
     case CV_8UC1:
     {
-        qDebug() << "D_Img_Proc::Filter_Median_1C" << "CV_8UC1";
+        //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "CV_8UC1";
 
         //loop until end of image
         while(!at_end)
         {
-            qDebug() << "D_Img_Proc::Filter_Median_1C" << "new point===================================";
+            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new point===================================";
 
             vector<Point> *vBorderAdd;
             vector<Point> *vBorderRem;
@@ -7587,12 +7315,12 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
             for(size_t i = 0; i < vBorderAdd->size(); i++)
             {
                 //get values to add/remove
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "new value---------------------------------";
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "coordinates add x/y:" << x + (*vBorderAdd)[i].x + mask_cx << y + (*vBorderAdd)[i].y + mask_cy;
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "coordinates rem x/y:" << x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos << y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new value---------------------------------";
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates add x/y:" << x + (*vBorderAdd)[i].x + mask_cx << y + (*vBorderAdd)[i].y + mask_cy;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates rem x/y:" << x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos << y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos;
                 uchar val_add = MA_tmp_InPadded.at<uchar>(y + (*vBorderAdd)[i].y + mask_cy, x + (*vBorderAdd)[i].x + mask_cx);
                 uchar val_rem = MA_tmp_InPadded.at<uchar>(y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos, x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos);
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "add" << val_add << "val_rem" << val_rem;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "add" << val_add << "val_rem" << val_rem;
 
                 //update histogram
                 hist[val_add]++;
@@ -7600,47 +7328,45 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
 
                 //update masses
                 //add
-                if(val_add > median)        mass_greater++;
-                else if (val_add < median)  mass_smaller++;
-                else                        mass_median++;
+                if(val_add > quantil_val)        mass_greater++;
+                else if (val_add < quantil_val)  mass_smaller++;
+                else                        mass_quantil++;
                 //remove
-                if(val_rem > median)        mass_greater--;
-                else if (val_rem < median)  mass_smaller--;
-                else                        mass_median--;
+                if(val_rem > quantil_val)        mass_greater--;
+                else if (val_rem < quantil_val)  mass_smaller--;
+                else                        mass_quantil--;
                 //debug
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "mass smaller" << mass_smaller << "mass_median" << mass_median << "mass_greater" << mass_greater;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "mass smaller" << mass_smaller << "mass_quantil" << mass_quantil << "mass_greater" << mass_greater;
 
-                //update median
-                bool check_smaller = mass_smaller + mass_median >= mass_smaller_or_equal_needed;
-                bool check_greater = mass_greater + mass_median >= mass_greater_or_equal_needed;
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "check_smaller" << check_smaller << "check_greater" << check_greater;
+                //update quantil value
+                bool check_smaller = mass_smaller + mass_quantil >= mass_smaller_or_equal_needed;
+                bool check_greater = mass_greater + mass_quantil >= mass_greater_or_equal_needed;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "check_smaller" << check_smaller << "check_greater" << check_greater;
                 if(check_smaller && !check_greater)
                 {
-                    //decrease median
-                    do
-                    {
-                        median -= 1;
-                    }
-                    while (hist[static_cast<size_t>(median)] == 0);
+                    //decrease quantil value
+                    mass_greater += mass_quantil;
+                    do quantil_val--; while (hist[static_cast<size_t>(quantil_val)] == 0);
+                    mass_quantil = hist[static_cast<size_t>(quantil_val)];
+                    mass_smaller -= mass_quantil;
                 }
                 if(!check_smaller && check_greater)
                 {
-                    //increase median
-                    do
-                    {
-                        median += 1;
-                    }
-                    while (hist[static_cast<size_t>(median)] == 0);
+                    //increase quantil value
+                    mass_smaller += mass_quantil;
+                    do quantil_val++; while (hist[static_cast<size_t>(quantil_val)] == 0);
+                    mass_quantil = hist[static_cast<size_t>(quantil_val)];
+                    mass_greater -= mass_quantil;
                 }
-                qDebug() << "D_Img_Proc::Filter_Median_1C" << "new median:" << median;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new quantil value:" << quantil_val;
             }
 
 
             //------------------------------------------------------- write result
 
-           //write median to output image
-            pMA_Out->at<uchar>(y, x) = median;
-            qDebug() << "D_Img_Proc::Filter_Median_1C" << "write result:" << median;
+           //write quantil value to output image
+            pMA_Out->at<uchar>(y, x) = quantil_val;
+            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "write result:" << quantil_val;
 
 
             //------------------------------------------------------- change direction
@@ -7659,7 +7385,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
                 break;
 
             case c_DIR2D_D:
-                if(y >= in_max_y)
+                if(y > in_max_y)
                     at_end = true;
                 else if(x >= in_max_x)
                     direction = c_DIR2D_L;
@@ -7673,7 +7399,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
                 return ER_parameter_bad;
             }
 
-            qDebug() << "D_Img_Proc::Filter_Median_1C" << "new direction:" << direction;
+            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new direction:" << direction;
 
 
             //------------------------------------------------------- change position
@@ -7698,7 +7424,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
                 MA_tmp_InPadded.release();
                 return ER_parameter_bad;
             }
-            qDebug() << "D_Img_Proc::Filter_Median_1C" << "new position:" << x << y;
+            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new position:" << x << y;
         }
     }
         break;
@@ -7713,7 +7439,7 @@ int D_Img_Proc::Filter_Median_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)
     //------------------------------------------------------- finish
 
     //clear & return
-    qDebug() << "D_Img_Proc::Filter_Median_1C" << "finished :-)";
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "finished :-)";
     MA_tmp_MaskBinary.release();
     MA_tmp_InPadded.release();
     return ER_okay;

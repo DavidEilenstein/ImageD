@@ -4848,17 +4848,57 @@ int D_VisDat_Proc::Filter_Median(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, 
 
 }
 
-int D_VisDat_Proc::Filter_Median(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask)
+int D_VisDat_Proc::Filter_RankOrder(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask, double quantil)
 {
     if(!slice.is_2D())
         return ER_dim_2D_only;
 
     return Wrap_VD_SameSizeType(
                 slice,
-                D_Img_Proc_2dFactory::Filter_Median(),
+                D_Img_Proc_2dFactory::Filter_RankOrder(
+                    quantil),
                 pVD_Out,
                 pVD_In,
                 pVD_Mask);
+}
+
+int D_VisDat_Proc::Filter_RankOrder_Circular(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, double radius)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD_SameSizeType(
+                slice,
+                D_Img_Proc_2dFactory::Filter_RankOrder_Circular(
+                    quantil,
+                    radius),
+                pVD_Out,
+                pVD_In);
+}
+
+int D_VisDat_Proc::Filter_RankOrder_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, int size_x, int size_y)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD_SameSizeType(
+                slice,
+                D_Img_Proc_2dFactory::Filter_RankOrder_Rect(
+                    quantil,
+                    size_x,
+                    size_y),
+                pVD_Out,
+                pVD_In);
+}
+
+int D_VisDat_Proc::Filter_Median(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask)
+{
+    return Filter_RankOrder(
+                slice,
+                pVD_Out,
+                pVD_In,
+                pVD_Mask,
+                0.5);
 }
 
 int D_VisDat_Proc::Filter_Laplace(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, int border, int out_depth, double scale, double delta)

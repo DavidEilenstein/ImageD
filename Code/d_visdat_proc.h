@@ -204,6 +204,9 @@ public:
     static int  Filter_RootMeanSquare           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y, int border, int out_depth, bool norm);
     static int  Filter_Gauss                    (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y, int border, double sigma_x, double sigma_y);
     static int  Filter_Median                   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x3d_or_xy2d, int size_y = 3, int size_z = 3);
+    static int  Filter_RankOrder                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask, double quantil);
+    static int  Filter_RankOrder_Circular       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, double radius);
+    static int  Filter_RankOrder_Rect           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, int size_x, int size_y);
     static int  Filter_Median                   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask);
     static int  Filter_Laplace                  (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size,               int border, int out_depth, double scale, double delta);
     static int  Filter_Sobel                    (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size,               int border, int out_depth, double scale, double delta, int d_x, int d_y);

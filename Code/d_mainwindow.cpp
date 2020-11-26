@@ -1082,6 +1082,19 @@ void D_MainWindow::on_actionTest_Running_Median_triggered()
                 vDataIn,
                 3);
 
+    //show
+    QString QS_in;
+    for(size_t i = 0; i <  vDataIn.size(); i++)
+        QS_in.append(QString::number(vDataIn[i]) + " ");
+    QString QS_out;
+    for(size_t i = 0; i <  vDataOut.size(); i++)
+        QS_out.append(QString::number(vDataOut[i]) + " ");
+    QMessageBox::information(
+                this,
+                "Running median result",
+                "in\n" + QS_in + "\nout\n" + QS_out);
+
+    /*
     //combined results
     qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "combine";
     vector<vector<double>> vvInOut(2);
@@ -1106,6 +1119,7 @@ void D_MainWindow::on_actionTest_Running_Median_triggered()
                 true,
                 this);
     pop_plot.exec();
+*/
 
     qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "end";
 }
