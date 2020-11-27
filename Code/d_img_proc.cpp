@@ -6943,7 +6943,7 @@ int D_Img_Proc::Filter_RankOrder_Rect(Mat *pMA_Out, Mat *pMA_In, double quantil_
     if(size_y % 2 != 1)                     return ER_parameter_bad;
 
     //generate mask
-    Mat MA_tmp_Mask_1C = Mat::ones(size_x, size_y, CV_64FC1);
+    Mat MA_tmp_Mask_1C = Mat::ones(size_y, size_x, CV_64FC1);
 
     //correct channel count
     Mat MA_tmp_Mask;
@@ -6970,6 +6970,7 @@ int D_Img_Proc::Filter_RankOrder_Rect(Mat *pMA_Out, Mat *pMA_In, double quantil_
     return ER;
 }
 
+
 int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)
 {
     //------------------------------------------------------- Error checks
@@ -6982,7 +6983,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     if(pMA_In->cols < pMA_Mask->cols)                           return ER_size_missmatch;
     if(pMA_In->rows < pMA_Mask->rows)                           return ER_size_missmatch;
     if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U)   return ER_bitdepth_bad;
-    if(quantil_relPos < 0 || quantil_relPos > 1)                              return ER_parameter_bad;
+    if(quantil_relPos < 0 || quantil_relPos > 1)                return ER_parameter_bad;
     int ER;
 
 
@@ -7136,6 +7137,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
     //------------------------------------------------------- relative coordinates for shifting
 
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "relative coordinates for shifting";
+
     //lists of indices to add/remove on shift
     vector<Point> vBorderL;
     vector<Point> vBorderR;
@@ -7152,7 +7155,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             uchar Val_Mask = MA_tmp_MaskBinary.at<uchar>(y, x);
             //qDebug() << "mask position" << x << y << "value" << Val_Mask << "relative coordinates to add" << x - mask_cx << y - mask_cy;
 
-            //count relevant pixels
+            //count relevant pixels (needed for beeing able to calc in absolute not relative quantities)
             mask_relevant_px_count++;
 
             //if position is at border of possible relevant mask
@@ -7161,28 +7164,30 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             //it is added to list of relative border corrdinates
 
             //check left border
+            /*if((x == 0 && Val_Mask > 0) || (Val_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1) && Val_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1)))
+                vBorderL.push_back(P_rel);*/
             if(x == 0)
             {
                 if(Val_Mask > 0)
                 {
+                    //qDebug() << "L - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- ADD - Left mask border and foreground";
                     vBorderL.push_back(P_rel);
-                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- ADD - Left mask border and foreground";
                 }
                 else
                 {
-                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- NOT - Left mask border but background";
+                    //qDebug() << "L - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- NOT - Left mask border but background";
                 }
             }
             else
             {
                 if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y, x-1))
                 {
+                    //qDebug() << "L - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- ADD - Not left mask border but lower left neighbour";
                     vBorderL.push_back(P_rel);
-                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- ADD - Not left mask border but lower left neighbour";
                 }
                 else
                 {
-                    qDebug() << "pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- NOT - Not left mask border and no lower left neigbour";
+                    //qDebug() << "L - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "left_neighbor" << MA_tmp_MaskBinary.at<uchar>(y, x-1) << "- NOT - Not left mask border and no lower left neigbour";
                 }
             }
 
@@ -7214,12 +7219,26 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             if(y == mask_sy - 1)
             {
                 if(Val_Mask > 0)
+                {
                     vBorderB.push_back(P_rel);
+                    //qDebug() << "B - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- ADD - bottom mask border and foreground";
+                }
+                else
+                {
+                    //qDebug() << "B - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "- NOT - bottom mask border but background";
+                }
             }
             else
             {
                 if(Val_Mask > MA_tmp_MaskBinary.at<uchar>(y+1, x))
+                {
                     vBorderB.push_back(P_rel);
+                    //qDebug() << "B - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "bottom_neighbor" << MA_tmp_MaskBinary.at<uchar>(y+1, x) << "- ADD - Not bottom mask border but lower bottom neighbour";
+                }
+                else
+                {
+                    //qDebug() << "B - pos_abs" << x << y << "pos_rel" << x - mask_cx << y - mask_cy << "val" << Val_Mask << "bottom_neighbor" << MA_tmp_MaskBinary.at<uchar>(y+1, x) << "- NOT - Not bottom mask border and no lower bottom neigbour";
+                }
             }
         }
 
@@ -7232,8 +7251,9 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         return ER_size_missmatch;
     }
 
-    /*
+
     //debug print border lists
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "Border checking ----------------------------------------------";
     qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderL:";
     for(size_t i = 0; i < vBorderL.size(); i++)
         qDebug() << "(" << vBorderL[i].x << "|" << vBorderL[i].y << ")";
@@ -7246,7 +7266,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderB:";
     for(size_t i = 0; i < vBorderB.size(); i++)
         qDebug() << "(" << vBorderB[i].x << "|" << vBorderB[i].y << ")";
-    */
+
+
 
     //------------------------------------------------------- init out image
 
@@ -7260,7 +7281,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
     //looping parameters
     bool at_end = false;
-    size_t x = 0;
+    size_t x = 0;           //changed to x=1 at first iteration step. pos 0|0 allready calced int init above
     size_t y = 0;
     int direction = c_DIR2D_R;
 
@@ -7285,6 +7306,20 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     double mass_smaller_or_equal_needed = quantil_relPos * mask_relevant_px_count;
     double mass_greater_or_equal_needed = (1 - quantil_relPos) * mask_relevant_px_count;
 
+    //quantil == min
+    if(quantil_relPos == 0)
+    {
+        mass_smaller_or_equal_needed = 0.5;
+        mass_greater_or_equal_needed = mask_relevant_px_count - 0.5;
+    }
+    //quantil == max
+    if(quantil_relPos == 1)
+    {
+        mass_smaller_or_equal_needed = mask_relevant_px_count - 0.5;
+        mass_greater_or_equal_needed = 0.5;
+    }
+
+
     //------------------------------------------------------- loop image and type switch
 
     //type switch
@@ -7295,10 +7330,41 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     {
         //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "CV_8UC1";
 
+        //write inital quantil value
+        pMA_Out->at<uchar>(0, 0) = quantil_val;
+
         //loop until end of image
         while(!at_end)
         {
             //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new point===================================";
+
+
+            //------------------------------------------------------- change position
+
+            //change indices based on direction
+            switch (direction) {
+
+            case c_DIR2D_R:
+                x++;
+                break;
+
+            case c_DIR2D_L:
+                x--;
+                break;
+
+            case c_DIR2D_D:
+                y++;
+                break;
+
+            default:
+                MA_tmp_MaskBinary.release();
+                MA_tmp_InPadded.release();
+                return ER_parameter_bad;
+            }
+            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new position:" << x << y;
+
+
+            //------------------------------------------------------- add/remove list/offsets for current direction
 
             vector<Point> *vBorderAdd;
             vector<Point> *vBorderRem;
@@ -7318,8 +7384,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new value---------------------------------";
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates add x/y:" << x + (*vBorderAdd)[i].x + mask_cx << y + (*vBorderAdd)[i].y + mask_cy;
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates rem x/y:" << x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos << y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos;
-                uchar val_add = MA_tmp_InPadded.at<uchar>(y + (*vBorderAdd)[i].y + mask_cy, x + (*vBorderAdd)[i].x + mask_cx);
-                uchar val_rem = MA_tmp_InPadded.at<uchar>(y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos, x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos);
+                uchar val_add = MA_tmp_InPadded.at<uchar>(y + mask_cy + (*vBorderAdd)[i].y,                  x + mask_cx + (*vBorderAdd)[i].x);
+                uchar val_rem = MA_tmp_InPadded.at<uchar>(y + mask_cy + (*vBorderRem)[i].y + dy_to_prev_pos, x + mask_cx + (*vBorderRem)[i].x + dx_to_prev_pos);
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "add" << val_add << "val_rem" << val_rem;
 
                 //update histogram
@@ -7328,13 +7394,13 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
                 //update masses
                 //add
-                if(val_add > quantil_val)        mass_greater++;
-                else if (val_add < quantil_val)  mass_smaller++;
-                else                        mass_quantil++;
+                if(val_add > quantil_val)           mass_greater++;
+                else if (val_add < quantil_val)     mass_smaller++;
+                else                                mass_quantil++;
                 //remove
-                if(val_rem > quantil_val)        mass_greater--;
-                else if (val_rem < quantil_val)  mass_smaller--;
-                else                        mass_quantil--;
+                if(val_rem > quantil_val)           mass_greater--;
+                else if (val_rem < quantil_val)     mass_smaller--;
+                else                                mass_quantil--;
                 //debug
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "mass smaller" << mass_smaller << "mass_quantil" << mass_quantil << "mass_greater" << mass_greater;
 
@@ -7375,21 +7441,29 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             switch (direction) {
 
             case c_DIR2D_R:
-                if(x >= in_max_x)
-                    direction = c_DIR2D_D;
+                if(x >= in_max_x)                   //at right border from left
+                {
+                    if(y >= in_max_y)
+                        at_end = true;              //at right and bottom border
+                    else
+                        direction = c_DIR2D_D;      //at right but not at bottom border
+                }
                 break;
 
             case c_DIR2D_L:
-                if(x <= 0)
-                    direction = c_DIR2D_D;
+                if(x <= 0)                          //at left border from right
+                {
+                    if(y >= in_max_y)
+                        at_end = true;              //at left and bottom border
+                    else
+                        direction = c_DIR2D_D;      //at left but not at bottom border
+                }
                 break;
 
             case c_DIR2D_D:
-                if(y > in_max_y)
-                    at_end = true;
-                else if(x >= in_max_x)
+                if(x >= in_max_x)                   //at right border from top
                     direction = c_DIR2D_L;
-                else if(x <= 0)
+                else                                //at left border from top
                     direction = c_DIR2D_R;
                 break;
 
@@ -7398,33 +7472,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 MA_tmp_InPadded.release();
                 return ER_parameter_bad;
             }
-
             //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new direction:" << direction;
 
-
-            //------------------------------------------------------- change position
-
-            //change indices based on direction
-            switch (direction) {
-
-            case c_DIR2D_R:
-                x++;
-                break;
-
-            case c_DIR2D_L:
-                x--;
-                break;
-
-            case c_DIR2D_D:
-                y++;
-                break;
-
-            default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
-                return ER_parameter_bad;
-            }
-            //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new position:" << x << y;
         }
     }
         break;
@@ -7444,6 +7493,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     MA_tmp_InPadded.release();
     return ER_okay;
 }
+
+
 
 int D_Img_Proc::Filter_Laplace(Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)
 {
@@ -8941,7 +8992,7 @@ int D_Img_Proc::Filter_Stat_Rect(Mat *pMA_Out, Mat *pMA_In, int size_x, int size
     if(size_y % 2 != 1)                     return ER_parameter_bad;
 
     //generate mask
-    Mat MA_tmp_Mask_1C = Mat::ones(size_x, size_y, CV_64FC1);
+    Mat MA_tmp_Mask_1C = Mat::ones(size_y, size_x, CV_64FC1);
 
     //correct channel count
     Mat MA_tmp_Mask;
