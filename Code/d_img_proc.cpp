@@ -6980,8 +6980,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     if(pMA_Mask->empty())                                       return ER_empty;
     if(pMA_In->channels() != 1)                                 return ER_channel_bad;
     if(pMA_Mask->channels() != 1)                               return ER_channel_bad;
-    if(pMA_In->cols < pMA_Mask->cols)                           return ER_size_missmatch;
-    if(pMA_In->rows < pMA_Mask->rows)                           return ER_size_missmatch;
+    //if(pMA_In->cols < pMA_Mask->cols)                           return ER_size_missmatch;
+    //if(pMA_In->rows < pMA_Mask->rows)                           return ER_size_missmatch;
     if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U)   return ER_bitdepth_bad;
     if(quantil_relPos < 0 || quantil_relPos > 1)                return ER_parameter_bad;
     int ER;
@@ -7093,8 +7093,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                     return ER_type_bad;
                 }
 
-
-
     //------------------------------------------------------- inital quantil
 
     //list of mask congruent pixel values at start position
@@ -7156,7 +7154,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             //qDebug() << "mask position" << x << y << "value" << Val_Mask << "relative coordinates to add" << x - mask_cx << y - mask_cy;
 
             //count relevant pixels (needed for beeing able to calc in absolute not relative quantities)
-            mask_relevant_px_count++;
+            if(Val_Mask != 0)
+                mask_relevant_px_count++;
 
             //if position is at border of possible relevant mask
             //covered area or next to a mask background pixel in
@@ -7251,7 +7250,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         return ER_size_missmatch;
     }
 
-
+    /*
     //debug print border lists
     qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "Border checking ----------------------------------------------";
     qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderL:";
@@ -7266,6 +7265,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "vBorderB:";
     for(size_t i = 0; i < vBorderB.size(); i++)
         qDebug() << "(" << vBorderB[i].x << "|" << vBorderB[i].y << ")";
+        */
 
 
 
@@ -7287,6 +7287,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
 
 
+
     //------------------------------------------------------- assistant values for quantil value calculation on steps
 
     //count of values smaller than quantil value
@@ -7303,8 +7304,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         mass_greater += hist[i];
 
     //comparison value of needed absolute count for quantil determination
-    double mass_smaller_or_equal_needed = quantil_relPos * mask_relevant_px_count;
-    double mass_greater_or_equal_needed = (1 - quantil_relPos) * mask_relevant_px_count;
+    double mass_smaller_or_equal_needed = quantil_relPos * static_cast<double>(mask_relevant_px_count);
+    double mass_greater_or_equal_needed = (1.0 - quantil_relPos) * static_cast<double>(mask_relevant_px_count);
 
     //quantil == min
     if(quantil_relPos == 0)
@@ -7319,6 +7320,17 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         mass_greater_or_equal_needed = 0.5;
     }
 
+    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "mass_smaller_or_equal_needed" << mass_smaller_or_equal_needed << "mass_greater_or_equal_needed" << mass_greater_or_equal_needed;
+
+
+    //------------------------------------------------------- line reset parameters
+
+    //histo and masses at start of line
+    vector<size_t> hist_line_begin = hist;
+    size_t mass_smaller_line_begin = mass_smaller;
+    size_t mass_quantil_line_begin = mass_quantil;
+    size_t mass_greater_line_begin = mass_greater;
+    double quantil_val_line_begin  = quantil_val;
 
     //------------------------------------------------------- loop image and type switch
 
@@ -7348,9 +7360,9 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 x++;
                 break;
 
-            case c_DIR2D_L:
+            /*case c_DIR2D_L:
                 x--;
-                break;
+                break;*/
 
             case c_DIR2D_D:
                 y++;
@@ -7372,7 +7384,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             int dy_to_prev_pos = 0;
             switch (direction) {
             case c_DIR2D_R:     vBorderAdd = &vBorderR;     vBorderRem = &vBorderL;     dx_to_prev_pos = -1;    break;
-            case c_DIR2D_L:     vBorderAdd = &vBorderL;     vBorderRem = &vBorderR;     dx_to_prev_pos = +1;    break;
+            //case c_DIR2D_L:   vBorderAdd = &vBorderL;     vBorderRem = &vBorderR;     dx_to_prev_pos = +1;    break;
             case c_DIR2D_D:     vBorderAdd = &vBorderB;     vBorderRem = &vBorderT;     dy_to_prev_pos = -1;    break;
             default:                                                                                            return ER_other;}
 
@@ -7401,8 +7413,9 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 if(val_rem > quantil_val)           mass_greater--;
                 else if (val_rem < quantil_val)     mass_smaller--;
                 else                                mass_quantil--;
+
                 //debug
-                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "mass smaller" << mass_smaller << "mass_quantil" << mass_quantil << "mass_greater" << mass_greater;
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "- IN  -" << "mass smaller" << mass_smaller << "mass_quantil" << mass_quantil << "mass_greater" << mass_greater;
 
                 //update quantil value
                 bool check_smaller = mass_smaller + mass_quantil >= mass_smaller_or_equal_needed;
@@ -7425,6 +7438,13 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                     mass_greater -= mass_quantil;
                 }
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new quantil value:" << quantil_val;
+
+                check_smaller = mass_smaller + mass_quantil >= mass_smaller_or_equal_needed;
+                check_greater = mass_greater + mass_quantil >= mass_greater_or_equal_needed;
+                /*if(!check_greater || !check_smaller)
+                    qDebug() << "ALARRRRRM!";*/
+
+                //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "- OUT -" << "mass smaller" << mass_smaller << "mass_quantil" << mass_quantil << "mass_greater" << mass_greater;
             }
 
 
@@ -7446,11 +7466,21 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                     if(y >= in_max_y)
                         at_end = true;              //at right and bottom border
                     else
+                    {
                         direction = c_DIR2D_D;      //at right but not at bottom border
+
+                        //jump back to leftmost position
+                        x = 0;
+                        hist = hist_line_begin;
+                        mass_smaller = mass_smaller_line_begin;
+                        mass_quantil = mass_quantil_line_begin;
+                        mass_greater = mass_greater_line_begin;
+                        quantil_val  = quantil_val_line_begin;
+                    }
                 }
                 break;
 
-            case c_DIR2D_L:
+            /*case c_DIR2D_L:
                 if(x <= 0)                          //at left border from right
                 {
                     if(y >= in_max_y)
@@ -7458,13 +7488,24 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                     else
                         direction = c_DIR2D_D;      //at left but not at bottom border
                 }
-                break;
+                break;*/
 
             case c_DIR2D_D:
+            {
+                direction = c_DIR2D_R;
+
+                //update to new line begin (one line lower than old line begin)
+                hist_line_begin = hist;
+                mass_smaller_line_begin = mass_smaller;
+                mass_quantil_line_begin = mass_quantil;
+                mass_greater_line_begin = mass_greater;
+                quantil_val_line_begin  = quantil_val;
+            }
+                /*
                 if(x >= in_max_x)                   //at right border from top
                     direction = c_DIR2D_L;
                 else                                //at left border from top
-                    direction = c_DIR2D_R;
+                    direction = c_DIR2D_R;*/
                 break;
 
             default:

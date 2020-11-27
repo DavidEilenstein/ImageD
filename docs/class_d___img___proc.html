@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_7 (20.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_10 (27.11.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -310,8 +310,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a8914bb87634ef1605e087e44a882c276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a279a999d56088e6255eb1a0e841d5b8d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a279a999d56088e6255eb1a0e841d5b8d">Filter_Median</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)</td></tr>
 <tr class="separator:a279a999d56088e6255eb1a0e841d5b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285905e44ad541e47be3f4884e010122"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a285905e44ad541e47be3f4884e010122">Filter_Median_1C</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask)</td></tr>
-<tr class="separator:a285905e44ad541e47be3f4884e010122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13f3549195f4fdfb1abb8d6e3e42ba57"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a13f3549195f4fdfb1abb8d6e3e42ba57">Filter_RankOrder</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)</td></tr>
+<tr class="separator:a13f3549195f4fdfb1abb8d6e3e42ba57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf1708230337237c799cb1305ed0d13"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#addf1708230337237c799cb1305ed0d13">Filter_RankOrder_Circular</a> (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, double radius)</td></tr>
+<tr class="separator:addf1708230337237c799cb1305ed0d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44eb2021a9ddf4497c5f47355d077421"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a44eb2021a9ddf4497c5f47355d077421">Filter_RankOrder_Rect</a> (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, int size_x, int size_y)</td></tr>
+<tr class="separator:a44eb2021a9ddf4497c5f47355d077421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5e0b846ff2ba159860ad7032d64843"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843">Filter_RankOrder_1C</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)</td></tr>
+<tr class="separator:a2b5e0b846ff2ba159860ad7032d64843"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ef671eec83a24725d358a42c73783a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ef671eec83a24725d358a42c73783a3">Filter_Laplace</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)</td></tr>
 <tr class="separator:a8ef671eec83a24725d358a42c73783a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf24a7e83477e2be25d27a02ab0147f9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aaf24a7e83477e2be25d27a02ab0147f9">Filter_Sobel</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta, int d_x, int d_y)</td></tr>
@@ -5587,8 +5593,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a285905e44ad541e47be3f4884e010122"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a285905e44ad541e47be3f4884e010122">&#9670;&nbsp;</a></span>Filter_Median_1C()</h2>
+<a id="a13f3549195f4fdfb1abb8d6e3e42ba57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13f3549195f4fdfb1abb8d6e3e42ba57">&#9670;&nbsp;</a></span>Filter_RankOrder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5597,7 +5603,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int D_Img_Proc::Filter_Median_1C </td>
+          <td class="memname">int D_Img_Proc::Filter_RankOrder </td>
           <td>(</td>
           <td class="paramtype">Mat *&#160;</td>
           <td class="paramname"><em>pMA_Out</em>, </td>
@@ -5612,7 +5618,163 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Mat *&#160;</td>
-          <td class="paramname"><em>pMA_Mask</em>&#160;</td>
+          <td class="paramname"><em>pMA_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil_relPos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b5e0b846ff2ba159860ad7032d64843"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b5e0b846ff2ba159860ad7032d64843">&#9670;&nbsp;</a></span>Filter_RankOrder_1C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_RankOrder_1C </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil_relPos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addf1708230337237c799cb1305ed0d13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addf1708230337237c799cb1305ed0d13">&#9670;&nbsp;</a></span>Filter_RankOrder_Circular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_RankOrder_Circular </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil_relPos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44eb2021a9ddf4497c5f47355d077421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44eb2021a9ddf4497c5f47355d077421">&#9670;&nbsp;</a></span>Filter_RankOrder_Rect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_RankOrder_Rect </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil_relPos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

@@ -141,6 +141,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_popup_listedit.h", "d__popup__listedit_8h.html", [
       [ "D_Popup_ListEdit", "class_d___popup___list_edit.html", "class_d___popup___list_edit" ]
     ] ],
+    [ "d_popup_listedit_numbers.cpp", "d__popup__listedit__numbers_8cpp.html", null ],
+    [ "d_popup_listedit_numbers.h", "d__popup__listedit__numbers_8h.html", [
+      [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", "class_d___popup___list_edit___numbers" ]
+    ] ],
     [ "d_popup_listselect.cpp", "d__popup__listselect_8cpp.html", null ],
     [ "d_popup_listselect.h", "d__popup__listselect_8h.html", [
       [ "D_Popup_ListSelect", "class_d___popup___list_select.html", "class_d___popup___list_select" ]

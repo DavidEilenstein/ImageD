@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_7 (20.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_10 (27.11.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -107,6 +107,8 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a682175dfee9f267ed24c754bf8b5d024"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a682175dfee9f267ed24c754bf8b5d024">Plot_Empty</a> (QChartView *pChartView, QString QS_Text=&quot;No_Additional_Information&quot;)</td></tr>
 <tr class="separator:a682175dfee9f267ed24c754bf8b5d024"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1615986e1d3f6edd1b37009f9951c2a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#aa1615986e1d3f6edd1b37009f9951c2a">Plot_AnyReal</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vvX, vector&lt; vector&lt; double &gt;&gt; *vvY, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, int plot_mode=<a class="el" href="d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a9097dd4baac6ed7529d0936d4ca27b63">c_PLOT_SIMPLE_LINE</a>, int mode_crop_y=<a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>, double in_min_y=0, double in_max_y=255, int mode_trafo_y=<a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>, double gamma_y=1, double center_y=0, double divisor_y=1, int mode_crop_x=<a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>, double in_min_x=0, double in_max_x=255, int mode_trafo_x=<a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>, double gamma_x=1, double center_x=0, double divisor_x=1)</td></tr>
+<tr class="separator:aa1615986e1d3f6edd1b37009f9951c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac88ad368e4965243e4e10bc7f517e857"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac88ad368e4965243e4e10bc7f517e857">Plot_Hist</a> (QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool uniform, bool accum, double *max_occured)</td></tr>
 <tr class="separator:ac88ad368e4965243e4e10bc7f517e857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acadf464f62a5badd8275887e099d2009"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#acadf464f62a5badd8275887e099d2009">Plot_Hist_Single_Classes</a> (QChartView *pChartView, vector&lt; double &gt; *v_hist, double min, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
@@ -219,6 +221,162 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramtype">QChartView *&#160;</td>
           <td class="paramname"><em>pChartView</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1615986e1d3f6edd1b37009f9951c2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1615986e1d3f6edd1b37009f9951c2a">&#9670;&nbsp;</a></span>Plot_AnyReal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Plot::Plot_AnyReal </td>
+          <td>(</td>
+          <td class="paramtype">QChartView *&#160;</td>
+          <td class="paramname"><em>pChartView</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt; *&#160;</td>
+          <td class="paramname"><em>vvX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt; *&#160;</td>
+          <td class="paramname"><em>vvY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>qsl_name_series</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>plot_mode</em> = <code><a class="el" href="d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a9097dd4baac6ed7529d0936d4ca27b63">c_PLOT_SIMPLE_LINE</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_crop_y</em> = <code><a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_min_y</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_max_y</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_trafo_y</em> = <code><a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma_y</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>center_y</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>divisor_y</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_crop_x</em> = <code><a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_min_x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_max_x</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_trafo_x</em> = <code><a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma_x</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>center_x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>divisor_x</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

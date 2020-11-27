@@ -179,6 +179,7 @@ public:
     static int      Filter_RankOrder_Circular   (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, double radius);
     static int      Filter_RankOrder_Rect       (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, int size_x, int size_y);
     static int      Filter_RankOrder_1C         (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos);
+    //static int      Filter_RankOrder_1C_Thread  (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos);
     static int      Filter_Laplace              (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta);
     static int      Filter_Sobel                (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta, int d_x, int d_y);
     static int      Filter_Scharr               (Mat *pMA_Out, Mat *pMA_In,                         int border, int out_depth, double scale, double delta, int d_x, int d_y);

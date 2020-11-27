@@ -287,14 +287,6 @@ var d__enum_8h =
       [ "c_GEO_ELLIPSE_FIT", "d__enum_8h.html#aa5c999d85a8345bc6dab24c567469953aa7d272ad0adf6f920b0a7a3c61fd1909", null ],
       [ "c_GEO_NUMBER_OF", "d__enum_8h.html#aa5c999d85a8345bc6dab24c567469953ac9d3098c64eaa71673bdb3a3be41dc25", null ]
     ] ],
-    [ "D_IMG2PLOT", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81", [
-      [ "c_IMG2PLOT_POINT", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81a31e133618bd533a620b6c1c1081916c0", null ],
-      [ "c_IMG2PLOT_LINE", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81af722c1c3c21b0bbb3507fc56b3a43bba", null ],
-      [ "c_IMG2PLOT_LINE_POINT", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81aca57a293f81685fd0fedada61283baa9", null ],
-      [ "c_IMG2PLOT_SPLINE", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81a225ba56b32d8ccadaf4877f9c3386719", null ],
-      [ "c_IMG2PLOT_SPLINE_POINT", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81a26aad465be83695dd67bb47fc78c9482", null ],
-      [ "c_IMG2PLOT_NUMBER_OF", "d__enum_8h.html#a081ee09273e79f4f2e58c8ecf2396c81a52336c4fd822916c64aef4570502701e", null ]
-    ] ],
     [ "D_LOAD_MODE", "d__enum_8h.html#ac7abb455473ea9941d15ff230b657464", [
       [ "c_LOAD_MODE_FILE_IMAGE", "d__enum_8h.html#ac7abb455473ea9941d15ff230b657464aa6a729f948a725946a9c1ca96ddd451e", null ],
       [ "c_LOAD_MODE_FILE_IMAGE_PAGED", "d__enum_8h.html#ac7abb455473ea9941d15ff230b657464abdb1726a8940091f8d8ed92e3ca682e4", null ],
@@ -389,6 +381,17 @@ var d__enum_8h =
       [ "c_MATH_ND_TO_1D_MAXIMUM", "d__enum_8h.html#a39090dab763f6b34a5c265834a6f8301a576f138aee7ca3712e42625afd819bb8", null ],
       [ "c_MATH_ND_TO_1D_NUMBER_OF", "d__enum_8h.html#a39090dab763f6b34a5c265834a6f8301a1dc5198c545e8f2f02f7b6d6fa41eaef", null ]
     ] ],
+    [ "D_NUMBER_TYPE", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90", [
+      [ "c_NUMBER_TYPE_UCHAR", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a3db1ac3c73fe81cb3b731c1e99d24914", null ],
+      [ "c_NUMBER_TYPE_CHAR", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a459ebdf2919f9b19e9ea28cd5ac0daa1", null ],
+      [ "c_NUMBER_TYPE_USHORT", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a3678dcc85be2406ec6c36540adbe9517", null ],
+      [ "c_NUMBER_TYPE_SHORT", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a15b73e7cdfaea4eddc0614cd1eb1ff49", null ],
+      [ "c_NUMBER_TYPE_UINT", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a9b246115896ecb790d0e0ba6b6142e7b", null ],
+      [ "c_NUMBER_TYPE_INT", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a822b1f3e119b93e8e5d1b87582030364", null ],
+      [ "c_NUMBER_TYPE_FLOAT", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a60db729a991cf0f2dda9a93b48d29daf", null ],
+      [ "c_NUMBER_TYPE_DOUBLE", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90a83f330716cafbe942faeeb34b43a12eb", null ],
+      [ "c_NUMBER_TYPE_NUMBER_OF", "d__enum_8h.html#a0fe09076bde8fb6471b9ddf5cdb0ac90aa21435299642af031b8243e25dc3bda5", null ]
+    ] ],
     [ "D_OPTIMIZE_1D", "d__enum_8h.html#ac95c5355799af8f00ff2acd27d692c1b", [
       [ "c_OPT_1D_MINIMUM", "d__enum_8h.html#ac95c5355799af8f00ff2acd27d692c1bae84cc8bb93ceca69d8b6a75ab9b06ca7", null ],
       [ "c_OPT_1D_MINIMUM_ABS", "d__enum_8h.html#ac95c5355799af8f00ff2acd27d692c1ba9cbc4295d15539bab9a70801ff65d919", null ],
@@ -413,6 +416,14 @@ var d__enum_8h =
       [ "c_PLANE_TP", "d__enum_8h.html#aa69b5fd10b354dd6290d1482c86bbe98a625d5f068187a8d1f701e5856e257c74", null ],
       [ "c_PLANE_SP", "d__enum_8h.html#aa69b5fd10b354dd6290d1482c86bbe98ae3b608fc7cecaf4a50738baf8bbe197b", null ],
       [ "c_PLANE_NUMBER_OF", "d__enum_8h.html#aa69b5fd10b354dd6290d1482c86bbe98a352953b8698fd42929ee1268d70d52cb", null ]
+    ] ],
+    [ "D_PLOT_SIMPLE", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4", [
+      [ "c_PLOT_SIMPLE_POINT", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4aa68781fc078c16d3519997949ec504e8", null ],
+      [ "c_PLOT_SIMPLE_LINE", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a9097dd4baac6ed7529d0936d4ca27b63", null ],
+      [ "c_PLOT_SIMPLE_LINE_POINT", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a6b38c8fbd2167edec86b8984b2a7750b", null ],
+      [ "c_PLOT_SIMPLE_SPLINE", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4ad999ee30aac80a4e6ff38d3eee5c82ad", null ],
+      [ "c_PLOT_SIMPLE_SPLINE_POINT", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a08a63955773b1929cd94f3bb154efa44", null ],
+      [ "c_PLOT_SIMPLE_NUMBER_OF", "d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a4fc582556b7c8cbf3bfee493add10f6d", null ]
     ] ],
     [ "D_PLOT_X1D_Y1D", "d__enum_8h.html#a7ba433d5f680862848cd96c94b7a474b", [
       [ "c_PLOT_X1D_Y1D_LINE", "d__enum_8h.html#a7ba433d5f680862848cd96c94b7a474ba51fd442ddf5a2cec358a7077eb325007", null ],
@@ -648,15 +659,16 @@ var d__enum_8h =
     [ "QSL_Errors", "d__enum_8h.html#ac8144b625d81c2a27fac8dc24e01b9f4", null ],
     [ "QSL_FeatureList", "d__enum_8h.html#a31d3b4e83b49e93da0d1d5ac84322e28", null ],
     [ "QSL_FitType", "d__enum_8h.html#a70c410c28f5a94a5d53e6290c86abc2e", null ],
-    [ "QSL_Img2Plot", "d__enum_8h.html#a775cbb9b6a14293fb6521e071e5f1d44", null ],
     [ "QSL_LoadMode", "d__enum_8h.html#a8ba7e2c05e08d1a3c2fdcf0d9dce65c0", null ],
     [ "QSL_Math_1D_to_1D", "d__enum_8h.html#ae7b0bb4f4a67a83afffb4089a30bcf31", null ],
     [ "QSL_Math_2D_to_1D", "d__enum_8h.html#a12c94f7406cc3c5496fe2055fbf352c6", null ],
     [ "QSL_Math_2D_to_1D_Complex", "d__enum_8h.html#a475013be9aa1a41777aa0abedcd56a32", null ],
     [ "QSL_Math_6D_to_1D", "d__enum_8h.html#a47f70b4792a62a9aabea04c7ad8edfbb", null ],
     [ "QSL_Math_ND_to_1D", "d__enum_8h.html#a67df7c087034e7928ab648cc8705eadd", null ],
+    [ "QSL_Number_Type", "d__enum_8h.html#ad64b3be16becb3479f2781b66f7245d0", null ],
     [ "QSL_Optimize_1D", "d__enum_8h.html#ab10a1a01d8e8ee9df76ccc1570391bf2", null ],
     [ "QSL_Planes", "d__enum_8h.html#a7ec58630d0f0d6879a7b4aef6e21d0ff", null ],
+    [ "QSL_PLOT_SIMPLE", "d__enum_8h.html#aa7b83b8f64812f3f890d8930b97d5b0e", null ],
     [ "QSL_Plot_X1D_Y1D", "d__enum_8h.html#ad0b0f4858ec34cda22568d22efeae2fa", null ],
     [ "QSL_Plugins", "d__enum_8h.html#abcd539464aac4651716c97eacbd5c85a", null ],
     [ "QSL_Random", "d__enum_8h.html#a85e6648af947f97625fb139ee05db178", null ],

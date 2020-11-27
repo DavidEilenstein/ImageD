@@ -35,6 +35,7 @@ var annotated_dup =
     [ "D_Plot", "class_d___plot.html", "class_d___plot" ],
     [ "D_Popup_FeedbackRequest", "class_d___popup___feedback_request.html", "class_d___popup___feedback_request" ],
     [ "D_Popup_ListEdit", "class_d___popup___list_edit.html", "class_d___popup___list_edit" ],
+    [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", "class_d___popup___list_edit___numbers" ],
     [ "D_Popup_ListSelect", "class_d___popup___list_select.html", "class_d___popup___list_select" ],
     [ "D_Popup_Plot", "class_d___popup___plot.html", "class_d___popup___plot" ],
     [ "D_Stat", "class_d___stat.html", "class_d___stat" ],

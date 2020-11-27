@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_7 (20.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_10 (27.11.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -193,6 +193,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a7df84db48febdbb948d7dbda374da07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af10001af6d91ce13036d1f270c3c8efb"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#af10001af6d91ce13036d1f270c3c8efb">Filter_Stat_Rect</a> (int size_x, int size_y, int stat, int border_type=BORDER_CONSTANT)</td></tr>
 <tr class="separator:af10001af6d91ce13036d1f270c3c8efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07c046a2b515fb570ff91f28cbc9e174"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a07c046a2b515fb570ff91f28cbc9e174">Filter_RankOrder_Circular</a> (double quantil, double radius)</td></tr>
+<tr class="separator:a07c046a2b515fb570ff91f28cbc9e174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cdb070b665d8e04177501eac7d6e824"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a1cdb070b665d8e04177501eac7d6e824">Filter_RankOrder_Rect</a> (double quantil, int size_x, int size_y)</td></tr>
+<tr class="separator:a1cdb070b665d8e04177501eac7d6e824"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab38255597b9fe89ca1f3b7173b354030"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ab38255597b9fe89ca1f3b7173b354030">Math_1img_Inversion</a> ()</td></tr>
 <tr class="separator:ab38255597b9fe89ca1f3b7173b354030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4833a475b05803a275e0f84a1f24b79"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#aa4833a475b05803a275e0f84a1f24b79">Math_1img_Addition</a> (double summmand)</td></tr>
@@ -239,6 +243,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a95509ab284e6480369df3224cfa15a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5c2c1e44f0695f4b198e3809186c5e0"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ab5c2c1e44f0695f4b198e3809186c5e0">Shading_Correct</a> ()</td></tr>
 <tr class="separator:ab5c2c1e44f0695f4b198e3809186c5e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a022765d0c9bf3ccd8a54b6224a615827"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a022765d0c9bf3ccd8a54b6224a615827">Filter_RankOrder</a> (double quantil)</td></tr>
+<tr class="separator:a022765d0c9bf3ccd8a54b6224a615827"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83c7387766bd532c6e4ffabdfb882d62"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a83c7387766bd532c6e4ffabdfb882d62">Filter_Median</a> ()</td></tr>
 <tr class="separator:a83c7387766bd532c6e4ffabdfb882d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b6fdfc5a51c32eeae6bbb5f0fa03301"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a1b6fdfc5a51c32eeae6bbb5f0fa03301">Filter_Eilenstein</a> (function&lt; double(double cur, double nei)&gt; response_CurNei, function&lt; double(double res, double wei)&gt; weight_ResWeigth, function&lt; double(vector&lt; double &gt; v_res)&gt; combine_Responses)</td></tr>
@@ -1844,6 +1850,110 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a022765d0c9bf3ccd8a54b6224a615827"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a022765d0c9bf3ccd8a54b6224a615827">&#9670;&nbsp;</a></span>Filter_RankOrder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Filter_RankOrder </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07c046a2b515fb570ff91f28cbc9e174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07c046a2b515fb570ff91f28cbc9e174">&#9670;&nbsp;</a></span>Filter_RankOrder_Circular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Filter_RankOrder_Circular </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1cdb070b665d8e04177501eac7d6e824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cdb070b665d8e04177501eac7d6e824">&#9670;&nbsp;</a></span>Filter_RankOrder_Rect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Filter_RankOrder_Rect </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

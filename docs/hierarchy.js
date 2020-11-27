@@ -32,6 +32,7 @@ var hierarchy =
     [ "QDialog", null, [
       [ "D_Popup_FeedbackRequest", "class_d___popup___feedback_request.html", null ],
       [ "D_Popup_ListEdit", "class_d___popup___list_edit.html", null ],
+      [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", null ],
       [ "D_Popup_ListSelect", "class_d___popup___list_select.html", null ],
       [ "D_Popup_Plot", "class_d___popup___plot.html", null ]
     ] ],
