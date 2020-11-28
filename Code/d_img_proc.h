@@ -179,7 +179,8 @@ public:
     static int      Filter_RankOrder_Circular   (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, double radius);
     static int      Filter_RankOrder_Rect       (Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, int size_x, int size_y);
     static int      Filter_RankOrder_1C         (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos);
-    static int      Filter_RankOrder_1C_Thread  (Mat *pMA_Out, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t size_img_in_x, size_t size_img_in_y, size_t y_start, size_t y_end, vector<Point> vBorderL, vector<Point> vBorderR, vector<Point> vBorderT, vector<Point> vBorderB, double mass_smaller_or_equal_needed, double mass_greater_or_equal_needed);
+    static int      Filter_RankOrder_1C_Thread  (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector<Point> *vBorderL, vector<Point> *vBorderR, vector<Point> *vBorderT, vector<Point> *vBorderB);
+
     static int      Filter_Laplace              (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta);
     static int      Filter_Sobel                (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta, int d_x, int d_y);
     static int      Filter_Scharr               (Mat *pMA_Out, Mat *pMA_In,                         int border, int out_depth, double scale, double delta, int d_x, int d_y);
