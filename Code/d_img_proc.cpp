@@ -6973,20 +6973,14 @@ int D_Img_Proc::Filter_RankOrder_Rect(Mat *pMA_Out, Mat *pMA_In, double quantil_
 
 int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)
 {
-    //------------------------------------------------------- Error checks
-
     //Errors
     if(pMA_In->empty())                                         return ER_empty;
     if(pMA_Mask->empty())                                       return ER_empty;
     if(pMA_In->channels() != 1)                                 return ER_channel_bad;
     if(pMA_Mask->channels() != 1)                               return ER_channel_bad;
-    //if(pMA_In->cols < pMA_Mask->cols)                           return ER_size_missmatch;
-    //if(pMA_In->rows < pMA_Mask->rows)                           return ER_size_missmatch;
     if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U)   return ER_bitdepth_bad;
     if(quantil_relPos < 0 || quantil_relPos > 1)                return ER_parameter_bad;
     int ER;
-
-
 
     //------------------------------------------------------- mask preprocessing
 
@@ -7010,11 +7004,9 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
     //input img parameters
     //sizes
-    size_t in_sx = pMA_In->cols;
-    size_t in_sy = pMA_In->rows;
+    size_t size_img_in_x = pMA_In->cols;
+    size_t size_img_in_y = pMA_In->rows;
     //max index
-    size_t in_max_x = in_sx - 1;
-    size_t in_max_y = in_sy - 1;
 
     //mask parameters
     //sizes
@@ -7050,88 +7042,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         MA_tmp_InPadded.release();
         return ER;
     }
-
-
-
-    //------------------------------------------------------- create and init histogram
-
-    //get range of values to deal with (for size of histogram)
-    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "get extreme values";
-    double val_min;
-    double val_max;
-    ER = MinMax_of_Mat_1C(
-                &MA_tmp_InPadded,
-                &val_min,
-                &val_max);
-    if(ER != ER_okay)
-    {
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
-        return ER;
-    }
-
-    //create histogram
-    vector<size_t> hist(static_cast<size_t>(val_max + 1), 0);
-
-    //init hist
-    for(int y = 0; y < mask_sy; y++)
-        for(int x = 0; x < mask_sx; x++)
-            if(MA_tmp_MaskBinary.at<uchar>(y, x) > 0)
-                switch (pMA_In->type()) {
-
-                case CV_8UC1:
-                    hist[MA_tmp_InPadded.at<uchar>(y, x)]++;
-                    break;
-
-                case CV_16UC1:
-                    hist[MA_tmp_InPadded.at<ushort>(y, x)]++;
-                    break;
-
-                default:
-                    MA_tmp_MaskBinary.release();
-                    MA_tmp_InPadded.release();
-                    return ER_type_bad;
-                }
-
-    //------------------------------------------------------- inital quantil
-
-    //list of mask congruent pixel values at start position
-    vector<double> values_init;
-
-    //get the values of inital value list
-    for(int y = 0; y < mask_sy; y++)
-        for(int x = 0; x < mask_sx; x++)
-            if(MA_tmp_MaskBinary.at<uchar>(y, x) > 0)
-                switch (pMA_In->type()) {
-
-                case CV_8UC1:
-                    values_init.push_back(static_cast<double>(MA_tmp_InPadded.at<uchar>(y, x)));
-                    break;
-
-                case CV_16UC1:
-                    values_init.push_back(static_cast<double>(MA_tmp_InPadded.at<ushort>(y, x)));
-                    break;
-
-                default:
-                    MA_tmp_MaskBinary.release();
-                    MA_tmp_InPadded.release();
-                    return ER_type_bad;
-                }
-
-    //check if mask is not empty
-    if(values_init.empty())
-        {
-            MA_tmp_MaskBinary.release();
-            MA_tmp_InPadded.release();
-            return ER_empty;
-        }
-
-    //init quantil value
-    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "init quantil value";
-    sort(values_init.begin(), values_init.end());
-    double quantil_val = values_init[(values_init.size() - 1) * quantil_relPos];
-
-
 
     //------------------------------------------------------- relative coordinates for shifting
 
@@ -7246,7 +7156,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     {
         //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "shift coordinate lists size missmatch";
         MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
         return ER_size_missmatch;
     }
 
@@ -7269,39 +7178,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
 
 
-    //------------------------------------------------------- init out image
-
-    //init output
-    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "init out";
-    *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
-
-
-
-    //------------------------------------------------------- advcanced looping parameters
-
-    //looping parameters
-    bool at_end = false;
-    size_t x = 0;           //changed to x=1 at first iteration step. pos 0|0 allready calced int init above
-    size_t y = 0;
-    int direction = c_DIR2D_R;
-
-
-
-
-    //------------------------------------------------------- assistant values for quantil value calculation on steps
-
-    //count of values smaller than quantil value
-    size_t mass_smaller = 0;
-    for(size_t i = 0; i < static_cast<size_t>(quantil_val); i++)
-        mass_smaller += hist[i];
-
-    //count of values equal to quantil value
-    size_t mass_quantil = hist[static_cast<size_t>(quantil_val)];
-
-    //count of values greater than quantil value
-    size_t mass_greater = 0;
-    for(size_t i = static_cast<size_t>(quantil_val) + 1; i < hist.size(); i++)
-        mass_greater += hist[i];
+    //------------------------------------------------------- comparison parameters
 
     //comparison value of needed absolute count for quantil determination
     double mass_smaller_or_equal_needed = quantil_relPos * static_cast<double>(mask_relevant_px_count);
@@ -7323,6 +7200,194 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "mass_smaller_or_equal_needed" << mass_smaller_or_equal_needed << "mass_greater_or_equal_needed" << mass_greater_or_equal_needed;
 
 
+    //------------------------------------------------------- init out
+
+    *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
+
+
+    //------------------------------------------------------- start threads
+
+    //threads
+    int thread_number = 1;//getNumberOfCPUs();
+    vector<thread> v_threads;
+    v_threads.resize(thread_number);
+
+    for(int t = 0; t < thread_number; t++)
+    {
+        //range for thread
+        size_t y_start   = (((t    ) / static_cast<double>(thread_number))) * size_img_in_y;
+        size_t y_end     = (((t + 1) / static_cast<double>(thread_number))) * size_img_in_y;
+
+        //start thread
+        qDebug() << "start thread" << t << "of" << thread_number << "y-range:" << y_start << "to" << y_end;
+        v_threads[t] = thread(
+                    Filter_RankOrder_1C_Thread,
+                    pMA_Out,
+                    &MA_tmp_InPadded,
+                    pMA_Mask,
+                    quantil_relPos,
+                    size_img_in_x,
+                    size_img_in_y,
+                    y_start,
+                    y_end,
+                    vBorderL,
+                    vBorderR,
+                    vBorderT,
+                    vBorderB,
+                    mass_smaller_or_equal_needed,
+                    mass_greater_or_equal_needed);
+    }
+
+
+    //------------------------------------------------------- join threads
+
+    for(int t = 0; t < thread_number; t++)
+    {
+        v_threads[t].join();
+        qDebug() << "join thread" << t << "of" << thread_number;
+    }
+
+    MA_tmp_MaskBinary.release();
+    MA_tmp_InPadded.release();
+    return ER_okay;
+}
+
+int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t size_img_in_x, size_t size_img_in_y, size_t y_start, size_t y_end, vector<Point> vBorderL, vector<Point> vBorderR, vector<Point> vBorderT, vector<Point> vBorderB, double mass_smaller_or_equal_needed, double mass_greater_or_equal_needed)
+{
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C_Thread" << "START" << "quantil_relPos" << quantil_relPos << "size_img_in_x" << size_img_in_x << "size_img_in_y" << size_img_in_y << "y_start" << y_start << "y_end" << y_end << "mass_smaller_or_equal_needed" << mass_smaller_or_equal_needed << "mass_greater_or_equal_needed" << mass_greater_or_equal_needed;
+
+
+    //------------------------------------------------------- Error checks
+
+    //Errors
+    if(pMA_InPadded->empty())                                               {qDebug() << "pMA_InPadded->empty()"; return ER_empty;}
+    if(pMA_Mask->empty())                                                   {qDebug() << "pMA_Mask->empty()"; return ER_empty;}
+    if(pMA_InPadded->channels() != 1)                                       {qDebug() << "pMA_InPadded->channels() != 1"; return ER_channel_bad;}
+    if(pMA_Mask->channels() != 1)                                           {qDebug() << "pMA_Mask->channels() != 1"; return ER_channel_bad;}
+    if(pMA_InPadded->depth() != CV_8U && pMA_InPadded->depth() != CV_16U)   {qDebug() << "pMA_InPadded->depth() != CV_8U && pMA_InPadded->depth() != CV_16U"; return ER_bitdepth_bad;}
+    if(quantil_relPos < 0 || quantil_relPos > 1)                            {qDebug() << "quantil_relPos < 0 || quantil_relPos > 1"; return ER_parameter_bad;}
+    if(y_start < 0 || y_start > size_img_in_y)                              {qDebug() << "y_start < 0 || y_start >= size_img_in_y"; return ER_index_out_of_range;}
+    if(y_end < 0 || y_end > size_img_in_y)                                  {qDebug() << "y_end < 0 || y_end >= size_img_in_y"; return ER_index_out_of_range;}
+    if(y_end < y_start)                                                     {qDebug() << "y_end < y_start"; return ER_parameter_missmatch;}
+    int ER;
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C_Thread" << "error checks passed";
+
+
+    //------------------------------------------------------- image and mask parameters
+
+    //input img parameters
+    //max index
+    size_t in_max_x = size_img_in_x - 1;
+
+    //mask parameters
+    //sizes
+    int mask_sx = pMA_Mask->cols;
+    int mask_sy = pMA_Mask->rows;
+    //centers
+    int mask_cx = mask_sx / 2;
+    int mask_cy = mask_sy / 2;
+
+
+
+    //------------------------------------------------------- create and init histogram
+
+    //get range of values to deal with (for size of histogram)
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "get extreme values";
+    double val_min;
+    double val_max;
+    ER = MinMax_of_Mat_1C(
+                pMA_InPadded,
+                &val_min,
+                &val_max);
+    if(ER != ER_okay)
+        return ER;
+
+    //create histogram
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "create hist";
+    vector<size_t> hist(static_cast<size_t>(val_max + 1), 0);
+
+    //init hist
+    for(int y = 0; y < mask_sy; y++)
+        for(int x = 0; x < mask_sx; x++)
+            if(pMA_Mask->at<uchar>(y, x) > 0)
+                switch (pMA_InPadded->type()) {
+
+                case CV_8UC1:
+                    hist[pMA_InPadded->at<uchar>(y + y_start, x)]++;
+                    break;
+
+                case CV_16UC1:
+                    hist[pMA_InPadded->at<ushort>(y + y_start, x)]++;
+                    break;
+
+                default:
+                    return ER_type_bad;
+                }
+
+    //------------------------------------------------------- inital quantil
+
+    //list of mask congruent pixel values at start position
+    vector<double> values_init;
+
+    //get the values of inital value list
+    for(int y = 0; y < mask_sy; y++)
+        for(int x = 0; x < mask_sx; x++)
+            if(pMA_Mask->at<uchar>(y, x) > 0)
+                switch (pMA_InPadded->type()) {
+
+                case CV_8UC1:
+                    values_init.push_back(static_cast<double>(pMA_InPadded->at<uchar>(y + y_start, x)));
+                    break;
+
+                case CV_16UC1:
+                    values_init.push_back(static_cast<double>(pMA_InPadded->at<ushort>(y + y_start, x)));
+                    break;
+
+                default:
+                    return ER_type_bad;
+                }
+
+    //check if mask is not empty
+    if(values_init.empty())
+            return ER_empty;
+
+    //init quantil value
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "init quantil value";
+    sort(values_init.begin(), values_init.end());
+    double quantil_val = values_init[(values_init.size() - 1) * quantil_relPos];
+
+
+
+    //------------------------------------------------------- advcanced looping parameters
+
+    //looping parameters
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "looping params";
+    bool at_end = false;
+    size_t x = 0;           //changed to x=1 at first iteration step. pos 0|y_start allready calced int init above
+    size_t y = y_start;
+    int direction = c_DIR2D_R;
+
+
+
+
+    //------------------------------------------------------- assistant values for quantil value calculation on steps
+
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "masses";
+
+    //count of values smaller than quantil value
+    size_t mass_smaller = 0;
+    for(size_t i = 0; i < static_cast<size_t>(quantil_val); i++)
+        mass_smaller += hist[i];
+
+    //count of values equal to quantil value
+    size_t mass_quantil = hist[static_cast<size_t>(quantil_val)];
+
+    //count of values greater than quantil value
+    size_t mass_greater = 0;
+    for(size_t i = static_cast<size_t>(quantil_val) + 1; i < hist.size(); i++)
+        mass_greater += hist[i];
+
+
     //------------------------------------------------------- line reset parameters
 
     //histo and masses at start of line
@@ -7335,15 +7400,15 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     //------------------------------------------------------- loop image and type switch
 
     //type switch
-    //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "start looping image";
-    switch (pMA_In->type()) {
+    qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "start looping image";
+    switch (pMA_InPadded->type()) {
 
     case CV_8UC1:
     {
-        //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "CV_8UC1";
+        qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "CV_8UC1";
 
         //write inital quantil value
-        pMA_Out->at<uchar>(0, 0) = quantil_val;
+        pMA_Out->at<uchar>(y, x) = quantil_val;
 
         //loop until end of image
         while(!at_end)
@@ -7369,8 +7434,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 break;
 
             default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
                 return ER_parameter_bad;
             }
             //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new position:" << x << y;
@@ -7396,8 +7459,8 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new value---------------------------------";
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates add x/y:" << x + (*vBorderAdd)[i].x + mask_cx << y + (*vBorderAdd)[i].y + mask_cy;
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "coordinates rem x/y:" << x + (*vBorderRem)[i].x + mask_cx + dx_to_prev_pos << y + (*vBorderRem)[i].y + mask_cy + dy_to_prev_pos;
-                uchar val_add = MA_tmp_InPadded.at<uchar>(y + mask_cy + (*vBorderAdd)[i].y,                  x + mask_cx + (*vBorderAdd)[i].x);
-                uchar val_rem = MA_tmp_InPadded.at<uchar>(y + mask_cy + (*vBorderRem)[i].y + dy_to_prev_pos, x + mask_cx + (*vBorderRem)[i].x + dx_to_prev_pos);
+                uchar val_add = pMA_InPadded->at<uchar>(y + mask_cy + (*vBorderAdd)[i].y,                  x + mask_cx + (*vBorderAdd)[i].x);
+                uchar val_rem = pMA_InPadded->at<uchar>(y + mask_cy + (*vBorderRem)[i].y + dy_to_prev_pos, x + mask_cx + (*vBorderRem)[i].x + dx_to_prev_pos);
                 //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "add" << val_add << "val_rem" << val_rem;
 
                 //update histogram
@@ -7463,7 +7526,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
             case c_DIR2D_R:
                 if(x >= in_max_x)                   //at right border from left
                 {
-                    if(y >= in_max_y)
+                    if(y >= y_end)
                         at_end = true;              //at right and bottom border
                     else
                     {
@@ -7509,8 +7572,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 break;
 
             default:
-                MA_tmp_MaskBinary.release();
-                MA_tmp_InPadded.release();
                 return ER_parameter_bad;
             }
             //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "new direction:" << direction;
@@ -7520,8 +7581,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         break;
 
     default:
-        MA_tmp_MaskBinary.release();
-        MA_tmp_InPadded.release();
         return ER_type_bad;
     }
 
@@ -7530,8 +7589,6 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
 
     //clear & return
     //qDebug() << "D_Img_Proc::Filter_RankOrder_1C" << "finished :-)";
-    MA_tmp_MaskBinary.release();
-    MA_tmp_InPadded.release();
     return ER_okay;
 }
 
