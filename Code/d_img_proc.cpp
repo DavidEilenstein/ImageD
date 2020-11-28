@@ -7206,7 +7206,27 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     return ER;
 }
 
-
+/*!
+ * \brief D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any quantile on a region of an image
+ * \details Used as in separte threads in Filter_RankOrder_1C
+ * \details Parallelized implementation of Huang's local histogram based rank oder filterig for any quantile.
+ * \details Any binary mask can be used. Non binary masks will be binarized automatically.
+ * \details Any quantile (0.0 to 1.0) is supported. Special cases for min and max filtering are implemented.
+ * \details Unsigned 8bit and 16bit single channel images are supported.
+ * \param pMA_Out pointer to output image
+ * \param pMA_In pointer to padded input image (CV_8UC1 or CV_16UC1)
+ * \param pMA_Mask pointer to mask image (binary)
+ * \param quantil_relPos qunatile value from 0.0 to 1.0. Speical cases: 0.0->min, 0.5->median, 1.0-> max
+ * \param y_start start line of ROI
+ * \param y_end end line of ROI
+ * \param val_max size of local histogram (max value in image)
+ * \param mask_relevant_px_count count of mask foreground pixels
+ * \param vBorderL list of relative coordinates of pixels to add when moving left / removing when moving right
+ * \param vBorderR list of relative coordinates of pixels to add when moving right / removing when moving left
+ * \param vBorderT list of relative coordinates of pixels to add when moving up / removing when moving down
+ * \param vBorderB list of relative coordinates of pixels to add when moving down / removing when moving up
+ * \return error code
+ */
 int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector<Point> *vBorderL, vector<Point> *vBorderR, vector<Point> *vBorderT, vector<Point> *vBorderB)
 {
     //------------------------------------------------------- Error checks

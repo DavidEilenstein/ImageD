@@ -324,6 +324,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2b5e0b846ff2ba159860ad7032d64843"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843" title="D_Img_Proc::Filter_RankOrder_1C performs Rank order filtering with huang algorithm for any quantile.">D_Img_Proc::Filter_RankOrder_1C</a> performs Rank order filtering with huang algorithm for any quantile.  <a href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843">More...</a><br /></td></tr>
 <tr class="separator:a2b5e0b846ff2ba159860ad7032d64843"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef6d835fb499b76c3401cd88d229ce0c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c">Filter_RankOrder_1C_Thread</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector&lt; Point &gt; *vBorderL, vector&lt; Point &gt; *vBorderR, vector&lt; Point &gt; *vBorderT, vector&lt; Point &gt; *vBorderB)</td></tr>
+<tr class="memdesc:aef6d835fb499b76c3401cd88d229ce0c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image.  <a href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c">More...</a><br /></td></tr>
 <tr class="separator:aef6d835fb499b76c3401cd88d229ce0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ef671eec83a24725d358a42c73783a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ef671eec83a24725d358a42c73783a3">Filter_Laplace</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)</td></tr>
 <tr class="separator:a8ef671eec83a24725d358a42c73783a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -5830,6 +5831,26 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image. </p>
+<p>Used as in separte threads in Filter_RankOrder_1C  Parallelized implementation of Huang's local histogram based rank oder filterig for any quantile.  Any binary mask can be used. Non binary masks will be binarized automatically.  Any quantile (0.0 to 1.0) is supported. Special cases for min and max filtering are implemented.  Unsigned 8bit and 16bit single channel images are supported. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMA_Out</td><td>pointer to output image </td></tr>
+    <tr><td class="paramname">pMA_In</td><td>pointer to padded input image (CV_8UC1 or CV_16UC1) </td></tr>
+    <tr><td class="paramname">pMA_Mask</td><td>pointer to mask image (binary) </td></tr>
+    <tr><td class="paramname">quantil_relPos</td><td>qunatile value from 0.0 to 1.0. Speical cases: 0.0-&gt;min, 0.5-&gt;median, 1.0-&gt; max </td></tr>
+    <tr><td class="paramname">y_start</td><td>start line of ROI </td></tr>
+    <tr><td class="paramname">y_end</td><td>end line of ROI </td></tr>
+    <tr><td class="paramname">val_max</td><td>size of local histogram (max value in image) </td></tr>
+    <tr><td class="paramname">mask_relevant_px_count</td><td>count of mask foreground pixels </td></tr>
+    <tr><td class="paramname">vBorderL</td><td>list of relative coordinates of pixels to add when moving left / removing when moving right </td></tr>
+    <tr><td class="paramname">vBorderR</td><td>list of relative coordinates of pixels to add when moving right / removing when moving left </td></tr>
+    <tr><td class="paramname">vBorderT</td><td>list of relative coordinates of pixels to add when moving up / removing when moving down </td></tr>
+    <tr><td class="paramname">vBorderB</td><td>list of relative coordinates of pixels to add when moving down / removing when moving up </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error code </dd></dl>
 
 </div>
 </div>
