@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_11 (28.11.20)</span>
+   &#160;<span id="projectnumber">v1_0_12 (01.12.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -323,9 +323,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2b5e0b846ff2ba159860ad7032d64843"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843">Filter_RankOrder_1C</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, double quantil_relPos)</td></tr>
 <tr class="memdesc:a2b5e0b846ff2ba159860ad7032d64843"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843" title="D_Img_Proc::Filter_RankOrder_1C performs Rank order filtering with huang algorithm for any quantile.">D_Img_Proc::Filter_RankOrder_1C</a> performs Rank order filtering with huang algorithm for any quantile.  <a href="class_d___img___proc.html#a2b5e0b846ff2ba159860ad7032d64843">More...</a><br /></td></tr>
 <tr class="separator:a2b5e0b846ff2ba159860ad7032d64843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef6d835fb499b76c3401cd88d229ce0c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c">Filter_RankOrder_1C_Thread</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector&lt; Point &gt; *vBorderL, vector&lt; Point &gt; *vBorderR, vector&lt; Point &gt; *vBorderT, vector&lt; Point &gt; *vBorderB)</td></tr>
-<tr class="memdesc:aef6d835fb499b76c3401cd88d229ce0c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image.  <a href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c">More...</a><br /></td></tr>
-<tr class="separator:aef6d835fb499b76c3401cd88d229ce0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b">Filter_RankOrder_1C_Thread</a> (Mat *pMA_Out, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t img_in_sx, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector&lt; Point &gt; *vBorderL, vector&lt; Point &gt; *vBorderR, vector&lt; Point &gt; *vBorderT, vector&lt; Point &gt; *vBorderB)</td></tr>
+<tr class="memdesc:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image.  <a href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b">More...</a><br /></td></tr>
+<tr class="separator:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ef671eec83a24725d358a42c73783a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ef671eec83a24725d358a42c73783a3">Filter_Laplace</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)</td></tr>
 <tr class="separator:a8ef671eec83a24725d358a42c73783a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf24a7e83477e2be25d27a02ab0147f9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aaf24a7e83477e2be25d27a02ab0147f9">Filter_Sobel</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta, int d_x, int d_y)</td></tr>
@@ -5732,8 +5732,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aef6d835fb499b76c3401cd88d229ce0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef6d835fb499b76c3401cd88d229ce0c">&#9670;&nbsp;</a></span>Filter_RankOrder_1C_Thread()</h2>
+<a id="a66f387cebc30c1fe2b71bd0625dfcc1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f387cebc30c1fe2b71bd0625dfcc1b">&#9670;&nbsp;</a></span>Filter_RankOrder_1C_Thread()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5746,12 +5746,6 @@ Static Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">Mat *&#160;</td>
           <td class="paramname"><em>pMA_Out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Mat *&#160;</td>
-          <td class="paramname"><em>pMA_In</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -5770,6 +5764,12 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>quantil_relPos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>img_in_sx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -5832,7 +5832,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="class_d___img___proc.html#aef6d835fb499b76c3401cd88d229ce0c" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image. </p>
+<p><a class="el" href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image. </p>
 <p>Used as in separte threads in Filter_RankOrder_1C  Parallelized implementation of Huang's local histogram based rank oder filterig for any quantile.  Any binary mask can be used. Non binary masks will be binarized automatically.  Any quantile (0.0 to 1.0) is supported. Special cases for min and max filtering are implemented.  Unsigned 8bit and 16bit single channel images are supported. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pMA_Out</td><td>pointer to output image </td></tr>
