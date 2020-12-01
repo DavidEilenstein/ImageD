@@ -143,7 +143,7 @@ public:
     //Dimension
     static int  Dim_Pick                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, vector<int> pick_pos);
     static int  Dim_Crop                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Range crop_range);
-    static int  Dim_Project             (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_project = c_DIM_X, int stat = c_STAT_MEAN_ARITMETIC, bool out_8bit = false);
+    static int  Dim_Project             (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_project = c_DIM_X, int stat = c_STAT_MEAN_ARITMETIC, int out_type = CV_64FC1);
     static int  Dim_Deserialise         (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_from = c_DIM_P, int dim_to = c_DIM_P, int spacing = 1);
     static int  Dim_Pages2Color         (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int p_red = 0, int p_green = 1, int p_blue = 2);
   //static int  Dim_Stitching           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_source = c_DIM_S, Stitcher::Mode mode = Stitcher::PANORAMA, bool divide_images = false);
@@ -208,6 +208,8 @@ public:
     static int  Filter_RankOrder_Circular       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, double radius);
     static int  Filter_RankOrder_Rect           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double quantil, int size_x, int size_y);
     static int  Filter_Median                   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask);
+    static int  Filter_Median_Circular          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius);
+    static int  Filter_Median_Rect              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y);
     static int  Filter_Laplace                  (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size,               int border, int out_depth, double scale, double delta);
     static int  Filter_Sobel                    (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size,               int border, int out_depth, double scale, double delta, int d_x, int d_y);
     static int  Filter_Canny                    (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double thres_low, double thres_high, bool L2_gradient);

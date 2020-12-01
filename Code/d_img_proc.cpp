@@ -6919,6 +6919,7 @@ int D_Img_Proc::Filter_RankOrder(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, doubl
  */
 int D_Img_Proc::Filter_RankOrder_Circular(Mat *pMA_Out, Mat *pMA_In, double quantil_relPos, double radius)
 {
+    if(pMA_In->empty())         return ER_empty;
     if(radius < 0)              return ER_parameter_bad;
 
     //image size must be an odd int
@@ -7014,6 +7015,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     //input img parameters
     //sizes
     size_t img_in_sy = pMA_In->rows;
+    size_t img_in_sx = pMA_In->cols;
 
     //mask parameters
     //sizes
@@ -7180,10 +7182,10 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
         v_threads[t] = thread(
                     Filter_RankOrder_1C_Thread,
                     pMA_Out,
-                    pMA_In,
                     &MA_tmp_InPadded,
                     &MA_tmp_MaskBinary,
                     quantil_relPos,
+                    img_in_sx,
                     y_start,
                     y_end,
                     val_max,
@@ -7227,18 +7229,18 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
  * \param vBorderB list of relative coordinates of pixels to add when moving down / removing when moving up
  * \return error code
  */
-int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector<Point> *vBorderL, vector<Point> *vBorderR, vector<Point> *vBorderT, vector<Point> *vBorderB)
+int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t img_in_sx, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector<Point> *vBorderL, vector<Point> *vBorderR, vector<Point> *vBorderT, vector<Point> *vBorderB)
 {
     //------------------------------------------------------- Error checks
 
     //Errors
-    if(pMA_In->empty())                                         return ER_empty;
-    if(pMA_Mask->empty())                                       return ER_empty;
-    if(pMA_In->channels() != 1)                                 return ER_channel_bad;
-    if(pMA_Mask->channels() != 1)                               return ER_channel_bad;
-    if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U)   return ER_bitdepth_bad;
-    if(quantil_relPos < 0 || quantil_relPos > 1)                return ER_parameter_bad;
-    if(mask_relevant_px_count <= 0)                             return ER_empty;
+    if(pMA_InPadded->empty())                                               return ER_empty;
+    if(pMA_Mask->empty())                                                   return ER_empty;
+    if(pMA_InPadded->channels() != 1)                                       return ER_channel_bad;
+    if(pMA_Mask->channels() != 1)                                           return ER_channel_bad;
+    if(pMA_InPadded->depth() != CV_8U && pMA_InPadded->depth() != CV_16U)   return ER_bitdepth_bad;
+    if(quantil_relPos < 0 || quantil_relPos > 1)                            return ER_parameter_bad;
+    if(mask_relevant_px_count <= 0)                                         return ER_empty;
 
 
     //------------------------------------------------------- image and mask parameters
@@ -7246,7 +7248,7 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_I
     //input img and ROI parameters
     //max index
     size_t x_min = 0;
-    size_t x_max = pMA_In->cols - 1;
+    size_t x_max = img_in_sx - 1;
     size_t y_min = y_start;
     size_t y_max = y_end - 1;
 
@@ -7364,7 +7366,7 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_I
     //------------------------------------------------------- loop image and type switch
 
     //type switch
-    switch (pMA_In->type()) {
+    switch (pMA_InPadded->type()) {
 
     //------------------------------------------------------- CV_8UC1 start
     case CV_8UC1:

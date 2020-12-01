@@ -440,7 +440,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
                 &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
                 c_DIM_Z,
-                ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex()),
+                ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex(),
+                CV_16UC1),
             "Update_ImageProcessing_StepSingle",
             "STEP_PRE_PROJECT_Z - Project Z-dimension to get a 2D image");
     }
@@ -496,15 +497,13 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_NUC_P0_BLUR_MEDIAN:
     {
-        ERR(D_VisDat_Proc::Filter_Stat_Circular(
+        ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_P0_BLUR_MEDIAN]),
                 &(vVD_ImgProcSteps[STEP_PCK_P0]),
-                ui->spinBox_ImgProc_Nuc_GFP_BlurMedianSize->value(),
-                c_STAT_MEDIAN,
-                BORDER_REPLICATE),
+                ui->spinBox_ImgProc_Nuc_GFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_BLUR_MEDIAN - Strong median blur GFP to get nuclei");
+            "STEP_NUC_P0_BLUR_MEDIAN - Strong median blur GFP to get nuclei\n" + vVD_ImgProcSteps[STEP_PCK_P0].info());
     }
         break;
 
@@ -660,13 +659,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_FOC_P0_BLUR_MEDIAN:
     {
-        ERR(D_VisDat_Proc::Filter_Stat_Circular(
+        ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_P0_BLUR_MEDIAN]),
                 &(vVD_ImgProcSteps[STEP_PCK_P0]),
-                ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->value(),
-                c_STAT_MEDIAN,
-                BORDER_REPLICATE),
+                ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_P0_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
@@ -717,13 +714,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_FOC_P1_BLUR_MEDIAN:
     {
-        ERR(D_VisDat_Proc::Filter_Stat_Circular(
+        ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_P1_BLUR_MEDIAN]),
                 &(vVD_ImgProcSteps[STEP_PCK_P1]),
-                ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->value(),
-                c_STAT_MEDIAN,
-                BORDER_REPLICATE),
+                ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_P1_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
@@ -901,9 +896,9 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     if(QMessageBox::question(
                 this,
                 "Confirm Stack Processing",
-                "You are about to process the whole stack of iamges with the current settings. "
-                "This will take some time (maybe hours)."
-                "Do you want to continue?")
+                "You are about to process the whole stack of iamges with the current settings."
+                "<br>This will take some time (meaning days)."
+                "<br>Do you want to continue?")
             != QMessageBox::Yes)
         return;
 
@@ -952,11 +947,14 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 ui->progressBar_StackLoop,
                 dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y);
 
+    //set start point to a non proccessed position to make time measurement more accurate
+    ui->spinBox_Viewport_X->setValue(1);
+
     //loop viewports
     TimePrognosis.start();
     for(size_t t = 0; t < dataset_dim_t; t++)
-        for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
-            for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
+        for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
+            for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
             {                
                 StatusSet("STACK PROC T" + QString::number(t) + " Y" + QString::number(y) + " X" + QString::number(x));
 
@@ -982,7 +980,7 @@ void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
 
     //Overwrite and update mosaik
     Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_T" + QString::number(ui->spinBox_DataDim_T->value()) + ".png");
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
 }
 
 void D_MAKRO_MegaFoci::Populate_CB_AtStart()
@@ -1136,7 +1134,7 @@ void D_MAKRO_MegaFoci::Overview_Init()
                     static_cast<int>(dataset_dim_t),
                     1,
                     1),
-                CV_64FC3,
+                CV_16UC3,
                 0);
     state_overview_init = true;
 

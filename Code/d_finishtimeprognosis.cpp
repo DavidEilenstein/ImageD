@@ -130,12 +130,11 @@ void D_FinishTimePrognosis::step()
     double mean_step_duration = Timer_Measurement.elapsed() / static_cast<double>(StepsExecuted);
 
     //update prognosis
-    Time_FinishPrognosis = Time_Start;
-    Time_FinishPrognosis.addMSecs(static_cast<qint64>(mean_step_duration * StepsMax));
+    Time_FinishPrognosis = Time_Start.addMSecs(static_cast<qint64>(mean_step_duration * StepsMax));
 
     //set in ui
     pProgressBar->setFormat("End prognosis: " + Time_FinishPrognosis.toString());
-    qDebug() << "D_FinishTimePrognosis::step" << "Step" << StepsExecuted << "of" << StepsMax << "mean step time" << mean_step_duration << "ms" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
+    qDebug() << "D_FinishTimePrognosis::step" << "Step" << StepsExecuted << "of" << StepsMax << "mean step time" << mean_step_duration << "ms" << "total time expected" << static_cast<qint64>(mean_step_duration * StepsMax) << "ms" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
 }
 
 /*!

@@ -229,38 +229,39 @@ QString D_VisDat_Obj::Info_Type(bool more_detail)
 
     int     ch; //channel
     int     bd; //bit depth
-    QString tp; //sign/type
+    QString si; //sign
+    QString tp; //type
 
     switch (MA_Type) {
 
-    case CV_8UC1:   bd = 8;     ch = 1;     tp = "U";   break;
-    case CV_8SC1:   bd = 8;     ch = 1;     tp = "S";   break;
-    case CV_16UC1:  bd = 16;    ch = 1;     tp = "U";   break;
-    case CV_16SC1:  bd = 16;    ch = 1;     tp = "S";   break;
-    case CV_32SC1:  bd = 32;    ch = 1;     tp = "S";   break;
-    case CV_32FC1:  bd = 32;    ch = 1;     tp = "F";   break;
-    case CV_64FC1:  bd = 64;    ch = 1;     tp = "F";   break;
-    case CV_8UC2:   bd = 8;     ch = 2;     tp = "U";   break;
-    case CV_8SC2:   bd = 8;     ch = 2;     tp = "S";   break;
-    case CV_16UC2:  bd = 16;    ch = 2;     tp = "U";   break;
-    case CV_16SC2:  bd = 16;    ch = 2;     tp = "S";   break;
-    case CV_32SC2:  bd = 32;    ch = 2;     tp = "S";   break;
-    case CV_32FC2:  bd = 32;    ch = 2;     tp = "F";   break;
-    case CV_64FC2:  bd = 64;    ch = 2;     tp = "F";   break;
-    case CV_8UC3:   bd = 8;     ch = 3;     tp = "U";   break;
-    case CV_8SC3:   bd = 8;     ch = 3;     tp = "S";   break;
-    case CV_16UC3:  bd = 16;    ch = 3;     tp = "U";   break;
-    case CV_16SC3:  bd = 16;    ch = 3;     tp = "S";   break;
-    case CV_32SC3:  bd = 32;    ch = 3;     tp = "S";   break;
-    case CV_32FC3:  bd = 32;    ch = 3;     tp = "F";   break;
-    case CV_64FC3:  bd = 64;    ch = 3;     tp = "F";   break;
-    case CV_8UC4:   bd = 8;     ch = 4;     tp = "U";   break;
-    case CV_8SC4:   bd = 8;     ch = 4;     tp = "S";   break;
-    case CV_16UC4:  bd = 16;    ch = 4;     tp = "U";   break;
-    case CV_16SC4:  bd = 16;    ch = 4;     tp = "S";   break;
-    case CV_32SC4:  bd = 32;    ch = 4;     tp = "S";   break;
-    case CV_32FC4:  bd = 32;    ch = 4;     tp = "F";   break;
-    case CV_64FC4:  bd = 64;    ch = 4;     tp = "F";   break;
+    case CV_8UC1:   bd = 8;     ch = 1;     tp = "integer";     si = "unsigned";    break;
+    case CV_8SC1:   bd = 8;     ch = 1;     tp = "integer";     si = "signed";      break;
+    case CV_16UC1:  bd = 16;    ch = 1;     tp = "integer";     si = "unsigned";    break;
+    case CV_16SC1:  bd = 16;    ch = 1;     tp = "integer";     si = "signed";      break;
+    case CV_32SC1:  bd = 32;    ch = 1;     tp = "integer";     si = "signed";      break;
+    case CV_32FC1:  bd = 32;    ch = 1;     tp = "float";       si = "signed";      break;
+    case CV_64FC1:  bd = 64;    ch = 1;     tp = "float";       si = "signed";      break;
+    case CV_8UC2:   bd = 8;     ch = 2;     tp = "integer";     si = "unsigned";    break;
+    case CV_8SC2:   bd = 8;     ch = 2;     tp = "integer";     si = "signed";      break;
+    case CV_16UC2:  bd = 16;    ch = 2;     tp = "integer";     si = "unsigned";    break;
+    case CV_16SC2:  bd = 16;    ch = 2;     tp = "integer";     si = "signed";      break;
+    case CV_32SC2:  bd = 32;    ch = 2;     tp = "integer";     si = "signed";      break;
+    case CV_32FC2:  bd = 32;    ch = 2;     tp = "float";       si = "signed";      break;
+    case CV_64FC2:  bd = 64;    ch = 2;     tp = "float";       si = "signed";      break;
+    case CV_8UC3:   bd = 8;     ch = 3;     tp = "integer";     si = "unsigned";    break;
+    case CV_8SC3:   bd = 8;     ch = 3;     tp = "integer";     si = "signed";      break;
+    case CV_16UC3:  bd = 16;    ch = 3;     tp = "integer";     si = "unsigned";    break;
+    case CV_16SC3:  bd = 16;    ch = 3;     tp = "integer";     si = "signed";      break;
+    case CV_32SC3:  bd = 32;    ch = 3;     tp = "integer";     si = "signed";      break;
+    case CV_32FC3:  bd = 32;    ch = 3;     tp = "float";       si = "signed";      break;
+    case CV_64FC3:  bd = 64;    ch = 3;     tp = "float";       si = "signed";      break;
+    case CV_8UC4:   bd = 8;     ch = 4;     tp = "integer";     si = "unsigned";    break;
+    case CV_8SC4:   bd = 8;     ch = 4;     tp = "integer";     si = "signed";      break;
+    case CV_16UC4:  bd = 16;    ch = 4;     tp = "integer";     si = "unsigned";    break;
+    case CV_16SC4:  bd = 16;    ch = 4;     tp = "integer";     si = "signed";      break;
+    case CV_32SC4:  bd = 32;    ch = 4;     tp = "integer";     si = "signed";      break;
+    case CV_32FC4:  bd = 32;    ch = 4;     tp = "float";       si = "signed";      break;
+    case CV_64FC4:  bd = 64;    ch = 4;     tp = "float";       si = "signed";      break;
     default:
         break;
     }
@@ -298,7 +299,7 @@ QString D_VisDat_Obj::Info_Type(bool more_detail)
 
     //Bit
     if(more_detail)
-        QS_type.append(" in " + QString::number(bd) + "bit");
+        QS_type.append(" in " + QString::number(bd) + "bit" + " " + si + " " + tp);
 
     //pages & channels
     if(more_detail)

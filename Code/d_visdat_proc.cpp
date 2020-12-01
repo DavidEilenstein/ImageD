@@ -3549,11 +3549,12 @@ int D_VisDat_Proc::Dim_Crop(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDa
     return ER_okay;
 }
 
-int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_project, int stat, bool out_8bit)
+int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_project, int stat, int out_type)
 {
     //errors
-    if(pVD_In->pMA_full()->empty())             return ER_empty;
-    if(pVD_In->pMA_full()->channels() != 1)     return ER_channel_bad;
+    if(pVD_In->pMA_full()->empty())                                             return ER_empty;
+    if(pVD_In->pMA_full()->channels() != 1)                                     return ER_channel_bad;
+    if(out_type != CV_64FC1 && out_type != CV_8UC1 && out_type != CV_16UC1)     return ER_parameter_bad;
 
     //dims normal
     vector<int> dims_loop;
@@ -3564,10 +3565,7 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
     //create output
     D_VisDat_Dim Dim_out = pVD_In->Dim();
     Dim_out.set_size_Dim(dim_project, 1);
-    if(out_8bit)
-        *pVD_Out = D_VisDat_Obj(Dim_out, CV_8UC1);
-    else
-        *pVD_Out = D_VisDat_Obj(Dim_out, CV_64FC1);
+    *pVD_Out = D_VisDat_Obj(Dim_out, out_type);
 
     //sizes
     vector<int> sz_out = Dim_out.size_DimsVec();
@@ -3597,10 +3595,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<uchar>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3614,10 +3613,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<char>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3631,10 +3631,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<ushort>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3648,10 +3649,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<short>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3665,10 +3667,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<int>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3682,10 +3685,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<float>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3699,10 +3703,11 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
                             for(pos_in[dim_project] = 0; pos_in[dim_project] < sz_project; pos_in[dim_project]++)
                                 v_project[pos_in[dim_project]] = static_cast<double>(pVD_In->pMA_full()->at<double>(pos_in));
 
-                            if(out_8bit)
-                                pVD_Out->pMA_full()->at<uchar>(pos_out) = F_project_8u(v_project);
-                            else
-                                pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);
+                            switch (out_type) {
+                            case CV_64FC1:  pVD_Out->pMA_full()->at<double>(pos_out) = F_project_64(v_project);                             break;
+                            case CV_16UC1:  pVD_Out->pMA_full()->at<ushort>(pos_out) = static_cast<ushort>(F_project_64(v_project));        break;
+                            case CV_8UC1:   pVD_Out->pMA_full()->at<uchar>(pos_out)  = F_project_8u(v_project);                             break;
+                            default:                                                                                                        return ER_type_bad;}
                         }
         break;
 
@@ -3713,6 +3718,8 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
 
     return ER_okay;
 }
+
+
 
 int D_VisDat_Proc::Dim_Deserialise(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_from, int dim_to, int spacing)
 {
@@ -4899,6 +4906,27 @@ int D_VisDat_Proc::Filter_Median(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, 
                 pVD_In,
                 pVD_Mask,
                 0.5);
+}
+
+int D_VisDat_Proc::Filter_Median_Circular(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius)
+{
+    return Filter_RankOrder_Circular(
+                slice,
+                pVD_Out,
+                pVD_In,
+                0.5,
+                radius);
+}
+
+int D_VisDat_Proc::Filter_Median_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_x, int size_y)
+{
+    return Filter_RankOrder_Rect(
+                slice,
+                pVD_Out,
+                pVD_In,
+                0.5,
+                size_x,
+                size_y);
 }
 
 int D_VisDat_Proc::Filter_Laplace(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, int border, int out_depth, double scale, double delta)

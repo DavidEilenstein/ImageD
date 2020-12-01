@@ -2769,7 +2769,7 @@ void D_StepWindow::Update_Img_Proc()
                     pStore->get_pVD(pos_Source1),
                     ui->comboBox_10_Project_Dimension->currentIndex(),
                     ui->comboBox_10_Project_Stat->currentIndex(),
-                    ui->checkBox_10_Project_8bit->isChecked()),
+                    ui->checkBox_10_Project_8bit->isChecked() ? CV_8UC1 : CV_64FC1),
                 "Update_Img_Proc",
                 "Dim_Project");
         }

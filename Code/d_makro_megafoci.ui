@@ -376,7 +376,7 @@
           <double>1.000000000000000</double>
          </property>
          <property name="value">
-          <double>5.000000000000000</double>
+          <double>20.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -1370,15 +1370,6 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="1" colspan="2">
-            <widget class="QComboBox" name="comboBox_ImgProc_ProjectZ_Stat">
-             <item>
-              <property name="text">
-               <string>[project stats]</string>
-              </property>
-             </item>
-            </widget>
-           </item>
            <item row="1" column="0" colspan="3">
             <widget class="Line" name="line">
              <property name="orientation">
@@ -1613,6 +1604,22 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="comboBox_ImgProc_ProjectZ_Stat">
+             <item>
+              <property name="text">
+               <string>[project stats]</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>cast to 16bit unsigned!</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
          <widget class="QWidget" name="tab_OverviewBig">
@@ -1731,7 +1738,7 @@
    </property>
    <widget class="QMenu" name="menuProcess">
     <property name="title">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <addaction name="menuProcess"/>
