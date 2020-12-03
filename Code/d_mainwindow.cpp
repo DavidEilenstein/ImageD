@@ -1123,3 +1123,37 @@ void D_MainWindow::on_actionTest_Running_Median_triggered()
 
     qDebug() << "D_MainWindow::on_actionTest_Running_Median_triggered" << "end";
 }
+
+void D_MainWindow::on_actionTest_Maximum_Gil_triggered()
+{
+    //data
+    qDebug() << "D_MainWindow::on_actionTest_Maximum_Gil_triggered" << "get data";
+    vector<double> vDataIn = {1, 2, 3, 4, 5, 4, 3, 2, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5, 9, 5, 5, 5, 5, 1, 5, 5, 5, 5};
+    D_Popup_ListEdit_Numbers pop_edit(&vDataIn, "Please enter values to be filtered", this);
+    pop_edit.exec();
+    vDataIn = pop_edit.vData_Double();
+
+
+    //filter
+    qDebug() << "D_MainWindow::on_actionTest_Maximum_Gil_triggered" << "filter";
+    vector<double> vDataOut;
+    size_t mask_size = 5;
+    D_Math::Maximum_Gil(
+                &vDataOut,
+                &vDataIn,
+                mask_size);
+
+    //show
+    QString QS_Data;
+    for(size_t i = 0; i <  vDataIn.size() && i <  vDataOut.size(); i++)
+    {
+        if(i % mask_size == 0)
+            QS_Data.append("----------\n");
+        QS_Data.append(QString::number(vDataIn[i]) + " -> " + QString::number(vDataOut[i]) + "\n");
+    }
+
+    QMessageBox::information(
+                this,
+                "maximum gil result",
+                QS_Data);
+}

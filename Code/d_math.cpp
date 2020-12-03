@@ -1764,6 +1764,114 @@ int D_Math::QuantilRunning(vector<uchar> *vDataOut, vector<uchar> vDataIn, size_
     return ER_okay;
 }
 
+int D_Math::Maximum_Gil(vector<double> *vDataOut, vector<double> *vDataIn, size_t mask_size)
+{
+    if(vDataIn->empty())            return ER_empty;
+    if(vDataIn->size() < mask_size) return ER_size_missmatch;
+    if(mask_size % 2 != 1)          return ER_parameter_bad;
+
+    //mask offset
+    size_t mask_offset = mask_size / 2;
+    qDebug() << "D_Math::Maximum_Gil" << "mask_size" << mask_size;
+
+    //size in
+    size_t n_in = vDataIn->size();
+    qDebug() << "D_Math::Maximum_Gil" << "n_in" << n_in;
+    qDebug() << "D_Math::Maximum_Gil" << "vDataIn" << *vDataIn;
+
+    //makropixel count
+    size_t n_makropixels = n_in / mask_size;
+    if(n_in % mask_size)
+        n_makropixels++;
+    qDebug() << "D_Math::Maximum_Gil" << "n_makropixels" << n_makropixels;
+
+    //pad input with 0
+    vector<double> vDataInPadded(n_makropixels * mask_size + 2 * mask_offset, 0);
+    for(size_t i = 0; i < n_in; i++)
+        vDataInPadded[i + mask_offset] = (*vDataIn)[i];
+    qDebug() << "D_Math::Maximum_Gil" << "vDataInPadded.size()" << vDataInPadded.size();
+
+    //init out
+    vDataOut->resize(n_in);
+
+    //set up R and S vectors
+    vector<double> vR(mask_size);
+    vector<double> vL(mask_size);
+
+    //loop makro pixels
+    for(size_t mpx = 0; mpx < n_makropixels; mpx++)
+    {
+        qDebug() << "D_Math::Maximum_Gil" << "new makropixel =======================================" << mpx;
+
+        //center of makropixel (output list coordinates)
+        size_t i_center = mpx * mask_size + mask_offset;
+
+        //calc L
+        if(mpx == 0)
+        {
+            vL[0] = vDataInPadded[i_center + mask_offset];
+            for(size_t l = 1; l < vL.size(); l++)
+                vL[l] = max(vL[l-1], vDataInPadded[i_center + mask_offset - l]);
+            qDebug() << "D_Math::Maximum_Gil" << "vL" << vL;
+        }
+        else
+        {
+            vL[0] = vDataInPadded[i_center + mask_offset];
+            if(vR[mask_offset] >= max(vL[0], vR[mask_size]))
+            {
+                //copy
+                for(size_t l = 1; l < mask_offset; l++)
+                    vL[l] = vR[mask_offset];
+
+                //calc
+                for(size_t l = mask_offset; l < mask_size; l++)
+                    vL[l] = max(vL[l-1], vDataInPadded[i_center + mask_offset - l]);
+            }
+            else
+            {
+                //copy
+                for(size_t l = mask_offset; l < mask_size; l++)
+                    vL[l] = vR[mask_offset];
+
+                //calc
+                for(size_t l = 1; l < mask_offset; l++)
+                    vL[l] = max(vL[l-1], vDataInPadded[i_center + mask_offset - l]);
+            }
+        }
+        qDebug() << "D_Math::Maximum_Gil" << "vL" << vL;
+
+        //calc R
+        vR[0] = vDataInPadded[i_center + mask_offset];
+        for(size_t r = 1; r < vR.size(); r++)
+            vR[r] = max(vR[r-1], vDataInPadded[i_center + mask_offset + r]);
+
+
+        //calc output
+        size_t i;
+        bool right_is_bigger = false;
+        //compare
+        for(i = 0; i < mask_size; i++)
+            if(i_center + i - mask_offset < n_in)
+            {
+                right_is_bigger = vR[i] > vL[vL.size() - 1  - i];
+                if(right_is_bigger)
+                    (*vDataOut)[i_center + i - mask_offset] = vR[i];
+                else
+                    break;
+            }
+        //copy
+        for(; i < mask_size; i++)
+            (*vDataOut)[i_center + i - mask_offset] = vL[vL.size() - 1  - i];
+
+    }
+
+    qDebug() << "D_Math::Maximum_Gil" << "vDataIn" << *vDataIn;
+    qDebug() << "D_Math::Maximum_Gil" << "vDataInPadded" << vDataInPadded;
+    qDebug() << "D_Math::Maximum_Gil" << "vDataOut" << *vDataOut;
+
+    return ER_okay;
+}
+
 
 
 

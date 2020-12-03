@@ -172,6 +172,8 @@ private slots:
 
     void on_actionTest_Running_Median_triggered();
 
+    void on_actionTest_Maximum_Gil_triggered();
+
 private:
     Ui::D_MainWindow        *ui;
 
