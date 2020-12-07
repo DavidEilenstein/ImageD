@@ -94,6 +94,8 @@ public:
     static function<int (Mat *, Mat *)>                         Morphology_Elemental            (int morph_type, int elem_type, int elem_size_X, int elem_size_Y, int border_type, int iterations);
     static function<int (Mat *, Mat *)>                         Morphology_Skeleton             (int elem_type, int elem_size_X, int elem_size_Y, int border_type);
     static function<int (Mat *, Mat *)>                         Morphology_LocMax_Rect          (int elem_size_X = 3, int elem_size_Y = 3);
+    static function<int (Mat *, Mat *)>                         Filter_Maximum_1C               (size_t mask_size_x, size_t mask_size_y);
+
 
     static function<int (Mat *, Mat *)>                         Filter_Mean                     (int size_x, int size_y, int border, int out_depth, bool norm);
     static function<int (Mat *, Mat *)>                         Filter_RootMeanSquare           (int size_x, int size_y, int border, int out_depth, bool norm);

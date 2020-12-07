@@ -95,6 +95,7 @@ public:
     static int                                      MedianRunning               (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size);
     static int                                      QuantilRunning              (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size, double quantil_lower);
     static int                                      Maximum_Gil                 (vector<double> *vDataOut, vector<double> *vDataIn, size_t mask_size);
+
 private:
 
 

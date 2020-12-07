@@ -5363,6 +5363,20 @@ int D_VisDat_Proc::Morphology_LocMax_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *
                 pVD_In);
 }
 
+int D_VisDat_Proc::Filter_Maximum_1C(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(slice),
+                D_Img_Proc_2dFactory::Filter_Maximum_1C(
+                    mask_size_x,
+                    mask_size_y),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Math_1img_Inversion(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
 {
     return Wrap_VD_SameSizeType(

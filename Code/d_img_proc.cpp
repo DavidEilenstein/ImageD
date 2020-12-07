@@ -7644,6 +7644,267 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat 
     return ER_okay;
 }
 
+int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y)
+{
+    if(pMA_In->empty())             return ER_empty;
+
+    //------------------------------------------------------- Error checks
+
+    //Errors
+    if(pMA_In->empty())                                         return ER_empty;
+    if(pMA_In->channels() != 1)                                 return ER_channel_bad;
+    if(mask_size_x % 2 != 1)                                    return ER_parameter_bad;
+    if(mask_size_y % 2 != 1)                                    return ER_parameter_bad;
+    int ER = ER_okay;
+
+
+    //------------------------------------------------------- init images
+
+    //buffer img
+    Mat MA_tmpf_Buffer_x(pMA_In->size(), pMA_In->type());
+
+    //init output
+    *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
+
+
+    //======================================================================    thread & synch
+
+    //thread count
+    size_t thread_count = getNumberOfCPUs();
+
+    //------------------------------------------------------- filtering in x
+
+    //threads
+    vector<thread> v_threads_x(thread_count);
+
+    //start threads
+    for(size_t t = 0; t < thread_count; t++)
+    {
+        //range for thread
+        size_t y_start   = (((t    ) / static_cast<double>(thread_count))) * pMA_In->rows;
+        size_t y_end     = (((t + 1) / static_cast<double>(thread_count))) * pMA_In->rows;
+
+        //start thread
+        v_threads_x[t] = thread(
+                    Filter_Maximum_1C_Thread_X,
+                    &MA_tmpf_Buffer_x,
+                    pMA_In,
+                    mask_size_x,
+                    y_start,
+                    y_end);
+    }
+
+    //join threads
+    for(size_t t = 0; t < thread_count; t++)
+    {
+        v_threads_x[t].join();
+    }
+
+    //------------------------------------------------------- filtering in y
+
+    //threads
+    vector<thread> v_threads_y(thread_count);
+
+    //start threads
+    for(size_t t = 0; t < thread_count; t++)
+    {
+        //range for thread
+        size_t x_start   = (((t    ) / static_cast<double>(thread_count))) * pMA_In->cols;
+        size_t x_end     = (((t + 1) / static_cast<double>(thread_count))) * pMA_In->cols;
+
+        //start thread
+        v_threads_y[t] = thread(
+                    Filter_Maximum_1C_Thread_Y,
+                    pMA_Out,
+                    &MA_tmpf_Buffer_x,
+                    mask_size_y,
+                    x_start,
+                    x_end);
+    }
+
+    //join threads
+    for(size_t t = 0; t < thread_count; t++)
+    {
+        v_threads_y[t].join();
+    }
+
+    //finish
+    MA_tmpf_Buffer_x.release();
+    return ER;
+}
+
+int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t y_start, size_t y_end)
+{
+    //errors
+    if(pMA_In->empty())                         return ER_empty;
+    if(mask_size_x % 2 != 1)                    return ER_parameter_bad;
+    if(y_start >= y_end)                        return ER_parameter_missmatch;
+    if(y_start < 0 || y_start >= pMA_In->rows)  return ER_size_missmatch;
+    int ER;
+
+    //row vector
+    vector<double> v_row_in(pMA_In->cols);
+    vector<double> v_row_out(pMA_In->cols);
+
+    //type switch
+    switch (pMA_In->type()) {
+
+    case CV_8UC1:
+    {
+        //loop rows
+        for(size_t y = y_start; y < y_end; y++)
+        {
+            //get input data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                v_row_in[x] = static_cast<double>(pMA_In->at<uchar>(y, x));
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                pMA_Out->at<uchar>(y, x) = static_cast<uchar>(v_row_out[x]);
+        }
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        //loop rows
+        for(size_t y = y_start; y < y_end; y++)
+        {
+            //get input data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                v_row_in[x] = static_cast<double>(pMA_In->at<ushort>(y, x));
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                pMA_Out->at<ushort>(y, x) = static_cast<ushort>(v_row_out[x]);
+        }
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        //loop rows
+        for(size_t y = y_start; y < y_end; y++)
+        {
+            //get input data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                v_row_in[x] = pMA_In->at<double>(y, x);
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t x = 0; x < pMA_In->cols; x++)
+                pMA_Out->at<double>(y, x) = v_row_out[x];
+        }
+    }
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_y, size_t x_start, size_t x_end)
+{
+    //errors
+    if(pMA_In->empty())                         return ER_empty;
+    if(mask_size_y % 2 != 1)                    return ER_parameter_bad;
+    if(x_start >= x_end)                        return ER_parameter_missmatch;
+    if(x_start < 0 || x_start >= pMA_In->cols)  return ER_size_missmatch;
+    int ER;
+
+    //row vector
+    vector<double> v_col_in(pMA_In->cols);
+    vector<double> v_col_out(pMA_In->cols);
+
+    //type switch
+    switch (pMA_In->type()) {
+
+    case CV_8UC1:
+    {
+        //loop rows
+        for(size_t x = x_start; x < x_end; x++)
+        {
+            //get input data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                v_col_in[y] = static_cast<double>(pMA_In->at<uchar>(y, x));
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                pMA_Out->at<uchar>(y, x) = static_cast<uchar>(v_col_out[y]);
+        }
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        //loop rows
+        for(size_t x = x_start; x < x_end; x++)
+        {
+            //get input data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                v_col_in[y] = static_cast<double>(pMA_In->at<ushort>(y, x));
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                pMA_Out->at<ushort>(y, x) = static_cast<ushort>(v_col_out[y]);
+        }
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        //loop rows
+        for(size_t x = x_start; x < x_end; x++)
+        {
+            //get input data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                v_col_in[y] = pMA_In->at<double>(y, x);
+
+            //calc output
+            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
+            if(ER != ER_okay)
+                return ER;
+
+            //write output data
+            for(size_t y = 0; y < pMA_In->rows; y++)
+                pMA_Out->at<double>(y, x) = v_col_out[y];
+        }
+    }
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    return ER_okay;
+}
+
 
 
 int D_Img_Proc::Filter_Laplace(Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)

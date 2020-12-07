@@ -976,6 +976,19 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Morphology_LocMax_Rect(int el
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Filter_Maximum_1C(size_t mask_size_x, size_t mask_size_y)
+{
+    return
+            [mask_size_x, mask_size_y](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Filter_Maximum_1C(
+                    pMA_Out,
+                    pMA_In,
+                    mask_size_x,
+                    mask_size_y);
+    };
+}
+
 function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Shading_Correct()
 {
     return

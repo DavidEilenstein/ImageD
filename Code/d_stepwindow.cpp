@@ -1748,13 +1748,13 @@ void D_StepWindow::Update_Img_Proc()
             case 4:     morph_type = MORPH_GRADIENT;        break;
             case 5:     morph_type = MORPH_TOPHAT;          break;
             case 6:     morph_type = MORPH_BLACKHAT;        break;
-            default:                                        break;}
+            default:                                        return;}
 
             switch (ui->comboBox_05_Elem_Elem_Type->currentIndex()) {
             case 0:     elem_type = MORPH_RECT;             break;
             case 1:     elem_type = MORPH_CROSS;            break;
             case 2:     elem_type = MORPH_ELLIPSE;          break;
-            default:                                        break;}
+            default:                                        return;}
 
             switch (ui->comboBox_05_Elem_Border_Type->currentIndex()) {
             case 0:     border_type = BORDER_CONSTANT;      break;
@@ -1764,7 +1764,7 @@ void D_StepWindow::Update_Img_Proc()
             case 3:     border_type = BORDER_REFLECT_101;   break;
             //case 4:     border_type = BORDER_TRANSPARENT;   break;
             case 4:     border_type = BORDER_ISOLATED;      break;
-            default:                                        break;}
+            default:                                        return;}
 
             if(ui->comboBox_05_Elem_Morph_Type->currentIndex() <= 6) //basic
             {
@@ -1797,18 +1797,35 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
-        case c_sT_MO_LOC_MAX:  //-------------------------------------------------------------------   Elemental
+        case c_sT_MO_MINMAXGIL:  //-------------------------------------------------------------------   min max gil
         {
-                ERR(D_VisDat_Proc::Morphology_LocMax_Rect(
-                        SlicingFromUi(),
-                        pStore->get_pVD(pos_Dest),
-                        pStore->get_pVD(pos_Source1),
-                        ui->spinBox_05_LocalMaxima_Size_X->value(),
-                        ui->spinBox_05_LocalMaxima_Size_Y->value()),
-                    "Update_Img_Proc",
-                    "Morphology_LocMax_Rect");
+            //min not implemented yet!
+
+            //max
+            ERR(D_VisDat_Proc::Filter_Maximum_1C(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    ui->spinBox_05_MinMaxGil_SizeX->value(),
+                    ui->spinBox_05_MinMaxGil_SizeY->value()),
+                "Update_Img_Proc",
+                "Filter_Maximum_1C");
         }
             break;
+
+        case c_sT_MO_LOC_MAX:  //-------------------------------------------------------------------   min max local
+        {
+            ERR(D_VisDat_Proc::Morphology_LocMax_Rect(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    ui->spinBox_05_LocalMaxima_Size_X->value(),
+                    ui->spinBox_05_LocalMaxima_Size_Y->value()),
+                "Update_Img_Proc",
+                "Morphology_LocMax_Rect");
+        }
+            break;
+
         default:            //-------------------------------------------------------------------   Default
             break;
 
@@ -5326,6 +5343,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->spinBox_05_Elem_Elem_Size_X,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_Elem_Elem_Size_Y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_Elem_Iterations,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Min/Max Gil
+        connect(ui->comboBox_05_MinMaxGil_MinMax,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_05_MinMaxGil_SizeX,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_05_MinMaxGil_SizeY,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //Local Maxima
         connect(ui->spinBox_05_LocalMaxima_Size_X,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_LocalMaxima_Size_Y,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -5867,6 +5888,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->spinBox_05_Elem_Elem_Size_X,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_Elem_Elem_Size_Y,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_Elem_Iterations,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Min/Max Gil
+        disconnect(ui->comboBox_05_MinMaxGil_MinMax,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_05_MinMaxGil_SizeX,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_05_MinMaxGil_SizeY,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //Local Maxima
         disconnect(ui->spinBox_05_LocalMaxima_Size_X,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_LocalMaxima_Size_Y,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
