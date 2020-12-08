@@ -1861,7 +1861,6 @@ int D_Math::Maximum_Gil(vector<double> *vDataOut, vector<double> *vDataIn, size_
                 i++;
             }
         }
-
     }
 
     return ER_okay;

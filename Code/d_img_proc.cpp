@@ -7658,10 +7658,44 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     int ER = ER_okay;
 
 
+    //------------------------------------------------------- params
+
+    //mask offset
+    size_t mask_offset_x = mask_size_x / 2;
+    size_t mask_offset_y = mask_size_y / 2;
+
+    //size in
+    size_t n_in_x = pMA_In->cols;
+    size_t n_in_y = pMA_In->rows;
+
+    //makropixel count
+    size_t n_makropixels_x = (n_in_x % mask_size_x) ? (n_in_x / mask_size_x + 1) : (n_in_x / mask_size_x);
+    size_t n_makropixels_y = (n_in_y % mask_size_y) ? (n_in_y / mask_size_y + 1) : (n_in_y / mask_size_y);
+
+
+    //------------------------------------------------------- border handling
+
+    //pad input image
+    Mat MA_tmp_InPadded;
+    ER = Padding(
+                &MA_tmp_InPadded,
+                pMA_In,
+                abs(mask_offset_x + n_makropixels_x * mask_size_x - n_in_x),
+                abs(mask_offset_x),
+                abs(mask_offset_y),
+                abs(mask_offset_y + n_makropixels_y * mask_size_y - n_in_y),
+                BORDER_REPLICATE);
+    if(ER != ER_okay)
+    {
+        MA_tmp_InPadded.release();
+        return ER;
+    }
+
+
     //------------------------------------------------------- init images
 
     //buffer img
-    Mat MA_tmpf_Buffer_x(pMA_In->size(), pMA_In->type());
+    Mat MA_tmpf_Buffer_x(MA_tmp_InPadded.size(), MA_tmp_InPadded.type());
 
     //init output
     *pMA_Out = Mat(pMA_In->size(), pMA_In->type());
@@ -7670,7 +7704,7 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     //======================================================================    thread & synch
 
     //thread count
-    size_t thread_count = getNumberOfCPUs();
+    size_t thread_count = 1;//getNumberOfCPUs();
 
     //------------------------------------------------------- filtering in x
 
@@ -7681,15 +7715,16 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     for(size_t t = 0; t < thread_count; t++)
     {
         //range for thread
-        size_t y_start   = (((t    ) / static_cast<double>(thread_count))) * pMA_In->rows;
-        size_t y_end     = (((t + 1) / static_cast<double>(thread_count))) * pMA_In->rows;
+        size_t y_start   = (((t    ) / static_cast<double>(thread_count))) * n_in_y + mask_offset_y;
+        size_t y_end     = (((t + 1) / static_cast<double>(thread_count))) * n_in_y + mask_offset_y;
 
         //start thread
         v_threads_x[t] = thread(
                     Filter_Maximum_1C_Thread_X,
                     &MA_tmpf_Buffer_x,
-                    pMA_In,
+                    &MA_tmp_InPadded,
                     mask_size_x,
+                    n_in_x,
                     y_start,
                     y_end);
     }
@@ -7709,15 +7744,17 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     for(size_t t = 0; t < thread_count; t++)
     {
         //range for thread
-        size_t x_start   = (((t    ) / static_cast<double>(thread_count))) * pMA_In->cols;
-        size_t x_end     = (((t + 1) / static_cast<double>(thread_count))) * pMA_In->cols;
+        size_t x_start   = (((t    ) / static_cast<double>(thread_count))) * n_in_x + mask_offset_x;
+        size_t x_end     = (((t + 1) / static_cast<double>(thread_count))) * n_in_x + mask_offset_x;
 
         //start thread
         v_threads_y[t] = thread(
                     Filter_Maximum_1C_Thread_Y,
                     pMA_Out,
                     &MA_tmpf_Buffer_x,
+                    mask_size_x,
                     mask_size_y,
+                    n_in_y,
                     x_start,
                     x_end);
     }
@@ -7728,12 +7765,14 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
         v_threads_y[t].join();
     }
 
+    qDebug() << "Filter_Maximum_1C" << "finish";
+
     //finish
     MA_tmpf_Buffer_x.release();
     return ER;
 }
 
-int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t y_start, size_t y_end)
+int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t n_in_x, size_t y_start, size_t y_end)
 {
     //errors
     if(pMA_In->empty())                         return ER_empty;
@@ -7742,72 +7781,95 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mas
     if(y_start < 0 || y_start >= pMA_In->rows)  return ER_size_missmatch;
     int ER;
 
-    //row vector
-    vector<double> v_row_in(pMA_In->cols);
-    vector<double> v_row_out(pMA_In->cols);
+    //mask offset
+    size_t mask_offset_x = mask_size_x / 2;
+
+    //makropixel count
+    size_t n_makropixels_x = (n_in_x % mask_size_x) ? (n_in_x / mask_size_x + 1) : (n_in_x / mask_size_x);
 
     //type switch
     switch (pMA_In->type()) {
 
     case CV_8UC1:
     {
-        //loop rows
+        //set up R and S vectors
+        vector<uchar> vR(mask_size_x);
+        vector<uchar> vL(mask_size_x);
+
+        //loop rows and makro pixels
         for(size_t y = y_start; y < y_end; y++)
         {
-            //get input data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                v_row_in[x] = static_cast<double>(pMA_In->at<uchar>(y, x));
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_x; mpx++)
+            {
+                //center of makropixel (output list coordinates)
+                size_t x_center = mpx * mask_size_x + mask_offset_x;
 
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
-            if(ER != ER_okay)
-                return ER;
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<uchar>(y, x_center + mask_offset_x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<uchar>(y, x_center + mask_offset_x - l));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<uchar>(y, x_center + mask_offset_x);
+                        uchar max_mpx_combi = max(vL[0], vR[mask_size_x - 1]);
 
-            //write output data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                pMA_Out->at<uchar>(y, x) = static_cast<uchar>(v_row_out[x]);
-        }
-    }
-        break;
+                        size_t l = 1;
+                        while(l < mask_size_x && vL[l-1] < vR[mask_size_x - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<uchar>(y, x_center + mask_offset_x - l));
+                            l++;
+                        }
+                        while(l < mask_size_x)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
 
-    case CV_16UC1:
-    {
-        //loop rows
-        for(size_t y = y_start; y < y_end; y++)
-        {
-            //get input data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                v_row_in[x] = static_cast<double>(pMA_In->at<ushort>(y, x));
+                //calc R
+                vR[0] = pMA_In->at<uchar>(y, x_center + mask_offset_x);
+                for(size_t r = 1; r < mask_size_x; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<uchar>(y, x_center + mask_offset_x + r));
 
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
-            if(ER != ER_okay)
-                return ER;
-
-            //write output data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                pMA_Out->at<ushort>(y, x) = static_cast<ushort>(v_row_out[x]);
-        }
-    }
-        break;
-
-    case CV_64FC1:
-    {
-        //loop rows
-        for(size_t y = y_start; y < y_end; y++)
-        {
-            //get input data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                v_row_in[x] = pMA_In->at<double>(y, x);
-
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_row_out, &v_row_in, mask_size_x);
-            if(ER != ER_okay)
-                return ER;
-
-            //write output data
-            for(size_t x = 0; x < pMA_In->cols; x++)
-                pMA_Out->at<double>(y, x) = v_row_out[x];
+                //merge to output
+                if(mpx < n_makropixels_x - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<uchar>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<uchar>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(x_center + i < n_in_x && i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<uchar>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(x_center + i < n_in_x && i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<uchar>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+            }
         }
     }
         break;
@@ -7819,81 +7881,113 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mas
     return ER_okay;
 }
 
-int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_y, size_t x_start, size_t x_end)
+int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y, size_t n_in_y, size_t x_start, size_t x_end)
 {
     //errors
     if(pMA_In->empty())                         return ER_empty;
+    if(mask_size_x % 2 != 1)                    return ER_parameter_bad;
     if(mask_size_y % 2 != 1)                    return ER_parameter_bad;
     if(x_start >= x_end)                        return ER_parameter_missmatch;
     if(x_start < 0 || x_start >= pMA_In->cols)  return ER_size_missmatch;
     int ER;
 
-    //row vector
-    vector<double> v_col_in(pMA_In->cols);
-    vector<double> v_col_out(pMA_In->cols);
+    //mask offset
+    size_t mask_offset_y = mask_size_y / 2;
+    size_t mask_offset_x = mask_size_x / 2;
+
+    //makropixel count
+    size_t n_makropixels_y = (n_in_y % mask_size_y) ? (n_in_y / mask_size_y + 1) : (n_in_y / mask_size_y);
 
     //type switch
     switch (pMA_In->type()) {
 
     case CV_8UC1:
     {
-        //loop rows
+        //set up R and S vectors
+        vector<uchar> vR(mask_size_y);
+        vector<uchar> vL(mask_size_y);
+
+        //loop cols and makro pixels
         for(size_t x = x_start; x < x_end; x++)
         {
-            //get input data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                v_col_in[y] = static_cast<double>(pMA_In->at<uchar>(y, x));
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_y; mpx++)
+            {
+                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "makropixel" << mpx << "of" << n_makropixels_y;
 
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
-            if(ER != ER_okay)
-                return ER;
+                //center of makropixel (output list coordinates)
+                size_t y_center = mpx * mask_size_y + mask_offset_y;
 
-            //write output data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                pMA_Out->at<uchar>(y, x) = static_cast<uchar>(v_col_out[y]);
-        }
-    }
-        break;
+                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "calc L";
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<uchar>(y_center + mask_offset_y, x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<uchar>(y_center + mask_offset_y - l, x));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<uchar>(y_center + mask_offset_y, x);
+                        uchar max_mpx_combi = max(vL[0], vR[mask_size_y - 1]);
 
-    case CV_16UC1:
-    {
-        //loop rows
-        for(size_t x = x_start; x < x_end; x++)
-        {
-            //get input data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                v_col_in[y] = static_cast<double>(pMA_In->at<ushort>(y, x));
+                        size_t l = 1;
+                        while(l < mask_size_y && vL[l-1] < vR[mask_size_y - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<uchar>(y_center + mask_offset_y - l, x));
+                            l++;
+                        }
+                        while(l < mask_size_y)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
 
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
-            if(ER != ER_okay)
-                return ER;
+                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "calc R";
+                //calc R
+                vR[0] = pMA_In->at<uchar>(y_center + mask_offset_y, x);
+                for(size_t r = 1; r < mask_size_y; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<uchar>(y_center + mask_offset_y + r, x));
 
-            //write output data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                pMA_Out->at<ushort>(y, x) = static_cast<ushort>(v_col_out[y]);
-        }
-    }
-        break;
-
-    case CV_64FC1:
-    {
-        //loop rows
-        for(size_t x = x_start; x < x_end; x++)
-        {
-            //get input data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                v_col_in[y] = pMA_In->at<double>(y, x);
-
-            //calc output
-            ER = D_Math::Maximum_Gil(&v_col_out, &v_col_in, mask_size_y);
-            if(ER != ER_okay)
-                return ER;
-
-            //write output data
-            for(size_t y = 0; y < pMA_In->rows; y++)
-                pMA_Out->at<double>(y, x) = v_col_out[y];
+                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "merge";
+                //merge to output
+                if(mpx < n_makropixels_y - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                        //qDebug() << "Filter_Maximum_1C_Thread_Y" << "last makropixel merge x/y" << x - mask_offset_x << y_center + i - mask_offset_y;
+                       pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                       i++;
+                    }
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        //qDebug() << "Filter_Maximum_1C_Thread_Y" << "last makropixel merge x/y" << x - mask_offset_x << y_center + i - mask_offset_y;
+                        pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+            }
         }
     }
         break;
