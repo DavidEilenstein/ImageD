@@ -7704,7 +7704,7 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     //======================================================================    thread & synch
 
     //thread count
-    size_t thread_count = 1;//getNumberOfCPUs();
+    size_t thread_count = getNumberOfCPUs();
 
     //------------------------------------------------------- filtering in x
 
