@@ -484,6 +484,7 @@ private:
     enum c_Morphology {
         c_sT_MO_ELEM,
         c_sT_MO_MINMAXGIL,
+        c_sT_MO_RECON,
         c_sT_MO_LOC_MAX
     };
 

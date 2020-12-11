@@ -276,6 +276,8 @@ void D_MainWindow::closeEvent(QCloseEvent *event)
             pAirDrag->          set_ClosingPossible(true);
         if(vPluginActive[c_PL_MEGA_FOCI])
             pMegaFoci->         set_ClosingPossible(true);
+        if(vPluginActive[c_PL_HUANG_VIS])
+            pHuang->           set_ClosingPossible(true);
 
         event->accept();
         qApp->closeAllWindows();
@@ -903,6 +905,11 @@ void D_MainWindow::on_pushButton_PluginLaunch_clicked()
     case c_PL_MEGA_FOCI:
         pMegaFoci = new D_MAKRO_MegaFoci(&Store);
         pMegaFoci->show();
+        break;
+
+    case c_PL_HUANG_VIS:
+        pHuang = new D_MAKRO_HuangVisualization(&Store);
+        pHuang->show();
         break;
 
     default:

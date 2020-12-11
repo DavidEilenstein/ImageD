@@ -17,6 +17,7 @@
 #include <d_component_list.h>
 #include <d_component_list_context.h>
 #include <d_value_distribution_list.h>
+#include <d_featureset.h>
 
 //general
 #include <iostream>
@@ -157,6 +158,7 @@ public:
     static int      Morphology_Dilate_Rect      (Mat *pMA_Out, Mat *pMA_In, int elem_size_X, int elem_size_Y);
     static int      Morphology_LocMax_Rect      (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
     static int      Morphology_LocMax_Rect_1C   (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
+    static int      Morphology_Reconstruction   (Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil = 1);
 
     static int      Transformation_Distance     (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
   //static int      Transformation_Distance_Rel (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
@@ -258,6 +260,11 @@ public:
     static int      Math_Magnitude              (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_MagnitudeSquared       (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_Phase                  (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
+    static int      Math_LimitTop               (Mat *pMA_Out, Mat *pMA_InThresh, Mat *pMA_InToLimit);
+    static int      Math_LimitTop               (Mat *pMA_Target, Mat *pMA_InThresh);
+
+    static bool     Check_IsSimilar             (Mat *pMA_In1, Mat *pMA_In2);
+    static bool     Check_GreaterValue          (Mat *pMA_InSmaller, Mat *pMA_InGreater);
 
     //old complicated math function names (from here) - kept to avoid version conflicts
     static int      Math_ImgSelf_Not            (Mat *pMA_Out, Mat *pMA_In);
@@ -327,6 +334,8 @@ public:
     static int      FeatureContext_Select       (Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat, int stat, double t_min, double t_max, int connectivity = 4);
     static int      Feature_Visualize           (Mat *pMA_Out, Mat *pMA_In, int feature, int connectivity = 4, int thickness = 1, double scale = 1);
     static int      Feature_Connect             (Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function<bool(double, double)> comp, int connect_mode = c_CONNECT_CLOSEST, int connectivity = 4, int thickness = 2);
+
+    static int      Detect_CornerHarris         (Mat *pMA_Out, Mat *pMA_In, int blockSize, int sobelAperture, double harrisParam, double thres);
 
     static int      Select_Area                 (Mat *pMA_Out, Mat *pMA_In, unsigned int area_min, unsigned int area_max, int connectivity);
 

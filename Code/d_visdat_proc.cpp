@@ -5363,13 +5363,28 @@ int D_VisDat_Proc::Morphology_LocMax_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *
                 pVD_In);
 }
 
+int D_VisDat_Proc::Morphology_Reconstruction(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Seed, D_VisDat_Obj *pVD_Limit, D_VisDat_Obj *pVD_Mask, double quantil)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD_SameSizeType(
+                slice,
+                D_Img_Proc_2dFactory::Morphology_Reconstruction(
+                    quantil),
+                pVD_Out,
+                pVD_Seed,
+                pVD_Limit,
+                pVD_Mask);
+}
+
 int D_VisDat_Proc::Filter_Maximum_1C(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y)
 {
     if(!slice.is_2D())
         return ER_dim_2D_only;
 
     return Wrap_VD_SameSizeType(
-                D_VisDat_Slicing(slice),
+                slice,
                 D_Img_Proc_2dFactory::Filter_Maximum_1C(
                     mask_size_x,
                     mask_size_y),

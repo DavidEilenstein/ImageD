@@ -1463,6 +1463,20 @@ function<int (Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::RadiometricSter
     };
 }
 
+function<int (Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Morphology_Reconstruction(double quantil)
+{
+    return
+            [quantil](Mat *pMA_Out, Mat *pMA_Seed, Mat *pMA_Limit, Mat *pMA_Mask)
+    {
+        return D_Img_Proc::Morphology_Reconstruction(
+                    pMA_Out,
+                    pMA_Seed,
+                    pMA_Limit,
+                    pMA_Mask,
+                    quantil);
+    };
+}
+
 
 
 function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Channel_Merge(int channel_count, bool channels_use[])

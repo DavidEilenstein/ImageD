@@ -48,6 +48,7 @@
 #include <d_makro_fouriertransformator.h>
 #include <d_makro_airdragtrack.h>
 #include <d_makro_megafoci.h>
+#include <d_makro_huangvisualization.h>
 
 //general
 #include <iostream>
@@ -212,6 +213,7 @@ private:
     D_MAKRO_FourierTransformator    *pFourierTrans;
     D_MAKRO_AirDragTrack            *pAirDrag;
     D_MAKRO_MegaFoci                *pMegaFoci;
+    D_MAKRO_HuangVisualization      *pHuang;
 
     //Stuff to show images
     QImage                  QI_Step_Image;

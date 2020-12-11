@@ -16,8 +16,8 @@
 #include <complex>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_0_13";
-const QString           D_QS_Release  = "07.12.2020";
+const QString           D_QS_Version  = "v1_0_14";
+const QString           D_QS_Release  = "11.12.2020";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -39,6 +39,7 @@ enum D_PLUGINS {
     c_PL_FOURIER_TRANSFORMATOR,
     c_PL_AIR_DRAG_DETECT,
     c_PL_MEGA_FOCI,
+    c_PL_HUANG_VIS,
     c_PL_NUMBER_OF
 };
 const QStringList QSL_Plugins = {
@@ -58,7 +59,8 @@ const QStringList QSL_Plugins = {
     "Cilia Microsphere Tracker",
     "Fourier Transformator (WIP)",
     "Air Drag Detect",
-    "Mega Foci tracker (WIP)"
+    "Mega Foci tracker (WIP)",
+    "Huang rank order filter visualization"
 };
 
 enum D_NUMBER_TYPE {
@@ -131,6 +133,10 @@ enum D_ERROR_ENUM {
     ER_StitcherFail,
     ER_SpecialDimPartOfProcPlane,
     ER_MatrixNotInvertable,
+    ER_SizeUnknown,
+    ER_PoitsUnknown,
+    ER_KeypoitsUnknown,
+    ER_DescriptorsUnkown,
     ER_number_of
 };
 
@@ -170,7 +176,11 @@ const QStringList QSL_Errors = {
     "video capture not open",
     "stitcher failed",
     "dimension with special role can not be part of processing plane",
-    "Matrix is not invertable"
+    "Matrix is not invertable",
+    "Size unknwon",
+    "Points unknown",
+    "Keypoints unknwon",
+    "Descriptors unknown"
 };
 
 enum D_DIM_INDICES {

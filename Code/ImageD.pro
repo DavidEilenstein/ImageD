@@ -35,6 +35,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    d_featureset.cpp \
     d_finishtimeprognosis.cpp \
     d_makro_airdragtrack.cpp \
     d_makro_ciliaspheretracker.cpp \
@@ -95,9 +96,11 @@ SOURCES += \
     d_popup_plot.cpp \
     d_makro_cerebralorganoids.cpp \
     d_popup_listselect.cpp \
-    d_makro_manuelsegmentation.cpp
+    d_makro_manuelsegmentation.cpp \
+    d_makro_huangvisualization.cpp
 
 HEADERS += \
+    d_featureset.h \
     d_finishtimeprognosis.h \
         d_mainwindow.h \
     d_makro_airdragtrack.h \
@@ -158,7 +161,8 @@ HEADERS += \
     d_popup_plot.h \
     d_makro_cerebralorganoids.h \
     d_popup_listselect.h \
-    d_makro_manuelsegmentation.h
+    d_makro_manuelsegmentation.h \
+    d_makro_huangvisualization.h
 
 FORMS += \
         d_mainwindow.ui \
@@ -187,7 +191,8 @@ FORMS += \
     d_popup_plot.ui \
     d_makro_cerebralorganoids.ui \
     d_popup_listselect.ui \
-    d_makro_manuelsegmentation.ui
+    d_makro_manuelsegmentation.ui \
+    d_makro_huangvisualization.ui
 
 RESOURCES += \
     img/images.qrc

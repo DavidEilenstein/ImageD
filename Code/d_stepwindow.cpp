@@ -1813,6 +1813,20 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_MO_RECON:  //-------------------------------------------------------------------   reconstruction
+        {
+            ERR(D_VisDat_Proc::Morphology_Reconstruction(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    pStore->get_pVD(pos_Source2),
+                    pStore->get_pVD(pos_Source3),
+                    ui->doubleSpinBox_05_Reconstruction_Quantil->value() / 100.0),
+                "Update_Img_Proc",
+                "Morphology_Reconstruction");
+        }
+            break;
+
         case c_sT_MO_LOC_MAX:  //-------------------------------------------------------------------   min max local
         {
             ERR(D_VisDat_Proc::Morphology_LocMax_Rect(
@@ -5347,6 +5361,8 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->comboBox_05_MinMaxGil_MinMax,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_MinMaxGil_SizeX,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_MinMaxGil_SizeY,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Reconstruct
+        connect(ui->doubleSpinBox_05_Reconstruction_Quantil,SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //Local Maxima
         connect(ui->spinBox_05_LocalMaxima_Size_X,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_05_LocalMaxima_Size_Y,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -5892,6 +5908,8 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->comboBox_05_MinMaxGil_MinMax,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_MinMaxGil_SizeX,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_MinMaxGil_SizeY,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Reconstruct
+        disconnect(ui->doubleSpinBox_05_Reconstruction_Quantil,SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //Local Maxima
         disconnect(ui->spinBox_05_LocalMaxima_Size_X,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_05_LocalMaxima_Size_Y,          SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -6554,6 +6572,12 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
     case c_T_MORPH:    //-------------------------------------------------------
     {
         proc_dim = true;
+
+        if(ui->comboBox_Type_05_Morphology->currentIndex() == c_sT_MO_RECON)
+        {
+            source_2 = true;
+            source_3 = true;
+        }
     }
         break;
 

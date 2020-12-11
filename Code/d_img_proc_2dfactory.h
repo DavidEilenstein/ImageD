@@ -187,6 +187,8 @@ public:
     static function<int (Mat *, Mat *, Mat *, Mat *)>           Channel_Merge                   ();
     static function<int (Mat *, Mat *, Mat *, Mat *)>           RadiometricStereo               (double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode);
 
+    static function<int (Mat *, Mat *, Mat *, Mat *)>           Morphology_Reconstruction       (double quantil = 1);
+
     //4 Input -> 2 Output
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Channel_Merge                   (int channel_count, bool channels_use[4]);
 

@@ -230,6 +230,8 @@ public:
     static int  Morphology_Dilation             (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y, int elem_size_Z);
     static int  Morphology_Erosion              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y, int elem_size_Z);
     static int  Morphology_LocMax_Rect          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X = 3, int elem_size_Y = 3);
+    static int  Morphology_Reconstruction       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Seed, D_VisDat_Obj *pVD_Limit, D_VisDat_Obj *pVD_Mask, double quantil = 1);
+
     static int  Filter_Maximum_1C               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y);
 
 

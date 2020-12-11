@@ -5774,6 +5774,55 @@ int D_Img_Proc::Morphology_LocMax_Rect(Mat *pMA_Out, Mat *pMA_In, int elem_size_
     return ER;
 }
 
+int D_Img_Proc::Morphology_Reconstruction(Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil)
+{
+    if(pMA_InSeed->empty())                         return ER_empty;
+    if(pMA_InLimit->empty())                        return ER_empty;
+    if(pMA_InLimit->type() != pMA_InSeed->type())   return ER_type_missmatch;
+    if(pMA_InSeed->channels() != 1)                 return ER_channel_bad;
+    if(quantil < 0 || quantil > 1)                  return ER_parameter_bad;
+    int ER;
+
+    //Previous step result
+    Mat MA_tmp_prev = pMA_InSeed->clone();
+
+    //iterate
+    while(true)
+    {
+        //dialte
+        ER = Filter_RankOrder_1C(
+                    pMA_Out,
+                    &MA_tmp_prev,
+                    pMA_Mask,
+                    quantil);
+        if(ER != ER_okay)
+        {
+            MA_tmp_prev.release();
+            return ER;
+        }
+
+        //limit reconstructed to value of mask
+        ER = Math_LimitTop(
+                    pMA_Out,
+                    pMA_InLimit);
+        if(ER != ER_okay)
+        {
+            MA_tmp_prev.release();
+            return ER;
+        }
+
+        //nothing changed?
+        if(Check_IsSimilar(pMA_Out, &MA_tmp_prev))
+        {
+            MA_tmp_prev.release();
+            return ER_okay;
+        }
+
+        //save current as next previous
+        MA_tmp_prev = pMA_Out->clone();
+    }
+}
+
 int D_Img_Proc::Transformation_Distance(Mat *pMA_Out, Mat *pMA_In, int metric, int precision)
 {
     if(pMA_In->type() != CV_8U)     return ER_bitdepth_bad;
@@ -7646,15 +7695,14 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat 
 
 int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y)
 {
-    if(pMA_In->empty())             return ER_empty;
-
     //------------------------------------------------------- Error checks
 
     //Errors
-    if(pMA_In->empty())                                         return ER_empty;
-    if(pMA_In->channels() != 1)                                 return ER_channel_bad;
-    if(mask_size_x % 2 != 1)                                    return ER_parameter_bad;
-    if(mask_size_y % 2 != 1)                                    return ER_parameter_bad;
+    if(pMA_In->empty())                                                                         return ER_empty;
+    if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U && pMA_In->depth() != CV_64F)      return ER_type_bad;
+    if(pMA_In->channels() != 1)                                                                 return ER_channel_bad;
+    if(mask_size_x % 2 != 1)                                                                    return ER_parameter_bad;
+    if(mask_size_y % 2 != 1)                                                                    return ER_parameter_bad;
     int ER = ER_okay;
 
 
@@ -7775,11 +7823,12 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
 int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t n_in_x, size_t y_start, size_t y_end)
 {
     //errors
-    if(pMA_In->empty())                         return ER_empty;
-    if(mask_size_x % 2 != 1)                    return ER_parameter_bad;
-    if(y_start >= y_end)                        return ER_parameter_missmatch;
-    if(y_start < 0 || y_start >= pMA_In->rows)  return ER_size_missmatch;
-    int ER;
+    if(pMA_In->empty())                                                                         return ER_empty;
+    if(pMA_In->channels() != 1)                                                                 return ER_channel_bad;
+    if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U && pMA_In->depth() != CV_64F)      return ER_type_bad;
+    if(mask_size_x % 2 != 1)                                                                    return ER_parameter_bad;
+    if(y_start >= y_end)                                                                        return ER_parameter_missmatch;
+    if(y_start < 0 || y_start >= pMA_In->rows)                                                  return ER_size_missmatch;
 
     //mask offset
     size_t mask_offset_x = mask_size_x / 2;
@@ -7873,6 +7922,174 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mas
         }
     }
         break;
+        
+    case CV_16UC1:
+    {
+        //set up R and S vectors
+        vector<ushort> vR(mask_size_x);
+        vector<ushort> vL(mask_size_x);
+
+        //loop rows and makro pixels
+        for(size_t y = y_start; y < y_end; y++)
+        {
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_x; mpx++)
+            {
+                //center of makropixel (output list coordinates)
+                size_t x_center = mpx * mask_size_x + mask_offset_x;
+
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<ushort>(y, x_center + mask_offset_x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<ushort>(y, x_center + mask_offset_x - l));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<ushort>(y, x_center + mask_offset_x);
+                        ushort max_mpx_combi = max(vL[0], vR[mask_size_x - 1]);
+
+                        size_t l = 1;
+                        while(l < mask_size_x && vL[l-1] < vR[mask_size_x - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<ushort>(y, x_center + mask_offset_x - l));
+                            l++;
+                        }
+                        while(l < mask_size_x)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
+
+                //calc R
+                vR[0] = pMA_In->at<ushort>(y, x_center + mask_offset_x);
+                for(size_t r = 1; r < mask_size_x; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<ushort>(y, x_center + mask_offset_x + r));
+
+                //merge to output
+                if(mpx < n_makropixels_x - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<ushort>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<ushort>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(x_center + i - mask_offset_x < n_in_x && i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<ushort>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(x_center + i - mask_offset_x < n_in_x && i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<ushort>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+        break;
+        
+    case CV_64FC1:
+    {
+        //set up R and S vectors
+        vector<double> vR(mask_size_x);
+        vector<double> vL(mask_size_x);
+
+        //loop rows and makro pixels
+        for(size_t y = y_start; y < y_end; y++)
+        {
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_x; mpx++)
+            {
+                //center of makropixel (output list coordinates)
+                size_t x_center = mpx * mask_size_x + mask_offset_x;
+
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<double>(y, x_center + mask_offset_x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<double>(y, x_center + mask_offset_x - l));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<double>(y, x_center + mask_offset_x);
+                        double max_mpx_combi = max(vL[0], vR[mask_size_x - 1]);
+
+                        size_t l = 1;
+                        while(l < mask_size_x && vL[l-1] < vR[mask_size_x - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<double>(y, x_center + mask_offset_x - l));
+                            l++;
+                        }
+                        while(l < mask_size_x)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
+
+                //calc R
+                vR[0] = pMA_In->at<double>(y, x_center + mask_offset_x);
+                for(size_t r = 1; r < mask_size_x; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<double>(y, x_center + mask_offset_x + r));
+
+                //merge to output
+                if(mpx < n_makropixels_x - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<double>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<double>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(x_center + i - mask_offset_x < n_in_x && i < mask_size_x && vR[i] < vL[mask_size_x - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<double>(y, x_center + i) = vL[mask_size_x - 1  - i];
+                       i++;
+                    }
+                    while(x_center + i - mask_offset_x < n_in_x && i < mask_size_x)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<double>(y, x_center + i) = vR[i];
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+        break;
 
     default:
         return ER_type_bad;
@@ -7884,12 +8101,13 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_X(Mat *pMA_Out, Mat *pMA_In, size_t mas
 int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y, size_t n_in_y, size_t x_start, size_t x_end)
 {
     //errors
-    if(pMA_In->empty())                         return ER_empty;
-    if(mask_size_x % 2 != 1)                    return ER_parameter_bad;
-    if(mask_size_y % 2 != 1)                    return ER_parameter_bad;
-    if(x_start >= x_end)                        return ER_parameter_missmatch;
-    if(x_start < 0 || x_start >= pMA_In->cols)  return ER_size_missmatch;
-    int ER;
+    if(pMA_In->empty())                                                                         return ER_empty;
+    if(pMA_In->channels() != 1)                                                                 return ER_channel_bad;
+    if(pMA_In->depth() != CV_8U && pMA_In->depth() != CV_16U && pMA_In->depth() != CV_64F)      return ER_type_bad;
+    if(mask_size_x % 2 != 1)                                                                    return ER_parameter_bad;
+    if(mask_size_y % 2 != 1)                                                                    return ER_parameter_bad;
+    if(x_start >= x_end)                                                                        return ER_parameter_missmatch;
+    if(x_start < 0 || x_start >= pMA_In->cols)                                                  return ER_size_missmatch;
 
     //mask offset
     size_t mask_offset_y = mask_size_y / 2;
@@ -7913,12 +8131,9 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mas
             //loop makro pixels
             for(size_t mpx = 0; mpx < n_makropixels_y; mpx++)
             {
-                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "makropixel" << mpx << "of" << n_makropixels_y;
-
                 //center of makropixel (output list coordinates)
                 size_t y_center = mpx * mask_size_y + mask_offset_y;
 
-                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "calc L";
                 //calc L
                 if(mpx == 0)
                 {
@@ -7945,13 +8160,11 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mas
                         }
                 }
 
-                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "calc R";
                 //calc R
                 vR[0] = pMA_In->at<uchar>(y_center + mask_offset_y, x);
                 for(size_t r = 1; r < mask_size_y; r++)
                     vR[r] = max(vR[r-1], pMA_In->at<uchar>(y_center + mask_offset_y + r, x));
 
-                //qDebug() << "Filter_Maximum_1C_Thread_Y" << "merge";
                 //merge to output
                 if(mpx < n_makropixels_y - 1)
                 {
@@ -7975,15 +8188,181 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mas
                     while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
                     {
                         //left is greater
-                        //qDebug() << "Filter_Maximum_1C_Thread_Y" << "last makropixel merge x/y" << x - mask_offset_x << y_center + i - mask_offset_y;
-                       pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
-                       i++;
+                        pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                        i++;
                     }
                     while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y)
                     {
                         //right is and always will be greater
-                        //qDebug() << "Filter_Maximum_1C_Thread_Y" << "last makropixel merge x/y" << x - mask_offset_x << y_center + i - mask_offset_y;
                         pMA_Out->at<uchar>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+        break;
+        
+    case CV_16UC1:
+    {
+        //set up R and S vectors
+        vector<ushort> vR(mask_size_y);
+        vector<ushort> vL(mask_size_y);
+
+        //loop cols and makro pixels
+        for(size_t x = x_start; x < x_end; x++)
+        {
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_y; mpx++)
+            {
+                //center of makropixel (output list coordinates)
+                size_t y_center = mpx * mask_size_y + mask_offset_y;
+
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<ushort>(y_center + mask_offset_y, x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<ushort>(y_center + mask_offset_y - l, x));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<ushort>(y_center + mask_offset_y, x);
+                        ushort max_mpx_combi = max(vL[0], vR[mask_size_y - 1]);
+
+                        size_t l = 1;
+                        while(l < mask_size_y && vL[l-1] < vR[mask_size_y - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<ushort>(y_center + mask_offset_y - l, x));
+                            l++;
+                        }
+                        while(l < mask_size_y)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
+
+                //calc R
+                vR[0] = pMA_In->at<ushort>(y_center + mask_offset_y, x);
+                for(size_t r = 1; r < mask_size_y; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<ushort>(y_center + mask_offset_y + r, x));
+
+                //merge to output
+                if(mpx < n_makropixels_y - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<ushort>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<ushort>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                        pMA_Out->at<ushort>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                        i++;
+                    }
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<ushort>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+        break;
+        
+    case CV_64FC1:
+    {
+        //set up R and S vectors
+        vector<double> vR(mask_size_y);
+        vector<double> vL(mask_size_y);
+
+        //loop cols and makro pixels
+        for(size_t x = x_start; x < x_end; x++)
+        {
+            //loop makro pixels
+            for(size_t mpx = 0; mpx < n_makropixels_y; mpx++)
+            {
+                //center of makropixel (output list coordinates)
+                size_t y_center = mpx * mask_size_y + mask_offset_y;
+
+                //calc L
+                if(mpx == 0)
+                {
+                    //first makropixel
+                    vL[0] = pMA_In->at<double>(y_center + mask_offset_y, x);
+                    for(size_t l = 1; l < vL.size(); l++)
+                        vL[l] = max(vL[l-1], pMA_In->at<double>(y_center + mask_offset_y - l, x));
+                }
+                else
+                {
+                        vL[0] = pMA_In->at<double>(y_center + mask_offset_y, x);
+                        double max_mpx_combi = max(vL[0], vR[mask_size_y - 1]);
+
+                        size_t l = 1;
+                        while(l < mask_size_y && vL[l-1] < vR[mask_size_y - 1 - l])
+                        {
+                            vL[l] = max(vL[l-1], pMA_In->at<double>(y_center + mask_offset_y - l, x));
+                            l++;
+                        }
+                        while(l < mask_size_y)
+                        {
+                            vL[l] = max_mpx_combi;
+                            l++;
+                        }
+                }
+
+                //calc R
+                vR[0] = pMA_In->at<double>(y_center + mask_offset_y, x);
+                for(size_t r = 1; r < mask_size_y; r++)
+                    vR[r] = max(vR[r-1], pMA_In->at<double>(y_center + mask_offset_y + r, x));
+
+                //merge to output
+                if(mpx < n_makropixels_y - 1)
+                {
+                    size_t i = 0;
+                    while(i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                       pMA_Out->at<double>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                       i++;
+                    }
+                    while(i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<double>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
+                        i++;
+                    }
+                }
+                else
+                {
+                    size_t i = 0;
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y && vR[i] < vL[mask_size_y - 1  - i])
+                    {
+                        //left is greater
+                        pMA_Out->at<double>(y_center + i - mask_offset_y, x - mask_offset_x) = vL[mask_size_y - 1  - i];
+                        i++;
+                    }
+                    while(y_center + i - mask_offset_y < n_in_y && i < mask_size_y)
+                    {
+                        //right is and always will be greater
+                        pMA_Out->at<double>(y_center + i - mask_offset_y, x - mask_offset_x) = vR[i];
                         i++;
                     }
                 }
@@ -10100,6 +10479,171 @@ int D_Img_Proc::Math_Phase(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)
             *pMA_Out);
 
     return ER_okay;
+}
+
+int D_Img_Proc::Math_LimitTop(Mat *pMA_Out, Mat *pMA_InThresh, Mat *pMA_InToLimit)
+{
+    if(pMA_InThresh->empty())                                       return ER_empty;
+    if(pMA_InToLimit->empty())                                      return ER_empty;
+    if(pMA_InThresh->type() != pMA_InToLimit->type())               return ER_type_missmatch;
+    if(pMA_InThresh->channels() != 1)                               return ER_channel_bad;
+
+    //init out
+    *pMA_Out = pMA_InToLimit->clone();
+
+    return Math_LimitTop(
+                pMA_Out,
+                pMA_InThresh);
+}
+
+int D_Img_Proc::Math_LimitTop(Mat *pMA_Target, Mat *pMA_InThresh)
+{
+    if(pMA_InThresh->empty())                                       return ER_empty;
+    if(pMA_Target->empty())                                         return ER_empty;
+    if(pMA_InThresh->type() != pMA_Target->type())                  return ER_type_missmatch;
+    if(pMA_InThresh->channels() != 1)                               return ER_channel_bad;
+
+    //type switch
+    switch (pMA_InThresh->type()) {
+
+    case CV_8UC1:
+    {
+        uchar* ptr_tar = reinterpret_cast<uchar*>(pMA_Target->data);
+        uchar* ptr_thr = reinterpret_cast<uchar*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_8SC1:
+    {
+        char* ptr_tar = reinterpret_cast<char*>(pMA_Target->data);
+        char* ptr_thr = reinterpret_cast<char*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        ushort* ptr_tar = reinterpret_cast<ushort*>(pMA_Target->data);
+        ushort* ptr_thr = reinterpret_cast<ushort*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_16SC1:
+    {
+        short* ptr_tar = reinterpret_cast<short*>(pMA_Target->data);
+        short* ptr_thr = reinterpret_cast<short*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_32SC1:
+    {
+        int* ptr_tar = reinterpret_cast<int*>(pMA_Target->data);
+        int* ptr_thr = reinterpret_cast<int*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_32FC1:
+    {
+        float* ptr_tar = reinterpret_cast<float*>(pMA_Target->data);
+        float* ptr_thr = reinterpret_cast<float*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        double* ptr_tar = reinterpret_cast<double*>(pMA_Target->data);
+        double* ptr_thr = reinterpret_cast<double*>(pMA_InThresh->data);
+        for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
+            if(*ptr_tar > *ptr_thr)
+                *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    return ER_okay;
+}
+
+bool D_Img_Proc::Check_IsSimilar(Mat *pMA_In1, Mat *pMA_In2)
+{
+    if(pMA_In1->size != pMA_In2->size)
+        return false;
+
+    if(pMA_In1->type() != pMA_In2->type())
+        return false;
+
+    Mat MA_tmp_check;
+    if(Math_ImgImg_BitXor(
+                &MA_tmp_check,
+                pMA_In1,
+                pMA_In2) != ER_okay)
+    {
+        MA_tmp_check.release();
+        return false;
+    }
+
+    if(countNonZero(MA_tmp_check) > 0)
+    {
+        MA_tmp_check.release();
+        return false;
+    }
+
+    return true;
+}
+
+bool D_Img_Proc::Check_GreaterValue(Mat *pMA_InSmaller, Mat *pMA_InGreater)
+{
+    if(pMA_InSmaller->size != pMA_InGreater->size)
+        return false;
+
+    if(pMA_InSmaller->type() != pMA_InGreater->type())
+        return false;
+
+    Mat MA_tmp_check;
+    if(Math_ImgImg_Diff(
+                &MA_tmp_check,
+                pMA_InGreater,
+                pMA_InSmaller)
+            != ER_okay)
+    {
+        MA_tmp_check.release();
+        return false;
+    }
+
+    double min, max;
+    if(MinMax_of_Mat(
+                &MA_tmp_check,
+                &min,
+                &max)
+            != ER_okay)
+    {
+        MA_tmp_check.release();
+        return false;
+    }
+
+    if(min < 0)
+        return false;
+
+    return true;
 }
 
 int D_Img_Proc::Math_ImgSelf_Not(Mat *pMA_Out, Mat *pMA_In)
@@ -12947,6 +13491,22 @@ int D_Img_Proc::Feature_Connect(Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_
                     8);
 
     //end :-)
+    return ER_okay;
+}
+
+int D_Img_Proc::Detect_CornerHarris(Mat *pMA_Out, Mat *pMA_In, int blockSize, int sobelAperture, double harrisParam, double thres)
+{
+    D_FeatureSet FeatSet;
+    int ER = FeatSet.detect_Harris(
+                pMA_In,
+                blockSize,
+                sobelAperture,
+                harrisParam,
+                thres);
+    if(ER != ER_okay)
+        return ER;
+
+    //WIP
     return ER_okay;
 }
 
