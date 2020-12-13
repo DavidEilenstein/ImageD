@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_12 (01.12.20)</span>
+   &#160;<span id="projectnumber">v1_0_14 (11.12.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -280,6 +280,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3fb071dabc0371c7aa0ba6cf7966b757"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae74ddd00ddc0d0dfae5302f3812bf3d6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ae74ddd00ddc0d0dfae5302f3812bf3d6">Morphology_LocMax_Rect_1C</a> (Mat *pMA_Out, Mat *pMA_In, int elem_size_X=3, int elem_size_Y=3)</td></tr>
 <tr class="separator:ae74ddd00ddc0d0dfae5302f3812bf3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefed5b23a881f896d97b6ff322714be6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aefed5b23a881f896d97b6ff322714be6">Morphology_Reconstruction</a> (Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil=1)</td></tr>
+<tr class="separator:aefed5b23a881f896d97b6ff322714be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060372ce46678d30d169a45cdbf0c0bc"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a060372ce46678d30d169a45cdbf0c0bc">Transformation_Distance</a> (Mat *pMA_Out, Mat *pMA_In, int metric, int precision)</td></tr>
 <tr class="separator:a060372ce46678d30d169a45cdbf0c0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5722b149a79329f94170d990b08aea63"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a5722b149a79329f94170d990b08aea63">Transformation_Watershed</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker)</td></tr>
@@ -326,6 +328,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b">Filter_RankOrder_1C_Thread</a> (Mat *pMA_Out, Mat *pMA_InPadded, Mat *pMA_Mask, double quantil_relPos, size_t img_in_sx, size_t y_start, size_t y_end, double val_max, size_t mask_relevant_px_count, vector&lt; Point &gt; *vBorderL, vector&lt; Point &gt; *vBorderR, vector&lt; Point &gt; *vBorderT, vector&lt; Point &gt; *vBorderB)</td></tr>
 <tr class="memdesc:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b" title="D_Img_Proc::Filter_RankOrder_1C_Thread performs Rank order filtering with huang algorithm for any qua...">D_Img_Proc::Filter_RankOrder_1C_Thread</a> performs Rank order filtering with huang algorithm for any quantile on a region of an image.  <a href="class_d___img___proc.html#a66f387cebc30c1fe2b71bd0625dfcc1b">More...</a><br /></td></tr>
 <tr class="separator:a66f387cebc30c1fe2b71bd0625dfcc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addacb9a505d85b766997ea53a8ba3d74"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#addacb9a505d85b766997ea53a8ba3d74">Filter_Maximum_1C</a> (Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y)</td></tr>
+<tr class="separator:addacb9a505d85b766997ea53a8ba3d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a990c01e24a43547ec2162a1610d2ed66"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a990c01e24a43547ec2162a1610d2ed66">Filter_Maximum_1C_Thread_X</a> (Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t n_in_x, size_t y_start, size_t y_end)</td></tr>
+<tr class="separator:a990c01e24a43547ec2162a1610d2ed66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85269ec22e9055ce450e08526c56345"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ab85269ec22e9055ce450e08526c56345">Filter_Maximum_1C_Thread_Y</a> (Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y, size_t n_in_y, size_t x_start, size_t x_end)</td></tr>
+<tr class="separator:ab85269ec22e9055ce450e08526c56345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ef671eec83a24725d358a42c73783a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ef671eec83a24725d358a42c73783a3">Filter_Laplace</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)</td></tr>
 <tr class="separator:a8ef671eec83a24725d358a42c73783a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf24a7e83477e2be25d27a02ab0147f9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aaf24a7e83477e2be25d27a02ab0147f9">Filter_Sobel</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta, int d_x, int d_y)</td></tr>
@@ -418,6 +426,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a50c9da1db9fcfb94d7ca192483d5e28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a183f25b12e937263b77d2346cc6325"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2a183f25b12e937263b77d2346cc6325">Math_Phase</a> (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)</td></tr>
 <tr class="separator:a2a183f25b12e937263b77d2346cc6325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e1a8c73015c38899836de9e85a263c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad4e1a8c73015c38899836de9e85a263c">Math_LimitTop</a> (Mat *pMA_Out, Mat *pMA_InThresh, Mat *pMA_InToLimit)</td></tr>
+<tr class="separator:ad4e1a8c73015c38899836de9e85a263c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6cb1cd53986977105e5f3a485f0b30"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#adf6cb1cd53986977105e5f3a485f0b30">Math_LimitTop</a> (Mat *pMA_Target, Mat *pMA_InThresh)</td></tr>
+<tr class="separator:adf6cb1cd53986977105e5f3a485f0b30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac294faa837b2a22ce15c98f35c502297"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac294faa837b2a22ce15c98f35c502297">Check_IsSimilar</a> (Mat *pMA_In1, Mat *pMA_In2)</td></tr>
+<tr class="separator:ac294faa837b2a22ce15c98f35c502297"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88cfde623508bf7c066f6b7b4e0aaf1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af88cfde623508bf7c066f6b7b4e0aaf1">Check_GreaterValue</a> (Mat *pMA_InSmaller, Mat *pMA_InGreater)</td></tr>
+<tr class="separator:af88cfde623508bf7c066f6b7b4e0aaf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16a22a2617292a637345bf93fcd7934f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a16a22a2617292a637345bf93fcd7934f">Math_ImgSelf_Not</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:a16a22a2617292a637345bf93fcd7934f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5037f47168c4fd72d42c824e4f2fcead"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a5037f47168c4fd72d42c824e4f2fcead">Math_ImgScal_Add</a> (Mat *pMA_Out, Mat *pMA_In, double summmand)</td></tr>
@@ -536,6 +552,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a845f2348419069561ad09c9e61861228"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fb3235491fe49b807b6ec3b3b296e58"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2fb3235491fe49b807b6ec3b3b296e58">Feature_Connect</a> (Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function&lt; bool(double, double)&gt; comp, int connect_mode=<a class="el" href="d__enum_8h.html#ad90323e0e68539a28becee62d350d7b4a60af4a46b2e74f552774e87573f43dc5">c_CONNECT_CLOSEST</a>, int connectivity=4, int thickness=2)</td></tr>
 <tr class="separator:a2fb3235491fe49b807b6ec3b3b296e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0c3faa168b886c58e0e0b4bad2e134b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aa0c3faa168b886c58e0e0b4bad2e134b">Detect_CornerHarris</a> (Mat *pMA_Out, Mat *pMA_In, int blockSize, int sobelAperture, double harrisParam, double thres)</td></tr>
+<tr class="separator:aa0c3faa168b886c58e0e0b4bad2e134b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a347045995dcc1dc45bddbed85011af18"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a347045995dcc1dc45bddbed85011af18">Select_Area</a> (Mat *pMA_Out, Mat *pMA_In, unsigned int area_min, unsigned int area_max, int connectivity)</td></tr>
 <tr class="separator:a347045995dcc1dc45bddbed85011af18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af65dc229816da71c414ad09829e6afde"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af65dc229816da71c414ad09829e6afde">Reduce_Geometric</a> (Mat *pMA_Out, Mat *pMA_In, int geometric, int connectivity=8, int thickness=1, uchar value=255)</td></tr>
@@ -981,6 +999,78 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>type</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af88cfde623508bf7c066f6b7b4e0aaf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af88cfde623508bf7c066f6b7b4e0aaf1">&#9670;&nbsp;</a></span>Check_GreaterValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Img_Proc::Check_GreaterValue </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InSmaller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InGreater</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac294faa837b2a22ce15c98f35c502297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac294faa837b2a22ce15c98f35c502297">&#9670;&nbsp;</a></span>Check_IsSimilar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Img_Proc::Check_IsSimilar </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -2052,6 +2142,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">RotatedRect&#160;</td>
           <td class="paramname"><em>rrect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0c3faa168b886c58e0e0b4bad2e134b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0c3faa168b886c58e0e0b4bad2e134b">&#9670;&nbsp;</a></span>Detect_CornerHarris()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Detect_CornerHarris </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>blockSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sobelAperture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>harrisParam</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thres</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -5501,6 +5651,180 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>delta</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addacb9a505d85b766997ea53a8ba3d74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addacb9a505d85b766997ea53a8ba3d74">&#9670;&nbsp;</a></span>Filter_Maximum_1C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_Maximum_1C </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a990c01e24a43547ec2162a1610d2ed66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a990c01e24a43547ec2162a1610d2ed66">&#9670;&nbsp;</a></span>Filter_Maximum_1C_Thread_X()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_Maximum_1C_Thread_X </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_in_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>y_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>y_end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab85269ec22e9055ce450e08526c56345"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab85269ec22e9055ce450e08526c56345">&#9670;&nbsp;</a></span>Filter_Maximum_1C_Thread_Y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_Maximum_1C_Thread_Y </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_in_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>x_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>x_end</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -9439,6 +9763,84 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ad4e1a8c73015c38899836de9e85a263c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4e1a8c73015c38899836de9e85a263c">&#9670;&nbsp;</a></span>Math_LimitTop() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Math_LimitTop </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InThresh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InToLimit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adf6cb1cd53986977105e5f3a485f0b30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf6cb1cd53986977105e5f3a485f0b30">&#9670;&nbsp;</a></span>Math_LimitTop() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Math_LimitTop </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InThresh</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8a5137b8b00ebe7f5f73046ea3a9f119"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a5137b8b00ebe7f5f73046ea3a9f119">&#9670;&nbsp;</a></span>Math_Magnitude()</h2>
 
@@ -10965,6 +11367,60 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>elem_size_Y</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefed5b23a881f896d97b6ff322714be6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefed5b23a881f896d97b6ff322714be6">&#9670;&nbsp;</a></span>Morphology_Reconstruction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Morphology_Reconstruction </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InSeed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InLimit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

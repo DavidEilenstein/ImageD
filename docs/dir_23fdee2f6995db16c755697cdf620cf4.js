@@ -25,6 +25,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_error_handler.h", "d__error__handler_8h.html", [
       [ "D_Error_Handler", "class_d___error___handler.html", "class_d___error___handler" ]
     ] ],
+    [ "d_featureset.cpp", "d__featureset_8cpp.html", null ],
+    [ "d_featureset.h", "d__featureset_8h.html", [
+      [ "D_FeatureSet", "class_d___feature_set.html", "class_d___feature_set" ]
+    ] ],
     [ "d_finishtimeprognosis.cpp", "d__finishtimeprognosis_8cpp.html", null ],
     [ "d_finishtimeprognosis.h", "d__finishtimeprognosis_8h.html", [
       [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", "class_d___finish_time_prognosis" ]
@@ -88,6 +92,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_makro_fouriertransformator.cpp", "d__makro__fouriertransformator_8cpp.html", null ],
     [ "d_makro_fouriertransformator.h", "d__makro__fouriertransformator_8h.html", [
       [ "D_MAKRO_FourierTransformator", "class_d___m_a_k_r_o___fourier_transformator.html", "class_d___m_a_k_r_o___fourier_transformator" ]
+    ] ],
+    [ "d_makro_huangvisualization.cpp", "d__makro__huangvisualization_8cpp.html", null ],
+    [ "d_makro_huangvisualization.h", "d__makro__huangvisualization_8h.html", [
+      [ "D_MAKRO_HuangVisualization", "class_d___m_a_k_r_o___huang_visualization.html", "class_d___m_a_k_r_o___huang_visualization" ]
     ] ],
     [ "d_makro_iontracks.cpp", "d__makro__iontracks_8cpp.html", null ],
     [ "d_makro_iontracks.h", "d__makro__iontracks_8h.html", [

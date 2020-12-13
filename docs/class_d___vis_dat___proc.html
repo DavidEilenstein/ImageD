@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_12 (01.12.20)</span>
+   &#160;<span id="projectnumber">v1_0_14 (11.12.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -343,6 +343,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:af7a01a597f28eb5f8986e5dcf7a61361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbdeedfc46f5d2539f7d9bc50c0233fc"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#acbdeedfc46f5d2539f7d9bc50c0233fc">Morphology_LocMax_Rect</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int elem_size_X=3, int elem_size_Y=3)</td></tr>
 <tr class="separator:acbdeedfc46f5d2539f7d9bc50c0233fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12e976b54acdbf07619317eb9cc10869"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a12e976b54acdbf07619317eb9cc10869">Morphology_Reconstruction</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Seed, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Limit, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Mask, double quantil=1)</td></tr>
+<tr class="separator:a12e976b54acdbf07619317eb9cc10869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96669614da225713237cea8bd6b0cb55"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a96669614da225713237cea8bd6b0cb55">Filter_Maximum_1C</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, size_t mask_size_x, size_t mask_size_y)</td></tr>
+<tr class="separator:a96669614da225713237cea8bd6b0cb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703cee42bb61178df649aaa4fb952c78"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a703cee42bb61178df649aaa4fb952c78">Math_1img_Inversion</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
 <tr class="separator:a703cee42bb61178df649aaa4fb952c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0abf98c8c217321927cfcb197208bf2f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a0abf98c8c217321927cfcb197208bf2f">Math_1img_Addition</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, double summmand)</td></tr>
@@ -4358,6 +4362,60 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a96669614da225713237cea8bd6b0cb55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96669614da225713237cea8bd6b0cb55">&#9670;&nbsp;</a></span>Filter_Maximum_1C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Filter_Maximum_1C </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae809d118b979ce89b6a2257c7ad26fee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae809d118b979ce89b6a2257c7ad26fee">&#9670;&nbsp;</a></span>Filter_Mean()</h2>
 
@@ -7660,6 +7718,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>elem_size_Y</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12e976b54acdbf07619317eb9cc10869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12e976b54acdbf07619317eb9cc10869">&#9670;&nbsp;</a></span>Morphology_Reconstruction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Morphology_Reconstruction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

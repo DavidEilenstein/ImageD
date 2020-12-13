@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_0_12 (01.12.20)</span>
+   &#160;<span id="projectnumber">v1_0_14 (11.12.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -169,6 +169,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:acefcf599dd6991fc1b8125b8368a30dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a371a47daad4def576c6ff1141d0f8eb3"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a371a47daad4def576c6ff1141d0f8eb3">Morphology_LocMax_Rect</a> (int elem_size_X=3, int elem_size_Y=3)</td></tr>
 <tr class="separator:a371a47daad4def576c6ff1141d0f8eb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9ac625eea4d9457b85163bef045d42a"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ae9ac625eea4d9457b85163bef045d42a">Filter_Maximum_1C</a> (size_t mask_size_x, size_t mask_size_y)</td></tr>
+<tr class="separator:ae9ac625eea4d9457b85163bef045d42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d30d9664b9c4091a979e90f28cd51ce"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a6d30d9664b9c4091a979e90f28cd51ce">Filter_Mean</a> (int size_x, int size_y, int border, int out_depth, bool norm)</td></tr>
 <tr class="separator:a6d30d9664b9c4091a979e90f28cd51ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6be8151b9667ed0854278341ed8b765"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ac6be8151b9667ed0854278341ed8b765">Filter_RootMeanSquare</a> (int size_x, int size_y, int border, int out_depth, bool norm)</td></tr>
@@ -311,6 +313,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac974ed531246b5a416cab2a8edc443cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef61bf1c1a620e35b119c13e19dc18d5"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#aef61bf1c1a620e35b119c13e19dc18d5">RadiometricStereo</a> (double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode)</td></tr>
 <tr class="separator:aef61bf1c1a620e35b119c13e19dc18d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2f2d905955a14b7fef1d94245819766"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ab2f2d905955a14b7fef1d94245819766">Morphology_Reconstruction</a> (double quantil=1)</td></tr>
+<tr class="separator:ab2f2d905955a14b7fef1d94245819766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a512f1ae201273a2852185d74649c8e90"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a512f1ae201273a2852185d74649c8e90">Channel_Merge</a> (int channel_count, bool channels_use[4])</td></tr>
 <tr class="separator:a512f1ae201273a2852185d74649c8e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af074692cbd30a175b14bc2eabb4a65a2"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#af074692cbd30a175b14bc2eabb4a65a2">Math_4img_Addition</a> ()</td></tr>
@@ -1740,6 +1744,42 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>delta</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9ac625eea4d9457b85163bef045d42a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9ac625eea4d9457b85163bef045d42a">&#9670;&nbsp;</a></span>Filter_Maximum_1C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Filter_Maximum_1C </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mask_size_y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3668,6 +3708,32 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2f2d905955a14b7fef1d94245819766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f2d905955a14b7fef1d94245819766">&#9670;&nbsp;</a></span>Morphology_Reconstruction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Morphology_Reconstruction </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantil</em> = <code>1</code></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>

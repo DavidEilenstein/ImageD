@@ -139,6 +139,10 @@ var d__enum_8h =
       [ "ER_StitcherFail", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a9603f28e2313967e0abcb903293b3706", null ],
       [ "ER_SpecialDimPartOfProcPlane", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a8462bc3c63b550df9a81222f0077d493", null ],
       [ "ER_MatrixNotInvertable", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561ad4aeba50fe99dda5b8c8df4758018b62", null ],
+      [ "ER_SizeUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a080fb1f6b9de470f482e386a1edadf5d", null ],
+      [ "ER_PoitsUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aa74e7d4ef43883f2eb3170316962564e", null ],
+      [ "ER_KeypoitsUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561ad72239a2fdc99bbaccd4e6a3bbd83ecd", null ],
+      [ "ER_DescriptorsUnkown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20", null ],
       [ "ER_number_of", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845", null ]
     ] ],
     [ "D_FEATURE_ENUM", "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60", [
@@ -447,6 +451,7 @@ var d__enum_8h =
       [ "c_PL_FOURIER_TRANSFORMATOR", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca90b2a8a3766caf7a583e062cb926e88e", null ],
       [ "c_PL_AIR_DRAG_DETECT", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca5c6ae1c69b31ba6e42748bad67af8c50", null ],
       [ "c_PL_MEGA_FOCI", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca89da2ca33aa974c8ef20608061612172", null ],
+      [ "c_PL_HUANG_VIS", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca6cefa1a49b18d4f19fc31757d13f4e54", null ],
       [ "c_PL_NUMBER_OF", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca55c37be7979656678f96d10c7bca309f", null ]
     ] ],
     [ "D_RANDOM", "d__enum_8h.html#a76006812ac90cbcd697b5b0b6b0ad27d", [
