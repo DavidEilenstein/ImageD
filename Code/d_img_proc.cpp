@@ -15999,7 +15999,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
     return ER_okay;
 }
 
-int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel)
+int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel, double frame2time)
 {
     //errors
     if(pMA_InValue->empty())            return ER_empty;
@@ -16009,6 +16009,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     if(min_rel  < 0 || min_rel  > 1)    return ER_parameter_bad;
     if(max_rel < 0 || max_rel > 1)      return ER_parameter_bad;
     if(min_rel >= max_rel)              return ER_parameter_missmatch;
+    if(frame2time <= 0)                 return ER_parameter_bad;
     int ER;
 
     //qDebug() << "Value img: size" << pMA_InValue->cols << pMA_InValue->rows << "type" << Type_of_Mat(pMA_InValue);
@@ -16023,6 +16024,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     Mat MA_tmp_Acc_Shift = Mat::zeros(pMA_InValue->size(), CV_64FC1);
     Mat MA_tmp_Acc_A_Cos = Mat::zeros(pMA_InValue->size(), CV_64FC1);
     Mat MA_tmp_Acc_A_Sin = Mat::zeros(pMA_InValue->size(), CV_64FC1);
+    Mat MA_tmp_Acc_Time  = Mat::zeros(pMA_InValue->size(), CV_64FC1);
 
     //loop data
     for(size_t frm = 0; frm < vv_FrmObjPositions.size(); frm++)
@@ -16042,6 +16044,8 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
                 MA_tmp_Acc_Shift.at<double>(y, x) += vv_FrmObjShifts[frm][obj];
                 MA_tmp_Acc_A_Sin.at<double>(y, x) += sin(vv_FrmObjAngles[frm][obj]);
                 MA_tmp_Acc_A_Cos.at<double>(y, x) += cos(vv_FrmObjAngles[frm][obj]);
+                MA_tmp_Acc_Time.at<double>(y, x)   = frm;
+
 
                 //qDebug() << "Accumulation x/y/count/shift/sin/cos" << x << y << MA_tmp_Acc_Count.at<double>(y, x) << MA_tmp_Acc_Shift.at<double>(y, x) << MA_tmp_Acc_A_Sin.at<double>(y, x) << MA_tmp_Acc_A_Cos.at<double>(y, x);
             }
@@ -16053,12 +16057,14 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     double* ptr_shift = reinterpret_cast<double*>(MA_tmp_Acc_Shift.data);
     double* ptr_a_sin = reinterpret_cast<double*>(MA_tmp_Acc_A_Sin.data);
     double* ptr_a_cos = reinterpret_cast<double*>(MA_tmp_Acc_A_Cos.data);
-    for(size_t px = 0; px < area; px++, ptr_count++, ptr_shift++, ptr_a_cos++, ptr_a_sin++)
+    double* ptr_time  = reinterpret_cast<double*>(MA_tmp_Acc_Time.data);
+    for(size_t px = 0; px < area; px++, ptr_count++, ptr_shift++, ptr_a_cos++, ptr_a_sin++, ptr_time++)
     {
         //norm accumulations
         *ptr_shift = *ptr_count > 0 ? *ptr_shift / *ptr_count : 0;
         *ptr_a_sin = *ptr_count > 0 ? *ptr_a_sin / *ptr_count : 0;
         *ptr_a_cos = *ptr_count > 0 ? *ptr_a_cos / *ptr_count : 0;
+        *ptr_time *= frame2time;
     }
 
     //blur accumulations
@@ -16132,8 +16138,29 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
 
     MA_tmp_Mask.release();
 
+    //newest time is displayed dominant
+    Mat MA_tmp_TimeNewest;
+    ER = Filter_Maximum_1C(
+                &MA_tmp_TimeNewest,
+                &MA_tmp_Acc_Time,
+                blur_size_x,
+                blur_size_y);
+    if(ER != ER_okay)
+    {
+        MA_tmp_Acc_Count.release();
+        MA_tmp_Acc_Shift.release();
+        MA_tmp_Acc_A_Sin.release();
+        MA_tmp_Acc_A_Cos.release();
+        MA_tmp_Mean_Shift.release();
+        MA_tmp_Mean_A_Cos.release();
+        MA_tmp_Mean_A_Sin.release();
+        MA_tmp_TimeNewest.release();
+        return ER;
+    }
 
-    //transform values to double
+
+
+    //transform value image to double
     Mat MA_tmp_Value_Double;
     ER = Convert_Double(
                 &MA_tmp_Value_Double,
@@ -16148,11 +16175,12 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         MA_tmp_Mean_A_Cos.release();
         MA_tmp_Mean_A_Sin.release();
         MA_tmp_Value_Double.release();
+        MA_tmp_TimeNewest.release();
         return ER;
     }
 
     //get quantiles and range of shifts
-    qDebug() << "get extrema";
+    //qDebug() << "get extrema";
     double shift_min, shift_max;
     ER = Quantiles_ofPixelvalues(
                 &shift_min,
@@ -16171,12 +16199,13 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         MA_tmp_Mean_A_Cos.release();
         MA_tmp_Mean_A_Sin.release();
         MA_tmp_Value_Double.release();
+        MA_tmp_TimeNewest.release();
         return ER;
     }
     double range_shifts = shift_max - shift_min;
-    qDebug() << "Shift range" << range_shifts << shift_min << shift_max;
+    //qDebug() << "Shift range" << range_shifts << shift_min << shift_max;
 
-    //get quantiles and range of value
+    //get range of value
     double value_max, value_min;
     ER = MinMax_of_Mat(
                 &MA_tmp_Value_Double,
@@ -16192,10 +16221,32 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         MA_tmp_Mean_A_Cos.release();
         MA_tmp_Mean_A_Sin.release();
         MA_tmp_Value_Double.release();
+        MA_tmp_TimeNewest.release();
         return ER;
     }
     double range_value = value_max - value_min;
-    qDebug() << "Value range" << range_value << value_min << value_max;
+    //qDebug() << "Value range" << range_value << value_min << value_max;
+
+    //get range of value
+    double time_max, time_min;
+    ER = MinMax_of_Mat(
+                &MA_tmp_TimeNewest,
+                &time_min,
+                &time_max);
+    if(ER != ER_okay)
+    {
+        MA_tmp_Acc_Count.release();
+        MA_tmp_Acc_Shift.release();
+        MA_tmp_Acc_A_Sin.release();
+        MA_tmp_Acc_A_Cos.release();
+        MA_tmp_Mean_Shift.release();
+        MA_tmp_Mean_A_Cos.release();
+        MA_tmp_Mean_A_Sin.release();
+        MA_tmp_Value_Double.release();
+        MA_tmp_TimeNewest.release();
+        return ER;
+    }
+    double range_time = time_max - time_min;
 
 
     //alloc out
@@ -16206,8 +16257,9 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     ptr_shift           = reinterpret_cast<double*>(MA_tmp_Mean_Shift.data);
     ptr_a_sin           = reinterpret_cast<double*>(MA_tmp_Mean_A_Sin.data);
     ptr_a_cos           = reinterpret_cast<double*>(MA_tmp_Mean_A_Cos.data);
+    ptr_time            = reinterpret_cast<double*>(MA_tmp_TimeNewest.data);
     Vec3d* ptr_out      = reinterpret_cast<Vec3d*>(pMA_OutHeatmap->data);
-    for(size_t px = 0; px < area; px++, ptr_shift++, ptr_a_cos++, ptr_a_sin++, ptr_value++, ptr_out++)
+    for(size_t px = 0; px < area; px++, ptr_shift++, ptr_a_cos++, ptr_a_sin++, ptr_value++, ptr_out++, ptr_time++)
     {
         double shift = *ptr_shift;
         if(shift < shift_min)   shift = shift_min;
@@ -16215,25 +16267,34 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
 
         double H;
         double S;
+        double V;
         if(mode == 0)//speed only
         {
             H           = range_shifts > 0 ? ((2/3.0) * PI_2_0) * (1 - ((shift - shift_min) / range_shifts)) : ((2/3.0) * PI_2_0);
             S           = 1;
+            V           = (range_value > 0) ? ((*ptr_value - value_min) / range_value) : 0;
         }
         else if(mode == 1)//angle only
         {
             H           = atan2(*ptr_a_cos, *ptr_a_sin);
             if(H < 0)   H += PI_2_0;
             S           = 1;
+            V           = (range_value > 0) && ((abs(*ptr_a_cos) + abs(*ptr_a_sin)) > 0) ? ((*ptr_value - value_min) / range_value) : 0;
         }
-        else//both
+        else if(mode == 2)//both (speed and angle)
         {
             H           = atan2(*ptr_a_cos, *ptr_a_sin);
             if(H < 0)   H += PI_2_0;
             S           = range_shifts > 0 ? (shift - shift_min) / range_shifts : 0;
+            V           = (range_value > 0) && ((abs(*ptr_a_cos) + abs(*ptr_a_sin)) > 0) ? ((*ptr_value - value_min) / range_value) : 0;
+        }
+        else//time
+        {
+            H           = ((time_max - *ptr_time) / range_time) * ((2/3.0) * PI_2_0);
+            S           = *ptr_value > 0 ? 1 : 0;
+            V           = (range_value > 0)  && (*ptr_time > 0) ? ((*ptr_value - value_min) / range_value) : 0;
         }
 
-        double  V       = range_value > 0 ? (*ptr_value - value_min) / range_value : 0;
         int     hi      = floor(H / (PI / 3.0));
         double  f       = (H / (PI / 3.0)) - hi;
         double  p       = V * (1 - S);
@@ -16274,7 +16335,13 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         H_angle_range = (2/3.0) * PI_2_0;
         for(size_t i = 0; i < legend_examples; i++)
         {
-            QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            if(i == 0)
+                QSL_H.append("<=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else if(i == legend_examples - 1)
+                QSL_H.append(">=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else
+                QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+
             QSL_S.append("-");
             QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
@@ -16297,7 +16364,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     }
         break;
 
-    case 2://both
+    case 2://both (speed and angle)
     {
         QS_H = "Angle deg";
         QS_S = "Speed um/s";
@@ -16307,7 +16374,29 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
             double h = i * (360.0 / static_cast<double>(legend_examples-1));
             if(h > 180.0) h -= 360.0;
             QSL_H.append(QString::number(h, 'g', 3));
-            QSL_S.append(QString::number((i * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+
+            if(i == 0)
+                QSL_S.append("<=" + QString::number((i * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else if(i == legend_examples - 1)
+                QSL_S.append(">=" + QString::number((i * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else
+                QSL_S.append(QString::number((i * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+
+            QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
+        }
+    }
+        break;
+
+    case 3://time
+    {
+        QS_H = "Time s";
+        QS_S = "-";
+        QS_V = "\"Count\"";
+        H_angle_range = (2/3.0) * PI_2_0;
+        for(size_t i = 0; i < legend_examples; i++)
+        {
+            QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_time / static_cast<double>(legend_examples-1))), 'g', 3));
+            QSL_S.append("-");
             QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
         }
     }
@@ -16323,6 +16412,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         MA_tmp_Mean_A_Cos.release();
         MA_tmp_Mean_A_Sin.release();
         MA_tmp_Value_Double.release();
+        MA_tmp_TimeNewest.release();
         return ER_parameter_bad;
     }
         break;
@@ -16350,6 +16440,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     MA_tmp_Mean_A_Cos.release();
     MA_tmp_Mean_A_Sin.release();
     MA_tmp_Value_Double.release();
+    MA_tmp_TimeNewest.release();
     return ER;
 }
 

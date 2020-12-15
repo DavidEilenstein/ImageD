@@ -822,14 +822,15 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
                 vv_FrmObjPositions,
                 vv_FrmObjShifts,
                 vv_FrmObjAngles,
-                conv_px2um * VS_InputVideo.get_FrameRateFps(),  // px/frm -> um/sec (as a factor to be applied to px/frm value)
-                value_max / 255.0,                              // factor for 8bit gray value to movements count
+                conv_px2um * VS_InputVideo.get_FrameRateFps(),  //px/frm -> um/sec (as a factor to be applied to px/frm value)
+                value_max / 255.0,                              //factor for 8bit gray value to movements count
                 5, 5,                                           //blur
                 ui->comboBox_Res_Heat_Mode->currentIndex(),     //what to show
                 1500, 99,                                       //legend size
                 1.0, 1,                                         //font size
                 5,                                              //examples on legend count
-                0.1, 0.9);                                      //quantile range dor values to be shown
+                0.1, 0.9,                                       //quantile range dor values to be shown
+                VS_InputVideo.get_FrameTimeSec());              //frame time to scale frames to times
     if(ER != ER_okay)
     {
         ERR(
@@ -1797,14 +1798,42 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     D_PDF_Writer PDF_Summary(DIR_SaveStackOverview.path() + "/Summary" + name_current + ".pdf");
     PDF_Summary.set_Margins(0, 0, 0, 0);
 
+    //relative layout params for summary
+    double gap_border       = 0.03;
+    double gap_within       = 0.01;
+    double gap_within_small = gap_within / 2.0;
+    double line_big         = 0.0425;
+    double line_small       = 0.0225;
+    double image_height     = 0.255;
+    double legend_height    = 0.02;
+    double x_border_left    = 0 + gap_border;
+    double x_border_right   = 1 - gap_border;
+    double y_border_top     = 0 + gap_border;
+    double y_border_bottom  = 1 - gap_border;
+    double x_mid_right      = 0.5 + gap_within_small;
+    double x_mid_left       = 0.5 - gap_within_small;
+    double x_left_mid       = (x_mid_left + x_border_left) / 2.0;
+    double y_head_1         = y_border_top + line_big;
+    double y_head_2         = y_head_1 + line_small;
+    double y_img_1_above    = y_head_2;
+    double y_img_1_under    = y_img_1_above + image_height;
+    double y_img_1_mid      = (y_img_1_above + y_img_1_under) / 2.0;
+    double y_img_2_above    = y_img_1_under + gap_within;
+    double y_img_2_under    = y_img_2_above + image_height;
+    double y_legend_above   = y_img_2_under + gap_within_small;
+    double y_legend_under   = y_legend_above + legend_height;
+    double y_graph_above    = y_legend_under + gap_within;
+
+
+
     //header of summary
     PDF_Summary.add_Text(
                 name_current,
-                0.05, 0.95, 0.05, 0.10,
+                x_border_left, x_border_right, y_border_top, y_head_1,
                 20,
                 Qt::AlignCenter);
     PDF_Summary.add_Text("Video analysis summary by ImageD " + D_QS_Version + " (" + D_QS_Release + ") done at " + QDateTime::currentDateTime().toString(),
-                0.05, 0.95, 0.10, 0.13,
+                x_border_left, x_border_right, y_head_1, y_head_2,
                 10,
                 Qt::AlignCenter);
 
@@ -1845,7 +1874,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "10%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_10], 'g', 4) + "um/s\n"
                 "Median " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEDIAN], 'g', 4) + "um/s\n"
                 "90%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_90], 'g', 4) + "um/s",
-                0.35, 0.65, 0.13, 0.25,
+                x_border_left, x_left_mid, y_img_1_mid, y_img_1_under,
                 10,
                 Qt::AlignCenter);
     //Angle
@@ -1863,7 +1892,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°",
-                0.65, 0.95, 0.13, 0.25,
+                x_left_mid, x_mid_left, y_img_1_mid, y_img_1_under,
                 10,
                 Qt::AlignCenter);
 
@@ -1879,10 +1908,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     PDF_Summary.add_Image(
                 View_Results.pQI(),
-                0.51, 0.95, 0.25, 0.50);
+                x_mid_right, x_border_right, y_img_2_above, y_img_2_under);
     PDF_Summary.add_Image(
                 &MA_Result_HeatmapLegend,
-                0.51, 0.95, 0.51, 0.54);
+               x_mid_right, x_border_right, y_legend_above, y_legend_under);
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
                 View_Results.pQI(),
@@ -1947,6 +1976,36 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 &MA_Result_HeatmapLegend,
                 0.05, 0.95, 0.85, 0.95);
 
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(3);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_border_left, x_mid_left, y_img_2_above, y_img_2_under);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+               x_border_left, x_mid_left, y_legend_above, y_legend_under);
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (Time)\n"
+                "\n"
+                "Color: Time (red=new, blue=old)\n"
+                "Saturation: 100% (no information)\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Color map is realative to video content.\n"
+                "\n"
+                "Useful to get an overview of timely behaviour.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
     //vector field
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VECTORS);
 
@@ -1985,6 +2044,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Vector.path() + "/VectorField4x5 - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField4x5.png");
+
     //basic info for interpretation
     PDF_Summary.add_Text(
                 "Image size: (" + QString::number(vMA_ProcSteps[STEP_CROP].cols * conv_px2um, 'g', 4) + " x " + QString::number(vMA_ProcSteps[STEP_CROP].rows * conv_px2um) + ")um\n"
@@ -1992,18 +2052,13 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
                 "Base speed unit: um/s\n"
                 "Base angle unit: °\n",
-                0.05, 0.35, 0.13, 0.25,
+                x_border_left, x_mid_left, y_img_1_above, y_img_1_mid,
                 10,
                 Qt::AlignCenter);
-    //same img to summary
+    //same img to summary (basic vector graphic)
     PDF_Summary.add_Image(
                 View_Results.pQI(),
-                0.05, 0.49, 0.25, 0.50);
-    /*PDF_Summary.add_Text(
-                "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s",
-                0.05, 0.49, 0.51, 0.58,
-                10,
-                Qt::AlignCenter);*/
+                x_mid_right, x_border_right, y_img_1_above, y_img_1_under);
 
     //save motion vector field video
     Save_ResultVectorFieldVideo(
@@ -2624,7 +2679,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_10s.png");
     PDF_Summary.add_Image(
                 &QI_ImgSave_tmp,
-                0.05, 0.95, 0.55, 0.97);
+                x_border_left, x_border_right, y_graph_above, y_border_bottom);
 
     //reset
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1155</width>
-    <height>751</height>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
       </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>2</horstretch>
+        <horstretch>5</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
@@ -1747,6 +1747,11 @@
               <string>Speed as saturation (gray=slow, intense=fast), angle as color (red=0°)</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Time as color (blue=old, red=new)</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -1759,7 +1764,7 @@
      <widget class="QGroupBox" name="groupBox_Data">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-        <horstretch>1</horstretch>
+        <horstretch>2</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
@@ -1816,7 +1821,7 @@
       </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-        <horstretch>1</horstretch>
+        <horstretch>2</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
@@ -1911,6 +1916,9 @@
          </property>
          <property name="suffix">
           <string>s</string>
+         </property>
+         <property name="maximum">
+          <double>999.000000000000000</double>
          </property>
          <property name="value">
           <double>6.000000000000000</double>
@@ -2237,6 +2245,9 @@
          <property name="suffix">
           <string>s</string>
          </property>
+         <property name="maximum">
+          <double>999.000000000000000</double>
+         </property>
          <property name="value">
           <double>6.000000000000000</double>
          </property>
@@ -2307,7 +2318,7 @@
       </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>1</horstretch>
+        <horstretch>2</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
