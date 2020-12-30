@@ -18,6 +18,9 @@
 #include <d_component_list_context.h>
 #include <d_value_distribution_list.h>
 #include <d_featureset.h>
+#include <d_pxlink_2d_pixel.h>
+#include <d_pxlink_2d_group.h>
+#include <d_pxlink_2d_image.h>
 
 //general
 #include <iostream>
@@ -160,16 +163,17 @@ public:
     static int      Morphology_LocMax_Rect_1C   (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
     static int      Morphology_Reconstruction   (Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil = 1);
 
-    static int      Transformation_Distance     (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
-  //static int      Transformation_Distance_Rel (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
-    static int      Transformation_Watershed    (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker);
-    static int      Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);
-    static int      Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
-    static int      Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border);
-    static int      Transformation_Fourier      (Mat *pMA_Out, Mat *pMA_In, bool invers);
-    static int      Transformation_Fourier      (Mat *pMA_Out, Mat *pMA_In_Re, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
-    static int      Transformation_Fourier      (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool complex_input, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
-    static int      Transformation_Fourier_1C   (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
+    static int      Transformation_Distance         (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
+  //static int      Transformation_Distance_Rel     (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
+    static int      Transformation_Watershed        (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker);
+    static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);
+    static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
+    static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border);
+    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask);
+    static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In, bool invers);
+    static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
+    static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool complex_input, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
+    static int      Transformation_Fourier_1C       (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
 
     static int      Segmentation_GaussDistWater (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
 

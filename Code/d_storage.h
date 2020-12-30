@@ -86,6 +86,7 @@ public:
     QDir            *dir_M_FourierTransformator()                   {return &(vDIR_DefaultPaths[i_M_FOURIER]);}
     QDir            *dir_M_AirDrag()                                {return &(vDIR_DefaultPaths[i_M_AIRDRAG]);}
     QDir            *dir_M_MegaFoci()                               {return &(vDIR_DefaultPaths[i_M_MEGAFOCI]);}
+    QDir            *dir_M_Huang()                                  {return &(vDIR_DefaultPaths[i_M_HUANG]);}
     void            set_dir_Load(QString path)                      {Path_Set(path, i_LOAD);}
     void            set_dir_Save(QString path)                      {Path_Set(path, i_SAVE);}
     void            set_dir_M_dsDNA(QString path)                   {Path_Set(path, i_M_DSDNA);}
@@ -109,6 +110,7 @@ public:
     void            set_dir_M_FourierTransformator(QString path)    {Path_Set(path, i_M_FOURIER);}
     void            set_dir_M_AirDrag(QString path)                 {Path_Set(path, i_M_AIRDRAG);}
     void            set_dir_M_MegaFoci(QString path)                {Path_Set(path, i_M_MEGAFOCI);}
+    void            set_dir_M_Huang(QString path)                   {Path_Set(path, i_M_HUANG);}
 
     //SettingsStats
     int             get_UseCounter();
@@ -201,6 +203,7 @@ private:
         i_M_FOURIER,
         i_M_AIRDRAG,
         i_M_MEGAFOCI,
+        i_M_HUANG,
         c_COUNT_DIR
     };
 

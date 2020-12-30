@@ -16,8 +16,8 @@
 #include <complex>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_1_0";
-const QString           D_QS_Release  = "15.12.2020";
+const QString           D_QS_Version  = "v1_2_0";
+const QString           D_QS_Release  = "30.12.2020";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 

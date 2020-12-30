@@ -46,6 +46,9 @@ SOURCES += \
     d_physics.cpp \
     d_popup_feedbackrequest.cpp \
     d_popup_listedit_numbers.cpp \
+    d_pxlink_2d_group.cpp \
+    d_pxlink_2d_image.cpp \
+    d_pxlink_2d_pixel.cpp \
     d_videoslicer.cpp \
     d_videowriter.cpp \
     d_visdat_header.cpp \
@@ -112,6 +115,9 @@ HEADERS += \
     d_physics.h \
     d_popup_feedbackrequest.h \
     d_popup_listedit_numbers.h \
+    d_pxlink_2d_group.h \
+    d_pxlink_2d_image.h \
+    d_pxlink_2d_pixel.h \
     d_stepwindow.h \
     d_videoslicer.h \
     d_videowriter.h \

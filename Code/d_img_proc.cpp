@@ -5898,11 +5898,8 @@ int D_Img_Proc::Transformation_Watershed(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mar
 {
     if(pMA_In->empty() || pMA_Marker->empty())  return ER_empty;
     if(pMA_In->size != pMA_Marker->size)        return ER_size_missmatch;
-
-    if(pMA_In->type() != CV_8UC3)
-        return ER_type_bad;
-    if(pMA_Marker->type() != CV_32SC1)
-        return ER_type_bad;
+    if(pMA_In->type() != CV_8UC3)               return ER_type_bad;
+    if(pMA_Marker->type() != CV_32SC1)          return ER_type_bad;
 
     *pMA_Out = pMA_Marker->clone();
 
@@ -6225,6 +6222,21 @@ int D_Img_Proc::Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int siz
     MA_tmp_dist.release();
     MA_tmp_dist_blur.release();
     MA_tmp_loc_max.release();
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask)
+{
+    //error checks
+    if(pMA_In2Fill->empty())                        return ER_empty;
+    if(pMA_In2Fill->channels() != 1)                return ER_channel_bad;
+    if(pMA_InMarker->channels() != 1)               return ER_channel_bad;
+    if(pMA_FG_Mask->type() != CV_8UC1)              return ER_type_bad;
+    if(pMA_FG_Mask->size() != pMA_InMarker->size()) return ER_size_missmatch;
+    if(pMA_FG_Mask->size() != pMA_In2Fill->size())  return ER_size_missmatch;
+    int ER = ER_okay;
+
 
     return ER_okay;
 }
