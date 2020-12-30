@@ -57,8 +57,8 @@ class D_MAKRO_HuangVisualization;
 }
 
 /*!
- * \brief The D_MAKRO_HuangVisualization class visualization of huangs rank order filtering
- * \details See explanation video <a href="www.youtube.com">here</a>
+ * \brief The D_MAKRO_HuangVisualization class visualization of huangs rank order filtering.
+ * \details See explanation video <a href="https://www.youtube.com/watch?v=j_3wfKGABgQ">here</a>.
  */
 class D_MAKRO_HuangVisualization : public QMainWindow
 {

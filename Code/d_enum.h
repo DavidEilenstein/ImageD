@@ -16,7 +16,7 @@
 #include <complex>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_2_0";
+const QString           D_QS_Version  = "v1_2_1";
 const QString           D_QS_Release  = "30.12.2020";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
@@ -1781,12 +1781,17 @@ PH_g_earth              = 9.80665;
  *
  * \section doc_sec Documentation
  *
- * There are three types of documentation:
- *      1. Code:    The documentation of the code is done on this webpage. Just navigate with the panels on the right and on the top or use the serach function.
- *      2. Manuals: There are user manual PDFs for each modul of the program. They are not public yet. Please contact me for more information.
- *      3. Theory:  My bachelor thesis about the concepts of ImageD. Not published yet. Please contact me for more information.
+ * There are four types of documentation:
+ *      1. Code:        The documentation of the code is done on this webpage. Just navigate with the panels on the right and on the top or use the serach function.
+ *      2. Manuals:     There are user manual PDFs for each modul of the program. They are not public yet. Please contact me for more information.
+ *      3. Theory:      My bachelor thesis about the concepts of ImageD. Not published yet. Please contact me for more information.
+ *      4. Tutorials:   YouTube "how to" videos. See next section for direct links.
  *
  * \section links_sec Weblinks
+ *
+ * Some YouTube-Tutorials can be found here:
+ *      - <a href="https://youtu.be/j_3wfKGABgQ">Huang rank order filtering explanantion and visualization</a> (german)
+ *      - <a href="https://youtu.be/2OATSGe2Oks">How diescrete fourier transformation works</a> (german)
  *
  * \subsection links_sec_projects Projects
  *
