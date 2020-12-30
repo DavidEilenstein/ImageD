@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_1_0 (15.12.20)</span>
+   &#160;<span id="projectnumber">v1_2_0 (30.12.20)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -292,6 +292,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a382b503db82dd103e24e49e7922d15d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aedf4f9e62b489c18ddc50c4d0d87ddb0">Transformation_Watershed_Auto</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border)</td></tr>
 <tr class="separator:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2ae225a624db66965291657d4834120"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af2ae225a624db66965291657d4834120">Transformation_Watershed_Custom</a> (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask)</td></tr>
+<tr class="separator:af2ae225a624db66965291657d4834120"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a780da4c988d3adc08bf635e18ef516a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a780da4c988d3adc08bf635e18ef516a3">Transformation_Fourier</a> (Mat *pMA_Out, Mat *pMA_In, bool invers)</td></tr>
 <tr class="separator:a780da4c988d3adc08bf635e18ef516a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2196114745db25739273c4c6a3aaca0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af2196114745db25739273c4c6a3aaca0">Transformation_Fourier</a> (Mat *pMA_Out, Mat *pMA_In_Re, bool invers=false, bool force_fft=true, bool out_real=false, int out_complex_mode=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aa73ea6ef57f01efdb6cf9612bbc1399cf">c_COMPLEX2REAL_ABS</a>, bool out_scale=false, bool out_center=true, bool out_nof0=true)</td></tr>
@@ -14656,6 +14658,54 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>exclude_border</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2ae225a624db66965291657d4834120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2ae225a624db66965291657d4834120">&#9670;&nbsp;</a></span>Transformation_Watershed_Custom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Transformation_Watershed_Custom </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In2Fill</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InMarker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_FG_Mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

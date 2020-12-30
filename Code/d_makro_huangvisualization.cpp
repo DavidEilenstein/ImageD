@@ -755,6 +755,7 @@ void D_MAKRO_HuangVisualization::Init_Quantile()
 
     //write to image
     MA_ImgOut_Gray.at<uchar>(0, 0) = static_cast<uchar>(quantil_val);
+    Viewer_Out.Update_Image(&MA_ImgOut_Gray);
 
     //show
     ui->label_quantil->setText(QString::number(quantil_val));
@@ -954,6 +955,10 @@ void D_MAKRO_HuangVisualization::Step_LoadLineBegin()
     ui->label_mass_smaller->setText(QString::number(mass_smaller));
     ui->label_mass_quantil->setText(QString::number(mass_quantil));
     ui->label_mass_greater->setText(QString::number(mass_greater));
+    Update_Image_In();
+    Update_Image_Mask();
+    Update_Plot_Hist();
+    Update_Plot_Mass();
 
     //next step is:
     pLabelStatus->setText("NEXT: Pixel - Change position");

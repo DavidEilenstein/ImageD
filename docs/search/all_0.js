@@ -11,10 +11,11 @@ var searchData=
   ['add_5fnewline_8',['add_NewLine',['../class_d___p_d_f___writer.html#a583fc6f08140cc71a375a18fe1f5c93b',1,'D_PDF_Writer']]],
   ['add_5fnewpage_9',['add_NewPage',['../class_d___p_d_f___writer.html#ad5a42269ff3fdc0e8d33de73dabb8852',1,'D_PDF_Writer']]],
   ['add_5fpoint_10',['add_Point',['../class_d___component.html#a283ca4144ae4619797574ecd2eaa7c3a',1,'D_Component::add_Point(Point point2add)'],['../class_d___component.html#a5c643b659c792b4ac7409d49e7181d8f',1,'D_Component::add_Point(int x, int y)']]],
-  ['add_5fstep_11',['Add_Step',['../class_d___main_window.html#ae7d53839d5028c4800bb63b75086ec85',1,'D_MainWindow']]],
-  ['add_5ftext_12',['add_Text',['../class_d___p_d_f___writer.html#ade535bf0b66810bcf84d1646cf317057',1,'D_PDF_Writer::add_Text(QString QS_text, int size=-1, int align=Qt::AlignLeft)'],['../class_d___p_d_f___writer.html#a68185b28fd95f6d488e9dcfda3c56023',1,'D_PDF_Writer::add_Text(QString QS_text, double x1_rel, double x2_rel, double y1_rel, double y2_rel, int size=-1, int align=Qt::AlignLeft)']]],
-  ['addframe_13',['AddFrame',['../class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e',1,'D_VideoWriter::AddFrame(Mat frame2add)'],['../class_d___video_writer.html#af685530f186d6c40f762b63790bf2a89',1,'D_VideoWriter::AddFrame(Mat *frame2add)']]],
-  ['anglerad_14',['AngleRad',['../class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e',1,'D_Math']]],
-  ['axe_5ftick_5fcount_5fdefault_15',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
-  ['axetrans_16',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
+  ['add_5fpx_11',['add_px',['../class_d___px_link__2_d___group.html#aed6b6c6a30fb5a8643081d70e5a84c11',1,'D_PxLink_2D_Group']]],
+  ['add_5fstep_12',['Add_Step',['../class_d___main_window.html#ae7d53839d5028c4800bb63b75086ec85',1,'D_MainWindow']]],
+  ['add_5ftext_13',['add_Text',['../class_d___p_d_f___writer.html#ade535bf0b66810bcf84d1646cf317057',1,'D_PDF_Writer::add_Text(QString QS_text, int size=-1, int align=Qt::AlignLeft)'],['../class_d___p_d_f___writer.html#a68185b28fd95f6d488e9dcfda3c56023',1,'D_PDF_Writer::add_Text(QString QS_text, double x1_rel, double x2_rel, double y1_rel, double y2_rel, int size=-1, int align=Qt::AlignLeft)']]],
+  ['addframe_14',['AddFrame',['../class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e',1,'D_VideoWriter::AddFrame(Mat frame2add)'],['../class_d___video_writer.html#af685530f186d6c40f762b63790bf2a89',1,'D_VideoWriter::AddFrame(Mat *frame2add)']]],
+  ['anglerad_15',['AngleRad',['../class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e',1,'D_Math']]],
+  ['axe_5ftick_5fcount_5fdefault_16',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
+  ['axetrans_17',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
 ];
