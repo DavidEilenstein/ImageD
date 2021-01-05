@@ -41,7 +41,7 @@ void D_Component::Calc_Mat()
 {
     //qDebug() << "D_Component - calc mat";
 
-    if(calced_mat)              return;
+    if(calced_Mat_Cropped)      return;
     if(vp_Coordinates.empty())  return;
 
     //max/min
@@ -51,7 +51,7 @@ void D_Component::Calc_Mat()
     right   = vp_Coordinates[vp_Coordinates.size() - 1].x;
 
     //check left/right
-    for(int px = 0; px < vp_Coordinates.size(); px++)
+    for(size_t px = 0; px < vp_Coordinates.size(); px++)
     {
         int x = vp_Coordinates[px].x;
         if(x < left)    left = x;
@@ -70,7 +70,7 @@ void D_Component::Calc_Mat()
                     width,
                     CV_8UC1);
 
-    for(int px = 0; px < vp_Coordinates.size(); px++)
+    for(size_t px = 0; px < vp_Coordinates.size(); px++)
     {
         int x = vp_Coordinates[px].x - p_Offset.x;
         int y = vp_Coordinates[px].y - p_Offset.y;
@@ -80,7 +80,7 @@ void D_Component::Calc_Mat()
 
     //imwrite(("D:/David_Eilenstein/ImageD/StepsStream/stack_test/Croped Mat" + QString::number(i_Number).toStdString() + ".jpg"), MA_Cropped);
 
-    calced_mat = true;
+    calced_Mat_Cropped = true;
     Calc_Contour();
 }
 
@@ -107,7 +107,7 @@ void D_Component::Calc_Contour()
     i_Holes = static_cast<int>(vvp_Contours_tmp.size() - 1);
 
     //get rid of offset
-    for(int cpx = 0; cpx < vp_Contour.size(); cpx++)
+    for(size_t cpx = 0; cpx < vp_Contour.size(); cpx++)
         vp_Contour[cpx] = Point(
                     vp_Contour[cpx].x + p_Offset.x,
                     vp_Contour[cpx].y + p_Offset.y);
@@ -119,7 +119,14 @@ void D_Component::Calc_Contour()
 }
 
 void D_Component::Calc_Distance()
-{
+{    
+    if(calced_Mat_Distance)
+        return;
+    if(!calced_Mat_Cropped)
+        Calc_Mat();
+    if(!calced_Mat_Cropped)
+        return;
+
     //pad with 0 to avoid images with no background (would lead to undefined values in distance transform)
     copyMakeBorder(
                 MA_Cropped,
@@ -135,15 +142,20 @@ void D_Component::Calc_Distance()
                 MA_Distance,
                 CV_DIST_L2,
                 CV_DIST_MASK_3);
+
+    calced_Mat_Distance = true;
 }
 
 void D_Component::Calc_Features()
 {
     //qDebug() << "D_Component - calc features";
 
-    if(!calced_mat)         return;
-    if(calced_features)     return;
-
+    if(calced_features)
+        return;
+    if(!calced_Mat_Cropped)
+        Calc_Mat();
+    if(!calced_Mat_Cropped)
+        return;
     if(vp_Contour.empty())
         return;
 
@@ -335,18 +347,21 @@ void D_Component::Calc_Features()
     //inclosing circle (distance tranbsform: max_val = r, max_pos = center)
     f_InclosingCircle_Radius = 0.0;
     p_InclosingCircle_Center = Point(1, 1); // 0,0 -> 1,1 because of padding
-    for(int y = 0; y < MA_Distance.rows; y++)
-    {
-        for(int x = 0; x < MA_Distance.cols; x++)
+    if(!calced_Mat_Distance)
+        Calc_Distance();
+    if(calced_Mat_Distance)
+        for(int y = 0; y < MA_Distance.rows; y++)
         {
-            float val = MA_Distance.at<float>(y, x);
-            if(val > f_InclosingCircle_Radius)
+            for(int x = 0; x < MA_Distance.cols; x++)
             {
-                f_InclosingCircle_Radius = val;
-                p_InclosingCircle_Center = Point(x - 1, y - 1); // -1,-1 because of padding
+                float val = MA_Distance.at<float>(y, x);
+                if(val > f_InclosingCircle_Radius)
+                {
+                    f_InclosingCircle_Radius = val;
+                    p_InclosingCircle_Center = Point(x - 1, y - 1); // -1,-1 because of padding
+                }
             }
         }
-    }
     p_InclosingCircle_Center += p_Offset;
 
     double inclosingCirc_Center_X   = p_InclosingCircle_Center.x;
@@ -558,10 +573,13 @@ void D_Component::Calc_Features()
 
 
 
+
+
 void D_Component::Need2Updated()
 {
     calced_contour = false;
     calced_features = false;
-    calced_mat = false;
+    calced_Mat_Cropped = false;
+    calced_Mat_Distance = false;
 }
 

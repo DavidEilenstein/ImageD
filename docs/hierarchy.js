@@ -1,5 +1,11 @@
 var hierarchy =
 [
+    [ "D_Bio_Focus", "class_d___bio___focus.html", [
+      [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", null ]
+    ] ],
+    [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html", null ],
+    [ "D_Bio_NucleusLife", "class_d___bio___nucleus_life.html", null ],
+    [ "D_Bio_NucleusPedigree", "class_d___bio___nucleus_pedigree.html", null ],
     [ "D_Component", "class_d___component.html", null ],
     [ "D_Component_Analysis", "class_d___component___analysis.html", null ],
     [ "D_Component_List", "class_d___component___list.html", null ],

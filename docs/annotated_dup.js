@@ -1,6 +1,11 @@
 var annotated_dup =
 [
     [ "D_AnalysisWindow", "class_d___analysis_window.html", "class_d___analysis_window" ],
+    [ "D_Bio_Focus", "class_d___bio___focus.html", "class_d___bio___focus" ],
+    [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", "class_d___bio___nucleus_blob" ],
+    [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html", "class_d___bio___nucleus_image" ],
+    [ "D_Bio_NucleusLife", "class_d___bio___nucleus_life.html", "class_d___bio___nucleus_life" ],
+    [ "D_Bio_NucleusPedigree", "class_d___bio___nucleus_pedigree.html", "class_d___bio___nucleus_pedigree" ],
     [ "D_Component", "class_d___component.html", "class_d___component" ],
     [ "D_Component_Analysis", "class_d___component___analysis.html", "class_d___component___analysis" ],
     [ "D_Component_List", "class_d___component___list.html", "class_d___component___list" ],

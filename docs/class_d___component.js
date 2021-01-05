@@ -12,6 +12,7 @@ var class_d___component =
     [ "Calc_Features", "class_d___component.html#acb0153f3579a78803c2f954c4aa1a4fa", null ],
     [ "Calc_Mat", "class_d___component.html#af9682da576d5e55f9082d6730fb8847c", null ],
     [ "clear", "class_d___component.html#ac8615a10484147529b33b8c1f9f8f1ea", null ],
+    [ "free_Mat", "class_d___component.html#af549fe83ac449689e376249a420672d8", null ],
     [ "get_BndBox_Rect", "class_d___component.html#a2a99408f4301cce9defb234e5aa4d749", null ],
     [ "get_BndBox_Rotate", "class_d___component.html#abc8cab68c8fedbe6921b9fb25fa46a93", null ],
     [ "get_Centroid", "class_d___component.html#a6fcce46f97db694c3c72eb14653ae2c2", null ],

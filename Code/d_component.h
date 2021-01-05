@@ -76,6 +76,8 @@ public:
     void            set_Name(QString name)              {QS_Name = name;}
     void            set_Number(int number)              {i_Number = number;}
 
+    //release
+    void            free_Mat()                          {MA_Cropped.release(); MA_Distance.release(); calced_Mat_Cropped = false; calced_Mat_Distance = false;}
 
 private:
 
@@ -87,8 +89,12 @@ private:
     int                     width   = 0;
     int                     height  = 0;
     vector<Point>           vp_Coordinates;
+
     Mat                     MA_Cropped;
     Mat                     MA_Distance;
+    bool                    calced_Mat_Distance = false;
+    bool                    calced_Mat_Cropped = false;
+
     Point                   p_Offset;
     vector<Point>           vp_Contour;
     vector<double>          vd_Features;

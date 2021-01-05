@@ -35,6 +35,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    d_bio_focus.cpp \
+    d_bio_nucleusblob.cpp \
+    d_bio_nucleusimage.cpp \
+    d_bio_nucleuslife.cpp \
+    d_bio_nucleuspedigree.cpp \
     d_featureset.cpp \
     d_finishtimeprognosis.cpp \
     d_makro_airdragtrack.cpp \
@@ -103,6 +108,11 @@ SOURCES += \
     d_makro_huangvisualization.cpp
 
 HEADERS += \
+    d_bio_focus.h \
+    d_bio_nucleusblob.h \
+    d_bio_nucleusimage.h \
+    d_bio_nucleuslife.h \
+    d_bio_nucleuspedigree.h \
     d_featureset.h \
     d_finishtimeprognosis.h \
         d_mainwindow.h \

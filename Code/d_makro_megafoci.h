@@ -21,6 +21,8 @@
 #include <d_popup_listedit.h>
 #include <d_videowriter.h>
 #include <d_finishtimeprognosis.h>
+#include <d_bio_nucleuspedigree.h>
+#include <d_bio_nucleusimage.h>
 
 //Qt
 #include <QMainWindow>
