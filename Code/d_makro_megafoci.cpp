@@ -344,6 +344,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
         }
     }
 
+    Update_ImageDecomposition();
+
     Update_Images_Proc();
 }
 
@@ -356,6 +358,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     size_t dataset_pos_x = ui->spinBox_Viewport_X->value();
     size_t dataset_pos_y = ui->spinBox_Viewport_Y->value();
     size_t dataset_pos_t = ui->spinBox_Viewport_T->value();
+
+    //reset states
+    state_image_decomposed = false;
 
     //select step to do
     StatusSet("ImgProc: " + QSL_Steps[static_cast<int>(step)]);
@@ -889,6 +894,42 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
 }
 
+void D_MAKRO_MegaFoci::Update_ImageDecomposition()
+{
+    state_image_decomposed = false;
+
+    //foci segmentation
+    vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
+    vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_P0_SELECT_AREA;
+    vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_P1_SELECT_AREA;
+    vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
+
+    //values
+    vector<size_t> vIndices_Values(PAGES_NUMBER_OF);
+    vIndices_Values[PAGE_GFP]   = STEP_PCK_P0;
+    vIndices_Values[PAGE_RFP]   = STEP_PCK_P1;
+
+    //decomposition
+    D_Bio_NucleusImage ImageDecomp;
+    int ER = ImageDecomp.calc_NucleiDecomposition(
+                &vVD_ImgProcSteps,
+                STEP_NUC_P1_SELECT_MEAN,
+                vIndices_FociBinary,
+                vIndices_Values,
+                Point(ui->spinBox_Viewport_X->value() * dataset_dim_img_x, ui->spinBox_Viewport_Y->value() * dataset_dim_img_y),
+                ui->spinBox_Viewport_T->value(),
+                4);
+    ERR(ER, "Update_ImageDecomposition", "ImageDecomp.calc_NucleiDecomposition");
+    if(ER != ER_okay)
+        return;
+
+    state_image_decomposed = true;
+
+    //save data
+    if(state_stack_processing)
+        ImageDecomp.save(DIR_SaveDetections.path());
+}
+
 void D_MAKRO_MegaFoci::Stack_Process_All()
 {
     //confirmation by user
@@ -933,6 +974,9 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     //Save subfolders
     DIR_SaveMosaik.setPath(DIR_SaveMaster.path() + "/Mosaik");
     QDir().mkdir(DIR_SaveMosaik.path());
+
+    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");
+    QDir().mkdir(DIR_SaveDetections.path());
 
     //set ui
     ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);

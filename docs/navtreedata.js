@@ -68,13 +68,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"class_d___m_a_k_r_o___mega_foci.html#ac91313faafaef946187306f90ff38481",
-"class_d___video_slicer.html#a94095ac2ead9d2beef2437f7a1149bba",
-"class_d___vis_dat___dim.html#ac88d2c961fce04f9ac8cefd420d9794a",
-"d__bio__nucleuspedigree_8cpp.html",
-"d__enum_8h.html#a5a1d9a41437b3b9b0802b600e5372105",
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60af45ecdaa1fc4ae3aa361e81aed43f1e3",
-"d__makro__visualization_8h_source.html"
+"class_d___m_a_k_r_o___manuel_segmentation.html#a5f94d39cd93e1b48a4e603d2f97e6071",
+"class_d___video_slicer.html#a4d03bb75a3a2da5ae6bcef2ac7de4766",
+"class_d___vis_dat___dim.html#abdcfa8c2cdae8c5b00e37ca52e24412c",
+"d__bio__nucleusblob_8h_source.html",
+"d__enum_8h.html#a587354fc2d81b05b86b9466fb0258d38a7e124e2fab25f74944bd6f8f77e5445c",
+"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60ae324f9e70a6e9deb1e68553986dbe46b",
+"d__makro__osteoclasts_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

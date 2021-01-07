@@ -15,6 +15,9 @@
 #include <d_math.h>
 #include <d_bio_nucleusblob.h>
 #include <d_bio_focus.h>
+#include <d_visdat_obj.h>
+#include <d_visdat_proc.h>
+#include <d_component_list.h>
 
 //Qt
 #include <QFileDialog>
@@ -44,14 +47,19 @@ class D_Bio_NucleusImage
 {
 public:
     D_Bio_NucleusImage();
-    D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat*> vpMA_FociBinary, vector<Mat*> vpMA_Values, Point P_Offset = Point(0, 0), double time = 0, int neighborhood = 4);
+    D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
+    D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
+    D_Bio_NucleusImage(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
 
-    int calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat*> vpMA_FociBinary, vector<Mat*> vpMA_Values, Point P_Offset = Point(0, 0), double time = 0, int neighborhood = 4);
+    int calc_NucleiDecomposition(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
+    int calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
+    int calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4);
+
+    int save(QString path);
 
 private:
-    double m_time = 0;
+    size_t m_time = 0;
     vector<D_Bio_NucleusBlob>   vNuclei;
-
 };
 
 #endif // D_BIO_NUCLEUSIMAGE_H

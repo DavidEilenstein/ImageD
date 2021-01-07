@@ -11,6 +11,7 @@ var class_d___bio___nucleus_blob =
     [ "get_FociChannels", "class_d___bio___nucleus_blob.html#a5fd52a2de45c2707828e1b7e00a72fee", null ],
     [ "get_FociCount", "class_d___bio___nucleus_blob.html#ad9d9552142968f5c29f603ee1e59d457", null ],
     [ "get_Focus", "class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe", null ],
+    [ "save", "class_d___bio___nucleus_blob.html#a2537aa48b4403c6057a0b01ac0dca97f", null ],
     [ "set_Foci", "class_d___bio___nucleus_blob.html#a349a554f2dfc390e5eeac953542a73aa", null ],
     [ "set_Foci", "class_d___bio___nucleus_blob.html#a199eacd0390ce53ba915fac62a7eeab7", null ],
     [ "set_FociChannels", "class_d___bio___nucleus_blob.html#ad299ca424441f9b3f95c400f93ed411d", null ]

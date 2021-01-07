@@ -65,7 +65,7 @@ public:
     double          signal_median(size_t channel)                   {return channel < vSignalMedians.size() ? vSignalMedians[channel] : 0;}
     double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}
 
-
+    int             save(QString path);
 
 protected:
     void            CalcFeats();

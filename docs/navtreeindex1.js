@@ -1,5 +1,12 @@
 var NAVTREEINDEX1 =
 {
+"class_d___m_a_k_r_o___manuel_segmentation.html#a5f94d39cd93e1b48a4e603d2f97e6071":[3,0,30,3],
+"class_d___m_a_k_r_o___manuel_segmentation.html#a700152838c95231f47877e82b4a7cbf0":[3,0,30,1],
+"class_d___m_a_k_r_o___manuel_segmentation.html#ac766d772ad2919a0f24451f859e9ab44":[3,0,30,2],
+"class_d___m_a_k_r_o___mega_foci.html":[3,0,31],
+"class_d___m_a_k_r_o___mega_foci.html#a3c8b097536e0d33e16f956e75177eead":[3,0,31,0],
+"class_d___m_a_k_r_o___mega_foci.html#a4156a0407715f87764f22f5f6cfcf55a":[3,0,31,4],
+"class_d___m_a_k_r_o___mega_foci.html#ab10902b7da4706c1ee3877bb795d64e4":[3,0,31,2],
 "class_d___m_a_k_r_o___mega_foci.html#ac91313faafaef946187306f90ff38481":[3,0,31,1],
 "class_d___m_a_k_r_o___mega_foci.html#ae93e70eeb8dfe5f5b4bc1ae62e19b346":[3,0,31,3],
 "class_d___m_a_k_r_o___mitochondrien.html":[3,0,32],
@@ -242,12 +249,5 @@ var NAVTREEINDEX1 =
 "class_d___video_slicer.html#a21e764000d132572cc782b733593196f":[3,0,54,11],
 "class_d___video_slicer.html#a3373f089f1fd63a151af97a0536820f5":[3,0,54,15],
 "class_d___video_slicer.html#a42794bfe91647cdaac354e47c6df3963":[3,0,54,6],
-"class_d___video_slicer.html#a43f90ac7ee317da8de180a9fe8d951e4":[3,0,54,0],
-"class_d___video_slicer.html#a4d03bb75a3a2da5ae6bcef2ac7de4766":[3,0,54,26],
-"class_d___video_slicer.html#a54cb5ac557ec0cb2200d735b29de7fd0":[3,0,54,7],
-"class_d___video_slicer.html#a5bbb694e20099a8b4b8f00f5f62e892e":[3,0,54,4],
-"class_d___video_slicer.html#a67dde4db413b0e8a1d11a12a6ceb134a":[3,0,54,27],
-"class_d___video_slicer.html#a7dcce66f403dfb7de86e519ed1c00428":[3,0,54,19],
-"class_d___video_slicer.html#a90b1788b96eaaf2c45640d6b6c43aa8d":[3,0,54,13],
-"class_d___video_slicer.html#a93d54e3d600af393097caf602814be2f":[3,0,54,21]
+"class_d___video_slicer.html#a43f90ac7ee317da8de180a9fe8d951e4":[3,0,54,0]
 };

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_2 (05.01.21)</span>
+   &#160;<span id="projectnumber">v1_2_3 (07.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -151,33 +151,42 @@ $(document).ready(function(){initNavTree('d__bio__nucleusblob_8h_source.html',''
 <div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a828dcf16c20cf3d8b64ca535639a6baf">   61</a></span>&#160;    vector&lt;D_Bio_Focus&gt;             <a class="code" href="class_d___bio___nucleus_blob.html#a828dcf16c20cf3d8b64ca535639a6baf">get_Foci</a>(<span class="keywordtype">size_t</span> channel)                                {<span class="keywordflow">return</span> channel &lt; vvFoci.size() ? vvFoci[channel] : vector&lt;D_Bio_Focus&gt;{};}</div>
 <div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe">   62</a></span>&#160;    <a class="code" href="class_d___bio___focus.html">D_Bio_Focus</a>                     <a class="code" href="class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe">get_Focus</a>(<span class="keywordtype">size_t</span> channel, <span class="keywordtype">size_t</span> index)                 {<span class="keywordflow">return</span> channel &lt; vvFoci.size() ? (index &lt; vvFoci[channel].size() ? vvFoci[channel][index] : <a class="code" href="class_d___bio___focus.html">D_Bio_Focus</a>()) : <a class="code" href="class_d___bio___focus.html">D_Bio_Focus</a>();}</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">double</span>                          m_time = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    vector&lt;vector&lt;D_Bio_Focus&gt;&gt;     vvFoci;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span>                             save(QString path);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">double</span>                          m_time = 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    vector&lt;vector&lt;D_Bio_Focus&gt;&gt;     vvFoci;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    QStringList                     QSL_FociChannelNames;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif // D_BIO_NUCLEUSBLOB_H</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif // D_BIO_NUCLEUSBLOB_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd">ER_okay</a></div><div class="ttdeci">@ ER_okay</div><div class="ttdef"><b>Definition:</b> d_enum.h:100</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_acd77a5a1cf25bc2392103ff6baaf4488"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#acd77a5a1cf25bc2392103ff6baaf4488">D_Bio_NucleusBlob::get_Foci</a></div><div class="ttdeci">vector&lt; vector&lt; D_Bio_Focus &gt; &gt; get_Foci()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:59</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a828dcf16c20cf3d8b64ca535639a6baf"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a828dcf16c20cf3d8b64ca535639a6baf">D_Bio_NucleusBlob::get_Foci</a></div><div class="ttdeci">vector&lt; D_Bio_Focus &gt; get_Foci(size_t channel)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:61</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_ae556e3f36d099ca09a615f56539ee38e"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#ae556e3f36d099ca09a615f56539ee38e">D_Bio_NucleusBlob::add_Focus</a></div><div class="ttdeci">void add_Focus(size_t channel, D_Bio_Focus focus)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:55</div></div>
 <div class="ttc" id="ad__math_8h_html"><div class="ttname"><a href="d__math_8h.html">d_math.h</a></div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a349a554f2dfc390e5eeac953542a73aa"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a349a554f2dfc390e5eeac953542a73aa">D_Bio_NucleusBlob::set_Foci</a></div><div class="ttdeci">void set_Foci(size_t channel, vector&lt; D_Bio_Focus &gt; v_foci)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:53</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a5fd52a2de45c2707828e1b7e00a72fee"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a5fd52a2de45c2707828e1b7e00a72fee">D_Bio_NucleusBlob::get_FociChannels</a></div><div class="ttdeci">size_t get_FociChannels()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:58</div></div>
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a4a8ebde045373a76e6a939cb4d552fbd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a4a8ebde045373a76e6a939cb4d552fbd">ER_file_not_exist</a></div><div class="ttdeci">@ ER_file_not_exist</div><div class="ttdef"><b>Definition:</b> d_enum.h:128</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_ad299ca424441f9b3f95c400f93ed411d"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#ad299ca424441f9b3f95c400f93ed411d">D_Bio_NucleusBlob::set_FociChannels</a></div><div class="ttdeci">void set_FociChannels(size_t channels)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:52</div></div>
 <div class="ttc" id="aclass_d___bio___focus_html"><div class="ttname"><a href="class_d___bio___focus.html">D_Bio_Focus</a></div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:41</div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_a0f29fdf642bb21444c060601ca4f60f3"><div class="ttname"><a href="class_d___bio___focus.html#a0f29fdf642bb21444c060601ca4f60f3">D_Bio_Focus::m_contour</a></div><div class="ttdeci">vector&lt; Point &gt; m_contour</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:73</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_ad9d9552142968f5c29f603ee1e59d457"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#ad9d9552142968f5c29f603ee1e59d457">D_Bio_NucleusBlob::get_FociCount</a></div><div class="ttdeci">size_t get_FociCount(size_t channel)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:60</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a199eacd0390ce53ba915fac62a7eeab7"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a199eacd0390ce53ba915fac62a7eeab7">D_Bio_NucleusBlob::set_Foci</a></div><div class="ttdeci">void set_Foci(vector&lt; vector&lt; D_Bio_Focus &gt;&gt; vv_foci)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:54</div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_a770427557e2b875871098e040d87ef4c"><div class="ttname"><a href="class_d___bio___focus.html#a770427557e2b875871098e040d87ef4c">D_Bio_Focus::vSignalMedDevs</a></div><div class="ttdeci">vector&lt; double &gt; vSignalMedDevs</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:83</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html"><div class="ttname"><a href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:43</div></div>
 <div class="ttc" id="ad__bio__focus_8h_html"><div class="ttname"><a href="d__bio__focus_8h.html">d_bio_focus.h</a></div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_aff6243f4d8ee4f270e3db735bcb22fbe"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe">D_Bio_NucleusBlob::get_Focus</a></div><div class="ttdeci">D_Bio_Focus get_Focus(size_t channel, size_t index)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:62</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a20b049a1921aeb38338c609184a0db67"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a20b049a1921aeb38338c609184a0db67">D_Bio_NucleusBlob::D_Bio_NucleusBlob</a></div><div class="ttdeci">D_Bio_NucleusBlob()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.cpp:11</div></div>
 <div class="ttc" id="ad__bio__nucleusblob_8h_html"><div class="ttname"><a href="d__bio__nucleusblob_8h.html">d_bio_nucleusblob.h</a></div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_a583a6b99c2b16a7fc798675eb6ab2b10"><div class="ttname"><a href="class_d___bio___focus.html#a583a6b99c2b16a7fc798675eb6ab2b10">D_Bio_Focus::vSignalMedians</a></div><div class="ttdeci">vector&lt; double &gt; vSignalMedians</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:82</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a2537aa48b4403c6057a0b01ac0dca97f"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a2537aa48b4403c6057a0b01ac0dca97f">D_Bio_NucleusBlob::save</a></div><div class="ttdeci">int save(QString path)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.cpp:43</div></div>
 <div class="ttc" id="ad__stat_8h_html"><div class="ttname"><a href="d__stat_8h.html">d_stat.h</a></div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_a090d38af65c968d97329230039e2e7c2"><div class="ttname"><a href="class_d___bio___focus.html#a090d38af65c968d97329230039e2e7c2">D_Bio_Focus::m_centroid</a></div><div class="ttdeci">Point2f m_centroid</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:77</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

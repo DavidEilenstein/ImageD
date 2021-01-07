@@ -61,10 +61,12 @@ public:
     vector<D_Bio_Focus>             get_Foci(size_t channel)                                {return channel < vvFoci.size() ? vvFoci[channel] : vector<D_Bio_Focus>{};}
     D_Bio_Focus                     get_Focus(size_t channel, size_t index)                 {return channel < vvFoci.size() ? (index < vvFoci[channel].size() ? vvFoci[channel][index] : D_Bio_Focus()) : D_Bio_Focus();}
 
+    int                             save(QString path);
 
 private:
     double                          m_time = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;
+    QStringList                     QSL_FociChannelNames;
 
 };
 

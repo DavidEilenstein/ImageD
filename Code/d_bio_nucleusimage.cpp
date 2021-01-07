@@ -13,119 +13,246 @@ D_Bio_NucleusImage::D_Bio_NucleusImage()
 
 }
 
-D_Bio_NucleusImage::D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat *> vpMA_FociBinary, vector<Mat *> vpMA_Values, Point P_Offset, double time, int neighborhood)
+D_Bio_NucleusImage::D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset, size_t time, int neighborhood)
 {
-    calc_NucleiDecomposition(pMA_NucleiBinary, vpMA_FociBinary, vpMA_Values, P_Offset, time, neighborhood);
+    calc_NucleiDecomposition(pMA_NucleiBinary, pvMA_FociBinary, pvMA_Values, P_Offset, time, neighborhood);
 }
 
-int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat *> vpMA_FociBinary, vector<Mat *> vpMA_Values, Point P_Offset, double time, int neighborhood)
+D_Bio_NucleusImage::D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset, size_t time, int neighborhood)
 {
+    calc_NucleiDecomposition(pVD_NucleiBinary, pvVD_FociBinary, pvVD_Values, P_Offset, time, neighborhood);
+}
+
+D_Bio_NucleusImage::D_Bio_NucleusImage(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset, size_t time, int neighborhood)
+{
+    calc_NucleiDecomposition(pvVD_Images, index_NucleiBinary, vIndices_FociBinary, vIndices_Values, P_Offset, time, neighborhood);
+}
+
+int D_Bio_NucleusImage::calc_NucleiDecomposition(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset, size_t time, int neighborhood)
+{
+    //error code
+    int ER = ER_okay;
+
+    //counts
+    size_t n_channels_foci = pvVD_FociBinary->size();
+    size_t n_channels_values = pvVD_Values->size();
+
+    //slice for extraction
+    D_VisDat_Slice_2D slice_simple2Dimage(-1, -1, 0, 0, 0, 0);
+
+    //foci segmentation
+    vector<Mat> vMA_FociBinary(n_channels_foci);
+    for(size_t i = 0; i < n_channels_foci; i++)
+    {
+        ER = D_VisDat_Proc::Read_2D_Plane(
+                    &(vMA_FociBinary[i]),
+                    &((*pvVD_FociBinary)[i]),
+                    slice_simple2Dimage);
+
+        if(ER != ER_okay)
+        {
+            qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane at" << i << "with vpVD_FociBinary -> vMA_FociBinary failed:" << QSL_Errors[ER];
+            return ER;
+        }
+    }
+
+    //values
+    vector<Mat> vMA_Values(n_channels_values);
+    for(size_t i = 0; i < n_channels_values; i++)
+    {
+        ER = D_VisDat_Proc::Read_2D_Plane(
+                    &(vMA_Values[i]),
+                    &((*pvVD_Values)[i]),
+                    slice_simple2Dimage);
+
+        if(ER != ER_okay)
+        {
+            qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane at" << i << "with vpVD_Values -> vMA_Values failed:" << QSL_Errors[ER];
+            return ER;
+        }
+    }
+
+    //nucleui segmentation
+    Mat MA_NucleiBinary;
+    ER = D_VisDat_Proc::Read_2D_Plane(
+                &MA_NucleiBinary,
+                pVD_NucleiBinary,
+                slice_simple2Dimage);
+
+    if(ER != ER_okay)
+    {
+        qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane with pVD_NucleiBinary -> MA_NucleiBinary failed:" << QSL_Errors[ER];
+        MA_NucleiBinary.release();
+        return ER;
+    }
+
+
+    //call Mat version of this function
+    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset, time, neighborhood);
+
+    //finish
+    MA_NucleiBinary.release();
+    return ER;
+}
+
+int D_Bio_NucleusImage::calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset, size_t time, int neighborhood)
+{
+    //error code
+    int ER = ER_okay;
+
+    //counts
+    size_t n_channels_foci = vIndices_FociBinary.size();
+    size_t n_channels_values = vIndices_Values.size();
+
+    //slice for extraction
+    D_VisDat_Slice_2D slice_simple2Dimage(-1, -1, 0, 0, 0, 0);
+
+    //foci segmentation
+    vector<Mat> vMA_FociBinary(n_channels_foci);
+    for(size_t i = 0; i < n_channels_foci; i++)
+    {
+        ER = D_VisDat_Proc::Read_2D_Plane(
+                    &(vMA_FociBinary[i]),
+                    &((*pvVD_Images)[vIndices_FociBinary[i]]),
+                    slice_simple2Dimage);
+
+        if(ER != ER_okay)
+        {
+            qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane at" << i << "with vpVD_FociBinary -> vMA_FociBinary failed:" << QSL_Errors[ER];
+            return ER;
+        }
+    }
+
+    //values
+    vector<Mat> vMA_Values(n_channels_values);
+    for(size_t i = 0; i < n_channels_values; i++)
+    {
+        ER = D_VisDat_Proc::Read_2D_Plane(
+                    &(vMA_Values[i]),
+                    &((*pvVD_Images)[vIndices_Values[i]]),
+                    slice_simple2Dimage);
+
+        if(ER != ER_okay)
+        {
+            qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane at" << i << "with vpVD_Values -> vMA_Values failed:" << QSL_Errors[ER];
+            return ER;
+        }
+    }
+
+    //nucleui segmentation
+    Mat MA_NucleiBinary;
+    ER = D_VisDat_Proc::Read_2D_Plane(
+                &MA_NucleiBinary,
+                &(*pvVD_Images)[index_NucleiBinary],
+                slice_simple2Dimage);
+
+    if(ER != ER_okay)
+    {
+        qDebug() << "D_Bio_NucleusImage performing D_VisDat_Proc::Read_2D_Plane with pVD_NucleiBinary -> MA_NucleiBinary failed:" << QSL_Errors[ER];
+        MA_NucleiBinary.release();
+        return ER;
+    }
+
+
+    //call Mat version of this function
+    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset, time, neighborhood);
+
+    //finish
+    MA_NucleiBinary.release();
+    return ER;
+}
+
+int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset, size_t time, int neighborhood)
+{
+    qDebug() << "calc_NucleiDecomposition" << "Start";
+
     //save
     m_time = time;
 
     //counts
-    size_t n_channels_foci = vpMA_FociBinary.size();
-    size_t n_channels_values = vpMA_Values.size();
+    size_t n_channels_foci = pvMA_FociBinary->size();
+    size_t n_channels_values = pvMA_Values->size();
 
     //Errors
+    int ER;
+    qDebug() << "calc_NucleiDecomposition" << "Errors";
 
     //empty
     //channels
     if(pMA_NucleiBinary->empty())
         return ER_empty;
     for(size_t i = 0; i < n_channels_foci; i++)
-        if(vpMA_FociBinary[i]->empty())
+        if((*pvMA_FociBinary)[i].empty())
             return ER_empty;
     for(size_t i = 0; i < n_channels_values; i++)
-        if(vpMA_Values[i]->empty())
+        if((*pvMA_Values)[i].empty())
             return ER_empty;
 
     //size
     for(size_t i = 0; i < n_channels_foci; i++)
-        if(pMA_NucleiBinary->size != vpMA_FociBinary[i]->size)
+        if(pMA_NucleiBinary->size != (*pvMA_FociBinary)[i].size)
             return ER_size_missmatch;
     for(size_t i = 0; i < n_channels_values; i++)
-        if(pMA_NucleiBinary->size != vpMA_Values[i]->size)
+        if(pMA_NucleiBinary->size != (*pvMA_Values)[i].size)
             return ER_size_missmatch;
 
     //channels
     if(pMA_NucleiBinary->channels() != 1)
         return ER_channel_bad;
     for(size_t i = 0; i < n_channels_foci; i++)
-        if(vpMA_FociBinary[i]->channels() != 1)
+        if((*pvMA_FociBinary)[i].channels() != 1)
             return ER_channel_bad;
     for(size_t i = 0; i < n_channels_values; i++)
-        if(vpMA_Values[i]->channels() != 1)
+        if((*pvMA_Values)[i].channels() != 1)
             return ER_channel_bad;
 
     //depth
     if(pMA_NucleiBinary->depth() != CV_8U && pMA_NucleiBinary->depth() != CV_16U)
         return ER_bitdepth_bad;
     for(size_t i = 0; i < n_channels_foci; i++)
-        if(vpMA_FociBinary[i]->depth() != CV_8U && vpMA_FociBinary[i]->depth() != CV_16U)
+        if((*pvMA_FociBinary)[i].depth() != CV_8U && (*pvMA_FociBinary)[i].depth() != CV_16U)
             return ER_bitdepth_bad;
 
     //neighborhood
     if(neighborhood != 4 && neighborhood != 8)
         return ER_parameter_bad;
 
+    qDebug() << "calc_NucleiDecomposition" << "Error checks passed";
 
-    //nuclei labeling
-    Mat MA_tmp_NucleiLabel;
-    if(pMA_NucleiBinary->type() == CV_16UC1)
-        MA_tmp_NucleiLabel = pMA_NucleiBinary->clone();
-    else
-        connectedComponents(
-                    *pMA_NucleiBinary,
-                    MA_tmp_NucleiLabel,
-                    neighborhood,
-                    CV_16UC1);
+    //nuclei components
+    qDebug() << "calc_NucleiDecomposition" << "nuclei comps";
+    D_Component_List CompList_Nuclei;
+    ER = CompList_Nuclei.set_Mat(pMA_NucleiBinary, neighborhood);
+    if(ER != ER_okay)
+        return ER;
+    size_t n_nuclei = CompList_Nuclei.size();
+    qDebug() << "calc_NucleiDecomposition" << "nuclei comps" << "n_nuclei" << n_nuclei;
 
-    //foci labeling
-    vector<Mat> vMA_tmp_FociLabel(n_channels_foci);
-    for(size_t i = 0; i < n_channels_foci; i++)
-    {
-        if(pMA_NucleiBinary->type() == CV_16UC1)
-            MA_tmp_NucleiLabel = pMA_NucleiBinary->clone();
-        else
-            connectedComponents(
-                        *(vpMA_FociBinary[i]),
-                        vMA_tmp_FociLabel[i],
-                        neighborhood,
-                        CV_16UC1);
-    }
-
-    //nuclei contours
-    vector<vector<Point>> vvP_tmp_Contours_Nuclei;
-    findContours(
-                MA_tmp_NucleiLabel,
-                vvP_tmp_Contours_Nuclei,
-                RETR_CCOMP,
-                CV_CHAIN_APPROX_NONE,
-                P_Offset);
-    size_t n_nuclei = vvP_tmp_Contours_Nuclei.size();
-
-    //foci contours
-    vector<vector<vector<Point>>> vvvP_tmp_Contours_Foci(n_channels_foci);
+    //foci components
+    qDebug() << "calc_NucleiDecomposition" << "foci comps";
     vector<size_t> vn_foci(n_channels_foci);
+    vector<D_Component_List> vCompList_Foci(n_channels_foci);
     for(size_t i = 0; i < n_channels_foci; i++)
     {
-        findContours(
-                    vMA_tmp_FociLabel[i],
-                    vvvP_tmp_Contours_Foci[i],
-                    RETR_CCOMP,
-                    CV_CHAIN_APPROX_NONE,
-                    P_Offset);
-        vn_foci[i] = vvvP_tmp_Contours_Foci[i].size();
+        vCompList_Foci[i] = D_Component_List();
+        ER = vCompList_Foci[i].set_Mat(&(*pvMA_FociBinary)[i], neighborhood);
+        if(ER != ER_okay)
+            return ER;
+
+        vn_foci[i] = vCompList_Foci[i].size();
     }
+    qDebug() << "calc_NucleiDecomposition" << "foci contours" << "vn_foci" << vn_foci;
 
 
     //get values
+    qDebug() << "calc_NucleiDecomposition" << "get values";
     //nuclei
+    qDebug() << "calc_NucleiDecomposition" << "get values: nuclei";
     vector<vector<vector<double>>> vvvNucleiChannelsValues(n_nuclei);
     for(size_t i = 0; i < n_nuclei; i++)
         vvvNucleiChannelsValues[i].resize(n_channels_values);
     //foci
+    qDebug() << "calc_NucleiDecomposition" << "get values: foci";
     vector<vector<vector<vector<double>>>> vvvvFChannelFNumberChannelsValues(n_channels_foci);
     for(size_t fc = 0; fc < n_channels_foci; fc++)
     {
@@ -135,47 +262,72 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     }
 
     //loop image
-    ushort label_nuclei = 0;
-    vector<ushort> v_label_foci(n_channels_foci, 0);
+    qDebug() << "calc_NucleiDecomposition" << "loop image";
+    int n_x = pMA_NucleiBinary->cols;
+    int n_y = pMA_NucleiBinary->rows;
+    int label_nuclei = 0;
+    vector<int> v_label_foci(n_channels_foci, 0);
     vector<double> v_values(n_channels_values, 0);
-    for(int y = 0; y < pMA_NucleiBinary->rows; y++)
-        for(int x = 0; x < pMA_NucleiBinary->cols; x++)
+    for(int y = 0; y < n_y; y++)
+        for(int x = 0; x < n_x; x++)
         {
+            //qDebug() << "x:" << x << "/" << n_x << "y:" << y << n_y;
+
             //read
+            //qDebug() << "calc_NucleiDecomposition" << "read";
+
             //nuclei
-            label_nuclei = MA_tmp_NucleiLabel.at<ushort>(y, x);
+            //qDebug() << "calc_NucleiDecomposition" << "read nuclei";
+            label_nuclei = CompList_Nuclei.get_pMatLabels()->at<int>(y, x);
+            //qDebug() << "calc_NucleiDecomposition" << "read nuclei" << label_nuclei;
+
             //foci
+            //qDebug() << "calc_NucleiDecomposition" << "read foci";
             for(size_t cf = 0; cf < n_channels_foci; cf++)
-                v_label_foci[cf] = vMA_tmp_FociLabel[cf].at<ushort>(y, x);
+                v_label_foci[cf] = vCompList_Foci[cf].get_pMatLabels()->at<int>(y, x);
+            //qDebug() << "calc_NucleiDecomposition" << "read foci" << v_label_foci;
+
             //values
+            //qDebug() << "calc_NucleiDecomposition" << "read values";
             for(size_t cv = 0; cv < n_channels_values; cv++)
-                switch (vpMA_Values[cv]->type()) {
-                case CV_8UC1:   v_values[cv] = vpMA_Values[cv]->at<uchar>(y, x);    break;
-                case CV_8SC1:   v_values[cv] = vpMA_Values[cv]->at<char>(y, x);     break;
-                case CV_16UC1:  v_values[cv] = vpMA_Values[cv]->at<ushort>(y, x);   break;
-                case CV_16SC1:  v_values[cv] = vpMA_Values[cv]->at<short>(y, x);    break;
-                case CV_32SC1:  v_values[cv] = vpMA_Values[cv]->at<int>(y, x);      break;
-                case CV_32FC1:  v_values[cv] = vpMA_Values[cv]->at<float>(y, x);    break;
-                case CV_64FC1:  v_values[cv] = vpMA_Values[cv]->at<double>(y, x);   break;
-                default:        MA_tmp_NucleiLabel.release();                       return ER_type_bad;}
+                switch ((*pvMA_Values)[cv].type()) {
+                case CV_8UC1:       v_values[cv] = (*pvMA_Values)[cv].at<uchar>(y, x);      break;
+                case CV_8SC1:       v_values[cv] = (*pvMA_Values)[cv].at<char>(y, x);       break;
+                case CV_16UC1:      v_values[cv] = (*pvMA_Values)[cv].at<ushort>(y, x);     break;
+                case CV_16SC1:      v_values[cv] = (*pvMA_Values)[cv].at<short>(y, x);      break;
+                case CV_32SC1:      v_values[cv] = (*pvMA_Values)[cv].at<int>(y, x);        break;
+                case CV_32FC1:      v_values[cv] = (*pvMA_Values)[cv].at<float>(y, x);      break;
+                case CV_64FC1:      v_values[cv] = (*pvMA_Values)[cv].at<double>(y, x);     break;
+                default:                                                                    return ER_type_bad;}
+            //qDebug() << "calc_NucleiDecomposition" << "read values" << v_values;
 
             //write/export
+            //qDebug() << "calc_NucleiDecomposition" << "write";
+
             //nuclei
+            //qDebug() << "calc_NucleiDecomposition" << "write nuclei";
             for(size_t cv = 0; cv < n_channels_values; cv++)
                 if(label_nuclei > 0)
                     vvvNucleiChannelsValues[label_nuclei - 1][cv].push_back(v_values[cv]);
+
             //foci
+            //qDebug() << "calc_NucleiDecomposition" << "write foci";
             for(size_t cf = 0; cf < n_channels_foci; cf++)
                 for(size_t cv = 0; cv < n_channels_values; cv++)
                     if(v_label_foci[cf] > 0)
                         vvvvFChannelFNumberChannelsValues[cf][v_label_foci[cf] - 1][cv].push_back(v_values[cv]);
+
+            //qDebug() << "calc_NucleiDecomposition" << "PIXEL FINISHED";
         }
+    qDebug() << "calc_NucleiDecomposition" << "loop image finished";
 
     //stats
+    qDebug() << "calc_NucleiDecomposition" << "stats";
     function<double (vector<double>)> F_Median = D_Stat::Function_SingleStat(c_STAT_MEDIAN);
     function<double (vector<double>)> F_MedDev = D_Stat::Function_SingleStat(c_STAT_ABS_DEV_MED);
 
     //nuclei stats
+    qDebug() << "calc_NucleiDecomposition" << "nuclei stats";
     vector<vector<double>> vvNuclei_Median(n_nuclei);
     vector<vector<double>> vvNuclei_MedDev(n_nuclei);
     for(size_t i = 0; i < n_nuclei; i++)
@@ -190,13 +342,14 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     }
 
     //foci stats
+    qDebug() << "calc_NucleiDecomposition" << "foci stats";
     vector<vector<vector<double>>> vvvFChannelFNumber_Median(n_channels_foci);
     vector<vector<vector<double>>> vvvFChannelFNumber_MedDev(n_channels_foci);
     for(size_t cf = 0; cf < n_channels_foci; cf++)
     {
         vvvFChannelFNumber_Median[cf].resize(vn_foci[cf]);
         vvvFChannelFNumber_MedDev[cf].resize(vn_foci[cf]);
-        for(size_t f = 0; f < n_nuclei; f++)
+        for(size_t f = 0; f < vn_foci[cf]; f++)
         {
             vvvFChannelFNumber_Median[cf][f].resize(n_channels_values);
             vvvFChannelFNumber_MedDev[cf][f].resize(n_channels_values);
@@ -209,11 +362,12 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     }
 
     //nucleus list
+    qDebug() << "calc_NucleiDecomposition" << "nucleus list";
     vNuclei.resize(n_nuclei);
     for(size_t i = 0; i < n_nuclei; i++)
     {
         vNuclei[i] = D_Bio_NucleusBlob(
-                    vvP_tmp_Contours_Nuclei[i],
+                    CompList_Nuclei.get_Component(i).get_Contour(),
                     vvNuclei_Median[i],
                     vvNuclei_MedDev[i],
                     time);
@@ -221,26 +375,28 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     }
 
     //foci list
-    vector<vector<D_Bio_Focus>> vvFoci;
+    qDebug() << "calc_NucleiDecomposition" << "foci list";
+    vector<vector<D_Bio_Focus>> vvFoci(n_channels_foci);
     for(size_t cf = 0; cf < n_channels_foci; cf++)
     {
         vvFoci[cf].resize(vn_foci[cf]);
-        for(size_t f = 0; f < n_nuclei; f++)
+        for(size_t f = 0; f < vn_foci[cf]; f++)
             vvFoci[cf][f] = D_Bio_Focus(
-                        vvvP_tmp_Contours_Foci[cf][f],
+                        vCompList_Foci[cf].get_Component(f).get_Contour(),
                         vvvFChannelFNumber_Median[cf][f],
                         vvvFChannelFNumber_MedDev[cf][f]);
     }
 
     //match foci to nuclei
+    qDebug() << "calc_NucleiDecomposition" << "match foci to nuclei";
     for(size_t cf = 0; cf < n_channels_foci; cf++)
-        for(size_t f = 0; f < n_nuclei; f++)
+        for(size_t f = 0; f < vn_foci[cf]; f++)
         {
             //centroid of focus
             Point2f centroid_focus = vvFoci[cf][f].centroid();
 
             //nucleus label of focus
-            ushort nucleus_label_focus = MA_tmp_NucleiLabel.at<ushort>(centroid_focus);
+            ushort nucleus_label_focus = CompList_Nuclei.get_pMatLabels()->at<int>(centroid_focus);
 
             //match
             if(nucleus_label_focus > 0)
@@ -268,6 +424,28 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
         }
 
     //finish
-    MA_tmp_NucleiLabel.release();
+    qDebug() << "calc_NucleiDecomposition" << "finished :-)";
+    return ER_okay;
+}
+
+int D_Bio_NucleusImage::save(QString path)
+{
+    qDebug() << "D_Bio_NucleusImage::save";
+
+    //add time index
+    path += "/Time_" + QString::number(m_time);
+
+    //directory
+    QDir DIR_Master(path);
+    if(!DIR_Master.exists())
+        QDir().mkdir(DIR_Master.path());
+    if(!DIR_Master.exists())
+        return ER_file_not_exist;
+
+    //save nuclei
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].save(DIR_Master.path());
+
+    //finished
     return ER_okay;
 }

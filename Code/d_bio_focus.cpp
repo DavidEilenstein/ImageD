@@ -31,6 +31,45 @@ D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<double> signal_med
     CalcFeats();
 }
 
+int D_Bio_Focus::save(QString path)
+{
+    qDebug() << "D_Bio_Focus::save";
+
+    //directory
+    QDir DIR_Save(path);
+    if(!DIR_Save.exists())
+        QDir().mkdir(DIR_Save.path());
+    if(!DIR_Save.exists())
+        return ER_file_not_exist;
+
+    //stream to text file
+    ofstream OS_FocusFile((DIR_Save.path() + "/Focus_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y)) + ".txt").toStdString());
+
+    //values
+    for(size_t i = 0; i < vSignalMedians.size(); i++)
+    {
+        if(i > 0)
+            OS_FocusFile << ";";
+        OS_FocusFile << vSignalMedians[i];
+    }
+    OS_FocusFile << "\n";
+    for(size_t i = 0; i < vSignalMedDevs.size(); i++)
+    {
+        if(i > 0)
+            OS_FocusFile << ";";
+        OS_FocusFile << vSignalMedDevs[i];
+    }
+
+    //contour
+    for(size_t i = 0; i < m_contour.size(); i++)
+        OS_FocusFile << "\n" << m_contour[i].x << ";" << m_contour[i].y;
+
+    //close stream
+    OS_FocusFile.close();
+
+    return ER_okay;
+}
+
 void D_Bio_Focus::CalcFeats()
 {
     //calc moments

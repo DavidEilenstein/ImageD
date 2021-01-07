@@ -90,6 +90,7 @@ private slots:
     void Update_ImageProcessing_CurrentImage();
     void Update_ImageProcessing_StepFrom(size_t step_start);
     void Update_ImageProcessing_StepSingle(size_t step);
+    void Update_ImageDecomposition();
 
     //stack processing
     void Stack_Process_All();
@@ -185,6 +186,7 @@ private:
     bool                                state_dataset_img_list_loaded = false;
     bool                                state_overview_init = false;
     bool                                state_stack_processing = false;
+    bool                                state_image_decomposed = false;
 
     //data files
     QFileInfoList                       FIL_Images;
@@ -195,6 +197,7 @@ private:
     //save dirs
     QDir                                DIR_SaveMaster;
     QDir                                DIR_SaveMosaik;
+    QDir                                DIR_SaveDetections;
 
     //dataset dimension
     size_t                              dataset_dim_mosaic_x = 15;
@@ -210,6 +213,12 @@ private:
     int                                 dataset_depth_mat = CV_16U;
     size_t                              get_index_of_image(size_t x, size_t y);
     size_t                              get_index_of_page(size_t z, size_t t, size_t p);
+
+    //scale to real world
+    double                              dataset_step_x = 1;
+    double                              dataset_step_y = 1;
+    double                              dataset_step_t = 1;
+
 
     //Main Viewer
     D_VisDat_Obj                        VD_Show;
@@ -240,7 +249,7 @@ private:
     //time measurement
     qint64                              time_LastSingleImgProc = 0;
 
-    //Pages
+    //Pages (values)
     enum PAGES {
         PAGE_GFP,
         PAGE_RFP,
@@ -249,6 +258,19 @@ private:
     const QStringList QSL_Pages = {
         "GFP",
         "RFP"
+    };
+
+    //Foci types
+    enum FOCI_TYPES {
+        FOCI_GFP,
+        FOCI_RFP,
+        FOCI_BOTH,
+        FOCI_NUMBER_OF
+    };
+    const QStringList QSL_FociTypes = {
+        "Foci GFP",
+        "Foci RFP",
+        "Foci both"
     };
 
     //Img Proc Step

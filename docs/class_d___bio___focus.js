@@ -11,6 +11,7 @@ var class_d___bio___focus =
     [ "convexity", "class_d___bio___focus.html#a41d09acfe649fa59e59c3a47502bd0f1", null ],
     [ "dist2centroid", "class_d___bio___focus.html#aa544154ed69e64a41fdaac8e7c455138", null ],
     [ "dist2contour", "class_d___bio___focus.html#a2144e7b453f5478cc8e22517059e3f88", null ],
+    [ "save", "class_d___bio___focus.html#a38d74f02399dcc837142f0992a91ae1e", null ],
     [ "set_value_channels", "class_d___bio___focus.html#af88e4eed3ccb34b2bee0188c191b24ad", null ],
     [ "set_value_dev2med", "class_d___bio___focus.html#a6e81553247f4403696f43c239412fef3", null ],
     [ "set_value_median", "class_d___bio___focus.html#a82ec4fdbf05652a4fd70ee15b84e2d8e", null ],

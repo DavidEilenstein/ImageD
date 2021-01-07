@@ -39,3 +39,59 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<double
     //save data
     m_time = time;
 }
+
+int D_Bio_NucleusBlob::save(QString path)
+{
+    qDebug() << "D_Bio_NucleusBlob::save";
+
+    //add nucleus ID
+    path += "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y));
+
+    //directory
+    QDir DIR_Save(path);
+    if(!DIR_Save.exists())
+        QDir().mkdir(DIR_Save.path());
+    if(!DIR_Save.exists())
+        return ER_file_not_exist;
+
+    //stream to text file
+    ofstream OS_NucleusFile((DIR_Save.path() + "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y))+ ".txt").toStdString());
+
+    //values
+    for(size_t i = 0; i < vSignalMedians.size(); i++)
+    {
+        if(i > 0)
+            OS_NucleusFile << ";";
+        OS_NucleusFile << vSignalMedians[i];
+    }
+    OS_NucleusFile << "\n";
+    for(size_t i = 0; i < vSignalMedDevs.size(); i++)
+    {
+        if(i > 0)
+            OS_NucleusFile << ";";
+        OS_NucleusFile << vSignalMedDevs[i];
+    }
+
+    //contour
+    for(size_t i = 0; i < m_contour.size(); i++)
+        OS_NucleusFile << "\n" << m_contour[i].x << ";" << m_contour[i].y;
+
+    //close stream
+    OS_NucleusFile.close();
+
+    //Foci
+    for(size_t c = 0; c < vvFoci.size(); c++)
+    {
+        //directory
+        QDir DIR_FocusChannel(path + "/Foci_" + QString::number(c));
+        if(!DIR_FocusChannel.exists())
+            QDir().mkdir(DIR_FocusChannel.path());
+        if(!DIR_FocusChannel.exists())
+            return ER_file_not_exist;
+
+        for(size_t f = 0; f < vvFoci[c].size(); f++)
+            vvFoci[f][c].save(DIR_FocusChannel.path());
+    }
+
+    return ER_okay;
+}
