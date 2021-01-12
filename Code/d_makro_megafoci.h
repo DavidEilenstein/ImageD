@@ -187,6 +187,7 @@ private:
     bool                                state_overview_init = false;
     bool                                state_stack_processing = false;
     bool                                state_image_decomposed = false;
+    bool                                state_first_proc_on_start = true;
 
     //data files
     QFileInfoList                       FIL_Images;

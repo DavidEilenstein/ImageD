@@ -123,7 +123,7 @@ vector<double> D_Component_List::get_FeatureVector(int feature)
     v_Features.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Features[c] = m_Components[c].get_Feature(feature);
 
     return v_Features;
@@ -139,7 +139,7 @@ vector<double> D_Component_List::get_FeatureVector_BG(int feature)
     v_Features[0] = 0;
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Features[c + 1] = m_Components[c].get_Feature(feature);
 
     return v_Features;
@@ -152,7 +152,7 @@ vector<Point2f> D_Component_List::get_CentroidVector()
     v_Centroids.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Centroids[c] = m_Components[c].get_Centroid();
 
     return v_Centroids;
@@ -168,7 +168,7 @@ vector<Point2f> D_Component_List::get_CentroidVector_BG()
     v_Centroids[0] = Point2f(0, 0);
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Centroids[c + 1] = m_Components[c].get_Centroid();
 
     return v_Centroids;
@@ -181,7 +181,7 @@ vector<Point> D_Component_List::get_OffsetVector()
     v_Offsets.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Offsets[c] = m_Components[c].get_Offset();
 
     return v_Offsets;
@@ -194,7 +194,7 @@ vector<Point2f> D_Component_List::get_OffsetVector_2f()
     v_Offsets.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Offsets[c] = Point2f(m_Components[c].get_Offset());
 
     return v_Offsets;
@@ -210,7 +210,7 @@ vector<Point> D_Component_List::get_OffsetVector_BG()
     v_Offsets[0] = Point(0, 0);
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Offsets[c + 1] = m_Components[c].get_Offset();
 
     return v_Offsets;
@@ -225,7 +225,7 @@ vector<vector<Point> > D_Component_List::get_ContourVector()
     vv_Contours.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         vv_Contours[c] = m_Components[c].get_Contour();
 
     return vv_Contours;
@@ -243,7 +243,7 @@ vector<vector<Point> > D_Component_List::get_ContourVector_BG()
     vv_Contours[0] = v_background;
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         vv_Contours[c] = m_Components[c].get_Contour();
 
     return vv_Contours;
@@ -256,7 +256,7 @@ vector<vector<Point> > D_Component_List::get_ContourVector_ConvexHull()
     vv_ContoursConvex.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         vv_ContoursConvex[c] = m_Components[c].get_Contour_ConvexHull();
 
     return vv_ContoursConvex;
@@ -269,7 +269,7 @@ vector<Rect> D_Component_List::get_BndBox_Rect_Vector()
     v_BndBox.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_BndBox[c] = m_Components[c].get_BndBox_Rect();
 
     return v_BndBox;
@@ -282,7 +282,7 @@ vector<RotatedRect> D_Component_List::get_BndBox_Rotate_Vector()
     v_BndBox_Rot.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_BndBox_Rot[c] = m_Components[c].get_BndBox_Rotate();
 
     return v_BndBox_Rot;
@@ -295,7 +295,7 @@ vector<RotatedRect> D_Component_List::get_Ellipse_Fitted_Vector()
     v_Ellipse.resize(m_Components.size());
 
     //get values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         v_Ellipse[c] = m_Components[c].get_Ellipse_Fitted();
 
     return v_Ellipse;
@@ -314,7 +314,7 @@ void D_Component_List::save_all(QString path_dir)
         QDir().mkdir(path_dir);
 
     //save mats
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
         imwrite(
                     DIR_Save.path().toStdString() + "/Component_" + (QString::number(c)).toStdString() + ".jpg",
                     *(m_Components[c].get_pMat()));
@@ -329,7 +329,7 @@ void D_Component_List::save_all(QString path_dir)
     OS_Save << "\n\n";
 
     //feature values
-    for(int c = 0; c < m_Components.size(); c++)
+    for(size_t c = 0; c < m_Components.size(); c++)
     {
         OS_Save << c;
         for(int f = 0; f < c_FEAT_NUMBER_OF_FEATS; f++)
@@ -371,7 +371,7 @@ int D_Component_List::Split_Labels_2_Components()
         }
     }
 
-    for(int l = 0; l < m_Components.size(); l++)
+    for(size_t l = 0; l < m_Components.size(); l++)
     {
         m_Components[l].set_Number(l);
         m_Components[l].Calc_All();

@@ -337,7 +337,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
     {
         Update_ImageProcessing_StepSingle(s);
 
-        if(state_stack_processing)
+        if(state_stack_processing || state_first_proc_on_start)
         {
             ui->comboBox_ImgProc_StepShow->setCurrentIndex(static_cast<int>(s));
             Update_Ui();
@@ -910,15 +910,20 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     vIndices_Values[PAGE_RFP]   = STEP_PCK_P1;
 
     //decomposition
+    StatusSet("Nuclei image decomposition");
+    Point MosaikOffset(ui->spinBox_Viewport_X->value() * dataset_dim_img_x, ui->spinBox_Viewport_Y->value() * dataset_dim_img_y);
     D_Bio_NucleusImage ImageDecomp;
     int ER = ImageDecomp.calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
                 STEP_NUC_P1_SELECT_MEAN,
                 vIndices_FociBinary,
                 vIndices_Values,
-                Point(ui->spinBox_Viewport_X->value() * dataset_dim_img_x, ui->spinBox_Viewport_Y->value() * dataset_dim_img_y),
+                MosaikOffset,
                 ui->spinBox_Viewport_T->value(),
-                4);
+                4,
+                true,
+                MosaikOffset.x + dataset_dim_img_x,
+                MosaikOffset.y + dataset_dim_img_y);
     ERR(ER, "Update_ImageDecomposition", "ImageDecomp.calc_NucleiDecomposition");
     if(ER != ER_okay)
         return;
@@ -927,7 +932,10 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     //save data
     if(state_stack_processing)
-        ImageDecomp.save(DIR_SaveDetections.path());
+        ERR(
+                ImageDecomp.save(DIR_SaveDetections.path()),
+                "Update_ImageDecomposition",
+                "ImageDecomp.save(DIR_SaveDetections.path())");
 }
 
 void D_MAKRO_MegaFoci::Stack_Process_All()
@@ -991,9 +999,6 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 ui->progressBar_StackLoop,
                 dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y);
 
-    //set start point to a non proccessed position to make time measurement more accurate
-    ui->spinBox_Viewport_X->setValue(1);
-
     //loop viewports
     TimePrognosis.start();
     for(size_t t = 0; t < dataset_dim_t; t++)
@@ -1003,9 +1008,15 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 StatusSet("STACK PROC T" + QString::number(t) + " Y" + QString::number(y) + " X" + QString::number(x));
 
                 //trigger img proc update by ui
+                ui->spinBox_Viewport_T->blockSignals(true);
+                ui->spinBox_Viewport_Y->blockSignals(true);
+                ui->spinBox_Viewport_X->blockSignals(true);
                 ui->spinBox_Viewport_T->setValue(t);
                 ui->spinBox_Viewport_Y->setValue(y);
                 ui->spinBox_Viewport_X->setValue(x);
+                ui->spinBox_Viewport_T->blockSignals(false);
+                ui->spinBox_Viewport_Y->blockSignals(false);
+                ui->spinBox_Viewport_X->blockSignals(false);
 
                 Stack_Porcess_Single_XYT_Viewport();
 
@@ -1020,7 +1031,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
 void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
 {
-    //Update_ImageProcessing_CurrentImage();
+    Update_ImageProcessing_CurrentImage();
 
     //Overwrite and update mosaik
     Update_Images_OverviewBig();
@@ -1082,6 +1093,7 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
 
     //update state
     state_dataset_dim_set = true;
+    state_first_proc_on_start = true;
 
     //clear old lists
     QSL_Images_Paths.clear();
@@ -1146,6 +1158,7 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     //update proc and image
     StatusSet("Now updating ImgProc for the 1st time");
     Update_ImageProcessing_CurrentImage();
+    state_first_proc_on_start = false;
 
     //return
     return true;

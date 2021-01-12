@@ -18,9 +18,6 @@
 #include <d_component_list_context.h>
 #include <d_value_distribution_list.h>
 #include <d_featureset.h>
-#include <d_pxlink_2d_pixel.h>
-#include <d_pxlink_2d_group.h>
-#include <d_pxlink_2d_image.h>
 
 //general
 #include <iostream>

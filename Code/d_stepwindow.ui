@@ -25246,5 +25246,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>comboBox_07_Watershed_Implementation</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_07_Watershed</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>507</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

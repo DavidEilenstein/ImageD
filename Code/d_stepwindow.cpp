@@ -5432,11 +5432,16 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->comboBox_07_Dist_Metric,                SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->comboBox_07_Dist_Precision,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         //Watershade
-        connect(ui->comboBox_07_Watershed_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
-        connect(ui->checkBox_07_Watershed_Auto,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        connect(ui->checkBox_07_Watershed_8bit,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        connect(ui->checkBox_07_Watershed_InclNonSeed,      SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        connect(ui->checkBox_07_Watershed_ExclBorder,       SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_07_Watershed_Connectivity,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_Watershed_Auto,                 SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_Watershed_8bit,                 SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_Watershed_InclNonSeed,          SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_Watershed_ExclBorder,           SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_07_WatershedCustom_Flood,          SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_07_WatershedCustom_Marker,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_07_WatershedCustom_Mask,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_WatershedCustom_ExcludeBorder,  SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_07_WatershedCustom_IncludeNonSeed, SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Fourier
         connect(ui->checkBox_07_Fourier_Invers,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         connect(ui->checkBox_07_Fourier_ForceFFT,           SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
@@ -5979,11 +5984,16 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->comboBox_07_Dist_Metric,                SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->comboBox_07_Dist_Precision,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         //Watershade
-        disconnect(ui->comboBox_07_Watershed_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
-        disconnect(ui->checkBox_07_Watershed_Auto,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        disconnect(ui->checkBox_07_Watershed_8bit,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        disconnect(ui->checkBox_07_Watershed_InclNonSeed,      SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
-        disconnect(ui->checkBox_07_Watershed_ExclBorder,       SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_07_Watershed_Connectivity,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_Watershed_Auto,                 SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_Watershed_8bit,                 SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_Watershed_InclNonSeed,          SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_Watershed_ExclBorder,           SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_07_WatershedCustom_Flood,          SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_07_WatershedCustom_Marker,         SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_07_WatershedCustom_Mask,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_WatershedCustom_ExcludeBorder,  SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_07_WatershedCustom_IncludeNonSeed, SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Fourier
         disconnect(ui->checkBox_07_Fourier_Invers,             SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_07_Fourier_ForceFFT,           SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));

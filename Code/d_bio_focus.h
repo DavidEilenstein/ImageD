@@ -41,8 +41,8 @@ class D_Bio_Focus
 {
 public:
     D_Bio_Focus();
-    D_Bio_Focus(vector<Point> contour_points);
-    D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs);
+    D_Bio_Focus(vector<Point> contour_points, Point Offset = Point(0, 0));
+    D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset = Point(0, 0));
 
     //void            set_contour(vector<Point> contour_points)       {m_contour = contour_points;}
     //void            add_contour_point(Point point)                  {m_contour.push_back(point);}
@@ -54,7 +54,7 @@ public:
     void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
     vector<Point>   contour()                                       {return m_contour;}
-    double          dist2contour(Point2f point)                     {return m_contour.empty() ? INFINITY :  pointPolygonTest(m_contour, point, true);}
+    double          dist2contour(Point2f point)                     {return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
     double          dist2centroid(Point2f point)                    {return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
 
     Point2f         centroid()                                      {return m_centroid;}
@@ -67,20 +67,20 @@ public:
 
     int             save(QString path);
 
-protected:
+private:
+    bool            state_feats_calced = false;
     void            CalcFeats();
 
-    vector<Point>   m_contour;
-    vector<Point>   m_convex_hull;
-    Moments         m_moments;
+    vector<Point>   m_contour       = vector<Point> {};
+    vector<Point>   m_convex_hull   = vector<Point> {};
 
-    Point2f         m_centroid = Point2f(0, 0);
-    double          m_area = 0;
-    double          m_compactness = 0;
-    double          m_convexity = 0;
+    Point2f         m_centroid      = Point2f(0, 0);
+    double          m_area          = 0;
+    double          m_compactness   = 0;
+    double          m_convexity     = 0;
 
-    vector<double> vSignalMedians;
-    vector<double> vSignalMedDevs;
+    vector<double> vSignalMedians   = vector<double> {};
+    vector<double> vSignalMedDevs   = vector<double> {};
 };
 
 #endif // D_BIO_FOCUS_H

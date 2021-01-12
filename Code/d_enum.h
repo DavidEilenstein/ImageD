@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_2_4";
-const QString           D_QS_Release  = "11.01.2021";
+const QString           D_QS_Version  = "v1_2_5";
+const QString           D_QS_Release  = "12.01.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -138,6 +138,7 @@ enum D_ERROR_ENUM {
     ER_PoitsUnknown,
     ER_KeypoitsUnknown,
     ER_DescriptorsUnkown,
+    ER_StreamNotOpen,
     ER_number_of
 };
 
@@ -181,7 +182,8 @@ const QStringList QSL_Errors = {
     "Size unknwon",
     "Points unknown",
     "Keypoints unknwon",
-    "Descriptors unknown"
+    "Descriptors unknown",
+    "Stream not open"
 };
 
 enum D_DIM_INDICES {
