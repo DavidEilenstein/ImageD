@@ -1355,6 +1355,20 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::ClassBorder_kNN(int n)
     };
 }
 
+function<int (Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Transformation_Watershed_Custom(int connectivity)
+{
+    return
+            [connectivity](Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_InMask)
+    {
+        return D_Img_Proc::Transformation_Watershed_Custom(
+                    pMA_Out,
+                    pMA_In2Fill,
+                    pMA_InMarker,
+                    pMA_InMask,
+                    connectivity);
+    };
+}
+
 function<int (Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_3img_Addition()
 {
     return

@@ -6226,19 +6226,215 @@ int D_Img_Proc::Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int siz
     return ER_okay;
 }
 
-int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask)
+int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity)
 {
     //error checks
-    if(pMA_In2Fill->empty())                        return ER_empty;
-    if(pMA_In2Fill->channels() != 1)                return ER_channel_bad;
-    if(pMA_InMarker->channels() != 1)               return ER_channel_bad;
-    if(pMA_FG_Mask->type() != CV_8UC1)              return ER_type_bad;
-    if(pMA_FG_Mask->size() != pMA_InMarker->size()) return ER_size_missmatch;
-    if(pMA_FG_Mask->size() != pMA_In2Fill->size())  return ER_size_missmatch;
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Error checks";
+    if(pMA_In2Fill->empty())                                                return ER_empty;
+    if(pMA_InMarker->empty())                                               return ER_empty;
+    if(pMA_FG_Mask->empty())                                                return ER_empty;
+    if(pMA_In2Fill->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_InMarker->channels() != 1)                                       return ER_channel_bad;
+    if(pMA_FG_Mask->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_In2Fill->depth() == CV_32F || pMA_In2Fill->depth() == CV_64F)    return ER_bitdepth_bad;
+    if(pMA_InMarker->depth() != CV_32S)                                     return ER_bitdepth_bad;
+    if(pMA_FG_Mask->depth() != CV_8U)                                       return ER_bitdepth_bad;
+    if(pMA_FG_Mask->size() != pMA_InMarker->size())                         return ER_size_missmatch;
+    if(pMA_FG_Mask->size() != pMA_In2Fill->size())                          return ER_size_missmatch;
+    if(connectivity != 4 && connectivity != 8)                              return ER_parameter_bad;
     int ER = ER_okay;
 
+    //min and max value
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Min/Max";
+    double global_min = 0;
+    double global_max = 0;
+    ER = MinMax_of_Mat_1C(
+                pMA_In2Fill,
+                &global_min,
+                &global_max);
+    if(ER != ER_okay)
+        return ER;
 
-    return ER_okay;
+    //value range
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Range";
+    size_t n = global_max - global_min;
+
+    //Point Lists
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Point Lists";
+    vector<vector<Point>> vValuePoints(n);
+    switch (pMA_In2Fill->type()) {
+
+    case CV_8UC1:
+        for(int y = 0; y < pMA_In2Fill->rows; y++)
+            for(int x = 0; x < pMA_In2Fill->cols; x++)
+                if(pMA_FG_Mask->at<uchar>(y, x) > 0)
+                    vValuePoints[pMA_In2Fill->at<uchar>(y, x) - global_min].push_back(Point(x, y));
+        break;
+
+    case CV_8SC1:
+        for(int y = 0; y < pMA_In2Fill->rows; y++)
+            for(int x = 0; x < pMA_In2Fill->cols; x++)
+                if(pMA_FG_Mask->at<uchar>(y, x) > 0)
+                    vValuePoints[pMA_In2Fill->at<char>(y, x) - global_min].push_back(Point(x, y));
+        break;
+
+    case CV_16UC1:
+        for(int y = 0; y < pMA_In2Fill->rows; y++)
+            for(int x = 0; x < pMA_In2Fill->cols; x++)
+                if(pMA_FG_Mask->at<uchar>(y, x) > 0)
+                    vValuePoints[pMA_In2Fill->at<ushort>(y, x) - global_min].push_back(Point(x, y));
+        break;
+
+    case CV_16SC1:
+        for(int y = 0; y < pMA_In2Fill->rows; y++)
+            for(int x = 0; x < pMA_In2Fill->cols; x++)
+                if(pMA_FG_Mask->at<uchar>(y, x) > 0)
+                    vValuePoints[pMA_In2Fill->at<short>(y, x) - global_min].push_back(Point(x, y));
+        break;
+
+    case CV_32SC1:
+        for(int y = 0; y < pMA_In2Fill->rows; y++)
+            for(int x = 0; x < pMA_In2Fill->cols; x++)
+                if(pMA_FG_Mask->at<uchar>(y, x) > 0)
+                    vValuePoints[pMA_In2Fill->at<int>(y, x) - global_min].push_back(Point(x, y));
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    //Pad label image
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Pad label image";
+    Mat MA_tmp_LabelPadded;
+    ER = Padding(
+                &MA_tmp_LabelPadded,
+                pMA_InMarker,
+                1,
+                1,
+                BORDER_REPLICATE);
+    if(ER != ER_okay)
+    {
+        MA_tmp_LabelPadded.release();
+        return ER;
+    }
+
+    //Buffer to remember previous step
+    Mat MA_BufferPrevious;
+
+    //Point offsets for neighborhood
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Neighbors";
+    vector<Point> vNeighbors;
+    if(connectivity == 8)
+        vNeighbors = {Point(1, 1), Point(1, 0), Point(1, -1), Point(0, 1), Point(0, -1), Point(-1, 1), Point(-1, 0), Point(-1, -1)};
+    else
+        vNeighbors = {Point(1, 0), Point(0, 1), Point(0, -1), Point(-1, 0)};
+
+    //loop values
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Loop values";
+    for(size_t i_value = 0; i_value < n; i_value++)
+    {
+        //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Value:" << i_value + global_min;
+
+        //repeat until nothing changes
+        bool something_changed = true;
+        while(something_changed)
+        {
+            //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Loop remaining points at current value";
+
+            //save previous step in buffer
+            MA_BufferPrevious = MA_tmp_LabelPadded.clone();
+
+            //reset change indicator
+            something_changed = false;
+
+            //loop points with current value
+            size_t i_point = 0;
+            while(i_point < vValuePoints[i_value].size())
+            {
+                //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Point index:" << i_point;
+
+                //point to check
+                Point P = vValuePoints[i_value][i_point];
+
+                //look for 1st label
+                //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Look for 1st label";
+                int label_1st;
+                size_t i = 0;
+                bool found_1st_label = false;
+                while (!found_1st_label && i < vNeighbors.size())
+                {
+                    int label = MA_BufferPrevious.at<int>(P + vNeighbors[i]);
+                    if(label > 0)
+                    {
+                        label_1st = label;
+                        found_1st_label = true;
+                    }
+
+                    i++;
+                }
+
+                //look for more labels
+                //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Look for 2nd label";
+                bool found_2nd_label = false;
+                if(found_1st_label)
+                    while (!found_2nd_label && i < vNeighbors.size())
+                    {
+                        int label = MA_BufferPrevious.at<int>(P + vNeighbors[i]);
+                        if(label > 0)
+                            if(label != label_1st)
+                                found_2nd_label = true;
+
+                        i++;
+                    }
+
+                //write result
+                if(found_2nd_label)
+                {
+                    //more than one label in neighborhood -> build a watershed
+                    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Build Watershed";
+                    MA_tmp_LabelPadded.at<int>(P) = -1;
+                    something_changed = true;
+                    vValuePoints[i_value].erase(vValuePoints[i_value].begin() + i_point);
+                }
+                else if(found_1st_label)
+                {
+                    //only one label in neighborhood -> enlarge label region
+                    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Expand Label";
+                    MA_tmp_LabelPadded.at<int>(P) = label_1st;
+                    something_changed = true;
+                    vValuePoints[i_value].erase(vValuePoints[i_value].begin() + i_point);
+                }
+                else
+                {
+                    //only increase index if no lable value was assigned
+                    //(if one was assigned, vector is shortened instead)
+                    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Do nothing, increase coounter";
+                    i_point++;
+                }
+
+                //next point with current value
+            }
+
+            //next loop for all remaining points with current value
+        }
+
+        //next value
+    }
+
+    //write output
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Write Output";
+    ER = Crop_Rect_Abs(
+                pMA_Out,
+                &MA_tmp_LabelPadded,
+                1,
+                1,
+                pMA_In2Fill->cols,
+                pMA_In2Fill->rows);
+
+    MA_BufferPrevious.release();
+    MA_tmp_LabelPadded.release();
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Finished :-)";
+    return ER;
 }
 
 int D_Img_Proc::Transformation_Fourier(Mat *pMA_Out, Mat *pMA_In, bool invers)

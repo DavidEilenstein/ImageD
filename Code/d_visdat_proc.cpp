@@ -6200,6 +6200,25 @@ int D_VisDat_Proc::Transformation_Watershed_Auto(D_VisDat_Slicing slice, D_VisDa
                 pVD_In);
 }
 
+int D_VisDat_Proc::Transformation_Watershed_Custom(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InFill, D_VisDat_Obj *pVD_In2Marker, D_VisDat_Obj *pVD_FG_Mask, int connectivity)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_InFill->Dim(),
+                CV_32SC1);
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Transformation_Watershed_Custom(
+                    connectivity),
+                pVD_Out,
+                pVD_InFill,
+                pVD_In2Marker,
+                pVD_FG_Mask);
+}
+
 int D_VisDat_Proc::Feature_Value(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int feature, int connectivity)
 {
     if(!slice.is_2D())

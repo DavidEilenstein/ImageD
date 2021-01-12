@@ -169,7 +169,7 @@ public:
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border);
-    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask);
+    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_InFill, Mat *pMA_In2Marker, Mat *pMA_FG_Mask, int connectivity = 8);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In, bool invers);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool complex_input, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);

@@ -177,6 +177,8 @@ public:
 
 
     //3 Input -> 1 Output
+    static function<int (Mat *, Mat *, Mat *, Mat*)>            Transformation_Watershed_Custom (int connectivity = 8);
+
     static function<int (Mat *, Mat *, Mat *, Mat*)>            Math_3img_Addition              ();
     static function<int (Mat *, Mat *, Mat *, Mat*)>            Math_3img_Addition              (double summand);
     static function<int (Mat *, Mat *, Mat *, Mat*)>            Math_3img_Multiplication        ();

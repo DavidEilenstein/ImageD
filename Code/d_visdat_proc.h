@@ -283,6 +283,7 @@ public:
     static int  Transformation_Watershed_Auto   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int  Transformation_Watershed_Auto   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int  Transformation_Watershed_Auto   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border);
+    static int  Transformation_Watershed_Custom (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InFill, D_VisDat_Obj *pVD_In2Marker, D_VisDat_Obj *pVD_FG_Mask, int connectivity = 8);
 
     //Feature
     static int  Feature_Value                   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int feature,                              int connectivity);

@@ -2327,34 +2327,51 @@ void D_StepWindow::Update_Img_Proc()
 
         case c_sT_TR_WATERSHADE:    //-----------------------------------------------------------   Watershade
         {
-            if(ui->checkBox_07_Watershed_Auto->isChecked())
+            if(ui->comboBox_07_Watershed_Implementation->currentIndex() == 0)//ImageD
             {
-                int connectivity;
-                switch (ui->comboBox_07_Watershed_Connectivity->currentIndex()) {
-                case 0:     connectivity = 8;           break;
-                case 1:     connectivity = 4;           break;
-                default:                                break;}
+                int connectivity = ui->comboBox_07_WatershedCustom_Connectivity->currentIndex() == 0 ? 4 : 8;
 
-                ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
+                ERR(D_VisDat_Proc::Transformation_Watershed_Custom(
                         SlicingFromUi(),
                         pStore->get_pVD(pos_Dest),
                         pStore->get_pVD(pos_Source1),
                         pStore->get_pVD(pos_Source2),
-                        ui->checkBox_07_Watershed_InclNonSeed->isChecked(),
-                        ui->checkBox_07_Watershed_8bit->isChecked(),
-                        ui->checkBox_07_Watershed_ExclBorder->isChecked()),
+                        pStore->get_pVD(pos_Source3),
+                        connectivity),
                     "Update_Img_Proc",
-                    "Transformation_Watershed_Auto");
+                    "Transformation_Watershed_Custom");
             }
             else
             {
-                ERR(D_VisDat_Proc::Transformation_Watershed(
-                        SlicingFromUi(),
-                        pStore->get_pVD(pos_Dest),
-                        pStore->get_pVD(pos_Source1),
-                        pStore->get_pVD(pos_Source2)),
-                    "Update_Img_Proc",
-                    "Transformation_Watershed");
+                if(ui->checkBox_07_Watershed_Auto->isChecked())
+                {
+                    int connectivity;
+                    switch (ui->comboBox_07_Watershed_Connectivity->currentIndex()) {
+                    case 0:     connectivity = 8;           break;
+                    case 1:     connectivity = 4;           break;
+                    default:                                break;}
+
+                    ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
+                            SlicingFromUi(),
+                            pStore->get_pVD(pos_Dest),
+                            pStore->get_pVD(pos_Source1),
+                            pStore->get_pVD(pos_Source2),
+                            ui->checkBox_07_Watershed_InclNonSeed->isChecked(),
+                            ui->checkBox_07_Watershed_8bit->isChecked(),
+                            ui->checkBox_07_Watershed_ExclBorder->isChecked()),
+                        "Update_Img_Proc",
+                        "Transformation_Watershed_Auto");
+                }
+                else
+                {
+                    ERR(D_VisDat_Proc::Transformation_Watershed(
+                            SlicingFromUi(),
+                            pStore->get_pVD(pos_Dest),
+                            pStore->get_pVD(pos_Source1),
+                            pStore->get_pVD(pos_Source2)),
+                        "Update_Img_Proc",
+                        "Transformation_Watershed");
+                }
             }
         }
             break;
@@ -6619,7 +6636,21 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
         proc_dim = true;
 
         if(ui->comboBox_Type_07_Transform->currentIndex() == c_sT_TR_WATERSHADE)
-            source_2 = true;
+        {
+            if(ui->comboBox_07_Watershed_Implementation->currentIndex() == 0)
+            {
+                if(ui->comboBox_07_WatershedCustom_Flood->currentIndex() == 0)
+                    source_1 = true;
+                if(ui->comboBox_07_WatershedCustom_Marker->currentIndex() == 0)
+                    source_2 = true;
+                if(ui->comboBox_07_WatershedCustom_Mask->currentIndex() == 0)
+                    source_3 = true;
+            }
+            else
+            {
+                source_2 = true;
+            }
+        }
 
         if(ui->comboBox_Type_07_Transform->currentIndex() == c_sT_TR_FOURIER && ui->checkBox_07_Fourier_Input_Complex->isChecked())
             source_2 = true;
