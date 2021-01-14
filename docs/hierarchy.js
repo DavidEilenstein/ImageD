@@ -1,8 +1,7 @@
 var hierarchy =
 [
-    [ "D_Bio_Focus", "class_d___bio___focus.html", [
-      [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", null ]
-    ] ],
+    [ "D_Bio_Focus", "class_d___bio___focus.html", null ],
+    [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", null ],
     [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html", null ],
     [ "D_Bio_NucleusLife", "class_d___bio___nucleus_life.html", null ],
     [ "D_Bio_NucleusPedigree", "class_d___bio___nucleus_pedigree.html", null ],
@@ -19,9 +18,6 @@ var hierarchy =
     [ "D_Math", "class_d___math.html", null ],
     [ "D_Physics", "class_d___physics.html", null ],
     [ "D_Plot", "class_d___plot.html", null ],
-    [ "D_PxLink_2D_Group", "class_d___px_link__2_d___group.html", null ],
-    [ "D_PxLink_2D_Image", "class_d___px_link__2_d___image.html", null ],
-    [ "D_PxLink_2D_Pixel", "class_d___px_link__2_d___pixel.html", null ],
     [ "D_Stat", "class_d___stat.html", null ],
     [ "D_Storage", "class_d___storage.html", null ],
     [ "D_Value_Distribution_List", "class_d___value___distribution___list.html", null ],

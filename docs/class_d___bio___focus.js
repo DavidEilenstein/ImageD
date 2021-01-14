@@ -1,10 +1,9 @@
 var class_d___bio___focus =
 [
     [ "D_Bio_Focus", "class_d___bio___focus.html#adf7bf6556c4dffdbf960b608aefd48e6", null ],
-    [ "D_Bio_Focus", "class_d___bio___focus.html#a7c8de3e10986e591fea8dde14151e889", null ],
-    [ "D_Bio_Focus", "class_d___bio___focus.html#a7867a77ef28288bad78d2fd3725ad577", null ],
+    [ "D_Bio_Focus", "class_d___bio___focus.html#a0df4c2bde2b8bea6c1d8a80183351c87", null ],
+    [ "D_Bio_Focus", "class_d___bio___focus.html#a739eea24d1f13f028d0d85db61b029f5", null ],
     [ "area", "class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9", null ],
-    [ "CalcFeats", "class_d___bio___focus.html#aa619a29bd2988482befebb4bcba7aa9f", null ],
     [ "centroid", "class_d___bio___focus.html#aa10594125aae778dbb2507e618a367de", null ],
     [ "compactness", "class_d___bio___focus.html#a5b49de39a0e3a4469ceeffe3205fbcfa", null ],
     [ "contour", "class_d___bio___focus.html#a5159b308722d1aad6f307be3b5826248", null ],
@@ -18,14 +17,5 @@ var class_d___bio___focus =
     [ "set_values_devs2med", "class_d___bio___focus.html#a5aa7ab17ac0d3db084b16740dab4d9ef", null ],
     [ "set_values_medians", "class_d___bio___focus.html#a460838c033f19ab7e04ce7c1915f864f", null ],
     [ "signal_dev2med", "class_d___bio___focus.html#abb40ca49ceb57d676f639cb1576a8ee9", null ],
-    [ "signal_median", "class_d___bio___focus.html#af4fcdb2f58a1f23dc26a788dbc03b25b", null ],
-    [ "m_area", "class_d___bio___focus.html#a08ed0690454dbbbfee02761402fb988b", null ],
-    [ "m_centroid", "class_d___bio___focus.html#a090d38af65c968d97329230039e2e7c2", null ],
-    [ "m_compactness", "class_d___bio___focus.html#a7743d9b5190c2eed725a9cbb29397dfd", null ],
-    [ "m_contour", "class_d___bio___focus.html#a0f29fdf642bb21444c060601ca4f60f3", null ],
-    [ "m_convex_hull", "class_d___bio___focus.html#aa8185707b94a6462b9a8156ca85f3d26", null ],
-    [ "m_convexity", "class_d___bio___focus.html#a64748f7c7148029ca6512e4e1a249e1e", null ],
-    [ "m_moments", "class_d___bio___focus.html#a12233b67b9c3587ed62388670e0ecd5a", null ],
-    [ "vSignalMedDevs", "class_d___bio___focus.html#a770427557e2b875871098e040d87ef4c", null ],
-    [ "vSignalMedians", "class_d___bio___focus.html#a583a6b99c2b16a7fc798675eb6ab2b10", null ]
+    [ "signal_median", "class_d___bio___focus.html#af4fcdb2f58a1f23dc26a788dbc03b25b", null ]
 ];

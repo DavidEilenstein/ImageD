@@ -181,18 +181,6 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_popup_plot.h", "d__popup__plot_8h.html", [
       [ "D_Popup_Plot", "class_d___popup___plot.html", "class_d___popup___plot" ]
     ] ],
-    [ "d_pxlink_2d_group.cpp", "d__pxlink__2d__group_8cpp.html", null ],
-    [ "d_pxlink_2d_group.h", "d__pxlink__2d__group_8h.html", [
-      [ "D_PxLink_2D_Group", "class_d___px_link__2_d___group.html", "class_d___px_link__2_d___group" ]
-    ] ],
-    [ "d_pxlink_2d_image.cpp", "d__pxlink__2d__image_8cpp.html", null ],
-    [ "d_pxlink_2d_image.h", "d__pxlink__2d__image_8h.html", [
-      [ "D_PxLink_2D_Image", "class_d___px_link__2_d___image.html", "class_d___px_link__2_d___image" ]
-    ] ],
-    [ "d_pxlink_2d_pixel.cpp", "d__pxlink__2d__pixel_8cpp.html", null ],
-    [ "d_pxlink_2d_pixel.h", "d__pxlink__2d__pixel_8h.html", [
-      [ "D_PxLink_2D_Pixel", "class_d___px_link__2_d___pixel.html", "class_d___px_link__2_d___pixel" ]
-    ] ],
     [ "d_stat.cpp", "d__stat_8cpp.html", null ],
     [ "d_stat.h", "d__stat_8h.html", [
       [ "D_Stat", "class_d___stat.html", "class_d___stat" ]

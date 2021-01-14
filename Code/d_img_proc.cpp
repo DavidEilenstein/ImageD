@@ -6226,6 +6226,7 @@ int D_Img_Proc::Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int siz
     return ER_okay;
 }
 
+/*
 int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity)
 {
     //error checks
@@ -6260,7 +6261,7 @@ int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, 
     size_t n = global_max - global_min;
 
     //Point Lists
-    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Point Lists";
+    qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Point Lists";
     vector<vector<Point>> vValuePoints(n);
     switch (pMA_In2Fill->type()) {
 
@@ -6330,10 +6331,10 @@ int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, 
         vNeighbors = {Point(1, 0), Point(0, 1), Point(0, -1), Point(-1, 0)};
 
     //loop values
-    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Loop values";
+    qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Loop values";
     for(size_t i_value = 0; i_value < n; i_value++)
     {
-        //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Value:" << i_value + global_min;
+        qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Value:" << i_value + global_min;
 
         //repeat until nothing changes
         bool something_changed = true;
@@ -6422,7 +6423,7 @@ int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, 
     }
 
     //write output
-    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Write Output";
+    qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Write Output";
     ER = Crop_Rect_Abs(
                 pMA_Out,
                 &MA_tmp_LabelPadded,
@@ -6435,6 +6436,212 @@ int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, 
     MA_tmp_LabelPadded.release();
     //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Finished :-)";
     return ER;
+}
+*/
+
+int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity)
+{
+    //error checks
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Error checks";
+    if(pMA_In2Fill->empty())                                                return ER_empty;
+    if(pMA_InMarker->empty())                                               return ER_empty;
+    if(pMA_FG_Mask->empty())                                                return ER_empty;
+    if(pMA_In2Fill->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_InMarker->channels() != 1)                                       return ER_channel_bad;
+    if(pMA_FG_Mask->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_InMarker->depth() != CV_32S)                                     return ER_bitdepth_bad;
+    if(pMA_FG_Mask->depth() != CV_8U)                                       return ER_bitdepth_bad;
+    if(pMA_FG_Mask->size() != pMA_InMarker->size())                         return ER_size_missmatch;
+    if(pMA_FG_Mask->size() != pMA_In2Fill->size())                          return ER_size_missmatch;
+    if(connectivity != 4 && connectivity != 8)                              return ER_parameter_bad;
+
+    //Point offsets for neighborhood
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Neighbors";
+    vector<Point> vNeighbors;
+    if(connectivity == 8)
+        vNeighbors = {Point(1, 1), Point(1, 0), Point(1, -1), Point(0, 1), Point(0, -1), Point(-1, 1), Point(-1, 0), Point(-1, -1)};
+    else
+        vNeighbors = {Point(1, 0), Point(0, 1), Point(0, -1), Point(-1, 0)};
+
+    //init out
+    *pMA_Out = pMA_InMarker->clone();
+
+    //Queues sorted by values
+    vector<Point>  vQueue_Points;
+    vector<double> vQueue_Values;
+    vector<int>    vQueue_Labels;
+
+    //Init Queue
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Init Queue";
+    for(int y = 0; y < pMA_In2Fill->rows; y++)
+        for(int x = 0; x < pMA_In2Fill->cols; x++)
+        {
+            //current point
+            Point point_current = Point(x, y);
+
+            //check, if in mask area (area that shall be labeled)
+            if(pMA_FG_Mask->at<uchar>(point_current) > 0)
+            {
+                //check, if not labeled by initial marker
+                int label_current = pMA_Out->at<int>(point_current);
+                if(label_current <= 0)
+                {
+                    //check, if a labeled neighbor exists
+                    bool labeled_neighbor_found = false;
+                    int label_neighbor;
+                    size_t i = 0;
+                    while(i < vNeighbors.size() && !labeled_neighbor_found)
+                    {
+                        //neighbor candidate
+                        Point point_neighbor = point_current + vNeighbors[i];
+
+                        //check if neighbor pixel is in image range
+                        if(point_neighbor.x > 0 && point_neighbor.x < pMA_Out->cols && point_neighbor.y > 0 && point_neighbor.y < pMA_Out->rows)
+                        {
+                            //check if neighbour is in mask
+                            if(pMA_FG_Mask->at<uchar>(point_neighbor) > 0)
+                            {
+                                //check if neighbour is labeled
+                                label_neighbor = pMA_Out->at<int>(point_neighbor);
+                                if(label_neighbor > 0)
+                                    labeled_neighbor_found = true;
+                            }
+                        }
+
+                        i++;
+                    }
+
+                    //labeled neighbor exists?
+                    if(labeled_neighbor_found)
+                    {
+                        //get value at current posisiton
+                        double  value_current = 0;
+                        switch (pMA_In2Fill->type()) {
+                        case CV_8UC1:   value_current = pMA_In2Fill->at<uchar>(point_current);      break;
+                        case CV_8SC1:   value_current = pMA_In2Fill->at<char>(point_current);       break;
+                        case CV_16UC1:  value_current = pMA_In2Fill->at<ushort>(point_current);     break;
+                        case CV_16SC1:  value_current = pMA_In2Fill->at<short>(point_current);      break;
+                        case CV_32SC1:  value_current = pMA_In2Fill->at<int>(point_current);        break;
+                        case CV_32FC1:  value_current = pMA_In2Fill->at<float>(point_current);      break;
+                        case CV_64FC1:  value_current = pMA_In2Fill->at<double>(point_current);     break;
+                        default:                                                                    return ER_type_bad;}
+
+                        //push to queue
+                        //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "Init Queue" << "x/y" << x << y << "label" << label_current << label_neighbor << "value" << value_current;
+                        size_t i = 0;
+                        bool pushed = false;
+                        while (!pushed && i < vQueue_Values.size())
+                        {
+                            if(value_current < vQueue_Values[i])
+                            {
+                                vQueue_Points.insert(vQueue_Points.begin() + i, point_current);
+                                vQueue_Values.insert(vQueue_Values.begin() + i, value_current);
+                                vQueue_Labels.insert(vQueue_Labels.begin() + i, label_neighbor);
+                                pushed = true;
+                            }
+
+                            i++;
+                        }
+                        if(!pushed)
+                        {
+                            vQueue_Points.push_back(point_current);
+                            vQueue_Values.push_back(value_current);
+                            vQueue_Labels.push_back(label_neighbor);
+                        }
+                    }
+                }
+            }
+        }
+
+    //copy mask to indicate pixels that are allready in queue to avoid to add them multiple times
+    Mat MA_tmp_PossibleQueueElement = pMA_FG_Mask->clone();
+
+    //process queue
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "process queue";
+    while(!vQueue_Points.empty())
+    {
+        //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "points in queue:" << vQueue_Points.size();
+
+        //process 1st in queue
+        Point   point_current = vQueue_Points[0];
+        double  value_current = vQueue_Values[0];
+        int     label_pusher  = vQueue_Labels[0];
+
+        //erase from queue
+        vQueue_Points.erase(vQueue_Points.begin());
+        vQueue_Values.erase(vQueue_Values.begin());
+        vQueue_Labels.erase(vQueue_Labels.begin());
+
+        //write label of pusher to out
+        pMA_Out->at<int>(point_current) = label_pusher;
+
+        //push neigbours to queue
+        for(size_t i = 0; i < vNeighbors.size(); i++)
+        {
+            //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "neighbor" << i;
+
+            //neighbor candidate
+            Point point_neighbor = point_current + vNeighbors[i];
+
+            //neighbor in image range?
+            if(point_neighbor.x > 0 && point_neighbor.x < pMA_Out->cols && point_neighbor.y > 0 && point_neighbor.y < pMA_Out->rows)
+            {
+                //neighbor in mask area and has not been added to queue yet?
+                if(MA_tmp_PossibleQueueElement.at<uchar>(point_neighbor) > 0)
+                {
+                    //neighbor not labeled yet?
+                    if(pMA_Out->at<int>(point_neighbor) == 0)
+                    {
+                        //get neighbor value
+                        double value_2push = 0;
+                        switch (pMA_In2Fill->type()) {
+                        case CV_8UC1:   value_2push = pMA_In2Fill->at<uchar>(point_neighbor);   break;
+                        case CV_8SC1:   value_2push = pMA_In2Fill->at<char>(point_neighbor);    break;
+                        case CV_16UC1:  value_2push = pMA_In2Fill->at<ushort>(point_neighbor);  break;
+                        case CV_16SC1:  value_2push = pMA_In2Fill->at<short>(point_neighbor);   break;
+                        case CV_32SC1:  value_2push = pMA_In2Fill->at<int>(point_neighbor);     break;
+                        case CV_32FC1:  value_2push = pMA_In2Fill->at<float>(point_neighbor);   break;
+                        case CV_64FC1:  value_2push = pMA_In2Fill->at<double>(point_neighbor);  break;
+                        default:        MA_tmp_PossibleQueueElement.release();                  return ER_type_bad;}
+
+                        //correct value to current if lower than current ("fill valley")
+                        if(value_2push < value_current)
+                            value_2push = value_current;
+
+                        //push value to queue
+                        //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "push";
+                        size_t i = 0;
+                        bool pushed = false;
+                        while (!pushed && i < vQueue_Values.size())
+                        {
+                            if(value_2push < vQueue_Values[i])
+                            {
+                                vQueue_Points.insert(vQueue_Points.begin() + i, point_neighbor);
+                                vQueue_Values.insert(vQueue_Values.begin() + i, value_2push);
+                                vQueue_Labels.insert(vQueue_Labels.begin() + i, label_pusher);
+                                pushed = true;
+                            }
+
+                            i++;
+                        }
+                        if(!pushed)
+                        {
+                            vQueue_Points.push_back(point_neighbor);
+                            vQueue_Values.push_back(value_2push);
+                            vQueue_Labels.push_back(label_pusher);
+                        }
+
+                        //rememeber, that this pixel has been added to queue
+                        MA_tmp_PossibleQueueElement.at<uchar>(point_neighbor) = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    //qDebug() << "D_Img_Proc::Transformation_Watershed_Custom" << "end";
+
+    return ER_okay;
 }
 
 int D_Img_Proc::Transformation_Fourier(Mat *pMA_Out, Mat *pMA_In, bool invers)

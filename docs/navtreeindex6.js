@@ -1,7 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60ae324f9e70a6e9deb1e68553986dbe46b":[4,0,0,20,11,58],
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60ae7a4c2e7700829d365437a799df981eb":[4,0,0,20,11,112],
 "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60aeb0ba664971146134aa8fb0f9383730a":[4,0,0,20,11,12],
 "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60aed00660c8f9a7c0ca086d07d4382c9d5":[4,0,0,20,11,64],
 "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60af037866ae56f0b7c8b73145a266b8f2b":[4,0,0,20,11,50],
@@ -89,7 +87,7 @@ var NAVTREEINDEX6 =
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561":[4,0,0,20,10],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a080fb1f6b9de470f482e386a1edadf5d":[4,0,0,20,10,37],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a10926b8dca12760a4c2654a6fc640672":[4,0,0,20,10,18],
-"d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845":[4,0,0,20,10,41],
+"d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845":[4,0,0,20,10,42],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a1f1e722ed413afc733ec428dcdcce5ef":[4,0,0,20,10,27],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a2236d5e5ecf711349875186cddcfa253":[4,0,0,20,10,8],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a27273d0cfbe8f99913ed127101c47e91":[4,0,0,20,10,9],
@@ -106,6 +104,7 @@ var NAVTREEINDEX6 =
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a571fb99c393ac7b0661c58a9ea69b652":[4,0,0,20,10,16],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a584514de1042818b07c139e3ea725d62":[4,0,0,20,10,19],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a596597280aeeca6cf3c5887258894511":[4,0,0,20,10,29],
+"d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7":[4,0,0,20,10,41],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a744f04314a53f4761555c89b2937f178":[4,0,0,20,10,2],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20":[4,0,0,20,10,40],
 "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a8462bc3c63b550df9a81222f0077d493":[4,0,0,20,10,35],
@@ -249,5 +248,6 @@ var NAVTREEINDEX6 =
 "d__makro__mitochondrien_8cpp.html":[4,0,0,65],
 "d__makro__mitochondrien_8h.html":[4,0,0,66],
 "d__makro__mitochondrien_8h_source.html":[4,0,0,66],
-"d__makro__osteoclasts_8cpp.html":[4,0,0,67]
+"d__makro__osteoclasts_8cpp.html":[4,0,0,67],
+"d__makro__osteoclasts_8h.html":[4,0,0,68]
 };

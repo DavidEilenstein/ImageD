@@ -143,6 +143,7 @@ var d__enum_8h =
       [ "ER_PoitsUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aa74e7d4ef43883f2eb3170316962564e", null ],
       [ "ER_KeypoitsUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561ad72239a2fdc99bbaccd4e6a3bbd83ecd", null ],
       [ "ER_DescriptorsUnkown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20", null ],
+      [ "ER_StreamNotOpen", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7", null ],
       [ "ER_number_of", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845", null ]
     ] ],
     [ "D_FEATURE_ENUM", "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60", [

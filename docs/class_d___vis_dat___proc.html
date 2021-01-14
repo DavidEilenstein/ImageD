@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_3 (07.01.21)</span>
+   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -433,6 +433,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a38586c39690f7ddf9773183ab558f45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6480fe2997885f0783a2ecbd3696b0cf"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a6480fe2997885f0783a2ecbd3696b0cf">Transformation_Watershed_Auto</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border)</td></tr>
 <tr class="separator:a6480fe2997885f0783a2ecbd3696b0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a781d06410327f14509b50d2c18a260aa"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a781d06410327f14509b50d2c18a260aa">Transformation_Watershed_Custom</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_InFill, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In2Marker, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_FG_Mask, int connectivity=8)</td></tr>
+<tr class="separator:a781d06410327f14509b50d2c18a260aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa49cffa631cef015105976ee62491dd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#aaa49cffa631cef015105976ee62491dd">Feature_Value</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int feature, int connectivity)</td></tr>
 <tr class="separator:aaa49cffa631cef015105976ee62491dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f97a5e04ca3f7b8d23f67cd86128398"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a0f97a5e04ca3f7b8d23f67cd86128398">FeatureContext_Value</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat, int stat, int connectivity=4)</td></tr>
@@ -9872,6 +9874,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>exclude_border</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a781d06410327f14509b50d2c18a260aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a781d06410327f14509b50d2c18a260aa">&#9670;&nbsp;</a></span>Transformation_Watershed_Custom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Transformation_Watershed_Custom </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_InFill</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In2Marker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_FG_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectivity</em> = <code>8</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

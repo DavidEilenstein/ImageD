@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_3 (07.01.21)</span>
+   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -86,8 +86,6 @@ $(document).ready(function(){initNavTree('class_d___bio___focus.html',''); initR
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_d___bio___focus-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">D_Bio_Focus Class Reference</div>  </div>
@@ -95,24 +93,15 @@ $(document).ready(function(){initNavTree('class_d___bio___focus.html',''); initR
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="d__bio__focus_8h_source.html">d_bio_focus.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for D_Bio_Focus:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="class_d___bio___focus.png" usemap="#D_5FBio_5FFocus_map" alt=""/>
-  <map id="D_5FBio_5FFocus_map" name="D_5FBio_5FFocus_map">
-<area href="class_d___bio___nucleus_blob.html" alt="D_Bio_NucleusBlob" shape="rect" coords="0,56,124,80"/>
-  </map>
-</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:adf7bf6556c4dffdbf960b608aefd48e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#adf7bf6556c4dffdbf960b608aefd48e6">D_Bio_Focus</a> ()</td></tr>
 <tr class="separator:adf7bf6556c4dffdbf960b608aefd48e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c8de3e10986e591fea8dde14151e889"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a7c8de3e10986e591fea8dde14151e889">D_Bio_Focus</a> (vector&lt; Point &gt; contour_points)</td></tr>
-<tr class="separator:a7c8de3e10986e591fea8dde14151e889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7867a77ef28288bad78d2fd3725ad577"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a7867a77ef28288bad78d2fd3725ad577">D_Bio_Focus</a> (vector&lt; Point &gt; contour_points, vector&lt; double &gt; signal_medians, vector&lt; double &gt; signal_meddevs)</td></tr>
-<tr class="separator:a7867a77ef28288bad78d2fd3725ad577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df4c2bde2b8bea6c1d8a80183351c87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a0df4c2bde2b8bea6c1d8a80183351c87">D_Bio_Focus</a> (vector&lt; Point &gt; contour_points, Point Offset=Point(0, 0))</td></tr>
+<tr class="separator:a0df4c2bde2b8bea6c1d8a80183351c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a739eea24d1f13f028d0d85db61b029f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a739eea24d1f13f028d0d85db61b029f5">D_Bio_Focus</a> (vector&lt; Point &gt; contour_points, vector&lt; double &gt; signal_medians, vector&lt; double &gt; signal_meddevs, Point Offset=Point(0, 0))</td></tr>
+<tr class="separator:a739eea24d1f13f028d0d85db61b029f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af88e4eed3ccb34b2bee0188c191b24ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#af88e4eed3ccb34b2bee0188c191b24ad">set_value_channels</a> (size_t channels)</td></tr>
 <tr class="separator:af88e4eed3ccb34b2bee0188c191b24ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a460838c033f19ab7e04ce7c1915f864f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a460838c033f19ab7e04ce7c1915f864f">set_values_medians</a> (vector&lt; double &gt; vMedian)</td></tr>
@@ -143,32 +132,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abb40ca49ceb57d676f639cb1576a8ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38d74f02399dcc837142f0992a91ae1e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a38d74f02399dcc837142f0992a91ae1e">save</a> (QString path)</td></tr>
 <tr class="separator:a38d74f02399dcc837142f0992a91ae1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa619a29bd2988482befebb4bcba7aa9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#aa619a29bd2988482befebb4bcba7aa9f">CalcFeats</a> ()</td></tr>
-<tr class="separator:aa619a29bd2988482befebb4bcba7aa9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a0f29fdf642bb21444c060601ca4f60f3"><td class="memItemLeft" align="right" valign="top">vector&lt; Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a0f29fdf642bb21444c060601ca4f60f3">m_contour</a></td></tr>
-<tr class="separator:a0f29fdf642bb21444c060601ca4f60f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8185707b94a6462b9a8156ca85f3d26"><td class="memItemLeft" align="right" valign="top">vector&lt; Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#aa8185707b94a6462b9a8156ca85f3d26">m_convex_hull</a></td></tr>
-<tr class="separator:aa8185707b94a6462b9a8156ca85f3d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12233b67b9c3587ed62388670e0ecd5a"><td class="memItemLeft" align="right" valign="top">Moments&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a12233b67b9c3587ed62388670e0ecd5a">m_moments</a></td></tr>
-<tr class="separator:a12233b67b9c3587ed62388670e0ecd5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a090d38af65c968d97329230039e2e7c2"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a090d38af65c968d97329230039e2e7c2">m_centroid</a> = Point2f(0, 0)</td></tr>
-<tr class="separator:a090d38af65c968d97329230039e2e7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08ed0690454dbbbfee02761402fb988b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a08ed0690454dbbbfee02761402fb988b">m_area</a> = 0</td></tr>
-<tr class="separator:a08ed0690454dbbbfee02761402fb988b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7743d9b5190c2eed725a9cbb29397dfd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a7743d9b5190c2eed725a9cbb29397dfd">m_compactness</a> = 0</td></tr>
-<tr class="separator:a7743d9b5190c2eed725a9cbb29397dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64748f7c7148029ca6512e4e1a249e1e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a64748f7c7148029ca6512e4e1a249e1e">m_convexity</a> = 0</td></tr>
-<tr class="separator:a64748f7c7148029ca6512e4e1a249e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a583a6b99c2b16a7fc798675eb6ab2b10"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a583a6b99c2b16a7fc798675eb6ab2b10">vSignalMedians</a></td></tr>
-<tr class="separator:a583a6b99c2b16a7fc798675eb6ab2b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a770427557e2b875871098e040d87ef4c"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___focus.html#a770427557e2b875871098e040d87ef4c">vSignalMedDevs</a></td></tr>
-<tr class="separator:a770427557e2b875871098e040d87ef4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adf7bf6556c4dffdbf960b608aefd48e6"></a>
@@ -188,8 +151,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7c8de3e10986e591fea8dde14151e889"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c8de3e10986e591fea8dde14151e889">&#9670;&nbsp;</a></span>D_Bio_Focus() <span class="overload">[2/3]</span></h2>
+<a id="a0df4c2bde2b8bea6c1d8a80183351c87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0df4c2bde2b8bea6c1d8a80183351c87">&#9670;&nbsp;</a></span>D_Bio_Focus() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,16 +161,26 @@ Protected Attributes</h2></td></tr>
           <td class="memname">D_Bio_Focus::D_Bio_Focus </td>
           <td>(</td>
           <td class="paramtype">vector&lt; Point &gt;&#160;</td>
-          <td class="paramname"><em>contour_points</em></td><td>)</td>
+          <td class="paramname"><em>contour_points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Point&#160;</td>
+          <td class="paramname"><em>Offset</em> = <code>Point(0,&#160;0)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a7867a77ef28288bad78d2fd3725ad577"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7867a77ef28288bad78d2fd3725ad577">&#9670;&nbsp;</a></span>D_Bio_Focus() <span class="overload">[3/3]</span></h2>
+<a id="a739eea24d1f13f028d0d85db61b029f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a739eea24d1f13f028d0d85db61b029f5">&#9670;&nbsp;</a></span>D_Bio_Focus() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,7 +201,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>signal_meddevs</em>&#160;</td>
+          <td class="paramname"><em>signal_meddevs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point&#160;</td>
+          <td class="paramname"><em>Offset</em> = <code>Point(0,&#160;0)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -260,31 +239,6 @@ Protected Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa619a29bd2988482befebb4bcba7aa9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa619a29bd2988482befebb4bcba7aa9f">&#9670;&nbsp;</a></span>CalcFeats()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Bio_Focus::CalcFeats </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -657,205 +611,6 @@ Protected Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a08ed0690454dbbbfee02761402fb988b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08ed0690454dbbbfee02761402fb988b">&#9670;&nbsp;</a></span>m_area</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double D_Bio_Focus::m_area = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a090d38af65c968d97329230039e2e7c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a090d38af65c968d97329230039e2e7c2">&#9670;&nbsp;</a></span>m_centroid</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Point2f D_Bio_Focus::m_centroid = Point2f(0, 0)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7743d9b5190c2eed725a9cbb29397dfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7743d9b5190c2eed725a9cbb29397dfd">&#9670;&nbsp;</a></span>m_compactness</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double D_Bio_Focus::m_compactness = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0f29fdf642bb21444c060601ca4f60f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f29fdf642bb21444c060601ca4f60f3">&#9670;&nbsp;</a></span>m_contour</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;Point&gt; D_Bio_Focus::m_contour</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa8185707b94a6462b9a8156ca85f3d26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8185707b94a6462b9a8156ca85f3d26">&#9670;&nbsp;</a></span>m_convex_hull</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;Point&gt; D_Bio_Focus::m_convex_hull</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a64748f7c7148029ca6512e4e1a249e1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64748f7c7148029ca6512e4e1a249e1e">&#9670;&nbsp;</a></span>m_convexity</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double D_Bio_Focus::m_convexity = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a12233b67b9c3587ed62388670e0ecd5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12233b67b9c3587ed62388670e0ecd5a">&#9670;&nbsp;</a></span>m_moments</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Moments D_Bio_Focus::m_moments</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a770427557e2b875871098e040d87ef4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a770427557e2b875871098e040d87ef4c">&#9670;&nbsp;</a></span>vSignalMedDevs</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;double&gt; D_Bio_Focus::vSignalMedDevs</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a583a6b99c2b16a7fc798675eb6ab2b10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a583a6b99c2b16a7fc798675eb6ab2b10">&#9670;&nbsp;</a></span>vSignalMedians</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;double&gt; D_Bio_Focus::vSignalMedians</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
