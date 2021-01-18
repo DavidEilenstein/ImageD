@@ -6881,6 +6881,10 @@ void D_StepWindow::Populate_CB_Other()
     Populate_CB_Single(ui->comboBox_09_RadiometricStereo_OutMode,   QSL_StereoOutput,   c_STEREO_NORMAL);
     Populate_CB_Single(ui->comboBox_04_Statistic_MaskType,          QSL_MaskMode,       c_MASK_MODE_CIRC);
     Populate_CB_Single(ui->comboBox_04_RankOrder_MaskType,          QSL_MaskMode,       c_MASK_MODE_CIRC);
+
+    Populate_CB_Single(ui->comboBox_07_WatershedCustom_Flood,       QSL_WatershedFill,  c_WATERSHED_FILL_MASK_DIST_INV);
+    Populate_CB_Single(ui->comboBox_07_WatershedCustom_Marker,      QSL_WatershedMarker,c_WATERSHED_MARKER_FILL_LOC_MIN);
+    Populate_CB_Single(ui->comboBox_07_WatershedCustom_Mask,        QSL_WatershedMask,  c_WATERSHED_MASK_SOURCE_COPY);
 }
 
 void D_StepWindow::Test_Feature_Visualize()

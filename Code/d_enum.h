@@ -141,7 +141,6 @@ enum D_ERROR_ENUM {
     ER_StreamNotOpen,
     ER_number_of
 };
-
 const QStringList QSL_Errors = {
     "other",
     "data empty",
@@ -321,6 +320,56 @@ const QStringList QSL_LoadMode = {
     "Filelist Image",
     "Filelist Image Paged",
     "File .visdat"
+};
+
+enum D_WATERSHED_FILL {
+    c_WATERSHED_FILL_MASK_DIST_INV,
+    c_WATERSHED_FILL_MASK_COPY,
+    c_WATERSHED_FILL_SOURCE_COPY,
+    c_WATERSHED_FILL_SOURCE_INV,
+    c_WATERSHED_FILL_SOURCE_LOG,
+    c_WATERSHED_FILL_SOURCE_MORPH_GRAD,
+    c_WATERSHED_FILL_SOURCE_CANNY,
+    c_WATERSHED_FILL_NUMBER_OF
+};
+const QStringList QSL_WatershedFill = {
+    "Mask: Distance Invers",
+    "Mask: Unmodified",
+    "Source: Unmodified",
+    "Source: Inverted",
+    "Source: Laplace of Gaussian",
+    "Source: Morphological Gradient",
+    "Source: Canny"
+};
+
+enum D_WATERSHED_MARKER {
+    c_WATERSHED_MARKER_FILL_LOC_MIN,
+    c_WATERSHED_MARKER_SOURCE_COPY,
+    c_WATERSHED_MARKER_SOURCE_LABELED,
+    c_WATERSHED_MARKER_SOURCE_LABELED_INV,
+    c_WATERSHED_MARKER_NUMBER_OF
+};
+const QStringList QSL_WatershedMarker = {
+    "Fill: Local Minima",
+    "Source: Unmodified",
+    "Source: Labeled",
+    "Source: Inverted Labeled"
+};
+
+enum D_WATERSHED_MASK {
+    c_WATERSHED_MASK_SOURCE_COPY,
+    c_WATERSHED_MASK_SOURCE_BINARY_OTSU,
+    c_WATERSHED_MASK_SOURCE_BINARY_THRES,
+    c_WATERSHED_MASK_FILL_BINARY_OTSU,
+    c_WATERSHED_MASK_FILL_BINARY_THRES,
+    c_WATERSHED_MASK_NUMBER_OF
+};
+const QStringList QSL_WatershedMask = {
+    "Source: Unmodified",
+    "Source: Binary Otsu",
+    "Source: Binary Thres",
+    "Fill: Binary Otsu",
+    "Fill: Binary Thres"
 };
 
 enum D_COLOR2MONO {

@@ -2191,7 +2191,7 @@
           <number>1</number>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>7</number>
          </property>
          <widget class="QWidget" name="page_Settings_00_Source">
           <layout class="QGridLayout" name="gridLayout_17">
@@ -16945,7 +16945,7 @@
            <item row="0" column="0">
             <widget class="QStackedWidget" name="stackedWidget_Settings_07_Transform">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_07_Dist">
               <layout class="QGridLayout" name="gridLayout_33">
@@ -17136,18 +17136,18 @@
                 <widget class="QLabel" name="label_07_Watershed_Implementation">
                  <property name="minimumSize">
                   <size>
-                   <width>100</width>
+                   <width>75</width>
                    <height>20</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>100</width>
+                   <width>75</width>
                    <height>20</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Implementation</string>
                  </property>
                 </widget>
                </item>
@@ -17184,13 +17184,13 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_Mask_3">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -17203,13 +17203,13 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_Connectivity_3">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -17222,13 +17222,13 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_Marker_3">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -17254,18 +17254,18 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_Border">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="text">
-                      <string>Exclude Border</string>
+                      <string>Excl. Border</string>
                      </property>
                     </widget>
                    </item>
@@ -17325,13 +17325,13 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_Flood_3">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -17404,18 +17404,18 @@
                     <widget class="QLabel" name="label_07_WatershedCustom_NonSeed">
                      <property name="minimumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>100</width>
+                       <width>75</width>
                        <height>20</height>
                       </size>
                      </property>
                      <property name="text">
-                      <string>Include not seeded</string>
+                      <string>Incl. no seed</string>
                      </property>
                     </widget>
                    </item>
@@ -17427,6 +17427,235 @@
                      <property name="text">
                       <string/>
                      </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QStackedWidget" name="stackedWidget_07_WatershedCustom_Mask">
+                     <widget class="QWidget" name="page_07_WatershedCustom_Mask_SourceCopy"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Mask_SourceBinaryOtsu"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Mask_SourceBinaryThres"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Mask_FillBinaryOtsu"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Mask_FillBinaryThres"/>
+                    </widget>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QStackedWidget" name="stackedWidget_07_WatershedCustom_Marker">
+                     <widget class="QWidget" name="page_07_WatershedCustom_Marker_FillLocalMin"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Marker_SourceCopy"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Marker_SourceLabeled"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Marker_SourceInvLabeled"/>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QStackedWidget" name="stackedWidget_07_WatershedCustom_Flood">
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_MaskDistInvers">
+                      <layout class="QGridLayout" name="gridLayout_127">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="0" column="0">
+                        <widget class="QSpinBox" name="spinBox_07_WatershedCustom_Flood_MaskDistInvers_Size">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="suffix">
+                          <string>px</string>
+                         </property>
+                         <property name="prefix">
+                          <string>size </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>2</number>
+                         </property>
+                         <property name="value">
+                          <number>5</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QDoubleSpinBox" name="doubleSpinBox_07_WatershedCustom_Flood_MaskDistInvers_Sigma">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>sigma </string>
+                         </property>
+                         <property name="maximum">
+                          <double>99.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>0.250000000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>2.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_MaskCopy"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_SourceCopy"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_SourceInvert"/>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_SourceLOG">
+                      <layout class="QGridLayout" name="gridLayout_128">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="0" column="0">
+                        <widget class="QSpinBox" name="spinBox_07_WatershedCustom_Flood_SourceLOG_Size">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="suffix">
+                          <string>px</string>
+                         </property>
+                         <property name="prefix">
+                          <string>size </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>2</number>
+                         </property>
+                         <property name="value">
+                          <number>3</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QDoubleSpinBox" name="doubleSpinBox_07_WatershedCustom_Flood_SourceLOG_Sigma">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_Source_MorphGrad">
+                      <layout class="QGridLayout" name="gridLayout_129">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="0" column="0">
+                        <widget class="QComboBox" name="comboBox_07_WatershedCustom_Flood_Source_MorphGrad_Element">
+                         <item>
+                          <property name="text">
+                           <string>Circle</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Square</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QSpinBox" name="spinBox_07_WatershedCustom_Flood_Source_MorphGrad_Size">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="suffix">
+                          <string>px</string>
+                         </property>
+                         <property name="prefix">
+                          <string>D </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>2</number>
+                         </property>
+                         <property name="value">
+                          <number>3</number>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="page_07_WatershedCustom_Flood_Source_Canny">
+                      <layout class="QGridLayout" name="gridLayout_130">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="0" column="0">
+                        <widget class="QSpinBox" name="spinBox_07_WatershedCustom_Flood_Source_Canny_ThresLow">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="suffix">
+                          <string/>
+                         </property>
+                         <property name="prefix">
+                          <string>low </string>
+                         </property>
+                         <property name="maximum">
+                          <number>255</number>
+                         </property>
+                         <property name="value">
+                          <number>100</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QSpinBox" name="spinBox_07_WatershedCustom_Flood_Source_Canny_ThresHigh">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>high </string>
+                         </property>
+                         <property name="maximum">
+                          <number>255</number>
+                         </property>
+                         <property name="value">
+                          <number>200</number>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
                     </widget>
                    </item>
                   </layout>
@@ -25259,6 +25488,54 @@
     <hint type="destinationlabel">
      <x>199</x>
      <y>507</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_07_WatershedCustom_Mask</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_07_WatershedCustom_Mask</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>591</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>496</x>
+     <y>592</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_07_WatershedCustom_Marker</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_07_WatershedCustom_Marker</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>564</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>496</x>
+     <y>565</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_07_WatershedCustom_Flood</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_07_WatershedCustom_Flood</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>537</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>496</x>
+     <y>538</y>
     </hint>
    </hints>
   </connection>
