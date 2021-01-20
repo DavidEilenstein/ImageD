@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QInputDialog>
+#include <QTextStream>
 
 //general
 #include <iostream>
@@ -41,6 +42,7 @@ class D_Bio_Focus
 {
 public:
     D_Bio_Focus();
+    D_Bio_Focus(QString QS_PathLoad);
     D_Bio_Focus(vector<Point> contour_points, Point Offset = Point(0, 0));
     D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset = Point(0, 0));
 
@@ -68,6 +70,8 @@ public:
     int             save(QString path);
 
 private:
+    bool            load(QString QS_PathLoad);
+
     bool            state_feats_calced = false;
     void            CalcFeats();
 

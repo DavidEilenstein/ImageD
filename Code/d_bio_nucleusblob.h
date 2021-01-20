@@ -43,6 +43,7 @@ class D_Bio_NucleusBlob
 {
 public:
     D_Bio_NucleusBlob();
+    D_Bio_NucleusBlob(QString QS_PathLoad);
     D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset = Point(0, 0));
     D_Bio_NucleusBlob(vector<Point> contour_points, double time, Point Offset = Point(0, 0));
     D_Bio_NucleusBlob(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset = Point(0, 0));
@@ -88,6 +89,7 @@ public:
     double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}
 
 private:
+    bool            load(QString QS_DirLoad);
 
     double                          m_time              = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;

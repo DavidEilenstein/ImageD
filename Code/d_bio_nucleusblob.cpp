@@ -13,6 +13,12 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob()
 
 }
 
+D_Bio_NucleusBlob::D_Bio_NucleusBlob(QString QS_PathLoad)
+{
+    if(load(QS_PathLoad))
+        CalcFeats();
+}
+
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset)
 {
     //save data
@@ -100,8 +106,11 @@ int D_Bio_NucleusBlob::save(QString path)
 
     //qDebug() << "D_Bio_NucleusBlob::save";
 
+    //TYX coordinate
+    QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(m_centroid.y)) + "_X" + QString::number(static_cast<int>(m_centroid.x));
+
     //add nucleus ID
-    path += "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y));
+    path += "/Nucleus" + QS_Coordinate_TYX;
 
     //directory
     QDir DIR_Save(path);
@@ -113,7 +122,7 @@ int D_Bio_NucleusBlob::save(QString path)
     }
 
     //stream to text file
-    ofstream OS_NucleusFile((DIR_Save.path() + "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y))+ ".txt").toStdString());
+    ofstream OS_NucleusFile((DIR_Save.path() + "/Nucleus_" + QS_Coordinate_TYX + ".txt").toStdString());
     if(!OS_NucleusFile.is_open())
     {
         //qDebug() << "D_Bio_NucleusBlob::save" << "ERROR Stream not open:" << DIR_Save.path() + "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y))+ ".txt";
@@ -136,6 +145,7 @@ int D_Bio_NucleusBlob::save(QString path)
     }
 
     //contour
+    OS_NucleusFile << "\n";
     OS_NucleusFile << "CountourPixels";
     for(size_t i = 0; i < m_contour.size(); i++)
         OS_NucleusFile << "\n" << m_contour[i].x << ";" << m_contour[i].y;
@@ -170,6 +180,154 @@ int D_Bio_NucleusBlob::save(QString path)
     }
 
     return ER_okay;
+}
+
+bool D_Bio_NucleusBlob::load(QString QS_DirLoad)
+{
+    //Dir
+    QDir DIR(QS_DirLoad);
+    if(!DIR.exists())
+        return false;
+
+    //--------------------------------------------------- Nucleus File
+
+    //decompose entries
+    QStringList QSL_Nucleus = DIR.entryList(QDir::Files | QDir::NoDotAndDotDot);
+
+    //check file
+    QFileInfo FI;
+    bool found_txt;
+    for(int i = 0; i < QSL_Nucleus.size() && !found_txt; i++)
+    {
+        FI = QFileInfo(QSL_Nucleus[i]);
+        if(FI.exists())
+            if(FI.suffix() == "txt")
+                if(FI.absoluteFilePath().contains("Nucleus"))
+                    found_txt = true;
+    }
+    if(!found_txt)
+        return false;
+
+    //file
+    QFile F(FI.absoluteFilePath());
+    if (!F.open(QIODevice::ReadOnly))
+        return false;
+
+    //text stream
+    QTextStream TS(&F);
+
+    //clear old
+    vSignalMedians.clear();
+    vSignalMedDevs.clear();
+    m_contour.clear();
+
+    //read line by line
+    for(size_t l = 0; !TS.atEnd(); l++)
+    {
+        //line and blocks in line
+        QString QS_line = TS.readLine();
+        QStringList QSL_Line = QS_line.split(";");
+
+        //check if string->number conversion works (used below)
+        bool ok;
+
+        //line empty?
+        if(!QSL_Line.empty())
+        {
+            //line type
+            QString QS_FirstEntry = QSL_Line[0];
+            if(QS_FirstEntry == "Median")
+            {
+                for(int i = 1; i < QSL_Line.size(); i++)
+                {
+                    double median = QSL_Line[i].toDouble(&ok);
+                    if(ok)
+                        vSignalMedians.push_back(median);
+                    else
+                        return false;
+                }
+
+            }
+            else if(QS_FirstEntry == "AverageAbsoluteDeviationFromMedian")
+            {
+                for(int i = 1; i < QSL_Line.size(); i++)
+                {
+                    double meddev = QSL_Line[i].toDouble(&ok);
+                    if(ok)
+                        vSignalMedDevs.push_back(meddev);
+                    else
+                        return false;
+                }
+            }
+            else if(QS_FirstEntry == "CountourPixels")
+            {
+                //do nothing, this line is just a description
+            }
+            else
+            {
+                //read ContourPoint
+                if(QSL_Line.size() == 2)
+                {
+                    int x = QSL_Line[0].toUInt(&ok);
+                    if(!ok)
+                        return false;
+
+                    int y = QSL_Line[1].toUInt(&ok);
+                    if(!ok)
+                        return false;
+
+                    m_contour.push_back(Point(x, y));
+                }
+                else
+                    return false;
+            }
+        }
+    }
+
+    //close file
+    F.close();
+
+    //--------------------------------------------------- Foci File
+
+    //decompose entries
+    QStringList QSL_Foci    = DIR.entryList(QDir::Dirs  | QDir::NoDotAndDotDot);
+
+    //Foci dirs
+    vector<QDir> vDirsFoci;
+    for(int i = 0; i < QSL_Foci.size(); i++)
+    {
+        QDir DIR_Focus(QSL_Foci[i]);
+        if(DIR_Focus.exists())
+            if(DIR_Focus.path().contains("Foci"))
+                vDirsFoci.push_back(DIR_Focus);
+    }
+
+    //set foci channels
+    set_FociChannels(vDirsFoci.size());
+
+    //get foci
+    for(size_t c = 0; c < vDirsFoci.size(); c++)
+    {
+        //decompose entries
+        QStringList QSL_Foci = vDirsFoci[c].entryList(QDir::Files | QDir::NoDotAndDotDot);
+
+        //check if files are valid foci files
+        for(int i = 0; i < QSL_Foci.size(); i++)
+        {
+            QFileInfo FI_Focus = QFileInfo(QSL_Foci[i]);
+            if(FI_Focus.exists())
+                if(FI_Focus.suffix() == "txt")
+                    if(FI_Focus.absoluteFilePath().contains("Focus"))
+                        add_Focus(c, D_Bio_Focus(FI_Focus.absoluteFilePath()));
+        }
+    }
+
+
+
+    //--------------------------------------------------- end
+
+    //finish
+    return true;
 }
 
 void D_Bio_NucleusBlob::CalcFeats()

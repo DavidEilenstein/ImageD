@@ -909,9 +909,13 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     vIndices_Values[PAGE_GFP]   = STEP_PCK_P0;
     vIndices_Values[PAGE_RFP]   = STEP_PCK_P1;
 
+    //moisaik offset
+    Point MosaikOffset(
+                ui->spinBox_Viewport_X->value() * static_cast<int>(dataset_dim_img_x * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)),
+                ui->spinBox_Viewport_Y->value() * static_cast<int>(dataset_dim_img_y * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)));
+
     //decomposition
     StatusSet("Nuclei image decomposition");
-    Point MosaikOffset(ui->spinBox_Viewport_X->value() * dataset_dim_img_x, ui->spinBox_Viewport_Y->value() * dataset_dim_img_y);
     D_Bio_NucleusImage ImageDecomp;
     int ER = ImageDecomp.calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
@@ -1011,12 +1015,15 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 ui->spinBox_Viewport_T->blockSignals(true);
                 ui->spinBox_Viewport_Y->blockSignals(true);
                 ui->spinBox_Viewport_X->blockSignals(true);
+                ui->spinBox_OverviewBig_T->blockSignals(true);
                 ui->spinBox_Viewport_T->setValue(t);
                 ui->spinBox_Viewport_Y->setValue(y);
                 ui->spinBox_Viewport_X->setValue(x);
+                ui->spinBox_OverviewBig_T->setValue(t);
                 ui->spinBox_Viewport_T->blockSignals(false);
                 ui->spinBox_Viewport_Y->blockSignals(false);
                 ui->spinBox_Viewport_X->blockSignals(false);
+                ui->spinBox_OverviewBig_T->blockSignals(false);
 
                 Stack_Porcess_Single_XYT_Viewport();
 

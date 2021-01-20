@@ -168,6 +168,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
 
     //save
     m_time = time;
+    m_Offset = P_Offset;
 
     //counts
     size_t n_channels_foci = pvMA_FociBinary->size();
@@ -440,15 +441,23 @@ int D_Bio_NucleusImage::save(QString path)
 {
     //qDebug() << "D_Bio_NucleusImage::save";
 
-    //add time index
+    //add time
     path += "/Time_" + QString::number(m_time);
-
-    //directory
-    QDir DIR_Master(path);
-    if(!DIR_Master.exists())
+    QDir DIR_Time(path);
+    if(!DIR_Time.exists())
     {
-        QDir().mkdir(DIR_Master.path());
-        if(!DIR_Master.exists())
+        QDir().mkdir(DIR_Time.path());
+        if(!DIR_Time.exists())
+            return ER_file_not_exist;
+    }
+
+    //add offset
+    path += "/Image_T" + QString::number(m_time) + "_Y" + QString::number(m_Offset.y) + "_X" + QString::number(m_Offset.x);
+    QDir DIR_Image(path);
+    if(!DIR_Image.exists())
+    {
+        QDir().mkdir(DIR_Image.path());
+        if(!DIR_Image.exists())
             return ER_file_not_exist;
     }
 
@@ -457,7 +466,7 @@ int D_Bio_NucleusImage::save(QString path)
     {
         //qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i;
 
-        int ER = vNuclei[i].save(DIR_Master.path());
+        int ER = vNuclei[i].save(DIR_Image.path());
         if(ER != ER_okay)
         {
             qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i << "ERROR:" << QSL_Errors[ER];

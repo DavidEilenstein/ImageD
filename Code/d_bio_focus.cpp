@@ -13,6 +13,12 @@ D_Bio_Focus::D_Bio_Focus()
 
 }
 
+D_Bio_Focus::D_Bio_Focus(QString QS_PathLoad)
+{
+     if(load(QS_PathLoad))
+         CalcFeats();
+}
+
 D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, Point Offset)
 {
     //save data
@@ -82,7 +88,7 @@ int D_Bio_Focus::save(QString path)
     //qDebug() << "D_Bio_Focus::save" << "Save Path" << QString::number(static_cast<int>(m_centroid.x));
     //qDebug() << "D_Bio_Focus::save" << "Save Path" << m_centroid.y;
     //qDebug() << "D_Bio_Focus::save" << "Save Path" << QString::number(static_cast<int>(m_centroid.y));
-    QString QS_PathFocusFile = DIR_Save.path() + "/Focus_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y)) + ".txt";
+    QString QS_PathFocusFile = DIR_Save.path() + "/Focus_Y" + QString::number(static_cast<int>(m_centroid.y)) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + ".txt";
     //qDebug() << "D_Bio_Focus::save" << "Start Stream" << QS_PathFocusFile;
     ofstream OS_FocusFile(QS_PathFocusFile.toStdString());
     if(!OS_FocusFile.is_open())
@@ -121,6 +127,98 @@ int D_Bio_Focus::save(QString path)
     //OS_FocusFile.clear();
 
     return ER_okay;
+}
+
+bool D_Bio_Focus::load(QString QS_PathLoad)
+{
+    //check file
+    QFileInfo FI(QS_PathLoad);
+    if(!FI.exists())
+        return false;
+    if(FI.suffix() != "txt")
+        return false;
+
+    //file
+    QFile F(FI.absoluteFilePath());
+    if (!F.open(QIODevice::ReadOnly))
+        return false;
+
+    //text stream
+    QTextStream TS(&F);
+
+    //clear old
+    vSignalMedians.clear();
+    vSignalMedDevs.clear();
+    m_contour.clear();
+
+    //read line by line
+    for(size_t l = 0; !TS.atEnd(); l++)
+    {
+        //line and blocks in line
+        QString QS_line = TS.readLine();
+        QStringList QSL_Line = QS_line.split(";");
+
+        //check if string->number conversion works (used below)
+        bool ok;
+
+        //line empty?
+        if(!QSL_Line.empty())
+        {
+            //line type
+            QString QS_FirstEntry = QSL_Line[0];
+            if(QS_FirstEntry == "Median")
+            {
+                for(int i = 1; i < QSL_Line.size(); i++)
+                {
+                    double median = QSL_Line[i].toDouble(&ok);
+                    if(ok)
+                        vSignalMedians.push_back(median);
+                    else
+                        return false;
+                }
+
+            }
+            else if(QS_FirstEntry == "AverageAbsoluteDeviationFromMedian")
+            {
+                for(int i = 1; i < QSL_Line.size(); i++)
+                {
+                    double meddev = QSL_Line[i].toDouble(&ok);
+                    if(ok)
+                        vSignalMedDevs.push_back(meddev);
+                    else
+                        return false;
+                }
+            }
+            else if(QS_FirstEntry == "CountourPixels")
+            {
+                //do nothing, this line is just a description
+            }
+            else
+            {
+                //read ContourPoint
+                if(QSL_Line.size() == 2)
+                {
+                    int x = QSL_Line[0].toUInt(&ok);
+                    if(!ok)
+                        return false;
+
+                    int y = QSL_Line[1].toUInt(&ok);
+                    if(!ok)
+                        return false;
+
+                    m_contour.push_back(Point(x, y));
+                }
+                else
+                    return false;
+            }
+        }
+    }
+
+    //close file
+    F.close();
+
+    //finish
+    return true;
 }
 
 void D_Bio_Focus::CalcFeats()
