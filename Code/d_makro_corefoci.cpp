@@ -768,7 +768,7 @@ void D_MAKRO_CoreFoci::Update_Step_Plasma(unsigned int step)
         ERR(D_Img_Proc::Filter_Laplace(
                 &(vMA_Plasma[c_ST_P_REG_PLASMA_EDGES]),
                 &(vMA_Plasma[c_ST_P_REG_PLASMA]),
-                5,
+                11,
                 BORDER_DEFAULT,
                 CV_8U,
                 1,

@@ -731,23 +731,44 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
     //draw vector field
     Mat MA_tmp_overlay = Mat::zeros(MA_TimeProject_Show.size(), CV_8UC1);
     //qDebug() << "Update_Result_GraphicsVectors" << "Draw_VectorField";
-    ERR(D_Img_Proc::Draw_VectorField(
-            &MA_tmp_overlay,
-            vv_XY_LengthValues,
-            vv_XY_AngleValues,
-            vv_XY_LengthErrors,
-            vv_XY_AngleErrors,
-            255,
-            ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
-            ui->spinBox_Res_VectorFieldParam_KindeySteps->value(),
-            ui->spinBox_Res_VectorFieldParam_Thickness_Error->value(),
-            ui->checkBox_Res_GridVisParam_Grid->isChecked(),
-            ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
-            ui->checkBox_Res_GridVisParam_Labels->isChecked(),
-            ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
-            ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
-        "Update_Result_GraphicsVectors",
-        "Draw_VectorField");
+    //check, if vectors or circles shall be drawn
+    if(ui->comboBox_Res_VectorFieldParam_Angle_Value ->currentIndex() == c_STAT_CIRC_CONST_0 && ui->comboBox_Res_VectorFieldParam_Angle_Error->currentIndex() == c_STAT_CIRC_CONST_PI)
+    {
+        ERR(D_Img_Proc::Draw_CircleField(
+                &MA_tmp_overlay,
+                vv_XY_LengthValues,
+                vv_XY_LengthErrors,
+                255,
+                ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
+                false,
+                ui->checkBox_Res_GridVisParam_Grid->isChecked(),
+                ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
+                ui->checkBox_Res_GridVisParam_Labels->isChecked(),
+                ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
+                ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
+            "Update_Result_GraphicsVectors",
+            "Draw_CircleField");
+    }
+    else
+    {
+        ERR(D_Img_Proc::Draw_VectorField(
+                &MA_tmp_overlay,
+                vv_XY_LengthValues,
+                vv_XY_AngleValues,
+                vv_XY_LengthErrors,
+                vv_XY_AngleErrors,
+                255,
+                ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
+                ui->spinBox_Res_VectorFieldParam_KindeySteps->value(),
+                ui->spinBox_Res_VectorFieldParam_Thickness_Error->value(),
+                ui->checkBox_Res_GridVisParam_Grid->isChecked(),
+                ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
+                ui->checkBox_Res_GridVisParam_Labels->isChecked(),
+                ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
+                ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
+            "Update_Result_GraphicsVectors",
+            "Draw_VectorField");
+    }
 
     //add overlay to image
     //qDebug() << "Update_Result_GraphicsVectors" << "OverlayOverwrite";
@@ -2192,7 +2213,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->checkBox_Res_GridVisParam_Grid->setChecked(false);
     ui->checkBox_Res_GridVisParam_Labels->setChecked(false);
     ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(1);
-    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(2);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(1);
     View_Results.Save_Image(DIR_SaveStackGraphics_Speed.path() + "/VectorFieldSpeed - " + name_current + ".png");
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldSpeed.png");
     ui->groupBox_Res->grab().save(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldSpeed_Settings.png");

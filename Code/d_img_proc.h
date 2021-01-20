@@ -92,6 +92,7 @@ public:
     static int      ValAtPix                    (QString *QS_value, Mat *pMA_In, unsigned int x_pos, unsigned int y_pos);
 
     static int      Duplicate                   (Mat *pMA_Out, Mat *pMA_In);
+    static int      Invert                      (Mat *pMA_Out, Mat *pMA_In);
 
     static int      Convert_Color               (Mat *pMA_Out, Mat *pMA_In, int cvt_mode);
     static int      Convert_Color_RGBA          (Mat *pMA_Out, Mat *pMA_In, double r, double g, double b, double a, double range_rgba = 255.0);
@@ -166,7 +167,8 @@ public:
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, double distance, bool include_not_seeded, bool conv_8bit, bool exclude_border);
     static int      Transformation_Watershed_Auto   (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border);
-    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_InFill, Mat *pMA_In2Marker, Mat *pMA_FG_Mask, int connectivity = 8);
+    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int mode_flood, int mode_marker, int mode_mask, int connectivity = 8, int gauss_size = 5, double gauss_sigma = 2, int morphgrad_elem = MORPH_ELLIPSE, int morphgrad_size = 3, double thresh = 127, bool exclude_border = true, bool include_non_seeded = true, bool draw_watersheds = true);
+    static int      Transformation_Watershed_Custom (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity = 8);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In, bool invers);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
     static int      Transformation_Fourier          (Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA_In_Im, bool complex_input, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
@@ -189,6 +191,7 @@ public:
     static int      Filter_Maximum_1C_Thread_Y  (Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x, size_t mask_size_y, size_t n_in_y, size_t x_start, size_t x_end);
 
     static int      Filter_Laplace              (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta);
+    static int      Filter_LaplaceOfGaussian    (Mat *pMA_Out, Mat *pMA_In, int size_g, double sigma_g, int size_l, int border, int out_depth, double scale, double delta);
     static int      Filter_Sobel                (Mat *pMA_Out, Mat *pMA_In, int size,               int border, int out_depth, double scale, double delta, int d_x, int d_y);
     static int      Filter_Scharr               (Mat *pMA_Out, Mat *pMA_In,                         int border, int out_depth, double scale, double delta, int d_x, int d_y);
     static int      Filter_Canny                (Mat *pMA_Out, Mat *pMA_In, int size, double thres_low, double thres_high, bool L2_gradient);
@@ -217,7 +220,7 @@ public:
     static int      Labeling                    (Mat *pMA_Out, Mat *pMA_In, int connectivity, int out_depth);
 
     //simple nomenclatur math functions (WIP)
-  /*static int      Math_Not                    (Mat *pMA_Out, Mat *pMA_In1);
+    /*static int      Math_Not                    (Mat *pMA_Out, Mat *pMA_In1);
     static int      Math_Invert                 (Mat *pMA_Out, Mat *pMA_In1);
     static int      Math_Subtract               (Mat *pMA_Out, Mat *pMA_In1, double subtrahend);
     static int      Math_Subtract               (Mat *pMA_Out, double minuend, Mat *pMA_In1);
@@ -237,7 +240,8 @@ public:
     static int      Math_Max                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_Comp                   (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, int comp);
     static int      Math_Function               (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, function<double (double x, double y)> function_img1_img2);
-    static int      Math_Function_8bit          (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, function<uchar  (double x, double y)> function_img1_img2);*/
+    static int      Math_Function_8bit          (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, function<uchar  (double x, double y)> function_img1_img2);
+    */
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, double summand);
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, double summand);
@@ -359,6 +363,7 @@ public:
     static int      Draw_Line_Angle             (Mat *pMA_Target, double length, double center_x, double center_y, double angle, unsigned int thickness = 1, double value = 255);
     static int      Draw_Vector                 (Mat *pMA_Target, int offset_x, int offset_y, double length_value, double angle_value, double length_error = 0, double angle_error = 0, int vector_thickness = 1, uchar value = 255, int error_steps = 360, int error_thickness = 1);
     static int      Draw_VectorField            (Mat *pMA_Target, vector<vector<double>> vv_XY_length_value, vector<vector<double>> vv_XY_angle_value, vector<vector<double>> vv_XY_length_error, vector<vector<double>> vv_XY_angle_error, uchar value = 255, int vector_thickness = 3, int error_steps = 360, int error_thickness = 1, bool grid_add = true, int grid_thicknes = 2, bool label_add = false, int label_thickness = 2, double label_scale = 1.0);
+    static int      Draw_CircleField            (Mat *pMA_Target, vector<vector<double>> vv_XY_radius_value, vector<vector<double>> vv_XY_radius_error, uchar value = 255, int circle_thickness = 1, bool circles_filled = true, bool grid_add = false, int grid_thicknes = 2, bool label_add = false, int label_thickness = 2, double label_scale = 1.0);
     static int      Draw_Rect                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double val = 255);
     static int      Draw_Rect_Rotate            (Mat *pMA_Target, RotatedRect rrect, int thickness = 1, double value = 255);
     static int      Draw_GridSimple             (Mat *pMA_Target, int nx, int ny, Scalar value = 255);

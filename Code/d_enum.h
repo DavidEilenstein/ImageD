@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_2_6";
-const QString           D_QS_Release  = "14.01.2021";
+const QString           D_QS_Version  = "v1_2_7";
+const QString           D_QS_Release  = "19.01.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -324,22 +324,22 @@ const QStringList QSL_LoadMode = {
 
 enum D_WATERSHED_FILL {
     c_WATERSHED_FILL_MASK_DIST_INV,
+    c_WATERSHED_FILL_MASK_DIST,
     c_WATERSHED_FILL_MASK_COPY,
     c_WATERSHED_FILL_SOURCE_COPY,
     c_WATERSHED_FILL_SOURCE_INV,
     c_WATERSHED_FILL_SOURCE_LOG,
     c_WATERSHED_FILL_SOURCE_MORPH_GRAD,
-    c_WATERSHED_FILL_SOURCE_CANNY,
     c_WATERSHED_FILL_NUMBER_OF
 };
 const QStringList QSL_WatershedFill = {
     "Mask: Distance Invers",
+    "Mask: Distance",
     "Mask: Unmodified",
     "Source: Unmodified",
     "Source: Inverted",
     "Source: Laplace of Gaussian",
     "Source: Morphological Gradient",
-    "Source: Canny"
 };
 
 enum D_WATERSHED_MARKER {

@@ -1508,6 +1508,34 @@ int D_Img_Proc::Duplicate(Mat *pMA_Out, Mat *pMA_In)
     return ER_okay;
 }
 
+int D_Img_Proc::Invert(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->empty())     return ER_empty;
+    int ER;
+
+    double min;
+    double max;
+
+    if(pMA_In->depth() == CV_8U)
+    {
+        max = 255;
+    }
+    else
+    {
+        ER = MinMax_of_Mat(
+                    pMA_In,
+                    &min,
+                    &max);
+        if(ER != ER_okay)
+            return ER;
+    }
+
+    return Math_ScalImg_Sub(
+                pMA_Out,
+                pMA_In,
+                max);
+}
+
 int D_Img_Proc::Convert_Color(Mat *pMA_Out, Mat *pMA_In, int cvt_mode)
 {
     if(pMA_In->empty())
@@ -6226,6 +6254,212 @@ int D_Img_Proc::Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int siz
     return ER_okay;
 }
 
+int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int mode_flood, int mode_marker, int mode_mask, int connectivity, int gauss_size, double gauss_sigma, int morphgrad_elem, int morphgrad_size, double thresh, bool exclude_border, bool include_non_seeded, bool draw_watersheds)
+{
+    //error checks
+    if(pMA_In2Fill->empty())                                                return ER_empty;
+    if(pMA_InMarker->empty())                                               return ER_empty;
+    if(pMA_FG_Mask->empty())                                                return ER_empty;
+    if(pMA_In2Fill->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_InMarker->channels() != 1)                                       return ER_channel_bad;
+    if(pMA_FG_Mask->channels() != 1)                                        return ER_channel_bad;
+    if(pMA_InMarker->depth() != CV_32S)                                     return ER_bitdepth_bad;
+    if(pMA_FG_Mask->depth() != CV_8U)                                       return ER_bitdepth_bad;
+    if(pMA_FG_Mask->size() != pMA_InMarker->size())                         return ER_size_missmatch;
+    if(pMA_FG_Mask->size() != pMA_In2Fill->size())                          return ER_size_missmatch;
+    if(connectivity != 4 && connectivity != 8)                              return ER_parameter_bad;
+    if(mode_flood < 0 || mode_flood >= c_WATERSHED_FILL_NUMBER_OF)          return ER_parameter_bad;
+    if(mode_marker < 0 || mode_marker >= c_WATERSHED_MARKER_NUMBER_OF)      return ER_parameter_bad;
+    if(mode_mask < 0 || mode_mask >= c_WATERSHED_MASK_NUMBER_OF)            return ER_parameter_bad;
+    if(gauss_size < 1)                                                      return ER_parameter_bad;
+    if(gauss_size % 2 != 1)                                                 return ER_parameter_bad;
+    if(gauss_sigma < 0)                                                     return ER_parameter_bad;
+    if(morphgrad_elem != MORPH_CROSS && morphgrad_elem != MORPH_RECT)       return ER_parameter_bad;
+    if(morphgrad_size < 1)                                                  return ER_parameter_bad;
+    if(morphgrad_size % 2 != 1)                                             return ER_parameter_bad;
+    int ER = ER_okay;
+
+    //------------------------------------------------------- Preprocess fill
+    Mat MA_PreProc_Fill;
+    switch (mode_flood) {
+
+    case c_WATERSHED_FILL_MASK_DIST:
+    {
+        Mat MA_tmp_dist;
+        ER = Transformation_Distance(
+                    &MA_tmp_dist,
+                    pMA_FG_Mask,
+                    DIST_L2,
+                    DIST_MASK_PRECISE);
+        if(ER != ER_okay)
+        {
+            MA_tmp_dist.release();
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+
+        ER = Filter_Gauss(
+                    &MA_PreProc_Fill,
+                    &MA_tmp_dist,
+                    gauss_size,
+                    gauss_size,
+                    BORDER_DEFAULT,
+                    gauss_sigma,
+                    gauss_sigma);
+        if(ER != ER_okay)
+        {
+            MA_tmp_dist.release();
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_MASK_DIST_INV:
+    {
+        Mat MA_tmp_dist;
+        ER = Transformation_Distance(
+                    &MA_tmp_dist,
+                    pMA_FG_Mask,
+                    DIST_L2,
+                    DIST_MASK_PRECISE);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            MA_tmp_dist.release();
+            return ER;
+        }
+
+        Mat MA_tmp_dist_blur;
+        ER = Filter_Gauss(
+                    &MA_tmp_dist_blur,
+                    &MA_tmp_dist,
+                    gauss_size,
+                    gauss_size,
+                    BORDER_DEFAULT,
+                    gauss_sigma,
+                    gauss_sigma);
+        MA_tmp_dist.release();
+        if(ER != ER_okay)
+        {
+            MA_tmp_dist_blur.release();
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+
+        ER = Invert(
+                    &MA_PreProc_Fill,
+                    &MA_tmp_dist_blur);
+        MA_tmp_dist_blur.release();
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_MASK_COPY:
+    {
+        ER = Duplicate(
+                    &MA_PreProc_Fill,
+                    pMA_In2Fill);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_SOURCE_INV:
+    {
+        ER = Invert(
+                    &MA_PreProc_Fill,
+                    pMA_In2Fill);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_SOURCE_COPY:
+    {
+        ER = Duplicate(
+                    &MA_PreProc_Fill,
+                    pMA_In2Fill);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_SOURCE_LOG:
+    {
+        ER = Filter_LaplaceOfGaussian(
+                    &MA_PreProc_Fill,
+                    pMA_In2Fill,
+                    gauss_size,
+                    gauss_sigma,
+                    3,
+                    BORDER_DEFAULT,
+                    CV_64F,
+                    1,
+                    0);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    case c_WATERSHED_FILL_SOURCE_MORPH_GRAD:
+    {
+        ER = Morphology_Elemental(
+                    &MA_PreProc_Fill,
+                    pMA_In2Fill,
+                    MORPH_GRADIENT,
+                    morphgrad_elem,
+                    morphgrad_size,
+                    morphgrad_size,
+                    BORDER_DEFAULT,
+                    1);
+        if(ER != ER_okay)
+        {
+            MA_PreProc_Fill.release();
+            return ER;
+        }
+    }
+        break;
+
+    default:
+        return ER_parameter_bad;
+    }
+
+
+    //------------------------------------------------------- Preprocess marker
+    Mat MA_PreProc_Marker;
+    switch (mode_flood) {
+
+    case c_WATERSHED_MARKER_FILL_LOC_MIN:
+    {
+        return ER_other;
+    }
+        break;
+
+
+    default:
+        return ER_parameter_bad;
+    }
+
+    return ER_other;
+}
+
 /*
 int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity)
 {
@@ -8798,22 +9032,56 @@ int D_Img_Proc::Filter_Maximum_1C_Thread_Y(Mat *pMA_Out, Mat *pMA_In, size_t mas
 int D_Img_Proc::Filter_Laplace(Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)
 {
     if(pMA_In->empty())             return ER_empty;
-    if(pMA_In->depth() != CV_8U)    return ER_bitdepth_bad;
+    //if(pMA_In->depth() != CV_8U)    return ER_bitdepth_bad;
+    if(size < 1)                    return ER_parameter_bad;
+    if(size % 2 != 1)               return ER_parameter_bad;
 
     Laplacian(
                 *pMA_In,
                 *pMA_Out,
                 out_depth,
-                2*size + 1,
+                size,
                 scale,
                 delta,
                 border);
     return ER_okay;
 }
 
+int D_Img_Proc::Filter_LaplaceOfGaussian(Mat *pMA_Out, Mat *pMA_In, int size_g, double sigma_g, int size_l, int border, int out_depth, double scale, double delta)
+{
+    Mat MA_gauss;
+    int ER = Filter_Gauss(
+                &MA_gauss,
+                pMA_In,
+                size_g,
+                size_g,
+                border,
+                sigma_g,
+                sigma_g);
+    if(ER != ER_okay)
+    {
+        MA_gauss.release();
+        return ER;
+    }
+
+    ER = Filter_Laplace(
+                pMA_Out,
+                &MA_gauss,
+                size_l,
+                border,
+                out_depth,
+                scale,
+                delta);
+
+    MA_gauss.release();
+    return ER;
+}
+
 int D_Img_Proc::Filter_Sobel(Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta, int d_x, int d_y)
 {
-    if(pMA_In->empty())     return ER_empty;
+    if(pMA_In->empty())             return ER_empty;
+    if(size < 1)                    return ER_parameter_bad;
+    if(size % 2 != 1)               return ER_parameter_bad;
 
     Sobel(
                 *pMA_In,
@@ -8821,7 +9089,7 @@ int D_Img_Proc::Filter_Sobel(Mat *pMA_Out, Mat *pMA_In, int size, int border, in
                 out_depth,
                 d_x,
                 d_y,
-                2*size + 1,
+                size,
                 scale,
                 delta,
                 border);
@@ -8849,14 +9117,15 @@ int D_Img_Proc::Filter_Canny(Mat *pMA_Out, Mat *pMA_In, int size, double thres_l
 {
     if(pMA_In->empty())         return ER_empty;
     if(pMA_In->depth())         return ER_bitdepth_bad;
-    if(size < 0 || size > 3)    return ER_parameter_bad;
+    if(size < 1 || size > 7)    return ER_parameter_bad;
+    if(size % 2 != 1)           return ER_parameter_bad;
 
     Canny(
                 *pMA_In,
                 *pMA_Out,
                 thres_low,
                 thres_high,
-                2*size+1,
+                size,
                 L2_gradient);
 
         return ER_okay;
@@ -14917,6 +15186,100 @@ int D_Img_Proc::Draw_VectorField(Mat *pMA_Target, vector<vector<double> > vv_XY_
                         value,
                         error_steps,
                         error_thickness);
+        }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_CircleField(Mat *pMA_Target, vector<vector<double>> vv_XY_radius_value, vector<vector<double>> vv_XY_radius_error, uchar value, int circle_thickness_min, bool circles_filled, bool grid_add, int grid_thicknes, bool label_add, int label_thickness, double label_scale)
+{
+    if(pMA_Target->empty())                                 return ER_empty;
+    if(pMA_Target->type() != CV_8UC1)                       return ER_type_bad;
+    if(vv_XY_radius_value.empty())                          return ER_empty;
+
+    //size checks x
+    size_t nx = vv_XY_radius_value.size();
+    if(vv_XY_radius_error.size() != nx)         {qDebug() << "Draw_CircleField size checks x vv_XY_radius_error.size() != nx" << nx;        return ER_size_missmatch;}
+
+    //size checks y
+    size_t ny = vv_XY_radius_value[0].size();
+    for(size_t ix = 0; ix < nx; ix++)
+    {
+        if(vv_XY_radius_value[ix].size() != ny) {qDebug() << "Draw_CircleField size checks y vv_XY_radius_value[ix].size() != ny" << ny;    return ER_size_missmatch;}
+        if(vv_XY_radius_error[ix].size() != ny) {qDebug() << "Draw_CircleField size checks y vv_XY_radius_error[ix].size() != ny" << ny;    return ER_size_missmatch;}
+    }
+    int ER;
+
+    //draw grid
+    ER = Draw_Grid(
+                pMA_Target,
+                nx,
+                ny,
+                grid_add,
+                grid_thicknes,
+                label_add,
+                label_thickness,
+                label_scale,
+                static_cast<uchar>(value));
+    if(ER != ER_okay)
+        return ER;
+
+    //size (as double to avoid cast operations later)
+    double w = pMA_Target->cols;
+    double h = pMA_Target->rows;
+
+    //shift box corner to box center
+    double sx = w / (2 * nx);
+    double sy = h / (2 * ny);
+
+    //draw circles
+    for(size_t gx = 0; gx < nx; gx++)
+        for(size_t gy = 0; gy < ny; gy++)
+        {
+            //center of box = offset of circle
+            int ox = static_cast<int>((static_cast<double>(gx) / nx) * w + sx);
+            int oy = static_cast<int>((static_cast<double>(gy) / ny) * h + sy);
+
+            if(circles_filled)
+            {
+                //draw circle
+                Draw_Circle(
+                            pMA_Target,
+                            ox,
+                            oy,
+                            vv_XY_radius_value[gx][gy],
+                            value,
+                            2 * vv_XY_radius_error[gx][gy] >= circle_thickness_min ? 2 * vv_XY_radius_error[gx][gy] : circle_thickness_min,
+                            false);
+            }
+            else
+            {
+                //radii
+                double r_inner = vv_XY_radius_value[gx][gy] - vv_XY_radius_error[gx][gy];
+                double r_outer = vv_XY_radius_value[gx][gy] + vv_XY_radius_error[gx][gy];
+                if(r_inner < 0)
+                    r_inner = 0;
+
+                //draw circle inner
+                Draw_Circle(
+                            pMA_Target,
+                            ox,
+                            oy,
+                            r_inner,
+                            value,
+                            circle_thickness_min,
+                            false);
+
+                //draw circle outer
+                Draw_Circle(
+                            pMA_Target,
+                            ox,
+                            oy,
+                            r_outer,
+                            value,
+                            circle_thickness_min,
+                            false);
+            }
         }
 
     return ER_okay;

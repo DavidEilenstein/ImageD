@@ -316,6 +316,14 @@ private slots:
 
     void on_comboBox_04_RankOrder_MaskType_currentIndexChanged(int index);
 
+    void on_comboBox_07_WatershedCustom_Flood_currentIndexChanged(int index);
+
+    void on_comboBox_07_WatershedCustom_Marker_currentIndexChanged(int index);
+
+    void on_comboBox_07_WatershedCustom_Mask_currentIndexChanged(int index);
+
+    void on_checkBox_07_WatershedCustom_DrawWatershed_stateChanged(int arg1);
+
 private:
     Ui::D_StepWindow *ui;
 
