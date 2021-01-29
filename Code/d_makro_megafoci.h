@@ -335,7 +335,7 @@ private:
         "pck-0 GFP pick signal",
         "pck-1 RFP pick Signal",
 
-        "vis-0 Color GFP blue RFP green",
+        "vis-0 Color GFP green RFP blue",
 
         "nuc-0 GFP circular median blur",
         "nuc-1 GFP circular CV edges",

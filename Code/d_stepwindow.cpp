@@ -2717,6 +2717,28 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_OT_MICHELSON:          //-----------------------------------------------------------   michelson interferometer
+        {
+            ERR(D_VisDat_Proc::InterferometerMichelson(
+                    pStore->get_pVD(pos_Dest),
+                    ui->spinBox_09_Michelson_Scene_Size_X->value(),
+                    ui->spinBox_09_Michelson_Scene_Size_Y->value(),
+                    ui->spinBox_09_Michelson_Scene_Size_Z->value(),
+                    ui->doubleSpinBox_09_Michelson_Scale_um->value() / ui->spinBox_09_Michelson_Scale_px->value(),
+                    ui->doubleSpinBox_09_Michelson_Wavelength->value(),
+                    ui->doubleSpinBox_09_Michelson_Source_distance->value(),
+                    ui->doubleSpinBox_09_Michelson_Detector_distance->value(),
+                    ui->doubleSpinBox_09_Michelson_Mirror1_distance->value(),
+                    ui->doubleSpinBox_09_Michelson_Mirror2_distance->value(),
+                    ui->doubleSpinBox_09_Michelson_Mirror1_angle_x->value() * Grad2Rad,
+                    ui->doubleSpinBox_09_Michelson_Mirror1_angle_y->value() * Grad2Rad,
+                    ui->doubleSpinBox_09_Michelson_Mirror2_angle_x->value() * Grad2Rad,
+                    ui->doubleSpinBox_09_Michelson_Mirror2_angle_y->value() * Grad2Rad),
+                "Update_Img_Proc",
+                "InterferometerMichelson");
+        }
+            break;
+
         case c_sT_OT_RADIOMETRIC_STEREO:          //-----------------------------------------------------------   radiometric stereo
         {
             ERR(D_VisDat_Proc::RadiometricStereo(
@@ -5563,6 +5585,21 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->doubleSpinBox_09_RadiometricStereo_Z2,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_09_RadiometricStereo_Z3,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_09_RadiometricStereo_Z4,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //Michelson Interferometer
+        connect(ui->spinBox_09_Michelson_Scene_Size_X,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_09_Michelson_Scene_Size_Y,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_09_Michelson_Scene_Size_Z,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_09_Michelson_Scale_px,                  SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Scale_um,            SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Wavelength,          SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Source_distance,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Detector_distance,   SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_distance,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_distance,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //DIMENSION
         //Pick
         connect(ui->checkBox_10_Pick_X,                     SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -6123,6 +6160,21 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->doubleSpinBox_09_RadiometricStereo_Z2,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_09_RadiometricStereo_Z3,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_09_RadiometricStereo_Z4,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        //Michelson Interferometer
+        disconnect(ui->spinBox_09_Michelson_Scene_Size_X,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_09_Michelson_Scene_Size_Y,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_09_Michelson_Scene_Size_Z,              SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_09_Michelson_Scale_px,                  SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Scale_um,            SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Wavelength,          SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Source_distance,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Detector_distance,   SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_distance,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_distance,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_09_Michelson_Mirror1_angle_x,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //DIMENSION
         //Pick
         disconnect(ui->checkBox_10_Pick_X,                     SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -7848,4 +7900,33 @@ void D_StepWindow::on_checkBox_07_WatershedCustom_DrawWatershed_stateChanged(int
         ui->stackedWidget_07_WatershedCustom_DrawWatershed->setCurrentIndex(1);
     else
         ui->stackedWidget_07_WatershedCustom_DrawWatershed->setCurrentIndex(0);
+}
+
+void D_StepWindow::on_spinBox_09_Michelson_Scene_Size_X_valueChanged(int arg1)
+{
+    ui->label_09_Michelson_SceneSize_X->setText(QString::number(arg1 * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+}
+
+void D_StepWindow::on_spinBox_09_Michelson_Scene_Size_Y_valueChanged(int arg1)
+{
+    ui->label_09_Michelson_SceneSize_Y->setText(QString::number(arg1 * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+}
+
+void D_StepWindow::on_spinBox_09_Michelson_Scene_Size_Z_valueChanged(int arg1)
+{
+    ui->label_09_Michelson_SceneSize_Z->setText(QString::number(arg1 * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+}
+
+void D_StepWindow::on_spinBox_09_Michelson_Scale_px_valueChanged(int arg1)
+{
+    ui->label_09_Michelson_SceneSize_X->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_X->value() * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / arg1)) + "μm");
+    ui->label_09_Michelson_SceneSize_Y->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Y->value() * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / arg1)) + "μm");
+    ui->label_09_Michelson_SceneSize_Z->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Z->value() * (ui->doubleSpinBox_09_Michelson_Scale_um->value() / arg1)) + "μm");
+}
+
+void D_StepWindow::on_doubleSpinBox_09_Michelson_Scale_um_valueChanged(double arg1)
+{
+    ui->label_09_Michelson_SceneSize_X->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_X->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+    ui->label_09_Michelson_SceneSize_Y->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Y->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+    ui->label_09_Michelson_SceneSize_Z->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Z->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
 }

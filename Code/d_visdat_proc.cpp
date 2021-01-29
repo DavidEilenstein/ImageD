@@ -7059,6 +7059,31 @@ int D_VisDat_Proc::RadiometricStereo(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_O
                 pVD_In3);
 }
 
+int D_VisDat_Proc::InterferometerMichelson(D_VisDat_Obj *pVD_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+{
+    *pVD_Out = D_VisDat_Obj(
+                D_VisDat_Dim(scene_size_x_px, scene_size_y_px, scene_size_z_px, 1, 1, 1),
+                CV_64FC1);
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_3D_XYZ),
+                D_Img_Proc_3dFactory::InterferometerMichelson(
+                    scene_size_x_px,
+                    scene_size_y_px,
+                    scene_size_z_px,
+                    scale_px2um,
+                    wavelength_um,
+                    dist_source_um,
+                    dist_detector_um,
+                    dist_mirror1_um,
+                    dist_mirror2_um,
+                    angle_mirror1_x,
+                    angle_mirror1_y,
+                    angle_mirror2_x,
+                    angle_mirror2_y),
+                pVD_Out);
+}
+
 int D_VisDat_Proc::Calc_MinMax(D_VisDat_Obj *pVD_In, double *min_ext, double *max_ext)
 {
     if(pVD_In->pMA_full()->empty())             return ER_empty;

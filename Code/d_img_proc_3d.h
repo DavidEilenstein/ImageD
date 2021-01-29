@@ -15,6 +15,7 @@
 #include <d_stat.h>
 #include <d_math.h>
 #include <d_img_proc.h>
+#include <d_physics.h>
 
 //general
 #include <iostream>
@@ -83,6 +84,9 @@ public:
     static int      EulerNumber                     (double *euler_number, Mat *pMA_Out, Mat *pMA_In);
 
     static int      Calc_Hist_8bit_1C               (vector<double> *v_hist, Mat *pMA_In, bool uniform, bool accum);
+
+    static int      InterferometerMichelson         (Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y);
+
 };
 
 #endif // D_IMG_PROC_3D_H

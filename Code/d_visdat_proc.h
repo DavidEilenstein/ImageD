@@ -231,11 +231,7 @@ public:
     static int  Morphology_Erosion              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y, int elem_size_Z);
     static int  Morphology_LocMax_Rect          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X = 3, int elem_size_Y = 3);
     static int  Morphology_Reconstruction       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Seed, D_VisDat_Obj *pVD_Limit, D_VisDat_Obj *pVD_Mask, double quantil = 1);
-
     static int  Filter_Maximum_1C               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y);
-
-
-
 
     //Math
     static int  Math_1img_Inversion                 (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
@@ -293,7 +289,6 @@ public:
     static int  Feature_Visualize               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int feature,                              int connectivity, int thickness, double scale);
     static int  Feature_Connect                 (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function<bool(double, double)> comp, int connect_mode = c_CONNECT_CLOSEST, int connectivity = 4, int thickness = 2);
 
-
     //Geometric
     static int  Geometric_Reduce                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int geometric,                            int connectivity, int thickness, uchar value);
 
@@ -311,7 +306,7 @@ public:
     static int  DistancesStat                   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, function<double (vector<double>)> F_Stat);
     static int  ZernikeStack                    (D_VisDat_Obj *pVD_Out, int r_max, int j_max);
     static int  RadiometricStereo               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode);
-
+    static int  InterferometerMichelson         (D_VisDat_Obj *pVD_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y);
 
     //Calc
     static int Calc_MinMax                      (D_VisDat_Obj *pVD_In, double *min_ext, double *max_ext);

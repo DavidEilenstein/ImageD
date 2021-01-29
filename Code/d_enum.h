@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_2_8";
-const QString           D_QS_Release  = "20.01.2021";
+const QString           D_QS_Version  = "v1_3_1";
+const QString           D_QS_Release  = "29.01.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -41,6 +41,7 @@ enum D_PLUGINS {
     c_PL_AIR_DRAG_DETECT,
     c_PL_MEGA_FOCI,
     c_PL_HUANG_VIS,
+    c_PL_SOFTMAX,
     c_PL_NUMBER_OF
 };
 const QStringList QSL_Plugins = {
@@ -61,7 +62,8 @@ const QStringList QSL_Plugins = {
     "Fourier Transformator (WIP)",
     "Air Drag Detect",
     "Mega Foci tracker (WIP)",
-    "Huang rank order filter visualization"
+    "Huang rank order filter visualization",
+    "Softmax Classifier Visualization"
 };
 
 enum D_NUMBER_TYPE {
@@ -139,6 +141,7 @@ enum D_ERROR_ENUM {
     ER_KeypoitsUnknown,
     ER_DescriptorsUnkown,
     ER_StreamNotOpen,
+    ER_NumericProblem,
     ER_number_of
 };
 const QStringList QSL_Errors = {
@@ -182,7 +185,8 @@ const QStringList QSL_Errors = {
     "Points unknown",
     "Keypoints unknwon",
     "Descriptors unknown",
-    "Stream not open"
+    "Stream not open",
+    "Numerical problem (+/-inf or nan)"
 };
 
 enum D_DIM_INDICES {

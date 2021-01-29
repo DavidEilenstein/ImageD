@@ -47,6 +47,7 @@ SOURCES += \
     d_makro_focicounter.cpp \
     d_makro_fouriertransformator.cpp \
     d_makro_megafoci.cpp \
+    d_makro_softmaxvisualization.cpp \
     d_pdf_writer.cpp \
     d_physics.cpp \
     d_popup_feedbackrequest.cpp \
@@ -118,6 +119,7 @@ HEADERS += \
     d_makro_focicounter.h \
     d_makro_fouriertransformator.h \
     d_makro_megafoci.h \
+    d_makro_softmaxvisualization.h \
     d_pdf_writer.h \
     d_physics.h \
     d_popup_feedbackrequest.h \
@@ -181,6 +183,7 @@ FORMS += \
     d_makro_focicounter.ui \
     d_makro_fouriertransformator.ui \
     d_makro_megafoci.ui \
+    d_makro_softmaxvisualization.ui \
     d_popup_feedbackrequest.ui \
     d_popup_listedit_numbers.ui \
     d_stepwindow.ui \

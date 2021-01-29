@@ -49,6 +49,7 @@
 #include <d_makro_airdragtrack.h>
 #include <d_makro_megafoci.h>
 #include <d_makro_huangvisualization.h>
+#include <d_makro_softmaxvisualization.h>
 
 //general
 #include <iostream>
@@ -214,6 +215,7 @@ private:
     D_MAKRO_AirDragTrack            *pAirDrag;
     D_MAKRO_MegaFoci                *pMegaFoci;
     D_MAKRO_HuangVisualization      *pHuang;
+    D_MAKRO_SoftmaxVisualization    *pSoftmax;
 
     //Stuff to show images
     QImage                  QI_Step_Image;

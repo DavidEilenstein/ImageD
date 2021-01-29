@@ -43,10 +43,16 @@ class D_Physics
 public:
     D_Physics();
 
+    //interference
+    static double                                   FieldStrength           (Mat Position, Mat Source, double fieldstrength, double phaseoffset_rad, double wavelength_m);
+    static double                                   FieldStrength           (Point3d Position, Point3d Source, double fieldstrength, double phaseoffset_rad, double wavelength_m);
+    static double                                   Interference            (Mat     Position, vector<Mat>     v_Source, vector<double> v_fieldstrength, vector<double> v_phaseoffset_rad, double wavelength_m);
+    static double                                   Interference            (Point3d Position, vector<Point3d> v_Source, vector<double> v_fieldstrength, vector<double> v_phaseoffset_rad, double wavelength_m);
+
     //scalar forces
     static function<double (double v)>              Force_Drag              (double rho, double A, double cw);
-    double                                          Force_Gravity           (double m);
-    double                                          Force_Upthrust          (double V, double rho);
+    static double                                   Force_Gravity           (double m);
+    static double                                   Force_Upthrust          (double V, double rho);
 };
 
 #endif // D_PHYSICS_H

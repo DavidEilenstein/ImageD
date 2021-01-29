@@ -169,3 +169,26 @@ function<int (Mat *, Mat *)> D_Img_Proc_3dFactory::Distance_Transformation_EDT(d
                     spacing_z);
     };
 }
+
+function<int (Mat *)> D_Img_Proc_3dFactory::InterferometerMichelson(int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+{
+    return
+            [scene_size_x_px, scene_size_y_px, scene_size_z_px, scale_px2um, wavelength_um, dist_source_um, dist_detector_um, dist_mirror1_um, dist_mirror2_um, angle_mirror1_x, angle_mirror1_y, angle_mirror2_x, angle_mirror2_y](Mat *pMA_Out)
+    {
+        return D_Img_Proc_3D::InterferometerMichelson(
+                    pMA_Out,
+                    scene_size_x_px,
+                    scene_size_y_px,
+                    scene_size_z_px,
+                    scale_px2um,
+                    wavelength_um,
+                    dist_source_um,
+                    dist_detector_um,
+                    dist_mirror1_um,
+                    dist_mirror2_um,
+                    angle_mirror1_x,
+                    angle_mirror1_y,
+                    angle_mirror2_x,
+                    angle_mirror2_y);
+    };
+}

@@ -96,6 +96,48 @@ public:
     static int                                      QuantilRunning              (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size, double quantil_lower);
     static int                                      Maximum_Gil                 (vector<double> *vDataOut, vector<double> *vDataIn, size_t mask_size);
 
+    static Mat  Homogenious_2D              (double x, double y);
+    static Mat  Homogenious_2D              (double u, double v, double w);
+    static Mat  Homogenious_2D              (Mat V_inhomo);
+    static Mat  Homogenious_3D              (double x, double y, double z);
+    static Mat  Homogenious_3D              (double u, double v, double w, double q);
+    static Mat  Homogenious_3D              (Mat V_inhomo);
+
+    static Mat  Inhomogenious_2D            (double x, double y);
+    static Mat  Inhomogenious_2D            (double u, double v, double w);
+    static Mat  Inhomogenious_2D            (Mat V_homo);
+    static Mat  Inhomogenious_3D            (double x, double y, double z);
+    static Mat  Inhomogenious_3D            (double u, double v, double w, double q);
+    static Mat  Inhomogenious_3D            (Mat V_homo);
+
+    static Mat  Shift_2D_h                  (double shift_x, double shift_y);
+    static Mat  Shift_3D_h                  (double shift_x, double shift_y, double shift_z);
+    static Mat  Rotation_2D_i_deg           (double angle);
+    static Mat  Rotation_3D_i_deg           (double angle_x, double angle_y, double angle_z);
+    static Mat  Rotation_2D_i_rad           (double angle);
+    static Mat  Rotation_3D_i_rad           (double angle_x, double angle_y, double angle_z);
+    static Mat  Rotation_2D_h_deg           (double angle);
+    static Mat  Rotation_2D_h_deg           (double angle, double center_x, double center_y);
+    static Mat  Rotation_3D_h_deg           (double angle_x, double angle_y, double angle_z);
+    static Mat  Rotation_3D_h_deg           (double angle_x, double angle_y, double angle_z, double center_x, double center_y, double center_z);
+    static Mat  Rotation_2D_h_rad           (double angle);
+    static Mat  Rotation_2D_h_rad           (double angle, double center_x, double center_y);
+    static Mat  Rotation_3D_h_rad           (double angle_x, double angle_y, double angle_z);
+    static Mat  Rotation_3D_h_rad           (double angle_x, double angle_y, double angle_z, double center_x, double center_y, double center_z);
+    static Mat  Euclidean_2D_h_deg          (double shift_x, double shift_y, double angle);
+    static Mat  Euclidean_3D_h_deg          (double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z);
+    static Mat  Euclidean_2D_h_rad          (double shift_x, double shift_y, double angle);
+    static Mat  Euclidean_3D_h_rad          (double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z);
+    static Mat  Similarity_2D_h_deg         (double shift_x, double shift_y, double angle, double scale);
+    static Mat  Similarity_3D_h_deg         (double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z, double scale);
+    static Mat  Similarity_2D_h_rad         (double shift_x, double shift_y, double angle, double scale);
+    static Mat  Similarity_3D_h_rad         (double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z, double scale);
+    static Mat  Affinity_2D_h               (double shift_x, double shift_y, double a11, double a12, double a21, double a22);
+    static Mat  Affinity_3D_h               (double shift_x, double shift_y, double shift_z, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33);
+    static Mat  Projektion_2D_h             (double shift_x, double shift_y, double a11, double a12, double a21, double a22, double p1, double p2);
+    static Mat  Projektion_3D_h             (double shift_x, double shift_y, double shift_z, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, double p1, double p2, double p3);
+    static Mat  Projektion_ND_h             (Mat A, Mat t, Mat P);
+
 private:
 
 

@@ -2095,7 +2095,7 @@ int D_Img_Proc_3D::EulerNumber(double *euler_number, Mat *pMA_In)
 
     //euler number
     *euler_number = 0;
-    for(int i = 0; i < v_hist.size(); i++)
+    for(size_t i = 0; i < v_hist.size(); i++)
         *euler_number += (v_hist[i] * v_weights[i] * (1.0/8.0));
 
     return ER_okay;
@@ -2172,7 +2172,7 @@ int D_Img_Proc_3D::EulerNumber(double *euler_number, Mat *pMA_Out, Mat *pMA_In)
 
     //euler number
     *euler_number = 0;
-    for(int i = 0; i < v_hist.size(); i++)
+    for(size_t i = 0; i < v_hist.size(); i++)
         *euler_number += (v_hist[i] * v_weights[i] * (1.0/8.0));
 
     return ER_okay;
@@ -2197,13 +2197,241 @@ int D_Img_Proc_3D::Calc_Hist_8bit_1C(vector<double> *v_hist, Mat *pMA_In, bool u
 
     //accumulate?
     if(accum)
-        for(int v = 1; v < v_hist->size(); v++)
+        for(size_t v = 1; v < v_hist->size(); v++)
             (*v_hist)[v] += (*v_hist)[v - 1];
 
     //uniform?
     if(uniform)
-        for(int v = 0; v < v_hist->size(); v++)
+        for(size_t v = 0; v < v_hist->size(); v++)
             (*v_hist)[v] /= static_cast<double>(vol);
 
     return ER_okay;
 }
+
+int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+{
+    //errors
+    if(scene_size_x_px < 3)                                 return ER_size_bad;
+    if(scene_size_y_px < 3)                                 return ER_size_bad;
+    if(scene_size_z_px < 1)                                 return ER_size_bad;
+    if(wavelength_um <= 0)                                   return ER_parameter_bad;
+    if(scale_px2um <= 0)                                     return ER_parameter_bad;
+    if(dist_source_um < 0)                                   return ER_parameter_bad;
+    if(dist_detector_um < 0)                                 return ER_parameter_bad;
+    if(dist_mirror1_um < 0)                                  return ER_parameter_bad;
+    if(dist_mirror2_um < 0)                                  return ER_parameter_bad;
+    if(angle_mirror1_x <= -PI || angle_mirror1_x >= PI)     return ER_parameter_bad;
+    if(angle_mirror2_x <= -PI || angle_mirror2_x >= PI)     return ER_parameter_bad;
+    if(angle_mirror1_y <= -PI || angle_mirror1_y >= PI)     return ER_parameter_bad;
+    if(angle_mirror2_y <= -PI || angle_mirror2_y >= PI)     return ER_parameter_bad;
+
+    //sizes
+    int nx              = scene_size_x_px;
+    int ny              = scene_size_y_px;
+    int nz              = scene_size_z_px;
+    int scene_size[]    = {nx, ny, nz};
+
+    //pos
+    Vec<int, 3> pos_px  = {0, 0, 0};
+
+    //slope of diagonal
+    double slope_inverse = static_cast<double>(nx) / static_cast<double>(ny);
+
+    //output
+    *pMA_Out            = Mat::zeros(3, scene_size, CV_64FC1);
+
+    //SO = Source (bottom)
+    //DE = Detector (left)
+    //M1 = Mirror 1 (top)
+    //M2 = Mirrror 2 (right)
+    //SP = Splitter (center)
+
+    //Splitter is center of image and center of coordinate system
+
+    //coordinates of objects (metric, homogenious)
+    //                                          x                   y                   z       object
+    Mat Obj_sp_h_SP = D_Math::Homogenious_3D(   0,                  0,                  0);     //Splitter
+    Mat Obj_sp_h_M1 = D_Math::Homogenious_3D(   0,                  -dist_mirror1_um,   0);     //Mirror 1
+    Mat Obj_sp_h_M2 = D_Math::Homogenious_3D(   dist_mirror2_um,    0,                  0);     //Mirror 2
+    Mat Obj_sp_h_SO = D_Math::Homogenious_3D(   0,                  dist_source_um,     0);     //Source
+    Mat Obj_sp_h_DE = D_Math::Homogenious_3D(   -dist_detector_um,  0,                  0);     //Detector
+
+
+
+    //visible light source from regions
+
+    //region SO
+    // 1/1 SO
+    // 1/4 M1 SO
+    // 1/4 SP M2 SP SO
+
+    //region DE
+    // 1/4 SP M1 SO
+    // 1/4 M2 SP SO
+
+    //region M1
+    // 1/2 SO
+    // 1/2 M1 SO
+
+    //region M2
+    // 1/2 SP SO
+    // 1/2 M2 SP SO
+
+
+
+    //light source relevant at a point
+    vector<Mat>     vSource;
+    vector<double>  vPhaseOffset;
+    vector<double>  vFieldstrength;
+
+
+
+    //region SO ------------------------------------------------------------------------------------------------
+
+    //visible sources
+    // 1/1 SO
+    // 1/4 M1 SO
+    // 1/4 SP M2 SP SO
+
+    //resize sources
+    vSource.resize(1);
+    vPhaseOffset.resize(1);
+    vFieldstrength.resize(1);
+
+    // 1/1 SO
+    vSource[0]          = D_Math::Inhomogenious_3D(Obj_sp_h_SO);
+    vPhaseOffset[0]     = 0;
+    vFieldstrength[0]   = 1;
+
+    //loop
+    for(int z = 0; z < nz; z++)
+        for(int y = ny/3; y < ny; y++)
+            for(int x = max(nx/3, static_cast<int>((ny-y-1) * slope_inverse)); x < (nx*2)/3; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                //world coordiante pos
+                Mat pos_world = D_Math::Inhomogenious_3D(
+                            (x - nx/2) * scale_px2um,
+                            (y - ny/2) * scale_px2um,
+                            (z - nz/2) * scale_px2um);
+
+                //loop sources
+                for(size_t s = 0; s < vSource.size(); s++)
+                    pMA_Out->at<double>(pos_px) += D_Physics::FieldStrength(
+                                pos_world,
+                                vSource[s],
+                                vFieldstrength[s],
+                                vPhaseOffset[s],
+                                wavelength_um);
+            }
+
+    //region M2 ------------------------------------------------------------------------------------------------
+    for(int z = 0; z < nz; z++)
+        for(int y = ny/3; y < (ny*2)/3; y++)
+            for(int x = max(nx/3, static_cast<int>((ny-y-1) * slope_inverse)); x < nx; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                //world coordiante pos
+                Mat pos_world = D_Math::Inhomogenious_3D(
+                            (x - nx/2) * scale_px2um,
+                            (y - ny/2) * scale_px2um,
+                            (z - nz/2) * scale_px2um);
+
+                //loop sources
+                for(size_t s = 0; s < vSource.size(); s++)
+                    pMA_Out->at<double>(pos_px) += D_Physics::FieldStrength(
+                                pos_world,
+                                vSource[s],
+                                vFieldstrength[s],
+                                vPhaseOffset[s],
+                                wavelength_um);
+            }
+
+    //region M1 ------------------------------------------------------------------------------------------------
+    for(int z = 0; z < nz; z++)
+        for(int y = 0; y < (ny*2)/3; y++)
+            for(int x = nx/3; x < min((nx*2)/3, static_cast<int>((ny-y-1) * slope_inverse)); x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                //world coordiante pos
+                Mat pos_world = D_Math::Inhomogenious_3D(
+                            (x - nx/2) * scale_px2um,
+                            (y - ny/2) * scale_px2um,
+                            (z - nz/2) * scale_px2um);
+
+                //loop sources
+                for(size_t s = 0; s < vSource.size(); s++)
+                    pMA_Out->at<double>(pos_px) += D_Physics::FieldStrength(
+                                pos_world,
+                                vSource[s],
+                                vFieldstrength[s],
+                                vPhaseOffset[s],
+                                wavelength_um);
+            }
+
+    //region DE ------------------------------------------------------------------------------------------------
+    for(int z = 0; z < nz; z++)
+        for(int y = ny/3; y < (ny*2)/3; y++)
+            for(int x = 0; x < static_cast<int>((ny-y-1) * slope_inverse); x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                //world coordiante pos
+                Mat pos_world = D_Math::Inhomogenious_3D(
+                            (x - nx/2) * scale_px2um,
+                            (y - ny/2) * scale_px2um,
+                            (z - nz/2) * scale_px2um);
+
+                //loop sources
+                for(size_t s = 0; s < vSource.size(); s++)
+                    pMA_Out->at<double>(pos_px) += D_Physics::FieldStrength(
+                                pos_world,
+                                vSource[s],
+                                vFieldstrength[s],
+                                vPhaseOffset[s],
+                                wavelength_um);
+            }
+
+    //fieldstrength -> intensity
+    double* ptr = reinterpret_cast<double*>(pMA_Out->data);
+    int px_count = nx * ny * nz;
+    for(int px = 0; px < px_count; px++, ptr++)
+        *ptr = (*ptr) * (*ptr);
+
+    Obj_sp_h_SP.release();
+    Obj_sp_h_SO.release();
+    Obj_sp_h_DE.release();
+    Obj_sp_h_M1.release();
+    Obj_sp_h_M2.release();
+    return ER_okay;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

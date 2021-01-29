@@ -382,6 +382,7 @@ public:
     static int      Draw_Label_Numbers_Center   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);
     static Scalar   Contrast_Color              (Vec3d val_RGB);
+    static int      Highlight_NumericalProblems (Mat *pMA_Out, Mat *pMA_In);
 
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
@@ -397,7 +398,7 @@ public:
     static int      RadiometricStereo           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double S1X, double S1Y, double S1Z, double S2X, double S2Y, double S2Z, double S3X, double S3Y, double S3Z, int out_mode);
     static int      RadiometricStereo           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat S, int out_mode);
 
-
+    static int      InterferometerMichelson     (Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scale_px, double scale_m, double wavelength_m, double dist_source_m, double dist_detector_m, double dist_mirror1_m, double dist_mirror2_m, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y);
 
 };
 

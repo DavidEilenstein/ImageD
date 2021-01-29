@@ -324,6 +324,16 @@ private slots:
 
     void on_checkBox_07_WatershedCustom_DrawWatershed_stateChanged(int arg1);
 
+    void on_spinBox_09_Michelson_Scene_Size_X_valueChanged(int arg1);
+
+    void on_spinBox_09_Michelson_Scene_Size_Y_valueChanged(int arg1);
+
+    void on_spinBox_09_Michelson_Scene_Size_Z_valueChanged(int arg1);
+
+    void on_spinBox_09_Michelson_Scale_px_valueChanged(int arg1);
+
+    void on_doubleSpinBox_09_Michelson_Scale_um_valueChanged(double arg1);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -536,6 +546,7 @@ private:
         c_sT_OT_HDR,
         c_sT_OT_RELATION_STAT,
         c_sT_OT_ZERNIKE_STACK,
+        c_sT_OT_MICHELSON,
         c_sT_OT_RADIOMETRIC_STEREO
     };
 

@@ -2433,17 +2433,20 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data,
     //Chart
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    if(!name_title.isEmpty())
+        chart->setTitle(name_title);
 
     //Axis
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
-    x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
+    if(!name_x.isEmpty())
+        x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
     x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
-    y_axis->setTitleText(QSL_AxeTrans_Prefix[y_trans] + name_y + QSL_AxeTrans_Suffix[y_trans]);
+    if(!name_y.isEmpty())
+        y_axis->setTitleText(QSL_AxeTrans_Prefix[y_trans] + name_y + QSL_AxeTrans_Suffix[y_trans]);
     y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
     chart->setAxisY(y_axis);
 
@@ -2451,7 +2454,8 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data,
     //Series
     //qDebug() << "Series";
     QLineSeries *series  = new QLineSeries();
-    series->setName(name_series);
+    if(!name_series.isEmpty())
+        series->setName(name_series);
     series->setUseOpenGL(true);
 
     //Data
@@ -2468,6 +2472,12 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data,
     series->attachAxis(y_axis);
     series->setUseOpenGL(false);
     pChartView->setChart(chart);
+
+    if(name_series.isEmpty())
+    {
+        chart->legend()->setAlignment(Qt::AlignRight);
+        chart->legend()->setVisible(false);
+    }
 
     return ER_okay;
 }

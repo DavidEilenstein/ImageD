@@ -16021,6 +16021,47 @@ Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
     return Scalar(B, G, R);
 }
 
+int D_Img_Proc::Highlight_NumericalProblems(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->empty())             return ER_empty;
+    if(pMA_In->type() != CV_64FC1)  return ER_type_bad;
+    int ER = ER_okay;
+
+    double min = numeric_limits<double>::min();
+    double max = numeric_limits<double>::max();
+
+    *pMA_Out = Mat(pMA_In->size(), CV_64FC3);
+
+    double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
+    Vec3d * ptr_out = reinterpret_cast<Vec3d*>(pMA_Out->data);
+    size_t px_count = pMA_In->rows * pMA_In->cols;
+    for(size_t px = 0; px < px_count; px++, ptr_in++, ptr_out++)
+    {
+        double val = *ptr_in;
+
+        if(isfinite(val))
+            *ptr_out = Vec3d(val, val, val);           //nice -> grayvalue
+        else
+        {
+            if(ER == ER_okay)
+            {
+                qDebug() << "shitty value detected";
+                ER = ER_NumericProblem;
+            }
+            if(isnan(val))
+                *ptr_out = Vec3d(0, max/2, 0);           //nan -> green
+            else if(val < min)
+                *ptr_out = Vec3d(max/2, 0, 0);           //-inf -> blue
+            else if(val > max)
+                *ptr_out = Vec3d(0, max/2, 0);           //+inf -> red
+            else
+                *ptr_out = Vec3d(max/4, max/4, max/2);   //mysterium -> pink
+        }
+    }
+
+    return ER;
+}
+
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay, double intensity_backgr)
 {
     return OverlayOverwrite(
@@ -17342,6 +17383,47 @@ int D_Img_Proc::RadiometricStereo(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat 
             *ptr_out = Vec3d(n.at<double>(0, 0), n.at<double>(1, 0), n.at<double>(2, 0));
         }
     }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scale_px, double scale_m, double wavelength_m, double dist_source_m, double dist_detector_m, double dist_mirror1_m, double dist_mirror2_m, double angle_mirror1_m, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+{
+    //errors
+    if(scene_size_x_px < 6)         return ER_parameter_bad;
+    if(scene_size_y_px < 6)         return ER_parameter_bad;
+
+    //init out
+    *pMA_Out = Mat::zeros(scene_size_x_px, scene_size_y_px, CV_64FC1);
+
+    //coordinates of objects (splitter centric)
+    Point3f P_SP(0,                   0               , 1);   //Splitter
+    Point3f P_M1(dist_mirror1_m,      0               , 1);   //Mirror 1
+    Point3f P_M2(0,                   dist_mirror2_m  , 1);   //Mirror 2
+    Point3f P_SO(0,                   -dist_source_m  , 1);   //Source
+    Point3f P_DE(-dist_detector_m,    0               , 1);   //Detector
+
+    //path A: Source -> Splitter refelect   -> Mirror2 -> Splitter pass     -> Detector
+    //path B: Source -> Splitter refelect   -> Mirror2 -> Splitter reflect  -> Source
+    //path C: Source -> Splitter pass       -> Mirror1 -> Splitter reflect  -> Detector
+    //path D: Source -> Splitter pass       -> Mirror1 -> Splitter pass     -> Source
+
+    //init out
+    *pMA_Out = Mat::zeros(scene_size_x_px, scene_size_y_px, CV_64FC1);
+
+    //zone between splitter and
+
+
+
+            /*
+    //loop
+    for(int y = 0; y < scene_size_y_px; y++)
+        for(int x = 0; x < scene_size_x_px; x++)
+        {
+            Point2f P_calc(x, y);
+            Point2f P_
+        }
+                */
 
     return ER_okay;
 }

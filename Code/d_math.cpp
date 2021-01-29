@@ -1868,4 +1868,472 @@ int D_Math::Maximum_Gil(vector<double> *vDataOut, vector<double> *vDataIn, size_
 
 
 
+Mat D_Math::Homogenious_2D(double x, double y)
+{
+    Mat V_homo(3, 1, CV_64FC1);
+
+    V_homo.at<double>(0, 0)  = x;
+    V_homo.at<double>(1, 0)  = y;
+    V_homo.at<double>(2, 0)  = 1;
+
+    return V_homo;
+}
+
+Mat D_Math::Homogenious_2D(double u, double v, double w)
+{
+    if(w != 0)
+    {
+        Mat V_out(3, 1, CV_64FC1);
+
+        V_out.at<double>(0, 0)  = u;
+        V_out.at<double>(1, 0)  = v;
+        V_out.at<double>(2, 0)  = w;
+
+        return V_out;
+    }
+
+    return Mat::zeros(3, 1, CV_64FC1);
+}
+
+Mat D_Math::Homogenious_2D(Mat V_inhomo)
+{
+    if(V_inhomo.cols == 1)
+        if(V_inhomo.rows == 2)
+            if(V_inhomo.type() == CV_64FC1)
+                return Homogenious_2D(
+                            V_inhomo.at<double>(0, 0),
+                            V_inhomo.at<double>(1, 0));
+
+    return Mat::zeros(3, 1, CV_64FC1);
+}
+
+Mat D_Math::Homogenious_3D(double x, double y, double z)
+{
+    Mat V_homo(4, 1, CV_64FC1);
+
+    V_homo.at<double>(0, 0)  = x;
+    V_homo.at<double>(1, 0)  = y;
+    V_homo.at<double>(2, 0)  = z;
+    V_homo.at<double>(3, 0)  = 1;
+
+    return V_homo;
+}
+
+Mat D_Math::Homogenious_3D(double u, double v, double w, double q)
+{
+    if(q != 0)
+    {
+        Mat V_homo(4, 1, CV_64FC1);
+
+        V_homo.at<double>(0, 0)  = u;
+        V_homo.at<double>(1, 0)  = v;
+        V_homo.at<double>(2, 0)  = w;
+        V_homo.at<double>(3, 0)  = q;
+
+        return V_homo;
+    }
+
+    return Mat::zeros(3, 1, CV_64FC1);
+}
+
+Mat D_Math::Homogenious_3D(Mat V_inhomo)
+{
+    if(V_inhomo.cols == 1)
+        if(V_inhomo.rows == 3)
+            if(V_inhomo.type() == CV_64FC1)
+                return Homogenious_3D(
+                            V_inhomo.at<double>(0, 0),
+                            V_inhomo.at<double>(1, 0),
+                            V_inhomo.at<double>(2, 0));
+
+    return Mat::zeros(4, 1, CV_64FC1);
+}
+
+Mat D_Math::Inhomogenious_2D(double x, double y)
+{
+    Mat V_inhomo(2, 1, CV_64FC1);
+
+    V_inhomo.at<double>(0, 0)  = x;
+    V_inhomo.at<double>(1, 0)  = y;
+
+    return V_inhomo;
+}
+
+Mat D_Math::Inhomogenious_2D(double u, double v, double w)
+{
+    if(w != 0)
+    {
+        Mat V_inhomo(2, 1, CV_64FC1);
+
+        V_inhomo.at<double>(0, 0)  = u / w;
+        V_inhomo.at<double>(1, 0)  = v / w;
+
+        return V_inhomo;
+    }
+
+    return Mat::zeros(2, 1, CV_64FC1);
+}
+
+Mat D_Math::Inhomogenious_2D(Mat V_homo)
+{
+    if(V_homo.cols == 1)
+        if(V_homo.rows == 3)
+            if(V_homo.type() == CV_64FC1)
+                if(V_homo.at<double>(2, 0) != 0)
+                    return Inhomogenious_2D(
+                                V_homo.at<double>(0, 0),
+                                V_homo.at<double>(1, 0),
+                                V_homo.at<double>(2, 0));
+
+    return Mat::zeros(2, 1, CV_64FC1);
+}
+
+Mat D_Math::Inhomogenious_3D(double x, double y, double z)
+{
+    Mat V_inhomo(3, 1, CV_64FC1);
+
+    V_inhomo.at<double>(0, 0)  = x;
+    V_inhomo.at<double>(1, 0)  = y;
+    V_inhomo.at<double>(2, 0)  = z;
+
+    return V_inhomo;
+}
+
+Mat D_Math::Inhomogenious_3D(double u, double v, double w, double q)
+{
+    if(q != 0)
+    {
+        Mat V_inhomo(3, 1, CV_64FC1);
+
+        V_inhomo.at<double>(0, 0)  = u / q;
+        V_inhomo.at<double>(1, 0)  = v / q;
+        V_inhomo.at<double>(2, 0)  = w / q;
+
+        return V_inhomo;
+    }
+
+    return Mat::zeros(3, 1, CV_64FC1);
+}
+
+Mat D_Math::Inhomogenious_3D(Mat V_homo)
+{
+    if(V_homo.cols == 1)
+        if(V_homo.rows == 4)
+            if(V_homo.type() == CV_64FC1)
+                if(V_homo.at<double>(3, 0) != 0)
+                    return Inhomogenious_3D(
+                                V_homo.at<double>(0, 0),
+                                V_homo.at<double>(1, 0),
+                                V_homo.at<double>(2, 0),
+                                V_homo.at<double>(3, 0));
+
+    return Mat::zeros(3, 1, CV_64FC1);
+}
+
+Mat D_Math::Shift_2D_h(double shift_x, double shift_y)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+    H.at<double>(0, 0)  = 1;        H.at<double>(0, 1)  = 0;        H.at<double>(0, 2)  = shift_x;
+    H.at<double>(1, 0)  = 0;        H.at<double>(1, 1)  = 1;        H.at<double>(1, 2)  = shift_y;
+    H.at<double>(2, 0)  = 0;        H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Shift_3D_h(double shift_x, double shift_y, double shift_z)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    H.at<double>(0, 0)  = 1;        H.at<double>(0, 1)  = 0;        H.at<double>(0, 2)  = 0;        H.at<double>(0, 3)  = shift_x;
+    H.at<double>(1, 0)  = 0;        H.at<double>(1, 1)  = 1;        H.at<double>(1, 2)  = 0;        H.at<double>(1, 3)  = shift_y;
+    H.at<double>(2, 0)  = 0;        H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;        H.at<double>(2, 3)  = shift_z;
+    H.at<double>(3, 0)  = 0;        H.at<double>(3, 1)  = 0;        H.at<double>(3, 2)  = 0;        H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Rotation_2D_i_deg(double angle)
+{
+    return Rotation_2D_i_rad(angle * Grad2Rad);
+}
+
+Mat D_Math::Rotation_3D_i_deg(double angle_x, double angle_y, double angle_z)
+{
+    return Rotation_3D_i_rad(angle_x * Grad2Rad, angle_y * Grad2Rad, angle_z * Grad2Rad);
+}
+
+Mat D_Math::Rotation_2D_i_rad(double angle)
+{
+    Mat R = Mat(2, 2, CV_64FC1);
+
+    double c = cos(angle);
+    double s = sin(angle);
+
+    R.at<double>(0, 0)  = c;        R.at<double>(0, 1)  = -s;
+    R.at<double>(1, 0)  = s;        R.at<double>(1, 1)  = c;
+
+    return R;
+}
+
+Mat D_Math::Rotation_3D_i_rad(double angle_x, double angle_y, double angle_z)
+{
+    Mat R = Mat(3, 3, CV_64FC1);
+
+    //sin/cos of alpha/beta/gamma
+    double ca = cos(angle_x);
+    double cb = cos(angle_y);
+    double cg = cos(angle_z);
+    double sa = sin(angle_x);
+    double sb = sin(angle_y);
+    double sg = sin(angle_z);
+
+    R.at<double>(0, 0)  = ca*cg - sa*cb*sg;     R.at<double>(0, 1)  = - ca*sg - sa*cb*cg;   R.at<double>(0, 2)  =   sa*sb;
+    R.at<double>(1, 0)  = sa*cg + ca*cb*sg;     R.at<double>(1, 1)  = - sa*sg + ca*cb*cg;   R.at<double>(1, 2)  = - ca*sb;
+    R.at<double>(2, 0)  = sb*sg;                R.at<double>(2, 1)  =   sb*cg;              R.at<double>(2, 2)  =   cg;
+
+    return R;
+}
+
+Mat D_Math::Rotation_2D_h_deg(double angle)
+{
+    return Rotation_2D_h_rad(angle * Grad2Rad);
+}
+
+Mat D_Math::Rotation_2D_h_deg(double angle, double center_x, double center_y)
+{
+    return Rotation_2D_h_rad(angle * Grad2Rad, center_x, center_y);
+}
+
+Mat D_Math::Rotation_3D_h_deg(double angle_x, double angle_y, double angle_z)
+{
+    return Rotation_3D_h_rad(angle_x * Grad2Rad, angle_y * Grad2Rad, angle_z * Grad2Rad);
+}
+
+Mat D_Math::Rotation_3D_h_deg(double angle_x, double angle_y, double angle_z, double center_x, double center_y, double center_z)
+{
+    return Rotation_3D_h_rad(angle_x * Grad2Rad, angle_y * Grad2Rad, angle_z * Grad2Rad, center_x, center_y, center_z);
+}
+
+Mat D_Math::Rotation_2D_h_rad(double angle)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+
+
+    double c = cos(angle);
+    double s = sin(angle);
+
+    H.at<double>(0, 0)  = c;        H.at<double>(0, 1)  = -s;       H.at<double>(0, 2)  = 0;
+    H.at<double>(1, 0)  = s;        H.at<double>(1, 1)  = c;        H.at<double>(1, 2)  = 0;
+    H.at<double>(2, 0)  = 0;        H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Rotation_2D_h_rad(double angle, double center_x, double center_y)
+{
+    return Shift_2D_h(-center_x, -center_y) * Euclidean_2D_h_rad(center_x, center_y, angle);
+}
+
+Mat D_Math::Rotation_3D_h_rad(double angle_x, double angle_y, double angle_z)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    //sin/cos of alpha/beta/gamma
+    double ca = cos(angle_x);
+    double cb = cos(angle_y);
+    double cg = cos(angle_z);
+    double sa = sin(angle_x);
+    double sb = sin(angle_y);
+    double sg = sin(angle_z);
+
+    H.at<double>(0, 0)  = ca*cg - sa*cb*sg;     H.at<double>(0, 1)  = - ca*sg - sa*cb*cg;   H.at<double>(0, 2)  =   sa*sb;      H.at<double>(0, 3)  = 0;
+    H.at<double>(1, 0)  = sa*cg + ca*cb*sg;     H.at<double>(1, 1)  = - sa*sg + ca*cb*cg;   H.at<double>(1, 2)  = - ca*sb;      H.at<double>(1, 3)  = 0;
+    H.at<double>(2, 0)  = sb*sg;                H.at<double>(2, 1)  =   sb*cg;              H.at<double>(2, 2)  =   cg;         H.at<double>(2, 3)  = 0;
+    H.at<double>(3, 0)  = 0;                    H.at<double>(3, 1)  =   0;                  H.at<double>(3, 2)  =   0;          H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Rotation_3D_h_rad(double angle_x, double angle_y, double angle_z, double center_x, double center_y, double center_z)
+{
+    return Shift_3D_h(-center_x, -center_y, -center_z) * Euclidean_3D_h_rad(center_x, center_y, center_z, angle_x, angle_y, angle_z);
+}
+
+Mat D_Math::Euclidean_2D_h_deg(double shift_x, double shift_y, double angle)
+{
+    return Euclidean_2D_h_rad(shift_x, shift_y, angle * Grad2Rad);
+}
+
+Mat D_Math::Euclidean_3D_h_deg(double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z)
+{
+    return Euclidean_3D_h_rad(shift_x, shift_y, shift_z, angle_x * Grad2Rad, angle_y * Grad2Rad, angle_z * Grad2Rad);
+}
+
+Mat D_Math::Euclidean_2D_h_rad(double shift_x, double shift_y, double angle)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+    double c = cos(angle);
+    double s = sin(angle);
+
+    H.at<double>(0, 0)  = c;        H.at<double>(0, 1)  = -s;       H.at<double>(0, 2)  = shift_x;
+    H.at<double>(1, 0)  = s;        H.at<double>(1, 1)  = c;        H.at<double>(1, 2)  = shift_y;
+    H.at<double>(2, 0)  = 0;        H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Euclidean_3D_h_rad(double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    //sin/cos of alpha/beta/gamma
+    double ca = cos(angle_x);
+    double cb = cos(angle_y);
+    double cg = cos(angle_z);
+    double sa = sin(angle_x);
+    double sb = sin(angle_y);
+    double sg = sin(angle_z);
+
+    H.at<double>(0, 0)  = ca*cg - sa*cb*sg;     H.at<double>(0, 1)  = - ca*sg - sa*cb*cg;   H.at<double>(0, 2)  =   sa*sb;      H.at<double>(0, 3)  = shift_x;
+    H.at<double>(1, 0)  = sa*cg + ca*cb*sg;     H.at<double>(1, 1)  = - sa*sg + ca*cb*cg;   H.at<double>(1, 2)  = - ca*sb;      H.at<double>(1, 3)  = shift_y;
+    H.at<double>(2, 0)  = sb*sg;                H.at<double>(2, 1)  =   sb*cg;              H.at<double>(2, 2)  =   cg;         H.at<double>(2, 3)  = shift_z;
+    H.at<double>(3, 0)  = 0;                    H.at<double>(3, 1)  =   0;                  H.at<double>(3, 2)  =   0;          H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Similarity_2D_h_deg(double shift_x, double shift_y, double angle, double scale)
+{
+    return Similarity_2D_h_rad(shift_x, shift_y, angle * Grad2Rad, scale);
+}
+
+Mat D_Math::Similarity_3D_h_deg(double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z, double scale)
+{
+    return Similarity_3D_h_rad(shift_x, shift_y, shift_z, angle_x * Grad2Rad, angle_y * Grad2Rad, angle_z * Grad2Rad, scale);
+}
+
+Mat D_Math::Similarity_2D_h_rad(double shift_x, double shift_y, double angle, double scale)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+    double c = cos(angle);
+    double s = sin(angle);
+
+    H.at<double>(0, 0)  = c * scale;    H.at<double>(0, 1)  = -s;       H.at<double>(0, 2)  = shift_x;
+    H.at<double>(1, 0)  = s * scale;    H.at<double>(1, 1)  = c;        H.at<double>(1, 2)  = shift_y;
+    H.at<double>(2, 0)  = 0;            H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Similarity_3D_h_rad(double shift_x, double shift_y, double shift_z, double angle_x, double angle_y, double angle_z, double scale)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    //sin/cos of alpha/beta/gamma
+    double ca = cos(angle_x);
+    double cb = cos(angle_y);
+    double cg = cos(angle_z);
+    double sa = sin(angle_x);
+    double sb = sin(angle_y);
+    double sg = sin(angle_z);
+
+    H.at<double>(0, 0)  = (ca*cg - sa*cb*sg) * scale;       H.at<double>(0, 1)  = - ca*sg - sa*cb*cg;   H.at<double>(0, 2)  =   sa*sb;      H.at<double>(0, 3)  = shift_x;
+    H.at<double>(1, 0)  = (sa*cg + ca*cb*sg) * scale;       H.at<double>(1, 1)  = - sa*sg + ca*cb*cg;   H.at<double>(1, 2)  = - ca*sb;      H.at<double>(1, 3)  = shift_y;
+    H.at<double>(2, 0)  = (sb*sg)            * scale;       H.at<double>(2, 1)  =   sb*cg;              H.at<double>(2, 2)  =   cg;         H.at<double>(2, 3)  = shift_z;
+    H.at<double>(3, 0)  = 0;                                H.at<double>(3, 1)  =   0;                  H.at<double>(3, 2)  =   0;          H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Affinity_2D_h(double shift_x, double shift_y, double a11, double a12, double a21, double a22)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+    H.at<double>(0, 0)  = a11;          H.at<double>(0, 1)  = a12;      H.at<double>(0, 2)  = shift_x;
+    H.at<double>(1, 0)  = a21;          H.at<double>(1, 1)  = a22;      H.at<double>(1, 2)  = shift_y;
+    H.at<double>(2, 0)  = 0;            H.at<double>(2, 1)  = 0;        H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Affinity_3D_h(double shift_x, double shift_y, double shift_z, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    H.at<double>(0, 0)  = a11;      H.at<double>(0, 1)  = a12;      H.at<double>(0, 2)  = a13;      H.at<double>(0, 3)  = shift_x;
+    H.at<double>(1, 0)  = a21;      H.at<double>(1, 1)  = a22;      H.at<double>(1, 2)  = a23;      H.at<double>(1, 3)  = shift_y;
+    H.at<double>(2, 0)  = a31;      H.at<double>(2, 1)  = a32;      H.at<double>(2, 2)  = a33;      H.at<double>(2, 3)  = shift_z;
+    H.at<double>(3, 0)  = 0;        H.at<double>(3, 1)  = 0;        H.at<double>(3, 2)  = 0;        H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Projektion_2D_h(double shift_x, double shift_y, double a11, double a12, double a21, double a22, double p1, double p2)
+{
+    Mat H = Mat(3, 3, CV_64FC1);
+
+    H.at<double>(0, 0)  = a11;          H.at<double>(0, 1)  = a12;      H.at<double>(0, 2)  = shift_x;
+    H.at<double>(1, 0)  = a21;          H.at<double>(1, 1)  = a22;      H.at<double>(1, 2)  = shift_y;
+    H.at<double>(2, 0)  = p1;           H.at<double>(2, 1)  = p2;       H.at<double>(2, 2)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Projektion_3D_h(double shift_x, double shift_y, double shift_z, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, double p1, double p2, double p3)
+{
+    Mat H = Mat(4, 4, CV_64FC1);
+
+    H.at<double>(0, 0)  = a11;      H.at<double>(0, 1)  = a12;      H.at<double>(0, 2)  = a13;      H.at<double>(0, 3)  = shift_x;
+    H.at<double>(1, 0)  = a21;      H.at<double>(1, 1)  = a22;      H.at<double>(1, 2)  = a23;      H.at<double>(1, 3)  = shift_y;
+    H.at<double>(2, 0)  = a31;      H.at<double>(2, 1)  = a32;      H.at<double>(2, 2)  = a33;      H.at<double>(2, 3)  = shift_z;
+    H.at<double>(3, 0)  = p1;       H.at<double>(3, 1)  = p2;       H.at<double>(3, 2)  = p3;       H.at<double>(3, 3)  = 1;
+
+    return H;
+}
+
+Mat D_Math::Projektion_ND_h(Mat A, Mat t, Mat P)
+{
+    if(!A.empty())
+    {
+        //dims
+        int m = A.rows;
+        int n = A.cols;
+
+        //setup H
+        Mat H = Mat::zeros(m + 1, n + 1, CV_64FC1);
+
+        //Rotation
+        if(A.type() == CV_64FC1)
+            for(int y = 0; y < m; y++)
+                for(int x = 0; x < n; x++)
+                    H.at<double>(y, x) = A.at<double>(y, x);
+
+        //Translation
+        if(!t.empty())
+            if(t.type() == CV_64FC1)
+                if(t.cols == 1)
+                    if(t.rows == m)
+                        for(int y = 0; y < m; y++)
+                            H.at<double>(y, n) = A.at<double>(y, 1);
+
+        //Projection
+        if(!P.empty())
+            if(P.type() == CV_64FC1)
+                if(P.cols == 1)
+                    if(P.rows == n)
+                        for(int x = 0; x < m; x++)
+                            H.at<double>(m, x) = A.at<double>(x, 1);
+
+        return H;
+    }
+
+    return Mat::zeros(1, 1, CV_64FC1);
+}
+
+
+
 

@@ -71,6 +71,7 @@ public:
 
     static function<int (Mat *, Mat *)>                         Distance_Transformation_EDT     (double spacing_x = 1, double spacing_y = 1, double spacing_z = 1);
 
+    static function<int (Mat *)>                                InterferometerMichelson         (int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y);
 
 
 };

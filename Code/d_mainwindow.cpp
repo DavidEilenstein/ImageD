@@ -278,6 +278,8 @@ void D_MainWindow::closeEvent(QCloseEvent *event)
             pMegaFoci->         set_ClosingPossible(true);
         if(vPluginActive[c_PL_HUANG_VIS])
             pHuang->           set_ClosingPossible(true);
+        if(vPluginActive[c_PL_SOFTMAX])
+            pSoftmax->         set_ClosingPossible(true);
 
         event->accept();
         qApp->closeAllWindows();
@@ -910,6 +912,11 @@ void D_MainWindow::on_pushButton_PluginLaunch_clicked()
     case c_PL_HUANG_VIS:
         pHuang = new D_MAKRO_HuangVisualization(&Store);
         pHuang->show();
+        break;
+
+    case c_PL_SOFTMAX:
+        pSoftmax = new D_MAKRO_SoftmaxVisualization(&Store);
+        pSoftmax->show();
         break;
 
     default:
