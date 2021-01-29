@@ -35,6 +35,7 @@ var annotated_dup =
     [ "D_MAKRO_Mitochondrien", "class_d___m_a_k_r_o___mitochondrien.html", "class_d___m_a_k_r_o___mitochondrien" ],
     [ "D_MAKRO_Osteoclasts", "class_d___m_a_k_r_o___osteoclasts.html", "class_d___m_a_k_r_o___osteoclasts" ],
     [ "D_MAKRO_SegmentationAssistant", "class_d___m_a_k_r_o___segmentation_assistant.html", "class_d___m_a_k_r_o___segmentation_assistant" ],
+    [ "D_MAKRO_SoftmaxVisualization", "class_d___m_a_k_r_o___softmax_visualization.html", "class_d___m_a_k_r_o___softmax_visualization" ],
     [ "D_MAKRO_Visualization", "class_d___m_a_k_r_o___visualization.html", "class_d___m_a_k_r_o___visualization" ],
     [ "D_Math", "class_d___math.html", "class_d___math" ],
     [ "D_PDF_Writer", "class_d___p_d_f___writer.html", "class_d___p_d_f___writer" ],

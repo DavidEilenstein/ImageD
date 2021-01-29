@@ -141,6 +141,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_makro_segmentationassistant.h", "d__makro__segmentationassistant_8h.html", [
       [ "D_MAKRO_SegmentationAssistant", "class_d___m_a_k_r_o___segmentation_assistant.html", "class_d___m_a_k_r_o___segmentation_assistant" ]
     ] ],
+    [ "d_makro_softmaxvisualization.cpp", "d__makro__softmaxvisualization_8cpp.html", null ],
+    [ "d_makro_softmaxvisualization.h", "d__makro__softmaxvisualization_8h.html", [
+      [ "D_MAKRO_SoftmaxVisualization", "class_d___m_a_k_r_o___softmax_visualization.html", "class_d___m_a_k_r_o___softmax_visualization" ]
+    ] ],
     [ "d_makro_visualization.cpp", "d__makro__visualization_8cpp.html", null ],
     [ "d_makro_visualization.h", "d__makro__visualization_8h.html", [
       [ "D_MAKRO_Visualization", "class_d___m_a_k_r_o___visualization.html", "class_d___m_a_k_r_o___visualization" ]

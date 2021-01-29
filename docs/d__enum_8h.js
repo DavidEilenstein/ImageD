@@ -144,6 +144,7 @@ var d__enum_8h =
       [ "ER_KeypoitsUnknown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561ad72239a2fdc99bbaccd4e6a3bbd83ecd", null ],
       [ "ER_DescriptorsUnkown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20", null ],
       [ "ER_StreamNotOpen", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7", null ],
+      [ "ER_NumericProblem", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e", null ],
       [ "ER_number_of", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845", null ]
     ] ],
     [ "D_FEATURE_ENUM", "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60", [
@@ -453,6 +454,7 @@ var d__enum_8h =
       [ "c_PL_AIR_DRAG_DETECT", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca5c6ae1c69b31ba6e42748bad67af8c50", null ],
       [ "c_PL_MEGA_FOCI", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca89da2ca33aa974c8ef20608061612172", null ],
       [ "c_PL_HUANG_VIS", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca6cefa1a49b18d4f19fc31757d13f4e54", null ],
+      [ "c_PL_SOFTMAX", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca946330a9a8077f1f10a97dfbbe00066b", null ],
       [ "c_PL_NUMBER_OF", "d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca55c37be7979656678f96d10c7bca309f", null ]
     ] ],
     [ "D_RANDOM", "d__enum_8h.html#a76006812ac90cbcd697b5b0b6b0ad27d", [
@@ -629,6 +631,31 @@ var d__enum_8h =
       [ "c_VIS_TRAFO_RANGE_FIXED", "d__enum_8h.html#ab319110af650c4717e7f51f240404964a5e015cbb27f453ff0d6b28447f859747", null ],
       [ "c_VIS_TRAFO_RANGE_NUMBER_OF", "d__enum_8h.html#ab319110af650c4717e7f51f240404964abae046f3b273076c574056b24a2d42ab", null ]
     ] ],
+    [ "D_WATERSHED_FILL", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021", [
+      [ "c_WATERSHED_FILL_MASK_DIST_INV", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021ae8259067ec137e7950fc75ff1f77c963", null ],
+      [ "c_WATERSHED_FILL_MASK_DIST", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a36a92b35a79e1b399076e853a7322464", null ],
+      [ "c_WATERSHED_FILL_MASK_COPY", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a4a874aa8da304782e6d9bc5b5919a171", null ],
+      [ "c_WATERSHED_FILL_SOURCE_COPY", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a9e1dc4bb56ce9fe228c2b75ae44d6946", null ],
+      [ "c_WATERSHED_FILL_SOURCE_INV", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a92b646ee0dedb9bf34a95b07e0ea146e", null ],
+      [ "c_WATERSHED_FILL_SOURCE_LOG", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a9dbb0cc0da23518f8076293d29804933", null ],
+      [ "c_WATERSHED_FILL_SOURCE_MORPH_GRAD", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a1e0b4feb22e0667aa78f7a6d69b6fdd5", null ],
+      [ "c_WATERSHED_FILL_NUMBER_OF", "d__enum_8h.html#af132022faaa71bed2d0cd26342627021a265524d21c319b7f5c2b1c0599e342f9", null ]
+    ] ],
+    [ "D_WATERSHED_MARKER", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219", [
+      [ "c_WATERSHED_MARKER_FILL_LOC_MIN", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219ad7f071f5c4b90cd2fc8bf99e21b28201", null ],
+      [ "c_WATERSHED_MARKER_SOURCE_COPY", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219a4203b4b22d493591b68104fbaaa70a8e", null ],
+      [ "c_WATERSHED_MARKER_SOURCE_LABELED", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219a2af7ae52620ce2bdaedb28b2a4c562e1", null ],
+      [ "c_WATERSHED_MARKER_SOURCE_LABELED_INV", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219ab6a1926aeebdcf42841afd1f512362c5", null ],
+      [ "c_WATERSHED_MARKER_NUMBER_OF", "d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219add3422696eceaef1321c75bbbbf7fddf", null ]
+    ] ],
+    [ "D_WATERSHED_MASK", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36", [
+      [ "c_WATERSHED_MASK_SOURCE_COPY", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a0b1b35f52266cc87741c86242d696150", null ],
+      [ "c_WATERSHED_MASK_SOURCE_BINARY_OTSU", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a079951c2db1546684c702973ce7a14b2", null ],
+      [ "c_WATERSHED_MASK_SOURCE_BINARY_THRES", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a4616ae84ed8e3148473763672763ca2f", null ],
+      [ "c_WATERSHED_MASK_FILL_BINARY_OTSU", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36abafa5009941f61f6d250bcc22d75d267", null ],
+      [ "c_WATERSHED_MASK_FILL_BINARY_THRES", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a2023a7af4cab0e405b27ae690ea3a0d4", null ],
+      [ "c_WATERSHED_MASK_NUMBER_OF", "d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36acf794162e1788bb5a7c30129f98955ae", null ]
+    ] ],
     [ "AXE_TICK_COUNT_DEFAULT", "d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2", null ],
     [ "c_E", "d__enum_8h.html#a427e2768193e92de14cfa41f98a03f41", null ],
     [ "D_QS_Author", "d__enum_8h.html#afcebdcfefab1f1af33333268daf70607", null ],
@@ -688,6 +715,9 @@ var d__enum_8h =
     [ "QSL_VisTrafo_Anchor", "d__enum_8h.html#afddf8d0eab13c007de50c56d0fd9b863", null ],
     [ "QSL_VisTrafo_Crop", "d__enum_8h.html#aeb001e0387cc53aa7476729c8e53e70c", null ],
     [ "QSL_VisTrafo_Range", "d__enum_8h.html#a1c78d96314db117b21b4922871e0f04d", null ],
+    [ "QSL_WatershedFill", "d__enum_8h.html#a4cf05a63bbbf312c69e29cec13db1add", null ],
+    [ "QSL_WatershedMarker", "d__enum_8h.html#a8f9f38c0cbcc34b9891607906b518e6b", null ],
+    [ "QSL_WatershedMask", "d__enum_8h.html#a55d887d33ab057533c2348b14ab70942", null ],
     [ "Rad2Grad", "d__enum_8h.html#a803973357a548fd6664b233ed3a83850", null ],
     [ "SIGMA1_PROB", "d__enum_8h.html#a11397ee01b9b7896ef181bc65cbd340c", null ],
     [ "SIGMA2_PROB", "d__enum_8h.html#a31a7a8ac96380a31616b8c7d0023dc13", null ],

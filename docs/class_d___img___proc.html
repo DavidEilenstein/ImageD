@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
+   &#160;<span id="projectnumber">v1_3_1 (29.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -157,6 +157,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a366ed9f495179e6cda73932477ceb8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae211633bc292fe33bb171bd38d4dd110"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ae211633bc292fe33bb171bd38d4dd110">Duplicate</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:ae211633bc292fe33bb171bd38d4dd110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0b69224383f7480ba847b3f3a9d5359"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad0b69224383f7480ba847b3f3a9d5359">Invert</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
+<tr class="separator:ad0b69224383f7480ba847b3f3a9d5359"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a427b5b5f3387bcce762c3ef3084e6c95"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a427b5b5f3387bcce762c3ef3084e6c95">Convert_Color</a> (Mat *pMA_Out, Mat *pMA_In, int cvt_mode)</td></tr>
 <tr class="separator:a427b5b5f3387bcce762c3ef3084e6c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59be40d8abc8d832352bdeb2a546ab66"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a59be40d8abc8d832352bdeb2a546ab66">Convert_Color_RGBA</a> (Mat *pMA_Out, Mat *pMA_In, double r, double g, double b, double a, double range_rgba=255.0)</td></tr>
@@ -292,8 +294,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a382b503db82dd103e24e49e7922d15d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aedf4f9e62b489c18ddc50c4d0d87ddb0">Transformation_Watershed_Auto</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border)</td></tr>
 <tr class="separator:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04675f37076a853d82c1a57d0443ece0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a04675f37076a853d82c1a57d0443ece0">Transformation_Watershed_Custom</a> (Mat *pMA_Out, Mat *pMA_InFill, Mat *pMA_In2Marker, Mat *pMA_FG_Mask, int connectivity=8)</td></tr>
-<tr class="separator:a04675f37076a853d82c1a57d0443ece0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97514054fe05f415ace9cd4133eadf6b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a97514054fe05f415ace9cd4133eadf6b">Transformation_Watershed_Custom</a> (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int mode_flood, int mode_marker, int mode_mask, int connectivity=8, int gauss_size=5, double gauss_sigma=2, int morphgrad_elem=MORPH_ELLIPSE, int morphgrad_size=3, double thresh=127, bool exclude_border=true, bool include_non_seeded=true, bool draw_watersheds=true)</td></tr>
+<tr class="separator:a97514054fe05f415ace9cd4133eadf6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a879acc50b541dba4cd98f89a75698ad4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a879acc50b541dba4cd98f89a75698ad4">Transformation_Watershed_Custom</a> (Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int connectivity=8)</td></tr>
+<tr class="separator:a879acc50b541dba4cd98f89a75698ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a780da4c988d3adc08bf635e18ef516a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a780da4c988d3adc08bf635e18ef516a3">Transformation_Fourier</a> (Mat *pMA_Out, Mat *pMA_In, bool invers)</td></tr>
 <tr class="separator:a780da4c988d3adc08bf635e18ef516a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2196114745db25739273c4c6a3aaca0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af2196114745db25739273c4c6a3aaca0">Transformation_Fourier</a> (Mat *pMA_Out, Mat *pMA_In_Re, bool invers=false, bool force_fft=true, bool out_real=false, int out_complex_mode=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aa73ea6ef57f01efdb6cf9612bbc1399cf">c_COMPLEX2REAL_ABS</a>, bool out_scale=false, bool out_center=true, bool out_nof0=true)</td></tr>
@@ -338,6 +342,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ab85269ec22e9055ce450e08526c56345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ef671eec83a24725d358a42c73783a3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ef671eec83a24725d358a42c73783a3">Filter_Laplace</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta)</td></tr>
 <tr class="separator:a8ef671eec83a24725d358a42c73783a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb1deab2913a92fed566f8ad11026f28"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aeb1deab2913a92fed566f8ad11026f28">Filter_LaplaceOfGaussian</a> (Mat *pMA_Out, Mat *pMA_In, int size_g, double sigma_g, int size_l, int border, int out_depth, double scale, double delta)</td></tr>
+<tr class="separator:aeb1deab2913a92fed566f8ad11026f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf24a7e83477e2be25d27a02ab0147f9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aaf24a7e83477e2be25d27a02ab0147f9">Filter_Sobel</a> (Mat *pMA_Out, Mat *pMA_In, int size, int border, int out_depth, double scale, double delta, int d_x, int d_y)</td></tr>
 <tr class="separator:aaf24a7e83477e2be25d27a02ab0147f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e52fb7d668ab8147c1cb980edf3eaf4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6e52fb7d668ab8147c1cb980edf3eaf4">Filter_Scharr</a> (Mat *pMA_Out, Mat *pMA_In, int border, int out_depth, double scale, double delta, int d_x, int d_y)</td></tr>
@@ -591,6 +597,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a9731a7315436313a7282780c72e35c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a333cfaf8328841a35ae71c26f8ff93de"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a333cfaf8328841a35ae71c26f8ff93de">Draw_VectorField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_length_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_angle_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_length_error, vector&lt; vector&lt; double &gt;&gt; vv_XY_angle_error, uchar value=255, int vector_thickness=3, int error_steps=360, int error_thickness=1, bool grid_add=true, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
 <tr class="separator:a333cfaf8328841a35ae71c26f8ff93de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa04db6258f8c262e22b47c4e85ff1d16"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aa04db6258f8c262e22b47c4e85ff1d16">Draw_CircleField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_radius_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_radius_error, uchar value=255, int circle_thickness=1, bool circles_filled=true, bool grid_add=false, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
+<tr class="separator:aa04db6258f8c262e22b47c4e85ff1d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bd009c38ce6f9f4a8dad263ee8c1559"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0bd009c38ce6f9f4a8dad263ee8c1559">Draw_Rect</a> (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness=1, double val=255)</td></tr>
 <tr class="separator:a0bd009c38ce6f9f4a8dad263ee8c1559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3cb1ff42d02d6e81aff0a0ba3850d2b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af3cb1ff42d02d6e81aff0a0ba3850d2b">Draw_Rect_Rotate</a> (Mat *pMA_Target, RotatedRect rrect, int thickness=1, double value=255)</td></tr>
@@ -625,6 +633,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a051f7c69ad6ccc3c00a7fa194663006c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44b54da102aaf64fe743625ba132884b"><td class="memItemLeft" align="right" valign="top">static Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a44b54da102aaf64fe743625ba132884b">Contrast_Color</a> (Vec3d val_RGB)</td></tr>
 <tr class="separator:a44b54da102aaf64fe743625ba132884b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4c392a996d51931074b4995ce1ca168"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac4c392a996d51931074b4995ce1ca168">Highlight_NumericalProblems</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
+<tr class="separator:ac4c392a996d51931074b4995ce1ca168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab518aa5728b97fd9602f4871554feef0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ab518aa5728b97fd9602f4871554feef0">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
 <tr class="separator:ab518aa5728b97fd9602f4871554feef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a025590f8a2b49c63c4843984fcd039ab"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a025590f8a2b49c63c4843984fcd039ab">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
@@ -645,6 +655,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a355d3f057f1f4f9cf96b0a6255deda8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af06ba724690b6ca146e91e2de5aaf121"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af06ba724690b6ca146e91e2de5aaf121">RadiometricStereo</a> (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat S, int out_mode)</td></tr>
 <tr class="separator:af06ba724690b6ca146e91e2de5aaf121"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a167f867eefc4d361f629e83a46a7149b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a167f867eefc4d361f629e83a46a7149b">InterferometerMichelson</a> (Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scale_px, double scale_m, double wavelength_m, double dist_source_m, double dist_detector_m, double dist_mirror1_m, double dist_mirror2_m, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)</td></tr>
+<tr class="separator:a167f867eefc4d361f629e83a46a7149b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___img___proc.html" title="The D_Img_Proc class static 2D image processing functions.">D_Img_Proc</a> class static 2D image processing functions. </p>
@@ -2426,6 +2438,96 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>filled</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa04db6258f8c262e22b47c4e85ff1d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa04db6258f8c262e22b47c4e85ff1d16">&#9670;&nbsp;</a></span>Draw_CircleField()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_CircleField </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vv_XY_radius_value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vv_XY_radius_error</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>value</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>circle_thickness</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>circles_filled</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>grid_add</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>grid_thicknes</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>label_add</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label_thickness</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>label_scale</em> = <code>1.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -5669,6 +5771,84 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aeb1deab2913a92fed566f8ad11026f28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb1deab2913a92fed566f8ad11026f28">&#9670;&nbsp;</a></span>Filter_LaplaceOfGaussian()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Filter_LaplaceOfGaussian </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sigma_g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size_l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>out_depth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>delta</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="addacb9a505d85b766997ea53a8ba3d74"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#addacb9a505d85b766997ea53a8ba3d74">&#9670;&nbsp;</a></span>Filter_Maximum_1C()</h2>
 
@@ -7203,6 +7383,42 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac4c392a996d51931074b4995ce1ca168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4c392a996d51931074b4995ce1ca168">&#9670;&nbsp;</a></span>Highlight_NumericalProblems()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Highlight_NumericalProblems </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac8e61ae4b5bbabd5db841946fd274ad7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac8e61ae4b5bbabd5db841946fd274ad7">&#9670;&nbsp;</a></span>Histo_Equal()</h2>
 
@@ -7214,6 +7430,150 @@ Static Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int D_Img_Proc::Histo_Equal </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a167f867eefc4d361f629e83a46a7149b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a167f867eefc4d361f629e83a46a7149b">&#9670;&nbsp;</a></span>InterferometerMichelson()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::InterferometerMichelson </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scene_size_x_px</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scene_size_y_px</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scale_px</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wavelength_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dist_source_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dist_detector_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dist_mirror1_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dist_mirror2_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_mirror1_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_mirror1_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_mirror2_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_mirror2_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0b69224383f7480ba847b3f3a9d5359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0b69224383f7480ba847b3f3a9d5359">&#9670;&nbsp;</a></span>Invert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Invert </td>
           <td>(</td>
           <td class="paramtype">Mat *&#160;</td>
           <td class="paramname"><em>pMA_Out</em>, </td>
@@ -14674,8 +15034,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a04675f37076a853d82c1a57d0443ece0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04675f37076a853d82c1a57d0443ece0">&#9670;&nbsp;</a></span>Transformation_Watershed_Custom()</h2>
+<a id="a879acc50b541dba4cd98f89a75698ad4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a879acc50b541dba4cd98f89a75698ad4">&#9670;&nbsp;</a></span>Transformation_Watershed_Custom() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14693,13 +15053,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Mat *&#160;</td>
-          <td class="paramname"><em>pMA_InFill</em>, </td>
+          <td class="paramname"><em>pMA_In2Fill</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Mat *&#160;</td>
-          <td class="paramname"><em>pMA_In2Marker</em>, </td>
+          <td class="paramname"><em>pMA_InMarker</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -14712,6 +15072,126 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>connectivity</em> = <code>8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97514054fe05f415ace9cd4133eadf6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97514054fe05f415ace9cd4133eadf6b">&#9670;&nbsp;</a></span>Transformation_Watershed_Custom() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Transformation_Watershed_Custom </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In2Fill</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_InMarker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_FG_Mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_flood</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_marker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectivity</em> = <code>8</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>gauss_size</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gauss_sigma</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>morphgrad_elem</em> = <code>MORPH_ELLIPSE</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>morphgrad_size</em> = <code>3</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh</em> = <code>127</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>exclude_border</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>include_non_seeded</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>draw_watersheds</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
+   &#160;<span id="projectnumber">v1_3_1 (29.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -196,6 +196,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="class_d___m_a_k_r_o___mitochondrien.html#a9d29d47f28e5bd71252f0c8f752f8b96">D_MAKRO_Mitochondrien</a>
 , <a class="el" href="class_d___m_a_k_r_o___osteoclasts.html#a35350fd023827fe8f573e0a2e843908b">D_MAKRO_Osteoclasts</a>
 , <a class="el" href="class_d___m_a_k_r_o___segmentation_assistant.html#aaf034271b12fa0892143ce0d462ba64d">D_MAKRO_SegmentationAssistant</a>
+, <a class="el" href="class_d___m_a_k_r_o___softmax_visualization.html#a6688c78400ae34a737f010e9aab6c380">D_MAKRO_SoftmaxVisualization</a>
 , <a class="el" href="class_d___m_a_k_r_o___visualization.html#abf58ef347bdc0d19d4fd26a4507e892f">D_MAKRO_Visualization</a>
 , <a class="el" href="class_d___step_window.html#aab67b539826d5683e438ebd90e9d942f">D_StepWindow</a>
 , <a class="el" href="classm__makro__foci.html#a3e47540e89e29ba564b88e026730ea3b">m_makro_foci</a>
@@ -296,6 +297,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>set_dir_M_SegmentationAssistant()
 : <a class="el" href="class_d___storage.html#a558fb078389652caca5c66f56cea2973">D_Storage</a>
 </li>
+<li>set_dir_M_Softmax()
+: <a class="el" href="class_d___storage.html#ade761cd6c10dd43ea74f90ce80abd599">D_Storage</a>
+</li>
 <li>set_dir_M_Visualization()
 : <a class="el" href="class_d___storage.html#af735e2b3cab3458ac106df2af93864b2">D_Storage</a>
 </li>
@@ -361,7 +365,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___component.html#a384357d6056579d61db84de3e50cfc34">D_Component</a>
 </li>
 <li>set_PathOut()
-: <a class="el" href="class_d___video_writer.html#a243e983ff9439e139ebf40915bc3be12">D_VideoWriter</a>
+: <a class="el" href="class_d___video_writer.html#a53f1803a17837ab66de3b7ce9235ba23">D_VideoWriter</a>
 </li>
 <li>Set_PlotType()
 : <a class="el" href="class_d___viewer.html#afd3ed9c43c51012178886c78ae8ab143">D_Viewer</a>
@@ -452,7 +456,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___storage.html#af92988515cb3b692b372c9fd17a61d23">D_Storage</a>
 </li>
 <li>set_Size()
-: <a class="el" href="class_d___video_writer.html#af2fbc530002e16fa75838f2f6ea5b1fd">D_VideoWriter</a>
+: <a class="el" href="class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea">D_VideoWriter</a>
 , <a class="el" href="class_d___vis_dat___header.html#a50f6042671fd05f4f306b37f0e67c25a">D_VisDat_Header</a>
 </li>
 <li>set_size_Dim()
@@ -546,7 +550,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="class_d___bio___nucleus_blob.html#aa9f40983c3dffe17376b1399b8554cb3">D_Bio_NucleusBlob</a>
 </li>
 <li>set_VideoPath()
-: <a class="el" href="class_d___video_slicer.html#a16b34744e917a22c599f5bcffde1f358">D_VideoSlicer</a>
+: <a class="el" href="class_d___video_slicer.html#a67dde4db413b0e8a1d11a12a6ceb134a">D_VideoSlicer</a>
 </li>
 <li>Set_ViewerMode()
 : <a class="el" href="class_d___viewer.html#a8ccd99d77dea40f9440412a4f7cd4b42">D_Viewer</a>
@@ -611,6 +615,12 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="class_d___img___proc__2d_factory.html#ab5c2c1e44f0695f4b198e3809186c5e0">D_Img_Proc_2dFactory</a>
 , <a class="el" href="class_d___vis_dat___proc.html#abae234d9db0d453b9924f3515e50ee51">D_VisDat_Proc</a>
 </li>
+<li>Shift_2D_h()
+: <a class="el" href="class_d___math.html#ad4b06a7dee91bc5158dc7b29eec88d2d">D_Math</a>
+</li>
+<li>Shift_3D_h()
+: <a class="el" href="class_d___math.html#ae82d7a3c91326dcce6a657b3e74ad7c1">D_Math</a>
+</li>
 <li>signal_dev2med()
 : <a class="el" href="class_d___bio___focus.html#abb40ca49ceb57d676f639cb1576a8ee9">D_Bio_Focus</a>
 , <a class="el" href="class_d___bio___nucleus_blob.html#aa8fee59e82c38b57b317f5dc74236740">D_Bio_NucleusBlob</a>
@@ -618,6 +628,18 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>signal_median()
 : <a class="el" href="class_d___bio___focus.html#af4fcdb2f58a1f23dc26a788dbc03b25b">D_Bio_Focus</a>
 , <a class="el" href="class_d___bio___nucleus_blob.html#a9bd7f703efcd3638b0c0250e619ac155">D_Bio_NucleusBlob</a>
+</li>
+<li>Similarity_2D_h_deg()
+: <a class="el" href="class_d___math.html#a15d863b85e122b997a7b1ba6806bf2ee">D_Math</a>
+</li>
+<li>Similarity_2D_h_rad()
+: <a class="el" href="class_d___math.html#a10cb0f3058930b569700cb23202822ca">D_Math</a>
+</li>
+<li>Similarity_3D_h_deg()
+: <a class="el" href="class_d___math.html#a75b7a5393be937a3fa471f593dd52f30">D_Math</a>
+</li>
+<li>Similarity_3D_h_rad()
+: <a class="el" href="class_d___math.html#ad0346e89dcb98167587a564de8cebccc">D_Math</a>
 </li>
 <li>size()
 : <a class="el" href="class_d___component___list.html#a39d1b2ce304399503e229f83e3f4e6f4">D_Component_List</a>
@@ -700,7 +722,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___img___proc.html#a6085b1fe01e65067b7f5b5285314bbe3">D_Img_Proc</a>
 </li>
 <li>start()
-: <a class="el" href="class_d___finish_time_prognosis.html#a8c7e0d65a426e4d3a0df10698db0287b">D_FinishTimePrognosis</a>
+: <a class="el" href="class_d___finish_time_prognosis.html#afa17cd9ba65027f413c25f9f2f7639c5">D_FinishTimePrognosis</a>
 </li>
 <li>Stat_ofPixelvalues()
 : <a class="el" href="class_d___img___proc.html#a0a585d909056a48f461d771be6e681cb">D_Img_Proc</a>

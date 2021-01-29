@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
+   &#160;<span id="projectnumber">v1_3_1 (29.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -102,15 +102,23 @@ $(document).ready(function(){initNavTree('class_d___physics.html',''); initResiz
 Public Member Functions</h2></td></tr>
 <tr class="memitem:adbbbb832bbee4b918ff3fac33dacfd31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#adbbbb832bbee4b918ff3fac33dacfd31">D_Physics</a> ()</td></tr>
 <tr class="separator:adbbbb832bbee4b918ff3fac33dacfd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af295bfa181b720d95f94c0aa1339dd3b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#af295bfa181b720d95f94c0aa1339dd3b">Force_Gravity</a> (double m)</td></tr>
-<tr class="separator:af295bfa181b720d95f94c0aa1339dd3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d3d6b37a10325c9e1658ef22a72d4f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a8d3d6b37a10325c9e1658ef22a72d4f4">Force_Upthrust</a> (double V, double rho)</td></tr>
-<tr class="separator:a8d3d6b37a10325c9e1658ef22a72d4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a7425b7c64321c68159f25300e1eb9cf8"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a7425b7c64321c68159f25300e1eb9cf8">FieldStrength</a> (Mat Position, Mat Source, double fieldstrength, double phaseoffset_rad, double wavelength_m)</td></tr>
+<tr class="separator:a7425b7c64321c68159f25300e1eb9cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48023be8cfda42bec719bb06162657d8"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a48023be8cfda42bec719bb06162657d8">FieldStrength</a> (Point3d Position, Point3d Source, double fieldstrength, double phaseoffset_rad, double wavelength_m)</td></tr>
+<tr class="separator:a48023be8cfda42bec719bb06162657d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dd6e0f4155edc37117c850c7ac66eee"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a8dd6e0f4155edc37117c850c7ac66eee">Interference</a> (Mat Position, vector&lt; Mat &gt; v_Source, vector&lt; double &gt; v_fieldstrength, vector&lt; double &gt; v_phaseoffset_rad, double wavelength_m)</td></tr>
+<tr class="separator:a8dd6e0f4155edc37117c850c7ac66eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f4e0abb57959415401e0df59cc91c76"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a9f4e0abb57959415401e0df59cc91c76">Interference</a> (Point3d Position, vector&lt; Point3d &gt; v_Source, vector&lt; double &gt; v_fieldstrength, vector&lt; double &gt; v_phaseoffset_rad, double wavelength_m)</td></tr>
+<tr class="separator:a9f4e0abb57959415401e0df59cc91c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade62fac75044377200c474d7a09ea088"><td class="memItemLeft" align="right" valign="top">static function&lt; double(double v)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#ade62fac75044377200c474d7a09ea088">Force_Drag</a> (double rho, double A, double cw)</td></tr>
 <tr class="separator:ade62fac75044377200c474d7a09ea088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af295bfa181b720d95f94c0aa1339dd3b"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#af295bfa181b720d95f94c0aa1339dd3b">Force_Gravity</a> (double m)</td></tr>
+<tr class="separator:af295bfa181b720d95f94c0aa1339dd3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3d6b37a10325c9e1658ef22a72d4f4"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___physics.html#a8d3d6b37a10325c9e1658ef22a72d4f4">Force_Upthrust</a> (double V, double rho)</td></tr>
+<tr class="separator:a8d3d6b37a10325c9e1658ef22a72d4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___physics.html" title="The D_Physics class Basic physics formulas.">D_Physics</a> class Basic physics formulas. </p>
@@ -133,6 +141,114 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7425b7c64321c68159f25300e1eb9cf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7425b7c64321c68159f25300e1eb9cf8">&#9670;&nbsp;</a></span>FieldStrength() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Physics::FieldStrength </td>
+          <td>(</td>
+          <td class="paramtype">Mat&#160;</td>
+          <td class="paramname"><em>Position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat&#160;</td>
+          <td class="paramname"><em>Source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fieldstrength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>phaseoffset_rad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wavelength_m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48023be8cfda42bec719bb06162657d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48023be8cfda42bec719bb06162657d8">&#9670;&nbsp;</a></span>FieldStrength() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Physics::FieldStrength </td>
+          <td>(</td>
+          <td class="paramtype">Point3d&#160;</td>
+          <td class="paramname"><em>Position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point3d&#160;</td>
+          <td class="paramname"><em>Source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fieldstrength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>phaseoffset_rad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wavelength_m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ade62fac75044377200c474d7a09ea088"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade62fac75044377200c474d7a09ea088">&#9670;&nbsp;</a></span>Force_Drag()</h2>
 
@@ -180,6 +296,9 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">double D_Physics::Force_Gravity </td>
@@ -189,6 +308,11 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -198,6 +322,9 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">double D_Physics::Force_Upthrust </td>
@@ -217,6 +344,119 @@ Static Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8dd6e0f4155edc37117c850c7ac66eee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dd6e0f4155edc37117c850c7ac66eee">&#9670;&nbsp;</a></span>Interference() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Physics::Interference </td>
+          <td>(</td>
+          <td class="paramtype">Mat&#160;</td>
+          <td class="paramname"><em>Position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; Mat &gt;&#160;</td>
+          <td class="paramname"><em>v_Source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_fieldstrength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_phaseoffset_rad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wavelength_m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f4e0abb57959415401e0df59cc91c76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f4e0abb57959415401e0df59cc91c76">&#9670;&nbsp;</a></span>Interference() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Physics::Interference </td>
+          <td>(</td>
+          <td class="paramtype">Point3d&#160;</td>
+          <td class="paramname"><em>Position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; Point3d &gt;&#160;</td>
+          <td class="paramname"><em>v_Source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_fieldstrength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_phaseoffset_rad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wavelength_m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

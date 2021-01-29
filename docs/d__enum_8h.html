@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_6 (14.01.21)</span>
+   &#160;<span id="projectnumber">v1_3_1 (29.01.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -123,6 +123,7 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca89da2ca33aa974c8ef20608061612172">c_PL_MEGA_FOCI</a>, 
 <a class="el" href="d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca6cefa1a49b18d4f19fc31757d13f4e54">c_PL_HUANG_VIS</a>, 
+<a class="el" href="d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca946330a9a8077f1f10a97dfbbe00066b">c_PL_SOFTMAX</a>, 
 <a class="el" href="d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca55c37be7979656678f96d10c7bca309f">c_PL_NUMBER_OF</a>
 <br />
  }</td></tr>
@@ -207,6 +208,7 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20">ER_DescriptorsUnkown</a>, 
 <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7">ER_StreamNotOpen</a>, 
+<a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e">ER_NumericProblem</a>, 
 <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845">ER_number_of</a>
 <br />
  }</td></tr>
@@ -294,6 +296,40 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:ac7abb455473ea9941d15ff230b657464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af132022faaa71bed2d0cd26342627021"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021">D_WATERSHED_FILL</a> { <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021ae8259067ec137e7950fc75ff1f77c963">c_WATERSHED_FILL_MASK_DIST_INV</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a36a92b35a79e1b399076e853a7322464">c_WATERSHED_FILL_MASK_DIST</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a4a874aa8da304782e6d9bc5b5919a171">c_WATERSHED_FILL_MASK_COPY</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a9e1dc4bb56ce9fe228c2b75ae44d6946">c_WATERSHED_FILL_SOURCE_COPY</a>, 
+<br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a92b646ee0dedb9bf34a95b07e0ea146e">c_WATERSHED_FILL_SOURCE_INV</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a9dbb0cc0da23518f8076293d29804933">c_WATERSHED_FILL_SOURCE_LOG</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a1e0b4feb22e0667aa78f7a6d69b6fdd5">c_WATERSHED_FILL_SOURCE_MORPH_GRAD</a>, 
+<a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021a265524d21c319b7f5c2b1c0599e342f9">c_WATERSHED_FILL_NUMBER_OF</a>
+<br />
+ }</td></tr>
+<tr class="separator:af132022faaa71bed2d0cd26342627021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c56c4386a3afc381b693d86bfc0a219"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219">D_WATERSHED_MARKER</a> { <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219ad7f071f5c4b90cd2fc8bf99e21b28201">c_WATERSHED_MARKER_FILL_LOC_MIN</a>, 
+<a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219a4203b4b22d493591b68104fbaaa70a8e">c_WATERSHED_MARKER_SOURCE_COPY</a>, 
+<a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219a2af7ae52620ce2bdaedb28b2a4c562e1">c_WATERSHED_MARKER_SOURCE_LABELED</a>, 
+<a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219ab6a1926aeebdcf42841afd1f512362c5">c_WATERSHED_MARKER_SOURCE_LABELED_INV</a>, 
+<br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219add3422696eceaef1321c75bbbbf7fddf">c_WATERSHED_MARKER_NUMBER_OF</a>
+<br />
+ }</td></tr>
+<tr class="separator:a7c56c4386a3afc381b693d86bfc0a219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c34fea50a9c3c2809c5efc04bcd2a36"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36">D_WATERSHED_MASK</a> { <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a0b1b35f52266cc87741c86242d696150">c_WATERSHED_MASK_SOURCE_COPY</a>, 
+<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a079951c2db1546684c702973ce7a14b2">c_WATERSHED_MASK_SOURCE_BINARY_OTSU</a>, 
+<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a4616ae84ed8e3148473763672763ca2f">c_WATERSHED_MASK_SOURCE_BINARY_THRES</a>, 
+<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36abafa5009941f61f6d250bcc22d75d267">c_WATERSHED_MASK_FILL_BINARY_OTSU</a>, 
+<br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a2023a7af4cab0e405b27ae690ea3a0d4">c_WATERSHED_MASK_FILL_BINARY_THRES</a>, 
+<a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36acf794162e1788bb5a7c30129f98955ae">c_WATERSHED_MASK_NUMBER_OF</a>
+<br />
+ }</td></tr>
+<tr class="separator:a3c34fea50a9c3c2809c5efc04bcd2a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2da0a422a43eeea5877e36264fb11689"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a2da0a422a43eeea5877e36264fb11689">D_COLOR2MONO</a> { <br />
 &#160;&#160;<a class="el" href="d__enum_8h.html#a2da0a422a43eeea5877e36264fb11689a14bede91e87c86625b11f3f5f048a0d3">c_COL2MONO_GRAY</a>, 
 <a class="el" href="d__enum_8h.html#a2da0a422a43eeea5877e36264fb11689ac33671bd2a7b09d7b3aab1660322de13">c_COL2MONO_BLUE</a>, 
@@ -906,9 +942,9 @@ Enumerations</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a5a1d9a41437b3b9b0802b600e5372105"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a5a1d9a41437b3b9b0802b600e5372105">D_QS_State</a> = &quot;release&quot;</td></tr>
 <tr class="separator:a5a1d9a41437b3b9b0802b600e5372105"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a0bdc141a4d5850cea8a5c4759b369b55">D_QS_Version</a> = &quot;v1_2_6&quot;</td></tr>
+<tr class="memitem:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a0bdc141a4d5850cea8a5c4759b369b55">D_QS_Version</a> = &quot;v1_3_1&quot;</td></tr>
 <tr class="separator:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af01daf45b193fc7a686fd6787297328b"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#af01daf45b193fc7a686fd6787297328b">D_QS_Release</a> = &quot;14.01.2021&quot;</td></tr>
+<tr class="memitem:af01daf45b193fc7a686fd6787297328b"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#af01daf45b193fc7a686fd6787297328b">D_QS_Release</a> = &quot;29.01.2021&quot;</td></tr>
 <tr class="separator:af01daf45b193fc7a686fd6787297328b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcebdcfefab1f1af33333268daf70607"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#afcebdcfefab1f1af33333268daf70607">D_QS_Author</a> = &quot;David Eilenstein&quot;</td></tr>
 <tr class="separator:afcebdcfefab1f1af33333268daf70607"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -934,6 +970,12 @@ Variables</h2></td></tr>
 <tr class="separator:aa7b83b8f64812f3f890d8930b97d5b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ba7e2c05e08d1a3c2fdcf0d9dce65c0"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a8ba7e2c05e08d1a3c2fdcf0d9dce65c0">QSL_LoadMode</a></td></tr>
 <tr class="separator:a8ba7e2c05e08d1a3c2fdcf0d9dce65c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cf05a63bbbf312c69e29cec13db1add"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a4cf05a63bbbf312c69e29cec13db1add">QSL_WatershedFill</a></td></tr>
+<tr class="separator:a4cf05a63bbbf312c69e29cec13db1add"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f9f38c0cbcc34b9891607906b518e6b"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a8f9f38c0cbcc34b9891607906b518e6b">QSL_WatershedMarker</a></td></tr>
+<tr class="separator:a8f9f38c0cbcc34b9891607906b518e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55d887d33ab057533c2348b14ab70942"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a55d887d33ab057533c2348b14ab70942">QSL_WatershedMask</a></td></tr>
+<tr class="separator:a55d887d33ab057533c2348b14ab70942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f52ecabe529025e773db785831c9db4"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a1f52ecabe529025e773db785831c9db4">QSL_Color2Mono</a></td></tr>
 <tr class="separator:a1f52ecabe529025e773db785831c9db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb001e0387cc53aa7476729c8e53e70c"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#aeb001e0387cc53aa7476729c8e53e70c">QSL_VisTrafo_Crop</a></td></tr>
@@ -1335,6 +1377,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561ad72239a2fdc99bbaccd4e6a3bbd83ecd"></a>ER_KeypoitsUnknown&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20"></a>ER_DescriptorsUnkown&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7"></a>ER_StreamNotOpen&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e"></a>ER_NumericProblem&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845"></a>ER_number_of&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -1854,6 +1897,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a3a0cbf2168b972efbe640c5292e781dca5c6ae1c69b31ba6e42748bad67af8c50"></a>c_PL_AIR_DRAG_DETECT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a0cbf2168b972efbe640c5292e781dca89da2ca33aa974c8ef20608061612172"></a>c_PL_MEGA_FOCI&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a0cbf2168b972efbe640c5292e781dca6cefa1a49b18d4f19fc31757d13f4e54"></a>c_PL_HUANG_VIS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a0cbf2168b972efbe640c5292e781dca946330a9a8077f1f10a97dfbbe00066b"></a>c_PL_SOFTMAX&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a0cbf2168b972efbe640c5292e781dca55c37be7979656678f96d10c7bca309f"></a>c_PL_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -2215,6 +2259,73 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="af132022faaa71bed2d0cd26342627021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af132022faaa71bed2d0cd26342627021">&#9670;&nbsp;</a></span>D_WATERSHED_FILL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#af132022faaa71bed2d0cd26342627021">D_WATERSHED_FILL</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021ae8259067ec137e7950fc75ff1f77c963"></a>c_WATERSHED_FILL_MASK_DIST_INV&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a36a92b35a79e1b399076e853a7322464"></a>c_WATERSHED_FILL_MASK_DIST&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a4a874aa8da304782e6d9bc5b5919a171"></a>c_WATERSHED_FILL_MASK_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a9e1dc4bb56ce9fe228c2b75ae44d6946"></a>c_WATERSHED_FILL_SOURCE_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a92b646ee0dedb9bf34a95b07e0ea146e"></a>c_WATERSHED_FILL_SOURCE_INV&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a9dbb0cc0da23518f8076293d29804933"></a>c_WATERSHED_FILL_SOURCE_LOG&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a1e0b4feb22e0667aa78f7a6d69b6fdd5"></a>c_WATERSHED_FILL_SOURCE_MORPH_GRAD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af132022faaa71bed2d0cd26342627021a265524d21c319b7f5c2b1c0599e342f9"></a>c_WATERSHED_FILL_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7c56c4386a3afc381b693d86bfc0a219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c56c4386a3afc381b693d86bfc0a219">&#9670;&nbsp;</a></span>D_WATERSHED_MARKER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#a7c56c4386a3afc381b693d86bfc0a219">D_WATERSHED_MARKER</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7c56c4386a3afc381b693d86bfc0a219ad7f071f5c4b90cd2fc8bf99e21b28201"></a>c_WATERSHED_MARKER_FILL_LOC_MIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7c56c4386a3afc381b693d86bfc0a219a4203b4b22d493591b68104fbaaa70a8e"></a>c_WATERSHED_MARKER_SOURCE_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7c56c4386a3afc381b693d86bfc0a219a2af7ae52620ce2bdaedb28b2a4c562e1"></a>c_WATERSHED_MARKER_SOURCE_LABELED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7c56c4386a3afc381b693d86bfc0a219ab6a1926aeebdcf42841afd1f512362c5"></a>c_WATERSHED_MARKER_SOURCE_LABELED_INV&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7c56c4386a3afc381b693d86bfc0a219add3422696eceaef1321c75bbbbf7fddf"></a>c_WATERSHED_MARKER_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3c34fea50a9c3c2809c5efc04bcd2a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c34fea50a9c3c2809c5efc04bcd2a36">&#9670;&nbsp;</a></span>D_WATERSHED_MASK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36">D_WATERSHED_MASK</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36a0b1b35f52266cc87741c86242d696150"></a>c_WATERSHED_MASK_SOURCE_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36a079951c2db1546684c702973ce7a14b2"></a>c_WATERSHED_MASK_SOURCE_BINARY_OTSU&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36a4616ae84ed8e3148473763672763ca2f"></a>c_WATERSHED_MASK_SOURCE_BINARY_THRES&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36abafa5009941f61f6d250bcc22d75d267"></a>c_WATERSHED_MASK_FILL_BINARY_OTSU&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36a2023a7af4cab0e405b27ae690ea3a0d4"></a>c_WATERSHED_MASK_FILL_BINARY_THRES&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3c34fea50a9c3c2809c5efc04bcd2a36acf794162e1788bb5a7c30129f98955ae"></a>c_WATERSHED_MASK_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a6c6ac27819f93ec7815783e42e086bc2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c6ac27819f93ec7815783e42e086bc2">&#9670;&nbsp;</a></span>AXE_TICK_COUNT_DEFAULT</h2>
@@ -2279,7 +2390,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const QString D_QS_Release = &quot;14.01.2021&quot;</td>
+          <td class="memname">const QString D_QS_Release = &quot;29.01.2021&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2307,7 +2418,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const QString D_QS_Version = &quot;v1_2_6&quot;</td>
+          <td class="memname">const QString D_QS_Version = &quot;v1_3_1&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3200,7 +3311,8 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;Fourier Transformator (WIP)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;Air Drag Detect&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;Mega Foci tracker (WIP)&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Huang rank order filter visualization&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;Huang rank order filter visualization&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Softmax Classifier Visualization&quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
 </div>
@@ -3446,6 +3558,70 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">    <span class="stringliteral">&quot;Dynamic&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;Fixed&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4cf05a63bbbf312c69e29cec13db1add"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cf05a63bbbf312c69e29cec13db1add">&#9670;&nbsp;</a></span>QSL_WatershedFill</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_WatershedFill</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;Mask: Distance Invers&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Mask: Distance&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Mask: Unmodified&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Unmodified&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Inverted&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Laplace of Gaussian&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Morphological Gradient&quot;</span>,</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a8f9f38c0cbcc34b9891607906b518e6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f9f38c0cbcc34b9891607906b518e6b">&#9670;&nbsp;</a></span>QSL_WatershedMarker</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_WatershedMarker</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;Fill: Local Minima&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Unmodified&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Labeled&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Inverted Labeled&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a55d887d33ab057533c2348b14ab70942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55d887d33ab057533c2348b14ab70942">&#9670;&nbsp;</a></span>QSL_WatershedMask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_WatershedMask</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Unmodified&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Binary Otsu&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Source: Binary Thres&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Fill: Binary Otsu&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Fill: Binary Thres&quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
 </div>

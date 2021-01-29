@@ -68,6 +68,7 @@ var hierarchy =
       [ "D_MAKRO_Mitochondrien", "class_d___m_a_k_r_o___mitochondrien.html", null ],
       [ "D_MAKRO_Osteoclasts", "class_d___m_a_k_r_o___osteoclasts.html", null ],
       [ "D_MAKRO_SegmentationAssistant", "class_d___m_a_k_r_o___segmentation_assistant.html", null ],
+      [ "D_MAKRO_SoftmaxVisualization", "class_d___m_a_k_r_o___softmax_visualization.html", null ],
       [ "D_MAKRO_Visualization", "class_d___m_a_k_r_o___visualization.html", null ],
       [ "D_stat_tester", "class_d__stat__tester.html", null ],
       [ "D_StepWindow", "class_d___step_window.html", null ],

@@ -1,6 +1,7 @@
 var class_d___bio___focus =
 [
     [ "D_Bio_Focus", "class_d___bio___focus.html#adf7bf6556c4dffdbf960b608aefd48e6", null ],
+    [ "D_Bio_Focus", "class_d___bio___focus.html#a1eeaf5e260db9704bb961ec5d4891b58", null ],
     [ "D_Bio_Focus", "class_d___bio___focus.html#a0df4c2bde2b8bea6c1d8a80183351c87", null ],
     [ "D_Bio_Focus", "class_d___bio___focus.html#a739eea24d1f13f028d0d85db61b029f5", null ],
     [ "area", "class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9", null ],

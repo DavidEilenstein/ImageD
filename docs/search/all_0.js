@@ -15,8 +15,10 @@ var searchData=
   ['add_5fstep_12',['Add_Step',['../class_d___main_window.html#ae7d53839d5028c4800bb63b75086ec85',1,'D_MainWindow']]],
   ['add_5ftext_13',['add_Text',['../class_d___p_d_f___writer.html#ade535bf0b66810bcf84d1646cf317057',1,'D_PDF_Writer::add_Text(QString QS_text, int size=-1, int align=Qt::AlignLeft)'],['../class_d___p_d_f___writer.html#a68185b28fd95f6d488e9dcfda3c56023',1,'D_PDF_Writer::add_Text(QString QS_text, double x1_rel, double x2_rel, double y1_rel, double y2_rel, int size=-1, int align=Qt::AlignLeft)']]],
   ['addframe_14',['AddFrame',['../class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e',1,'D_VideoWriter::AddFrame(Mat frame2add)'],['../class_d___video_writer.html#af685530f186d6c40f762b63790bf2a89',1,'D_VideoWriter::AddFrame(Mat *frame2add)']]],
-  ['anglerad_15',['AngleRad',['../class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e',1,'D_Math']]],
-  ['area_16',['area',['../class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9',1,'D_Bio_Focus::area()'],['../class_d___bio___nucleus_blob.html#ab63b5d9e59d3d4937963d56043cbdfc9',1,'D_Bio_NucleusBlob::area()']]],
-  ['axe_5ftick_5fcount_5fdefault_17',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
-  ['axetrans_18',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
+  ['affinity_5f2d_5fh_15',['Affinity_2D_h',['../class_d___math.html#ab77610f77d6a55c290c5dcc80d4cbab4',1,'D_Math']]],
+  ['affinity_5f3d_5fh_16',['Affinity_3D_h',['../class_d___math.html#a3e696ea988b0d12f84bad4af5034ce77',1,'D_Math']]],
+  ['anglerad_17',['AngleRad',['../class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e',1,'D_Math']]],
+  ['area_18',['area',['../class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9',1,'D_Bio_Focus::area()'],['../class_d___bio___nucleus_blob.html#ab63b5d9e59d3d4937963d56043cbdfc9',1,'D_Bio_NucleusBlob::area()']]],
+  ['axe_5ftick_5fcount_5fdefault_19',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
+  ['axetrans_20',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
 ];
