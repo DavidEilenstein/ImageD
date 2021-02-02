@@ -113,10 +113,18 @@ private slots:
     int  Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t);
 
     //set dims
-    void set_dataset_dim_x(int x) {if(!state_dataset_dim_set) {dataset_dim_mosaic_x = x; dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
-    void set_dataset_dim_y(int y) {if(!state_dataset_dim_set) {dataset_dim_mosaic_y = y; dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
-    void set_dataset_dim_t(int t) {if(!state_dataset_dim_set) {dataset_dim_t = t; dataset_dim_tzp = dataset_dim_t * dataset_dim_z * dataset_dim_p;}}
-    void set_dataset_dim_z(int z) {if(!state_dataset_dim_set) {dataset_dim_z = z; dataset_dim_tzp = dataset_dim_t * dataset_dim_z * dataset_dim_p;}}
+    void set_dataset_dim_x(int x)               {if(!state_dataset_dim_set) {dataset_dim_mosaic_x = x;      dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
+    void set_dataset_dim_y(int y)               {if(!state_dataset_dim_set) {dataset_dim_mosaic_y = y;      dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
+    void set_dataset_dim_t(int t)               {if(!state_dataset_dim_set) {dataset_dim_t = t;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
+    void set_dataset_dim_z(int z)               {if(!state_dataset_dim_set) {dataset_dim_z = z;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
+    void set_dataset_dim_p_used(int p_used)     {if(!state_dataset_dim_set) {dataset_dim_p_used = p_used;   dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;} Update_PageIndexNames();}
+    void set_dataset_dim_p_exist(int p_exist)   {if(!state_dataset_dim_set) {dataset_dim_p_exist = p_exist; dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;} Update_PageIndexNames();}
+
+    //indices
+    void set_index_GFP(int i)                   {if(static_cast<size_t>(i) < dataset_dim_p_used && i >= 0) {index_GFP = i; Update_PageIndexNames();}}
+    void set_index_RFP(int i)                   {if(static_cast<size_t>(i) < dataset_dim_p_used && i >= 0) {index_RFP = i; Update_PageIndexNames();}}
+    void Update_PageIndexNames();
+
 
     //status info to statius panel
     void StatusSet(QString NewStatus);
@@ -188,6 +196,7 @@ private:
     bool                                state_stack_processing = false;
     bool                                state_image_decomposed = false;
     bool                                state_first_proc_on_start = true;
+    bool                                state_page_indices_consistent = true;
 
     //data files
     QFileInfoList                       FIL_Images;
@@ -204,10 +213,12 @@ private:
     size_t                              dataset_dim_mosaic_x = 15;
     size_t                              dataset_dim_mosaic_y = 15;
     size_t                              dataset_dim_mosaic_xy = 15 * 15;
-    size_t                              dataset_dim_z = 6;
-    size_t                              dataset_dim_t = 42;
-    const size_t                        dataset_dim_p = 2;
-    size_t                              dataset_dim_tzp = 42 * 6 * 2;
+    size_t                              dataset_dim_z = 8;
+    size_t                              dataset_dim_t = 49;
+    size_t                              dataset_dim_p_used = 2;
+    size_t                              dataset_dim_p_exist = 3;
+    size_t                              dataset_dim_tzp_used = 49 * 8 * 2;
+    size_t                              dataset_dim_tzp_exist = 49 * 8 * 3;
     size_t                              dataset_dim_img_x = 1004;
     size_t                              dataset_dim_img_y = 1002;
     int                                 dataset_type_mat = CV_16UC1;
@@ -228,6 +239,20 @@ private:
 
     //img proc
     vector<D_VisDat_Obj>                vVD_ImgProcSteps;
+
+    //old indices of border images (to be used again on new iteration if indices fit)
+    int                                 index_old_TL_x_mosaic   = -1;
+    int                                 index_old_TL_y_mosaic   = -1;
+    int                                 index_old_TL_t          = -1;
+    int                                 index_old_BL_x_mosaic   = -1;
+    int                                 index_old_BL_y_mosaic   = -1;
+    int                                 index_old_BL_t          = -1;
+    int                                 index_old_TR_x_mosaic   = -1;
+    int                                 index_old_TR_y_mosaic   = -1;
+    int                                 index_old_TR_t          = -1;
+    int                                 index_old_BR_x_mosaic   = -1;
+    int                                 index_old_BR_y_mosaic   = -1;
+    int                                 index_old_BR_t          = -1;
 
     //overview
     double                              overview_scale = 0.10;
@@ -251,12 +276,11 @@ private:
     qint64                              time_LastSingleImgProc = 0;
 
     //Pages (values)
-    enum PAGES {
-        PAGE_GFP,
-        PAGE_RFP,
-        PAGES_NUMBER_OF
-    };
-    const QStringList QSL_Pages = {
+    size_t index_page_other = 0;
+    size_t index_GFP = 1;
+    size_t index_RFP = 2;
+    QStringList QSL_Pages = {
+        "Other",
         "GFP",
         "RFP"
     };

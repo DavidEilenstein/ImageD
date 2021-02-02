@@ -13,13 +13,13 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::D_MAKRO_MegaFoci)
 {
-    //Ui
+    ///Setup Ui
     ui->setupUi(this);
 
-    //Storeage
+    ///Pointer to storeage
     pStore = pStorage;
 
-    //Image
+    ///Init images
     MA_Show = pStore->get_Adress(0)->clone();
     MA_OverviewSmall_Show = pStore->get_Adress(0)->clone();
     MA_OverviewBig_Show = pStore->get_Adress(0)->clone();
@@ -31,7 +31,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     for(int s = 0; s < STEP_NUMBER_OF; s++)
         vVD_ImgProcSteps[s] = pStore->get_VD(0);
 
-    //GraphicsView
+    ///init GraphicsView
     Viewer_Main.set_GV(ui->graphicsView_ImgProc);
     Viewer_Main.Set_VisTrafo_ActiveBool(true);
     Viewer_Main.Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
@@ -53,7 +53,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     Viewer_OverviewBig.Set_VisTrafo_SpreadInMax(3000.0);
     Viewer_OverviewBig.Set_VisTrafo_Range(10000.0);
 
-    //statusbar
+    ///set up statusbar
     L_SB_ValueAtCursor = new QLabel(this);
     L_SB_ValueAtCursor->setToolTip("Value under current cursor position");
     ui->statusbar->addPermanentWidget(L_SB_ValueAtCursor);
@@ -62,7 +62,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     L_SB_InfoVD->setToolTip("Info about current VisDat");
     ui->statusbar->addPermanentWidget(L_SB_InfoVD);
 
-    //connects
+    ///connects
     //viewer
     connect(ui->groupBox_VisTrafo,                          SIGNAL(clicked(bool)),                      &Viewer_Main,       SLOT(Set_VisTrafo_ActiveBool(bool)));
     connect(ui->doubleSpinBox_VisTrafo_CropMin,             SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_SpreadInMin(double)));
@@ -121,6 +121,10 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(ui->spinBox_DataDim_Y,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_y(int)));
     connect(ui->spinBox_DataDim_Z,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_z(int)));
     connect(ui->spinBox_DataDim_T,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_t(int)));
+    connect(ui->spinBox_DataDim_P_used,                     SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_p_used(int)));
+    connect(ui->spinBox_DataDim_P_exist,                    SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_p_exist(int)));
+    connect(ui->spinBox_PageIndex_GFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(set_index_GFP(int)));
+    connect(ui->spinBox_PageIndex_RFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(set_index_RFP(int)));
     //overview big
     connect(ui->spinBox_OverviewBig_T,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
 
@@ -128,7 +132,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(ui->pushButton_ProcFullStack,                   SIGNAL(clicked(bool)),                      this,               SLOT(Stack_Process_All()));
 
 
-    //on start
+    ///do stuff to do on start
     this->showMaximized();
     StatusSet("Started this awesome piece of software");
     Update_Views();
@@ -136,16 +140,31 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     setWindowTitle("ImageD - Monster Image Handler and Foci Detector (suggestions for a better name are welcome)");
     Populate_CB_AtStart();
 
-    //update ui accesibility
+    ///update ui accesibility
     ui->groupBox_Dataset->setEnabled(true);
     ui->groupBox_Viewport->setEnabled(false);
     ui->groupBox_VisTrafo->setEnabled(false);
     ui->groupBox_View->setEnabled(false);
     ui->groupBox_Control->setEnabled(false);
 
-    //set default indices
+    ///set default indices
     ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);
     ui->stackedWidget_View->setCurrentIndex(VIEW_PAGE_IMG_PROC);
+
+    ///get dataset attributes
+    /*
+    set_dataset_dim_x(ui->spinBox_DataDim_X->value());
+    set_dataset_dim_y(ui->spinBox_DataDim_Y->value());
+    set_dataset_dim_z(ui->spinBox_DataDim_Z->value());
+    set_dataset_dim_t(ui->spinBox_DataDim_T->value());
+    set_dataset_dim_p_used(ui->spinBox_DataDim_P_used->value());
+    set_dataset_dim_p_exist(ui->spinBox_DataDim_P_exist->value());
+    set_index_GFP(ui->spinBox_PageIndex_GFP->value());
+    set_index_RFP(ui->spinBox_PageIndex_RFP->value());
+    Update_PageIndexNames();
+    */
+
+    ///start status
     StatusSet("Ready to serve your will my master");
     StatusSet("I'm hungry, please feed dataset");
 }
@@ -370,49 +389,109 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_MAIN:
     {
-        ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
-                dataset_pos_x,
-                dataset_pos_y,
-                dataset_pos_t),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_LOAD_MAIN - Load main image");
+        size_t index_source_x = dataset_pos_x;
+        size_t index_source_y = dataset_pos_y;
+        size_t index_source_t = dataset_pos_t;
+
+        if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT];
+        else if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
+        else if(index_source_x == index_old_TL_x_mosaic && index_source_y == index_old_TL_y_mosaic && index_source_t == index_old_TL_t)
+            break;
+        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
+        else
+            ERR(Load_Image_full_ZP(
+                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
+                    index_source_x,
+                    index_source_y,
+                    index_source_t),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_LOAD_MAIN - Load main image");
+
+        //remember this image's position to maybe use it in next iteration if indeces fit
+        index_old_TL_x_mosaic   = index_source_x;
+        index_old_TL_y_mosaic   = index_source_y;
+        index_old_TL_t          = index_source_t;
     }
         break;
 
     case STEP_PRE_LOAD_RIGHT:
     {
-        ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
-                dataset_pos_x + 1,
-                dataset_pos_y,
-                dataset_pos_t),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_LOAD_RIGHT - Load border image right");
+        size_t index_source_x = dataset_pos_x + 1;
+        size_t index_source_y = dataset_pos_y;
+        size_t index_source_t = dataset_pos_t;
+
+        if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
+            break;
+        else if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
+        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
+        else
+            ERR(Load_Image_full_ZP(
+                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
+                    index_source_x,
+                    index_source_y,
+                    index_source_t),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_LOAD_RIGHT - Load border image right");
+
+        //remember this image's position to maybe use it in next iteration if indeces fit
+        index_old_TR_x_mosaic   = index_source_x;
+        index_old_TR_y_mosaic   = index_source_y;
+        index_old_TR_t          = index_source_t;
     }
         break;
 
     case STEP_PRE_LOAD_BOTTOM:
     {
-        ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
-                dataset_pos_x,
-                dataset_pos_y + 1,
-                dataset_pos_t),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_LOAD_BOTTOM - Load border image bottom");
+        size_t index_source_x = dataset_pos_x;
+        size_t index_source_y = dataset_pos_y + 1;
+        size_t index_source_t = dataset_pos_t;
+
+        if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
+            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
+        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
+            break;
+        else
+            ERR(Load_Image_full_ZP(
+                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
+                    index_source_x,
+                    index_source_y,
+                    index_source_t),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_LOAD_BOTTOM - Load border image bottom");
+
+        //remember this image's position to maybe use it in next iteration if indeces fit
+        index_old_BL_x_mosaic   = index_source_x;
+        index_old_BL_y_mosaic   = index_source_y;
+        index_old_BL_t          = index_source_t;
     }
         break;
 
     case STEP_PRE_LOAD_BOTTOM_RIGHT:
     {
-        ERR(Load_Image_full_ZP(
-                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
-                dataset_pos_x + 1,
-                dataset_pos_y + 1,
-                dataset_pos_t),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_LOAD_BOTTOM_RIGHT - Load border image bottom right");
+        size_t index_source_x = dataset_pos_x + 1;
+        size_t index_source_y = dataset_pos_y + 1;
+        size_t index_source_t = dataset_pos_t;
+
+        if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
+            break;
+        else
+            ERR(Load_Image_full_ZP(
+                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
+                    index_source_x,
+                    index_source_y,
+                    index_source_t),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_LOAD_BOTTOM_RIGHT - Load border image bottom right");
+
+        //remember this image's position to maybe use it in next iteration if indeces fit
+        index_old_BR_x_mosaic   = index_source_x;
+        index_old_BR_y_mosaic   = index_source_y;
+        index_old_BR_t          = index_source_t;
     }
         break;
 
@@ -898,23 +977,23 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 {
     state_image_decomposed = false;
 
-    //foci segmentation
+    ///vector od foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
     vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_P0_SELECT_AREA;
     vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_P1_SELECT_AREA;
     vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
 
-    //values
-    vector<size_t> vIndices_Values(PAGES_NUMBER_OF);
-    vIndices_Values[PAGE_GFP]   = STEP_PCK_P0;
-    vIndices_Values[PAGE_RFP]   = STEP_PCK_P1;
+    ///list of value image indices (GFP and RFP)
+    vector<size_t> vIndices_Values(2);
+    vIndices_Values[0] = STEP_PCK_P0;
+    vIndices_Values[1] = STEP_PCK_P1;
 
-    //moisaik offset
+    ///geometric moisaik offset in pixels
     Point MosaikOffset(
                 ui->spinBox_Viewport_X->value() * static_cast<int>(dataset_dim_img_x * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)),
                 ui->spinBox_Viewport_Y->value() * static_cast<int>(dataset_dim_img_y * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)));
 
-    //decomposition
+    ///calculate image decomposition to bio info format
     StatusSet("Nuclei image decomposition");
     D_Bio_NucleusImage ImageDecomp;
     int ER = ImageDecomp.calc_NucleiDecomposition(
@@ -934,12 +1013,15 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     state_image_decomposed = true;
 
-    //save data
+    ///save data in files
     if(state_stack_processing)
+    {
+        StatusSet("Save decomposition in files");
         ERR(
                 ImageDecomp.save(DIR_SaveDetections.path()),
                 "Update_ImageDecomposition",
                 "ImageDecomp.save(DIR_SaveDetections.path())");
+    }
 }
 
 void D_MAKRO_MegaFoci::Stack_Process_All()
@@ -1145,7 +1227,7 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     ui->spinBox_Viewport_T->setMaximum(static_cast<int>(dataset_dim_t - 1));
     ui->spinBox_OverviewBig_T->setMaximum(static_cast<int>(dataset_dim_t - 1));
     ui->horizontalSlider_OverviewBig_T->setMaximum(static_cast<int>(dataset_dim_t - 1));
-    ui->spinBox_Viewport_P->setMaximum(static_cast<int>(dataset_dim_p - 1));
+    ui->spinBox_Viewport_P->setMaximum(static_cast<int>(dataset_dim_p_exist - 1));
 
     //update ui accesibility
     ui->groupBox_Dataset->setEnabled(false);
@@ -1306,18 +1388,19 @@ bool D_MAKRO_MegaFoci::Load_Image(Mat *pMA_Target, size_t x, size_t y, size_t z,
 
 int D_MAKRO_MegaFoci::Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t)
 {
-    //slices needed
+    ///vector of needed slices
     vector<D_VisDat_Slice_2D> v2D_SlicesTarget;
     vector<int> vI_PageSource;
 
-    //Loop z and p to get indices of all needed images
+    ///Loop z and p to get indices of all needed images
     for(size_t z = 0; z < dataset_dim_z; z++)
-        for(size_t p = 0; p < dataset_dim_p; p++)
+        for(size_t p = 0; p < dataset_dim_p_exist; p++)
         {
             v2D_SlicesTarget.push_back(D_VisDat_Slice_2D(-1, -1, static_cast<int>(z), 0, 0, static_cast<int>(p)));
             vI_PageSource.push_back(static_cast<int>(get_index_of_page(static_cast<int>(z), static_cast<int>(t), static_cast<int>(p))));
         }
 
+    ///Create sub VisDat from needed page vector
     return D_VisDat_Proc::Create_VD_PageVector_or0(
                 pVD_Target,
                 FIL_Images[static_cast<int>(get_index_of_image(x, y))],
@@ -1327,7 +1410,7 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, siz
                     static_cast<int>(dataset_dim_z),
                     1,
                     1,
-                    static_cast<int>(dataset_dim_p)),
+                    static_cast<int>(dataset_dim_p_exist)),
                 vI_PageSource,
                 v2D_SlicesTarget,
                 c_DIM_X,
@@ -1338,12 +1421,12 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, siz
 
 int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t)
 {
-    //Load TL
+    ///Load Top Left
     D_VisDat_Obj VD_tmp_TL;
     if(Load_Image_full_ZP(&VD_tmp_TL, x, y, t) != ER_okay)
         return false;
 
-    //Load TR
+    ///Load Top Right
     D_VisDat_Obj VD_tmp_TR;
     if(x < dataset_dim_mosaic_x)
     {
@@ -1353,7 +1436,7 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
     else
         VD_tmp_TR = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
 
-    //Load TR
+    ///Load Bottom Left
     D_VisDat_Obj VD_tmp_BL;
     if(y < dataset_dim_mosaic_y)
     {
@@ -1363,7 +1446,7 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
     else
         VD_tmp_BL = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
 
-    //Load TR
+    ///Load Bottom Right
     D_VisDat_Obj VD_tmp_BR;
     if(x < dataset_dim_mosaic_x || y < dataset_dim_mosaic_y)
     {
@@ -1373,7 +1456,7 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
     else
         VD_tmp_BR = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
 
-    //Stitch
+    ///Stitching
     int ER = D_VisDat_Proc::Stitch_Border_rel(
                 D_VisDat_Slicing(c_SLICE_2D_XZ),
                 pVD_Target,
@@ -1391,6 +1474,34 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
         ERR(ER, "Load_Image_full_ZP_Stitched", "Stitch_Border_rel");
 
     return ER;
+}
+
+void D_MAKRO_MegaFoci::Update_PageIndexNames()
+{
+    ///resize page name list
+    QSL_Pages.clear();
+    QSL_Pages.reserve(dataset_dim_p_exist);
+
+    ///fill page name list with names
+    QSL_Pages[index_GFP] = "GFP";
+    QSL_Pages[index_RFP] = "RFP";
+    for(size_t i = 0; i < static_cast<size_t>(QSL_Pages.size()); i++)
+        if(i != index_GFP)
+            if(i != index_RFP)
+            {
+                QSL_Pages[i] = "Other";
+                index_page_other = i;
+            }
+
+    ///check, if indices are doubled
+    state_page_indices_consistent =
+            index_GFP != index_page_other &&
+            index_GFP != index_RFP &&
+            index_RFP != index_page_other;
+
+    ///show correct page name in ui
+    if(ui->spinBox_Viewport_P->value() < QSL_Pages.size())
+        ui->spinBox_Viewport_P->setSuffix(" (" + QSL_Pages[ui->spinBox_Viewport_P->value()] + ")");
 }
 
 void D_MAKRO_MegaFoci::StatusSet(QString NewStatus)
@@ -1417,7 +1528,7 @@ void D_MAKRO_MegaFoci::ERR(int err, QString func, QString detail)
 {
     ER.ERR(err, "D_MAKRO_MegaFoci", func, detail);
     if(err != ER_okay)
-        StatusSet("ERROR " + QSL_Errors[err] + "Function:" + func + "Detail: " + detail);
+        StatusSet("ERROR " + QSL_Errors[err] + ", Function:" + func + ", Detail: " + detail);
 }
 
 size_t D_MAKRO_MegaFoci::get_index_of_image(size_t x, size_t y)
@@ -1428,7 +1539,7 @@ size_t D_MAKRO_MegaFoci::get_index_of_image(size_t x, size_t y)
 
 size_t D_MAKRO_MegaFoci::get_index_of_page(size_t z, size_t t, size_t p)
 {
-    size_t idx_tzp = t * dataset_dim_z * dataset_dim_p + z * dataset_dim_p + p;
+    size_t idx_tzp = t * dataset_dim_z * dataset_dim_p_exist + z * dataset_dim_p_exist + p;
     return idx_tzp < dataset_dim_mosaic_xy ? idx_tzp : 0;
 }
 
@@ -1467,7 +1578,7 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
 
 void D_MAKRO_MegaFoci::on_spinBox_Viewport_P_valueChanged(int arg1)
 {
-    if(static_cast<size_t>(arg1) < dataset_dim_p)
+    if(static_cast<size_t>(arg1) < dataset_dim_p_exist)
         ui->spinBox_Viewport_P->setSuffix(" (" + QSL_Pages[arg1] + ")");
 }
 

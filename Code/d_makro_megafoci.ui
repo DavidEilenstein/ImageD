@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1416</width>
-    <height>865</height>
+    <height>964</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -227,6 +227,9 @@
          <property name="maximum">
           <number>1</number>
          </property>
+         <property name="value">
+          <number>1</number>
+         </property>
         </widget>
        </item>
        <item row="0" column="1" colspan="2">
@@ -275,29 +278,92 @@
        <string>Dataset</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_10">
-       <item row="3" column="0" colspan="2">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="spinBox_DataDim_P_exist">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="suffix">
+          <string> (exist)</string>
+         </property>
+         <property name="prefix">
+          <string>P: </string>
+         </property>
+         <property name="minimum">
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>3</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="spinBox_PageIndex_RFP">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>RFP index: </string>
+         </property>
+         <property name="maximum">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2">
         <widget class="QPushButton" name="pushButton_DataLoad">
          <property name="text">
           <string>Load Dataset</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QSpinBox" name="spinBox_DataDim_X">
+       <item row="3" column="0">
+        <widget class="QSpinBox" name="spinBox_DataDim_P_used">
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="suffix">
-          <string> images</string>
+          <string> (used)</string>
          </property>
          <property name="prefix">
-          <string>X: </string>
+          <string>P: </string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>2</number>
          </property>
          <property name="value">
-          <number>15</number>
+          <number>2</number>
          </property>
         </widget>
        </item>
@@ -335,7 +401,33 @@
           <number>1</number>
          </property>
          <property name="value">
-          <number>42</number>
+          <number>49</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="Line" name="line_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QSpinBox" name="spinBox_DataDim_X">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="suffix">
+          <string> images</string>
+         </property>
+         <property name="prefix">
+          <string>X: </string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>15</number>
          </property>
         </widget>
        </item>
@@ -354,11 +446,27 @@
           <number>1</number>
          </property>
          <property name="value">
-          <number>6</number>
+          <number>8</number>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="4" column="0">
+        <widget class="QSpinBox" name="spinBox_PageIndex_GFP">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>GFP index: </string>
+         </property>
+         <property name="maximum">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_OverviewQuality">
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::NoButtons</enum>
@@ -377,6 +485,13 @@
          </property>
          <property name="value">
           <double>20.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="Line" name="line_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -431,32 +546,10 @@
        <property name="spacing">
         <number>3</number>
        </property>
-       <item row="1" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMax">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>max=</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>65535.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>250.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>3000.000000000000000</double>
-         </property>
-        </widget>
+       <item row="0" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_CropMode"/>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Anchor">
          <property name="enabled">
           <bool>false</bool>
@@ -475,14 +568,8 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_RangeMode"/>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_AnchorMode"/>
-       </item>
-       <item row="3" column="0" colspan="4">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Gamma">
+       <item row="7" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Range">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -490,23 +577,20 @@
           <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="prefix">
-          <string>gamma=</string>
+          <string>range=</string>
          </property>
          <property name="decimals">
-          <number>3</number>
+          <number>0</number>
          </property>
-         <property name="minimum">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
+         <property name="maximum">
+          <double>65536.000000000000000</double>
          </property>
          <property name="value">
-          <double>1.000000000000000</double>
+          <double>10000.000000000000000</double>
          </property>
         </widget>
        </item>
-       <item row="4" column="2" colspan="2">
+       <item row="5" column="2" colspan="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogDivisor">
          <property name="enabled">
           <bool>false</bool>
@@ -534,8 +618,14 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Range">
+       <item row="6" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_AnchorMode"/>
+       </item>
+       <item row="0" column="2" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_TransformationMode"/>
+       </item>
+       <item row="2" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogCenter">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -543,21 +633,21 @@
           <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="prefix">
-          <string>range=</string>
+          <string>center=</string>
          </property>
          <property name="decimals">
-          <number>0</number>
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-100000000000000003502199685943161173046080317798311825604870144.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>65536.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>10000.000000000000000</double>
+          <double>10000000000000000725314363815292351261583744096465219555182101554790400.000000000000000</double>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="4">
-        <widget class="QComboBox" name="comboBox_VisTrafo_TransformationMode"/>
+       <item row="6" column="2" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_RangeMode"/>
        </item>
        <item row="1" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMin">
@@ -578,11 +668,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="4">
-        <widget class="QComboBox" name="comboBox_VisTrafo_CropMode"/>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogCenter">
+       <item row="1" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Gamma">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -590,16 +677,44 @@
           <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="prefix">
-          <string>center=</string>
+          <string>gamma=</string>
          </property>
          <property name="decimals">
           <number>3</number>
          </property>
          <property name="minimum">
-          <double>-100000000000000003502199685943161173046080317798311825604870144.000000000000000</double>
+          <double>0.001000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMax">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>max=</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
          </property>
          <property name="maximum">
-          <double>10000000000000000725314363815292351261583744096465219555182101554790400.000000000000000</double>
+          <double>65535.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>250.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>3000.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -630,6 +745,21 @@
        <string>Status</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_9">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <property name="spacing">
+        <number>3</number>
+       </property>
        <item row="0" column="0">
         <widget class="QPlainTextEdit" name="plainTextEdit_Status">
          <property name="readOnly">

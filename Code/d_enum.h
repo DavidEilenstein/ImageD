@@ -17,7 +17,7 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_3_2";
+const QString           D_QS_Version  = "v1_3_3";
 const QString           D_QS_Release  = "02.02.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
@@ -145,6 +145,7 @@ enum D_ERROR_ENUM {
     ER_number_of
 };
 const QStringList QSL_Errors = {
+    "okay",
     "other",
     "data empty",
     "type not suported",
@@ -173,10 +174,10 @@ const QStringList QSL_Errors = {
     "P index out of range",
     "P dimensions missmatch",
     "file does not exist",
+    "list empty",
     "only supported for 1D processing",
     "only supported for 2D processing",
     "only supported for 3D processing",
-    "list empty",
     "video capture not open",
     "stitcher failed",
     "dimension with special role can not be part of processing plane",
