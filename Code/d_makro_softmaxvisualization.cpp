@@ -62,6 +62,8 @@ D_MAKRO_SoftmaxVisualization::D_MAKRO_SoftmaxVisualization(D_Storage *pStorage, 
     //show
     showMaximized();
     Set_MatrixViewDiemsnions();
+    setWindowIcon(QIcon(":/logo/ImageD_Logo.png"));
+    setWindowTitle("ImageD - Softmax classifiaction visualization");
 
     //status bar
     pQL_ValueUnderCursor = new QLabel(this);
@@ -92,6 +94,11 @@ D_MAKRO_SoftmaxVisualization::D_MAKRO_SoftmaxVisualization(D_Storage *pStorage, 
     connect(&Viewer_L,              SIGNAL(MouseMoved_Pos(QString)),        pQL_CursorPosition,     SLOT(setText(QString)));
     connect(&Viewer_L_partial_s,    SIGNAL(MouseMoved_Pos(QString)),        pQL_CursorPosition,     SLOT(setText(QString)));
     connect(&Viewer_gradient,       SIGNAL(MouseMoved_Pos(QString)),        pQL_CursorPosition,     SLOT(setText(QString)));
+
+    //set default data
+    vvData_X = vvData_X_default;
+    vData_Y = vData_Y_default;
+    Data_Vec2Mat();
 }
 
 D_MAKRO_SoftmaxVisualization::~D_MAKRO_SoftmaxVisualization()
@@ -157,12 +164,6 @@ void D_MAKRO_SoftmaxVisualization::Update_Images()
 
 void D_MAKRO_SoftmaxVisualization::Load_File_CSV()
 {
-    ui->pushButton_Proc_Step->setEnabled(false);
-    ui->pushButton_Proc_Iteration->setEnabled(false);
-    ui->pushButton_Proc_Endless->setEnabled(false);
-    ui->pushButton_ResetAndInit->setEnabled(false);
-    ui->pushButton_Proc_Stop->setEnabled(false);
-
     //get filepath
     QString QS_Path = QFileDialog::getOpenFileName(
                 this,
@@ -230,8 +231,6 @@ void D_MAKRO_SoftmaxVisualization::Load_File_CSV()
     F.close();
 
     Data_Vec2Mat();
-
-    ui->pushButton_ResetAndInit->setEnabled(true);
 }
 
 void D_MAKRO_SoftmaxVisualization::Data_Vec2Mat()
@@ -388,8 +387,7 @@ void D_MAKRO_SoftmaxVisualization::Proc_StepEndless()
     Update_Ui();
     while (!endless_proc_stop)
     {
-        Proc_Step();
-        //Proc_StepIteration();
+        Proc_StepIteration();
         Update_Ui();
     }
 
@@ -404,56 +402,229 @@ void D_MAKRO_SoftmaxVisualization::Proc_StepEndless()
     endless_proc_stop = false;
 }
 
+void D_MAKRO_SoftmaxVisualization::Proc_SaveVideos()
+{
+    bool ok;
+
+    double lambda_min = QInputDialog::getDouble(
+                this,
+                "Regularization",
+                "lambda min =",
+                0,
+                0,
+                50000,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+    double lambda_max = QInputDialog::getDouble(
+                this,
+                "Regularization",
+                "lambda max =",
+                10,
+                0,
+                50000,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+    double lambda_step = QInputDialog::getDouble(
+                this,
+                "Regularization",
+                "lambda step =",
+                1,
+                0,
+                50000,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+    double delta_min_exp = QInputDialog::getDouble(
+                this,
+                "Learning rate",
+                "delta min = 10^",
+                0,
+                0,
+                -10,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+    double delta_max_exp = QInputDialog::getDouble(
+                this,
+                "Learning rate",
+                "delta max = 10^",
+                10,
+                0,
+                50000,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+    double delta_step_exp = QInputDialog::getDouble(
+                this,
+                "Learning rate",
+                "delta step = 10^",
+                1,
+                0,
+                50000,
+                3,
+                &ok);
+    if(!ok)
+        return;
+
+}
+
+void D_MAKRO_SoftmaxVisualization::Proc_SaveVideo()
+{
+    QString path_save = QFileDialog::getExistingDirectory(
+                this,
+                "Save Video",
+                pStore->dir_M_Softmax()->path());
+
+    if(path_save.isEmpty())
+        return;
+
+    QDir DIR_Save(path_save);
+    if(!DIR_Save.exists())
+        return;
+
+    bool ok;
+    int max_iterations = QInputDialog::getInt(
+                this,
+                "Max Iterations",
+                "Max iterations:",
+                10000,
+                0,
+                1000000,
+                100,
+                &ok);
+    if(!ok)
+        return;
+
+    Proc_SaveVideo(
+                DIR_Save,
+                ui->doubleSpinBox_lambda->value(),
+                ui->doubleSpinBox_delta->value(),
+                25,
+                max_iterations);
+}
+
+void D_MAKRO_SoftmaxVisualization::Proc_SaveVideo(QDir DIR_Save, double lambda, double delta, double fps, size_t max_iterations)
+{
+    ui->pushButton_Proc_Stop->setEnabled(true);
+
+    ui->doubleSpinBox_delta->setValue(delta);
+    ui->doubleSpinBox_lambda->setValue(lambda);
+
+    //size
+    int w = this->width();
+    int h = this->height();
+
+    //Init Video Writer
+    D_VideoWriter VW_Out;
+    VW_Out.set_isColor(true);
+    VW_Out.set_Size(w, h);
+    VW_Out.set_FPS(fps);
+    VW_Out.set_PathOut(DIR_Save.path() + "/SoftmaxClassification_learn_" + QString::number(delta) + "_regul_" + QString::number(lambda) + ".avi");
+    VW_Out.init_VideoWriter();
+    if(!VW_Out.is_Init())
+    {
+        return;
+    }
+
+    //loop video
+    while (!endless_proc_stop && iteration < max_iterations)
+    {
+        Proc_StepIteration();
+        Update_Ui();
+
+        //convert to MA
+        QPixmap PX = this->grab();
+        PX = PX.scaled(w, h);
+        QImage QI = PX.toImage();
+        Mat MA;
+        D_Img_Proc::Convert_QImage_to_Mat(&MA, &QI);
+
+        //write
+        VW_Out.AddFrame(MA);
+    }
+    endless_proc_stop = true;
+
+    //close writer
+    VW_Out.EndVideoWriting();
+
+
+    ui->pushButton_Proc_Stop->setEnabled(false);
+}
+
+void D_MAKRO_SoftmaxVisualization::Proc_SaveVideos(QDir Path, double fps, size_t max_iterations, double lambda_min, double lambda_max, double lambda_step, double delta_min_exp, double delta_max_exp, double delta_step_exp)
+{
+    for(double lambda = lambda_min; lambda < lambda_max; lambda += lambda_step)
+        for(double delta_exp = delta_min_exp; delta_exp < delta_max_exp; delta_exp += delta_step_exp)
+            Proc_SaveVideo(Path, lambda, delta_exp, fps, max_iterations);
+}
+
 void D_MAKRO_SoftmaxVisualization::Proc_s()
 {
     iteration++;
     ui->label_Iteration->setText("Iteration: " + QString::number(iteration));
 
+    //s = W * x
     MA_s = MA_W * MA_x;
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_s,
-                &MA_s),
-        "Proc_s",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_s, &MA_s) != ER_okay)
+        endless_proc_stop = true;
     Viewer_s.Update_Image(&MA_color_s);
+
+    ui->groupBox_s->setTitle("s (norm: " + QString::number(norm(MA_s)) + ")");
 
     step_next = STEP_s_norm;
 }
 
 void D_MAKRO_SoftmaxVisualization::Proc_s_normed()
 {
+    //datasets are calced independently
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
     {
-        double max = 0;
+        //find max s (logC)
+        double max = - INFINITY;
         for(size_t y_class = 0; y_class < K; y_class++)
             if(MA_s.at<double>(y_class, x_dataset) > max)
                 max = MA_s.at<double>(y_class, x_dataset);
 
+        //sum e^s
         double sum = 0;
         for(size_t y_class = 0; y_class < K; y_class++)
             sum += pow(c_E, MA_s.at<double>(y_class, x_dataset) - max);
 
+        //s_normed = e^s_j / sum(e^s)
         for(size_t y_class = 0; y_class < K; y_class++)
             MA_s_normed.at<double>(y_class, x_dataset) = pow(c_E, MA_s.at<double>(y_class, x_dataset) - max) / sum;
     }
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_s_normed,
-                &MA_s_normed),
-        "Proc_s_normed",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_s_normed, &MA_s_normed) != ER_okay)
+        endless_proc_stop = true;
     Viewer_s_normed.Update_Image(&MA_color_s_normed);
+
+    ui->groupBox_s_normed->setTitle("softmax(s) (norm: " + QString::number(norm(MA_s_normed)) + ")");
 
     step_next = STEP_classify;
 }
 
 void D_MAKRO_SoftmaxVisualization::Proc_classify()
 {
+    //datasets are calced independently
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
     {
-        double top_score = 0;
-        int top_class = 0;
+        //find top normed score
+        double top_score = -INFINITY;
+        size_t top_class = 0;
         for(size_t y_class = 0; y_class < K; y_class++)
         {
             double score = MA_s_normed.at<double>(y_class, x_dataset);
@@ -464,14 +635,12 @@ void D_MAKRO_SoftmaxVisualization::Proc_classify()
             }
         }
 
+        //class = top score index
         MA_classification.at<double>(0, x_dataset) = top_class;
     }
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_classification,
-                &MA_classification),
-        "Proc_classify",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_classification, &MA_classification) != ER_okay)
+        endless_proc_stop = true;
     Viewer_classification.Update_Image(&MA_color_classification);
 
     step_next = STEP_accuracy;
@@ -479,14 +648,16 @@ void D_MAKRO_SoftmaxVisualization::Proc_classify()
 
 void D_MAKRO_SoftmaxVisualization::Proc_accuracy()
 {
+    //count correctly classified datasets
     size_t correct_count = 0;
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
         if(MA_y.at<double>(0, x_dataset) == MA_classification.at<double>(0, x_dataset))
             correct_count++;
 
+    //accuracy = correct / all
     accuracy = static_cast<double>(correct_count) / N;
 
-    ui->groupBox_accuracy->setTitle("accuracy: " + QString::number(accuracy));
+    ui->groupBox_accuracy->setTitle("accuracy: " + QString::number(accuracy, 'g', 15));
 
     vAccuracy.push_back(accuracy);
 
@@ -506,31 +677,32 @@ void D_MAKRO_SoftmaxVisualization::Proc_accuracy()
 
 void D_MAKRO_SoftmaxVisualization::Proc_L()
 {
+    //datasets are calced independently
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
     {
-        /*
-        double max = 0;
-        for(size_t y_class = 0; y_class < K; y_class++)
-            if(MA_s.at<double>(y_class, x_dataset) > max)
-                max = MA_s.at<double>(y_class, x_dataset);
-                */
-
+        //sum e^s
         double sum = 0;
         for(size_t y_class = 0; y_class < K; y_class++)
-            sum += pow(c_E, MA_s.at<double>(y_class, x_dataset));
+            sum += pow(c_E, MA_s_normed.at<double>(y_class, x_dataset));
 
+        //log_e(sum(e^s))
         double log_sum = log(sum) / log(c_E);
 
-        MA_L.at<double>(0, x_dataset) =  - MA_y.at<double>(0, x_dataset) + log_sum;
+        //correct class index
+        size_t index_correct_class = MA_y.at<double>(0, x_dataset);
+
+        //score of correct class
+        double score_correct_class = MA_s_normed.at<double>(index_correct_class, x_dataset);
+
+        //L = - class_correct_label + log_e(sum(e^s))
+        MA_L.at<double>(0, x_dataset) = - score_correct_class + log_sum;
     }
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_L,
-                &MA_L),
-        "Proc_L",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_L, &MA_L) != ER_okay)
+        endless_proc_stop = true;
     Viewer_L.Update_Image(&MA_color_L);
 
+    ui->groupBox_L->setTitle("L (norm: " + QString::number(norm(MA_L)) + ")");
     step_next = STEP_loss;
 }
 
@@ -538,19 +710,27 @@ void D_MAKRO_SoftmaxVisualization::Proc_loss()
 {
     double lambda = ui->doubleSpinBox_lambda->value();
 
+    //square of 2-norm of W (aka sum of squares)
     double w2_norm_sqaure = 0;
-    for(size_t x_features = 0; x_features < M - 1; x_features++)
+    for(size_t x_features = 0; x_features < M; x_features++)
         for(size_t y_class = 0; y_class < K; y_class++)
-            w2_norm_sqaure += MA_W.at<double>(y_class, x_features) * MA_W.at<double>(y_class, x_features);
+        {
+            double w_value = MA_W.at<double>(y_class, x_features);
+            w2_norm_sqaure += (w_value * w_value);
+        }
 
+    //sum L
     double sum_L = 0;
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
         sum_L += MA_L.at<double>(0, x_dataset);
 
-    double mean_L = sum_L /static_cast<double>(N);
+    //mean L
+    double mean_L = sum_L / static_cast<double>(N);
+
+    //loss = mean(L) + regularisation * 2-norm(W)^2
     loss = mean_L + lambda * w2_norm_sqaure;
 
-    ui->groupBox_loss->setTitle("loss: " + QString::number(loss));
+    ui->groupBox_loss->setTitle("loss: " + QString::number(loss, 'g', 15));
 
     vLoss.push_back(loss);
 
@@ -560,64 +740,60 @@ void D_MAKRO_SoftmaxVisualization::Proc_loss()
                 "",
                 "",
                 "",
-                "loss");
+                "loss",
+                c_AXE_TRANS_LIN,
+                c_AXE_TRANS_LOG_10);
     //pChartView_Loss->chart()->legend()->setVisible(false);
-
-    //show iteration summary
-    //qDebug() << "iteration:" << iteration << "accuracy:" << accuracy << "loss:" << loss;
 
     step_next = STEP_L_partial;
 }
 
 void D_MAKRO_SoftmaxVisualization::Proc_L_partial()
 {
+    MA_L_partial_s = MA_s_normed.clone();
+
+    //datasets are calced independently
     for(size_t x_dataset = 0; x_dataset < N; x_dataset++)
     {
-        double max = 0;
-        for(size_t y_class = 0; y_class < K; y_class++)
-            if(MA_s.at<double>(y_class, x_dataset) > max)
-                max = MA_s.at<double>(y_class, x_dataset);
+        //index of classifications (result and ground truth)
+        size_t index_correct_class = MA_y.at<double>(0, x_dataset);
+        size_t index_classified_as = MA_classification.at<double>(0, x_dataset);
 
-        double sum = 0;
-        for(size_t y_class = 0; y_class < K; y_class++)
-            sum += pow(c_E, MA_s.at<double>(y_class, x_dataset) - max);
-
-        for(size_t y_class = 0; y_class < K; y_class++)
-        {
-            MA_L_partial_s.at<double>(y_class, x_dataset) = pow(c_E, MA_s.at<double>(y_class, x_dataset) - max) / sum;
-
-            if(MA_classification.at<double>(0, x_dataset) == MA_y.at<double>(0, x_dataset))
-                MA_L_partial_s.at<double>(y_class, x_dataset) -= 1;
-        }
+        //-1 if corrctly classified
+        if(index_classified_as == index_correct_class)
+            MA_L_partial_s.at<double>(index_correct_class, x_dataset) -= 1;
     }
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_L_partial_s,
-                &MA_L_partial_s),
-        "Proc_L_partial",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_L_partial_s, &MA_L_partial_s) != ER_okay)
+        endless_proc_stop = true;
     Viewer_L_partial_s.Update_Image(&MA_color_L_partial_s);
 
+    ui->groupBox_L_partial_s->setTitle("L partial s (norm: " + QString::number(norm(MA_s)) + ")");
     step_next = STEP_grad;
 }
 
 void D_MAKRO_SoftmaxVisualization::Proc_grad()
 {
-    for(size_t y_class = 0; y_class < K; y_class++)
-        for(size_t x_features = 0; x_features < M; x_features++)
-            MA_gradient.at<double>(y_class, x_features) = 0;
+    double lambda = ui->doubleSpinBox_lambda->value();
 
+    MA_gradient = Mat::zeros(K, M, CV_64FC1);
+
+    //sum (datasets) of dyadic pruduct of s_partial_s and x
     for(size_t i_dataset = 0; i_dataset < N; i_dataset++)
         for(size_t y_class = 0; y_class < K; y_class++)
             for(size_t x_features = 0; x_features < M; x_features++)
-                MA_gradient.at<double>(y_class, x_features) += MA_x.at<double>(x_features, i_dataset) * MA_L_partial_s.at<double>(i_dataset, y_class);
+                MA_gradient.at<double>(y_class, x_features) += MA_x.at<double>(x_features, i_dataset) * MA_L_partial_s.at<double>(y_class, i_dataset);
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_gradient,
-                &MA_gradient),
-        "Proc_grad",
-        "");
+    //regularistaion
+    for(size_t y_class = 0; y_class < K; y_class++)
+        for(size_t x_features = 0; x_features < M; x_features++)
+            MA_gradient.at<double>(y_class, x_features) += 2 * lambda * MA_W.at<double>(y_class, x_features);
+
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_gradient, &MA_gradient) != ER_okay)
+        endless_proc_stop = true;
     Viewer_gradient.Update_Image(&MA_color_gradient);
+
+    ui->groupBox_grad->setTitle("gradient (norm: " + QString::number(norm(MA_gradient)) + ")");
 
     step_next = STEP_W;
 }
@@ -626,16 +802,16 @@ void D_MAKRO_SoftmaxVisualization::Proc_W()
 {
     double learning_rate = pow(10, ui->doubleSpinBox_delta->value());
 
+    //new W = old W - (learning rate * loss * grad)
     for(size_t y_class = 0; y_class < K; y_class++)
         for(size_t x_features = 0; x_features < M; x_features++)
-            MA_W.at<double>(y_class, x_features) -= learning_rate * loss * MA_gradient.at<double>(y_class, x_features);
+            MA_W.at<double>(y_class, x_features) -= learning_rate * MA_gradient.at<double>(y_class, x_features);
 
-    ERR(D_Img_Proc::Highlight_NumericalProblems(
-                &MA_color_W,
-                &MA_W),
-        "Proc_W",
-        "");
+    if(D_Img_Proc::Highlight_NumericalProblems(&MA_color_W, &MA_W) != ER_okay)
+        endless_proc_stop = true;
     Viewer_W.Update_Image(&MA_color_W);
+
+    ui->groupBox_W->setTitle("W (norm: " + QString::number(norm(MA_W)) + ")");
 
     step_next = STEP_s;
 }
@@ -676,11 +852,3 @@ void D_MAKRO_SoftmaxVisualization::on_pushButton_ResetAndInit_clicked()
     Init_W();
 }
 
-void D_MAKRO_SoftmaxVisualization::ERR(int err, QString func, QString detail)
-{
-    ER.ERR(
-                err,
-                "D_MAKRO_SoftmaxVisualization",
-                func,
-                detail);
-}

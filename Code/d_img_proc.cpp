@@ -16025,41 +16025,59 @@ int D_Img_Proc::Highlight_NumericalProblems(Mat *pMA_Out, Mat *pMA_In)
 {
     if(pMA_In->empty())             return ER_empty;
     if(pMA_In->type() != CV_64FC1)  return ER_type_bad;
-    int ER = ER_okay;
 
+    //extrema
     double min = numeric_limits<double>::min();
     double max = numeric_limits<double>::max();
 
-    *pMA_Out = Mat(pMA_In->size(), CV_64FC3);
-
-    double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
-    Vec3d * ptr_out = reinterpret_cast<Vec3d*>(pMA_Out->data);
     size_t px_count = pMA_In->rows * pMA_In->cols;
-    for(size_t px = 0; px < px_count; px++, ptr_in++, ptr_out++)
-    {
-        double val = *ptr_in;
+    double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
 
-        if(isfinite(val))
-            *ptr_out = Vec3d(val, val, val);           //nice -> grayvalue
-        else
+    //look for problems
+    bool problem_found = false;
+    for(size_t px = 0; px < px_count && !problem_found; px++, ptr_in++)
+        if(!isfinite(*ptr_in))
+            problem_found = true;
+
+    //found problem?
+    if(problem_found)
+    {
+        qDebug() << "shitty value detected";
+
+        *pMA_Out = Mat(pMA_In->size(), CV_8UC3);
+        ptr_in = reinterpret_cast<double*>(pMA_In->data);
+        Vec3b * ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
+        for(size_t px = 0; px < px_count; px++, ptr_in++, ptr_out++)
         {
-            if(ER == ER_okay)
+            double val = *ptr_in;
+
+            if(isfinite(val))
             {
-                qDebug() << "shitty value detected";
-                ER = ER_NumericProblem;
+                if(val > 0)
+                    *ptr_out = Vec3b(255, 255, 255);    //positive -> white
+                else if(val < 0)
+                    *ptr_out = Vec3b(0, 0, 0);          //negative -> black
+                else
+                    *ptr_out = Vec3b(127, 127, 127);    //zero -> gray
             }
-            if(isnan(val))
-                *ptr_out = Vec3d(0, max/2, 0);           //nan -> green
+            else if(isnan(val))
+                *ptr_out = Vec3b(0, 255, 0);            //nan -> green
             else if(val < min)
-                *ptr_out = Vec3d(max/2, 0, 0);           //-inf -> blue
+                *ptr_out = Vec3b(255, 0, 0);            //-inf -> blue
             else if(val > max)
-                *ptr_out = Vec3d(0, max/2, 0);           //+inf -> red
+                *ptr_out = Vec3b(0, 255, 0);            //+inf -> red
             else
-                *ptr_out = Vec3d(max/4, max/4, max/2);   //mysterium -> pink
+                *ptr_out = Vec3b(255/2, 255/2, 255);    //mysterium -> pink
         }
+
+        return ER_NumericProblem;
+    }
+    else
+    {
+        *pMA_Out = pMA_In->clone();
     }
 
-    return ER;
+    return ER_okay;
 }
 
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay, double intensity_backgr)

@@ -2229,7 +2229,7 @@ void D_Viewer::MouseMoved(int x, int y)
  */
 void D_Viewer::MouseClicked(int x, int y)
 {
-    qDebug() << "D_Viewer::MouseClicked" << x << y << "(in)";
+    //qDebug() << "D_Viewer::MouseClicked" << x << y << "(in)";
 
     /// Workflow:
     /// - scaling to image coordinates
@@ -2237,7 +2237,7 @@ void D_Viewer::MouseClicked(int x, int y)
         return;
 
     /// - x and y are now correct image corrdinates
-    qDebug() << "D_Viewer::MouseClicked" << x << y << "(out)";
+    //qDebug() << "D_Viewer::MouseClicked" << x << y << "(out)";
     /// - emit signals
 
     emit MouseClicked();

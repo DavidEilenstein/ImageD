@@ -72,7 +72,7 @@
           <number>1</number>
          </property>
          <property name="currentIndex">
-          <number>9</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_Settings_00_Source">
           <layout class="QGridLayout" name="gridLayout_17">
