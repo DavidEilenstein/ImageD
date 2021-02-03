@@ -69,6 +69,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_img_proc_3dfactory.h", "d__img__proc__3dfactory_8h.html", [
       [ "D_Img_Proc_3dFactory", "class_d___img___proc__3d_factory.html", "class_d___img___proc__3d_factory" ]
     ] ],
+    [ "d_job_manager.cpp", "d__job__manager_8cpp.html", null ],
+    [ "d_job_manager.h", "d__job__manager_8h.html", [
+      [ "D_Job_Manager", "class_d___job___manager.html", "class_d___job___manager" ]
+    ] ],
     [ "d_mainwindow.cpp", "d__mainwindow_8cpp.html", null ],
     [ "d_mainwindow.h", "d__mainwindow_8h.html", [
       [ "D_MainWindow", "class_d___main_window.html", "class_d___main_window" ]
@@ -152,6 +156,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_math.cpp", "d__math_8cpp.html", null ],
     [ "d_math.h", "d__math_8h.html", [
       [ "D_Math", "class_d___math.html", "class_d___math" ]
+    ] ],
+    [ "d_multidimloop.cpp", "d__multidimloop_8cpp.html", null ],
+    [ "d_multidimloop.h", "d__multidimloop_8h.html", [
+      [ "D_MultiDimLoop", "class_d___multi_dim_loop.html", "class_d___multi_dim_loop" ]
     ] ],
     [ "d_pdf_writer.cpp", "d__pdf__writer_8cpp.html", null ],
     [ "d_pdf_writer.h", "d__pdf__writer_8h.html", [
