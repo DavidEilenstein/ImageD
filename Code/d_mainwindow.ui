@@ -855,6 +855,8 @@
     <addaction name="separator"/>
     <addaction name="actionTest_Running_Median"/>
     <addaction name="actionTest_Maximum_Gil"/>
+    <addaction name="separator"/>
+    <addaction name="actionTest_nD_for_loop"/>
    </widget>
    <addaction name="menuViewer"/>
    <addaction name="menuWindow"/>
@@ -1079,6 +1081,11 @@
   <action name="actionTest_Maximum_Gil">
    <property name="text">
     <string>Test Maximum Gil</string>
+   </property>
+  </action>
+  <action name="actionTest_nD_for_loop">
+   <property name="text">
+    <string>Test nD for loop</string>
    </property>
   </action>
  </widget>

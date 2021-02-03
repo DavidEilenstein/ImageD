@@ -256,6 +256,18 @@ void D_MAKRO_SoftmaxVisualization::Data_Vec2Mat()
         if(vData_Y[i] >= static_cast<int>(K))
             return;
 
+    //adapt display range of Y and calssification
+    Viewer_y.Set_VisTrafo_ActiveInt(1);
+    Viewer_y.Set_VisTrafo_Mode_Range(c_VIS_TRAFO_RANGE_FIXED);
+    Viewer_y.Set_VisTrafo_Range(K-1);
+    Viewer_y.Set_VisTrafo_Mode_Anchor(c_VIS_TRAFO_ANCHOR_BLACK);
+    Viewer_y.Set_VisTrafo_Anchor(0);
+    Viewer_classification.Set_VisTrafo_ActiveInt(1);
+    Viewer_classification.Set_VisTrafo_Mode_Range(c_VIS_TRAFO_RANGE_FIXED);
+    Viewer_classification.Set_VisTrafo_Range(K-1);
+    Viewer_classification.Set_VisTrafo_Mode_Anchor(c_VIS_TRAFO_ANCHOR_BLACK);
+    Viewer_classification.Set_VisTrafo_Anchor(0);
+
     //init mats
     Data_InitMats_CorrectSize();
 
@@ -381,8 +393,6 @@ void D_MAKRO_SoftmaxVisualization::Proc_StepEndless()
     ui->pushButton_Proc_Endless->setEnabled(false);
     ui->pushButton_ResetAndInit->setEnabled(false);
     ui->pushButton_Proc_Stop->setEnabled(true);
-    ui->doubleSpinBox_delta->setEnabled(false);
-    ui->doubleSpinBox_lambda->setEnabled(false);
 
     Update_Ui();
     while (!endless_proc_stop)
@@ -397,8 +407,6 @@ void D_MAKRO_SoftmaxVisualization::Proc_StepEndless()
     ui->pushButton_Proc_Endless->setEnabled(true);
     ui->pushButton_ResetAndInit->setEnabled(true);
     ui->pushButton_Proc_Stop->setEnabled(false);
-    ui->doubleSpinBox_delta->setEnabled(true);
-    ui->doubleSpinBox_lambda->setEnabled(true);
     endless_proc_stop = false;
 }
 
@@ -708,7 +716,7 @@ void D_MAKRO_SoftmaxVisualization::Proc_L()
 
 void D_MAKRO_SoftmaxVisualization::Proc_loss()
 {
-    double lambda = ui->doubleSpinBox_lambda->value();
+    double lambda = ui->checkBox_lambda->isChecked() ? pow(10, ui->doubleSpinBox_lambda->value()) : 0;
 
     //square of 2-norm of W (aka sum of squares)
     double w2_norm_sqaure = 0;
@@ -774,7 +782,7 @@ void D_MAKRO_SoftmaxVisualization::Proc_L_partial()
 
 void D_MAKRO_SoftmaxVisualization::Proc_grad()
 {
-    double lambda = ui->doubleSpinBox_lambda->value();
+    double lambda = ui->checkBox_lambda->isChecked() ? pow(10, ui->doubleSpinBox_lambda->value()) : 0;
 
     MA_gradient = Mat::zeros(K, M, CV_64FC1);
 
@@ -802,7 +810,7 @@ void D_MAKRO_SoftmaxVisualization::Proc_W()
 {
     double learning_rate = pow(10, ui->doubleSpinBox_delta->value());
 
-    //new W = old W - (learning rate * loss * grad)
+    //new W = old W - (learning rate * grad)
     for(size_t y_class = 0; y_class < K; y_class++)
         for(size_t x_features = 0; x_features < M; x_features++)
             MA_W.at<double>(y_class, x_features) -= learning_rate * MA_gradient.at<double>(y_class, x_features);
@@ -852,3 +860,8 @@ void D_MAKRO_SoftmaxVisualization::on_pushButton_ResetAndInit_clicked()
     Init_W();
 }
 
+
+void D_MAKRO_SoftmaxVisualization::on_checkBox_lambda_stateChanged(int arg1)
+{
+    ui->doubleSpinBox_lambda->setEnabled(arg1);
+}

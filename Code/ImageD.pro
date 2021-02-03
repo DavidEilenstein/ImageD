@@ -42,12 +42,14 @@ SOURCES += \
     d_bio_nucleuspedigree.cpp \
     d_featureset.cpp \
     d_finishtimeprognosis.cpp \
+    d_job_manager.cpp \
     d_makro_airdragtrack.cpp \
     d_makro_ciliaspheretracker.cpp \
     d_makro_focicounter.cpp \
     d_makro_fouriertransformator.cpp \
     d_makro_megafoci.cpp \
     d_makro_softmaxvisualization.cpp \
+    d_multidimloop.cpp \
     d_pdf_writer.cpp \
     d_physics.cpp \
     d_popup_feedbackrequest.cpp \
@@ -113,6 +115,7 @@ HEADERS += \
     d_bio_nucleuspedigree.h \
     d_featureset.h \
     d_finishtimeprognosis.h \
+    d_job_manager.h \
         d_mainwindow.h \
     d_makro_airdragtrack.h \
     d_makro_ciliaspheretracker.h \
@@ -120,6 +123,7 @@ HEADERS += \
     d_makro_fouriertransformator.h \
     d_makro_megafoci.h \
     d_makro_softmaxvisualization.h \
+    d_multidimloop.h \
     d_pdf_writer.h \
     d_physics.h \
     d_popup_feedbackrequest.h \

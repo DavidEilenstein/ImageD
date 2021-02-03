@@ -29,6 +29,7 @@
 #include <d_popup_feedbackrequest.h>
 #include <d_popup_listedit_numbers.h>
 #include <d_popup_plot.h>
+#include <d_multidimloop.h>
 
 //makros
 #include <d_makro_corefoci.h>
@@ -175,6 +176,8 @@ private slots:
     void on_actionTest_Running_Median_triggered();
 
     void on_actionTest_Maximum_Gil_triggered();
+
+    void on_actionTest_nD_for_loop_triggered();
 
 private:
     Ui::D_MainWindow        *ui;

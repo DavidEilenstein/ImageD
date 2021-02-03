@@ -113,6 +113,8 @@ private slots:
     void on_pushButton_ResetAndInit_clicked();
 
 
+    void on_checkBox_lambda_stateChanged(int arg1);
+
 private:
     Ui::D_MAKRO_SoftmaxVisualization *ui;
     bool ClosingPossible = false;

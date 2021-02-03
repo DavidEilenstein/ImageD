@@ -1173,3 +1173,29 @@ void D_MainWindow::on_actionTest_Maximum_Gil_triggered()
                 "maximum gil result",
                 QS_Data);
 }
+
+void D_MainWindow::on_actionTest_nD_for_loop_triggered()
+{
+    //definde dims
+    vector<size_t> start   = {0, 3, 42};
+    vector<size_t> end     = {1, 5, 42};
+    vector<size_t> pos     = start;
+
+    //init loop thing
+    D_MultiDimLoop loop(start, end);
+
+    //loop if valid
+    if(loop.valid())
+        do
+        {
+            //get pos
+            vector<size_t> pos = loop.pos();
+
+            //do stuff
+            QString QS_pos = "pos =";
+            for(size_t k = 0; k < pos.size(); k++)
+                QS_pos.append(" " + QString::number(pos[k]));
+            qDebug() << QS_pos;
+        }
+        while (loop.next());
+}
