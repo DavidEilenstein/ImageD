@@ -31,6 +31,8 @@
 #include <QCloseEvent>
 #include <QResizeEvent>
 #include <QInputDialog>
+#include <QDesktopServices>
+#include <QUrl>
 
 //Qt::Charts
 #include <QChartView>
@@ -102,6 +104,7 @@ private slots:
     void Init_Quantile();
     void Init_Masses();
     void Init_PointLists();
+    void Init_HistLegend();
 
     void Step_SaveLineBegin();
     void Step_LoadLineBegin();
@@ -130,6 +133,8 @@ private slots:
     void Step_Pixel_WriteOut();
     void Step_Pixel_Change_Direction();
 
+    void on_pushButton_VideoGuide_clicked();
+
 private:
     Ui::D_MAKRO_HuangVisualization *ui;
     bool ClosingPossible = false;
@@ -149,9 +154,13 @@ private:
     //Stuff to show things -----------------------------------
 
     D_Viewer Viewer_In;
-    D_Viewer Viewer_Mask;
+    D_Viewer Viewer_Mask_InColor;
+    D_Viewer Viewer_Mask_InGray;
+    D_Viewer Viewer_Mask_Out;
+    D_Viewer Viewer_Mask_Binary;
     D_Viewer Viewer_Out;
     D_Viewer Viewer_Hist;
+    D_Viewer Viewer_Hist_Legend;
     D_Viewer Viewer_Mass;
 
     QLabel *pLabelStatus;
@@ -168,8 +177,9 @@ private:
     //out
     Mat MA_ImgOut_Gray;
     //Mat MA_ImgOut_Show;
-    //Hist
+    //Hist and Mass
     Mat MA_Hist;
+    Mat MA_Hist_Legend;
     Mat MA_Mass;
 
 
@@ -177,7 +187,10 @@ private:
     Mat MA_MaskLoad;
     Mat MA_MaskBinary;
     Mat MA_MaskBinary_3C;
-    Mat MA_MaskShow;
+    Mat MA_MaskShow_Binary;
+    Mat MA_MaskShow_In_Color;
+    Mat MA_MaskShow_In_Gray;
+    Mat MA_MaskShow_Out;
     //image sizes
     size_t img_in_sy;
     size_t img_in_sx;

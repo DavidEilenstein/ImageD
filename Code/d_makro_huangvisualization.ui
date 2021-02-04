@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1098</width>
-    <height>567</height>
+    <width>940</width>
+    <height>589</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,63 +15,12 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="title">
-       <string>Images</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>In</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QGraphicsView" name="graphicsView_In"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Out</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QGraphicsView" name="graphicsView_Out"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>Mask</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
-           <widget class="QGraphicsView" name="graphicsView_Mask"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QGroupBox" name="groupBox_5">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
+        <verstretch>2</verstretch>
        </sizepolicy>
       </property>
       <property name="title">
@@ -82,7 +31,7 @@
         <widget class="QGroupBox" name="groupBox_8">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>1</horstretch>
+           <horstretch>2</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
@@ -337,8 +286,27 @@ color: yellow;</string>
           <string>Histogram</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item row="0" column="0">
            <widget class="QGraphicsView" name="graphicsView_Hist"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QGraphicsView" name="graphicsView_HistLegend">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -470,6 +438,91 @@ color: black;</string>
       </layout>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>3</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Images</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>4</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>In</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QGraphicsView" name="graphicsView_In"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>4</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Out</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QGraphicsView" name="graphicsView_Out"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>4</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Mask</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="1" column="1">
+           <widget class="QGraphicsView" name="graphicsView_Mask_ZoomOutput"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QGraphicsView" name="graphicsView_Mask_ZoomInput_Gray"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QGraphicsView" name="graphicsView_Mask_BinaryAndPos"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QGraphicsView" name="graphicsView_Mask_ZoomInput_Color"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="pushButton_VideoGuide">
+      <property name="text">
+       <string>--&gt; click here for demo video (german) &lt;---</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -477,7 +530,7 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1098</width>
+     <width>940</width>
      <height>21</height>
     </rect>
    </property>

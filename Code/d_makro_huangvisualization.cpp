@@ -22,15 +22,24 @@ D_MAKRO_HuangVisualization::D_MAKRO_HuangVisualization(D_Storage *pStorage, QWid
     //Viewer
     Viewer_In.set_GV(ui->graphicsView_In);
     Viewer_Out.set_GV(ui->graphicsView_Out);
-    Viewer_Mask.set_GV(ui->graphicsView_Mask);
+    Viewer_Mask_Binary.set_GV(ui->graphicsView_Mask_BinaryAndPos);
+    Viewer_Mask_InColor.set_GV(ui->graphicsView_Mask_ZoomInput_Color);
+    Viewer_Mask_InGray.set_GV(ui->graphicsView_Mask_ZoomInput_Gray);
+    Viewer_Mask_Out.set_GV(ui->graphicsView_Mask_ZoomOutput);
     Viewer_Hist.set_GV(ui->graphicsView_Hist);
+    Viewer_Hist_Legend.set_GV(ui->graphicsView_HistLegend);
     Viewer_Mass.set_GV(ui->graphicsView_Mass);
     Viewer_In.Set_Transformation_Mode(false);
     Viewer_Out.Set_Transformation_Mode(false);
-    Viewer_Mask.Set_Transformation_Mode(false);
+    Viewer_Mask_Binary.Set_Transformation_Mode(false);
+    Viewer_Mask_InColor.Set_Transformation_Mode(false);
+    Viewer_Mask_InGray.Set_Transformation_Mode(false);
+    Viewer_Mask_Out.Set_Transformation_Mode(false);
     Viewer_In.connect_Zoom(&Viewer_Out);
     Viewer_Hist.Set_Transformation_Mode(false);
     Viewer_Hist.Set_Aspect_Mode(false);
+    Viewer_Hist_Legend.Set_Transformation_Mode(false);
+    Viewer_Hist_Legend.Set_Aspect_Mode(false);
     Viewer_Mass.Set_Transformation_Mode(false);
     Viewer_Mass.Set_Aspect_Mode(false);
 
@@ -118,6 +127,7 @@ void D_MAKRO_HuangVisualization::Update_Image_Out()
 
     //show
     Viewer_Out.Update_Image(&MA_ImgOut_Gray);
+    Viewer_Mask_Out.Update_Image(&MA_MaskShow_Out);
 }
 
 void D_MAKRO_HuangVisualization::Update_Image_In()
@@ -157,8 +167,21 @@ void D_MAKRO_HuangVisualization::Update_Image_In()
         MA_ImgIn_Show.at<Vec3b>(pos_y + mask_cy + (*vBorderRem)[i_add_rem].y + dy_to_prev_pos, pos_x + mask_cx + (*vBorderRem)[i_add_rem].x + dx_to_prev_pos) = Vec3b(0, 0, 255);
     }
 
+    //copy in data under mask to zoomed view (gray)
+    for(int y = 0; y < MA_MaskShow_In_Gray.rows; y++)
+        for(int x = 0; x < MA_MaskShow_In_Gray.cols; x++)
+            if(MA_MaskBinary.at<uchar>(y, x) > 0)
+                MA_MaskShow_In_Gray.at<uchar>(y, x) = MA_ImgIn_GrayPadded.at<uchar>(y + pos_y, x + pos_x);
+
+    //copy in data under mask to zoomed view (color)
+    for(int y = 0; y < MA_MaskShow_In_Color.rows; y++)
+        for(int x = 0; x < MA_MaskShow_In_Color.cols; x++)
+            MA_MaskShow_In_Color.at<Vec3b>(y, x) = MA_ImgIn_Show.at<Vec3b>(y + pos_y, x + pos_x);
+
     //show
     Viewer_In.Update_Image(&MA_ImgIn_Show);
+    Viewer_Mask_InColor.Update_Image(&MA_MaskShow_In_Color);
+    Viewer_Mask_InGray.Update_Image(&MA_MaskShow_In_Gray);
 }
 
 void D_MAKRO_HuangVisualization::Update_Image_Mask()
@@ -166,28 +189,28 @@ void D_MAKRO_HuangVisualization::Update_Image_Mask()
     if(!state_mask_loaded)
         return;
 
-    //reset
-    MA_MaskShow = MA_MaskBinary_3C.clone();
+    //reset binary
+    MA_MaskShow_Binary = MA_MaskBinary_3C.clone();
 
     //highlight add/remove list
     if(step_next == STEP_INIT_POINT_LISTS || step_next == STEP_PIXEL_CHANGE_POINT_LISTS || step_next == STEP_POINT_CHANGE_ADD_REM)// || step_next == STEP_INIT_POINT_LISTS)
     {
         //central pixel
-        //MA_MaskShow.at<Vec3b>(mask_cy, mask_cx) = Vec3b(0, 255, 0);
+        //MA_MaskShow_Binary.at<Vec3b>(mask_cy, mask_cx) = Vec3b(0, 255, 0);
 
         //add
         for(size_t i = 0; i < vBorderAdd->size(); i++)
-            MA_MaskShow.at<Vec3b>((*vBorderAdd)[i].y + mask_cy, (*vBorderAdd)[i].x + mask_cx) = Vec3b(128, 0, 0);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderAdd)[i].y + mask_cy, (*vBorderAdd)[i].x + mask_cx) = Vec3b(128, 0, 0);
 
         //remove
         for(size_t i = 0; i < vBorderRem->size(); i++)
         {
-            Vec3b px_val = MA_MaskShow.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx);
+            Vec3b px_val = MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx);
 
             if(px_val == Vec3b(128, 0, 0))
-                MA_MaskShow.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx) = Vec3b(128, 0, 128);
+                MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx) = Vec3b(128, 0, 128);
             else
-                MA_MaskShow.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx) = Vec3b(0, 0, 128);
+                MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i].y + mask_cy, (*vBorderRem)[i].x + mask_cx) = Vec3b(0, 0, 128);
         }
     }
 
@@ -198,24 +221,24 @@ void D_MAKRO_HuangVisualization::Update_Image_Mask()
         Vec3b px_val;
 
         //add
-        px_val = MA_MaskShow.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx);
+        px_val = MA_MaskShow_Binary.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx);
         if(px_val == Vec3b(128, 0, 0))
-            MA_MaskShow.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 0);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 0);
         else if(px_val == Vec3b(128, 0, 128))
-            MA_MaskShow.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 128);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderAdd)[i_add_rem].y + mask_cy, (*vBorderAdd)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 128);
 
         //remove
-        px_val = MA_MaskShow.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx);
+        px_val = MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx);
         if(px_val == Vec3b(0, 0, 128))
-            MA_MaskShow.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(0, 0, 255);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(0, 0, 255);
         else if(px_val == Vec3b(128, 0, 128))
-            MA_MaskShow.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(128, 0, 255);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(128, 0, 255);
         else if(px_val == Vec3b(255, 0, 128))
-            MA_MaskShow.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 255);
+            MA_MaskShow_Binary.at<Vec3b>((*vBorderRem)[i_add_rem].y + mask_cy, (*vBorderRem)[i_add_rem].x + mask_cx) = Vec3b(255, 0, 255);
     }
 
     //show
-    Viewer_Mask.Update_Image(&MA_MaskShow);
+    Viewer_Mask_Binary.Update_Image(&MA_MaskShow_Binary);
 }
 
 void D_MAKRO_HuangVisualization::Update_Plot_Hist()
@@ -224,11 +247,7 @@ void D_MAKRO_HuangVisualization::Update_Plot_Hist()
         return;
 
     //init
-    MA_Hist = Mat::zeros(mask_relevant_px_count + 1, 256, CV_8UC3);
-
-    //axis
-    for(size_t v = 0; v < 256; v++)
-        MA_Hist.at<Vec3b>(mask_relevant_px_count, v) = Vec3b(v, v, v);
+    MA_Hist = Mat::zeros(mask_relevant_px_count, 256, CV_8UC3);
 
     //quantil value
     size_t q = static_cast<size_t>(quantil_val);
@@ -349,7 +368,6 @@ void D_MAKRO_HuangVisualization::Load_Image()
     //status
     pLabelStatus->setText("Image loaded");
 
-    Init_ImgOut();
     Pad_Image();
 }
 
@@ -395,8 +413,11 @@ void D_MAKRO_HuangVisualization::Get_Mask()
     //area non zero
     mask_relevant_px_count = countNonZero(MA_MaskBinary);
 
-    //show
-    MA_MaskShow = MA_MaskBinary_3C.clone();
+    //init and show
+    MA_MaskShow_Binary = MA_MaskBinary_3C.clone();
+    MA_MaskShow_In_Color = MA_MaskBinary_3C.clone();
+    MA_MaskShow_In_Gray = MA_MaskBinary.clone();
+    MA_MaskShow_Out = Mat::zeros(MA_MaskBinary.size(), CV_8UC1);
     Update_Image_Mask();
 
     //status
@@ -430,14 +451,32 @@ void D_MAKRO_HuangVisualization::Load_Mask()
    if(ER != ER_okay)
         return;
 
+   //thresh
+   Mat MA_tmp;
    ER = D_Img_Proc::Threshold_Relative_1C(
-               &MA_MaskBinary,
+               &MA_tmp,
                &MA_MaskLoad,
                255,
                0.5);
    if(ER != ER_okay)
        return;
 
+   //pading (just for visualization purposes
+   if(D_Img_Proc::Padding(
+               &MA_MaskBinary,
+               &MA_tmp,
+               1,
+               1,
+               1,
+               1,
+               BORDER_CONSTANT)
+           != ER_okay)
+   {
+       MA_tmp.release();
+       return;
+   }
+
+   MA_tmp.release();
    state_mask_loaded = true;
 }
 
@@ -468,17 +507,17 @@ void D_MAKRO_HuangVisualization::Generate_Mask()
 
         state_mask_loaded = false;
 
-        //generate circle
+        //generate circle (+2 / +1 to pad with 1 layer of 0)
         D_Img_Proc::Generate_byValueFunction(
                     &MA_MaskLoad,
-                    mask_img_size,
-                    mask_img_size,
+                    mask_img_size + 2,
+                    mask_img_size + 2,
                     D_Math::Function_2D_to_1D(
                         c_MATH_2D_TO_1D_ELLIPSE,
                         radius,
-                        mask_img_size / 2,
+                        mask_img_size / 2 + 1,
                         radius,
-                        mask_img_size / 2,
+                        mask_img_size / 2 + 1,
                         255,
                         0,
                         0,
@@ -508,7 +547,25 @@ void D_MAKRO_HuangVisualization::Generate_Mask()
         if(!ok)
             return;
 
-        MA_MaskLoad = Mat(size, size, CV_8UC1, Scalar(255));
+        //square
+        Mat MA_tmp_rect(size, size, CV_8UC1, Scalar(255));
+
+        //pading (just for visualization purposes
+        if(D_Img_Proc::Padding(
+                    &MA_MaskLoad,
+                    &MA_tmp_rect,
+                    1,
+                    1,
+                    1,
+                    1,
+                    BORDER_CONSTANT)
+                != ER_okay)
+        {
+            MA_tmp_rect.release();
+            return;
+        }
+        MA_tmp_rect.release();
+
         MA_MaskBinary = MA_MaskLoad.clone();
     }
 
@@ -557,13 +614,15 @@ void D_MAKRO_HuangVisualization::Get_Quantil()
 }
 
 void D_MAKRO_HuangVisualization::Pad_Image()
-{
-    state_img_padded = false;
+{    state_img_padded = false;
     if(!state_img_loaded || !state_mask_loaded)
         return;
 
     //reset proc chain
     step_next = STEP_INIT_POSITION;
+
+    //init output
+    Init_ImgOut();
 
     //pad
     if(D_Img_Proc::Padding(
@@ -614,7 +673,10 @@ void D_MAKRO_HuangVisualization::Init_ImgOut()
     step_next = STEP_INIT_POSITION;
 
     //init out
-    MA_ImgOut_Gray = Mat::zeros(img_in_sy, img_in_sx, CV_8UC1);
+    MA_ImgOut_Gray = Mat::zeros(
+                img_in_sy + abs(mask_c2b) + abs(mask_c2t),
+                img_in_sx + abs(mask_c2r) + abs(mask_c2l),
+                CV_8UC1);
     state_img_out_init = true;
 
     //show
@@ -754,8 +816,17 @@ void D_MAKRO_HuangVisualization::Init_Quantile()
     quantil_val = values_init[(values_init.size() - 1) * quantil_relPos];
 
     //write to image
-    MA_ImgOut_Gray.at<uchar>(0, 0) = static_cast<uchar>(quantil_val);
+    MA_ImgOut_Gray.at<uchar>(0 + mask_cy, 0 + mask_cx) = static_cast<uchar>(quantil_val);
+
+    //copy out data under mask to zoomed view
+    for(int y = 0; y < MA_MaskShow_Out.rows; y++)
+        for(int x = 0; x < MA_MaskShow_Out.cols; x++)
+            MA_MaskShow_Out.at<uchar>(y, x) = MA_ImgOut_Gray.at<uchar>(y + pos_y, x + pos_x);
+
+    //show
     Viewer_Out.Update_Image(&MA_ImgOut_Gray);
+    Viewer_Mask_Out.Update_Image(&MA_MaskShow_Out);
+
 
     //show
     ui->label_quantil->setText(QString::number(quantil_val));
@@ -769,6 +840,9 @@ void D_MAKRO_HuangVisualization::Init_Hist()
 {
     if(!state_img_loaded || !state_img_padded || !state_mask_loaded || !state_img_out_init || !state_quantil_rel_set)
         return;
+
+    //init hist legend
+    Init_HistLegend();
 
     //create histogram
     hist.clear();
@@ -919,6 +993,18 @@ void D_MAKRO_HuangVisualization::Init_PointLists()
     //next step is:
     pLabelStatus->setText("NEXT: Save current data as line begin (needed to reset on new line)");
     step_next = STEP_SAVE_LINE_BEGIN;
+}
+
+void D_MAKRO_HuangVisualization::Init_HistLegend()
+{
+    MA_Hist_Legend = Mat(1, 256, CV_8UC1);
+
+    //axis
+    for(int v = 0; v < 256; v++)
+        MA_Hist_Legend.at<uchar>(0, v) = v;
+
+    //show
+    Viewer_Hist_Legend.Update_Image(&MA_Hist_Legend);
 }
 
 void D_MAKRO_HuangVisualization::Step_SaveLineBegin()
@@ -1292,7 +1378,12 @@ void D_MAKRO_HuangVisualization::Step_Pixel_WriteOut()
         return;
 
     //write quantil value to output image
-    MA_ImgOut_Gray.at<uchar>(pos_y, pos_x) = quantil_val;
+    MA_ImgOut_Gray.at<uchar>(pos_y + mask_cy, pos_x + mask_cx) = quantil_val;
+
+    //copy out data under mask to zoomed view
+    for(int y = 0; y < MA_MaskShow_Out.rows; y++)
+        for(int x = 0; x < MA_MaskShow_Out.cols; x++)
+            MA_MaskShow_Out.at<uchar>(y, x) = MA_ImgOut_Gray.at<uchar>(y + pos_y, x + pos_x);
 
     //show
     Update_Image_Out();
@@ -1362,3 +1453,8 @@ void D_MAKRO_HuangVisualization::Step_Pixel_Change_Direction()
         ui->label_direction->setText("down");
 }
 
+
+void D_MAKRO_HuangVisualization::on_pushButton_VideoGuide_clicked()
+{
+    QDesktopServices::openUrl(QUrl("https://youtu.be/j_3wfKGABgQ"));
+}
