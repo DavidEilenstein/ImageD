@@ -293,6 +293,13 @@
        <property name="spacing">
         <number>3</number>
        </property>
+       <item row="9" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_DataLoad">
+         <property name="text">
+          <string>Load Dataset</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="1">
         <widget class="QSpinBox" name="spinBox_DataDim_P_exist">
          <property name="buttonSymbols">
@@ -315,38 +322,11 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="Line" name="line_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QSpinBox" name="spinBox_PageIndex_RFP">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>RFP index: </string>
-         </property>
-         <property name="maximum">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_DataLoad">
-         <property name="text">
-          <string>Load Dataset</string>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0">
         <widget class="QSpinBox" name="spinBox_DataDim_P_used">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
@@ -364,25 +344,6 @@
          </property>
          <property name="value">
           <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="spinBox_DataDim_Y">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="suffix">
-          <string> images</string>
-         </property>
-         <property name="prefix">
-          <string>Y: </string>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>15</number>
          </property>
         </widget>
        </item>
@@ -405,13 +366,6 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="Line" name="line_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QSpinBox" name="spinBox_DataDim_X">
          <property name="buttonSymbols">
@@ -422,6 +376,61 @@
          </property>
          <property name="prefix">
           <string>X: </string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>15</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_OverviewQuality">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>Overview quality: </string>
+         </property>
+         <property name="suffix">
+          <string>% of original image</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>20.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="Line" name="line_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="spinBox_DataDim_Y">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="suffix">
+          <string> images</string>
+         </property>
+         <property name="prefix">
+          <string>Y: </string>
          </property>
          <property name="minimum">
           <number>1</number>
@@ -450,50 +459,61 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QSpinBox" name="spinBox_PageIndex_GFP">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>GFP index: </string>
-         </property>
-         <property name="maximum">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
        <item row="6" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_OverviewQuality">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>Overview quality: </string>
-         </property>
-         <property name="suffix">
-          <string>% of original image</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="minimum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>20.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="Line" name="line_8">
+        <widget class="Line" name="line_7">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_15">
+         <item row="0" column="2">
+          <widget class="QSpinBox" name="spinBox_PageIndex_RFP">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="prefix">
+            <string>RFP index: </string>
+           </property>
+           <property name="maximum">
+            <number>2</number>
+           </property>
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="spinBox_PageIndex_GFP">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="prefix">
+            <string>GFP index: </string>
+           </property>
+           <property name="maximum">
+            <number>2</number>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="spinBox_PageIndex_Other">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="prefix">
+            <string>Other index: </string>
+           </property>
+           <property name="maximum">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

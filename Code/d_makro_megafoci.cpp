@@ -121,10 +121,11 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(ui->spinBox_DataDim_Y,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_y(int)));
     connect(ui->spinBox_DataDim_Z,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_z(int)));
     connect(ui->spinBox_DataDim_T,                          SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_t(int)));
-    connect(ui->spinBox_DataDim_P_used,                     SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_p_used(int)));
-    connect(ui->spinBox_DataDim_P_exist,                    SIGNAL(valueChanged(int)),                  this,               SLOT(set_dataset_dim_p_exist(int)));
-    connect(ui->spinBox_PageIndex_GFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(set_index_GFP(int)));
-    connect(ui->spinBox_PageIndex_RFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(set_index_RFP(int)));
+    connect(ui->spinBox_DataDim_P_used,                     SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
+    connect(ui->spinBox_DataDim_P_exist,                    SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
+    connect(ui->spinBox_PageIndex_GFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
+    connect(ui->spinBox_PageIndex_RFP,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
+    connect(ui->spinBox_PageIndex_Other,                    SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
     //overview big
     connect(ui->spinBox_OverviewBig_T,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
 
@@ -533,27 +534,60 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     //Pick channels -------------------------------------------------------------------------------------------------------
 
-    case STEP_PCK_P0:
+    case STEP_PCK_OTHER:
     {
-        vector<int> v_pick_dims = {-1, -1, -1, -1, -1, 0};
-        ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_PCK_P0]),
-                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
-                v_pick_dims),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PCK_P0 - Pick GFP signal");
+        if(dataset_dim_p_exist > 2)
+        {
+            vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
+            v_pick_dims[c_DIM_P] = index_page_other;
+            ERR(D_VisDat_Proc::Dim_Pick(
+                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
+                    v_pick_dims),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PCK_OTHER - Pick other signal");
+        }
+        else
+        {
+            //size
+            D_VisDat_Dim dim = vVD_ImgProcSteps[STEP_PRE_PROJECT_Z].Dim();
+            dim.set_size_P(1);
+
+            //zeros
+            ERR(D_VisDat_Proc::Create_VD_Single_Constant(
+                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                    dim,
+                    vVD_ImgProcSteps[STEP_PRE_PROJECT_Z].type(),
+                    0),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PCK_OTHER - Init with 0");
+        }
     }
         break;
 
-    case STEP_PCK_P1:
+    case STEP_PCK_GFP:
     {
-        vector<int> v_pick_dims = {-1, -1, -1, -1, -1, 1};
+        vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
+        v_pick_dims[c_DIM_P] = index_GFP;
         ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
                 &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
                 v_pick_dims),
             "Update_ImageProcessing_StepSingle",
-            "STEP_PCK_P1 - Pick RFP signal");
+            "STEP_PCK_GFP - Pick GFP signal");
+    }
+        break;
+
+    case STEP_PCK_RFP:
+    {
+        vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
+        v_pick_dims[c_DIM_P] = index_RFP;
+        ERR(D_VisDat_Proc::Dim_Pick(
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
+                v_pick_dims),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PCK_RFP - Pick RFP signal");
     }
         break;
 
@@ -564,10 +598,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         bool use_channels[4] = {true, true, false, false};
         ERR(D_VisDat_Proc::Channels_Merge(
                 &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
-                &(vVD_ImgProcSteps[STEP_PCK_P1]),
-                &(vVD_ImgProcSteps[STEP_PCK_P0]),
-                &(vVD_ImgProcSteps[STEP_PCK_P1]),
-                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
+                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
                 3,
                 use_channels),
             "Update_ImageProcessing_StepSingle",
@@ -579,60 +613,60 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     //Find Nuclei -------------------------------------------------------------------------------------------------------
 
-    case STEP_NUC_P0_BLUR_MEDIAN:
+    case STEP_NUC_GFP_BLUR_MEDIAN:
     {
         ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_PCK_P0]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
                 ui->spinBox_ImgProc_Nuc_GFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_BLUR_MEDIAN - Strong median blur GFP to get nuclei\n" + vVD_ImgProcSteps[STEP_PCK_P0].info());
+            "STEP_NUC_GFP_BLUR_MEDIAN - Strong median blur GFP to get nuclei\n" + vVD_ImgProcSteps[STEP_PCK_GFP].info());
     }
         break;
 
-    case STEP_NUC_P0_EDGE_CV:
+    case STEP_NUC_GFP_EDGE_CV:
     {
         ERR(D_VisDat_Proc::Filter_Stat_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_EDGE_CV]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_EDGE_CV]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_Nuc_GFP_EdgeCVSize->value(),
                 c_STAT_VAR_COEF_TOTAL,
                 BORDER_REPLICATE),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_EDGE_CV - Calc local coefficient of variance to get borders");
+            "STEP_NUC_GFP_EDGE_CV - Calc local coefficient of variance to get borders");
     }
         break;
 
-    case STEP_NUC_P0_BINARY_THRES:
+    case STEP_NUC_GFP_BINARY_THRES:
     {
         ERR(D_VisDat_Proc::Threshold_Relative(
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_EDGE_CV]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_EDGE_CV]),
                 100.0,
                 ui->doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_BINARY_THRES - Threshold coefficient of variance to get binary borders");
+            "STEP_NUC_GFP_BINARY_THRES - Threshold coefficient of variance to get binary borders");
     }
         break;
 
-    case STEP_NUC_P0_BINARY_FILL_HOLES:
+    case STEP_NUC_GFP_BINARY_FILL_HOLES:
     {
         ERR(D_VisDat_Proc::Fill_Holes(
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_THRES])),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_FILL_HOLES]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_THRES])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_BINARY_FILL_HOLES - Fill holes to make borders become approximate nuclei areas");
+            "STEP_NUC_GFP_BINARY_FILL_HOLES - Fill holes to make borders become approximate nuclei areas");
     }
         break;
 
-    case STEP_NUC_P0_BINARY_MORPH_ERODE:
+    case STEP_NUC_GFP_BINARY_MORPH_ERODE:
     {
         ERR(D_VisDat_Proc::Morphology_Elemental(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_MORPH_ERODE]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_FILL_HOLES]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_MORPH_ERODE]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_FILL_HOLES]),
                 MORPH_ERODE,
                 MORPH_ELLIPSE,
                 ui->spinBox_ImgProc_Nuc_ErodeBorder->value(),
@@ -640,7 +674,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 BORDER_DEFAULT,
                 1),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P0_BINARY_MORPH_ERODE - Erode border caused by previous filters");
+            "STEP_NUC_GFP_BINARY_MORPH_ERODE - Erode border caused by previous filters");
     }
         break;
 
@@ -649,7 +683,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         ERR(D_VisDat_Proc::Transformation_Distance(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_DISTANCE]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_MORPH_ERODE]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_MORPH_ERODE]),
                 CV_DIST_L2,
                 CV_DIST_MASK_PRECISE),
             "Update_ImageProcessing_StepSingle",
@@ -674,7 +708,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_WATERSHED]),
-                &(vVD_ImgProcSteps[STEP_NUC_P0_BINARY_MORPH_ERODE]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BINARY_MORPH_ERODE]),
                 &(vVD_ImgProcSteps[STEP_NUC_SEEDS]),
                 ui->checkBox_ImgProc_Nuc_Watershed_NonSeed->isChecked(),
                 false,
@@ -714,13 +748,13 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_NUC_P1_SELECT_MEAN:
+    case STEP_NUC_RFP_SELECT_MEAN:
     {
         ERR(D_VisDat_Proc::Copy( // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Replace with value in blob filter function
-                &(vVD_ImgProcSteps[STEP_NUC_P1_SELECT_MEAN]),
+                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
                 &(vVD_ImgProcSteps[STEP_NUC_SELECT_ROUNDNESS])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_P1_SELECT_MEAN - Select only nuclei with high enough signal in RFP");
+            "STEP_NUC_RFP_SELECT_MEAN - Select only nuclei with high enough signal in RFP");
     }
         break;
 
@@ -729,7 +763,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         ERR(D_VisDat_Proc::Geometric_Reduce(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS]),
-                &(vVD_ImgProcSteps[STEP_NUC_P1_SELECT_MEAN]),
+                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
                 c_GEO_OUTLINE,
                 4,
                 3,
@@ -741,110 +775,110 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     //Find Foci GFP -------------------------------------------------------------------------------------------------------
 
-    case STEP_FOC_P0_BLUR_MEDIAN:
+    case STEP_FOC_GFP_BLUR_MEDIAN:
     {
         ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_PCK_P0]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
                 ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P0_BLUR_MEDIAN - Median blur GFP in order to get foci");
+            "STEP_FOC_GFP_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
         break;
 
-    case STEP_FOC_P0_BINARY_THRES:
+    case STEP_FOC_GFP_BINARY_THRES:
     {
         ERR(D_VisDat_Proc::Threshold_Adaptive_Gauss(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_Foc_GFP_BinarySize->value(),
                 ui->doubleSpinBox_ImgProc_Foc_GFP_BinarySigma->value(),
                 ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P0_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
+            "STEP_FOC_GFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
     }
         break;
 
-    case STEP_FOC_P0_MASK_IN_NUC:
+    case STEP_FOC_GFP_MASK_IN_NUC:
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_FOC_P0_MASK_IN_NUC]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_P1_SELECT_MEAN])),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P0_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
+            "STEP_FOC_GFP_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
     }
         break;
 
-    case STEP_FOC_P0_SELECT_AREA:
+    case STEP_FOC_GFP_SELECT_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_MASK_IN_NUC]),
                 c_FEAT_AREA,
                 ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value(),
                 ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P0_SELECT_AREA - (GFP) Select foci candidates by area");
+            "STEP_FOC_GFP_SELECT_AREA - (GFP) Select foci candidates by area");
     }
         break;
 
 
     //Find Foci RFP -------------------------------------------------------------------------------------------------------
 
-    case STEP_FOC_P1_BLUR_MEDIAN:
+    case STEP_FOC_RFP_BLUR_MEDIAN:
     {
         ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_PCK_P1]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
                 ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P1_BLUR_MEDIAN - Median blur GFP in order to get foci");
+            "STEP_FOC_RFP_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
         break;
 
-    case STEP_FOC_P1_BINARY_THRES:
+    case STEP_FOC_RFP_BINARY_THRES:
     {
         ERR(D_VisDat_Proc::Threshold_Adaptive_Gauss(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_Foc_RFP_BinarySize->value(),
                 ui->doubleSpinBox_ImgProc_Foc_RFP_BinarySigma->value(),
                 ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P1_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
+            "STEP_FOC_RFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
     }
         break;
 
-    case STEP_FOC_P1_MASK_IN_NUC:
+    case STEP_FOC_RFP_MASK_IN_NUC:
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_FOC_P1_MASK_IN_NUC]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_P1_SELECT_MEAN])),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
+                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P1_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
+            "STEP_FOC_RFP_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
     }
         break;
 
-    case STEP_FOC_P1_SELECT_AREA:
+    case STEP_FOC_RFP_SELECT_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_MASK_IN_NUC]),
                 c_FEAT_AREA,
                 ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value(),
                 ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_P1_SELECT_AREA - (GFP) Select foci candidates by area");
+            "STEP_FOC_RFP_SELECT_AREA - (GFP) Select foci candidates by area");
     }
         break;
 
@@ -854,8 +888,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
                 &(vVD_ImgProcSteps[STEP_FOC_BOTH_INTERSECT]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_SELECT_AREA])),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_BOTH_INTERSECT - Get intersect area of GFP and RFP foci");
     }
@@ -882,8 +916,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
                 &(vVD_ImgProcSteps[STEP_CLA_FOC_ALL]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_SELECT_AREA])),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])),
             "Update_ImageProcessing_StepSingle",
             "STEP_CLA_FOC_ALL - Foci that are in at least in GFP or RFP");
     }
@@ -900,25 +934,25 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_CLA_FOC_IN_P0_ONLY:
+    case STEP_CLA_FOC_IN_GFP_ONLY:
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_P0_ONLY]),
+                &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_GFP_ONLY]),
                 &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_ONE_ONLY]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_SELECT_AREA])),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_CLA_FOC_IN_P0_ONLY - Foci in GFP only");
+            "STEP_CLA_FOC_IN_GFP_ONLY - Foci in GFP only");
     }
         break;
 
-    case STEP_CLA_FOC_IN_P1_ONLY:
+    case STEP_CLA_FOC_IN_RFP_ONLY:
     {
         ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_P1_ONLY]),
+                &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_RFP_ONLY]),
                 &(vVD_ImgProcSteps[STEP_CLA_FOC_IN_ONE_ONLY]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_SELECT_AREA])),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_CLA_FOC_IN_P1_ONLY - Foci in RFP only");
+            "STEP_CLA_FOC_IN_RFP_ONLY - Foci in RFP only");
     }
         break;
 
@@ -928,8 +962,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     {
         ERR(D_VisDat_Proc::Channels_Merge(
                 &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),
-                &(vVD_ImgProcSteps[STEP_FOC_P0_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_P1_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
                 &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS])),
             "Update_ImageProcessing_StepSingle",
             "STEP_VIS_REGIONS - Nuclei and foci area as color");
@@ -979,14 +1013,14 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     ///vector od foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
-    vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_P0_SELECT_AREA;
-    vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_P1_SELECT_AREA;
+    vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
+    vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
     vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
 
     ///list of value image indices (GFP and RFP)
     vector<size_t> vIndices_Values(2);
-    vIndices_Values[0] = STEP_PCK_P0;
-    vIndices_Values[1] = STEP_PCK_P1;
+    vIndices_Values[0] = STEP_PCK_GFP;
+    vIndices_Values[1] = STEP_PCK_RFP;
 
     ///geometric moisaik offset in pixels
     Point MosaikOffset(
@@ -998,7 +1032,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     D_Bio_NucleusImage ImageDecomp;
     int ER = ImageDecomp.calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
-                STEP_NUC_P1_SELECT_MEAN,
+                STEP_NUC_RFP_SELECT_MEAN,
                 vIndices_FociBinary,
                 vIndices_Values,
                 MosaikOffset,
@@ -1152,7 +1186,52 @@ void D_MAKRO_MegaFoci::Populate_CB_Single(QComboBox *CB, QStringList QSL, int in
 
 bool D_MAKRO_MegaFoci::Load_Dataset()
 {
-    StatusSet("Waiting exitedly for your slection");
+    if(!state_page_indices_consistent)
+    {
+        StatusSet("Indices of pages not constistent");
+        StatusSet("Remember: Indices in n count from 0 to n-1");
+        StatusSet("And of course they should not double :-P");
+
+        switch(QMessageBox::warning(
+                    this,
+                    "Dataset indices invalid",
+                    "There is something wrong with the indices and/or count of pages."
+                    "<br>Remember: Indices in n count from 0 to n-1"
+                    "<br>And of course they should not double :-P"
+                    "<br>"
+                    "<br>Popular settings are:"
+                    "<br>A) 2 exist, 2 used, GFP@0, RFP@1"
+                    "<br>B) 3 exist, 2 used, other@0, GFP@1, RFP@2",
+                    "Enter new settings",
+                    "Try A",
+                    "Try B"))
+        {
+
+            case 0:
+            StatusSet("You thing you can do it better this time, right?");
+            return false;
+
+            case 1:
+            ui->spinBox_DataDim_P_exist->setValue(2);
+            ui->spinBox_PageIndex_GFP->setValue(0);
+            ui->spinBox_PageIndex_RFP->setValue(1);
+            StatusSet("Try standard setting A instead");
+            return Load_Dataset();
+
+            case 2:
+            ui->spinBox_DataDim_P_exist->setValue(3);
+            ui->spinBox_PageIndex_GFP->setValue(1);
+            ui->spinBox_PageIndex_RFP->setValue(2);
+            ui->spinBox_PageIndex_Other->setValue(0);
+            StatusSet("Try standard setting B instead");
+            return Load_Dataset();
+
+            default:
+            return false;
+        }
+    }
+
+    StatusSet("Waiting exitedly for your selection");
 
     //get filepaths
     QStringList QSl_Paths = QFileDialog::getOpenFileNames(
@@ -1476,32 +1555,79 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
     return ER;
 }
 
-void D_MAKRO_MegaFoci::Update_PageIndexNames()
+bool D_MAKRO_MegaFoci::Update_PagesConfig(bool give_2nd_try)
 {
-    ///resize page name list
+    ///ignore if dataset is loaded
+    if(state_dataset_dim_set)
+        return false;
+
+    ///reset page consistent state
+    state_page_indices_consistent = true;
+
+    ///get indices
+    index_GFP = ui->spinBox_PageIndex_GFP->value();
+    index_RFP = ui->spinBox_PageIndex_RFP->value();
+    index_page_other = ui->spinBox_PageIndex_Other->value();
+
+    ///get pages count
+    dataset_dim_p_exist = ui->spinBox_DataDim_P_exist->value();
+    dataset_dim_p_used = ui->spinBox_DataDim_P_used->value();
+
+    ///set existent pages - 1 as maximum for indices
+    ui->spinBox_PageIndex_GFP->setMaximum(dataset_dim_p_exist - 1);
+    ui->spinBox_PageIndex_RFP->setMaximum(dataset_dim_p_exist - 1);
+    ui->spinBox_PageIndex_Other->setMaximum(dataset_dim_p_exist - 1);
+
+    ///calc dataset size
+    dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used;
+    dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;
+
+    ///check index range
+    if(index_GFP >= dataset_dim_p_exist)
+        state_page_indices_consistent = false;
+    if(index_RFP >= dataset_dim_p_exist)
+        state_page_indices_consistent = false;
+    if(dataset_dim_p_exist > 2)
+        if(index_page_other >= dataset_dim_p_exist)
+            state_page_indices_consistent = false;
+
+    ///check index doubles
+    if(index_GFP == index_RFP)
+        state_page_indices_consistent = false;
+    if(dataset_dim_p_exist > 2)
+    {
+        if(index_page_other == index_GFP)
+            state_page_indices_consistent = false;
+        if(index_page_other == index_RFP)
+            state_page_indices_consistent = false;
+    }
+
+    ///Reset names list
     QSL_Pages.clear();
-    QSL_Pages.reserve(dataset_dim_p_exist);
+    for(size_t i = 0; i < dataset_dim_p_exist; i++)
+        QSL_Pages.append("bullshit");
 
-    ///fill page name list with names
-    QSL_Pages[index_GFP] = "GFP";
-    QSL_Pages[index_RFP] = "RFP";
-    for(size_t i = 0; i < static_cast<size_t>(QSL_Pages.size()); i++)
-        if(i != index_GFP)
-            if(i != index_RFP)
-            {
-                QSL_Pages[i] = "Other";
-                index_page_other = i;
-            }
+    ///set channel names if valid
+    if(state_page_indices_consistent)
+    {
+        QSL_Pages[index_GFP] = "GFP";
+        QSL_Pages[index_RFP] = "RFP";
+        if(dataset_dim_p_exist > 2)
+            QSL_Pages[index_page_other] = "Other";
+    }
 
-    ///check, if indices are doubled
-    state_page_indices_consistent =
-            index_GFP != index_page_other &&
-            index_GFP != index_RFP &&
-            index_RFP != index_page_other;
+    ///try again one time if invalid (maxima settings could have changed it)
+    if(!state_page_indices_consistent)
+        if(give_2nd_try)
+            Update_PagesConfig(false);
 
-    ///show correct page name in ui
-    if(ui->spinBox_Viewport_P->value() < QSL_Pages.size())
-        ui->spinBox_Viewport_P->setSuffix(" (" + QSL_Pages[ui->spinBox_Viewport_P->value()] + ")");
+    ///show correct page name in ui if valid
+    if(state_page_indices_consistent)
+        if(ui->spinBox_Viewport_P->value() < QSL_Pages.size())
+            ui->spinBox_Viewport_P->setSuffix(" (" + QSL_Pages[ui->spinBox_Viewport_P->value()] + ")");
+
+    ///return state of success
+    return state_page_indices_consistent;
 }
 
 void D_MAKRO_MegaFoci::StatusSet(QString NewStatus)
@@ -1570,7 +1696,7 @@ void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_RangeMode_currentIndexChanged(int in
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int index)
 {
     ui->spinBox_Viewport_Z->setEnabled(index < STEP_PRE_PROJECT_Z);
-    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_P0);
+    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_GFP);
 
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
     Update_Images_Proc();
@@ -1645,27 +1771,27 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_RoundnesMin_valueChanged(dou
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_P1_SELECT_MEAN);
+    Update_ImageProcessing_StepFrom(STEP_NUC_RFP_SELECT_MEAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_P0_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_GFP_EdgeCVSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_P0_EDGE_CV);
+    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_EDGE_CV);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_P0_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_ErodeBorder_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_P0_BINARY_MORPH_ERODE);
+    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BINARY_MORPH_ERODE);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_GFP_DistThres_valueChanged(double arg1)
@@ -1689,22 +1815,22 @@ void D_MAKRO_MegaFoci::on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P0_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1)
@@ -1712,7 +1838,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(dou
     if(arg1 > ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value())
         ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_P0_SELECT_AREA);
+        Update_ImageProcessing_StepFrom(STEP_FOC_GFP_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1)
@@ -1720,7 +1846,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(dou
     if(arg1 < ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value())
         ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_P0_SELECT_AREA);
+        Update_ImageProcessing_StepFrom(STEP_FOC_GFP_SELECT_AREA);
 }
 
 
@@ -1729,22 +1855,22 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(dou
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P1_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P1_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P1_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_P1_BINARY_THRES);
+    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1)
@@ -1752,7 +1878,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(dou
     if(arg1 > ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value())
         ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_P1_SELECT_AREA);
+        Update_ImageProcessing_StepFrom(STEP_FOC_RFP_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1)
@@ -1760,7 +1886,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(dou
     if(arg1 < ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value())
         ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_P1_SELECT_AREA);
+        Update_ImageProcessing_StepFrom(STEP_FOC_RFP_SELECT_AREA);
 }
 
 
@@ -1768,4 +1894,9 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(dou
 void D_MAKRO_MegaFoci::on_action_Process_full_stack_triggered()
 {
     Stack_Process_All();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_DataDim_P_exist_valueChanged(int arg1)
+{
+    ui->spinBox_PageIndex_Other->setEnabled(arg1 > 2);
 }

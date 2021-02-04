@@ -17,7 +17,7 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_3_5";
+const QString           D_QS_Version  = "v1_3_6";
 const QString           D_QS_Release  = "04.02.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
@@ -2283,6 +2283,9 @@ PH_g_earth              = 9.80665;
  *
  * Some YouTube-Tutorials can be found here:
  *      - <a href="https://youtu.be/j_3wfKGABgQ">Huang rank order filtering explanantion and visualization</a> (german)
+ *      - <a href="https://youtu.be/thr8br8_YJs">kNN classifier</a> (german)
+ *      - <a href="https://youtu.be/vHl2Vqof2p0">Softmax classifier</a> (german)
+ *      - <a href="https://youtu.be/OQ3y6DO9kbU">Selfmade watershed transform implementation</a> (german)
  *      - <a href="https://youtu.be/2OATSGe2Oks">How diescrete fourier transformation works</a> (german)
  *
  * \subsection links_sec_projects Projects
@@ -2321,6 +2324,7 @@ PH_g_earth              = 9.80665;
  *      - Contact: D.Eilenstein@gsi.de
  *      - Degree: Bachelor of Science in <a href="https://fbmn.h-da.de/index.php/Studienangebote/OBV">Machine Vision and Photonics</a> at <a href="https://h-da.de/">Hochschule Darmstadt</a> (expected Master of Science 2021)
  *      - Job: Writing ImageD and plugins for specialized solutions in the <a href="https://www.gsi.de/en/work/research/biophysics.htm">biophysics</a> department at <a href="https://www.gsi.de/en/start/news.htm">GSI Darmstadt</a>
+ *      - Other: <a href="https://youtu.be/n-_fRfmTA1M">The species of athletic nerds actually exist :-P</a>
  *
  */
 

@@ -117,14 +117,9 @@ private slots:
     void set_dataset_dim_y(int y)               {if(!state_dataset_dim_set) {dataset_dim_mosaic_y = y;      dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
     void set_dataset_dim_t(int t)               {if(!state_dataset_dim_set) {dataset_dim_t = t;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
     void set_dataset_dim_z(int z)               {if(!state_dataset_dim_set) {dataset_dim_z = z;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
-    void set_dataset_dim_p_used(int p_used)     {if(!state_dataset_dim_set) {dataset_dim_p_used = p_used;   dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;} Update_PageIndexNames();}
-    void set_dataset_dim_p_exist(int p_exist)   {if(!state_dataset_dim_set) {dataset_dim_p_exist = p_exist; dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;} Update_PageIndexNames();}
 
     //indices
-    void set_index_GFP(int i)                   {if(static_cast<size_t>(i) < dataset_dim_p_used && i >= 0) {index_GFP = i; Update_PageIndexNames();}}
-    void set_index_RFP(int i)                   {if(static_cast<size_t>(i) < dataset_dim_p_used && i >= 0) {index_RFP = i; Update_PageIndexNames();}}
-    void Update_PageIndexNames();
-
+    bool Update_PagesConfig(bool give_2nd_try = true);
 
     //status info to statius panel
     void StatusSet(QString NewStatus);
@@ -177,6 +172,8 @@ private slots:
 
 
     void on_action_Process_full_stack_triggered();
+
+    void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
 
 private:
     Ui::D_MAKRO_MegaFoci *ui;
@@ -308,41 +305,42 @@ private:
         STEP_PRE_STITCH,
         STEP_PRE_PROJECT_Z,
         //Pick Channels
-        STEP_PCK_P0,
-        STEP_PCK_P1,
+        STEP_PCK_OTHER,
+        STEP_PCK_GFP,
+        STEP_PCK_RFP,
         //Visualization
         STEP_VIS_PAGES_AS_COLOR,
         //Find Nuclei
-        STEP_NUC_P0_BLUR_MEDIAN,
-        STEP_NUC_P0_EDGE_CV,
-        STEP_NUC_P0_BINARY_THRES,
-        STEP_NUC_P0_BINARY_FILL_HOLES,
-        STEP_NUC_P0_BINARY_MORPH_ERODE,
+        STEP_NUC_GFP_BLUR_MEDIAN,
+        STEP_NUC_GFP_EDGE_CV,
+        STEP_NUC_GFP_BINARY_THRES,
+        STEP_NUC_GFP_BINARY_FILL_HOLES,
+        STEP_NUC_GFP_BINARY_MORPH_ERODE,
         STEP_NUC_DISTANCE,
         STEP_NUC_SEEDS,
         STEP_NUC_WATERSHED,
         STEP_NUC_SELECT_AREA,
         STEP_NUC_SELECT_ROUNDNESS,
-        STEP_NUC_P1_SELECT_MEAN,
+        STEP_NUC_RFP_SELECT_MEAN,
         STEP_VIS_NUC_BORDERS,
         //Find Foci GFP
-        STEP_FOC_P0_BLUR_MEDIAN,
-        STEP_FOC_P0_BINARY_THRES,
-        STEP_FOC_P0_MASK_IN_NUC,
-        STEP_FOC_P0_SELECT_AREA,
+        STEP_FOC_GFP_BLUR_MEDIAN,
+        STEP_FOC_GFP_BINARY_THRES,
+        STEP_FOC_GFP_MASK_IN_NUC,
+        STEP_FOC_GFP_SELECT_AREA,
         //Find Foci RFP
-        STEP_FOC_P1_BLUR_MEDIAN,
-        STEP_FOC_P1_BINARY_THRES,
-        STEP_FOC_P1_MASK_IN_NUC,
-        STEP_FOC_P1_SELECT_AREA,
+        STEP_FOC_RFP_BLUR_MEDIAN,
+        STEP_FOC_RFP_BINARY_THRES,
+        STEP_FOC_RFP_MASK_IN_NUC,
+        STEP_FOC_RFP_SELECT_AREA,
         //Match Foci
         STEP_FOC_BOTH_INTERSECT,
         STEP_FOC_BOTH_SELECT_AREA,
         //Classification
         STEP_CLA_FOC_ALL,
         STEP_CLA_FOC_IN_ONE_ONLY,
-        STEP_CLA_FOC_IN_P0_ONLY,
-        STEP_CLA_FOC_IN_P1_ONLY,
+        STEP_CLA_FOC_IN_GFP_ONLY,
+        STEP_CLA_FOC_IN_RFP_ONLY,
         //Visualization
         STEP_VIS_REGIONS,
         STEP_VIS_REGIONS_BACKGROUND,
@@ -356,8 +354,9 @@ private:
         "pre-4 Stitch borders to main image",
         "pre-5 Z-Projection",
 
-        "pck-0 GFP pick signal",
-        "pck-1 RFP pick Signal",
+        "pck-0 OTHER pick signal",
+        "pck-1 GFP pick signal",
+        "pck-2 RFP pick Signal",
 
         "vis-0 Color GFP green RFP blue",
 
