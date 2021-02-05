@@ -7059,7 +7059,7 @@ int D_VisDat_Proc::RadiometricStereo(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_O
                 pVD_In3);
 }
 
-int D_VisDat_Proc::InterferometerMichelson(D_VisDat_Obj *pVD_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+int D_VisDat_Proc::InterferometerMichelson(D_VisDat_Obj *pVD_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y, bool intensity_notfield, bool beam_atSO_SO, bool beam_atSO_M1_SO, bool beam_atSO_SP_M2_SP_SO, bool beam_atM1_SO, bool beam_atM1_M1_SO, bool beam_atM2_SP_SO, bool beam_atM2_M2_SP_SO, bool beam_atDE_SP_M1_SO, bool beam_atDE_M2_SP_SO)
 {
     *pVD_Out = D_VisDat_Obj(
                 D_VisDat_Dim(scene_size_x_px, scene_size_y_px, scene_size_z_px, 1, 1, 1),
@@ -7080,7 +7080,17 @@ int D_VisDat_Proc::InterferometerMichelson(D_VisDat_Obj *pVD_Out, int scene_size
                     angle_mirror1_x,
                     angle_mirror1_y,
                     angle_mirror2_x,
-                    angle_mirror2_y),
+                    angle_mirror2_y,
+                    intensity_notfield,
+                    beam_atSO_SO,
+                    beam_atSO_M1_SO,
+                    beam_atSO_SP_M2_SP_SO,
+                    beam_atM1_SO,
+                    beam_atM1_M1_SO,
+                    beam_atM2_SP_SO,
+                    beam_atM2_M2_SP_SO,
+                    beam_atDE_SP_M1_SO,
+                    beam_atDE_M2_SP_SO),
                 pVD_Out);
 }
 

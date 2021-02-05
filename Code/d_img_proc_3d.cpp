@@ -2208,18 +2208,18 @@ int D_Img_Proc_3D::Calc_Hist_8bit_1C(vector<double> *v_hist, Mat *pMA_In, bool u
     return ER_okay;
 }
 
-int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y, bool intensity_notfield, bool beam_atSO_SO, bool beam_atSO_M1_SO, bool beam_atSO_SP_M2_SP_SO, bool beam_atM1_SO, bool beam_atM1_M1_SO, bool beam_atM2_SP_SO, bool beam_atM2_M2_SP_SO, bool beam_atDE_SP_M1_SO, bool beam_atDE_M2_SP_SO)
 {
     //errors
     if(scene_size_x_px < 3)                                 return ER_size_bad;
     if(scene_size_y_px < 3)                                 return ER_size_bad;
     if(scene_size_z_px < 1)                                 return ER_size_bad;
-    if(wavelength_um <= 0)                                   return ER_parameter_bad;
-    if(scale_px2um <= 0)                                     return ER_parameter_bad;
-    if(dist_source_um < 0)                                   return ER_parameter_bad;
-    if(dist_detector_um < 0)                                 return ER_parameter_bad;
-    if(dist_mirror1_um < 0)                                  return ER_parameter_bad;
-    if(dist_mirror2_um < 0)                                  return ER_parameter_bad;
+    if(wavelength_um <= 0)                                  return ER_parameter_bad;
+    if(scale_px2um <= 0)                                    return ER_parameter_bad;
+    if(dist_source_um < 0)                                  return ER_parameter_bad;
+    if(dist_detector_um < 0)                                return ER_parameter_bad;
+    if(dist_mirror1_um < 0)                                 return ER_parameter_bad;
+    if(dist_mirror2_um < 0)                                 return ER_parameter_bad;
     if(angle_mirror1_x <= -PI || angle_mirror1_x >= PI)     return ER_parameter_bad;
     if(angle_mirror2_x <= -PI || angle_mirror2_x >= PI)     return ER_parameter_bad;
     if(angle_mirror1_y <= -PI || angle_mirror1_y >= PI)     return ER_parameter_bad;
@@ -2231,14 +2231,101 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
     int nz              = scene_size_z_px;
     int scene_size[]    = {nx, ny, nz};
 
-    //pos
-    Vec<int, 3> pos_px  = {0, 0, 0};
-
-    //slope of diagonal
-    double slope_inverse = static_cast<double>(nx) / static_cast<double>(ny);
 
     //output
     *pMA_Out            = Mat::zeros(3, scene_size, CV_64FC1);
+
+    //pos
+    Vec<int, 3> pos_px  = {0, 0, 0};
+
+    //mirrors & source ----------------------------------------------------------
+
+    //max field strength
+    double E_max = 1;
+
+    //source
+    int y_source_px = ny/2 + dist_source_um / scale_px2um;
+    for(int z = 0; z < nz; z++)
+        for(int y = max((2*ny)/3, y_source_px); y < ny; y++)
+        {
+            for(int x = (2*nx)/9; x < (3*nx)/9; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+
+            for(int x = (6*nx)/9; x < (7*nx)/9; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+        }
+
+    //mirror 1
+    int y_mirror1_px = ny/2 - dist_mirror1_um / scale_px2um;
+    for(int z = 0; z < nz; z++)
+        for(int y = 0; y < min(ny/3, y_mirror1_px); y++)
+        {
+            for(int x = (2*nx)/9; x < (3*nx)/9; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+
+            for(int x = (6*nx)/9; x < (7*nx)/9; x++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+        }
+
+    //source
+    int x_mirror2_px = nx/2 + dist_mirror2_um / scale_px2um;
+    for(int z = 0; z < nz; z++)
+        for(int x = max(nx/3, x_mirror2_px); x < nx; x++)
+        {
+            for(int y = (2*ny)/9; y < (3*ny)/9; y++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+
+            for(int y = (6*ny)/9; y < (7*ny)/9; y++)
+            {
+                //pixel pos
+                pos_px[0] = x;
+                pos_px[1] = y;
+                pos_px[2] = z;
+
+                pMA_Out->at<double>(pos_px) = E_max;
+            }
+        }
+
+
+    //waves----------------------------------------------------------------------
+
+    //slope of diagonal
+    double slope_inverse = static_cast<double>(nx) / static_cast<double>(ny);
 
     //SO = Source (bottom)
     //DE = Detector (left)
@@ -2293,17 +2380,49 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
     // 1/4 M1 SO
     // 1/4 SP M2 SP SO
 
-    //resize sources
-    vSource.resize(1);
-    vPhaseOffset.resize(1);
-    vFieldstrength.resize(1);
+    //clear sources
+    vSource.clear();
+    vPhaseOffset.clear();
+    vFieldstrength.clear();
+
 
     // 1/1 SO
-    vSource[0]          = D_Math::Inhomogenious_3D(Obj_sp_h_SO);
-    vPhaseOffset[0]     = 0;
-    vFieldstrength[0]   = 1;
+    if(beam_atSO_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(Obj_sp_h_SO));
+        vPhaseOffset.push_back(0 * PI);
+        vFieldstrength.push_back(1);
+    }
 
-    //loop
+    // 1/4 M1 SO
+    if(beam_atSO_M1_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Shift_3D_h(0, -dist_mirror1_um, 0) *
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
+                    D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
+                    Obj_sp_h_SO));
+        vPhaseOffset.push_back(1 * PI);
+        vFieldstrength.push_back(0.25);
+    }
+
+    // 1/4 SP M2 SP SO
+    if(beam_atSO_SP_M2_SP_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Rotation_3D_h_rad(0, 0, -PI_0_5) *                                      //Reflection Splitter
+                    D_Math::Shift_3D_h(+dist_mirror2_um, 0, 0) *                                        //Center: Mirror2 -> Splitter
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror2_y, 0) *                              //Reflection Mirror2 (mirror orientation y) !!!FIXME!!! rotation has no effect
+                    D_Math::Rotation_3D_h_rad(0, 0, 2 * angle_mirror2_x) *                              //Reflection Mirror2 (mirror orientation x)
+                    D_Math::Rotation_3D_h_rad(0, 0, PI) *                                               //Reflection Mirror2 (basic reflection)
+                    D_Math::Shift_3D_h(-dist_mirror2_um, 0, 0) *                                        //Center: Splitter -> Mirror2
+                    D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *                                       //Reflection Splitter
+                    Obj_sp_h_SO));                                                                  //Source
+        vPhaseOffset.push_back(3 * PI);
+        vFieldstrength.push_back(0.25);
+    }
+
+    //loop region and calc interference
     for(int z = 0; z < nz; z++)
         for(int y = ny/3; y < ny; y++)
             for(int x = max(nx/3, static_cast<int>((ny-y-1) * slope_inverse)); x < (nx*2)/3; x++)
@@ -2330,6 +2449,44 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
             }
 
     //region M2 ------------------------------------------------------------------------------------------------
+
+    //region M2
+    // 1/2 SP SO
+    // 1/2 M2 SP SO
+
+    //resize sources
+    vSource.clear();
+    vPhaseOffset.clear();
+    vFieldstrength.clear();
+
+    // 1/2 SP SO
+    if(beam_atM2_SP_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *       //Reflection Splitter
+                    Obj_sp_h_SO));                                  //Source
+        vPhaseOffset.push_back(1 * PI);
+        vFieldstrength.push_back(0.5);
+    }
+
+
+    // 1/2 M2 SP SO
+    if(beam_atM2_M2_SP_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Shift_3D_h(+dist_mirror2_um, 0, 0) *                                        //Center: Mirror2 -> Splitter
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror2_y, 0) *                              //Reflection Mirror2 (mirror orientation y) !!!FIXME!!! rotation has no effect
+                    D_Math::Rotation_3D_h_rad(0, 0, 2 * angle_mirror2_x) *                              //Reflection Mirror2 (mirror orientation x)
+                    D_Math::Rotation_3D_h_rad(0, 0, PI) *                                               //Reflection Mirror2 (basic reflection)
+                    D_Math::Shift_3D_h(-dist_mirror2_um, 0, 0) *                                        //Center: Splitter -> Mirror2
+                    D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *                                       //Reflection Splitter
+                    Obj_sp_h_SO));                                                                  //Source
+        vPhaseOffset.push_back(2 * PI);
+        vFieldstrength.push_back(0.5);
+    }
+
+
+    //loop region and calc interference
     for(int z = 0; z < nz; z++)
         for(int y = ny/3; y < (ny*2)/3; y++)
             for(int x = max(nx/3, static_cast<int>((ny-y-1) * slope_inverse)); x < nx; x++)
@@ -2356,6 +2513,37 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
             }
 
     //region M1 ------------------------------------------------------------------------------------------------
+
+    //region M1
+    // 1/2 SO
+    // 1/2 M1 SO
+
+    //clear sources
+    vSource.clear();
+    vPhaseOffset.clear();
+    vFieldstrength.clear();
+
+    // 1/2 SO
+    if(beam_atM1_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(Obj_sp_h_SO));
+        vPhaseOffset.push_back(0 * PI);
+        vFieldstrength.push_back(0.5);
+    }
+
+    // 1/2 M1 SO
+    if(beam_atM1_M1_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Shift_3D_h(0, -dist_mirror1_um, 0) *
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
+                    D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
+                    Obj_sp_h_SO));
+        vPhaseOffset.push_back(1 * PI);
+        vFieldstrength.push_back(0.5);
+    }
+
+    //loop region and calc interference
     for(int z = 0; z < nz; z++)
         for(int y = 0; y < (ny*2)/3; y++)
             for(int x = nx/3; x < min((nx*2)/3, static_cast<int>((ny-y-1) * slope_inverse)); x++)
@@ -2382,6 +2570,45 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
             }
 
     //region DE ------------------------------------------------------------------------------------------------
+
+    //region DE
+    // 1/4 SP M1 SO
+    // 1/4 M2 SP SO
+
+    //resize sources
+    vSource.clear();
+    vPhaseOffset.clear();
+    vFieldstrength.clear();
+
+    // 1/4 M2 SP SO
+    if(beam_atDE_M2_SP_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Shift_3D_h(+dist_mirror2_um, 0, 0) *                                        //Center: Mirror2 -> Splitter
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror2_y, 0) *                              //Reflection Mirror2 (mirror orientation y) !!!FIXME!!! rotation has no effect
+                    D_Math::Rotation_3D_h_rad(0, 0, 2 * angle_mirror2_x) *                              //Reflection Mirror2 (mirror orientation x)
+                    D_Math::Rotation_3D_h_rad(0, 0, PI) *                                               //Reflection Mirror2 (basic reflection)
+                    D_Math::Shift_3D_h(-dist_mirror2_um, 0, 0) *                                        //Center: Splitter -> Mirror2
+                    D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *                                       //Reflection Splitter
+                    Obj_sp_h_SO));                                                                  //Source
+        vPhaseOffset.push_back(1 * PI); //2 reflections, but only 1PI phaseshift, because of one reflection at n'>n (no phaseshift)
+        vFieldstrength.push_back(0.25);
+    }
+
+    // 1/4 SP M1 SO
+    if(beam_atDE_SP_M1_SO)
+    {
+        vSource.push_back(D_Math::Inhomogenious_3D(
+                    D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *
+                    D_Math::Shift_3D_h(0, -dist_mirror1_um, 0) *
+                    D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
+                    D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
+                    Obj_sp_h_SO));
+        vPhaseOffset.push_back(2 * PI);
+        vFieldstrength.push_back(0.25);
+    }
+
+    //loop region and calc interference
     for(int z = 0; z < nz; z++)
         for(int y = ny/3; y < (ny*2)/3; y++)
             for(int x = 0; x < static_cast<int>((ny-y-1) * slope_inverse); x++)
@@ -2408,10 +2635,13 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
             }
 
     //fieldstrength -> intensity
-    double* ptr = reinterpret_cast<double*>(pMA_Out->data);
-    int px_count = nx * ny * nz;
-    for(int px = 0; px < px_count; px++, ptr++)
-        *ptr = (*ptr) * (*ptr);
+    if(intensity_notfield)
+    {
+        double* ptr = reinterpret_cast<double*>(pMA_Out->data);
+        int px_count = nx * ny * nz;
+        for(int px = 0; px < px_count; px++, ptr++)
+            *ptr = (*ptr) * (*ptr);
+    }
 
     Obj_sp_h_SP.release();
     Obj_sp_h_SO.release();

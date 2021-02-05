@@ -170,10 +170,10 @@ function<int (Mat *, Mat *)> D_Img_Proc_3dFactory::Distance_Transformation_EDT(d
     };
 }
 
-function<int (Mat *)> D_Img_Proc_3dFactory::InterferometerMichelson(int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)
+function<int (Mat *)> D_Img_Proc_3dFactory::InterferometerMichelson(int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y, bool intensity_notfield, bool beam_atSO_SO, bool beam_atSO_M1_SO, bool beam_atSO_SP_M2_SP_SO, bool beam_atM1_SO, bool beam_atM1_M1_SO, bool beam_atM2_SP_SO, bool beam_atM2_M2_SP_SO, bool beam_atDE_SP_M1_SO, bool beam_atDE_M2_SP_SO)
 {
     return
-            [scene_size_x_px, scene_size_y_px, scene_size_z_px, scale_px2um, wavelength_um, dist_source_um, dist_detector_um, dist_mirror1_um, dist_mirror2_um, angle_mirror1_x, angle_mirror1_y, angle_mirror2_x, angle_mirror2_y](Mat *pMA_Out)
+            [scene_size_x_px, scene_size_y_px, scene_size_z_px, scale_px2um, wavelength_um, dist_source_um, dist_detector_um, dist_mirror1_um, dist_mirror2_um, angle_mirror1_x, angle_mirror1_y, angle_mirror2_x, angle_mirror2_y, intensity_notfield, beam_atSO_SO, beam_atSO_M1_SO, beam_atSO_SP_M2_SP_SO, beam_atM1_SO, beam_atM1_M1_SO, beam_atM2_SP_SO, beam_atM2_M2_SP_SO, beam_atDE_SP_M1_SO, beam_atDE_M2_SP_SO](Mat *pMA_Out)
     {
         return D_Img_Proc_3D::InterferometerMichelson(
                     pMA_Out,
@@ -189,6 +189,16 @@ function<int (Mat *)> D_Img_Proc_3dFactory::InterferometerMichelson(int scene_si
                     angle_mirror1_x,
                     angle_mirror1_y,
                     angle_mirror2_x,
-                    angle_mirror2_y);
+                    angle_mirror2_y,
+                    intensity_notfield,
+                    beam_atSO_SO,
+                    beam_atSO_M1_SO,
+                    beam_atSO_SP_M2_SP_SO,
+                    beam_atM1_SO,
+                    beam_atM1_M1_SO,
+                    beam_atM2_SP_SO,
+                    beam_atM2_M2_SP_SO,
+                    beam_atDE_SP_M1_SO,
+                    beam_atDE_M2_SP_SO);
     };
 }
