@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_4 (03.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -127,8 +127,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3fc7282da00af1e41de7c7694c882a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7317815b7948ebd00848023684dbbfa9"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__3d_factory.html#a7317815b7948ebd00848023684dbbfa9">Distance_Transformation_EDT</a> (double spacing_x=1, double spacing_y=1, double spacing_z=1)</td></tr>
 <tr class="separator:a7317815b7948ebd00848023684dbbfa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae93ba5be593fa64465ff63044d84a4c7"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__3d_factory.html#ae93ba5be593fa64465ff63044d84a4c7">InterferometerMichelson</a> (int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y)</td></tr>
-<tr class="separator:ae93ba5be593fa64465ff63044d84a4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32c988bb0c1637003b73a30f55b4f75d"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__3d_factory.html#a32c988bb0c1637003b73a30f55b4f75d">InterferometerMichelson</a> (int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y, bool intensity_notfield, bool beam_atSO_SO, bool beam_atSO_M1_SO, bool beam_atSO_SP_M2_SP_SO, bool beam_atM1_SO, bool beam_atM1_M1_SO, bool beam_atM2_SP_SO, bool beam_atM2_M2_SP_SO, bool beam_atDE_SP_M1_SO, bool beam_atDE_M2_SP_SO)</td></tr>
+<tr class="separator:a32c988bb0c1637003b73a30f55b4f75d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___img___proc__3d_factory.html" title="The D_Img_Proc_3dFactory class Factory that turns methods from D_Img_Proc_3D into function objects.">D_Img_Proc_3dFactory</a> class Factory that turns methods from <a class="el" href="class_d___img___proc__3_d.html" title="The D_Img_Proc_3D class static 3D image processing functions.">D_Img_Proc_3D</a> into function objects. </p>
@@ -449,8 +449,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae93ba5be593fa64465ff63044d84a4c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae93ba5be593fa64465ff63044d84a4c7">&#9670;&nbsp;</a></span>InterferometerMichelson()</h2>
+<a id="a32c988bb0c1637003b73a30f55b4f75d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32c988bb0c1637003b73a30f55b4f75d">&#9670;&nbsp;</a></span>InterferometerMichelson()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -534,7 +534,67 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>angle_mirror2_y</em>&#160;</td>
+          <td class="paramname"><em>angle_mirror2_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>intensity_notfield</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atSO_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atSO_M1_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atSO_SP_M2_SP_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atM1_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atM1_M1_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atM2_SP_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atM2_M2_SP_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atDE_SP_M1_SO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beam_atDE_M2_SP_SO</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

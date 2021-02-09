@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_3_8";
-const QString           D_QS_Release  = "05.02.2021";
+const QString           D_QS_Version  = "v1_3_9";
+const QString           D_QS_Release  = "08.02.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -2287,6 +2287,7 @@ PH_g_earth              = 9.80665;
  *      - <a href="https://youtu.be/vHl2Vqof2p0">Softmax classifier</a> (german)
  *      - <a href="https://youtu.be/OQ3y6DO9kbU">Selfmade watershed transform implementation</a> (german)
  *      - <a href="https://youtu.be/2OATSGe2Oks">How diescrete fourier transformation works</a> (german)
+ *      - <a href="https://youtu.be/5YFlQxvubiA">Michelson interferometer simulation</a> (german)
  *
  * \subsection links_sec_projects Projects
  *

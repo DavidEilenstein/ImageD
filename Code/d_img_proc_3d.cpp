@@ -2390,7 +2390,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
     if(beam_atSO_SO)
     {
         vSource.push_back(D_Math::Inhomogenious_3D(Obj_sp_h_SO));
-        vPhaseOffset.push_back(0 * PI);
+        vPhaseOffset.push_back(0);
         vFieldstrength.push_back(1);
     }
 
@@ -2402,7 +2402,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
                     D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
                     D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
                     Obj_sp_h_SO));
-        vPhaseOffset.push_back(1 * PI);
+        vPhaseOffset.push_back(PI);
         vFieldstrength.push_back(0.25);
     }
 
@@ -2465,7 +2465,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
         vSource.push_back(D_Math::Inhomogenious_3D(
                     D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *       //Reflection Splitter
                     Obj_sp_h_SO));                                  //Source
-        vPhaseOffset.push_back(1 * PI);
+        vPhaseOffset.push_back(PI);
         vFieldstrength.push_back(0.5);
     }
 
@@ -2527,7 +2527,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
     if(beam_atM1_SO)
     {
         vSource.push_back(D_Math::Inhomogenious_3D(Obj_sp_h_SO));
-        vPhaseOffset.push_back(0 * PI);
+        vPhaseOffset.push_back(0);
         vFieldstrength.push_back(0.5);
     }
 
@@ -2539,7 +2539,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
                     D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
                     D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
                     Obj_sp_h_SO));
-        vPhaseOffset.push_back(1 * PI);
+        vPhaseOffset.push_back(PI);
         vFieldstrength.push_back(0.5);
     }
 
@@ -2591,7 +2591,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
                     D_Math::Shift_3D_h(-dist_mirror2_um, 0, 0) *                                        //Center: Splitter -> Mirror2
                     D_Math::Rotation_3D_h_rad(0, 0, PI_0_5) *                                       //Reflection Splitter
                     Obj_sp_h_SO));                                                                  //Source
-        vPhaseOffset.push_back(1 * PI); //2 reflections, but only 1PI phaseshift, because of one reflection at n'>n (no phaseshift)
+        vPhaseOffset.push_back(2 * PI);
         vFieldstrength.push_back(0.25);
     }
 
@@ -2604,7 +2604,7 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
                     D_Math::Rotation_3D_h_rad(0, 2 * angle_mirror1_y, 2 * angle_mirror1_x + PI) *
                     D_Math::Shift_3D_h(0, +dist_mirror1_um, 0) *
                     Obj_sp_h_SO));
-        vPhaseOffset.push_back(2 * PI);
+        vPhaseOffset.push_back(PI); //2 reflections, but one reflection at n'<n on upper side of splitter (no phaseshift) -> 1 phaseshift
         vFieldstrength.push_back(0.25);
     }
 

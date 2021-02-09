@@ -529,7 +529,7 @@ var searchData=
   ['c_5fwatershed_5fmask_5fsource_5fbinary_5fotsu_551',['c_WATERSHED_MASK_SOURCE_BINARY_OTSU',['../d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a079951c2db1546684c702973ce7a14b2',1,'d_enum.h']]],
   ['c_5fwatershed_5fmask_5fsource_5fbinary_5fthres_552',['c_WATERSHED_MASK_SOURCE_BINARY_THRES',['../d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a4616ae84ed8e3148473763672763ca2f',1,'d_enum.h']]],
   ['c_5fwatershed_5fmask_5fsource_5fcopy_553',['c_WATERSHED_MASK_SOURCE_COPY',['../d__enum_8h.html#a3c34fea50a9c3c2809c5efc04bcd2a36a0b1b35f52266cc87741c86242d696150',1,'d_enum.h']]],
-  ['calc_5fall_554',['calc_All',['../class_d___value___distribution___list.html#ad2d04cb753b1d3fcdf1142aacd251e4a',1,'D_Value_Distribution_List::calc_All()'],['../class_d___component.html#a451d1207be4803602fea89b12d7445b8',1,'D_Component::Calc_All()']]],
+  ['calc_5fall_554',['Calc_All',['../class_d___component.html#a451d1207be4803602fea89b12d7445b8',1,'D_Component::Calc_All()'],['../class_d___value___distribution___list.html#ad2d04cb753b1d3fcdf1142aacd251e4a',1,'D_Value_Distribution_List::calc_All()']]],
   ['calc_5fcentroids_555',['Calc_Centroids',['../class_d___img___proc.html#aa07495213b3660a8427279706eb6eac1',1,'D_Img_Proc']]],
   ['calc_5fcomaxeclasta_556',['calc_ComAxeClaSta',['../class_d___value___distribution___list.html#aeb5cd05b44aea5a0aae0f0b046976039',1,'D_Value_Distribution_List']]],
   ['calc_5fcomaxeclaval_557',['calc_ComAxeClaVal',['../class_d___value___distribution___list.html#add32df3c4b9fa4f4ff809642373feccb',1,'D_Value_Distribution_List']]],
