@@ -5140,7 +5140,7 @@ int D_Img_Proc::Threshold_Adaptive(Mat *pMA_Out, Mat *pMA_In, int out_mode, doub
     return ER_okay;
 }
 
-int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)
+int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale)
 {
     //multichannel vaersion will be added when needed
     return Threshold_Adaptive_Gauss_1C(
@@ -5148,7 +5148,8 @@ int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, do
                 pMA_In,
                 size,
                 sigma,
-                offset);
+                offset,
+                scale);
 }
 
 /*!
@@ -5161,7 +5162,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, do
  * \param offset comparision needed offset
  * \return error code
 */
-int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)
+int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale)
 {
     if(pMA_In->empty())                     return ER_empty;
     if(pMA_In->channels() > 1)              return ER_channel_bad;
@@ -5197,7 +5198,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         uchar* ptr_in       = reinterpret_cast<uchar*>(pMA_In->data);
         uchar* ptr_blur     = reinterpret_cast<uchar*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5208,7 +5209,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         char* ptr_in        = reinterpret_cast<char*>(pMA_In->data);
         char* ptr_blur      = reinterpret_cast<char*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5219,7 +5220,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         ushort* ptr_in      = reinterpret_cast<ushort*>(pMA_In->data);
         ushort* ptr_blur    = reinterpret_cast<ushort*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5230,7 +5231,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         short* ptr_in       = reinterpret_cast<short*>(pMA_In->data);
         short* ptr_blur     = reinterpret_cast<short*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5241,7 +5242,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         int* ptr_in         = reinterpret_cast<int*>(pMA_In->data);
         int* ptr_blur       = reinterpret_cast<int*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5252,7 +5253,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         float* ptr_in       = reinterpret_cast<float*>(pMA_In->data);
         float* ptr_blur     = reinterpret_cast<float*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;
@@ -5263,7 +5264,7 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
         double* ptr_in      = reinterpret_cast<double*>(pMA_In->data);
         double* ptr_blur    = reinterpret_cast<double*>(MA_tmp_Blur.data);
         for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++, ptr_blur++)
-            if(*ptr_in + offset > *ptr_blur)
+            if((*ptr_in * scale) + offset > *ptr_blur)
                 *ptr_out = 255;
     }
         break;

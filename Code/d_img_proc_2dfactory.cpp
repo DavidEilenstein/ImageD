@@ -212,17 +212,18 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive(int mode, 
     };
 }
 
-function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(int size, double sigma, double offset)
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(int size, double sigma, double offset, double scale)
 {
     return
-            [size, sigma, offset](Mat *pMA_Out, Mat *pMA_In)
+            [size, sigma, offset, scale](Mat *pMA_Out, Mat *pMA_In)
     {
         return D_Img_Proc::Threshold_Adaptive_Gauss(
                     pMA_Out,
                     pMA_In,
                     size,
                     sigma,
-                    offset);
+                    offset,
+                    scale);
     };
 }
 

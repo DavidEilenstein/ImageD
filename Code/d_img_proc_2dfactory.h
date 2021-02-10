@@ -74,7 +74,7 @@ public:
     static function<int (Mat *, Mat *)>                         Threshold_Absolute              (double thresh);
     static function<int (Mat *, Mat *)>                         Threshold_Realtive              (double base, double thresh_rel);
     static function<int (Mat *, Mat *)>                         Threshold_Adaptive              (int mode, int max, int mask_type, int mask_size, double offset);
-    static function<int (Mat *, Mat *)>                         Threshold_Adaptive_Gauss        (int size, double sigma, double offset);
+    static function<int (Mat *, Mat *)>                         Threshold_Adaptive_Gauss        (int size, double sigma, double offset, double scale);
 
     static function<int (Mat *, Mat *)>                         Labeling                        (int connectivity, int out_depth);
     static function<int (Mat *, Mat *)>                         Grab_Color                      (int color_space, int out_mode, vector<uchar> min, vector<uchar> max);

@@ -185,7 +185,7 @@ public:
     static int  Threshold_Relative_8U   (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh_rel);
     static int  Threshold_Relative      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double base, double thresh_rel);
     static int  Threshold_Adaptive      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int mask_type, int mask_size, double offset);
-    static int  Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset);
+    static int  Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset, double scale = 1);
 
     //Grab Color
     static int  Color_Grab              (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);

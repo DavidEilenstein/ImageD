@@ -258,6 +258,7 @@ private:
     D_VisDat_Obj                        VD_Overview_Save;
     Mat                                 MA_OverviewSmall_Show;
     Mat                                 MA_OverviewBig_Show;
+    //Mat                                 MA_OverviewBig_Show;
     D_Viewer                            Viewer_OverviewSmall;
     D_Viewer                            Viewer_OverviewBig;
 
@@ -304,12 +305,15 @@ private:
         STEP_PRE_LOAD_BOTTOM_RIGHT,
         STEP_PRE_STITCH,
         STEP_PRE_PROJECT_Z,
+
         //Pick Channels
         STEP_PCK_OTHER,
         STEP_PCK_GFP,
         STEP_PCK_RFP,
+
         //Visualization
         STEP_VIS_PAGES_AS_COLOR,
+
         //Find Nuclei
         STEP_NUC_GFP_BLUR_MEDIAN,
         STEP_NUC_GFP_EDGE_CV,
@@ -322,28 +326,36 @@ private:
         STEP_NUC_SELECT_AREA,
         STEP_NUC_SELECT_ROUNDNESS,
         STEP_NUC_RFP_SELECT_MEAN,
+
+        //Visualization
         STEP_VIS_NUC_BORDERS,
+
         //Find Foci GFP
         STEP_FOC_GFP_BLUR_MEDIAN,
         STEP_FOC_GFP_BINARY_THRES,
         STEP_FOC_GFP_MASK_IN_NUC,
         STEP_FOC_GFP_SELECT_AREA,
+
         //Find Foci RFP
         STEP_FOC_RFP_BLUR_MEDIAN,
         STEP_FOC_RFP_BINARY_THRES,
         STEP_FOC_RFP_MASK_IN_NUC,
         STEP_FOC_RFP_SELECT_AREA,
+
         //Match Foci
         STEP_FOC_BOTH_INTERSECT,
         STEP_FOC_BOTH_SELECT_AREA,
+
         //Classification
         STEP_CLA_FOC_ALL,
         STEP_CLA_FOC_IN_ONE_ONLY,
         STEP_CLA_FOC_IN_GFP_ONLY,
         STEP_CLA_FOC_IN_RFP_ONLY,
+
         //Visualization
         STEP_VIS_REGIONS,
         STEP_VIS_REGIONS_BACKGROUND,
+
         STEP_NUMBER_OF
     };
     const QStringList QSL_Steps = {

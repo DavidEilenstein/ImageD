@@ -795,7 +795,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_Foc_GFP_BinarySize->value(),
                 ui->doubleSpinBox_ImgProc_Foc_GFP_BinarySigma->value(),
-                ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->value()),
+                ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->value(),
+                ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryScale->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_GFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
     }
@@ -850,7 +851,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_BLUR_MEDIAN]),
                 ui->spinBox_ImgProc_Foc_RFP_BinarySize->value(),
                 ui->doubleSpinBox_ImgProc_Foc_RFP_BinarySigma->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->value()),
+                ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->value(),
+                ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryScale->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_RFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
     }
@@ -1172,7 +1174,7 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
 
     Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_VIS_REGIONS_BACKGROUND);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,       c_STAT_MAXIMUM);
+    Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,       c_STAT_QUANTIL_95);
 }
 
 void D_MAKRO_MegaFoci::Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index)
@@ -1695,11 +1697,42 @@ void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_RangeMode_currentIndexChanged(int in
 
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int index)
 {
+    ///enable/disable viewport plane and page selection
     ui->spinBox_Viewport_Z->setEnabled(index < STEP_PRE_PROJECT_Z);
-    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_GFP);
+    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_OTHER);
 
+    ///update data dimension info in statusbar
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
+
+    ///show image from proc chain
     Update_Images_Proc();
+
+    ///highlight settings relevant for this step
+    QString QS_StyleActive = "font-weight: bold;";
+    QString QS_StyleNormal = "font-weight: normal;";
+    //pre
+    ui->label_pre_4->setStyleSheet(index == STEP_PRE_STITCH ? QS_StyleActive : QS_StyleNormal);
+    ui->label_pre_5->setStyleSheet(index == STEP_PRE_PROJECT_Z ? QS_StyleActive : QS_StyleNormal);
+    //nuc
+    ui->label_nuc_0->setStyleSheet(index == STEP_NUC_GFP_BLUR_MEDIAN ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_1->setStyleSheet(index == STEP_NUC_GFP_EDGE_CV ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_2->setStyleSheet(index == STEP_NUC_GFP_BINARY_THRES ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_4->setStyleSheet(index == STEP_NUC_GFP_BINARY_MORPH_ERODE ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_6->setStyleSheet(index == STEP_NUC_SEEDS ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_7->setStyleSheet(index == STEP_NUC_WATERSHED ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_8->setStyleSheet(index == STEP_NUC_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_9->setStyleSheet(index == STEP_NUC_SELECT_ROUNDNESS ? QS_StyleActive : QS_StyleNormal);
+    ui->label_nuc_10->setStyleSheet(index == STEP_NUC_RFP_SELECT_MEAN ? QS_StyleActive : QS_StyleNormal);
+    //foci gfp
+    ui->label_foc_gfp_0->setStyleSheet(index == STEP_FOC_GFP_BLUR_MEDIAN ? QS_StyleActive : QS_StyleNormal);
+    ui->label_foc_gfp_1->setStyleSheet(index == STEP_FOC_GFP_BINARY_THRES ? QS_StyleActive : QS_StyleNormal);
+    ui->label_foc_gfp_3->setStyleSheet(index == STEP_FOC_GFP_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
+    //foci rfp
+    ui->label_foc_rfp_0->setStyleSheet(index == STEP_FOC_RFP_BLUR_MEDIAN ? QS_StyleActive : QS_StyleNormal);
+    ui->label_foc_rfp_1->setStyleSheet(index == STEP_FOC_RFP_BINARY_THRES ? QS_StyleActive : QS_StyleNormal);
+    ui->label_foc_rfp_3->setStyleSheet(index == STEP_FOC_RFP_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
+    //foci both
+    ui->label_foc_both_1->setStyleSheet(index == STEP_FOC_BOTH_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_Viewport_P_valueChanged(int arg1)

@@ -4673,7 +4673,7 @@ int D_VisDat_Proc::Threshold_Adaptive(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_I
                 pVD_In);
 }
 
-int D_VisDat_Proc::Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset)
+int D_VisDat_Proc::Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset, double scale)
 {
     if(!slice.is_2D())
         return ER_dim_2D_only;
@@ -4689,7 +4689,8 @@ int D_VisDat_Proc::Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj
                 D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(
                     size,
                     sigma,
-                    offset),
+                    offset,
+                    scale),
                 pVD_Out,
                 pVD_In);
 }
