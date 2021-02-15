@@ -139,6 +139,7 @@ public:
 
     static function<int (Mat *, Mat *)>                         Histogram_Equalize              ();
     static function<int (Mat *, Mat *)>                         GammaSpread                     (double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit);
+    static function<int (Mat *, Mat *)>                         GammaSpread_Quantiles           (double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static function<int (Mat *, Mat *)>                         DistancesStat                   (function<double (vector<double>)> F_Stat);
     static function<int (Mat *, Mat *)>                         Convert_Angle2Color_Rad          (uchar Saturation = 255, uchar Value = 255);
 
@@ -173,6 +174,8 @@ public:
     static function<int (Mat *, Mat *, Mat *)>                  Transformation_Watershed_Auto   (bool include_not_seeded, bool conv_8bit, bool exclude_border);
 
     static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Numbers              (double scale, double thickness, bool center);
+    static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Numbers_LUT          (vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
+    static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Text                 (QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
     static function<int (Mat *, Mat *, Mat *)>                  ClassBorder_kNN                 (int n);
 
 

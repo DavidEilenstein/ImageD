@@ -615,7 +615,7 @@ Scalar D_Img_Proc::Scalar_EqualInAllChannels(int channels, double value)
 
 int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ignore_zeros)
 {
-    if(pMA_In->channels() != 1)         ER_channel_bad;
+    if(pMA_In->channels() != 1)         return ER_channel_bad;
 
     //area
     size_t area = pMA_In->rows * pMA_In->cols;
@@ -704,10 +704,10 @@ int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ig
 
 int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros)
 {
-    if(pMA_In->channels() != 1)         return ER_channel_bad;
-    if(low_rel  < 0 || low_rel  > 1)    return ER_parameter_bad;
-    if(high_rel < 0 || high_rel > 1)    return ER_parameter_bad;
-    if(low_rel >= high_rel)             return ER_parameter_missmatch;
+    if(pMA_In->channels() != 1 && pMA_In->channels() != 3)      return ER_channel_bad;
+    if(low_rel  < 0 || low_rel  > 1)                            return ER_parameter_bad;
+    if(high_rel < 0 || high_rel > 1)                            return ER_parameter_bad;
+    if(low_rel >= high_rel)                                     return ER_parameter_missmatch;
 
     //area
     size_t area = pMA_In->rows * pMA_In->cols;
@@ -783,26 +783,116 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
     }
         break;
 
+    case CV_8UC3:
+    {
+        Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
+    case CV_16UC3:
+    {
+        Vec3w* ptr_in = reinterpret_cast<Vec3w*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
+    case CV_16SC3:
+    {
+        Vec3s* ptr_in = reinterpret_cast<Vec3s*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
+    case CV_32SC3:
+    {
+        Vec3i* ptr_in = reinterpret_cast<Vec3i*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
+    case CV_32FC3:
+    {
+        Vec3f* ptr_in = reinterpret_cast<Vec3f*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
+    case CV_64FC3:
+    {
+        Vec3d* ptr_in = reinterpret_cast<Vec3d*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_in++)
+        {
+            for(int c = 0; c < pMA_In->channels(); c++)
+            {
+                double val = (*ptr_in)[c];
+                if(val != 0 || !ignore_zeros)
+                    vValues.push_back(val);
+            }
+        }
+    }
+        break;
+
     default:
         return ER_type_bad;
     }
 
     //calc quantiles
-    qDebug() << "sort";
+    //qDebug() << "sort";
     sort(vValues.begin(), vValues.end());
     if(vValues.size() > 0)
     {
-        qDebug() << "get quantiles";
+        //qDebug() << "get quantiles";
         size_t i_low  = static_cast<size_t>(low_rel   * (vValues.size() - 1));
         size_t i_high = static_cast<size_t>(high_rel  * (vValues.size() - 1));
-        qDebug() << "size, low, high" << vValues.size() << i_low << i_high;
+        //qDebug() << "size, low, high" << vValues.size() << i_low << i_high;
         *q_low  = vValues[i_low];
         *q_high = vValues[i_high];
-        qDebug() << "got quantiles" << *q_low << *q_high;
+        //qDebug() << "got quantiles" << *q_low << *q_high;
     }
     else
     {
-        qDebug() << "set to default values";
+        //qDebug() << "set to default values";
         *q_low = 0.0;
         *q_high = 0.0;
     }
@@ -3528,6 +3618,30 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
     }
 
     return ER_okay;
+}
+
+int D_Img_Proc::GammaSpread_Quantiles(Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min, double out_max, bool force_8bit, bool ignore_zeros)
+{
+    double in_min, in_max;
+    int ER = Quantiles_ofPixelvalues(
+                &in_min,
+                &in_max,
+                pMA_In,
+                quantile_low,
+                quantile_high,
+                ignore_zeros);
+    if(ER != ER_okay)
+        return ER;
+
+    return GammaSpread(
+                pMA_Out,
+                pMA_In,
+                gamma,
+                in_min,
+                in_max,
+                out_min,
+                out_max,
+                force_8bit);
 }
 
 int D_Img_Proc::Visualize_to8bit(Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max, int mode_complex)
@@ -14959,7 +15073,7 @@ int D_Img_Proc::Draw_Line(Mat *pMA_Target, unsigned int x1, unsigned int y1, uns
 
 /*!
  * \brief D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°
- * \details recommended to use cv's draw line function instead. This code is limited in fuction and is not tested!
+ * \details recommended to use cv's draw line function instead. This code is limited in fuction and is not tested properly!
  * \param pMA_Target image to draw to
  * \param P1 start point
  * \param P2 end point
@@ -15376,6 +15490,45 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
     }
         break;
 
+    case CV_16UC1:
+    {
+        ushort val = value[0];
+        for(int iy = 1; iy < ny; iy++)
+        {//horizontal line
+            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
+            for(int x = 0; x < w; x++)
+                pMA_Target->at<ushort>(y, x) = val;
+        }
+        for(int ix = 1; ix < nx; ix++)
+        {//vertical line
+            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
+            for(int y = 0; y < h; y++)
+                pMA_Target->at<ushort>(y, x) = val;
+        }
+    }
+        break;
+
+    case CV_8UC3:
+    {
+        Vec3b val;
+        val[0] = value[0];
+        val[1] = value[1];
+        val[2] = value[2];
+        for(int iy = 1; iy < ny; iy++)
+        {//horizontal line
+            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
+            for(int x = 0; x < w; x++)
+                pMA_Target->at<Vec3b>(y, x) = val;
+        }
+        for(int ix = 1; ix < nx; ix++)
+        {//vertical line
+            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
+            for(int y = 0; y < h; y++)
+                pMA_Target->at<Vec3b>(y, x) = val;
+        }
+    }
+        break;
+
     case CV_16UC3:
     {
         Vec3w val;
@@ -15679,11 +15832,11 @@ int D_Img_Proc::Draw_Text_ContrastColor(Mat *pMA_Target, QString text, int x, in
 
 int D_Img_Proc::Draw_Label_Numbers_LUT(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r, uchar g, uchar b)
 {
-    if(pMA_In->empty() || pMA_Label->empty())                               return ER_empty;
-    if(pMA_Label->channels() != 1)                                          return ER_channel_bad;
-    if((pMA_In->channels() != 1) && (pMA_In->channels() != 3))              return ER_channel_bad;
-    if(pMA_In->size() != pMA_Label->size())                                 return ER_size_missmatch;
-    if((pMA_Label->depth() != CV_16U) && (pMA_Label->depth() != CV_32S))    return ER_type_bad;
+    if(pMA_In->empty() || pMA_Label->empty())                                                               return ER_empty;
+    if(pMA_Label->channels() != 1)                                                                          return ER_channel_bad;
+    if((pMA_In->channels() != 1) && (pMA_In->channels() != 3))                                              return ER_channel_bad;
+    if(pMA_In->size() != pMA_Label->size())                                                                 return ER_size_missmatch;
+    if((pMA_Label->depth() != CV_8U) && (pMA_Label->depth() != CV_16U) && (pMA_Label->depth() != CV_32S))   return ER_type_bad;
 
     int ER;
 
@@ -15760,11 +15913,113 @@ int D_Img_Proc::Draw_Label_Numbers_LUT(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label
         return ER_size_missmatch;
 
     //Write Number from LUT as Text at Position
-    for(int com = 0; com < v_pos.size(); com++)
+    for(size_t i = 0; i < v_pos.size(); i++)
         putText(
                     *pMA_Out,
-                    QString::number(v_LUT[com], 'g', precision).toStdString(),
-                    v_pos[com],
+                    QString::number(v_LUT[i], 'g', precision).toStdString(),
+                    v_pos[i],
+                    FONT_HERSHEY_COMPLEX_SMALL,
+                    scale,
+                    Scalar(b, g, r),
+                    thickness,
+                    CV_AA);
+
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Label_Text(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r, uchar g, uchar b, int connectivity)
+{
+    if(pMA_In->empty() || pMA_Label->empty())                                                               return ER_empty;
+    if(pMA_Label->channels() != 1)                                                                          return ER_channel_bad;
+    if((pMA_In->channels() != 1) && (pMA_In->channels() != 3))                                              return ER_channel_bad;
+    if(pMA_In->size() != pMA_Label->size())                                                                 return ER_size_missmatch;
+    if((pMA_Label->depth() != CV_8U) && (pMA_Label->depth() != CV_16U) && (pMA_Label->depth() != CV_32S))   return ER_type_bad;
+    if(connectivity != 4 && connectivity != 8)                                                              return ER_parameter_bad;
+
+    int ER;
+
+
+    //Copy input image to output and force 3 channels
+    if(pMA_In->channels() == 1)
+    {
+        ER = Convert_Color(
+                    pMA_Out,
+                    pMA_In,
+                    CV_GRAY2BGR);
+        if(ER != ER_okay)   return ER;
+    }
+    else
+    {
+        ER = Duplicate(
+                    pMA_Out,
+                    pMA_In);
+        if(ER != ER_okay)   return ER;
+    }
+
+    //borders
+    if(border)
+    {
+        Mat MA_tmp_border;
+
+        //get binary
+        ER = Threshold_Relative_1C(
+                    &MA_tmp_border,
+                    pMA_Label,
+                    0,
+                    0);
+        if(ER != ER_okay)   return ER;
+
+        //outlines = borders
+        ER = Reduce_Outlines(
+                    &MA_tmp_border,
+                    &MA_tmp_border);
+        if(ER != ER_okay)   return ER;
+
+        //fit channels
+        ER = Convert_Color(
+                    &MA_tmp_border,
+                    &MA_tmp_border,
+                    CV_GRAY2BGR);
+        if(ER != ER_okay)   return ER;
+
+        //subtract borders
+        ER = Math_ImgImg_Diff(
+                    pMA_Out,
+                    pMA_Out,
+                    &MA_tmp_border);
+        if(ER != ER_okay)   return ER;
+
+        MA_tmp_border.release();
+    }
+
+
+    //split to comp list
+    D_Component_List CompList;
+    ER = CompList.set_Mat(pMA_Label, connectivity);
+    if(ER != ER_okay)   return ER;
+
+
+    //get wanted pos
+    vector<Point2f> v_pos;
+    if(center)
+        v_pos = CompList.get_CentroidVector();
+    else
+        v_pos = CompList.get_OffsetVector_2f();
+
+    //cehck sizes
+    if(static_cast<size_t>(QSL_LabelTexts.size()) != v_pos.size())
+    {
+        qDebug() << "Draw_Label_Text" << "Label detected:" << v_pos.size() << "- Texts count:" << QSL_LabelTexts.size();
+        return ER_size_missmatch;
+    }
+
+    //Write Number from LUT as Text at Position
+    for(size_t i = 0; i < v_pos.size(); i++)
+        putText(
+                    *pMA_Out,
+                    QSL_LabelTexts[i].toStdString(),
+                    v_pos[i],
                     FONT_HERSHEY_COMPLEX_SMALL,
                     scale,
                     Scalar(b, g, r),

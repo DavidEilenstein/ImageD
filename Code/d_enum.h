@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_3_10";
-const QString           D_QS_Release  = "08.02.2021";
+const QString           D_QS_Version  = "v1_3_12";
+const QString           D_QS_Release  = "15.02.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -2267,9 +2267,7 @@ PH_g_earth              = 9.80665;
  *      4. Unzip it in a folder of your choice
  *      5. Double click the ImageD.exe to run the program
  *
- * Hint for users at GSI without admin permissions:
- * The folder mentioned in 4. must but a subfolder of "C:\Users\<username>\AppData\Local\0_gsi_executables".
- * Otherwise the program can only be executed with admin permissions or if it is unlocked by the IT.
+ * Hint for users at GSI without admin permissions: There might be problems launching the .exe in some folders. If that occurs, please contact me for support.
  *
  * \section doc_sec Documentation
  *

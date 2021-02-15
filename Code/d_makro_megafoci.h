@@ -90,6 +90,9 @@ private slots:
     void Update_ImageProcessing_CurrentImage();
     void Update_ImageProcessing_StepFrom(size_t step_start);
     void Update_ImageProcessing_StepSingle(size_t step);
+
+    //image Decomp
+    void ImageDecomp_Init();
     void Update_ImageDecomposition();
 
     //stack processing
@@ -102,7 +105,9 @@ private slots:
 
     bool Load_Dataset();
     void Overview_Init();
-    void Overview_Update();
+    void Overview_Normal_Update();
+    void Overview_Result_Update();
+
 
     //load image operations
     bool LoadShow_Image_UiSelected();    
@@ -175,6 +180,14 @@ private slots:
 
     void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
 
+    void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1);
+
 private:
     Ui::D_MAKRO_MegaFoci *ui;
     bool ClosingPossible = false;
@@ -192,6 +205,7 @@ private:
     bool                                state_overview_init = false;
     bool                                state_stack_processing = false;
     bool                                state_image_decomposed = false;
+    bool                                state_image_decomposition_init = false;
     bool                                state_first_proc_on_start = true;
     bool                                state_page_indices_consistent = true;
 
@@ -237,6 +251,10 @@ private:
     //img proc
     vector<D_VisDat_Obj>                vVD_ImgProcSteps;
 
+    //img decomposition
+    vector<vector<D_Bio_NucleusImage>>  vvImageDecomp_YX;
+
+
     //old indices of border images (to be used again on new iteration if indices fit)
     int                                 index_old_TL_x_mosaic   = -1;
     int                                 index_old_TL_y_mosaic   = -1;
@@ -255,10 +273,10 @@ private:
     double                              overview_scale = 0.10;
     size_t                              overview_SubImgSizeX = overview_scale * dataset_dim_img_x;
     size_t                              overview_SubImgSizeY = overview_scale * dataset_dim_img_y;
-    D_VisDat_Obj                        VD_Overview_Save;
+    D_VisDat_Obj                        VD_Overview_Normal_Save;
+    D_VisDat_Obj                        VD_Overview_Result_Save;
     Mat                                 MA_OverviewSmall_Show;
     Mat                                 MA_OverviewBig_Show;
-    //Mat                                 MA_OverviewBig_Show;
     D_Viewer                            Viewer_OverviewSmall;
     D_Viewer                            Viewer_OverviewBig;
 
@@ -313,6 +331,7 @@ private:
 
         //Visualization
         STEP_VIS_PAGES_AS_COLOR,
+        STEP_VIS_PAGES_AS_COLOR_QUANTILS,
 
         //Find Nuclei
         STEP_NUC_GFP_BLUR_MEDIAN,
@@ -355,6 +374,7 @@ private:
         //Visualization
         STEP_VIS_REGIONS,
         STEP_VIS_REGIONS_BACKGROUND,
+        STEP_VIS_REGIONS_FOCI_COUNT,
 
         STEP_NUMBER_OF
     };
@@ -371,6 +391,7 @@ private:
         "pck-2 RFP pick Signal",
 
         "vis-0 Color GFP green RFP blue",
+        "vis-1 Color crop interquantil",
 
         "nuc-0 GFP circular median blur",
         "nuc-1 GFP circular CV edges",
@@ -384,7 +405,7 @@ private:
         "nuc-9 Select by Roundness",
         "nuc-10 Select by Mean RFP Signal",
 
-        "vis-1 Nuclei segemntation borders",
+        "vis-2 Nuclei segemntation borders",
 
         "foc-gfp-0 circular median blur",
         "foc-gfp-1 binarize by threshold",
@@ -404,8 +425,9 @@ private:
         "cla-2 Foci in GFP only",
         "cla-3 Foci in RFP only",
 
-        "vis-2 Regions",
-        "vis-3 Regions with background"
+        "vis-3 Regions",
+        "vis-4 Regions with background",
+        "vis-5 Regions with foci counts"
     };
 
     //Tabs

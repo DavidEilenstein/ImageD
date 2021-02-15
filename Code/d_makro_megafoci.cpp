@@ -24,7 +24,8 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     MA_OverviewSmall_Show = pStore->get_Adress(0)->clone();
     MA_OverviewBig_Show = pStore->get_Adress(0)->clone();
     VD_Show = pStore->get_VD(0);
-    VD_Overview_Save = pStore->get_VD(0);
+    VD_Overview_Normal_Save = pStore->get_VD(0);
+    VD_Overview_Result_Save = pStore->get_VD(0);
 
     //img proc
     vVD_ImgProcSteps.resize(STEP_NUMBER_OF);
@@ -128,6 +129,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(ui->spinBox_PageIndex_Other,                    SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
     //overview big
     connect(ui->spinBox_OverviewBig_T,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
+    connect(ui->checkBox_OverviewBig_ResultsShow,           SIGNAL(stateChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
 
     //stack
     connect(ui->pushButton_ProcFullStack,                   SIGNAL(clicked(bool)),                      this,               SLOT(Stack_Process_All()));
@@ -257,7 +259,7 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
     int t = ui->spinBox_Viewport_T->value();
 
     //make sure indices fit
-    if(t >= VD_Overview_Save.pDim()->size_T())   t = 0;
+    if(t >= VD_Overview_Normal_Save.pDim()->size_T())   t = 0;
 
     //2D plane to show
     D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
@@ -265,10 +267,10 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
     //Crop 2D plane from VD
     ERR(D_VisDat_Proc::Read_2D_Plane(
                 &MA_OverviewSmall_Show,
-                &VD_Overview_Save,
+                &VD_Overview_Normal_Save,
                 Slice2d),
         "Update_Images_Proc",
-        "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Save.info());
+        "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Normal_Save.info());
 
     //get max of overview
     double min, max;
@@ -311,22 +313,34 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
 
 void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
 {
-    //get inidices to show
+    ///get inidices to show
     int t = ui->spinBox_OverviewBig_T->value();
 
-    //make sure indices fit
-    if(t >= VD_Overview_Save.pDim()->size_T())   t = 0;
+    ///make sure indices fit
+    if(t >= VD_Overview_Normal_Save.pDim()->size_T())   t = 0;
 
-    //2D plane to show
+    ///calc 2D plane to show
     D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
 
-    //Crop 2D plane from VD
-    ERR(D_VisDat_Proc::Read_2D_Plane(
-                &MA_OverviewBig_Show,
-                &VD_Overview_Save,
-                Slice2d),
-        "Update_Images_OverviewBig",
-        "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Save.info());
+    ///Select if results shal be shown and crop 2D plane from VD
+    if(ui->checkBox_OverviewBig_ResultsShow->isChecked())
+    {
+        ERR(D_VisDat_Proc::Read_2D_Plane(
+                    &MA_OverviewBig_Show,
+                    &VD_Overview_Result_Save,
+                    Slice2d),
+            "Update_Images_OverviewBig",
+            "(result) D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Result_Save.info());
+    }
+    else
+    {
+        ERR(D_VisDat_Proc::Read_2D_Plane(
+                    &MA_OverviewBig_Show,
+                    &VD_Overview_Normal_Save,
+                    Slice2d),
+            "Update_Images_OverviewBig",
+            "(normal) D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Normal_Save.info());
+    }
 
     //display Mat
     Viewer_OverviewBig.Update_Image(&MA_OverviewBig_Show);
@@ -353,6 +367,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
     if(!state_dataset_img_list_loaded)
         return;
 
+    //reset states
+    if(step_start <= STEP_FOC_BOTH_SELECT_AREA)
+        state_image_decomposed = false;
+
     for(size_t s = step_start; s < STEP_NUMBER_OF; s++)
     {
         Update_ImageProcessing_StepSingle(s);
@@ -364,8 +382,6 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
         }
     }
 
-    Update_ImageDecomposition();
-
     Update_Images_Proc();
 }
 
@@ -375,12 +391,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         return;
 
     //current position in dataset
-    size_t dataset_pos_x = ui->spinBox_Viewport_X->value();
-    size_t dataset_pos_y = ui->spinBox_Viewport_Y->value();
-    size_t dataset_pos_t = ui->spinBox_Viewport_T->value();
-
-    //reset states
-    state_image_decomposed = false;
+    int dataset_pos_x = ui->spinBox_Viewport_X->value();
+    int dataset_pos_y = ui->spinBox_Viewport_Y->value();
+    int dataset_pos_t = ui->spinBox_Viewport_T->value();
 
     //select step to do
     StatusSet("ImgProc: " + QSL_Steps[static_cast<int>(step)]);
@@ -390,9 +403,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_MAIN:
     {
-        size_t index_source_x = dataset_pos_x;
-        size_t index_source_y = dataset_pos_y;
-        size_t index_source_t = dataset_pos_t;
+        int index_source_x = dataset_pos_x;
+        int index_source_y = dataset_pos_y;
+        int index_source_t = dataset_pos_t;
 
         if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
             vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT];
@@ -420,16 +433,16 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_RIGHT:
     {
-        size_t index_source_x = dataset_pos_x + 1;
-        size_t index_source_y = dataset_pos_y;
-        size_t index_source_t = dataset_pos_t;
+        int index_source_x = dataset_pos_x + 1;
+        int index_source_y = dataset_pos_y;
+        int index_source_t = dataset_pos_t;
 
         if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
             break;
         else if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
+            vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
         else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
+            vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
         else
             ERR(Load_Image_full_ZP(
                     &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
@@ -448,12 +461,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_BOTTOM:
     {
-        size_t index_source_x = dataset_pos_x;
-        size_t index_source_y = dataset_pos_y + 1;
-        size_t index_source_t = dataset_pos_t;
+        int index_source_x = dataset_pos_x;
+        int index_source_y = dataset_pos_y + 1;
+        int index_source_t = dataset_pos_t;
 
         if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
+            vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
         else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
             break;
         else
@@ -474,9 +487,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_BOTTOM_RIGHT:
     {
-        size_t index_source_x = dataset_pos_x + 1;
-        size_t index_source_y = dataset_pos_y + 1;
-        size_t index_source_t = dataset_pos_t;
+        int index_source_x = dataset_pos_x + 1;
+        int index_source_y = dataset_pos_y + 1;
+        int index_source_t = dataset_pos_t;
 
         if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
             break;
@@ -606,8 +619,26 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 use_channels),
             "Update_ImageProcessing_StepSingle",
             "STEP_VIS_PAGES_AS_COLOR - Visualize signals in color");
+    }
+        break;
 
-        Overview_Update();
+    case STEP_VIS_PAGES_AS_COLOR_QUANTILS:
+    {
+        ERR(D_VisDat_Proc::GammaSpread_Quantiles(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
+                1,
+                ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value() / 100.0,
+                ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value() / 100.0,
+                0,
+                255,
+                true,
+                false),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_PAGES_AS_COLOR_QUANTILS - Visualize signals in color");
+
+        Overview_Normal_Update();
     }
         break;
 
@@ -766,7 +797,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
                 c_GEO_OUTLINE,
                 4,
-                3,
+                5,
                 255),
             "Update_ImageProcessing_StepSingle",
             "STEP_VIS_NUC_BORDERS - Reduce nulei to borders");
@@ -909,6 +940,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 8),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_BOTH_SELECT_AREA - Select by area");
+
+        Update_ImageDecomposition();
     }
     break;
 
@@ -974,24 +1007,59 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_VIS_REGIONS_BACKGROUND:
     {
-        D_VisDat_Obj VD_tmp_ColorBackground8bit;
-        ERR(D_VisDat_Proc::Normalize(
-                &VD_tmp_ColorBackground8bit,
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
-                NORM_MINMAX,
-                CV_8U,
-                0,
-                255),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND - convert 8 bit");
-
         ERR(D_VisDat_Proc::Math_2img_Addition(
                 &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
-                &VD_tmp_ColorBackground8bit,
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
                 &(vVD_ImgProcSteps[STEP_VIS_REGIONS])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND - add");
+            "STEP_VIS_REGIONS_BACKGROUND - Math_2img_Addition");
+    }
+        break;
 
+    case STEP_VIS_REGIONS_FOCI_COUNT:
+    {
+        if(!state_image_decomposed)
+        {
+            ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
+            return;
+        }
+
+        //get pos in dataset
+        int pos_x = ui->spinBox_Viewport_X->value();
+        int pos_y = ui->spinBox_Viewport_Y->value();
+
+        QStringList QSL_LabelTexts;
+        for(size_t nuc = 0; nuc < vvImageDecomp_YX[pos_y][pos_x].get_nuclei().size(); nuc++)
+        {
+            QString QS_LabelText;
+            for(size_t fc = 0; fc < vvImageDecomp_YX[pos_y][pos_x].get_nuclei()[nuc].get_FociChannels(); fc++)
+            {
+                if(fc != 0)
+                    QS_LabelText.append("/");
+                QS_LabelText.append(QString::number(vvImageDecomp_YX[pos_y][pos_x].get_nuclei()[nuc].get_FociCount(fc)));
+            }
+
+            QSL_LabelTexts.append(QS_LabelText);
+        }
+        //qDebug() << QSL_LabelTexts;
+
+
+        int ER = D_VisDat_Proc::Draw_Label_Text(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
+                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
+                    QSL_LabelTexts,
+                    false,
+                    1.5, 2,
+                    true,
+                    255, 255, 255,
+                    4);
+        ERR(ER, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT - put numbers on image");
+        if(ER != ER_okay)
+            return;
+
+        Overview_Result_Update();
     }
         break;
 
@@ -1009,9 +1077,19 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
 }
 
+void D_MAKRO_MegaFoci::ImageDecomp_Init()
+{
+    vector<D_Bio_NucleusImage> vImageDecomp_Init(dataset_dim_mosaic_x, D_Bio_NucleusImage());
+    vvImageDecomp_YX.resize(dataset_dim_mosaic_y, vImageDecomp_Init);
+    state_image_decomposition_init = true;
+}
+
 void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 {
     state_image_decomposed = false;
+    if(!state_image_decomposition_init)
+        return;
+
 
     ///vector od foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
@@ -1024,15 +1102,18 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     vIndices_Values[0] = STEP_PCK_GFP;
     vIndices_Values[1] = STEP_PCK_RFP;
 
+    ///get position in dataset
+    int pos_x = ui->spinBox_Viewport_X->value();
+    int pos_y = ui->spinBox_Viewport_Y->value();
+
     ///geometric moisaik offset in pixels
     Point MosaikOffset(
-                ui->spinBox_Viewport_X->value() * static_cast<int>(dataset_dim_img_x * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)),
-                ui->spinBox_Viewport_Y->value() * static_cast<int>(dataset_dim_img_y * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)));
+                pos_x * static_cast<int>(dataset_dim_img_x * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)),
+                pos_y * static_cast<int>(dataset_dim_img_y * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)));
 
     ///calculate image decomposition to bio info format
     StatusSet("Nuclei image decomposition");
-    D_Bio_NucleusImage ImageDecomp;
-    int ER = ImageDecomp.calc_NucleiDecomposition(
+    int ER = vvImageDecomp_YX[pos_y][pos_x].calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
                 STEP_NUC_RFP_SELECT_MEAN,
                 vIndices_FociBinary,
@@ -1054,7 +1135,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     {
         StatusSet("Save decomposition in files");
         ERR(
-                ImageDecomp.save(DIR_SaveDetections.path()),
+                vvImageDecomp_YX[pos_y][pos_x].save(DIR_SaveDetections.path()),
                 "Update_ImageDecomposition",
                 "ImageDecomp.save(DIR_SaveDetections.path())");
     }
@@ -1156,11 +1237,22 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
 void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
 {
+    ///Update image processing
     Update_ImageProcessing_CurrentImage();
 
-    //Overwrite and update mosaik
+    ///Overwrite and update mosaik
+
+    ///Mosaik normal
+    ui->checkBox_OverviewBig_ResultsShow->blockSignals(true);
+    ui->checkBox_OverviewBig_ResultsShow->setChecked(false);
     Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_Input_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ///mosaik with results
+    ui->checkBox_OverviewBig_ResultsShow->setChecked(true);
+    Update_Images_OverviewBig();
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_Result_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+    ui->checkBox_OverviewBig_ResultsShow->blockSignals(false);
 }
 
 void D_MAKRO_MegaFoci::Populate_CB_AtStart()
@@ -1172,7 +1264,7 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
     Populate_CB_Single(ui->comboBox_VisTrafo_AnchorMode,                    QSL_VisTrafo_Anchor,c_VIS_TRAFO_ANCHOR_DYNAMIC);
     Populate_CB_Single(ui->comboBox_VisTrafo_RangeMode,                     QSL_VisTrafo_Range, c_VIS_TRAFO_RANGE_DYNAMIC);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_VIS_REGIONS_BACKGROUND);
+    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_VIS_REGIONS_FOCI_COUNT);
 
     Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,       c_STAT_QUANTIL_95);
 }
@@ -1325,6 +1417,9 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     //Init Overview
     Overview_Init();
 
+    //init image decomp
+    ImageDecomp_Init();
+
     //update proc and image
     StatusSet("Now updating ImgProc for the 1st time");
     Update_ImageProcessing_CurrentImage();
@@ -1352,8 +1447,8 @@ void D_MAKRO_MegaFoci::Overview_Init()
         return;
     }
 
-    //init overview
-    VD_Overview_Save = D_VisDat_Obj(
+    ///init overview normal
+    VD_Overview_Normal_Save = D_VisDat_Obj(
                 D_VisDat_Dim(
                     static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeX),
                     static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeY),
@@ -1361,13 +1456,26 @@ void D_MAKRO_MegaFoci::Overview_Init()
                     static_cast<int>(dataset_dim_t),
                     1,
                     1),
-                CV_16UC3,
+                CV_8UC3,
                 0);
+
+    ////init overview with results
+    VD_Overview_Result_Save = D_VisDat_Obj(
+                D_VisDat_Dim(
+                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeX),
+                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeY),
+                    1,
+                    static_cast<int>(dataset_dim_t),
+                    1,
+                    1),
+                CV_8UC3,
+                0);
+
     state_overview_init = true;
 
 }
 
-void D_MAKRO_MegaFoci::Overview_Update()
+void D_MAKRO_MegaFoci::Overview_Normal_Update()
 {
     if(!state_overview_init || !state_dataset_dim_set)
         return;
@@ -1377,7 +1485,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
     ERR(D_VisDat_Proc::Scale_ToSize(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &VD_tmp_CurrentColorScaled,
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
                 static_cast<int>(overview_SubImgSizeX * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0)),
                 static_cast<int>(overview_SubImgSizeY * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0))),
         "Overview_Update",
@@ -1391,16 +1499,52 @@ void D_MAKRO_MegaFoci::Overview_Update()
 
     //insert in overview
     ERR(D_VisDat_Proc::Instert_atPos(
-                &VD_Overview_Save,
+                &VD_Overview_Normal_Save,
                 &VD_tmp_CurrentColorScaled,
                 vOffset),
         "Overview_Update",
         "D_VisDat_Proc::Instert_atPos"
-        "<br>VD_Overview_Save " + VD_Overview_Save.info() +
+        "<br>VD_Overview_Normal_Save " + VD_Overview_Normal_Save.info() +
         "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
 
     Update_Images_OverviewSmall();
-    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG)
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && !ui->checkBox_OverviewBig_ResultsShow->isChecked())
+        Update_Images_OverviewBig();
+}
+
+void D_MAKRO_MegaFoci::Overview_Result_Update()
+{
+    if(!state_overview_init || !state_dataset_dim_set)
+        return;
+
+    //scale down
+    D_VisDat_Obj VD_tmp_CurrentColorScaled;
+    ERR(D_VisDat_Proc::Scale_ToSize(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &VD_tmp_CurrentColorScaled,
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
+                static_cast<int>(overview_SubImgSizeX * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0)),
+                static_cast<int>(overview_SubImgSizeY * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0))),
+        "Overview_Update",
+        "D_VisDat_Proc::Scale_ToSize");
+
+    //calc target offset
+    vector<int> vOffset(c_DIM_NUMBER_OF, 0);
+    vOffset[c_DIM_X] = static_cast<int>(ui->spinBox_Viewport_X->value() * overview_SubImgSizeX);
+    vOffset[c_DIM_Y] = static_cast<int>(ui->spinBox_Viewport_Y->value() * overview_SubImgSizeY);
+    vOffset[c_DIM_T] = ui->spinBox_Viewport_T->value();
+
+    //insert in overview
+    ERR(D_VisDat_Proc::Instert_atPos(
+                &VD_Overview_Result_Save,
+                &VD_tmp_CurrentColorScaled,
+                vOffset),
+        "Overview_Update",
+        "D_VisDat_Proc::Instert_atPos"
+        "<br>VD_Overview_Result_Save " + VD_Overview_Result_Save.info() +
+        "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
+
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && ui->checkBox_OverviewBig_ResultsShow->isChecked())
         Update_Images_OverviewBig();
 }
 
@@ -1713,6 +1857,8 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
     //pre
     ui->label_pre_4->setStyleSheet(index == STEP_PRE_STITCH ? QS_StyleActive : QS_StyleNormal);
     ui->label_pre_5->setStyleSheet(index == STEP_PRE_PROJECT_Z ? QS_StyleActive : QS_StyleNormal);
+    //vis
+    ui->label_vis_1->setStyleSheet(index == STEP_VIS_PAGES_AS_COLOR_QUANTILS ? QS_StyleActive : QS_StyleNormal);
     //nuc
     ui->label_nuc_0->setStyleSheet(index == STEP_NUC_GFP_BLUR_MEDIAN ? QS_StyleActive : QS_StyleNormal);
     ui->label_nuc_1->setStyleSheet(index == STEP_NUC_GFP_EDGE_CV ? QS_StyleActive : QS_StyleNormal);
@@ -1933,3 +2079,31 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_P_exist_valueChanged(int arg1)
 {
     ui->spinBox_PageIndex_Other->setEnabled(arg1 > 2);
 }
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom(STEP_FOC_BOTH_SELECT_AREA);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom(STEP_FOC_BOTH_SELECT_AREA);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1)
+{
+    if(arg1 > ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value())
+        ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1)
+{
+    if(arg1 < ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value())
+        ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->setValue(arg1);
+    else
+        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS);
+}
+
+

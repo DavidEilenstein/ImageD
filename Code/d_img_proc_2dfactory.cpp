@@ -766,6 +766,24 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::GammaSpread(double gamma, dou
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::GammaSpread_Quantiles(double gamma, double quantile_low, double quantile_high, double out_min, double out_max, bool force_8bit, bool ignore_zeros)
+{
+    return
+            [gamma, quantile_low, quantile_high, out_min, out_max, force_8bit, ignore_zeros](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::GammaSpread_Quantiles(
+                    pMA_Out,
+                    pMA_In,
+                    gamma,
+                    quantile_low,
+                    quantile_high,
+                    out_min,
+                    out_max,
+                    force_8bit,
+                    ignore_zeros);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::DistancesStat(function<double (vector<double>)> F_Stat)
 {
     return
@@ -1340,6 +1358,48 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Draw_Label_Numbers(dou
                     scale,
                     thickness,
                     center);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Draw_Label_Numbers_LUT(vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r, uchar g, uchar b)
+{
+    return
+            [v_LUT, border, scale, thickness, center, precision, r, g, b](Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label)
+    {
+        return D_Img_Proc::Draw_Label_Numbers_LUT(
+                    pMA_Out,
+                    pMA_In,
+                    pMA_Label,
+                    v_LUT,
+                    border,
+                    scale,
+                    thickness,
+                    center,
+                    precision,
+                    r,
+                    g,
+                    b);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Draw_Label_Text(QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r, uchar g, uchar b, int connectivity)
+{
+    return
+            [QSL_LabelTexts, border, scale, thickness, center, r, g, b, connectivity](Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label)
+    {
+        return D_Img_Proc::Draw_Label_Text(
+                    pMA_Out,
+                    pMA_In,
+                    pMA_Label,
+                    QSL_LabelTexts,
+                    border,
+                    scale,
+                    thickness,
+                    center,
+                    r,
+                    g,
+                    b,
+                    connectivity);
     };
 }
 

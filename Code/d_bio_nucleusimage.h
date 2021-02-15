@@ -57,6 +57,8 @@ public:
 
     int save(QString path);
 
+    vector<D_Bio_NucleusBlob> get_nuclei() {return vNuclei;}
+
 private:
     size_t m_time = 0;
     Point m_Offset = Point(0, 0);

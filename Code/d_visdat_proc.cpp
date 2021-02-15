@@ -6419,6 +6419,38 @@ int D_VisDat_Proc::GammaSpread(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_
                 pVD_In);
 }
 
+int D_VisDat_Proc::GammaSpread_Quantiles(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double quantile_low, double quantile_high, double out_min, double out_max, bool force_8bit, bool ignore_zeros)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    if(force_8bit)
+        *pVD_Out = D_VisDat_Obj(
+                    pVD_In->Dim(),
+                    D_Img_Proc::TypeIndex_of_Mat(
+                        pVD_In->pMA_full()->channels(),
+                        CV_8U));
+    else
+        *pVD_Out = D_VisDat_Obj(
+                    pVD_In->Dim(),
+                    D_Img_Proc::TypeIndex_of_Mat(
+                        pVD_In->pMA_full()->channels(),
+                        CV_64F));
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::GammaSpread_Quantiles(
+                    gamma,
+                    quantile_low,
+                    quantile_high,
+                    out_min,
+                    out_max,
+                    force_8bit,
+                    ignore_zeros),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Draw_Label_Numbers(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, double scale, double thickness, bool center)
 {
     if(!slice.is_2D())
@@ -6434,6 +6466,58 @@ int D_VisDat_Proc::Draw_Label_Numbers(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_
                     scale,
                     thickness,
                     center),
+                pVD_Out,
+                pVD_In,
+                pVD_Label);
+}
+
+int D_VisDat_Proc::Draw_Label_Numbers_LUT(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r, uchar g, uchar b)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                CV_8UC3);
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Draw_Label_Numbers_LUT(
+                    v_LUT,
+                    border,
+                    scale,
+                    thickness,
+                    center,
+                    precision,
+                    r,
+                    g,
+                    b),
+                pVD_Out,
+                pVD_In,
+                pVD_Label);
+}
+
+int D_VisDat_Proc::Draw_Label_Text(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r, uchar g, uchar b, int connectivity)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                CV_8UC3);
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Draw_Label_Text(
+                    QSL_Labeltexts,
+                    border,
+                    scale,
+                    thickness,
+                    center,
+                    r,
+                    g,
+                    b,
+                    connectivity),
                 pVD_Out,
                 pVD_In,
                 pVD_Label);

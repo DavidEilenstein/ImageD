@@ -295,7 +295,10 @@ public:
     //Comsmetic
     static int  Histogram_Equalize              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  GammaSpread                     (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit);
+    static int  GammaSpread_Quantiles           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static int  Draw_Label_Numbers              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, double scale, double thickness, bool center);
+    static int  Draw_Label_Numbers_LUT          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
+    static int  Draw_Label_Text                 (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
 
     //Other
     static int  Neighborhood_Configs            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);

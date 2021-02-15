@@ -99,13 +99,13 @@ void D_FinishTimePrognosis::start()
         Time_FinishPrognosis = Time_Start;
         Time_FinishPrognosis.addMSecs(DefaultStepLength * StepsMax);
         pProgressBar->setFormat("Inital end prognosis: " + Time_FinishPrognosis.toString());
-        qDebug() << "D_FinishTimePrognosis::start" << "init time" << DefaultStepLength << "ms" << "step count expected:" << StepsMax;
-        qDebug() << "D_FinishTimePrognosis::start" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
+        //qDebug() << "D_FinishTimePrognosis::start" << "init time" << DefaultStepLength << "ms" << "step count expected:" << StepsMax;
+        //qDebug() << "D_FinishTimePrognosis::start" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
     }
     else
     {
         pProgressBar->setFormat("Wait 1st iteration for prognosis");
-        qDebug() << "D_FinishTimePrognosis::start" << "no init time for 1st prognosis at:" << QDateTime::currentDateTime().toString();
+        //qDebug() << "D_FinishTimePrognosis::start" << "no init time for 1st prognosis at:" << QDateTime::currentDateTime().toString();
     }
 }
 
@@ -134,7 +134,7 @@ void D_FinishTimePrognosis::step()
 
     //set in ui
     pProgressBar->setFormat("End prognosis: " + Time_FinishPrognosis.toString());
-    qDebug() << "D_FinishTimePrognosis::step" << "Step" << StepsExecuted << "of" << StepsMax << "mean step time" << mean_step_duration << "ms" << "total time expected" << static_cast<qint64>(mean_step_duration * StepsMax) << "ms" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
+    //qDebug() << "D_FinishTimePrognosis::step" << "Step" << StepsExecuted << "of" << StepsMax << "mean step time" << mean_step_duration << "ms" << "total time expected" << static_cast<qint64>(mean_step_duration * StepsMax) << "ms" << "Updated End prognosis at:" << QDateTime::currentDateTime().toString() << "to" << Time_FinishPrognosis.toString();
 }
 
 /*!

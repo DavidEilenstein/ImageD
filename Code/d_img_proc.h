@@ -116,6 +116,7 @@ public:
     static int      Combi_8UC1_binary           (Mat *pMA_Out, Mat *pMA_In);
     static int      GammaSpread_1C              (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min = 0, double out_max = 255, bool force_8bit = false);
     static int      GammaSpread                 (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min = 0, double out_max = 255, bool force_8bit = false);
+    static int      GammaSpread_Quantiles       (Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static int      Visualize_to8bit            (Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false, int mode_complex = c_COMPLEX2REAL_RE_IM);
     static int      Visualize_to8bit_1C         (Mat *pMA_Out, Mat *pMA_In, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double crop_min, double crop_max, double val_gamma, double val_center, double val_scale);
 
@@ -375,6 +376,7 @@ public:
     static int      Draw_Text                   (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0, double value = 255);
     static int      Draw_Text_ContrastColor     (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0);
     static int      Draw_Label_Numbers_LUT      (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
+    static int      Draw_Label_Text             (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
     static int      Draw_Label_Numbers_LUT_Gray (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, int geometric, double scale, int thickness, bool center, int precision);
     static int      Draw_Label_Numbers          (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, double scale, double thickness, bool center);
     static int      Draw_Label_Numbers          (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness, bool center);
