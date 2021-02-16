@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -126,6 +126,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a828dcf16c20cf3d8b64ca535639a6baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff6243f4d8ee4f270e3db735bcb22fbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe">get_Focus</a> (size_t channel, size_t index)</td></tr>
 <tr class="separator:aff6243f4d8ee4f270e3db735bcb22fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f0be5b04cc83a5d1418b27f1632c33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a63f0be5b04cc83a5d1418b27f1632c33">get_Contours_append</a> (vector&lt; vector&lt; Point &gt;&gt; *pvScaledContours, double scale)</td></tr>
+<tr class="separator:a63f0be5b04cc83a5d1418b27f1632c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba9afd935cbdde4dc6ad338271fc36f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aba9afd935cbdde4dc6ad338271fc36f1">get_FociCount_append</a> (QStringList *pQSL_FociCounts)</td></tr>
+<tr class="separator:aba9afd935cbdde4dc6ad338271fc36f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf9f3daf2367fd3287d73a7c7a5a6455"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#adf9f3daf2367fd3287d73a7c7a5a6455">block_save_StitchingBorder_BottomRight</a> (size_t x, size_t y)</td></tr>
 <tr class="separator:adf9f3daf2367fd3287d73a7c7a5a6455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2537aa48b4403c6057a0b01ac0dca97f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a2537aa48b4403c6057a0b01ac0dca97f">save</a> (QString path)</td></tr>
@@ -593,6 +597,34 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a63f0be5b04cc83a5d1418b27f1632c33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f0be5b04cc83a5d1418b27f1632c33">&#9670;&nbsp;</a></span>get_Contours_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusBlob::get_Contours_append </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; Point &gt;&gt; *&#160;</td>
+          <td class="paramname"><em>pvScaledContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="acd77a5a1cf25bc2392103ff6baaf4488"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd77a5a1cf25bc2392103ff6baaf4488">&#9670;&nbsp;</a></span>get_Foci() <span class="overload">[1/2]</span></h2>
 
@@ -691,6 +723,24 @@ Public Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba9afd935cbdde4dc6ad338271fc36f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9afd935cbdde4dc6ad338271fc36f1">&#9670;&nbsp;</a></span>get_FociCount_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusBlob::get_FociCount_append </td>
+          <td>(</td>
+          <td class="paramtype">QStringList *&#160;</td>
+          <td class="paramname"><em>pQSL_FociCounts</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>

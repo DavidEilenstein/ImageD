@@ -254,16 +254,18 @@ void D_MAKRO_MegaFoci::Update_Images_Proc()
 
 void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
 {
-    //get inidices to show
-    int t = ui->spinBox_Viewport_T->value();
+    ///get position in dataset
+    int pos_x = ui->spinBox_Viewport_X->value();
+    int pos_y = ui->spinBox_Viewport_Y->value();
+    int pos_t = ui->spinBox_Viewport_T->value();
 
-    //make sure indices fit
-    if(t >= VD_Overview_Save.pDim()->size_T())   t = 0;
+    ////make sure indices fit
+    if(pos_t >= VD_Overview_Save.pDim()->size_T())   pos_t = 0;
 
-    //2D plane to show
-    D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
+    ///2D plane to show
+    D_VisDat_Slice_2D Slice2d(-1, -1, 0, pos_t, 0, 0);
 
-    //Crop 2D plane from VD
+    ///Crop 2D plane from VD
     ERR(D_VisDat_Proc::Read_2D_Plane(
                 &MA_OverviewSmall_Show,
                 &VD_Overview_Save,
@@ -271,7 +273,7 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
         "Update_Images_Proc",
         "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Save.info());
 
-    //get max of overview
+    ///get max of overview as intensity for grid
     double min, max;
     ERR(D_Img_Proc::MinMax_of_Mat(
             &MA_OverviewSmall_Show,
@@ -280,32 +282,48 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
         "Update_Images_Overview",
         "D_Img_Proc::MinMax_of_Mat");
     //scale max down to ignore very high values
-    max *= 0.5;
+    max /= 2.0;
     if(max < 1)
         max = 1;
 
-    //draw grid
+    ///draw grid
     ERR(D_Img_Proc::Draw_GridSimple(
             &MA_OverviewSmall_Show,
             static_cast<int>(dataset_dim_mosaic_x),
             static_cast<int>(dataset_dim_mosaic_y),
-            Scalar(max, max, max)),
+            Scalar(max, max, max),
+            5),
         "Update_Images_Overview",
         "D_Img_Proc::Draw_Grid");
 
-    //draw rect at current
+    ///get overlap in px
+    size_t overlap_px_x = ui->spinBox_ImgProc_Stitch_Overlap_x->value();
+    size_t overlap_px_y = ui->spinBox_ImgProc_Stitch_Overlap_y->value();
+
+    ///get border in %
+    double border_prz = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+
+    ///offset of current pos
+    int offset_x = pos_x * (dataset_dim_img_x - overlap_px_x) * overview_scale;
+    int offset_y = pos_y * (dataset_dim_img_y - overlap_px_y) * overview_scale;
+
+    ///size of subimage including border stitching in overview
+    int sub_img_size_x = (dataset_dim_img_x * (1.0 + border_prz)) * overview_scale;
+    int sub_img_size_y = (dataset_dim_img_y * (1.0 + border_prz)) * overview_scale;
+
+    ///draw rect at current viewport (including border stitching)
     ERR(D_Img_Proc::Draw_Rect(
             &MA_OverviewSmall_Show,
-            static_cast<int>(ui->spinBox_Viewport_X->value() * overview_SubImgSizeX),
-            static_cast<int>(ui->spinBox_Viewport_Y->value() * overview_SubImgSizeY),
-            static_cast<int>((ui->spinBox_Viewport_X->value() + 1 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0) * overview_SubImgSizeX),
-            static_cast<int>((ui->spinBox_Viewport_Y->value() + 1 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0) * overview_SubImgSizeY),
-            3,
+            static_cast<int>(offset_x),
+            static_cast<int>(offset_y),
+            static_cast<int>(offset_x + sub_img_size_x),
+            static_cast<int>(offset_y + sub_img_size_y),
+            11,
             max),
         "Update_Images_Overview",
         "D_Img_Proc::Draw_Grid");
 
-    //display Mat
+    ///display Mat
     Viewer_OverviewSmall.Update_Image(&MA_OverviewSmall_Show);
     StatusSet("Show fancy overview");
 }
@@ -353,7 +371,7 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
                     vCentroids,
                     1,
                     1,
-                    0.5,
+                    0.75,
                     255),
             "Update_Images_OverviewBig",
             "D_Img_Proc::Draw_ContourText");
@@ -537,8 +555,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0,
-                ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0,
-                ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0),
+                ui->spinBox_ImgProc_Stitch_Overlap_x->value() / static_cast<double>(dataset_dim_img_x),
+                ui->spinBox_ImgProc_Stitch_Overlap_y->value() / static_cast<double>(dataset_dim_img_y)),
             "Update_ImageProcessing_StepSingle",
             "STEP_PRE_STITCH - Stitching 4 images"
             "<br>VD Main: " + vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN].info() +
@@ -1124,8 +1142,8 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     ///geometric moisaik offset in pixels
     Point MosaikOffset(
-                pos_x * static_cast<int>(dataset_dim_img_x * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)),
-                pos_y * static_cast<int>(dataset_dim_img_y * (1 - ui->doubleSpinBox_ImgProc_Stitch_Overlap->value() / 100.0)));
+                pos_x * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
+                pos_y * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
 
     ///calculate image decomposition to bio info format
     StatusSet("Nuclei image decomposition");
@@ -1454,22 +1472,15 @@ void D_MAKRO_MegaFoci::Overview_Init()
 
     StatusSet("Init overview for better orientation");
 
-    //get scale of overview
-    overview_scale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
-    overview_SubImgSizeX = static_cast<size_t>(dataset_dim_img_x * overview_scale);
-    overview_SubImgSizeY = static_cast<size_t>(dataset_dim_img_y * overview_scale);
-
-    if(overview_SubImgSizeX < 1 || overview_SubImgSizeY < 1)
-    {
-        StatusSet("Failed to init overview (too small)");
-        return;
-    }
+    ///get overlap in px
+    size_t overlap_px_x = ui->spinBox_ImgProc_Stitch_Overlap_x->value();
+    size_t overlap_px_y = ui->spinBox_ImgProc_Stitch_Overlap_y->value();
 
     ///init overview normal
     VD_Overview_Save = D_VisDat_Obj(
                 D_VisDat_Dim(
-                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeX),
-                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeY),
+                    static_cast<int>(((dataset_dim_mosaic_x * dataset_dim_img_x) - ((dataset_dim_mosaic_x - 1) * overlap_px_x)) * overview_scale),
+                    static_cast<int>(((dataset_dim_mosaic_y * dataset_dim_img_y) - ((dataset_dim_mosaic_y - 1) * overlap_px_y)) * overview_scale),
                     1,
                     static_cast<int>(dataset_dim_t),
                     1,
@@ -1485,22 +1496,34 @@ void D_MAKRO_MegaFoci::Overview_Update()
     if(!state_overview_init || !state_dataset_dim_set)
         return;
 
-    //scale down
+    ///get overlap in px
+    size_t overlap_px_x = ui->spinBox_ImgProc_Stitch_Overlap_x->value();
+    size_t overlap_px_y = ui->spinBox_ImgProc_Stitch_Overlap_y->value();
+
+    ///get border in %
+    double border_prz = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+
+    ///scale down
     D_VisDat_Obj VD_tmp_CurrentColorScaled;
     ERR(D_VisDat_Proc::Scale_ToSize(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &VD_tmp_CurrentColorScaled,
                 &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
-                static_cast<int>(overview_SubImgSizeX * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0)),
-                static_cast<int>(overview_SubImgSizeY * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0))),
+                static_cast<int>((dataset_dim_img_x * (1.0 + border_prz)) * overview_scale),
+                static_cast<int>((dataset_dim_img_y * (1.0 + border_prz)) * overview_scale)),
         "Overview_Update",
         "D_VisDat_Proc::Scale_ToSize");
 
-    //calc target offset
+    ///get position in dataset
+    int pos_x = ui->spinBox_Viewport_X->value();
+    int pos_y = ui->spinBox_Viewport_Y->value();
+    int pos_t = ui->spinBox_Viewport_T->value();
+
+    ///calc target offset
     vector<int> vOffset(c_DIM_NUMBER_OF, 0);
-    vOffset[c_DIM_X] = static_cast<int>(ui->spinBox_Viewport_X->value() * overview_SubImgSizeX);
-    vOffset[c_DIM_Y] = static_cast<int>(ui->spinBox_Viewport_Y->value() * overview_SubImgSizeY);
-    vOffset[c_DIM_T] = ui->spinBox_Viewport_T->value();
+    vOffset[c_DIM_X] = pos_x * (dataset_dim_img_x - overlap_px_x) * overview_scale;
+    vOffset[c_DIM_Y] = pos_y * (dataset_dim_img_y - overlap_px_y) * overview_scale;
+    vOffset[c_DIM_T] = pos_t;
 
     //insert in overview
     ERR(D_VisDat_Proc::Instert_atPos(
@@ -1660,8 +1683,8 @@ int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size
                 &VD_tmp_BR,
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value()/100.0,
                 ui->doubleSpinBox_ImgProc_Stitch_Border->value()/100.0,
-                ui->doubleSpinBox_ImgProc_Stitch_Overlap->value()/100.0,
-                ui->doubleSpinBox_ImgProc_Stitch_Overlap->value()/100.0,
+                ui->spinBox_ImgProc_Stitch_Overlap_x->value() / static_cast<double>(dataset_dim_img_x),
+                ui->spinBox_ImgProc_Stitch_Overlap_y->value() / static_cast<double>(dataset_dim_img_y),
                 Stitcher::Mode::SCANS);
 
     if(ER != ER_okay)
@@ -1886,11 +1909,6 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(doubl
     Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
 }
 
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Overlap_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
-}
-
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index)
 {
     Update_ImageProcessing_StepFrom(STEP_PRE_PROJECT_Z);
@@ -2075,4 +2093,16 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_value
         Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS);
 }
 
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1)
+{
+    ui->spinBox_ImgProc_Stitch_Overlap_x->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_x), 'g', 4) + "%)");
+    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
+    Overview_Init();
+}
 
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1)
+{
+    ui->spinBox_ImgProc_Stitch_Overlap_y->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_y), 'g', 4) + "%)");
+    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
+    Overview_Init();
+}

@@ -1,5 +1,11 @@
 var NAVTREEINDEX1 =
 {
+"class_d___m_a_k_r_o___foci_counter.html#aa7b83acf061699d9d149beb3df2b7cfc":[3,0,27,1],
+"class_d___m_a_k_r_o___fourier_transformator.html":[3,0,28],
+"class_d___m_a_k_r_o___fourier_transformator.html#a6141705850ae8bfd040abe7a9a898533":[3,0,28,1],
+"class_d___m_a_k_r_o___fourier_transformator.html#a8440472b86178c33580a4bf186a350df":[3,0,28,4],
+"class_d___m_a_k_r_o___fourier_transformator.html#a870bb139e0740fbd878d57d174589def":[3,0,28,2],
+"class_d___m_a_k_r_o___fourier_transformator.html#aa770c958d992eb6f4bba221c6ccfa36f":[3,0,28,0],
 "class_d___m_a_k_r_o___fourier_transformator.html#afae1e0dc280a5cd0578ecfc62a1c06ba":[3,0,28,3],
 "class_d___m_a_k_r_o___huang_visualization.html":[3,0,29],
 "class_d___m_a_k_r_o___huang_visualization.html#a676cea4e8812b860e50d6adaa1285120":[3,0,29,3],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "class_d___value___distribution___list.html":[3,0,53],
 "class_d___value___distribution___list.html#a178e8bf3ac510f4afcc2d0f430391726":[3,0,53,15],
 "class_d___value___distribution___list.html#a1a4c3cf827d7fbcfbeac997ffb62ecaf":[3,0,53,13],
-"class_d___value___distribution___list.html#a306c15c0e61b6711638c46bde52259f6":[3,0,53,14],
-"class_d___value___distribution___list.html#a3c18f2025d00c01a19cd5d5b0f9f3a45":[3,0,53,7],
-"class_d___value___distribution___list.html#a442d8e3b023decbfa3c862eaa5d7c3a3":[3,0,53,10],
-"class_d___value___distribution___list.html#a535491f7cc814c7d56d2ab8de6e4d23f":[3,0,53,17],
-"class_d___value___distribution___list.html#a5d0b09e9ee523dc65d917f94b477acae":[3,0,53,18],
-"class_d___value___distribution___list.html#a6a5eabfa53072afbc7becd07ff57b737":[3,0,53,16],
-"class_d___value___distribution___list.html#a8f4c309b749268c92039cc2f42ab49ec":[3,0,53,6]
+"class_d___value___distribution___list.html#a306c15c0e61b6711638c46bde52259f6":[3,0,53,14]
 };

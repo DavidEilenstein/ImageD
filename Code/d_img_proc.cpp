@@ -15459,9 +15459,10 @@ int D_Img_Proc::Draw_Rect_Rotate(Mat *pMA_Target, RotatedRect rrect, int thickne
     return ER_okay;
 }
 
-int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
+int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value, int thickness)
 {
     if(pMA_Target->empty())             return ER_empty;
+    if(thickness < 1)                   return ER_parameter_bad;
 
     //size
     double w = pMA_Target->cols;
@@ -15470,22 +15471,31 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
     if(w < nx)                          return ER_parameter_bad;
     if(h < ny)                          return ER_parameter_bad;
 
+    //thickness to distance in both directions
+    int d = thickness / 2;
+
     switch (pMA_Target->type()) {
 
     case CV_8UC1:
     {
         uchar val = value[0];
         for(int iy = 1; iy < ny; iy++)
-        {//horizontal line
-            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
-            for(int x = 0; x < w; x++)
-                pMA_Target->at<uchar>(y, x) = val;
+        {
+            //horizontal line
+            int y_start = max(0.0, ((static_cast<double>(iy) / ny) * h) - d);
+            int y_end   = min(h,   ((static_cast<double>(iy) / ny) * h) + d);
+            for(int y = y_start; y < y_end; y++)
+                for(int x = 0; x < w; x++)
+                    pMA_Target->at<uchar>(y, x) = val;
         }
         for(int ix = 1; ix < nx; ix++)
-        {//vertical line
-            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
-            for(int y = 0; y < h; y++)
-                pMA_Target->at<uchar>(y, x) = val;
+        {
+            //vertical line
+            int x_start = max(0.0, ((static_cast<double>(ix) / nx) * w) - d);
+            int x_end   = min(w,   ((static_cast<double>(ix) / nx) * w) + d);
+            for(int x = x_start; x < x_end; x++)
+                for(int y = 0; y < h; y++)
+                    pMA_Target->at<uchar>(y, x) = val;
         }
     }
         break;
@@ -15494,16 +15504,22 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
     {
         ushort val = value[0];
         for(int iy = 1; iy < ny; iy++)
-        {//horizontal line
-            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
-            for(int x = 0; x < w; x++)
-                pMA_Target->at<ushort>(y, x) = val;
+        {
+            //horizontal line
+            int y_start = max(0.0, ((static_cast<double>(iy) / ny) * h) - d);
+            int y_end   = min(h,   ((static_cast<double>(iy) / ny) * h) + d);
+            for(int y = y_start; y < y_end; y++)
+                for(int x = 0; x < w; x++)
+                    pMA_Target->at<ushort>(y, x) = val;
         }
         for(int ix = 1; ix < nx; ix++)
-        {//vertical line
-            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
-            for(int y = 0; y < h; y++)
-                pMA_Target->at<ushort>(y, x) = val;
+        {
+            //vertical line
+            int x_start = max(0.0, ((static_cast<double>(ix) / nx) * w) - d);
+            int x_end   = min(w,   ((static_cast<double>(ix) / nx) * w) + d);
+            for(int x = x_start; x < x_end; x++)
+                for(int y = 0; y < h; y++)
+                    pMA_Target->at<ushort>(y, x) = val;
         }
     }
         break;
@@ -15515,16 +15531,22 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
         val[1] = value[1];
         val[2] = value[2];
         for(int iy = 1; iy < ny; iy++)
-        {//horizontal line
-            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
-            for(int x = 0; x < w; x++)
-                pMA_Target->at<Vec3b>(y, x) = val;
+        {
+            //horizontal line
+            int y_start = max(0.0, ((static_cast<double>(iy) / ny) * h) - d);
+            int y_end   = min(h,   ((static_cast<double>(iy) / ny) * h) + d);
+            for(int y = y_start; y < y_end; y++)
+                for(int x = 0; x < w; x++)
+                    pMA_Target->at<Vec3b>(y, x) = val;
         }
         for(int ix = 1; ix < nx; ix++)
-        {//vertical line
-            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
-            for(int y = 0; y < h; y++)
-                pMA_Target->at<Vec3b>(y, x) = val;
+        {
+            //vertical line
+            int x_start = max(0.0, ((static_cast<double>(ix) / nx) * w) - d);
+            int x_end   = min(w,   ((static_cast<double>(ix) / nx) * w) + d);
+            for(int x = x_start; x < x_end; x++)
+                for(int y = 0; y < h; y++)
+                    pMA_Target->at<Vec3b>(y, x) = val;
         }
     }
         break;
@@ -15536,16 +15558,22 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
         val[1] = value[1];
         val[2] = value[2];
         for(int iy = 1; iy < ny; iy++)
-        {//horizontal line
-            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
-            for(int x = 0; x < w; x++)
-                pMA_Target->at<Vec3w>(y, x) = val;
+        {
+            //horizontal line
+            int y_start = max(0.0, ((static_cast<double>(iy) / ny) * h) - d);
+            int y_end   = min(h,   ((static_cast<double>(iy) / ny) * h) + d);
+            for(int y = y_start; y < y_end; y++)
+                for(int x = 0; x < w; x++)
+                    pMA_Target->at<Vec3w>(y, x) = val;
         }
         for(int ix = 1; ix < nx; ix++)
-        {//vertical line
-            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
-            for(int y = 0; y < h; y++)
-                pMA_Target->at<Vec3w>(y, x) = val;
+        {
+            //vertical line
+            int x_start = max(0.0, ((static_cast<double>(ix) / nx) * w) - d);
+            int x_end   = min(w,   ((static_cast<double>(ix) / nx) * w) + d);
+            for(int x = x_start; x < x_end; x++)
+                for(int y = 0; y < h; y++)
+                    pMA_Target->at<Vec3w>(y, x) = val;
         }
     }
         break;
@@ -15557,16 +15585,22 @@ int D_Img_Proc::Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value)
         val[1] = value[1];
         val[2] = value[2];
         for(int iy = 1; iy < ny; iy++)
-        {//horizontal line
-            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
-            for(int x = 0; x < w; x++)
-                pMA_Target->at<Vec3d>(y, x) = val;
+        {
+            //horizontal line
+            int y_start = max(0.0, ((static_cast<double>(iy) / ny) * h) - d);
+            int y_end   = min(h,   ((static_cast<double>(iy) / ny) * h) + d);
+            for(int y = y_start; y < y_end; y++)
+                for(int x = 0; x < w; x++)
+                    pMA_Target->at<Vec3d>(y, x) = val;
         }
         for(int ix = 1; ix < nx; ix++)
-        {//vertical line
-            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
-            for(int y = 0; y < h; y++)
-                pMA_Target->at<Vec3d>(y, x) = val;
+        {
+            //vertical line
+            int x_start = max(0.0, ((static_cast<double>(ix) / nx) * w) - d);
+            int x_end   = min(w,   ((static_cast<double>(ix) / nx) * w) + d);
+            for(int x = x_start; x < x_end; x++)
+                for(int y = 0; y < h; y++)
+                    pMA_Target->at<Vec3d>(y, x) = val;
         }
     }
         break;

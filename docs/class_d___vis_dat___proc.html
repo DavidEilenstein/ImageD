@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -277,8 +277,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a95824eed10d2f712341e6acca7295ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c5531319bc1e83293eb9aa953b79fe3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a2c5531319bc1e83293eb9aa953b79fe3">Threshold_Adaptive</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int mode, int max, int mask_type, int mask_size, double offset)</td></tr>
 <tr class="separator:a2c5531319bc1e83293eb9aa953b79fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96269d9c62c64fc496efad30165b6fcb"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a96269d9c62c64fc496efad30165b6fcb">Threshold_Adaptive_Gauss</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int size, double sigma, double offset)</td></tr>
-<tr class="separator:a96269d9c62c64fc496efad30165b6fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9370afe2f6b167adde33d3734b16f2c7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9370afe2f6b167adde33d3734b16f2c7">Threshold_Adaptive_Gauss</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int size, double sigma, double offset, double scale=1)</td></tr>
+<tr class="separator:a9370afe2f6b167adde33d3734b16f2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae227f76e1b9723051b39c1629a7b7733"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ae227f76e1b9723051b39c1629a7b7733">Color_Grab</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int color_space, int out_mode, vector&lt; uchar &gt; min, vector&lt; uchar &gt; max)</td></tr>
 <tr class="separator:ae227f76e1b9723051b39c1629a7b7733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9db42b51f17a3fc5446801caca740b83"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9db42b51f17a3fc5446801caca740b83">Labeling</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int connecivity, int out_depth)</td></tr>
@@ -453,8 +453,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac41ae1ecd04a1c80d88c14858c3a0552"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b84a067f00d4738334a8ee07ccf2c0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ab5b84a067f00d4738334a8ee07ccf2c0">GammaSpread</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit)</td></tr>
 <tr class="separator:ab5b84a067f00d4738334a8ee07ccf2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a316010f63115348e60ff61d59cfa3875"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a316010f63115348e60ff61d59cfa3875">GammaSpread_Quantiles</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, double gamma, double quantile_low, double quantile_high, double out_min=0, double out_max=255, bool force_8bit=false, bool ignore_zeros=true)</td></tr>
+<tr class="separator:a316010f63115348e60ff61d59cfa3875"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72e2a764d88e05e2c617d2a5f2db46e3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a72e2a764d88e05e2c617d2a5f2db46e3">Draw_Label_Numbers</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Label, double scale, double thickness, bool center)</td></tr>
 <tr class="separator:a72e2a764d88e05e2c617d2a5f2db46e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae11ff847ce51a16a48fa3abdcd9b4d1c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ae11ff847ce51a16a48fa3abdcd9b4d1c">Draw_Label_Numbers_LUT</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Label, vector&lt; double &gt; v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r=0, uchar g=0, uchar b=0)</td></tr>
+<tr class="separator:ae11ff847ce51a16a48fa3abdcd9b4d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a81d8b33d44a1ab9e4f9645a91372ecfe">Draw_Label_Text</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r=0, uchar g=0, uchar b=0, int connectivity=4)</td></tr>
+<tr class="separator:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc0bc833aaefe9b3b7ec74ecb3081da"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#acfc0bc833aaefe9b3b7ec74ecb3081da">Neighborhood_Configs</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
 <tr class="separator:acfc0bc833aaefe9b3b7ec74ecb3081da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1bf390e4a95e850831393b0329cd5f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a5f1bf390e4a95e850831393b0329cd5f">Euler_Number</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, double *euler_number, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
@@ -3070,6 +3076,210 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae11ff847ce51a16a48fa3abdcd9b4d1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae11ff847ce51a16a48fa3abdcd9b4d1c">&#9670;&nbsp;</a></span>Draw_Label_Numbers_LUT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Draw_Label_Numbers_LUT </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_LUT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>precision</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>r</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>g</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>b</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81d8b33d44a1ab9e4f9645a91372ecfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d8b33d44a1ab9e4f9645a91372ecfe">&#9670;&nbsp;</a></span>Draw_Label_Text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Draw_Label_Text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_Labeltexts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>r</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>g</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>b</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectivity</em> = <code>4</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5f1bf390e4a95e850831393b0329cd5f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5f1bf390e4a95e850831393b0329cd5f">&#9670;&nbsp;</a></span>Euler_Number()</h2>
 
@@ -5448,6 +5658,90 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>force_8bit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a316010f63115348e60ff61d59cfa3875"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a316010f63115348e60ff61d59cfa3875">&#9670;&nbsp;</a></span>GammaSpread_Quantiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::GammaSpread_Quantiles </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_high</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_max</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_8bit</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ignore_zeros</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -9388,8 +9682,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a96269d9c62c64fc496efad30165b6fcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96269d9c62c64fc496efad30165b6fcb">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
+<a id="a9370afe2f6b167adde33d3734b16f2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9370afe2f6b167adde33d3734b16f2c7">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9431,7 +9725,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

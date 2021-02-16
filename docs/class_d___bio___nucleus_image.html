@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -112,6 +112,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a38cbc981792c6d7dac2c5e09b78039bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49fa008e098f379066ae20149200f6e6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a49fa008e098f379066ae20149200f6e6">save</a> (QString path)</td></tr>
 <tr class="separator:a49fa008e098f379066ae20149200f6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#afe1cf1ccb2fa9c6dab784311eceb9830">get_Contours_append</a> (vector&lt; vector&lt; Point &gt;&gt; *pvScaledContours, double scale)</td></tr>
+<tr class="separator:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c4578f9be86bc61fc8dbb453f8f869f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a6c4578f9be86bc61fc8dbb453f8f869f">get_FociCount_append</a> (QStringList *pQSL_FociCounts)</td></tr>
+<tr class="separator:a6c4578f9be86bc61fc8dbb453f8f869f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f46dd18ba021dd6eedfa9b47fbd19c2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a8f46dd18ba021dd6eedfa9b47fbd19c2">get_Centroids_append</a> (vector&lt; Point2f &gt; *pvScaledCentroids, double scale)</td></tr>
+<tr class="separator:a8f46dd18ba021dd6eedfa9b47fbd19c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a19b227d4a950ba15fc48032508acd6"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a4a19b227d4a950ba15fc48032508acd6">get_nuclei</a> ()</td></tr>
+<tr class="separator:a4a19b227d4a950ba15fc48032508acd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae91542ee4fd704284790de7e401b5f6e"></a>
@@ -560,6 +568,105 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f46dd18ba021dd6eedfa9b47fbd19c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f46dd18ba021dd6eedfa9b47fbd19c2">&#9670;&nbsp;</a></span>get_Centroids_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusImage::get_Centroids_append </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; Point2f &gt; *&#160;</td>
+          <td class="paramname"><em>pvScaledCentroids</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe1cf1ccb2fa9c6dab784311eceb9830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe1cf1ccb2fa9c6dab784311eceb9830">&#9670;&nbsp;</a></span>get_Contours_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusImage::get_Contours_append </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; Point &gt;&gt; *&#160;</td>
+          <td class="paramname"><em>pvScaledContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c4578f9be86bc61fc8dbb453f8f869f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c4578f9be86bc61fc8dbb453f8f869f">&#9670;&nbsp;</a></span>get_FociCount_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusImage::get_FociCount_append </td>
+          <td>(</td>
+          <td class="paramtype">QStringList *&#160;</td>
+          <td class="paramname"><em>pQSL_FociCounts</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a19b227d4a950ba15fc48032508acd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a19b227d4a950ba15fc48032508acd6">&#9670;&nbsp;</a></span>get_nuclei()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>&gt; D_Bio_NucleusImage::get_nuclei </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

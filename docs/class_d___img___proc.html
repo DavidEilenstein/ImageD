@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -203,6 +203,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a0662c131abbfbe2b7c0e6ace4ef4fbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a510ba6e739a3e53c9f6427d0984809b0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a510ba6e739a3e53c9f6427d0984809b0">GammaSpread</a> (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min=0, double out_max=255, bool force_8bit=false)</td></tr>
 <tr class="separator:a510ba6e739a3e53c9f6427d0984809b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94b80c9861798ffa06b83c8935ae8360"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a94b80c9861798ffa06b83c8935ae8360">GammaSpread_Quantiles</a> (Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min=0, double out_max=255, bool force_8bit=false, bool ignore_zeros=true)</td></tr>
+<tr class="separator:a94b80c9861798ffa06b83c8935ae8360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1397956ae15b4aa10e0790c0141a809"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ae1397956ae15b4aa10e0790c0141a809">Visualize_to8bit</a> (Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max=false, int mode_complex=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>)</td></tr>
 <tr class="separator:ae1397956ae15b4aa10e0790c0141a809"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3001dc1f6399b32ca7f74202dbe8c0f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad3001dc1f6399b32ca7f74202dbe8c0f">Visualize_to8bit_1C</a> (Mat *pMA_Out, Mat *pMA_In, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double crop_min, double crop_max, double val_gamma, double val_center, double val_scale)</td></tr>
@@ -257,11 +259,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae1b129dc72a3142269240e0ea60e1cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3720493432af42e61bf3bdeb8746d924"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a3720493432af42e61bf3bdeb8746d924">Threshold_Adaptive</a> (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int adapt_mode, unsigned int mask_size, double offset)</td></tr>
 <tr class="separator:a3720493432af42e61bf3bdeb8746d924"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a750c3ac6ab7c006f22329dc64e031d24"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a750c3ac6ab7c006f22329dc64e031d24">Threshold_Adaptive_Gauss</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)</td></tr>
-<tr class="separator:a750c3ac6ab7c006f22329dc64e031d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6083f1d7e0d9bc0507f298547907ed08"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6083f1d7e0d9bc0507f298547907ed08">Threshold_Adaptive_Gauss_1C</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset)</td></tr>
-<tr class="memdesc:a6083f1d7e0d9bc0507f298547907ed08"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a6083f1d7e0d9bc0507f298547907ed08" title="D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered...">D_Img_Proc::Threshold_Adaptive_Gauss_1C</a> lokall adaptive threshhold using comparison to gauss filtered image.  <a href="class_d___img___proc.html#a6083f1d7e0d9bc0507f298547907ed08">More...</a><br /></td></tr>
-<tr class="separator:a6083f1d7e0d9bc0507f298547907ed08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1193ce8922b38f3e5330454ef217915f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1193ce8922b38f3e5330454ef217915f">Threshold_Adaptive_Gauss</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale)</td></tr>
+<tr class="separator:a1193ce8922b38f3e5330454ef217915f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad42a61ed6f0bb58b750bd9990319c630"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630">Threshold_Adaptive_Gauss_1C</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale)</td></tr>
+<tr class="memdesc:ad42a61ed6f0bb58b750bd9990319c630"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630" title="D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered...">D_Img_Proc::Threshold_Adaptive_Gauss_1C</a> lokall adaptive threshhold using comparison to gauss filtered image.  <a href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630">More...</a><br /></td></tr>
+<tr class="separator:ad42a61ed6f0bb58b750bd9990319c630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a459be7d9b4f4f24242dca9eaad5ea419"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a459be7d9b4f4f24242dca9eaad5ea419">Threshold_BlurThres</a> (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres)</td></tr>
 <tr class="separator:a459be7d9b4f4f24242dca9eaad5ea419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ebcb476ab95d22a547d5da02e42fef5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0ebcb476ab95d22a547d5da02e42fef5">Color_Grab</a> (Mat *pMA_Out, Mat *pMA_In, int color_space, int out_mode, vector&lt; uchar &gt; min, vector&lt; uchar &gt; max)</td></tr>
@@ -603,8 +605,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a0bd009c38ce6f9f4a8dad263ee8c1559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3cb1ff42d02d6e81aff0a0ba3850d2b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af3cb1ff42d02d6e81aff0a0ba3850d2b">Draw_Rect_Rotate</a> (Mat *pMA_Target, RotatedRect rrect, int thickness=1, double value=255)</td></tr>
 <tr class="separator:af3cb1ff42d02d6e81aff0a0ba3850d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a828940229e264d35e2bbf435ea9b4b9d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a828940229e264d35e2bbf435ea9b4b9d">Draw_GridSimple</a> (Mat *pMA_Target, int nx, int ny, Scalar value=255)</td></tr>
-<tr class="separator:a828940229e264d35e2bbf435ea9b4b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70c8fbacebdb7fd393eb7360e76835fe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a70c8fbacebdb7fd393eb7360e76835fe">Draw_GridSimple</a> (Mat *pMA_Target, int nx, int ny, Scalar value=255, int thickness=1)</td></tr>
+<tr class="separator:a70c8fbacebdb7fd393eb7360e76835fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c9e6ec550e25d9f880c953953add284"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1c9e6ec550e25d9f880c953953add284">Draw_Grid</a> (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness=1, bool label_add=true, int label_thickness=1, double label_scale=1.0, double value=255)</td></tr>
 <tr class="separator:a1c9e6ec550e25d9f880c953953add284"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac39fff6f1c8453575f5d1b65bfa23ea5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac39fff6f1c8453575f5d1b65bfa23ea5">Draw_Boundaries</a> (Mat *pMA_Target, int width=1, int val=255)</td></tr>
@@ -621,6 +623,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ad5185cbb0af5366e711bc476548e3f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93b1cb1d1964b35a598dfe01af3db64b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a93b1cb1d1964b35a598dfe01af3db64b">Draw_Label_Numbers_LUT</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector&lt; double &gt; v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r=0, uchar g=0, uchar b=0)</td></tr>
 <tr class="separator:a93b1cb1d1964b35a598dfe01af3db64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a058bd987fbd1d3682f98dec7a96e01a6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a058bd987fbd1d3682f98dec7a96e01a6">Draw_Label_Text</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r=0, uchar g=0, uchar b=0, int connectivity=4)</td></tr>
+<tr class="separator:a058bd987fbd1d3682f98dec7a96e01a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e48e58dba425096cfc2be632d61ed20"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1e48e58dba425096cfc2be632d61ed20">Draw_Label_Numbers_LUT_Gray</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector&lt; double &gt; v_LUT, int geometric, double scale, int thickness, bool center, int precision)</td></tr>
 <tr class="separator:a1e48e58dba425096cfc2be632d61ed20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc826113768f9e812e092037222aab5e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#acc826113768f9e812e092037222aab5e">Draw_Label_Numbers</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, double scale, double thickness, bool center)</td></tr>
@@ -631,6 +635,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:acfaa9d7fd3bf5138a932cff492a33997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051f7c69ad6ccc3c00a7fa194663006c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a051f7c69ad6ccc3c00a7fa194663006c">Draw_Label_Numbers_Center</a> (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness)</td></tr>
 <tr class="separator:a051f7c69ad6ccc3c00a7fa194663006c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">Draw_ContourText</a> (Mat *pMA_Target, vector&lt; vector&lt; Point &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; Point2f &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
+<tr class="memdesc:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd" title="D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.">D_Img_Proc::Draw_ContourText</a> draw contours in an image with added text at contours centers.  <a href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">More...</a><br /></td></tr>
+<tr class="separator:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44b54da102aaf64fe743625ba132884b"><td class="memItemLeft" align="right" valign="top">static Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a44b54da102aaf64fe743625ba132884b">Contrast_Color</a> (Vec3d val_RGB)</td></tr>
 <tr class="separator:a44b54da102aaf64fe743625ba132884b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4c392a996d51931074b4995ce1ca168"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac4c392a996d51931074b4995ce1ca168">Highlight_NumericalProblems</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
@@ -2544,6 +2551,96 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aeb6ac89d1d3af56f01c8a29401e7cddd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb6ac89d1d3af56f01c8a29401e7cddd">&#9670;&nbsp;</a></span>Draw_ContourText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_ContourText </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; Point &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_Texts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; Point2f &gt;&#160;</td>
+          <td class="paramname"><em>vTextOrigins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>text_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>text_scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd" title="D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.">D_Img_Proc::Draw_ContourText</a> draw contours in an image with added text at contours centers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMA_Target</td><td>image to draw in </td></tr>
+    <tr><td class="paramname">vContours</td><td>contours </td></tr>
+    <tr><td class="paramname">QSL_Texts</td><td>texts </td></tr>
+    <tr><td class="paramname">line_thickness</td><td>thickness of contours </td></tr>
+    <tr><td class="paramname">text_thickness</td><td>thickness of text </td></tr>
+    <tr><td class="paramname">text_scale</td><td>scale of text </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error code </dd></dl>
+<p>error checks</p>
+<p>calc draw color with fitting channel count</p>
+<p>draw contours</p>
+<p>loop and draw texts</p>
+
+</div>
+</div>
 <a id="abe921e703560620725d50a23dc609a06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe921e703560620725d50a23dc609a06">&#9670;&nbsp;</a></span>Draw_Dot()</h2>
 
@@ -2676,8 +2773,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a828940229e264d35e2bbf435ea9b4b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a828940229e264d35e2bbf435ea9b4b9d">&#9670;&nbsp;</a></span>Draw_GridSimple()</h2>
+<a id="a70c8fbacebdb7fd393eb7360e76835fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70c8fbacebdb7fd393eb7360e76835fe">&#9670;&nbsp;</a></span>Draw_GridSimple()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2707,7 +2804,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Scalar&#160;</td>
-          <td class="paramname"><em>value</em> = <code>255</code>&#160;</td>
+          <td class="paramname"><em>value</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>thickness</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3108,6 +3211,102 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a058bd987fbd1d3682f98dec7a96e01a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a058bd987fbd1d3682f98dec7a96e01a6">&#9670;&nbsp;</a></span>Draw_Label_Text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_Label_Text </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_LabelTexts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>r</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>g</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>b</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectivity</em> = <code>4</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad3e6299e2de72041310ee0cbb31bec9d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3e6299e2de72041310ee0cbb31bec9d">&#9670;&nbsp;</a></span>Draw_Line()</h2>
 
@@ -3287,7 +3486,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p><a class="el" href="class_d___img___proc.html#a8b5ffd4263af70e59230e2593bc6031f" title="D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°">D_Img_Proc::Draw_Line_Bresenham</a> custum function to draw a line between 0° and 45° </p>
-<p>recommended to use cv's draw line function instead. This code is limited in fuction and is not tested! </p><dl class="params"><dt>Parameters</dt><dd>
+<p>recommended to use cv's draw line function instead. This code is limited in fuction and is not tested properly! </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pMA_Target</td><td>image to draw to </td></tr>
     <tr><td class="paramname">P1</td><td>start point </td></tr>
@@ -7271,6 +7470,84 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>force_8bit</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a94b80c9861798ffa06b83c8935ae8360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b80c9861798ffa06b83c8935ae8360">&#9670;&nbsp;</a></span>GammaSpread_Quantiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::GammaSpread_Quantiles </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_high</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_max</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_8bit</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ignore_zeros</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -14085,8 +14362,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a750c3ac6ab7c006f22329dc64e031d24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a750c3ac6ab7c006f22329dc64e031d24">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
+<a id="a1193ce8922b38f3e5330454ef217915f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1193ce8922b38f3e5330454ef217915f">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14122,7 +14399,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -14139,8 +14422,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6083f1d7e0d9bc0507f298547907ed08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6083f1d7e0d9bc0507f298547907ed08">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss_1C()</h2>
+<a id="ad42a61ed6f0bb58b750bd9990319c630"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad42a61ed6f0bb58b750bd9990319c630">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss_1C()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14176,7 +14459,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -14191,7 +14480,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="class_d___img___proc.html#a6083f1d7e0d9bc0507f298547907ed08" title="D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered...">D_Img_Proc::Threshold_Adaptive_Gauss_1C</a> lokall adaptive threshhold using comparison to gauss filtered image. </p>
+<p><a class="el" href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630" title="D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered...">D_Img_Proc::Threshold_Adaptive_Gauss_1C</a> lokall adaptive threshhold using comparison to gauss filtered image. </p>
 <p>Per pixel: (in + offset &gt; blur(in, size, sigma)) ? 255 : 0 </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pMA_Out</td><td>binary CV_8UC1 image </td></tr>

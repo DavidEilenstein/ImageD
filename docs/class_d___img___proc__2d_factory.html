@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_9 (09.02.21)</span>
+   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -135,8 +135,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a43d8a7c56c1d1c34f5918e3a405ae01b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fa822775b30f7b0c4ffaabccabb6291"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a5fa822775b30f7b0c4ffaabccabb6291">Threshold_Adaptive</a> (int mode, int max, int mask_type, int mask_size, double offset)</td></tr>
 <tr class="separator:a5fa822775b30f7b0c4ffaabccabb6291"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac46f8e777cf6b30a98cc6d12cd51bbd1"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ac46f8e777cf6b30a98cc6d12cd51bbd1">Threshold_Adaptive_Gauss</a> (int size, double sigma, double offset)</td></tr>
-<tr class="separator:ac46f8e777cf6b30a98cc6d12cd51bbd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa479049da21341f0c6bc98cf18f3104a"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#aa479049da21341f0c6bc98cf18f3104a">Threshold_Adaptive_Gauss</a> (int size, double sigma, double offset, double scale)</td></tr>
+<tr class="separator:aa479049da21341f0c6bc98cf18f3104a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d9f6214d296b4fe15654891a66e4521"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a6d9f6214d296b4fe15654891a66e4521">Labeling</a> (int connectivity, int out_depth)</td></tr>
 <tr class="separator:a6d9f6214d296b4fe15654891a66e4521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3a1a957a8d4b367b343c0b11d05e67e"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#aa3a1a957a8d4b367b343c0b11d05e67e">Grab_Color</a> (int color_space, int out_mode, vector&lt; uchar &gt; min, vector&lt; uchar &gt; max)</td></tr>
@@ -239,6 +239,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3d6b19488a03a6a27b6ff6dddce74a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64e6b3896ee203118a41462b79245726"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a64e6b3896ee203118a41462b79245726">GammaSpread</a> (double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit)</td></tr>
 <tr class="separator:a64e6b3896ee203118a41462b79245726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4516585f2cb5cb476ff9fbc87dea60e"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ab4516585f2cb5cb476ff9fbc87dea60e">GammaSpread_Quantiles</a> (double gamma, double quantile_low, double quantile_high, double out_min=0, double out_max=255, bool force_8bit=false, bool ignore_zeros=true)</td></tr>
+<tr class="separator:ab4516585f2cb5cb476ff9fbc87dea60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a760460fbd1162910722036aba85107cd"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a760460fbd1162910722036aba85107cd">DistancesStat</a> (function&lt; double(vector&lt; double &gt;)&gt; F_Stat)</td></tr>
 <tr class="separator:a760460fbd1162910722036aba85107cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95509ab284e6480369df3224cfa15a14"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a95509ab284e6480369df3224cfa15a14">Convert_Angle2Color_Rad</a> (uchar Saturation=255, uchar Value=255)</td></tr>
@@ -295,6 +297,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a32da7ca57c87f2ed15204cdb2b4c8f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64214669ddd8ff1a27c40fd22263b3cc"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a64214669ddd8ff1a27c40fd22263b3cc">Draw_Label_Numbers</a> (double scale, double thickness, bool center)</td></tr>
 <tr class="separator:a64214669ddd8ff1a27c40fd22263b3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f5bf1f6c11f0e043412daa4d5c9bfcf"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a7f5bf1f6c11f0e043412daa4d5c9bfcf">Draw_Label_Numbers_LUT</a> (vector&lt; double &gt; v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r=0, uchar g=0, uchar b=0)</td></tr>
+<tr class="separator:a7f5bf1f6c11f0e043412daa4d5c9bfcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae38e4b37eecb2bbca6d212188b254030"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ae38e4b37eecb2bbca6d212188b254030">Draw_Label_Text</a> (QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r=0, uchar g=0, uchar b=0, int connectivity=4)</td></tr>
+<tr class="separator:ae38e4b37eecb2bbca6d212188b254030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ac2327d1e79d80b719c4f2deca2726e"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a5ac2327d1e79d80b719c4f2deca2726e">ClassBorder_kNN</a> (int n)</td></tr>
 <tr class="separator:a5ac2327d1e79d80b719c4f2deca2726e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9225f7a030d6aed6515471ed97d2f67"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ac9225f7a030d6aed6515471ed97d2f67">Transformation_Watershed_Custom</a> (int connectivity=8)</td></tr>
@@ -857,6 +863,162 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>center</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f5bf1f6c11f0e043412daa4d5c9bfcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f5bf1f6c11f0e043412daa4d5c9bfcf">&#9670;&nbsp;</a></span>Draw_Label_Numbers_LUT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Draw_Label_Numbers_LUT </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_LUT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>precision</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>r</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>g</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>b</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae38e4b37eecb2bbca6d212188b254030"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae38e4b37eecb2bbca6d212188b254030">&#9670;&nbsp;</a></span>Draw_Label_Text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Draw_Label_Text </td>
+          <td>(</td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_LabelTexts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>border</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>r</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>g</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>b</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectivity</em> = <code>4</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2413,6 +2575,72 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>force_8bit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4516585f2cb5cb476ff9fbc87dea60e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4516585f2cb5cb476ff9fbc87dea60e">&#9670;&nbsp;</a></span>GammaSpread_Quantiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *)&gt; D_Img_Proc_2dFactory::GammaSpread_Quantiles </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile_high</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_max</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_8bit</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ignore_zeros</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -4350,8 +4578,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac46f8e777cf6b30a98cc6d12cd51bbd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac46f8e777cf6b30a98cc6d12cd51bbd1">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
+<a id="aa479049da21341f0c6bc98cf18f3104a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa479049da21341f0c6bc98cf18f3104a">&#9670;&nbsp;</a></span>Threshold_Adaptive_Gauss()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4375,7 +4603,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

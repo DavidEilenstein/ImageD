@@ -142,7 +142,6 @@ private slots:
 
     //img proc prepare
     void on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Stitch_Overlap_valueChanged(double arg1);
     void on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
 
     //img proc nuclei
@@ -186,6 +185,10 @@ private slots:
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1);
 
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1);
+
+    void on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1);
+
+    void on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1);
 
 private:
     Ui::D_MAKRO_MegaFoci *ui;
@@ -270,9 +273,7 @@ private:
     int                                 index_old_BR_t          = -1;
 
     //overview
-    double                              overview_scale = 0.10;
-    size_t                              overview_SubImgSizeX = overview_scale * dataset_dim_img_x;
-    size_t                              overview_SubImgSizeY = overview_scale * dataset_dim_img_y;
+    double                              overview_scale = 0.30;
     D_VisDat_Obj                        VD_Overview_Save;
     Mat                                 MA_OverviewSmall_Show;
     Mat                                 MA_OverviewBig_Show;

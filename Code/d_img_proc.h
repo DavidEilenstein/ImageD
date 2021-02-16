@@ -367,7 +367,7 @@ public:
     static int      Draw_CircleField            (Mat *pMA_Target, vector<vector<double>> vv_XY_radius_value, vector<vector<double>> vv_XY_radius_error, uchar value = 255, int circle_thickness = 1, bool circles_filled = true, bool grid_add = false, int grid_thicknes = 2, bool label_add = false, int label_thickness = 2, double label_scale = 1.0);
     static int      Draw_Rect                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double val = 255);
     static int      Draw_Rect_Rotate            (Mat *pMA_Target, RotatedRect rrect, int thickness = 1, double value = 255);
-    static int      Draw_GridSimple             (Mat *pMA_Target, int nx, int ny, Scalar value = 255);
+    static int      Draw_GridSimple             (Mat *pMA_Target, int nx, int ny, Scalar value = 255, int thickness = 1);
     static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness = 1, bool label_add = true, int label_thickness = 1, double label_scale = 1.0, double value = 255);
     static int      Draw_Boundaries             (Mat *pMA_Target, int width = 1, int val = 255);
     static int      Draw_Circle                 (Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);

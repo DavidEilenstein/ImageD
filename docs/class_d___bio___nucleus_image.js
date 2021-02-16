@@ -7,5 +7,9 @@ var class_d___bio___nucleus_image =
     [ "calc_NucleiDecomposition", "class_d___bio___nucleus_image.html#a9b3f4db4963f37e2f961ed503d949fa8", null ],
     [ "calc_NucleiDecomposition", "class_d___bio___nucleus_image.html#a38cbc981792c6d7dac2c5e09b78039bc", null ],
     [ "calc_NucleiDecomposition", "class_d___bio___nucleus_image.html#a9ff78a677150f13eee5857f170522fcd", null ],
+    [ "get_Centroids_append", "class_d___bio___nucleus_image.html#a8f46dd18ba021dd6eedfa9b47fbd19c2", null ],
+    [ "get_Contours_append", "class_d___bio___nucleus_image.html#afe1cf1ccb2fa9c6dab784311eceb9830", null ],
+    [ "get_FociCount_append", "class_d___bio___nucleus_image.html#a6c4578f9be86bc61fc8dbb453f8f869f", null ],
+    [ "get_nuclei", "class_d___bio___nucleus_image.html#a4a19b227d4a950ba15fc48032508acd6", null ],
     [ "save", "class_d___bio___nucleus_image.html#a49fa008e098f379066ae20149200f6e6", null ]
 ];

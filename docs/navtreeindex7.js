@@ -1,5 +1,11 @@
 var NAVTREEINDEX7 =
 {
+"d__img__proc__3d_8h.html":[4,0,0,32],
+"d__img__proc__3d_8h_source.html":[4,0,0,32],
+"d__img__proc__3dfactory_8cpp.html":[4,0,0,33],
+"d__img__proc__3dfactory_8h.html":[4,0,0,34],
+"d__img__proc__3dfactory_8h_source.html":[4,0,0,34],
+"d__job__manager_8cpp.html":[4,0,0,35],
 "d__job__manager_8h.html":[4,0,0,36],
 "d__job__manager_8h_source.html":[4,0,0,36],
 "d__mainwindow_8cpp.html":[4,0,0,37],
@@ -228,8 +234,8 @@ var NAVTREEINDEX7 =
 "group__proc.html":[1,0],
 "group__proc___m_a__2___q_i.html":[1,0,0],
 "hierarchy.html":[3,2],
-"index.html":[0],
 "index.html":[],
+"index.html":[0],
 "index.html#doc_sec":[0,2],
 "index.html#intro_sec":[0,0],
 "index.html#istall_sec":[0,1],
@@ -243,11 +249,5 @@ var NAVTREEINDEX7 =
 "m__makro__foci_8h.html":[4,0,0,140],
 "m__makro__foci_8h_source.html":[4,0,0,140],
 "main_8cpp.html":[4,0,0,141],
-"main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97":[4,0,0,141,0],
-"modules.html":[1],
-"namespace_ui.html":[2,0,0],
-"namespaces.html":[2,0],
-"pages.html":[],
-"scenemousetrack_8cpp.html":[4,0,0,142],
-"scenemousetrack_8h.html":[4,0,0,143]
+"main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97":[4,0,0,141,0]
 };
