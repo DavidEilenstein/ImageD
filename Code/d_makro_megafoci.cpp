@@ -24,8 +24,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     MA_OverviewSmall_Show = pStore->get_Adress(0)->clone();
     MA_OverviewBig_Show = pStore->get_Adress(0)->clone();
     VD_Show = pStore->get_VD(0);
-    VD_Overview_Normal_Save = pStore->get_VD(0);
-    VD_Overview_Result_Save = pStore->get_VD(0);
+    VD_Overview_Save = pStore->get_VD(0);
 
     //img proc
     vVD_ImgProcSteps.resize(STEP_NUMBER_OF);
@@ -259,7 +258,7 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
     int t = ui->spinBox_Viewport_T->value();
 
     //make sure indices fit
-    if(t >= VD_Overview_Normal_Save.pDim()->size_T())   t = 0;
+    if(t >= VD_Overview_Save.pDim()->size_T())   t = 0;
 
     //2D plane to show
     D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
@@ -267,10 +266,10 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
     //Crop 2D plane from VD
     ERR(D_VisDat_Proc::Read_2D_Plane(
                 &MA_OverviewSmall_Show,
-                &VD_Overview_Normal_Save,
+                &VD_Overview_Save,
                 Slice2d),
         "Update_Images_Proc",
-        "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Normal_Save.info());
+        "D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Save.info());
 
     //get max of overview
     double min, max;
@@ -317,32 +316,50 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
     int t = ui->spinBox_OverviewBig_T->value();
 
     ///make sure indices fit
-    if(t >= VD_Overview_Normal_Save.pDim()->size_T())   t = 0;
+    if(t >= VD_Overview_Save.pDim()->size_T())   t = 0;
 
     ///calc 2D plane to show
     D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
 
-    ///Select if results shal be shown and crop 2D plane from VD
+    ///crop 2D plane from VD
+    ERR(D_VisDat_Proc::Read_2D_Plane(
+                &MA_OverviewBig_Show,
+                &VD_Overview_Save,
+                Slice2d),
+        "Update_Images_OverviewBig",
+        "D_VisDat_Proc::Read_2D_Plane - Crop<br>" + Slice2d.info() + "<br>from<br>" + VD_Overview_Save.info());
+
+    ///if results shall be shown, create contour/text overlay in image
     if(ui->checkBox_OverviewBig_ResultsShow->isChecked())
     {
-        ERR(D_VisDat_Proc::Read_2D_Plane(
+        ///create containers for info describing detected nuclei and foci
+        QStringList QSl_FociCounts;
+        vector<vector<Point>> vContoursScaled;
+        vector<Point2f> vCentroids;
+        for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
+            for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
+                if(vvvImageDecompCalced_TYX[t][y][x])
+                {
+                    vvvImageDecomp_TYX[t][y][x].get_Contours_append(&vContoursScaled, overview_scale);
+                    vvvImageDecomp_TYX[t][y][x].get_FociCount_append(&QSl_FociCounts);
+                    vvvImageDecomp_TYX[t][y][x].get_Centroids_append(&vCentroids, overview_scale);
+                }
+
+        ///draw info on image to display
+        ERR(D_Img_Proc::Draw_ContourText(
                     &MA_OverviewBig_Show,
-                    &VD_Overview_Result_Save,
-                    Slice2d),
+                    vContoursScaled,
+                    QSl_FociCounts,
+                    vCentroids,
+                    1,
+                    1,
+                    0.5,
+                    255),
             "Update_Images_OverviewBig",
-            "(result) D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Result_Save.info());
-    }
-    else
-    {
-        ERR(D_VisDat_Proc::Read_2D_Plane(
-                    &MA_OverviewBig_Show,
-                    &VD_Overview_Normal_Save,
-                    Slice2d),
-            "Update_Images_OverviewBig",
-            "(normal) D_VisDat_Proc::Read_2D_Plane - Crop " + Slice2d.info() + " from " + VD_Overview_Normal_Save.info());
+            "D_Img_Proc::Draw_ContourText");
     }
 
-    //display Mat
+    ///display Mat
     Viewer_OverviewBig.Update_Image(&MA_OverviewBig_Show);
 }
 
@@ -638,7 +655,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
             "Update_ImageProcessing_StepSingle",
             "STEP_VIS_PAGES_AS_COLOR_QUANTILS - Visualize signals in color");
 
-        Overview_Normal_Update();
+        Overview_Update();
     }
         break;
 
@@ -942,6 +959,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
             "STEP_FOC_BOTH_SELECT_AREA - Select by area");
 
         Update_ImageDecomposition();
+
+        if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG)
+            Update_Images_OverviewBig();
     }
     break;
 
@@ -1027,22 +1047,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         //get pos in dataset
         int pos_x = ui->spinBox_Viewport_X->value();
         int pos_y = ui->spinBox_Viewport_Y->value();
+        int pos_t = ui->spinBox_Viewport_T->value();
 
+        //get foci counts as QStringList
         QStringList QSL_LabelTexts;
-        for(size_t nuc = 0; nuc < vvImageDecomp_YX[pos_y][pos_x].get_nuclei().size(); nuc++)
-        {
-            QString QS_LabelText;
-            for(size_t fc = 0; fc < vvImageDecomp_YX[pos_y][pos_x].get_nuclei()[nuc].get_FociChannels(); fc++)
-            {
-                if(fc != 0)
-                    QS_LabelText.append("/");
-                QS_LabelText.append(QString::number(vvImageDecomp_YX[pos_y][pos_x].get_nuclei()[nuc].get_FociCount(fc)));
-            }
-
-            QSL_LabelTexts.append(QS_LabelText);
-        }
-        //qDebug() << QSL_LabelTexts;
-
+        vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_FociCount_append(&QSL_LabelTexts);
 
         int ER = D_VisDat_Proc::Draw_Label_Text(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
@@ -1051,15 +1060,13 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
                     QSL_LabelTexts,
                     false,
-                    1.5, 2,
+                    1, 2,
                     true,
                     255, 255, 255,
                     4);
         ERR(ER, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT - put numbers on image");
         if(ER != ER_okay)
             return;
-
-        Overview_Result_Update();
     }
         break;
 
@@ -1079,8 +1086,16 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
 void D_MAKRO_MegaFoci::ImageDecomp_Init()
 {
-    vector<D_Bio_NucleusImage> vImageDecomp_Init(dataset_dim_mosaic_x, D_Bio_NucleusImage());
-    vvImageDecomp_YX.resize(dataset_dim_mosaic_y, vImageDecomp_Init);
+    vvvImageDecomp_TYX.clear();
+    vector<D_Bio_NucleusImage> vImageDecomp_Init_X(dataset_dim_mosaic_x, D_Bio_NucleusImage());
+    vector<vector<D_Bio_NucleusImage>> vvImageDecomp_Init_YX(dataset_dim_mosaic_y, vImageDecomp_Init_X);
+    vvvImageDecomp_TYX.resize(dataset_dim_t, vvImageDecomp_Init_YX);
+
+    vvvImageDecompCalced_TYX.clear();
+    vector<int> vImageDecompCalced_Init_X(dataset_dim_mosaic_x, 0);
+    vector<vector<int>> vvImageDecompCacled_Init_YX(dataset_dim_mosaic_y, vImageDecompCalced_Init_X);
+    vvvImageDecompCalced_TYX.resize(dataset_dim_t, vvImageDecompCacled_Init_YX);
+
     state_image_decomposition_init = true;
 }
 
@@ -1105,6 +1120,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     ///get position in dataset
     int pos_x = ui->spinBox_Viewport_X->value();
     int pos_y = ui->spinBox_Viewport_Y->value();
+    int pos_t = ui->spinBox_Viewport_T->value();
 
     ///geometric moisaik offset in pixels
     Point MosaikOffset(
@@ -1113,7 +1129,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     ///calculate image decomposition to bio info format
     StatusSet("Nuclei image decomposition");
-    int ER = vvImageDecomp_YX[pos_y][pos_x].calc_NucleiDecomposition(
+    int ER = vvvImageDecomp_TYX[pos_t][pos_y][pos_x].calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
                 STEP_NUC_RFP_SELECT_MEAN,
                 vIndices_FociBinary,
@@ -1128,14 +1144,16 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     if(ER != ER_okay)
         return;
 
+    ///remember current pos as calced
+    vvvImageDecompCalced_TYX[pos_t][pos_y][pos_x] = static_cast<int>(true);
     state_image_decomposed = true;
 
-    ///save data in files
+    ///save data in files if stack processing is running
     if(state_stack_processing)
     {
         StatusSet("Save decomposition in files");
         ERR(
-                vvImageDecomp_YX[pos_y][pos_x].save(DIR_SaveDetections.path()),
+                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(DIR_SaveDetections.path()),
                 "Update_ImageDecomposition",
                 "ImageDecomp.save(DIR_SaveDetections.path())");
     }
@@ -1448,19 +1466,7 @@ void D_MAKRO_MegaFoci::Overview_Init()
     }
 
     ///init overview normal
-    VD_Overview_Normal_Save = D_VisDat_Obj(
-                D_VisDat_Dim(
-                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeX),
-                    static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeY),
-                    1,
-                    static_cast<int>(dataset_dim_t),
-                    1,
-                    1),
-                CV_8UC3,
-                0);
-
-    ////init overview with results
-    VD_Overview_Result_Save = D_VisDat_Obj(
+    VD_Overview_Save = D_VisDat_Obj(
                 D_VisDat_Dim(
                     static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeX),
                     static_cast<int>(dataset_dim_mosaic_x * overview_SubImgSizeY),
@@ -1472,10 +1478,9 @@ void D_MAKRO_MegaFoci::Overview_Init()
                 0);
 
     state_overview_init = true;
-
 }
 
-void D_MAKRO_MegaFoci::Overview_Normal_Update()
+void D_MAKRO_MegaFoci::Overview_Update()
 {
     if(!state_overview_init || !state_dataset_dim_set)
         return;
@@ -1499,52 +1504,16 @@ void D_MAKRO_MegaFoci::Overview_Normal_Update()
 
     //insert in overview
     ERR(D_VisDat_Proc::Instert_atPos(
-                &VD_Overview_Normal_Save,
+                &VD_Overview_Save,
                 &VD_tmp_CurrentColorScaled,
                 vOffset),
         "Overview_Update",
         "D_VisDat_Proc::Instert_atPos"
-        "<br>VD_Overview_Normal_Save " + VD_Overview_Normal_Save.info() +
+        "<br>VD_Overview_Normal_Save " + VD_Overview_Save.info() +
         "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
 
     Update_Images_OverviewSmall();
     if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && !ui->checkBox_OverviewBig_ResultsShow->isChecked())
-        Update_Images_OverviewBig();
-}
-
-void D_MAKRO_MegaFoci::Overview_Result_Update()
-{
-    if(!state_overview_init || !state_dataset_dim_set)
-        return;
-
-    //scale down
-    D_VisDat_Obj VD_tmp_CurrentColorScaled;
-    ERR(D_VisDat_Proc::Scale_ToSize(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &VD_tmp_CurrentColorScaled,
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
-                static_cast<int>(overview_SubImgSizeX * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0)),
-                static_cast<int>(overview_SubImgSizeY * (1.0 + ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0))),
-        "Overview_Update",
-        "D_VisDat_Proc::Scale_ToSize");
-
-    //calc target offset
-    vector<int> vOffset(c_DIM_NUMBER_OF, 0);
-    vOffset[c_DIM_X] = static_cast<int>(ui->spinBox_Viewport_X->value() * overview_SubImgSizeX);
-    vOffset[c_DIM_Y] = static_cast<int>(ui->spinBox_Viewport_Y->value() * overview_SubImgSizeY);
-    vOffset[c_DIM_T] = ui->spinBox_Viewport_T->value();
-
-    //insert in overview
-    ERR(D_VisDat_Proc::Instert_atPos(
-                &VD_Overview_Result_Save,
-                &VD_tmp_CurrentColorScaled,
-                vOffset),
-        "Overview_Update",
-        "D_VisDat_Proc::Instert_atPos"
-        "<br>VD_Overview_Result_Save " + VD_Overview_Result_Save.info() +
-        "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
-
-    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && ui->checkBox_OverviewBig_ResultsShow->isChecked())
         Update_Images_OverviewBig();
 }
 

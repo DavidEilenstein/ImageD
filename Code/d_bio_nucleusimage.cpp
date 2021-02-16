@@ -477,3 +477,28 @@ int D_Bio_NucleusImage::save(QString path)
     //finished
     return ER_okay;
 }
+
+int D_Bio_NucleusImage::get_Contours_append(vector<vector<Point> > *pvScaledContours, double scale)
+{
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].get_Contours_append(pvScaledContours, scale);
+
+    return ER_okay;
+}
+
+int D_Bio_NucleusImage::get_FociCount_append(QStringList *pQSL_FociCounts)
+{
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].get_FociCount_append(pQSL_FociCounts);
+
+    return ER_okay;
+}
+
+int D_Bio_NucleusImage::get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale)
+{
+    size_t n = vNuclei.size();
+    for(size_t i = 0; i < n; i++)
+        pvScaledCentroids->push_back(vNuclei[i].centroid() * scale);
+
+    return ER_okay;
+}

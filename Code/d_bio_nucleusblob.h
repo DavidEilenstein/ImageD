@@ -61,6 +61,8 @@ public:
     size_t                          get_FociCount(size_t channel)                               {return channel < vvFoci.size() ? vvFoci[channel].size() : 0;}
     vector<D_Bio_Focus>             get_Foci(size_t channel)                                    {return channel < vvFoci.size() ? vvFoci[channel] : vector<D_Bio_Focus>{};}
     D_Bio_Focus                     get_Focus(size_t channel, size_t index)                     {return channel < vvFoci.size() ? (index < vvFoci[channel].size() ? vvFoci[channel][index] : D_Bio_Focus()) : D_Bio_Focus();}
+    int                             get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
+    int                             get_FociCount_append(QStringList *pQSL_FociCounts);
 
     //block save
     void                            block_save_StitchingBorder_BottomRight(size_t x, size_t y)  {block_stitching_border = true; block_stitching_border_x = x; block_stitching_border_y = y;}
@@ -76,14 +78,14 @@ public:
     void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
     void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
-    vector<Point>   contour()                                       {return m_contour;}
-    double          dist2contour(Point2f point)                     {return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
-    double          dist2centroid(Point2f point)                    {return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
+    vector<Point>   contour()                                       {                                       return m_contour;}
+    double          dist2contour(Point2f point)                     {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
+    double          dist2centroid(Point2f point)                    {if(state_feats_calced) CalcFeats();    return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
 
-    Point2f         centroid()                                      {return m_centroid;}
-    double          area()                                          {return m_area;}
-    double          compactness()                                   {return m_compactness;}
-    double          convexity()                                     {return m_convexity;}
+    Point2f         centroid()                                      {if(state_feats_calced) CalcFeats();    return m_centroid;}
+    double          area()                                          {if(state_feats_calced) CalcFeats();    return m_area;}
+    double          compactness()                                   {if(state_feats_calced) CalcFeats();    return m_compactness;}
+    double          convexity()                                     {if(state_feats_calced) CalcFeats();    return m_convexity;}
 
     double          signal_median(size_t channel)                   {return channel < vSignalMedians.size() ? vSignalMedians[channel] : 0;}
     double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}

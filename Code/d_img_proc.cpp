@@ -16229,6 +16229,56 @@ int D_Img_Proc::Draw_Label_Numbers_Center(Mat *pMA_Out, Mat *pMA_Label, double s
     return ER_okay;
 }
 
+/*!
+ * \brief D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers
+ * \param pMA_Target image to draw in
+ * \param vContours contours
+ * \param QSL_Texts texts
+ * \param line_thickness thickness of contours
+ * \param text_thickness thickness of text
+ * \param text_scale scale of text
+ * \return error code
+ */
+int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    ///error checks
+    if(pMA_Target->empty())                                         return ER_empty;
+    if(static_cast<size_t>(QSL_Texts.size()) != vContours.size())   return ER_size_missmatch;
+    if(vContours.size() != vTextOrigins.size())                     return ER_size_missmatch;
+
+    ///calc draw color with fitting channel count
+    Scalar color;
+    switch (pMA_Target->channels()) {
+    case 1: color = Scalar(value);                      break;
+    case 2: color = Scalar(value, value);               break;
+    case 3: color = Scalar(value, value, value);        break;
+    case 4: color = Scalar(value, value, value, value); break;
+    default:                                            return ER_type_bad;}
+
+    ///draw contours
+    drawContours(
+                *pMA_Target,
+                vContours,
+                -1,
+                color,
+                line_thickness);
+
+    ///loop and draw texts
+    size_t n = vContours.size();
+    for(size_t i = 0; i < n; i++)
+        putText(
+                    *pMA_Target,
+                    QSL_Texts[i].toStdString(),
+                    vTextOrigins[i],
+                    FONT_HERSHEY_COMPLEX_SMALL,
+                    text_scale,
+                    color,
+                    text_thickness,
+                    CV_AA);
+
+    return ER_okay;
+}
+
 Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
 {
     //original RGB

@@ -57,6 +57,10 @@ public:
 
     int save(QString path);
 
+    int get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
+    int get_FociCount_append(QStringList *pQSL_FociCounts);
+    int get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale);
+
     vector<D_Bio_NucleusBlob> get_nuclei() {return vNuclei;}
 
 private:

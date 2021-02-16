@@ -77,6 +77,32 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<double
     CalcFeats();
 }
 
+int D_Bio_NucleusBlob::get_Contours_append(vector<vector<Point> > *pvScaledContours, double scale)
+{
+    vector<Point> ContourScaled(m_contour.size());
+    for(size_t pt = 0; pt < m_contour.size(); pt++)
+        ContourScaled[pt] = m_contour[pt] * scale;
+
+    pvScaledContours->push_back(ContourScaled);
+
+    return  ER_okay;
+}
+
+int D_Bio_NucleusBlob::get_FociCount_append(QStringList *pQSL_FociCounts)
+{
+    QString QS_FociCount;
+    for(size_t fc = 0; fc < vvFoci.size(); fc++)
+    {
+        if(fc != 0)
+            QS_FociCount.append("/");
+        QS_FociCount.append(QString::number(vvFoci[fc].size()));
+    }
+
+    pQSL_FociCounts->push_back(QS_FociCount);
+
+    return ER_okay;
+}
+
 size_t D_Bio_NucleusBlob::leftmost()
 {
     int l = INFINITY;
@@ -335,7 +361,7 @@ void D_Bio_NucleusBlob::CalcFeats()
     //empty?
     if(m_contour.empty())
     {
-        //qDebug() << "D_Bio_NucleusBlob::CalcFeats()" << "WARNING Contour empty";
+        qDebug() << "D_Bio_NucleusBlob::CalcFeats()" << "WARNING Contour empty";
         m_centroid      = Point2f(0, 0);
         m_area          = 0;
         m_compactness   = 0;
@@ -351,7 +377,7 @@ void D_Bio_NucleusBlob::CalcFeats()
     {
         double center_x = m_contour[0].x;
         double center_y = m_contour[0].y;
-        //qDebug() << "D_Bio_NucleusBlob::CalcFeats() centroid x/y" << center_x << center_y << "WARNING No mass!";
+        qDebug() << "D_Bio_NucleusBlob::CalcFeats() centroid x/y" << center_x << center_y << "WARNING No mass!";
         m_centroid = Point2f(center_x, center_y);
     }
     else

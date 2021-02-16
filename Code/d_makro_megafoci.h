@@ -105,8 +105,7 @@ private slots:
 
     bool Load_Dataset();
     void Overview_Init();
-    void Overview_Normal_Update();
-    void Overview_Result_Update();
+    void Overview_Update();
 
 
     //load image operations
@@ -252,7 +251,8 @@ private:
     vector<D_VisDat_Obj>                vVD_ImgProcSteps;
 
     //img decomposition
-    vector<vector<D_Bio_NucleusImage>>  vvImageDecomp_YX;
+    vector<vector<vector<D_Bio_NucleusImage>>>  vvvImageDecomp_TYX;
+    vector<vector<vector<int>>>                 vvvImageDecompCalced_TYX;
 
 
     //old indices of border images (to be used again on new iteration if indices fit)
@@ -273,8 +273,7 @@ private:
     double                              overview_scale = 0.10;
     size_t                              overview_SubImgSizeX = overview_scale * dataset_dim_img_x;
     size_t                              overview_SubImgSizeY = overview_scale * dataset_dim_img_y;
-    D_VisDat_Obj                        VD_Overview_Normal_Save;
-    D_VisDat_Obj                        VD_Overview_Result_Save;
+    D_VisDat_Obj                        VD_Overview_Save;
     Mat                                 MA_OverviewSmall_Show;
     Mat                                 MA_OverviewBig_Show;
     D_Viewer                            Viewer_OverviewSmall;

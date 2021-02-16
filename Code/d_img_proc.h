@@ -382,6 +382,7 @@ public:
     static int      Draw_Label_Numbers          (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness, bool center);
     static int      Draw_Label_Numbers_Corner   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
     static int      Draw_Label_Numbers_Center   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
+    static int      Draw_ContourText            (Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);
     static Scalar   Contrast_Color              (Vec3d val_RGB);
     static int      Highlight_NumericalProblems (Mat *pMA_Out, Mat *pMA_In);
