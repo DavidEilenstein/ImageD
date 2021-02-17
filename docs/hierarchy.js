@@ -42,7 +42,8 @@ var hierarchy =
       [ "D_Popup_ListEdit", "class_d___popup___list_edit.html", null ],
       [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", null ],
       [ "D_Popup_ListSelect", "class_d___popup___list_select.html", null ],
-      [ "D_Popup_Plot", "class_d___popup___plot.html", null ]
+      [ "D_Popup_Plot", "class_d___popup___plot.html", null ],
+      [ "D_PopUp_RangeSelector", "class_d___pop_up___range_selector.html", null ]
     ] ],
     [ "QGraphicsScene", null, [
       [ "SceneMouseTrack", "class_scene_mouse_track.html", null ]

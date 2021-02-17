@@ -38,6 +38,7 @@
 #include <qplaintextedit.h>
 #include <QColorDialog>
 #include <QLabel>
+#include <d_popup_rangeselector.h>
 
 //Qt::Charts
 #include <QChartView>

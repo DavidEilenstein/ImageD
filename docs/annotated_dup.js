@@ -48,6 +48,7 @@ var annotated_dup =
     [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", "class_d___popup___list_edit___numbers" ],
     [ "D_Popup_ListSelect", "class_d___popup___list_select.html", "class_d___popup___list_select" ],
     [ "D_Popup_Plot", "class_d___popup___plot.html", "class_d___popup___plot" ],
+    [ "D_PopUp_RangeSelector", "class_d___pop_up___range_selector.html", "class_d___pop_up___range_selector" ],
     [ "D_Stat", "class_d___stat.html", "class_d___stat" ],
     [ "D_stat_tester", "class_d__stat__tester.html", "class_d__stat__tester" ],
     [ "D_StepWindow", "class_d___step_window.html", "class_d___step_window" ],

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
+   &#160;<span id="projectnumber">v1_4_0 (17.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -101,8 +101,16 @@ $(document).ready(function(){initNavTree('class_d___error___handler.html',''); i
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8d56ad490bffe176743a86bdf6a14cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#aa8d56ad490bffe176743a86bdf6a14cb">D_Error_Handler</a> ()</td></tr>
 <tr class="separator:aa8d56ad490bffe176743a86bdf6a14cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe45ab83667fccc5aa0f8ecd7de0beee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#abe45ab83667fccc5aa0f8ecd7de0beee">ERR</a> (unsigned int err, QString sender, QString func, QString detail)</td></tr>
-<tr class="separator:abe45ab83667fccc5aa0f8ecd7de0beee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5534da8833f3f240b159ea71693dc96c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#a5534da8833f3f240b159ea71693dc96c">ERR</a> (int err, QString sender, QString func, QString detail)</td></tr>
+<tr class="memdesc:a5534da8833f3f240b159ea71693dc96c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___error___handler.html#a5534da8833f3f240b159ea71693dc96c" title="D_Error_Handler::ERR pops an error message if an error occured and/or streams it to a csv file.">D_Error_Handler::ERR</a> pops an error message if an error occured and/or streams it to a csv file.  <a href="class_d___error___handler.html#a5534da8833f3f240b159ea71693dc96c">More...</a><br /></td></tr>
+<tr class="separator:a5534da8833f3f240b159ea71693dc96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9018003ead0bf1384f3393f0f739afb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#af9018003ead0bf1384f3393f0f739afb">set_Popup_active</a> (bool show_pop)</td></tr>
+<tr class="separator:af9018003ead0bf1384f3393f0f739afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a6154afc1b22731c5a85899e033f09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#aa9a6154afc1b22731c5a85899e033f09">set_FileStream_active</a> (bool stream_to_file)</td></tr>
+<tr class="separator:aa9a6154afc1b22731c5a85899e033f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a192dea1215bcf60bca6b47c5b7719e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___error___handler.html#a1a192dea1215bcf60bca6b47c5b7719e">set_FileStream_path_csv</a> (QString path)</td></tr>
+<tr class="memdesc:a1a192dea1215bcf60bca6b47c5b7719e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___error___handler.html#a1a192dea1215bcf60bca6b47c5b7719e" title="D_Error_Handler::set_FileStream_path_csv set the file for error streaming and activates error streami...">D_Error_Handler::set_FileStream_path_csv</a> set the file for error streaming and activates error streaming. File is init with a header.  <a href="class_d___error___handler.html#a1a192dea1215bcf60bca6b47c5b7719e">More...</a><br /></td></tr>
+<tr class="separator:a1a192dea1215bcf60bca6b47c5b7719e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___error___handler.html" title="The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.">D_Error_Handler</a> class takes error codes from D_ERROR_ENUM and shows a popup if an error occures. </p>
@@ -126,8 +134,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abe45ab83667fccc5aa0f8ecd7de0beee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe45ab83667fccc5aa0f8ecd7de0beee">&#9670;&nbsp;</a></span>ERR()</h2>
+<a id="a5534da8833f3f240b159ea71693dc96c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5534da8833f3f240b159ea71693dc96c">&#9670;&nbsp;</a></span>ERR()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,7 +143,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void D_Error_Handler::ERR </td>
           <td>(</td>
-          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>err</em>, </td>
         </tr>
         <tr>
@@ -162,6 +170,107 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___error___handler.html#a5534da8833f3f240b159ea71693dc96c" title="D_Error_Handler::ERR pops an error message if an error occured and/or streams it to a csv file.">D_Error_Handler::ERR</a> pops an error message if an error occured and/or streams it to a csv file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">err</td><td>error code </td></tr>
+    <tr><td class="paramname">sender</td><td>name of sending classs </td></tr>
+    <tr><td class="paramname">func</td><td>name of sending function </td></tr>
+    <tr><td class="paramname">detail</td><td>some detailed infomation you want to show up / be saved </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>do nothing if no error occured</p>
+<p>make sure error code is valid</p>
+<p>popup</p>
+<p>stream</p>
+<p>create error string to stream</p>
+<p>open stream to file (appending)</p>
+<p>check, if file is opened</p>
+<p>stream error</p>
+<p>stream stashed errors</p>
+<p>close stream</p>
+<p>if file not open, append error to stashed error list</p>
+
+</div>
+</div>
+<a id="aa9a6154afc1b22731c5a85899e033f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9a6154afc1b22731c5a85899e033f09">&#9670;&nbsp;</a></span>set_FileStream_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Error_Handler::set_FileStream_active </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>stream_to_file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a192dea1215bcf60bca6b47c5b7719e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a192dea1215bcf60bca6b47c5b7719e">&#9670;&nbsp;</a></span>set_FileStream_path_csv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Error_Handler::set_FileStream_path_csv </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___error___handler.html#a1a192dea1215bcf60bca6b47c5b7719e" title="D_Error_Handler::set_FileStream_path_csv set the file for error streaming and activates error streami...">D_Error_Handler::set_FileStream_path_csv</a> set the file for error streaming and activates error streaming. File is init with a header. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>path to stream to. Must end with ".csv" </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>check, if file is opened</p>
+
+</div>
+</div>
+<a id="af9018003ead0bf1384f3393f0f739afb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9018003ead0bf1384f3393f0f739afb">&#9670;&nbsp;</a></span>set_Popup_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Error_Handler::set_Popup_active </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>show_pop</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

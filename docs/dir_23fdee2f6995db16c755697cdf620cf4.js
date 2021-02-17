@@ -193,6 +193,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_popup_plot.h", "d__popup__plot_8h.html", [
       [ "D_Popup_Plot", "class_d___popup___plot.html", "class_d___popup___plot" ]
     ] ],
+    [ "d_popup_rangeselector.cpp", "d__popup__rangeselector_8cpp.html", null ],
+    [ "d_popup_rangeselector.h", "d__popup__rangeselector_8h.html", [
+      [ "D_PopUp_RangeSelector", "class_d___pop_up___range_selector.html", "class_d___pop_up___range_selector" ]
+    ] ],
     [ "d_stat.cpp", "d__stat_8cpp.html", null ],
     [ "d_stat.h", "d__stat_8h.html", [
       [ "D_Stat", "class_d___stat.html", "class_d___stat" ]

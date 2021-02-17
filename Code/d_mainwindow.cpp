@@ -1199,3 +1199,20 @@ void D_MainWindow::on_actionTest_nD_for_loop_triggered()
         }
         while (loop.next());
 }
+
+void D_MainWindow::on_actionTest_range_selector_triggered()
+{
+    Vec<int, c_DIM_NUMBER_OF> proc_range_min    = {0, 0, 0, 0, 0, 0};
+    Vec<int, c_DIM_NUMBER_OF> proc_range_max    = {0, 1, 2, 4, 8, 16};
+    Vec<int, c_DIM_NUMBER_OF> proc_range_start  = {0, 2, 2, 0, -1, 0};
+    Vec<int, c_DIM_NUMBER_OF> proc_range_end    = {0, 1, 2, 4, 5, 7};
+    D_PopUp_RangeSelector pop_range_select(
+                &proc_range_start,
+                &proc_range_end,
+                proc_range_min,
+                proc_range_max,
+                "D_MainWindow::on_actionTest_range_selector_triggered",
+                true, true, false, true, false, false,
+                this);
+    pop_range_select.exec();
+}

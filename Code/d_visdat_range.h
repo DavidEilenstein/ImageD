@@ -61,7 +61,7 @@ public:
     int                         min_T           ()                                      {return vMin[c_DIM_T];}
     int                         min_S           ()                                      {return vMin[c_DIM_S];}
     int                         min_P           ()                                      {return vMin[c_DIM_P];}
-    int                         min_Dim         (int d)                                 {return d >= 0 && d < c_DIM_NUMBER_OF ? vMin[d] : -1;}
+    int                         min_Dim         (size_t d)                              {return d < c_DIM_NUMBER_OF ? vMin[d] : -1;}
     vector<int>                 min_Dims        ()                                      {return vMin;}
 
     int                         max_X           ()                                      {return vMax[c_DIM_X];}
@@ -70,8 +70,16 @@ public:
     int                         max_T           ()                                      {return vMax[c_DIM_T];}
     int                         max_S           ()                                      {return vMax[c_DIM_S];}
     int                         max_P           ()                                      {return vMax[c_DIM_P];}
-    int                         max_Dim         (int d)                                 {return d >= 0 && d < c_DIM_NUMBER_OF ? vMax[d] : -1;}
+    int                         max_Dim         (size_t d)                              {return d < c_DIM_NUMBER_OF ? vMax[d] : -1;}
     vector<int>                 max_Dims        ()                                      {return vMax;}
+
+    int                         range_X         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_Y         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_Z         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_T         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_S         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_P         ()                                      {return range_Dim(c_DIM_X);}
+    int                         range_Dim       (size_t d)                              {return (d < c_DIM_NUMBER_OF && vMin[d] >= 0 && vMax[d] >= 0) ? (vMax[d] - vMin[d]) : -1;}
 
     void                        set_Range_X     (int min, int max)                      {vMin[c_DIM_X] = min; vMax[c_DIM_X] = max;}
     void                        set_Range_Y     (int min, int max)                      {vMin[c_DIM_Y] = min; vMax[c_DIM_Y] = max;}
@@ -87,6 +95,7 @@ public:
     vector<int>                 Dim4Range_Size          ();
     Vec<int, c_DIM_NUMBER_OF>   Dim4Range_Offset        ()                              {return vMin_inDim;}
 
+    QString                     info();
 
 protected:
     void                        Init();

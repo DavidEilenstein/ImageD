@@ -56,7 +56,7 @@ vector<Range> D_VisDat_Range::Ranges(D_VisDat_Dim VD_Dim_Source)
 
 void D_VisDat_Range::Dim4Range_Init(D_VisDat_Dim *range_in_this_dim)
 {
-    for(int d = 0; d < c_DIM_NUMBER_OF; d++)
+    for(size_t d = 0; d < c_DIM_NUMBER_OF; d++)
     {
         //force ranges/sizes to make sense in given dim/size
 
@@ -83,6 +83,17 @@ vector<int> D_VisDat_Range::Dim4Range_Size()
     for(int d = 0; d < c_DIM_NUMBER_OF; d++)
         v_size[d] = vMax_inDim[d] - vMin_inDim[d] + 1;
     return v_size;
+}
+
+QString D_VisDat_Range::info()
+{
+    QString QS_info;
+    for(size_t d = 0; d < c_DIM_NUMBER_OF; d++)
+    {
+        QS_info.append(QSL_DimIndices[d] + "_from_" + QString::number(min_Dim(d)) + "_to_" + QString::number(max_Dim(d)) + "_range_" + QString::number(range_Dim(d)) + " ");
+    }
+
+    return QS_info;
 }
 
 void D_VisDat_Range::Init()

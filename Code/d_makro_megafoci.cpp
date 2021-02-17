@@ -1185,10 +1185,27 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 this,
                 "Confirm Stack Processing",
                 "You are about to process the whole stack of iamges with the current settings."
-                "<br>This will take some time (meaning days)."
+                "<br>This will take long. Up to <b>" + QString::number(dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y) + "</b> images will be processed."
+                "<br>This number can be reduced in the next dialog."
                 "<br>Do you want to continue?")
             != QMessageBox::Yes)
         return;
+
+    ///get processing range
+    StatusSet("Get processing range");
+    Vec<int, c_DIM_NUMBER_OF> proc_range_min    = {0, 0, 0, 0, 0, 0};
+    Vec<int, c_DIM_NUMBER_OF> proc_range_max    = {static_cast<int>(dataset_dim_mosaic_x - 1), static_cast<int>(dataset_dim_mosaic_y - 1), 0, static_cast<int>(dataset_dim_t - 1), 0, 0};
+    Vec<int, c_DIM_NUMBER_OF> proc_range_start  = proc_range_min;
+    Vec<int, c_DIM_NUMBER_OF> proc_range_end    = proc_range_max;
+    D_PopUp_RangeSelector pop_range_select(
+                &proc_range_start,
+                &proc_range_end,
+                proc_range_min,
+                proc_range_max,
+                "Enter processing range (XY: mosaic segments, T: Frames)",
+                true, true, false, true, false, false,
+                this);
+    pop_range_select.exec();
 
     //get save location
     StatusSet("Get save dir");
@@ -1203,7 +1220,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
         StatusSet("Quit because no dir was selected");
         return;
     }
-    pStore->set_dir_M_MegaFoci(QS_SavePath);
+    //pStore->set_dir_M_MegaFoci(QS_SavePath);
 
     //Create new save dir
     unsigned int count = 0;
@@ -1225,6 +1242,11 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");
     QDir().mkdir(DIR_SaveDetections.path());
 
+    //make error handler stream to file instead of showing popups
+    StatusSet("Disabling error popups. Error log can be found in:" + DIR_SaveMaster.path() + "/ErrorLog.csv");
+    ER.set_Popup_active(false);
+    ER.set_FileStream_path_csv(DIR_SaveMaster.path() + "/ErrorLog.csv");
+
     //set ui
     ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);
 
@@ -1236,13 +1258,15 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     //finish time prognosis
     D_FinishTimePrognosis TimePrognosis(
                 ui->progressBar_StackLoop,
-                dataset_dim_t * dataset_dim_mosaic_x * dataset_dim_mosaic_y);
+                (proc_range_end[c_DIM_X] - proc_range_start[c_DIM_X] + 1) *
+                (proc_range_end[c_DIM_Y] - proc_range_start[c_DIM_Y] + 1) *
+                (proc_range_end[c_DIM_T] - proc_range_start[c_DIM_T] + 1));
 
     //loop viewports
     TimePrognosis.start();
-    for(size_t t = 0; t < dataset_dim_t; t++)
-        for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
-            for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
+    for(int t = proc_range_start[c_DIM_T]; t <= proc_range_end[c_DIM_T]; t++)
+        for(int y = proc_range_start[c_DIM_Y]; y <= proc_range_end[c_DIM_Y]; y++)
+            for(int x = proc_range_start[c_DIM_X]; x <= proc_range_end[c_DIM_X]; x++)
             {                
                 StatusSet("STACK PROC T" + QString::number(t) + " Y" + QString::number(y) + " X" + QString::number(x));
 
@@ -1267,6 +1291,10 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
     TimePrognosis.end();
     StatusSet("STACK PROC FINISHED :-)");
+
+    //enable error popups
+    ER.set_Popup_active(true);
+    ER.set_FileStream_active(false);
 
     state_stack_processing = false;
 }

@@ -857,6 +857,8 @@
     <addaction name="actionTest_Maximum_Gil"/>
     <addaction name="separator"/>
     <addaction name="actionTest_nD_for_loop"/>
+    <addaction name="separator"/>
+    <addaction name="actionTest_range_selector"/>
    </widget>
    <addaction name="menuViewer"/>
    <addaction name="menuWindow"/>
@@ -1086,6 +1088,11 @@
   <action name="actionTest_nD_for_loop">
    <property name="text">
     <string>Test nD for loop</string>
+   </property>
+  </action>
+  <action name="actionTest_range_selector">
+   <property name="text">
+    <string>Test range selector</string>
    </property>
   </action>
  </widget>

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_3_14 (16.02.21)</span>
+   &#160;<span id="projectnumber">v1_4_0 (17.02.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -108,30 +108,51 @@ $(document).ready(function(){initNavTree('d__error__handler_8h_source.html','');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//Qt</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;QString&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;QMessageBox&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;QSizePolicy&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//namespaces</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_d___error___handler.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___error___handler.html">D_Error_Handler</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a>();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> ERR(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> err, QString sender, QString func, QString detail);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;QMessageBox&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;QSizePolicy&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;QDateTime&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//namespaces</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_d___error___handler.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___error___handler.html">D_Error_Handler</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif // D_ERROR_HANDLER_H</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> ERR(<span class="keywordtype">int</span> err, QString sender, QString func, QString detail);</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_d___error___handler.html#af9018003ead0bf1384f3393f0f739afb">   44</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___error___handler.html#af9018003ead0bf1384f3393f0f739afb">set_Popup_active</a>(<span class="keywordtype">bool</span> show_pop)            {err_popup  = show_pop;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_d___error___handler.html#aa9a6154afc1b22731c5a85899e033f09">   45</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___error___handler.html#aa9a6154afc1b22731c5a85899e033f09">set_FileStream_active</a>(<span class="keywordtype">bool</span> stream_to_file) {err_stream = stream_to_file;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> set_FileStream_path_csv(QString path);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> err_popup = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> err_stream = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> file_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    QFileInfo FI_ErrorProtocol;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    QStringList QSL_StashedErrors;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif // D_ERROR_HANDLER_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ad__enum_8h_html_ac8144b625d81c2a27fac8dc24e01b9f4"><div class="ttname"><a href="d__enum_8h.html#ac8144b625d81c2a27fac8dc24e01b9f4">QSL_Errors</a></div><div class="ttdeci">const QStringList QSL_Errors</div><div class="ttdef"><b>Definition:</b> d_enum.h:147</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd">ER_okay</a></div><div class="ttdeci">@ ER_okay</div><div class="ttdef"><b>Definition:</b> d_enum.h:102</div></div>
-<div class="ttc" id="aclass_d___error___handler_html"><div class="ttname"><a href="class_d___error___handler.html">D_Error_Handler</a></div><div class="ttdoc">The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:34</div></div>
-<div class="ttc" id="aclass_d___error___handler_html_abe45ab83667fccc5aa0f8ecd7de0beee"><div class="ttname"><a href="class_d___error___handler.html#abe45ab83667fccc5aa0f8ecd7de0beee">D_Error_Handler::ERR</a></div><div class="ttdeci">void ERR(unsigned int err, QString sender, QString func, QString detail)</div><div class="ttdef"><b>Definition:</b> d_error_handler.cpp:16</div></div>
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a4a8ebde045373a76e6a939cb4d552fbd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a4a8ebde045373a76e6a939cb4d552fbd">ER_file_not_exist</a></div><div class="ttdeci">@ ER_file_not_exist</div><div class="ttdef"><b>Definition:</b> d_enum.h:130</div></div>
+<div class="ttc" id="aclass_d___error___handler_html_a1a192dea1215bcf60bca6b47c5b7719e"><div class="ttname"><a href="class_d___error___handler.html#a1a192dea1215bcf60bca6b47c5b7719e">D_Error_Handler::set_FileStream_path_csv</a></div><div class="ttdeci">void set_FileStream_path_csv(QString path)</div><div class="ttdoc">D_Error_Handler::set_FileStream_path_csv set the file for error streaming and activates error streami...</div><div class="ttdef"><b>Definition:</b> d_error_handler.cpp:103</div></div>
+<div class="ttc" id="aclass_d___error___handler_html_a5534da8833f3f240b159ea71693dc96c"><div class="ttname"><a href="class_d___error___handler.html#a5534da8833f3f240b159ea71693dc96c">D_Error_Handler::ERR</a></div><div class="ttdeci">void ERR(int err, QString sender, QString func, QString detail)</div><div class="ttdoc">D_Error_Handler::ERR pops an error message if an error occured and/or streams it to a csv file.</div><div class="ttdef"><b>Definition:</b> d_error_handler.cpp:23</div></div>
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845">ER_number_of</a></div><div class="ttdeci">@ ER_number_of</div><div class="ttdef"><b>Definition:</b> d_enum.h:145</div></div>
+<div class="ttc" id="aclass_d___error___handler_html"><div class="ttname"><a href="class_d___error___handler.html">D_Error_Handler</a></div><div class="ttdoc">The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:38</div></div>
+<div class="ttc" id="aclass_d___error___handler_html_af9018003ead0bf1384f3393f0f739afb"><div class="ttname"><a href="class_d___error___handler.html#af9018003ead0bf1384f3393f0f739afb">D_Error_Handler::set_Popup_active</a></div><div class="ttdeci">void set_Popup_active(bool show_pop)</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:44</div></div>
+<div class="ttc" id="aclass_d___error___handler_html_aa9a6154afc1b22731c5a85899e033f09"><div class="ttname"><a href="class_d___error___handler.html#aa9a6154afc1b22731c5a85899e033f09">D_Error_Handler::set_FileStream_active</a></div><div class="ttdeci">void set_FileStream_active(bool stream_to_file)</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:45</div></div>
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242">ER_other</a></div><div class="ttdeci">@ ER_other</div><div class="ttdef"><b>Definition:</b> d_enum.h:103</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
 <div class="ttc" id="aclass_d___error___handler_html_aa8d56ad490bffe176743a86bdf6a14cb"><div class="ttname"><a href="class_d___error___handler.html#aa8d56ad490bffe176743a86bdf6a14cb">D_Error_Handler::D_Error_Handler</a></div><div class="ttdeci">D_Error_Handler()</div><div class="ttdef"><b>Definition:</b> d_error_handler.cpp:11</div></div>

@@ -54,6 +54,7 @@ SOURCES += \
     d_physics.cpp \
     d_popup_feedbackrequest.cpp \
     d_popup_listedit_numbers.cpp \
+    d_popup_rangeselector.cpp \
     d_videoslicer.cpp \
     d_videowriter.cpp \
     d_visdat_header.cpp \
@@ -128,6 +129,7 @@ HEADERS += \
     d_physics.h \
     d_popup_feedbackrequest.h \
     d_popup_listedit_numbers.h \
+    d_popup_rangeselector.h \
     d_stepwindow.h \
     d_videoslicer.h \
     d_videowriter.h \
@@ -190,6 +192,7 @@ FORMS += \
     d_makro_softmaxvisualization.ui \
     d_popup_feedbackrequest.ui \
     d_popup_listedit_numbers.ui \
+    d_popup_rangeselector.ui \
     d_stepwindow.ui \
     d_makro_corefoci.ui \
     d_makro_mitochondrien.ui \

@@ -179,6 +179,8 @@ private slots:
 
     void on_actionTest_nD_for_loop_triggered();
 
+    void on_actionTest_range_selector_triggered();
+
 private:
     Ui::D_MainWindow        *ui;
 
