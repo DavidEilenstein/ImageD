@@ -3719,8 +3719,6 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
     return ER_okay;
 }
 
-
-
 int D_VisDat_Proc::Dim_Deserialise(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_from, int dim_to, int spacing)
 {
     //errors
