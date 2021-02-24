@@ -108,20 +108,12 @@ private slots:
     void Overview_Init();
     void Overview_Update();
 
-
-    //load image operations
-    bool LoadShow_Image_UiSelected();    
-    int  Load_Image_full_ZP_Stitched_UiSelected(D_VisDat_Obj *pVD_Target);
-    bool Load_Image_UiSelected(Mat *pMA_Target);
-    bool Load_Image(Mat *pMA_Target, size_t x, size_t y, size_t z, size_t t, size_t p);
-    int  Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t);
-    int  Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t);
-
     //set dims
-    void set_dataset_dim_x(int x)               {if(!state_dataset_dim_set) {dataset_dim_mosaic_x = x;      dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
-    void set_dataset_dim_y(int y)               {if(!state_dataset_dim_set) {dataset_dim_mosaic_y = y;      dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;}}
-    void set_dataset_dim_t(int t)               {if(!state_dataset_dim_set) {dataset_dim_t = t;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
-    void set_dataset_dim_z(int z)               {if(!state_dataset_dim_set) {dataset_dim_z = z;             dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used; dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;}}
+    void set_dataset_dim_x(int x);
+    void set_dataset_dim_y(int y);
+    void set_dataset_dim_t(int t);
+    void set_dataset_dim_z(int z);
+    void set_LoadButton_FilelistSize();
 
     //indices
     bool Update_PagesConfig(bool give_2nd_try = true);
@@ -180,15 +172,12 @@ private slots:
     void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
 
     void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1);
 
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1);
-
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1);
 
     void on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1);
-
     void on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1);
 
 private:
@@ -213,10 +202,10 @@ private:
     bool                                state_page_indices_consistent = true;
 
     //data files
-    QFileInfoList                       FIL_Images;
-    QStringList                         QSL_Images_Paths;
-    QStringList                         QSL_Images_Names;
-    QStringList                         QSL_Images_Suffix;
+    QFileInfoList                       FIL_ImagesYXT;
+    QStringList                         QSL_ImagesYXT_Paths;
+    QStringList                         QSL_ImagesYXT_Names;
+    QStringList                         QSL_ImagesYXT_Suffix;
 
     //save dirs
     QDir                                DIR_SaveMaster;
@@ -229,6 +218,7 @@ private:
     size_t                              dataset_dim_mosaic_xy = 15 * 15;
     size_t                              dataset_dim_z = 8;
     size_t                              dataset_dim_t = 49;
+    size_t                              dataset_dim_xyt = 15 * 15 * 49;
     size_t                              dataset_dim_p_used = 2;
     size_t                              dataset_dim_p_exist = 3;
     size_t                              dataset_dim_tzp_used = 49 * 8 * 2;
@@ -237,8 +227,8 @@ private:
     size_t                              dataset_dim_img_y = 1002;
     int                                 dataset_type_mat = CV_16UC1;
     int                                 dataset_depth_mat = CV_16U;
-    size_t                              get_index_of_image(size_t x, size_t y);
-    size_t                              get_index_of_page(size_t z, size_t t, size_t p);
+    size_t                              get_index_of_image(size_t x, size_t y, size_t t);
+    size_t                              get_index_of_page(size_t z, size_t p);
 
     //scale to real world
     double                              dataset_step_x = 1;
@@ -259,19 +249,16 @@ private:
     vector<vector<vector<int>>>                 vvvImageDecompCalced_TYX;
 
 
-    //old indices of border images (to be used again on new iteration if indices fit)
-    int                                 index_old_TL_x_mosaic   = -1;
-    int                                 index_old_TL_y_mosaic   = -1;
-    int                                 index_old_TL_t          = -1;
-    int                                 index_old_BL_x_mosaic   = -1;
-    int                                 index_old_BL_y_mosaic   = -1;
-    int                                 index_old_BL_t          = -1;
-    int                                 index_old_TR_x_mosaic   = -1;
-    int                                 index_old_TR_y_mosaic   = -1;
-    int                                 index_old_TR_t          = -1;
-    int                                 index_old_BR_x_mosaic   = -1;
-    int                                 index_old_BR_y_mosaic   = -1;
-    int                                 index_old_BR_t          = -1;
+    //image buffer to save load operations
+    vector<D_VisDat_Obj>                vVD_ImgLoadBuffer;
+    vector<vector<int>>                 vv_ImgLoadBuffer_XYT_Index;
+    size_t                              ImgLoadBuffer_BufferSize = dataset_dim_mosaic_x + 1;
+    void                                ImgBuffer_Init();
+    void                                ImgBuffer_Write(D_VisDat_Obj *img, int x_img, int y_img, int t_img);
+    int                                 ImgBuffer_Find(int x, int y, int t);
+    bool                                ImgBuffer_Read(D_VisDat_Obj *img, size_t i);
+    int                                 Load_Image(D_VisDat_Obj *img, size_t x, size_t y, size_t t);
+    void                                CreateZero_Image(D_VisDat_Obj *img);
 
     //overview
     double                              overview_scale = 0.30;

@@ -190,7 +190,7 @@
           <string>Z=</string>
          </property>
          <property name="value">
-          <number>2</number>
+          <number>4</number>
          </property>
         </widget>
        </item>
@@ -296,7 +296,7 @@
        <item row="9" column="0" colspan="2">
         <widget class="QPushButton" name="pushButton_DataLoad">
          <property name="text">
-          <string>Load Dataset</string>
+          <string>Load Dataset (11025 Files)</string>
          </property>
         </widget>
        </item>

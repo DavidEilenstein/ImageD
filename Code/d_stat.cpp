@@ -223,7 +223,7 @@ int D_Stat::Calc_Stats_2D(vector<double> *v_stats, vector<double> v_data_x, vect
     vector<double>  v_dif_xm_tms_dif_ym(n);
     bool            dif_yx_rel_is_inf = false;
     //loop
-    for(int i = 0; i < n; i++)
+    for(size_t i = 0; i < n; i++)
     {
         //data
         double x        = v_data_x[i];
@@ -292,7 +292,7 @@ int D_Stat::Calc_Stats_2D(vector<double> *v_stats, vector<double> v_data_x, vect
 
     //difference of data to linear fit
     vector<double> v_residuals(n);
-    for(int i = 0; i < n; i++)
+    for(size_t i = 0; i < n; i++)
         v_residuals[i] = (lin_fit_a * v_data_x[x] + lin_fit_b) - v_data_y[i];
 
     //stats of fit
@@ -676,7 +676,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             double sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i];
             return sum;
         };
@@ -685,7 +685,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             double sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += abs(v_x[i]);
             return sum;
         };
@@ -694,7 +694,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             double sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i] * v_x[i];
             return sum;
         };
@@ -744,7 +744,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -752,7 +752,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -768,7 +768,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -776,7 +776,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -792,7 +792,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -800,7 +800,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -809,7 +809,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
             double skew = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     skew += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 skew /= sqrt(var * var * var) * n;
             }
@@ -825,7 +825,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -833,7 +833,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -842,7 +842,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
             double skew = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     skew += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 skew /= sqrt(var * var * var) * n;
             }
@@ -858,7 +858,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -866,7 +866,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -875,7 +875,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
             double kurt = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     kurt += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 kurt /= var * var * n;
                 kurt -= 3;
@@ -892,7 +892,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -900,7 +900,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -909,7 +909,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
             double kurt = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     kurt += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 kurt /= var * var * n;
                 kurt -= 3;
@@ -926,7 +926,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -934,7 +934,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -953,7 +953,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -961,7 +961,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -980,7 +980,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -988,7 +988,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n;
@@ -1010,7 +1010,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1018,7 +1018,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1038,13 +1038,11 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             double n = v_x.size();
-            double q = 0;
 
-            if(n != 0)
-            {
-                sort(v_x.begin(), v_x.end());
-                q =  v_x[static_cast<int>(0.00 * (n - 1))];
-            }
+            double q = INFINITY;
+            for(size_t i = 0; i < n; i++)
+                if(v_x[i] < q)
+                    q = v_x[i];
 
             return q;
         };
@@ -1338,13 +1336,11 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             double n = v_x.size();
-            double q = 0;
 
-            if(n != 0)
-            {
-                sort(v_x.begin(), v_x.end());
-                q =  v_x[static_cast<int>(1.00 * (n - 1))];
-            }
+            double q = -INFINITY;
+            for(size_t i = 0; i < n; i++)
+                if(v_x[i] > q)
+                    q = v_x[i];
 
             return q;
         };
@@ -1362,7 +1358,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
                 sort(v_x.begin(), v_x.end());
                 m =  v_x[static_cast<int>(0.50 * (n - 1))];
 
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     adm += abs(m - v_x[i]);
                 adm /= n;
             }
@@ -1573,7 +1569,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1581,7 +1577,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1605,7 +1601,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1613,7 +1609,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1637,7 +1633,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1645,7 +1641,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1672,7 +1668,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1680,7 +1676,7 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1734,7 +1730,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
         return [](vector<double> v_x)
         {
             unsigned int sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i];
             return static_cast<uchar>(sum);
         };
@@ -1743,7 +1739,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
         return [](vector<double> v_x)
         {
             unsigned int sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i] * v_x[i];
             return static_cast<uchar>(sum);
         };
@@ -1752,7 +1748,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
         return [](vector<double> v_x)
         {
             double sum = 0;
-            for(int i = 0; i < v_x.size(); i++)
+            for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i];
             double mean = sum / v_x.size();
             return static_cast<uchar>(mean);
@@ -1766,7 +1762,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1774,7 +1770,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1790,7 +1786,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1798,7 +1794,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1814,7 +1810,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1822,7 +1818,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1831,7 +1827,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
             double skew = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     skew += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 skew /= sqrt(var * var * var) * n;
             }
@@ -1847,7 +1843,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1855,7 +1851,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1864,7 +1860,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
             double skew = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     skew += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 skew /= sqrt(var * var * var) * n;
             }
@@ -1880,7 +1876,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1888,7 +1884,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1897,7 +1893,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
             double kurt = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     kurt += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 kurt /= var * var * n;
                 kurt -= 3;
@@ -1914,7 +1910,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1922,7 +1918,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -1931,7 +1927,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
             double kurt = 0;
             if(var != 0 && n != 0)
             {
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     kurt += (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean) * (v_x[i] - mean);
                 kurt /= var * var * n;
                 kurt -= 3;
@@ -1948,7 +1944,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1956,7 +1952,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -1975,7 +1971,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -1983,7 +1979,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -2002,7 +1998,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2010,7 +2006,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n;
@@ -2032,7 +2028,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2040,7 +2036,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -2384,7 +2380,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
                 sort(v_x.begin(), v_x.end());
                 m =  v_x[static_cast<int>(0.50 * (n - 1))];
 
-                for(int i = 0; i < n; i++)
+                for(size_t i = 0; i < n; i++)
                     adm += abs(m - v_x[i]);
                 adm /= n;
             }
@@ -2595,7 +2591,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2603,7 +2599,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -2627,7 +2623,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2635,7 +2631,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -2659,7 +2655,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2667,7 +2663,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 0)
                 var /= n;
@@ -2694,7 +2690,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //sum
             double sum = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 sum += v_x[i];
 
             //mean
@@ -2702,7 +2698,7 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
             //variance
             double var = 0;
-            for(int i = 0; i < n; i++)
+            for(size_t i = 0; i < n; i++)
                 var += (v_x[i] - mean) * (v_x[i] - mean);
             if(n > 1)
                 var /= n - 1;
@@ -2937,7 +2933,7 @@ int D_Stat::Calc_MinMax(vector<double> v_y_data, double *x_min_ext, double *x_ma
     double y_max;
 
     //carefully init x with first not stupid number
-    for(int x = 0; x < v_y_data.size(); x++)
+    for(size_t x = 0; x < v_y_data.size(); x++)
     {
         double x_val = AxeTrans(x, x_trans);
 
@@ -2952,7 +2948,7 @@ int D_Stat::Calc_MinMax(vector<double> v_y_data, double *x_min_ext, double *x_ma
     x_max = x_init;
 
     //carefully init y with first not stupid number
-    for(int x = 0; x < v_y_data.size(); x++)
+    for(size_t x = 0; x < v_y_data.size(); x++)
     {
         double y_val = AxeTrans(v_y_data[x], y_trans);
 
@@ -2967,7 +2963,7 @@ int D_Stat::Calc_MinMax(vector<double> v_y_data, double *x_min_ext, double *x_ma
     y_max = y_init;
 
     //find extrema
-    for(int x = 0; x < v_y_data.size(); x++)
+    for(size_t x = 0; x < v_y_data.size(); x++)
     {
         double x_val = AxeTrans(x, x_trans);
         double y_val = AxeTrans(v_y_data[x], y_trans);
@@ -3005,7 +3001,7 @@ int D_Stat::Calc_MinMax(vector<vector<double> > vv_sy_data, double *x_min_ext, d
     v_y_max.resize(vv_sy_data.size());
 
     //calc extrema of datasets
-    for(int s = 0; s < vv_sy_data.size(); s++)
+    for(size_t s = 0; s < vv_sy_data.size(); s++)
     {
         Calc_MinMax(vv_sy_data[s], &x_min_tmp, &x_max_tmp, &y_min_tmp, &y_max_tmp, x_trans, y_trans);
         v_x_min[s] = x_min_tmp;

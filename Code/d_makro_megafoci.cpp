@@ -438,109 +438,49 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_PRE_LOAD_MAIN:
     {
-        int index_source_x = dataset_pos_x;
-        int index_source_y = dataset_pos_y;
-        int index_source_t = dataset_pos_t;
-
-        if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT];
-        else if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
-        else if(index_source_x == index_old_TL_x_mosaic && index_source_y == index_old_TL_y_mosaic && index_source_t == index_old_TL_t)
-            break;
-        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
-        else
-            ERR(Load_Image_full_ZP(
-                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
-                    index_source_x,
-                    index_source_y,
-                    index_source_t),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_PRE_LOAD_MAIN - Load main image");
-
-        //remember this image's position to maybe use it in next iteration if indeces fit
-        index_old_TL_x_mosaic   = index_source_x;
-        index_old_TL_y_mosaic   = index_source_y;
-        index_old_TL_t          = index_source_t;
+        ERR(Load_Image(
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_MAIN]),
+                dataset_pos_x,
+                dataset_pos_y,
+                dataset_pos_t),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_LOAD_MAIN - Load main image");
     }
         break;
 
     case STEP_PRE_LOAD_RIGHT:
     {
-        int index_source_x = dataset_pos_x + 1;
-        int index_source_y = dataset_pos_y;
-        int index_source_t = dataset_pos_t;
-
-        if(index_source_x == index_old_TR_x_mosaic && index_source_y == index_old_TR_y_mosaic && index_source_t == index_old_TR_t)
-            break;
-        else if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
-        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM];
-        else
-            ERR(Load_Image_full_ZP(
-                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
-                    index_source_x,
-                    index_source_y,
-                    index_source_t),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_PRE_LOAD_RIGHT - Load border image right");
-
-        //remember this image's position to maybe use it in next iteration if indeces fit
-        index_old_TR_x_mosaic   = index_source_x;
-        index_old_TR_y_mosaic   = index_source_y;
-        index_old_TR_t          = index_source_t;
+        ERR(Load_Image(
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_RIGHT]),
+                dataset_pos_x + 1,
+                dataset_pos_y,
+                dataset_pos_t),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_LOAD_RIGHT - Load border image right");
     }
         break;
 
     case STEP_PRE_LOAD_BOTTOM:
     {
-        int index_source_x = dataset_pos_x;
-        int index_source_y = dataset_pos_y + 1;
-        int index_source_t = dataset_pos_t;
-
-        if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM] = vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT];
-        else if(index_source_x == index_old_BL_x_mosaic && index_source_y == index_old_BL_y_mosaic && index_source_t == index_old_BL_t)
-            break;
-        else
-            ERR(Load_Image_full_ZP(
-                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
-                    index_source_x,
-                    index_source_y,
-                    index_source_t),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_PRE_LOAD_BOTTOM - Load border image bottom");
-
-        //remember this image's position to maybe use it in next iteration if indeces fit
-        index_old_BL_x_mosaic   = index_source_x;
-        index_old_BL_y_mosaic   = index_source_y;
-        index_old_BL_t          = index_source_t;
+        ERR(Load_Image(
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM]),
+                dataset_pos_x,
+                dataset_pos_y + 1,
+                dataset_pos_t),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_LOAD_BOTTOM - Load border image bottom");
     }
         break;
 
     case STEP_PRE_LOAD_BOTTOM_RIGHT:
     {
-        int index_source_x = dataset_pos_x + 1;
-        int index_source_y = dataset_pos_y + 1;
-        int index_source_t = dataset_pos_t;
-
-        if(index_source_x == index_old_BR_x_mosaic && index_source_y == index_old_BR_y_mosaic && index_source_t == index_old_BR_t)
-            break;
-        else
-            ERR(Load_Image_full_ZP(
-                    &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
-                    index_source_x,
-                    index_source_y,
-                    index_source_t),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_PRE_LOAD_BOTTOM_RIGHT - Load border image bottom right");
-
-        //remember this image's position to maybe use it in next iteration if indeces fit
-        index_old_BR_x_mosaic   = index_source_x;
-        index_old_BR_y_mosaic   = index_source_y;
-        index_old_BR_t          = index_source_t;
+        ERR(Load_Image(
+                &(vVD_ImgProcSteps[STEP_PRE_LOAD_BOTTOM_RIGHT]),
+                dataset_pos_x + 1,
+                dataset_pos_y + 1,
+                dataset_pos_t),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_LOAD_BOTTOM_RIGHT - Load border image bottom right");
     }
         break;
 
@@ -1394,9 +1334,9 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     //get filepaths
     QStringList QSl_Paths = QFileDialog::getOpenFileNames(
                 this,
-                "Load Videos",
+                "Load images (Should be " + QString::number(dataset_dim_xyt) + " .tif files)",
                 pStore->dir_M_MegaFoci()->path(),
-                "Image Files (*.tif *.TIF *.tiff *.TIFF)");
+                "Image files (*.tif *.TIF *.tiff *.TIFF)");
     if(QSl_Paths.empty())
         return false;
 
@@ -1404,16 +1344,20 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     pStore->set_dir_M_MegaFoci(QSl_Paths.first());
 
     //check image count vs definition of data set
-    if(static_cast<size_t>(QSl_Paths.size()) != dataset_dim_mosaic_xy)
+    if(static_cast<size_t>(QSl_Paths.size()) != dataset_dim_xyt)
     {
         ERR(
                     ER_dim_missmatch,
                     "Load_Dataset",
-                    "Dataset defined mosaic image count: " + QString::number(dataset_dim_mosaic_x) + "x" + QString::number(dataset_dim_mosaic_y) + "=<b>" + QString::number(dataset_dim_mosaic_xy) + "</b>."
+                    "Dataset defined mosaic image count: " + QString::number(dataset_dim_mosaic_x) + "x * " + QString::number(dataset_dim_mosaic_y) + "y * " + QString::number(dataset_dim_t) + "t = <b>" + QString::number(dataset_dim_xyt) + "</b>."
                     "<br>Count of images tried to load: <b>" + QString::number(QSl_Paths.size()) + "</b>."
-                    "<br>These values should match. "
-                    "<br>Please try again with an image list of fitting size "
-                    "<br>or adjust expected xy mosaik dimension.");
+                    "<br>These values should match."
+                    "<br>Please try again with an image list of fitting size"
+                    "<br>or adjust expected xy mosaik dimension."
+                    "<br>"
+                    "<br>Typical image name:"
+                    "<br><I>Firewoodrental_m000042_t000069.tif</I>"
+                    "<br>Where m is the serialised yx index and t ist the t index.");
         return false;
     }
 
@@ -1422,10 +1366,10 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     state_first_proc_on_start = true;
 
     //clear old lists
-    QSL_Images_Paths.clear();
-    QSL_Images_Names.clear();
-    QSL_Images_Suffix.clear();
-    FIL_Images.clear();
+    QSL_ImagesYXT_Paths.clear();
+    QSL_ImagesYXT_Names.clear();
+    QSL_ImagesYXT_Suffix.clear();
+    FIL_ImagesYXT.clear();
 
     //fill listst for easy access
     for(int f = 0; f < QSl_Paths.size(); f++)
@@ -1437,10 +1381,10 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
         QString QS_Suffix = FI_Img.suffix();
 
         //lists
-        QSL_Images_Paths.append(QS_Path);
-        QSL_Images_Names.append(FI_Img.baseName());
-        QSL_Images_Suffix.append(FI_Img.suffix());
-        FIL_Images.append(FI_Img);
+        QSL_ImagesYXT_Paths.append(QS_Path);
+        QSL_ImagesYXT_Names.append(FI_Img.baseName());
+        QSL_ImagesYXT_Suffix.append(FI_Img.suffix());
+        FIL_ImagesYXT.append(FI_Img);
     }
 
     //img size
@@ -1448,7 +1392,7 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     ERR(
                 D_Img_Proc::Load_From_Path(
                     &MA_tmp_SizeGetter,
-                    FIL_Images[0]),
+                    FIL_ImagesYXT[0]),
             "Load_Dataset",
             "Failed to load first of all images as size getter");
     dataset_dim_img_x = MA_tmp_SizeGetter.cols;
@@ -1482,7 +1426,12 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     Overview_Init();
 
     //init image decomp
+    StatusSet("Initializing nuclei imgae decomposition\n(fancy thing that reduces images to relevant nuclei/foci info)");
     ImageDecomp_Init();
+
+    //init img buffer
+    StatusSet("Initializing image buffer");
+    ImgBuffer_Init();
 
     //update proc and image
     StatusSet("Now updating ImgProc for the 1st time");
@@ -1568,157 +1517,52 @@ void D_MAKRO_MegaFoci::Overview_Update()
         Update_Images_OverviewBig();
 }
 
-bool D_MAKRO_MegaFoci::LoadShow_Image_UiSelected()
+void D_MAKRO_MegaFoci::set_dataset_dim_x(int x)
 {
-    qDebug() << "LoadShow_Image_UiSelected";
-    if(Load_Image_UiSelected(&MA_Show))
+    if(!state_dataset_dim_set)
     {
-        Update_Images();
-        return true;
-    }
-    else
-    {
-        qDebug() << "LoadShow_Image_UiSelected" << "Loading Image failed";
-        return false;
+        dataset_dim_mosaic_x = x;
+        dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;
+        set_LoadButton_FilelistSize();
     }
 }
 
-int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched_UiSelected(D_VisDat_Obj *pVD_Target)
+void D_MAKRO_MegaFoci::set_dataset_dim_y(int y)
 {
-    return Load_Image_full_ZP_Stitched(
-                pVD_Target,
-                ui->spinBox_Viewport_X->value(),
-                ui->spinBox_Viewport_Y->value(),
-                ui->spinBox_Viewport_T->value());
+    if(!state_dataset_dim_set)
+    {
+        dataset_dim_mosaic_y = y;
+        dataset_dim_mosaic_xy = dataset_dim_mosaic_x * dataset_dim_mosaic_y;
+        dataset_dim_xyt = dataset_dim_mosaic_xy * dataset_dim_t;
+        set_LoadButton_FilelistSize();
+    }
 }
 
-bool D_MAKRO_MegaFoci::Load_Image_UiSelected(Mat *pMA_Target)
+void D_MAKRO_MegaFoci::set_dataset_dim_t(int t)
 {
-    return Load_Image(
-                pMA_Target,
-                ui->spinBox_Viewport_X->value(),
-                ui->spinBox_Viewport_Y->value(),
-                ui->spinBox_Viewport_Z->value(),
-                ui->spinBox_Viewport_T->value(),
-                ui->spinBox_Viewport_P->value());
+    if(!state_dataset_dim_set)
+    {
+        dataset_dim_t = t;
+        dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used;
+        dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;
+        dataset_dim_xyt = dataset_dim_mosaic_xy * dataset_dim_t;
+        set_LoadButton_FilelistSize();
+    }
 }
 
-bool D_MAKRO_MegaFoci::Load_Image(Mat *pMA_Target, size_t x, size_t y, size_t z, size_t t, size_t p)
+void D_MAKRO_MegaFoci::set_dataset_dim_z(int z)
 {
-    qDebug() << "Load_Image" << "x" << x << "y" << y << "z" << z << "t" << t << "p" << p << "--> file" << get_index_of_image(x, y) << "page" << get_index_of_page(z, t, p);
-
-    int ER = D_Img_Proc::Load_From_Path_Multi(
-                pMA_Target,
-                FIL_Images[static_cast<int>(get_index_of_image(x, y))].absoluteFilePath(),
-                static_cast<int>(get_index_of_page(z, t, p) + 1));
-
-    if(ER != ER_okay)
+    if(!state_dataset_dim_set)
     {
-        ERR(
-                    ER,
-                    "Load_Image",
-                    "D_Img_Proc::Load_From_Path_Multi"
-                    "<br>x:    " + QString::number(x) +
-                    "<br>y:    " + QString::number(y) +
-                    "<br>z:    " + QString::number(z) +
-                    "<br>t:    " + QString::number(t) +
-                    "<br>p:    " + QString::number(p) +
-                    "<br>file: " + QString::number(get_index_of_image(x, y)) +
-                    "<br>page: " + QString::number(get_index_of_page(z, t, p)));
-        return false;
+        dataset_dim_z = z;
+        dataset_dim_tzp_used = dataset_dim_t * dataset_dim_z * dataset_dim_p_used;
+        dataset_dim_tzp_exist = dataset_dim_t * dataset_dim_z * dataset_dim_p_exist;
     }
-    else
-        return true;
 }
 
-int D_MAKRO_MegaFoci::Load_Image_full_ZP(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t)
+void D_MAKRO_MegaFoci::set_LoadButton_FilelistSize()
 {
-    ///vector of needed slices
-    vector<D_VisDat_Slice_2D> v2D_SlicesTarget;
-    vector<int> vI_PageSource;
-
-    ///Loop z and p to get indices of all needed images
-    for(size_t z = 0; z < dataset_dim_z; z++)
-        for(size_t p = 0; p < dataset_dim_p_exist; p++)
-        {
-            v2D_SlicesTarget.push_back(D_VisDat_Slice_2D(-1, -1, static_cast<int>(z), 0, 0, static_cast<int>(p)));
-            vI_PageSource.push_back(static_cast<int>(get_index_of_page(static_cast<int>(z), static_cast<int>(t), static_cast<int>(p))));
-        }
-
-    ///Create sub VisDat from needed page vector
-    return D_VisDat_Proc::Create_VD_PageVector_or0(
-                pVD_Target,
-                FIL_Images[static_cast<int>(get_index_of_image(x, y))],
-                D_VisDat_Dim(
-                    static_cast<int>(dataset_dim_img_x),
-                    static_cast<int>(dataset_dim_img_y),
-                    static_cast<int>(dataset_dim_z),
-                    1,
-                    1,
-                    static_cast<int>(dataset_dim_p_exist)),
-                vI_PageSource,
-                v2D_SlicesTarget,
-                c_DIM_X,
-                c_DIM_Y,
-                x >= dataset_dim_mosaic_x || y >= dataset_dim_mosaic_y || t >= dataset_dim_t,
-                dataset_type_mat);
-}
-
-int D_MAKRO_MegaFoci::Load_Image_full_ZP_Stitched(D_VisDat_Obj *pVD_Target, size_t x, size_t y, size_t t)
-{
-    ///Load Top Left
-    D_VisDat_Obj VD_tmp_TL;
-    if(Load_Image_full_ZP(&VD_tmp_TL, x, y, t) != ER_okay)
-        return false;
-
-    ///Load Top Right
-    D_VisDat_Obj VD_tmp_TR;
-    if(x < dataset_dim_mosaic_x)
-    {
-        if(Load_Image_full_ZP(&VD_tmp_TR, x + 1, y, t) != ER_okay)
-            return false;
-    }
-    else
-        VD_tmp_TR = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
-
-    ///Load Bottom Left
-    D_VisDat_Obj VD_tmp_BL;
-    if(y < dataset_dim_mosaic_y)
-    {
-        if(Load_Image_full_ZP(&VD_tmp_BL, x, y + 1, t) != ER_okay)
-            return false;
-    }
-    else
-        VD_tmp_BL = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
-
-    ///Load Bottom Right
-    D_VisDat_Obj VD_tmp_BR;
-    if(x < dataset_dim_mosaic_x || y < dataset_dim_mosaic_y)
-    {
-        if(Load_Image_full_ZP(&VD_tmp_BR, x + 1, y + 1, t) != ER_okay)
-            return false;
-    }
-    else
-        VD_tmp_BR = D_VisDat_Obj(VD_tmp_TL.Dim(), VD_tmp_TL.type(), 0);
-
-    ///Stitching
-    int ER = D_VisDat_Proc::Stitch_Border_rel(
-                D_VisDat_Slicing(c_SLICE_2D_XZ),
-                pVD_Target,
-                &VD_tmp_TL,
-                &VD_tmp_TR,
-                &VD_tmp_BL,
-                &VD_tmp_BR,
-                ui->doubleSpinBox_ImgProc_Stitch_Border->value()/100.0,
-                ui->doubleSpinBox_ImgProc_Stitch_Border->value()/100.0,
-                ui->spinBox_ImgProc_Stitch_Overlap_x->value() / static_cast<double>(dataset_dim_img_x),
-                ui->spinBox_ImgProc_Stitch_Overlap_y->value() / static_cast<double>(dataset_dim_img_y),
-                Stitcher::Mode::SCANS);
-
-    if(ER != ER_okay)
-        ERR(ER, "Load_Image_full_ZP_Stitched", "Stitch_Border_rel");
-
-    return ER;
+    ui->pushButton_DataLoad->setText("Load Dataset (" + QString::number(dataset_dim_xyt) + " Files)");
 }
 
 bool D_MAKRO_MegaFoci::Update_PagesConfig(bool give_2nd_try)
@@ -1823,18 +1667,202 @@ void D_MAKRO_MegaFoci::ERR(int err, QString func, QString detail)
         StatusSet("ERROR " + QSL_Errors[err] + ", Function:" + func + ", Detail: " + detail);
 }
 
-size_t D_MAKRO_MegaFoci::get_index_of_image(size_t x, size_t y)
+size_t D_MAKRO_MegaFoci::get_index_of_image(size_t x, size_t y, size_t t)
 {
-    size_t idx_yx = dataset_dim_mosaic_x * y + x;
-    return idx_yx < dataset_dim_mosaic_xy ? idx_yx : 0;
+    size_t idx_yxt = (dataset_dim_t * dataset_dim_mosaic_x * y) + (dataset_dim_t * x) + (t);
+    return idx_yxt < dataset_dim_xyt ? idx_yxt : 0;
 }
 
-size_t D_MAKRO_MegaFoci::get_index_of_page(size_t z, size_t t, size_t p)
+size_t D_MAKRO_MegaFoci::get_index_of_page(size_t z, size_t p)
 {
-    size_t idx_tzp = t * dataset_dim_z * dataset_dim_p_exist + z * dataset_dim_p_exist + p;
-    return idx_tzp < dataset_dim_mosaic_xy ? idx_tzp : 0;
+    size_t idx_zp = (dataset_dim_p_exist * z) + (p);
+    return idx_zp < dataset_dim_p_exist * dataset_dim_z ? idx_zp : 0;
 }
 
+void D_MAKRO_MegaFoci::ImgBuffer_Init()
+{
+    ///buffer size
+    //☐ ☐ ☐ ☐ ☐ ☐
+    //☐ ☐ ■ ■ ■ ■
+    //■ ■ ■ ☐ ☐ ☐
+    //☐ ☐ ☐ ☐ ☐ ☐
+    ImgLoadBuffer_BufferSize = dataset_dim_mosaic_x + 1;
+
+    ///init img buffer
+    vVD_ImgLoadBuffer.resize(
+                ImgLoadBuffer_BufferSize,
+                D_VisDat_Obj(
+                    D_VisDat_Dim(
+                        dataset_dim_img_x,
+                        dataset_dim_img_y,
+                        dataset_dim_z,
+                        1,
+                        1,
+                        dataset_dim_p_exist),
+                    dataset_type_mat,
+                    0));
+
+    ///init indices in dataset of images in buffer
+    vv_ImgLoadBuffer_XYT_Index.resize(3, vector<int>(ImgLoadBuffer_BufferSize, -1));
+}
+
+void D_MAKRO_MegaFoci::ImgBuffer_Write(D_VisDat_Obj *img, int x_img, int y_img, int t_img)
+{
+    ///find oldest
+    int value_min_t = INFINITY;
+    vector<size_t> v_index_min_t;
+    for(size_t i = 0; i < ImgLoadBuffer_BufferSize; i++)
+    {
+        int t = vv_ImgLoadBuffer_XYT_Index[2][i];
+        if(t <= value_min_t)
+        {
+            if(t < value_min_t)
+            {
+                v_index_min_t.clear();
+                value_min_t = t;
+            }
+
+            v_index_min_t.push_back(i);
+        }
+    }
+
+    ///find topmost among oldest
+    int value_min_y = INFINITY;
+    vector<size_t> v_index_min_y;
+    for(size_t j = 0; j < v_index_min_t.size(); j++)
+    {
+        int i = v_index_min_t[j];
+        int y = vv_ImgLoadBuffer_XYT_Index[1][i];
+        if(y <= value_min_y)
+        {
+            if(y < value_min_y)
+            {
+                v_index_min_y.clear();
+                value_min_y = y;
+            }
+
+            v_index_min_y.push_back(i);
+        }
+    }
+
+    ///find find leftmost among topmost among oldest (target position for overwriting)
+    int value_min_x = INFINITY;
+    size_t target_index = 0;
+    for(size_t j = 0; j < v_index_min_y.size(); j++)
+    {
+        int i = v_index_min_y[j];
+        int x = vv_ImgLoadBuffer_XYT_Index[0][i];
+        if(x < value_min_x)
+        {
+            value_min_x = x;
+            target_index = i;
+        }
+    }
+
+    ///overwrite oldest img in buffer
+    StatusSet("Write image to buffer");
+    vVD_ImgLoadBuffer[target_index] = *img;
+
+    ///save position of new img
+    vv_ImgLoadBuffer_XYT_Index[0][target_index] = x_img;
+    vv_ImgLoadBuffer_XYT_Index[1][target_index] = y_img;
+    vv_ImgLoadBuffer_XYT_Index[2][target_index] = t_img;
+}
+
+int D_MAKRO_MegaFoci::ImgBuffer_Find(int x, int y, int t)
+{
+    ///check if img is in buffer
+    for(size_t i = 0; i < vv_ImgLoadBuffer_XYT_Index[0].size(); i++)
+        if(x == vv_ImgLoadBuffer_XYT_Index[0][i])
+            if(y == vv_ImgLoadBuffer_XYT_Index[1][i])
+                if(t == vv_ImgLoadBuffer_XYT_Index[2][i])
+                    return static_cast<int>(i);
+
+    return -1;
+}
+
+bool D_MAKRO_MegaFoci::ImgBuffer_Read(D_VisDat_Obj *img, size_t i)
+{
+    ///copy img to pointer if index fits
+    if(i >= 0 && i < vVD_ImgLoadBuffer.size())
+    {
+        StatusSet("Load image from buffer");
+        *img = vVD_ImgLoadBuffer[i];
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int D_MAKRO_MegaFoci::Load_Image(D_VisDat_Obj *img, size_t x, size_t y, size_t t)
+{
+    ///Check, if image's index in dataset's range
+    if((t >= 0 && t < dataset_dim_t) && (y >= 0 && y < dataset_dim_mosaic_y) && (x >= 0 && x < dataset_dim_mosaic_x))
+    {
+        ///If in range:
+        ///try loading img from buffer
+        if(ImgBuffer_Read(img, ImgBuffer_Find(x, y, t)))
+            return ER_okay;
+
+        ///if img not in buffer, load it from file
+        StatusSet("Load image from file");
+        D_VisDat_Obj VD_ImgLoaded_ZP_asPages;
+        int ER = D_VisDat_Proc::Create_VD_SinglePaged(
+                    &VD_ImgLoaded_ZP_asPages,
+                    FIL_ImagesYXT[get_index_of_image(x, y, t)],
+                c_DIM_P,
+                c_DIM_X,
+                c_DIM_Y);
+        if(ER != ER_okay)
+        {
+            StatusSet("Create zero image (error)");
+            CreateZero_Image(img);
+            return ER;
+        }
+
+        ///deserialise Z from combined ZP
+        ER = D_VisDat_Proc::Dim_Deserialise(
+                    img,
+                    &VD_ImgLoaded_ZP_asPages,
+                    c_DIM_P,
+                    c_DIM_Z,
+                    dataset_dim_p_exist);
+        if(ER != ER_okay)
+        {
+            StatusSet("Create zero image (error)");
+            CreateZero_Image(img);
+            return ER;
+        }
+
+        ///if successful, write img to buffer
+        ImgBuffer_Write(img, x, y, t);
+        return ER_okay;
+    }
+    else
+    {
+        ///if not in range -> pad with empty image
+        StatusSet("Create zero image (padding mosaik border)");
+        CreateZero_Image(img);
+        return ER_okay;
+    }
+}
+
+void D_MAKRO_MegaFoci::CreateZero_Image(D_VisDat_Obj *img)
+{
+    ///create a zero image in size fitting to dataset
+    *img = D_VisDat_Obj(
+        D_VisDat_Dim(
+            dataset_dim_img_x,
+            dataset_dim_img_y,
+            dataset_dim_z,
+            1,
+            1,
+            dataset_dim_p_exist),
+        dataset_type_mat,
+        0);
+}
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
 {
