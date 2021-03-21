@@ -1863,6 +1863,9 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //Graphics---------------------------------------------------------------
 
+    //gamma strong for diff img projectiona na heatmaps
+    ui->doubleSpinBox_Res_TimeProjSum_Gamma->setValue(0.33);
+
     //movement tracks only
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_TIME_SUM_PROJ);
     PDF_Overview.add_Image(
@@ -1874,6 +1877,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Analysis done " + QDateTime::currentDateTime().toString(),
                 20,
                 Qt::AlignCenter);
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - DifferenceImages_SumProjection" + ".png");
 
     //Stats--------------------------------------------------------------- (Graphics will be continued)
 
@@ -2027,10 +2031,13 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 &MA_Result_HeatmapLegend,
                 0.05, 0.95, 0.85, 0.95);
 
+    //gamma softer for vector field backgrounds
+    ui->doubleSpinBox_Res_TimeProjSum_Gamma->setValue(0.5);
+
     //vector field
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VECTORS);
 
-    //setting 5x4
+    //setting 5x4 (for high resolution use)
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2081,6 +2088,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 View_Results.pQI(),
                 x_mid_right, x_border_right, y_img_1_above, y_img_1_under);
 
+
     //save motion vector field video
     Save_ResultVectorFieldVideo(
                 DIR_SaveStackGraphics_Video.path() + "/MotionVectorField4x5 - " + name_current + ".avi",
@@ -2089,7 +2097,25 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 10,
                 BACKGR_VIDEO);
 
-    //setting 10x8
+
+    //setting 5x4 (for low resolution use)
+    ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA);
+    ui->spinBox_ParamGridHorizontal->setValue(5);
+    ui->spinBox_ParamGridVertical->setValue(4);
+    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(1.0);
+    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
+    ui->checkBox_Res_GridVisParam_Grid->setChecked(true);
+    ui->checkBox_Res_GridVisParam_Labels->setChecked(true);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(6);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(4);
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField4x5_ForLowResolutionUse.png");
+    Update_Ui();
+
+    //setting 10x8 (for high resolution use)
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2124,6 +2150,23 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Vector.path() + "/VectorField10x8 - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField10x8.png");
+
+    //setting 10x8 (for low resolution use)
+    ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA);
+    ui->spinBox_ParamGridHorizontal->setValue(10);
+    ui->spinBox_ParamGridVertical->setValue(8);
+    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
+    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
+    ui->checkBox_Res_GridVisParam_Grid->setChecked(true);
+    ui->checkBox_Res_GridVisParam_Labels->setChecked(true);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(6);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(2);
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField10x8_ForLowResolutionUse.png");
+    Update_Ui();
 
     //setting 20x16
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
@@ -2162,7 +2205,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveStackGraphics_Vector.path() + "/VectorField20x16 - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField20x16.png");
 
-    //setting angle
+    //angle only (for high resolution use)
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_CONST_1);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_CONST_0);
@@ -2200,7 +2243,24 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveStackGraphics_Vector.path() + "/VectorFieldAngle - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldAngle.png");
 
-    //setting speed
+    //angle only (for low resolution use)
+    ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_CONST_1);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_CONST_0);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA);
+    ui->spinBox_ParamGridHorizontal->setValue(10);
+    ui->spinBox_ParamGridVertical->setValue(8);
+    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
+    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(50);
+    ui->checkBox_Res_GridVisParam_Grid->setChecked(false);
+    ui->checkBox_Res_GridVisParam_Labels->setChecked(false);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(4);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(4);
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldAngle_ForLowResolutionUse.png");
+    Update_Ui();
+
+    //setting speed (for high resolution use)
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2236,6 +2296,23 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Image can be found in:\n" +
                 DIR_SaveStackGraphics_Vector.path() + "/VectorField20x16 - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField20x16.png");
+
+    //setting speed (for low resolution use)
+    ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_CONST_0);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_CONST_PI);
+    ui->spinBox_ParamGridHorizontal->setValue(10);
+    ui->spinBox_ParamGridVertical->setValue(8);
+    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
+    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1);
+    ui->checkBox_Res_GridVisParam_Grid->setChecked(false);
+    ui->checkBox_Res_GridVisParam_Labels->setChecked(false);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(3);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Error->setValue(3);
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldSpeed_ForLowResolutionUse.png");
+    Update_Ui();
 
 
     //plots---------------------------------------------------------------
@@ -2288,7 +2365,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->spinBox_ParamGridVertical->setValue(4);
     ui->spinBox_ParamGrid_CellStart->setValue(0);
     ui->spinBox_ParamGrid_CellEnd->setValue(20);
-    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_Speed_StanDev_04x05_10s.png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_Speed_Mean_04x05_10s.png");
     Update_Ui();
 
     //SDs
@@ -2376,7 +2453,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->spinBox_ParamGridVertical->setValue(4);
     ui->spinBox_ParamGrid_CellStart->setValue(0);
     ui->spinBox_ParamGrid_CellEnd->setValue(20);
-    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_Angle_StanDev_04x05_10s.png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_Angle_Mean_04x05_10s.png");
     Update_Ui();
 
     //errors
@@ -3159,12 +3236,12 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
 
 void D_MAKRO_CiliaSphereTracker::Update_Ui_ResMovAv()
 {
-    qDebug() << "Update_Ui_ResMovAv" << "try" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
+    //qDebug() << "Update_Ui_ResMovAv" << "try" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
 
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected)
         return;
 
-    qDebug() << "Update_Ui_ResMovAv" << "start" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
+    //qDebug() << "Update_Ui_ResMovAv" << "start" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
 
     //checks and helping vars
     int frame_count_effective = frame_end - frame_start_ana;
@@ -3173,7 +3250,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResMovAv()
     int max_start = frame_end - movav_window_frames;
     if(movav_current_start > max_start)                 movav_current_start = max_start;
 
-    qDebug() << "Update_Ui_ResMovAv" << "corrected" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
+    //qDebug() << "Update_Ui_ResMovAv" << "corrected" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
 
     //block
     BlockSignals_FrameSelection_MovingAverage(true);
@@ -3209,7 +3286,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResMovAv()
     //unblock
     BlockSignals_FrameSelection_MovingAverage(false);
 
-    qDebug() << "Update_Ui_ResMovAv" << "end" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
+    //qDebug() << "Update_Ui_ResMovAv" << "end" << "frame_start_ana" << frame_start_ana << "frame_end" << frame_end << "movav_current_start" << movav_current_start << "movav_window_frames" << movav_window_frames;
 }
 
 void D_MAKRO_CiliaSphereTracker::Populate_CB_Single(QComboBox *CB, QStringList QSL, int index_init)
