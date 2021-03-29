@@ -1881,18 +1881,13 @@ Mat D_Math::Homogenious_2D(double x, double y)
 
 Mat D_Math::Homogenious_2D(double u, double v, double w)
 {
-    if(w != 0)
-    {
-        Mat V_out(3, 1, CV_64FC1);
+    Mat V_out(3, 1, CV_64FC1);
 
-        V_out.at<double>(0, 0)  = u;
-        V_out.at<double>(1, 0)  = v;
-        V_out.at<double>(2, 0)  = w;
+    V_out.at<double>(0, 0)  = u;
+    V_out.at<double>(1, 0)  = v;
+    V_out.at<double>(2, 0)  = w;
 
-        return V_out;
-    }
-
-    return Mat::zeros(3, 1, CV_64FC1);
+    return V_out;
 }
 
 Mat D_Math::Homogenious_2D(Mat V_inhomo)

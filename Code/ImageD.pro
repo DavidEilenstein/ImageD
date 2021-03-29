@@ -42,6 +42,11 @@ SOURCES += \
     d_bio_nucleuspedigree.cpp \
     d_featureset.cpp \
     d_finishtimeprognosis.cpp \
+    d_geo_line_2d.cpp \
+    d_geo_line_3d.cpp \
+    d_geo_plane_3d.cpp \
+    d_geo_point_2d.cpp \
+    d_geo_point_3d.cpp \
     d_job_manager.cpp \
     d_makro_airdragtrack.cpp \
     d_makro_ciliaspheretracker.cpp \
@@ -116,6 +121,11 @@ HEADERS += \
     d_bio_nucleuspedigree.h \
     d_featureset.h \
     d_finishtimeprognosis.h \
+    d_geo_line_2d.h \
+    d_geo_line_3d.h \
+    d_geo_plane_3d.h \
+    d_geo_point_2d.h \
+    d_geo_point_3d.h \
     d_job_manager.h \
         d_mainwindow.h \
     d_makro_airdragtrack.h \
