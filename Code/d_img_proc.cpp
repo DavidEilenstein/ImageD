@@ -8240,7 +8240,7 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat 
 
                 //update quantil value
                 //decrease quantil value?
-                if(check_smaller && !check_greater)
+                if((check_smaller && !check_greater) || (check_greater && check_smaller && mass_quantil == 0))
                 {
                     mass_greater += mass_quantil;
                     do quantil_val--; while (hist[static_cast<size_t>(quantil_val)] == 0);
@@ -8255,6 +8255,7 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat 
                     mass_quantil = hist[static_cast<size_t>(quantil_val)];
                     mass_greater -= mass_quantil;
                 }
+
             }
             //======================================================= add/remove values for current pixel (end)
 
@@ -8373,7 +8374,7 @@ int D_Img_Proc::Filter_RankOrder_1C_Thread(Mat *pMA_Out, Mat *pMA_InPadded, Mat 
 
                 //update quantil value
                 //decrease quantil value?
-                if(check_smaller && !check_greater)
+                if((check_smaller && !check_greater) || (check_greater && check_smaller && mass_quantil == 0))
                 {
                     mass_greater += mass_quantil;
                     do quantil_val--; while (hist[static_cast<size_t>(quantil_val)] == 0);
