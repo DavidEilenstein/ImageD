@@ -26,6 +26,10 @@ using namespace cv;
 //predeclaration, because points are needed for lines and vice versa
 class D_Geo_Point_2D;
 
+/*!
+ * \brief The D_Geo_Line_2D class represents a 2D line and offers usefulls methods for standard tasks for 2D points and lines.
+ *  \details Supports homogenious coodinates. Calculation is done homogenious/inhomogenious, whichever is easier. From user perspektive, this is irelevant and handled internally.
+ */
 class D_Geo_Line_2D
 {
 public:
