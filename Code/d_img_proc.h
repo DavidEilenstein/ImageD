@@ -18,6 +18,8 @@
 #include <d_component_list_context.h>
 #include <d_value_distribution_list.h>
 #include <d_featureset.h>
+#include <d_geo_point_2d.h>
+#include <d_geo_line_2d.h>
 
 //general
 #include <iostream>

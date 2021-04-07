@@ -1,3 +1,11 @@
+/************************************
+ *   added:     29.03.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #include "d_geo_point_2d.h"
 
 D_Geo_Point_2D::D_Geo_Point_2D()
@@ -5,6 +13,11 @@ D_Geo_Point_2D::D_Geo_Point_2D()
     m_u = 0;
     m_v = 0;
     m_w = 0;
+}
+
+D_Geo_Point_2D::D_Geo_Point_2D(double angle_rad)
+{
+    set_angle_unifrom(angle_rad);
 }
 
 D_Geo_Point_2D::D_Geo_Point_2D(double x, double y)
@@ -38,6 +51,18 @@ void D_Geo_Point_2D::set_point(D_Geo_Point_2D P)
     m_u = P.u();
     m_v = P.v();
     m_w = P.w();
+}
+
+void D_Geo_Point_2D::set_angle_unifrom(double angle_rad)
+{
+    m_u = sin(angle_rad);
+    m_v = cos(angle_rad);
+    m_w = 1;
+}
+
+void D_Geo_Point_2D::set_angle_normal_unifrom(double angle_rad)
+{
+    return set_angle_unifrom(angle_rad - PI);
 }
 
 Mat D_Geo_Point_2D::Mat_homo()
@@ -130,4 +155,11 @@ double D_Geo_Point_2D::angle(D_Geo_Point_2D P)
 D_Geo_Line_2D D_Geo_Point_2D::connection(D_Geo_Point_2D P)
 {
     return mult_cross_homo(P);
+}
+
+double D_Geo_Point_2D::distance(D_Geo_Point_2D P)
+{
+    double dx = x() - P.x();
+    double dy = y() - P.y();
+    return sqrt(dx * dx + dy * dy);
 }

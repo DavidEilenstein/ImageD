@@ -1,3 +1,11 @@
+/************************************
+ *   added:     29.03.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #include "d_geo_line_2d.h"
 
 D_Geo_Line_2D::D_Geo_Line_2D()
@@ -37,6 +45,16 @@ bool D_Geo_Line_2D::set_point_point(D_Geo_Point_2D P1, D_Geo_Point_2D P2)
 {
     set_line(P1.connection(P2));
     return P1.equal(P2) ? false : true;
+}
+
+bool D_Geo_Line_2D::set_point_direction(D_Geo_Point_2D P_support, D_Geo_Point_2D direction)
+{
+    return set_point_point(P_support, P_support.add_inhomo(direction));
+}
+
+bool D_Geo_Line_2D::set_point_angle(D_Geo_Point_2D P_support, double angle)
+{
+    return set_point_direction(P_support, D_Geo_Point_2D(angle));
 }
 
 Mat D_Geo_Line_2D::Mat_homogenius()

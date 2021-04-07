@@ -1,3 +1,11 @@
+/************************************
+ *   added:     29.03.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_GEO_LINE_3D_H
 #define D_GEO_LINE_3D_H
 

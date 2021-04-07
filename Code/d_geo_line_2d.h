@@ -1,3 +1,11 @@
+/************************************
+ *   added:     29.03.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_GEO_LINE_2D_H
 #define D_GEO_LINE_2D_H
 
@@ -40,11 +48,10 @@ public:
     D_Geo_Line_2D(D_Geo_Point_2D P1, D_Geo_Point_2D P2);
 
     //pseudo constructors
-    void set_line(D_Geo_Line_2D L);
-    bool set_point_point(D_Geo_Point_2D P1, D_Geo_Point_2D P2);
-    //bool set_point_direction(D_Geo_Point_2D P, D_Geo_Point_2D direction);
-    //bool set_point_slope(D_Geo_Point_2D P, double slope);
-    //bool set_point_dist(D_Geo_Point_2D P, double dist);
+    void set_line           (D_Geo_Line_2D L);
+    bool set_point_point    (D_Geo_Point_2D P1,         D_Geo_Point_2D P2);
+    bool set_point_direction(D_Geo_Point_2D P_support,  D_Geo_Point_2D direction);
+    bool set_point_angle    (D_Geo_Point_2D P_support,  double angle_rad);
 
     //getter
     double          u()                 {return m_u;}

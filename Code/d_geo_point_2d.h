@@ -1,3 +1,11 @@
+/************************************
+ *   added:     29.03.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #ifndef D_GEO_POINT_2D_H
 #define D_GEO_POINT_2D_H
 
@@ -35,6 +43,7 @@ class D_Geo_Point_2D
 public:
     //constructors
     D_Geo_Point_2D();
+    D_Geo_Point_2D(double angle_rad);
     D_Geo_Point_2D(double x, double y);
     D_Geo_Point_2D(double u, double v, double w);
     D_Geo_Point_2D(D_Geo_Line_2D L);    //Dualism with lines
@@ -42,6 +51,8 @@ public:
 
     //pseudo constructors
     void            set_point(D_Geo_Point_2D P);
+    void            set_angle_unifrom(double angle_rad);
+    void            set_angle_normal_unifrom(double angle_rad);
 
     //getter
     double          u()                                     {return m_u;}
@@ -69,6 +80,7 @@ public:
     double          angle();
     double          angle(D_Geo_Point_2D P);
     D_Geo_Line_2D   connection(D_Geo_Point_2D P);
+    double          distance(D_Geo_Point_2D P);
 
 private:
     //members

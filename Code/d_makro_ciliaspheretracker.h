@@ -22,6 +22,10 @@
 #include <d_videoslicer.h>
 #include <d_videowriter.h>
 #include <d_pdf_writer.h>
+#include <d_geo_pointset_2d.h>
+#include <d_geo_lineset_2d.h>
+#include <d_geo_line_2d.h>
+#include <d_geo_point_2d.h>
 
 //Qt
 #include <QMainWindow>
