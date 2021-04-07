@@ -16,6 +16,8 @@ var class_d___geo___line__2_d =
     [ "parallel", "class_d___geo___line__2_d.html#ada6b56c06bc4d31c2583f2d9886c4b32", null ],
     [ "point_on_line", "class_d___geo___line__2_d.html#a253b4cf1acd6ed53803f541aeb112691", null ],
     [ "set_line", "class_d___geo___line__2_d.html#a77eddfa64eb2822d16816e840a107c92", null ],
+    [ "set_point_angle", "class_d___geo___line__2_d.html#ac8ab3e143502f416fca6c2d5aa0c3e08", null ],
+    [ "set_point_direction", "class_d___geo___line__2_d.html#a62317a26d1dd021988d59930969f22ad", null ],
     [ "set_point_point", "class_d___geo___line__2_d.html#a4a01f11c6ce8506aaf26c3d10b40762d", null ],
     [ "support", "class_d___geo___line__2_d.html#ac2ed900c170fdffbafc273c678911e01", null ],
     [ "u", "class_d___geo___line__2_d.html#a01215568c341fdea164c140915ef4dfd", null ],

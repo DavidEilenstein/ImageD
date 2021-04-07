@@ -61,6 +61,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_geo_line_3d.h", "d__geo__line__3d_8h.html", [
       [ "D_Geo_Line_3D", "class_d___geo___line__3_d.html", "class_d___geo___line__3_d" ]
     ] ],
+    [ "d_geo_lineset_2d.cpp", "d__geo__lineset__2d_8cpp.html", null ],
+    [ "d_geo_lineset_2d.h", "d__geo__lineset__2d_8h.html", [
+      [ "D_Geo_LineSet_2D", "class_d___geo___line_set__2_d.html", "class_d___geo___line_set__2_d" ]
+    ] ],
     [ "d_geo_plane_3d.cpp", "d__geo__plane__3d_8cpp.html", null ],
     [ "d_geo_plane_3d.h", "d__geo__plane__3d_8h.html", [
       [ "D_Geo_Plane_3D", "class_d___geo___plane__3_d.html", "class_d___geo___plane__3_d" ]
@@ -72,6 +76,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_geo_point_3d.cpp", "d__geo__point__3d_8cpp.html", null ],
     [ "d_geo_point_3d.h", "d__geo__point__3d_8h.html", [
       [ "D_Geo_Point_3D", "class_d___geo___point__3_d.html", "class_d___geo___point__3_d" ]
+    ] ],
+    [ "d_geo_pointset_2d.cpp", "d__geo__pointset__2d_8cpp.html", null ],
+    [ "d_geo_pointset_2d.h", "d__geo__pointset__2d_8h.html", [
+      [ "D_Geo_PointSet_2D", "class_d___geo___point_set__2_d.html", "class_d___geo___point_set__2_d" ]
     ] ],
     [ "d_img_proc.cpp", "d__img__proc_8cpp.html", null ],
     [ "d_img_proc.h", "d__img__proc_8h.html", [

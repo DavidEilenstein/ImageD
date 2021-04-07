@@ -38,7 +38,7 @@ PROJECT_NAME           = ImageD
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = "v1_4_4 (06.04.21)"
+PROJECT_NUMBER         = "v1_4_5 (07.04.21)"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a

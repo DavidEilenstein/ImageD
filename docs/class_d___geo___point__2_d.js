@@ -1,6 +1,7 @@
 var class_d___geo___point__2_d =
 [
     [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html#ab123d7d219bae8c381ecb9e8ab055b21", null ],
+    [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html#af40400015ea8d826b77dfb27a32cd1c4", null ],
     [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html#a9a3ac7f47a7aa891904017681e017a33", null ],
     [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html#a4dd85e3ae6f52c4df300f6e19754806f", null ],
     [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html#a58982311417d1d00725bab2b91e2564f", null ],
@@ -10,6 +11,7 @@ var class_d___geo___point__2_d =
     [ "angle", "class_d___geo___point__2_d.html#a6df72e70bd5d4d0e87c96f717a3f05c2", null ],
     [ "connection", "class_d___geo___point__2_d.html#a5e63bbefd430742cc4e0474b0d8e582c", null ],
     [ "dif_inhomo", "class_d___geo___point__2_d.html#a83f3ddbb57084a4d14533ae1e7b6e9ad", null ],
+    [ "distance", "class_d___geo___point__2_d.html#a05c359e90468205bfead3cf28472faac", null ],
     [ "equal", "class_d___geo___point__2_d.html#a5741772938a30369b8888d639d582c63", null ],
     [ "length", "class_d___geo___point__2_d.html#ac7481d2f65d6d1dec2ff8628e1bab075", null ],
     [ "Mat_homo", "class_d___geo___point__2_d.html#aceec0d2b3dc50240c0f65361400ada12", null ],
@@ -19,6 +21,8 @@ var class_d___geo___point__2_d =
     [ "mult_scalar_inhomo", "class_d___geo___point__2_d.html#ae8f1959d57534ff76dfd450f53f6ca37", null ],
     [ "negate", "class_d___geo___point__2_d.html#ada45262bbc451bf512c3d0d1e9bf4ba1", null ],
     [ "scale", "class_d___geo___point__2_d.html#a89ea7c0c8162cca8fdfc94427edd293b", null ],
+    [ "set_angle_normal_unifrom", "class_d___geo___point__2_d.html#a5be696a683299ae49cdc46cca58752c1", null ],
+    [ "set_angle_unifrom", "class_d___geo___point__2_d.html#a14a7d8b1900d7f781b45e62d3fd32790", null ],
     [ "set_point", "class_d___geo___point__2_d.html#abe0bd0efc1366d0a44871f4ce273ad53", null ],
     [ "u", "class_d___geo___point__2_d.html#a0878a1b526671bc686265b22dcbc9611", null ],
     [ "unifrom", "class_d___geo___point__2_d.html#a022e84155c1bc445b1686e569e007524", null ],

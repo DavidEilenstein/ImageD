@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_4_4 (06.04.21)</span>
+   &#160;<span id="projectnumber">v1_4_5 (07.04.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -101,6 +101,8 @@ $(document).ready(function(){initNavTree('class_d___geo___point__2_d.html',''); 
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab123d7d219bae8c381ecb9e8ab055b21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#ab123d7d219bae8c381ecb9e8ab055b21">D_Geo_Point_2D</a> ()</td></tr>
 <tr class="separator:ab123d7d219bae8c381ecb9e8ab055b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af40400015ea8d826b77dfb27a32cd1c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#af40400015ea8d826b77dfb27a32cd1c4">D_Geo_Point_2D</a> (double angle_rad)</td></tr>
+<tr class="separator:af40400015ea8d826b77dfb27a32cd1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a3ac7f47a7aa891904017681e017a33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a9a3ac7f47a7aa891904017681e017a33">D_Geo_Point_2D</a> (double <a class="el" href="class_d___geo___point__2_d.html#ad276c66df8738b751b4fab599cf5af15">x</a>, double <a class="el" href="class_d___geo___point__2_d.html#a448b9f4ef8dae305cf284b5408cf88d1">y</a>)</td></tr>
 <tr class="separator:a9a3ac7f47a7aa891904017681e017a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dd85e3ae6f52c4df300f6e19754806f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a4dd85e3ae6f52c4df300f6e19754806f">D_Geo_Point_2D</a> (double <a class="el" href="class_d___geo___point__2_d.html#a0878a1b526671bc686265b22dcbc9611">u</a>, double <a class="el" href="class_d___geo___point__2_d.html#a19b55aabb5dc4c8f6e61452794346e2b">v</a>, double <a class="el" href="class_d___geo___point__2_d.html#a7adcb744868f39bf4f6c07ce20523bb8">w</a>)</td></tr>
@@ -111,6 +113,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a420f2c2ed6a5cc614305a251f0eceaa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe0bd0efc1366d0a44871f4ce273ad53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#abe0bd0efc1366d0a44871f4ce273ad53">set_point</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P)</td></tr>
 <tr class="separator:abe0bd0efc1366d0a44871f4ce273ad53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a7d8b1900d7f781b45e62d3fd32790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a14a7d8b1900d7f781b45e62d3fd32790">set_angle_unifrom</a> (double angle_rad)</td></tr>
+<tr class="separator:a14a7d8b1900d7f781b45e62d3fd32790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be696a683299ae49cdc46cca58752c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a5be696a683299ae49cdc46cca58752c1">set_angle_normal_unifrom</a> (double angle_rad)</td></tr>
+<tr class="separator:a5be696a683299ae49cdc46cca58752c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0878a1b526671bc686265b22dcbc9611"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a0878a1b526671bc686265b22dcbc9611">u</a> ()</td></tr>
 <tr class="separator:a0878a1b526671bc686265b22dcbc9611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19b55aabb5dc4c8f6e61452794346e2b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a19b55aabb5dc4c8f6e61452794346e2b">v</a> ()</td></tr>
@@ -153,13 +159,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6df72e70bd5d4d0e87c96f717a3f05c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e63bbefd430742cc4e0474b0d8e582c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a5e63bbefd430742cc4e0474b0d8e582c">connection</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P)</td></tr>
 <tr class="separator:a5e63bbefd430742cc4e0474b0d8e582c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05c359e90468205bfead3cf28472faac"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___point__2_d.html#a05c359e90468205bfead3cf28472faac">distance</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P)</td></tr>
+<tr class="separator:a05c359e90468205bfead3cf28472faac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___geo___point__2_d.html" title="The D_Geo_Point_2D class represents a 2D point and offers usefulls methods for standard tasks for 2D ...">D_Geo_Point_2D</a> class represents a 2D point and offers usefulls methods for standard tasks for 2D points and lines. </p>
 <p>Supports homogenious coodinates. Calculation is done homogenious/inhomogenious, whichever is easier. From user perspektive, this is irelevant and handled internally. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab123d7d219bae8c381ecb9e8ab055b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab123d7d219bae8c381ecb9e8ab055b21">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab123d7d219bae8c381ecb9e8ab055b21">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,8 +183,26 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af40400015ea8d826b77dfb27a32cd1c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af40400015ea8d826b77dfb27a32cd1c4">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">D_Geo_Point_2D::D_Geo_Point_2D </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_rad</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9a3ac7f47a7aa891904017681e017a33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a3ac7f47a7aa891904017681e017a33">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a3ac7f47a7aa891904017681e017a33">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +230,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4dd85e3ae6f52c4df300f6e19754806f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4dd85e3ae6f52c4df300f6e19754806f">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dd85e3ae6f52c4df300f6e19754806f">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +264,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a58982311417d1d00725bab2b91e2564f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58982311417d1d00725bab2b91e2564f">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a58982311417d1d00725bab2b91e2564f">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -256,7 +282,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a420f2c2ed6a5cc614305a251f0eceaa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a420f2c2ed6a5cc614305a251f0eceaa6">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a420f2c2ed6a5cc614305a251f0eceaa6">&#9670;&nbsp;</a></span>D_Geo_Point_2D() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -363,6 +389,24 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> D_Geo_Point_2D::dif_inhomo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a>&#160;</td>
+          <td class="paramname"><em>P</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05c359e90468205bfead3cf28472faac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05c359e90468205bfead3cf28472faac">&#9670;&nbsp;</a></span>distance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Geo_Point_2D::distance </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a>&#160;</td>
           <td class="paramname"><em>P</em></td><td>)</td>
@@ -524,6 +568,42 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>factor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5be696a683299ae49cdc46cca58752c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be696a683299ae49cdc46cca58752c1">&#9670;&nbsp;</a></span>set_angle_normal_unifrom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Geo_Point_2D::set_angle_normal_unifrom </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_rad</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14a7d8b1900d7f781b45e62d3fd32790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14a7d8b1900d7f781b45e62d3fd32790">&#9670;&nbsp;</a></span>set_angle_unifrom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Geo_Point_2D::set_angle_unifrom </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle_rad</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
