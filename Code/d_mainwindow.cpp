@@ -926,7 +926,7 @@ void D_MainWindow::on_pushButton_PluginLaunch_clicked()
 
 void D_MainWindow::on_pushButton_Ref_Licence_clicked()
 {
-    QDesktopServices::openUrl(QUrl("file:///" + QCoreApplication::applicationDirPath() + "/LICENCE.txt"));
+    QDesktopServices::openUrl(QUrl("file:///" + QCoreApplication::applicationDirPath() + "/LICENCE/Licence_ImageD.txt"));
 }
 
 void D_MainWindow::on_pushButton_Ref_Citation_clicked()

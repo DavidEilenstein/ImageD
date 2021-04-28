@@ -74,8 +74,33 @@ D_Geo_Point_2D D_Geo_Line_2D::direction()
 
 D_Geo_Point_2D D_Geo_Line_2D::support()
 {
-    D_Geo_Line_2D Y(1, 0, 0); D_Geo_Line_2D X(0, 1, 0);
-    return parallel(Y) ? intersection(X) : intersection(Y);
+    D_Geo_Line_2D X(0, 1, 0);
+    D_Geo_Line_2D Y(1, 0, 0);
+
+    bool par_x = parallel(X);
+    bool par_y = parallel(Y);
+
+    if(!par_x && !par_y)
+    {
+        D_Geo_Point_2D inter_x = intersection(X);
+        D_Geo_Point_2D inter_y = intersection(Y);
+
+        D_Geo_Point_2D O(0, 0);
+
+        double dist_x = inter_x.distance(O);
+        double dist_y = inter_y.distance(O);
+
+        //return the point which is closer to 0|0 to avoid nearly infinity values if nearly parallel to an axis
+        return dist_x < dist_y ? inter_x : inter_y;
+    }
+    else if(par_x)
+    {
+        return intersection(Y);
+    }
+    else//pary
+    {
+        return intersection(X);
+    }
 }
 
 D_Geo_Point_2D D_Geo_Line_2D::normal()
