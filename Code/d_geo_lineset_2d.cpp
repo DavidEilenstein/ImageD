@@ -35,6 +35,13 @@ void D_Geo_LineSet_2D::add_line_point_direction(D_Geo_Point_2D P_support, D_Geo_
     return add_line(line);
 }
 
+void D_Geo_LineSet_2D::add_line_point_angle(D_Geo_Point_2D P_support, double angle_rad)
+{
+    D_Geo_Line_2D line;
+    line.set_point_angle(P_support, angle_rad);
+    return add_line(line);
+}
+
 /*!
  * \brief D_Geo_LineSet_2D::subset_random takes a subset of the line set for i.e. RANSAC methods
  * \param percent percentage of elemenets --> subset size
@@ -58,6 +65,20 @@ D_Geo_LineSet_2D D_Geo_LineSet_2D::subset_random(double rel_size)
 
     ///return subset
     return subset;
+}
+
+D_Geo_Line_2D D_Geo_LineSet_2D::line(size_t i)
+{
+    return i < v_lines.size() ? v_lines[i] : D_Geo_Line_2D();
+}
+
+/*!
+ * \brief D_Geo_LineSet_2D::size number of lines in line set
+ * \return number of lines
+ */
+size_t D_Geo_LineSet_2D::size()
+{
+    return v_lines.size();
 }
 
 /*!
@@ -89,7 +110,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection(double *deviation)
  * \param p_outliers probability of outliers
  * \return best guess for intersection of line set
  */
-D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, double lines_needed_for_modell_rel, double p_good_guess, double p_outliers)
+D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, double lines_needed_for_modell_rel, double p_good_guess, double p_outliers, bool subset_of_points_not_lines)
 {
     ///parameters needed for try count calculation
     double m = v_lines.size();                      //number of elements
@@ -100,7 +121,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, do
     ///needed number of tries
     double n = log(1.0 - p) / log(1.0 - pow((1.0 - e), s));
 
-    return intersection_ransac(least_deviation, lines_needed_for_modell_rel, ceil(n));
+    return intersection_ransac(least_deviation, lines_needed_for_modell_rel, ceil(n), subset_of_points_not_lines);
 }
 
 /*!
@@ -110,7 +131,13 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, do
  * \param iterations number of trys (= count of subsets) to find center
  * \return best guess for intersection of line set
  */
-D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, double subset_size_rel, size_t iterations)
+D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
+{
+    D_Geo_PointSet_2D PS;
+    return intersection_ransac(least_deviation, &PS, subset_size_rel, iterations, subset_of_points_not_lines);
+}
+
+D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
 {
     ///init centers & stds top/current
     D_Geo_Point_2D center_best = D_Geo_Point_2D(0, 0, 0);
@@ -120,12 +147,22 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, do
     ///try iterations subsets
     for(size_t i = 0; i < iterations; i++)
     {
+        ///use subset of lines or intersection points
+        D_Geo_PointSet_2D Point_subset;
+        if(subset_of_points_not_lines)
+            Point_subset = intersections_pairwise().subset_random(subset_size_rel);
+        else
+            Point_subset = subset_random(subset_size_rel).intersections_pairwise();
+
         ///find best guess for center
-        D_Geo_Point_2D center_current = subset_random(subset_size_rel).intersection(&std_current);
+        D_Geo_Point_2D center_current = Point_subset.center(&std_current);
+
+        ///save as new best guess, if better than old best guess
         if(std_current < *least_deviation)
         {
             center_best = center_current;
             *least_deviation = std_current;
+            *IntersectionsUsed = Point_subset;
         }
     }
 

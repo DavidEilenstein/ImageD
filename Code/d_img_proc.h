@@ -94,6 +94,9 @@ public:
     static int      ValAtPix                    (QString *QS_value, Mat *pMA_In, unsigned int x_pos, unsigned int y_pos);
 
     static int      Duplicate                   (Mat *pMA_Out, Mat *pMA_In);
+    static int      Insert                      (Mat *pMA_Target, Mat *pMA_Insert, int offset_x, int offset_y);
+    static int      Insert                      (Mat *pMA_Target, Mat *pMA_Insert, int offset_x, int offset_Y, double scale);
+
     static int      Invert                      (Mat *pMA_Out, Mat *pMA_In);
 
     static int      Convert_Color               (Mat *pMA_Out, Mat *pMA_In, int cvt_mode);
@@ -360,8 +363,10 @@ public:
     static int      Floodfill_Delta             (Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_y, uchar val_new, uchar val_delta);
     static bool     Floodfill_Delta_Step        (Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin);
 
-    static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r = 1, uchar val = 255);
+    static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r, uchar val);
+    static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r, uchar val_r, uchar val_g, uchar val_b);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double value = 255);
+    static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness, double val_r, double val_g, double val_b);
     static int      Draw_Line_Bresenham         (Mat *pMA_Target, Point P1, Point P2, double val);
     static int      Draw_Line_Angle             (Mat *pMA_Target, double length, double center_x, double center_y, double angle, unsigned int thickness = 1, double value = 255);
     static int      Draw_Vector                 (Mat *pMA_Target, int offset_x, int offset_y, double length_value, double angle_value, double length_error = 0, double angle_error = 0, int vector_thickness = 1, uchar value = 255, int error_steps = 360, int error_thickness = 1);
@@ -373,7 +378,9 @@ public:
     static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness = 1, bool label_add = true, int label_thickness = 1, double label_scale = 1.0, double value = 255);
     static int      Draw_Boundaries             (Mat *pMA_Target, int width = 1, int val = 255);
     static int      Draw_Circle                 (Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);
-    static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);
+    static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val, int thickness = 1, bool filled = false);
+    static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val_r, int val_g, int val_b, int thickness = 1, bool filled = false);
+    static int      Draw_Ellipse                (Mat *pMA_Target, RotatedRect ell, double val_r, double val_g, double val_b, int thickness = 1);
     static int      Draw_Text                   (QImage *pQI_Target, QString text_tl, QString text_tr, QString text_bl, QString text_br, unsigned int size, QColor color);
     static int      Draw_Text                   (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0, double value = 255);
     static int      Draw_Text_ContrastColor     (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0);

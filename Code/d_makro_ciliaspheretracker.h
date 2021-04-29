@@ -99,6 +99,7 @@ private slots:
     void Update_Result_GraphicsTimeProjectSum();
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
+    void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
     void Update_Result_AngleStatCustom();
     void Update_Result_SpeedAnalysis();
@@ -189,6 +190,10 @@ private slots:
     void on_spinBox_Res_PlotPoincare_Shift_Frames_valueChanged(int arg1);
 
     void on_doubleSpinBox_Res_PlotPoincare_Shift_Seconds_valueChanged(double arg1);
+
+    void on_checkBox_Res_VortexCenter_MovingAverage_stateChanged(int arg1);
+    void on_checkBox_Res_VortexCenter_Ransac_stateChanged(int arg1);
+    void on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1);
 
 private:
     Ui::D_MAKRO_CiliaSphereTracker *ui;
@@ -363,6 +368,7 @@ private:
         RES_GRAPHICS_TIME_SUM_PROJ,
         RES_GRAPHICS_VECTORS,
         RES_GRAPHICS_HEATMAP,
+        RES_GRAPHICS_VORTEX_CENTER,
         RES_SPEED_STAT_CUSTOM,
         RES_ANGLE_STAT_CUSTOM,
         RES_SPEED_ANALYSIS,
@@ -374,6 +380,7 @@ private:
         "Graphics: Time Sum-Projection of Objects",
         "Graphics: Movement Vectors",
         "Graphics: Heatmap",
+        "Graphixs: Vortex Center",
         "Custom Statistical Speed Analysis",
         "Custom Statistical Angle Analysis",
         "Main Speed Analysis",

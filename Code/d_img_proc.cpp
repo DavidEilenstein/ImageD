@@ -1598,6 +1598,94 @@ int D_Img_Proc::Duplicate(Mat *pMA_Out, Mat *pMA_In)
     return ER_okay;
 }
 
+int D_Img_Proc::Insert(Mat *pMA_Target, Mat *pMA_Insert, int offset_x, int offset_y)
+{
+    if(pMA_Target->type() != pMA_Insert->type())            return ER_type_missmatch;
+    if(pMA_Target->cols <= offset_x + pMA_Insert->cols)     return ER_size_missmatch;
+    if(pMA_Target->rows <= offset_y + pMA_Insert->rows)     return ER_size_missmatch;
+
+    switch (pMA_Insert->type())
+    {
+
+    case CV_8UC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<uchar>(offset_y + y, offset_x + x) = pMA_Insert->at<uchar>(y, x);
+        break;
+
+    case CV_8SC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<char>(offset_y + y, offset_x + x) = pMA_Insert->at<char>(y, x);
+        break;
+
+    case CV_16UC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<ushort>(offset_y + y, offset_x + x) = pMA_Insert->at<ushort>(y, x);
+        break;
+
+    case CV_16SC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<short>(offset_y + y, offset_x + x) = pMA_Insert->at<short>(y, x);
+        break;
+
+    case CV_32SC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<int>(offset_y + y, offset_x + x) = pMA_Insert->at<int>(y, x);
+        break;
+
+    case CV_32FC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<float>(offset_y + y, offset_x + x) = pMA_Insert->at<float>(y, x);
+        break;
+
+    case CV_64FC1:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<double>(offset_y + y, offset_x + x) = pMA_Insert->at<double>(y, x);
+        break;
+
+    case CV_8UC3:
+        for(int y = 0; y < pMA_Insert->rows; y++)
+            for(int x = 0; x < pMA_Insert->cols; x++)
+                pMA_Target->at<Vec3b>(offset_y + y, offset_x + x) = pMA_Insert->at<Vec3b>(y, x);
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Insert(Mat *pMA_Target, Mat *pMA_Insert, int offset_x, int offset_y, double scale)
+{
+    Mat MA_tmp_scaled;
+    int ER = Scale_Factor(
+                &MA_tmp_scaled,
+                pMA_Insert,
+                scale,
+                scale);
+    if(ER != ER_okay)
+    {
+        MA_tmp_scaled.release();
+        return ER;
+    }
+
+    ER = Insert(
+                pMA_Target,
+                &MA_tmp_scaled,
+                offset_x,
+                offset_y);
+
+    MA_tmp_scaled.release();
+    return ER;
+}
+
 int D_Img_Proc::Invert(Mat *pMA_Out, Mat *pMA_In)
 {
     if(pMA_In->empty())     return ER_empty;
@@ -15002,7 +15090,7 @@ bool D_Img_Proc::Floodfill_Delta_Step(Mat *pMA_Target, Mat *pMA_Check, int x, in
 
 
 
-int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int r, uchar val)
+int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int d, uchar val)
 {
     if(pMA_Target->empty())             return ER_empty;
     if(pMA_Target->type() != CV_8UC1)   return ER_type_bad;
@@ -15012,7 +15100,23 @@ int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int r, uchar val)
                 Point(x, y),
                 Point(x, y),
                 Scalar((uchar) val),
-                r,
+                d,
+                8);
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int d, uchar val_r, uchar val_g, uchar val_b)
+{
+    if(pMA_Target->empty())             return ER_empty;
+    if(pMA_Target->type() != CV_8UC3)   return ER_type_bad;
+
+    line(
+                *pMA_Target,
+                Point(x, y),
+                Point(x, y),
+                Scalar(val_b, val_g, val_r),
+                d,
                 8);
 
     return ER_okay;
@@ -15068,6 +15172,21 @@ int D_Img_Proc::Draw_Line(Mat *pMA_Target, unsigned int x1, unsigned int y1, uns
     default:
         break;
     }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Line(Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness, double val_r, double val_g, double val_b)
+{
+    if(pMA_Target->empty())             return ER_empty;
+
+    line(
+                *pMA_Target,
+                Point(x1, y1),
+                Point(x2, y2),
+                Scalar(val_b, val_g, val_r),
+                thickness,
+                8);
 
     return ER_okay;
 }
@@ -15710,7 +15829,7 @@ int D_Img_Proc::Draw_Circle(Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int 
 {
     if(pMA_In->empty())     return ER_empty;
 
-    *pMA_Out = Mat::zeros(pMA_In->size(), pMA_In->type());
+    *pMA_Out = pMA_In->clone();
 
     return Draw_Circle(
                 pMA_Out,
@@ -15724,10 +15843,18 @@ int D_Img_Proc::Draw_Circle(Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int 
 
 int D_Img_Proc::Draw_Circle(Mat *pMA_Target, int x, int y, int r, int val, int thickness, bool filled)
 {
-    if(pMA_Target->empty())             return ER_empty;
-    if(pMA_Target->channels() != 1)     return ER_channel_bad;
-    if(x < 0 || x >= pMA_Target->cols)  return ER_size_missmatch;
-    if(y < 0 || y >= pMA_Target->rows)  return ER_size_missmatch;
+    if(pMA_Target->empty())                                             return ER_empty;
+    if(pMA_Target->channels() != 1 && pMA_Target->channels() != 3)      return ER_channel_bad;
+    if(x < 0 || x >= pMA_Target->cols)                                  return ER_size_missmatch;
+    if(y < 0 || y >= pMA_Target->rows)                                  return ER_size_missmatch;
+
+    if(pMA_Target->channels() == 3)
+        return Draw_Circle(
+                    pMA_Target,
+                    x, y,
+                    r,
+                    val, val, val,
+                    1, filled);
 
     if(filled)
         return Draw_Dot(
@@ -15743,6 +15870,54 @@ int D_Img_Proc::Draw_Circle(Mat *pMA_Target, int x, int y, int r, int val, int t
                     r,
                     Scalar(val),
                     thickness);
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Circle(Mat *pMA_Target, int x, int y, int r, int val_r, int val_g, int val_b, int thickness, bool filled)
+{
+    if(pMA_Target->empty())                                             return ER_empty;
+    if(pMA_Target->channels() != 1 && pMA_Target->channels() != 3)      return ER_channel_bad;
+    if(x < 0 || x >= pMA_Target->cols)                                  return ER_size_missmatch;
+    if(y < 0 || y >= pMA_Target->rows)                                  return ER_size_missmatch;
+
+    if(pMA_Target->channels() == 1)
+        return Draw_Circle(
+                    pMA_Target,
+                    x, y,
+                    r,
+                    (val_r + val_g + val_b) / 3.0,
+                    1, filled);
+
+    if(filled)
+        return Draw_Dot(
+                    pMA_Target,
+                    x,
+                    y,
+                    2 * r,
+                    val_r, val_g, val_b);
+    else
+        circle(
+                    *pMA_Target,
+                    Point(x, y),
+                    r,
+                    Scalar(val_b, val_g, val_r),
+                    thickness);
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Ellipse(Mat *pMA_Target, RotatedRect ell, double val_r, double val_g, double val_b, int thickness)
+{
+    if(pMA_Target->empty())                                             return ER_empty;
+    if(pMA_Target->channels() != 3)                                     return ER_channel_bad;
+
+    ellipse(
+                *pMA_Target,
+                ell,
+                Scalar(val_b, val_g, val_r),
+                thickness,
+                LINE_8);
 
     return ER_okay;
 }

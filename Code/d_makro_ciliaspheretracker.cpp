@@ -142,6 +142,23 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->doubleSpinBox_Res_PlotLine_FixRange_A_max,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     //heatmap
     connect(ui->comboBox_Res_Heat_Mode,                             SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
+    //vortex center
+    connect(ui->doubleSpinBox_Res_VortexCenter_WellDiameter,        SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_VortexCenter_Resolution_Rel,      SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize,    SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_VortexCenter_kMeans_k,                  SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_VortexCenter_kMeans_Iterations,         SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_VortexCenter_Thickness,                 SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_VortexCenter_RansacIterations,          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->checkBox_Res_VortexCenter_Ransac,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->checkBox_Res_VortexCenter_kMeans,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->checkBox_Res_VortexCenter_MovingAverage,            SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->radioButton_Res_VortexCenter_VideoPos_C,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
+    connect(ui->radioButton_Res_VortexCenter_VideoPos_B,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
+    connect(ui->radioButton_Res_VortexCenter_VideoPos_T,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
+    connect(ui->radioButton_Res_VortexCenter_VideoPos_L,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
+    connect(ui->radioButton_Res_VortexCenter_VideoPos_R,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
+    connect(ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines,     SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
 
 
     //on start
@@ -538,6 +555,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Results()
     case RES_GRAPHICS_TIME_SUM_PROJ:        Update_Result_GraphicsTimeProjectSum();     break;
     case RES_GRAPHICS_VECTORS:              Update_Result_GraphicsVectors();            break;
     case RES_GRAPHICS_HEATMAP:              Update_Result_GraphicsHeatmap();            break;
+    case RES_GRAPHICS_VORTEX_CENTER:        Update_Result_GraphicsVortexCenter();       break;
     case RES_SPEED_STAT_CUSTOM:             Update_Result_SpeedStatCustom();            break;
     case RES_ANGLE_STAT_CUSTOM:             Update_Result_AngleStatCustom();            break;
     case RES_SPEED_ANALYSIS:                Update_Result_SpeedAnalysis();              break;
@@ -866,6 +884,326 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
     Update_Image_Results();
 
     MA_tmp_Value_Gray.release();
+}
+
+void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
+{
+    //Check requirements
+    if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
+    {
+        qDebug() << "Update_Result_GraphicsVortexCenter" << "requirements not met";
+        return;
+    }
+
+    //scaled unit conversions
+    double res_scale = ui->doubleSpinBox_Res_VortexCenter_Resolution_Rel->value() / 100.0;
+    double conv_scaled_um2px = conv_um2px * res_scale;
+    double conv_scaled_px2um = 1.0 / conv_scaled_um2px;
+    double conv_scaled_px2mm = conv_scaled_px2um * 1000;
+
+    //----------------------------------------------------------------- prepare background -----------------------------------------
+
+    //create well image
+    double well_diameter_um = ui->doubleSpinBox_Res_VortexCenter_WellDiameter->value();
+    int well_diameter_px = well_diameter_um * conv_scaled_um2px;
+    int well_radius_px = well_diameter_px / 2.0;
+    Mat MA_tmp_Well = Mat(well_diameter_px, well_diameter_px, CV_8UC3, Scalar(255, 255, 255));
+    ERR(D_Img_Proc::Draw_Dot(
+            &MA_tmp_Well,
+            well_radius_px, well_radius_px,
+            well_diameter_px,
+            0, 0, 0),
+        "Update_Result_GraphicsVortexCenter",
+        "Draw_Circle - Well diameter");
+
+    //Update background img
+    if(ui->comboBox_Res_MovAv_TimeWindow->currentIndex() == TIME_WINDOW_FULL_VIDEO || ui->comboBox_Res_MovAv_Background->currentIndex() == BACKGR_PROJECTION || !ui->checkBox_Res_VortexCenter_MovingAverage->isChecked())
+    {
+        Update_Result_GraphicsTimeProjectSum();
+    }
+    else
+    {
+        Mat MA_tmp_SelectedFrame = VS_InputVideo.get_FramePos(ui->horizontalSlider_Res_MovAv_CurrentEnd->value()).clone();
+
+        Mat MA_tmp_FrameGreenChannel;
+        ERR(
+                    D_Img_Proc::Convert_Color2Mono(
+                        &MA_tmp_FrameGreenChannel,
+                        &MA_tmp_SelectedFrame,
+                        c_COL2MONO_GREEN),
+                    "Update_Result_GraphicsVectors",
+                    "Convert_Color2Mono");
+        MA_tmp_SelectedFrame.release();
+
+        Mat MA_tmp_Cropped;
+        ERR(D_Img_Proc::Crop_Rect_Abs(
+                &MA_tmp_Cropped,
+                &MA_tmp_FrameGreenChannel,
+                ui->spinBox_Param_Crop_Left->value(),
+                ui->spinBox_Param_Crop_Top->value(),
+                spatial_roi_width,
+                spatial_roi_height),
+            "Update_Result_GraphicsVectors",
+            "Crop_Rect_Abs");
+        MA_tmp_FrameGreenChannel.release();
+
+        ERR(
+                    D_Img_Proc::Convert_Color(
+                        &MA_TimeProject_Show,
+                        &MA_tmp_Cropped,
+                        CV_GRAY2BGR),
+                    "Update_Result_GraphicsVectors",
+                    "Convert_Color - 1ch->3ch");
+        MA_tmp_Cropped.release();
+    }
+
+    //calc pos in well
+    double pos_step_px = well_diameter_px / 6.0;
+    double pos_offset_x_px = (MA_TimeProject_Show.cols * res_scale) / 2.0;
+    double pos_offset_y_px = (MA_TimeProject_Show.rows * res_scale) / 2.0;
+    //calc offset of video
+    Point P_VideoOffset(0,0);
+    if(ui->radioButton_Res_VortexCenter_VideoPos_C->isChecked())
+        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
+    else if(ui->radioButton_Res_VortexCenter_VideoPos_T->isChecked())
+        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 1 * pos_step_px - pos_offset_y_px);
+    else if(ui->radioButton_Res_VortexCenter_VideoPos_B->isChecked())
+        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 5 * pos_step_px - pos_offset_y_px);
+    else if(ui->radioButton_Res_VortexCenter_VideoPos_L->isChecked())
+        P_VideoOffset = Point(1 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
+    else if(ui->radioButton_Res_VortexCenter_VideoPos_R->isChecked())
+        P_VideoOffset = Point(5 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
+    //make sure area is in well
+    P_VideoOffset.x = max(P_VideoOffset.x, 0);
+    P_VideoOffset.y = max(P_VideoOffset.y, 0);
+    P_VideoOffset.x = min(P_VideoOffset.x, static_cast<int>(well_diameter_px - MA_TimeProject_Show.cols * res_scale - 1));
+    P_VideoOffset.y = min(P_VideoOffset.y, static_cast<int>(well_diameter_px - MA_TimeProject_Show.rows * res_scale - 1));
+
+    //insert video area in well img
+    D_Img_Proc::Insert(
+                &MA_tmp_Well,
+                &MA_TimeProject_Show,
+                P_VideoOffset.x,
+                P_VideoOffset.y,
+                res_scale);
+
+    //----------------------------------------------------------------- calculate vector field -----------------------------------------
+
+    //lines normal to movement vectors
+    D_Geo_LineSet_2D Lines_NormalsOfMovementVectors;
+
+    //time window
+    size_t it_start     = ui->horizontalSlider_Res_MovAv_CurrentStart->value() - frame_start_ana;
+    size_t it_end       = ui->horizontalSlider_Res_MovAv_CurrentEnd->value()   - frame_start_ana;
+    if(ui->comboBox_Res_MovAv_TimeWindow->currentIndex() == TIME_WINDOW_FULL_VIDEO || ui->checkBox_Res_VortexCenter_MovingAverage->isChecked())
+    {
+        it_start = 0;
+        it_end = frame_end - frame_start_ana;
+    }
+    //qDebug() << "Update_Result_GraphicsVectors" << "it_start" << it_start << "it_end" << it_end;
+
+    //grid size
+    size_t nx = vvvv_XYFrmObjShifts.size();
+    size_t ny = vvvv_XYFrmObjShifts[0].size();
+
+    //loop grid cells
+    for(size_t gx = 0; gx < nx; gx++)
+    {
+        for(size_t gy = 0; gy < ny; gy++)
+        {
+            //calc mean angle -----------------------------
+
+            //group all needed elements in 1D container
+            vector<double> v_AnglesInCell;
+
+            //loop time window
+            for(size_t it = it_start; it < it_end; it++)
+            {
+                //number of objects in cell and frame
+                size_t no = vvvv_XYFrmObjShifts[gx][gy][it].size();
+
+                //loop, and extract angles
+                for(size_t obj = 0; obj < no; obj++)
+                    v_AnglesInCell.push_back(vvvv_XYFrmObjAngles[gx][gy][it][obj]);
+            }
+
+            //calc stats
+            vector<double> v_Angles_Stats(c_STAT_CIRC_NUMBER_OF);
+            D_Stat::Calc_Stats_Circ_Rad(
+                        &v_Angles_Stats,
+                        v_AnglesInCell);
+
+            //add line -----------------------------
+
+            //grid cell center is support vector
+            D_Geo_Point_2D P_support(
+                        P_VideoOffset.x + ((gx + 0.5) / static_cast<double>(nx)) * MA_TimeProject_Show.cols * res_scale,
+                        P_VideoOffset.y + ((gy + 0.5) / static_cast<double>(ny)) * MA_TimeProject_Show.rows * res_scale);
+
+            //direction vector is 90° to measured direction of movement
+            double line_angle = - v_Angles_Stats[c_STAT_CIRC_MEAN_ANG]; //-angle because some orientation incoherencies
+
+            //line that goes approx through vortex center
+            Lines_NormalsOfMovementVectors.add_line_point_angle(P_support, line_angle);
+
+            //clear
+            v_AnglesInCell.clear();
+            v_Angles_Stats.clear();
+        }
+    }
+
+    //----------------------------------------------------------------- calc center -----------------------------------------
+
+    //options
+    bool clustering = ui->checkBox_Res_VortexCenter_kMeans->isChecked();
+    bool ransac = ui->checkBox_Res_VortexCenter_Ransac->isChecked();
+
+    //approx intersection of line set is calculated
+    double center_deviation = 0;
+    D_Geo_Point_2D P_center(0 , 0);
+    D_Geo_PointSet_2D PS_IntersectionsUsed;
+
+    //choose method and calc center
+    if(!clustering && !ransac)
+    {
+        P_center = Lines_NormalsOfMovementVectors.intersection(
+                    &center_deviation);
+        PS_IntersectionsUsed = Lines_NormalsOfMovementVectors.intersections_pairwise();
+    }
+    else if(!clustering && ransac)
+    {
+        P_center = Lines_NormalsOfMovementVectors.intersection_ransac(
+                    &center_deviation,
+                    &PS_IntersectionsUsed,
+                    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->value() / 100.0,
+                    ui->spinBox_Res_VortexCenter_RansacIterations->value(),
+                    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->currentIndex() == 0);
+    }
+    else
+        ERR(ER_other, "Update_Result_GraphicsVortexCenter", "not implemented yet");
+
+    qDebug() << "Line set with"  << Lines_NormalsOfMovementVectors.size() << "lines ----------------------------------";
+    qDebug() << "Found center (px) at" << P_center.x() << P_center.y() << "with STD" << center_deviation;
+    qDebug() << "Found center (mm) at" << P_center.x() * conv_scaled_px2mm << P_center.y() * conv_scaled_px2mm << "with STD" << center_deviation * conv_scaled_px2mm;
+
+
+    //----------------------------------------------------------------- show result -----------------------------------------
+
+    int thickness = ui->spinBox_Res_VortexCenter_Thickness->value();
+
+    /*
+    D_Geo_Line_2D line_dummy;
+    line_dummy.set_point_angle(
+                D_Geo_Point_2D(well_radius_px, well_radius_px),
+                5 * Grad2Rad);
+    D_Geo_Point_2D P1, P2;
+    if(line_dummy.intersection_rect(&P1, &P2, &MA_tmp_Well))
+        ERR(D_Img_Proc::Draw_Line(
+                &MA_tmp_Well,
+                P1.x(), P1.y(),
+                P2.x(), P2.y(),
+                thickness,
+                255, 255, 0),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Line - dummy");
+            */
+
+    //lines & points ----------------------------
+
+    for(size_t i = 0; i < Lines_NormalsOfMovementVectors.size(); i++)
+    {
+        //qDebug() << "line" << i << "start";
+
+        D_Geo_Point_2D P1, P2;
+        if(Lines_NormalsOfMovementVectors.line(i).intersection_rect(&P1, &P2, &MA_tmp_Well))
+            ERR(D_Img_Proc::Draw_Line(
+                    &MA_tmp_Well,
+                    P1.x(), P1.y(),
+                    P2.x(), P2.y(),
+                    ceil(thickness * 0.2 + 1),
+                    0, 0, 255),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Line - Lines_NormalsOfMovementVectors[" + QString::number(i) + "]");
+
+        //qDebug() << "line" << i << "end";
+    }
+
+    for(size_t gx = 0; gx < nx; gx++)
+        for(size_t gy = 0; gy < ny; gy++)
+            ERR(D_Img_Proc::Draw_Dot(
+                    &MA_tmp_Well,
+                    P_VideoOffset.x + ((gx + 0.5) / static_cast<double>(nx)) * MA_TimeProject_Show.cols * res_scale,
+                    P_VideoOffset.y + ((gy + 0.5) / static_cast<double>(ny)) * MA_TimeProject_Show.rows * res_scale,
+                    thickness * 2,
+                    0, 255, 255),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Dot - grid cell centers");
+
+
+    //vortex center --------------------
+
+    int center_x = P_center.x();
+    int center_y = P_center.y();
+
+    bool x_ok = center_x >= 0 && center_x < well_diameter_px;
+    bool y_ok = center_y >= 0 && center_y < well_diameter_px;
+
+    if(y_ok)
+        ERR(D_Img_Proc::Draw_Line(
+                &MA_tmp_Well,
+                0, center_y,
+                well_diameter_px - 1, center_y,
+                thickness,
+                0, 255, 0),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Line - Center Y");
+
+    if(x_ok)
+        ERR(D_Img_Proc::Draw_Line(
+                &MA_tmp_Well,
+                center_x, 0,
+                center_x, well_diameter_px - 1,
+                thickness,
+                0, 255, 0),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Line - Center X");
+
+    if(x_ok && y_ok)
+    {
+        ERR(D_Img_Proc::Draw_Dot(
+                &MA_tmp_Well,
+                center_x, center_y,
+                thickness * 5,
+                0, 255, 0),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Dot - Center");
+
+        /*
+        ERR(D_Img_Proc::Draw_Ellipse(
+                &MA_tmp_Well,
+                PS_IntersectionsUsed.ellipse_pca_deviations(),
+                0, 255, 0,
+                thickness),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Circle - STD");
+            */
+
+        ERR(D_Img_Proc::Draw_Circle(
+                &MA_tmp_Well,
+                P_center.x(), P_center.y(),
+                center_deviation,
+                255, 0, 0,
+                thickness),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Circle - STD");
+    }
+
+
+
+    //show result
+    MA_Result = MA_tmp_Well.clone();
+    MA_tmp_Well.release();
+    Update_Image_Results();
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
@@ -3176,14 +3514,16 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
 
     //groups
     ui->groupBox_Res_GraphicsParam->setVisible      (res_type == RES_GRAPHICS_TIME_SUM_PROJ                                                                                 || res_type == RES_GRAPHICS_VECTORS);
-    ui->groupBox_Res_GridSamplingParam->setVisible  (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS);
+    ui->groupBox_Res_GridSamplingParam->setVisible  (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS     || res_type == RES_GRAPHICS_VORTEX_CENTER);
     ui->groupBox_Res_GridVisParam->setVisible       (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_VectorFieldParam->setVisible   (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_TimeAxis->setVisible           (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM                                                                                || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
     ui->groupBox_Res_SpeedCustom->setVisible        (                                           res_type == RES_SPEED_STAT_CUSTOM                                                                                                                       || res_type == RES_SPEED_ANALYSIS                                       || res_type == RES_OVERVIEW);
     ui->groupBox_Res_AngleCustom->setVisible        (                                                                                  res_type == RES_ANGLE_STAT_CUSTOM                                                                                                                    || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
-    ui->groupBox_Res_MovAv->setVisible              (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
-    ui->groupBox_Res_Heat->setVisible(                                                                                                                                                                              res_type == RES_GRAPHICS_HEATMAP);
+    ui->groupBox_Res_MovAv->setVisible              (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW || (res_type == RES_GRAPHICS_VORTEX_CENTER && ui->checkBox_Res_VortexCenter_MovingAverage->isChecked()));
+    ui->groupBox_Res_Heat->setVisible               (                                                                                                                                                               res_type == RES_GRAPHICS_HEATMAP);
+    ui->groupBox_Res_VortexCenter->setVisible       (                                                                                                                                                               res_type == RES_GRAPHICS_VORTEX_CENTER);
+
 
     //subelements
     ui->spinBox_ParamGrid_CellStart->setEnabled     (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM);
@@ -3523,7 +3863,7 @@ void D_MAKRO_CiliaSphereTracker::on_spinBox_Param_FrameCountSmooth_valueChanged(
 void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_Type_currentIndexChanged(int index)
 {
     //show fitting viewer
-    if(index == RES_GRAPHICS_TIME_SUM_PROJ || index == RES_GRAPHICS_VECTORS || index == RES_GRAPHICS_HEATMAP)
+    if(index == RES_GRAPHICS_TIME_SUM_PROJ || index == RES_GRAPHICS_VECTORS || index == RES_GRAPHICS_HEATMAP || index == RES_GRAPHICS_VORTEX_CENTER)
         ui->stackedWidget_Res_Type->setCurrentIndex(0);
     else if(index == RES_OVERVIEW)
         ui->stackedWidget_Res_Type->setCurrentIndex(2);
@@ -3693,4 +4033,21 @@ void D_MAKRO_CiliaSphereTracker::on_doubleSpinBox_Res_PlotPoincare_Shift_Seconds
     ui->spinBox_Res_PlotPoincare_Shift_Frames->setValue(arg1 / VS_InputVideo.get_frame_2_timeSec());
     ui->spinBox_Res_PlotPoincare_Shift_Frames->blockSignals(false);
     Update_Results();
+}
+
+void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_MovingAverage_stateChanged(int arg1)
+{
+    ui->groupBox_Res_MovAv->setVisible(arg1);
+}
+
+void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_Ransac_stateChanged(int arg1)
+{
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setEnabled(arg1);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setEnabled(arg1);
+}
+
+void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1)
+{
+    ui->spinBox_Res_VortexCenter_kMeans_k->setEnabled(arg1);
+    ui->spinBox_Res_VortexCenter_kMeans_Iterations->setEnabled(arg1);
 }

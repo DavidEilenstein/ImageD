@@ -52,9 +52,10 @@ bool D_Geo_Line_2D::set_point_direction(D_Geo_Point_2D P_support, D_Geo_Point_2D
     return set_point_point(P_support, P_support.add_inhomo(direction));
 }
 
-bool D_Geo_Line_2D::set_point_angle(D_Geo_Point_2D P_support, double angle)
+bool D_Geo_Line_2D::set_point_angle(D_Geo_Point_2D P_support, double angle_rad)
 {
-    return set_point_direction(P_support, D_Geo_Point_2D(angle));
+    qDebug() << "D_Geo_Line_2D::set_point_angle x/y/a" << P_support.x() << P_support.y() << angle_rad * Rad2Grad;
+    return set_point_direction(P_support, D_Geo_Point_2D(angle_rad));
 }
 
 Mat D_Geo_Line_2D::Mat_homogenius()
@@ -150,4 +151,96 @@ double D_Geo_Line_2D::dist(D_Geo_Point_2D P)
 bool D_Geo_Line_2D::point_on_line(D_Geo_Point_2D P, double dist_max)
 {
     return abs(dist(P)) <= dist_max;
+}
+
+bool D_Geo_Line_2D::intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, double t, double b, double l, double r)
+{
+    //corners
+    D_Geo_Point_2D P_lt(l+1, t+1);
+    D_Geo_Point_2D P_rt(r-1, t+1);
+    D_Geo_Point_2D P_lb(l+1, b-1);
+    D_Geo_Point_2D P_rb(r-1, b-1);
+
+    //edges
+    vector<D_Geo_Line_2D> vL_edges(4);
+    vL_edges[0] = D_Geo_Line_2D(P_lt, P_lb);
+    vL_edges[1] = D_Geo_Line_2D(P_rt, P_rb);
+    vL_edges[2] = D_Geo_Line_2D(P_lt, P_rt);
+    vL_edges[3] = D_Geo_Line_2D(P_lb, P_rb);
+
+    //intersections
+    vector<D_Geo_Point_2D> vP_intersections_valid;
+    for(size_t i = 0; i < vL_edges.size(); i++)
+    {
+        D_Geo_Point_2D P_check = intersection(vL_edges[i]);
+        double x = P_check.x();
+        double y = P_check.y();
+
+        if(!P_check.vanishing() && x >= l && x <= r && y >= t && y <= b)
+        {
+            vP_intersections_valid.push_back(P_check);
+            //qDebug() << "accepted" << x << y;
+        }
+        else
+        {
+            //qDebug() << "DECLINED" << x << y << "vanishing" << P_check.vanishing() << "l" << (x >= l) << "r" << (x <= r) << "t" << (y >= t) << "b" << (y <= b);
+        }
+    }
+
+    //check success
+    if(vP_intersections_valid.size() < 2)
+    {
+        //qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        //qDebug() << "D_Geo_Line_2D::intersection_rect" << "t/b/l/r" << t << b << l << r << "support" << support().x() << support().y() << "direction" << direction().x() << direction().y() << "-"                 << "only" << vP_intersections_valid.size() << "points found";
+        //qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        return false;
+    }
+
+    //exactly 2?
+    if(vP_intersections_valid.size() == 2)
+    {
+        *P1 = vP_intersections_valid[0];
+        *P2 = vP_intersections_valid[1];
+        //qDebug() << "D_Geo_Line_2D::intersection_rect" << "t/b/l/r" << t << b << l << r << "support" << support().x() << support().y() << "direction" << direction().x() << direction().y() << "-"                 <<  "2 valid intersections:" << P1->x() << P1->y() << "and" << P2->x() << P2->y() << "with distance" << P1->distance(*P2);
+        return true;
+    }
+
+    //more than 2 (i.e. if line hits corner) --> select the 2 most distant points
+    size_t i1_top = 0;
+    size_t i2_top = 1;
+    double dist_top = 0.0;
+    for(size_t i1 = 0; i1 < vP_intersections_valid.size(); i1++)
+        for(size_t i2 = i1+1; i2 < vP_intersections_valid.size(); i2++)
+        {
+            double dist = vP_intersections_valid[i1].distance(vP_intersections_valid[i2]);
+            if(dist > dist_top)
+            {
+                i1_top = i1;
+                i2_top = i2;
+                dist_top = dist;
+            }
+        }
+
+    if(dist_top > 0)
+    {
+        *P1 = vP_intersections_valid[i1_top];
+        *P2 = vP_intersections_valid[i2_top];
+        //qDebug() << "D_Geo_Line_2D::intersection_rect" << "t/b/l/r" << t << b << l << r << "support" << support().x() << support().y() << "direction" << direction().x() << direction().y() << "-" << vP_intersections_valid.size() << "valid intersections. Selected:" << P1->x() << P1->y() << "and" << P2->x() << P2->y() << "with distance" << P1->distance(*P2);
+        return true;
+    }
+
+    //qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    //qDebug() << "D_Geo_Line_2D::intersection_rect" << "t/b/l/r" << t << b << l << r << "support" << support().x() << support().y() << "direction" << direction().x() << direction().y() << "-" << "distance" << dist_top;
+    //qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    return false;
+}
+
+bool D_Geo_Line_2D::intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, Rect R)
+{
+    return intersection_rect(P1, P2, R.tl().y, R.br().y, R.tl().x, R.br().x);
+}
+
+bool D_Geo_Line_2D::intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, Mat *M)
+{
+    return intersection_rect(P1, P2, 0, M->rows, 0, M->cols);
 }

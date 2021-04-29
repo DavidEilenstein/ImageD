@@ -74,6 +74,9 @@ public:
     double          dist(D_Geo_Point_2D P);
     bool            point_on_line(D_Geo_Point_2D P, double dist_max = 0);
 
+    bool            intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, double t, double b, double l, double r);
+    bool            intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, Rect R);
+    bool            intersection_rect(D_Geo_Point_2D *P1, D_Geo_Point_2D *P2, Mat *M);
 
 private:
     //member

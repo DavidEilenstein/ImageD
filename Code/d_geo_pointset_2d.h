@@ -52,6 +52,8 @@ public:
     D_Geo_Point_2D          point(size_t i)                 {return i < size() ? v_points[i] : D_Geo_Point_2D(0, 0, 0);}
     D_Geo_Point_2D          point_random();
     D_Geo_PointSet_2D       subset_random(double rel_size);
+    RotatedRect             ellipse_fitted();
+    RotatedRect             ellipse_pca_deviations();
 
     //naive center/std
     D_Geo_Point_2D center();

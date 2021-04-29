@@ -62,6 +62,9 @@ public:
     double          y()                                     {return m_v / m_w;}
     Mat             Mat_homo();
     Mat             Mat_inhomo();
+    Point           CV_Point()                              {return Point(x(), y());}
+    Point2f         CV_Point2f()                            {return Point2f(x(), y());}
+    Point2d         CV_Point2d()                            {return Point2d(x(), y());}
 
     //basic operations
     bool            equal(D_Geo_Point_2D P);
@@ -83,6 +86,7 @@ public:
     double          distance(D_Geo_Point_2D P);
 
 private:
+
     //members
     double m_u;
     double m_v;

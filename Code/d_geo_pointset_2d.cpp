@@ -44,6 +44,54 @@ D_Geo_PointSet_2D D_Geo_PointSet_2D::subset_random(double rel_size)
 }
 
 /*!
+ * \brief D_Geo_PointSet_2D::ellipse_fitted fit an ellipse to the point set
+ * \return fitted ellipse
+ */
+RotatedRect D_Geo_PointSet_2D::ellipse_fitted()
+{
+    ///convert points to CV style points
+    vector<Point2f> vPoints;
+    for(size_t i = 0; i < size(); i++)
+        vPoints.push_back(v_points[i].CV_Point2f());
+
+    ///calc fitted ellipse
+    return fitEllipse(vPoints);
+}
+
+RotatedRect D_Geo_PointSet_2D::ellipse_pca_deviations()
+{
+    //Construct a buffer used by the pca analysis
+    Mat MA_points = Mat(static_cast<int>(size()), 2, CV_64FC1);
+    for(int i = 0; i < MA_points.rows; i++)
+    {
+        MA_points.at<double>(i, 0) = v_points[i].x();
+        MA_points.at<double>(i, 1) = v_points[i].y();
+    }
+
+    //Perform PCA analysis
+    PCA pca_analysis(MA_points, Mat(), PCA::DATA_AS_ROW);
+
+    //Store center
+    Point2f center = Point2f(static_cast<int>(pca_analysis.mean.at<double>(0, 0)),
+                             static_cast<int>(pca_analysis.mean.at<double>(0, 1)));
+
+    //Store the eigenvalues and eigenvectors
+    vector<Point2d> eigen_vecs(2);
+    vector<double> eigen_vals(2);
+    for (int i = 0; i < 2; i++)
+    {
+        eigen_vecs[i] = Point2d(pca_analysis.eigenvectors.at<double>(i, 0),
+                                pca_analysis.eigenvectors.at<double>(i, 1));
+        eigen_vals[i] = pca_analysis.eigenvalues.at<double>(i);
+    }
+
+    return RotatedRect(
+                center,
+                Size2f(eigen_vals[0], eigen_vals[1]),
+                atan2(eigen_vecs[0].y, eigen_vecs[0].y));
+}
+
+/*!
  * \brief D_Geo_PointSet_2D::point_random returns a random point from the point set
  * \return a random point from the point set
  */
@@ -104,7 +152,7 @@ double D_Geo_PointSet_2D::standard_deviation(D_Geo_Point_2D P_reference)
         sum_dist_pow2 += dx * dx + dy * dy;
     }
 
-    return sum_dist_pow2 / v_points.size();
+    return sqrt(sum_dist_pow2 / v_points.size());
 }
 
 /*!
