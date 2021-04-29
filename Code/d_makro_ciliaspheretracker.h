@@ -211,6 +211,7 @@ private:
     QDir                                DIR_SaveStack;
     QDir                                DIR_SaveStackGraphics;
     QDir                                DIR_SaveStackGraphics_Heatmap;
+    QDir                                DIR_SaveStackGraphics_Vortex;
     QDir                                DIR_SaveStackGraphics_Vector;
     QDir                                DIR_SaveStackGraphics_Angle;
     QDir                                DIR_SaveStackGraphics_Speed;

@@ -2068,6 +2068,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
     //graphics
     DIR_SaveStackGraphics.setPath(DIR_SaveStack.path() + "/Graphics");                  QDir().mkdir(DIR_SaveStackGraphics.path());
     DIR_SaveStackGraphics_Heatmap.setPath(DIR_SaveStackGraphics.path() + "/Heatmap");   QDir().mkdir(DIR_SaveStackGraphics_Heatmap.path());
+    DIR_SaveStackGraphics_Vortex.setPath(DIR_SaveStackGraphics.path() + "/Vortex");     QDir().mkdir(DIR_SaveStackGraphics_Vortex.path());
     DIR_SaveStackGraphics_Vector.setPath(DIR_SaveStackGraphics.path() + "/Vector");     QDir().mkdir(DIR_SaveStackGraphics_Vector.path());
     DIR_SaveStackGraphics_Speed.setPath(DIR_SaveStackGraphics.path() + "/Speed");       QDir().mkdir(DIR_SaveStackGraphics_Speed.path());
     DIR_SaveStackGraphics_Angle.setPath(DIR_SaveStackGraphics.path() + "/Angle");       QDir().mkdir(DIR_SaveStackGraphics_Angle.path());
@@ -2158,6 +2159,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     PDF_Summary.set_Margins(0, 0, 0, 0);
 
     //relative layout params for summary
+    /*
     double gap_border       = 0.03;
     double gap_within       = 0.01;
     double gap_within_small = gap_within / 2.0;
@@ -2182,8 +2184,56 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     double y_legend_above   = y_img_2_under + gap_within_small;
     double y_legend_under   = y_legend_above + legend_height;
     double y_graph_above    = y_legend_under + gap_within;
+    */
 
+    //relative layout params for summary
+    double gap_border       = 0.02;
+    double gap_within       = 0.005;
+    double gap_within_half  = gap_within / 2.0;
+    double text_big         = 0.0425;
+    double text_small       = 0.0225;
+    double image_height     = 0.17;
+    double legend_height    = 0.014;
+    double textblock_height = 0.08;
 
+    double x_border_left    = 0 + gap_border;
+    double x_border_right   = 1 - gap_border;
+    double y_border_top     = 0 + gap_border;
+    double y_border_bottom  = 1 - gap_border;
+
+    double x_width_eff      = x_border_right - x_border_left;
+    //double y_height_eff     = y_border_bottom - y_border_top;
+
+    double x_3elem_step     = x_width_eff / 3.0;
+    double x_3elem_0l       = x_border_left + x_3elem_step * 0 + gap_within_half;
+    double x_3elem_0r       = x_border_left + x_3elem_step * 1 - gap_within_half;
+    double x_3elem_1l       = x_border_left + x_3elem_step * 1 + gap_within_half;
+    double x_3elem_1r       = x_border_left + x_3elem_step * 2 - gap_within_half;
+    double x_3elem_2l       = x_border_left + x_3elem_step * 2 + gap_within_half;
+    double x_3elem_2r       = x_border_left + x_3elem_step * 3 - gap_within_half;
+    double x_4elem_step     = x_width_eff / 4.0;
+    double x_4elem_0l       = x_border_left + x_4elem_step * 0 + gap_within_half;
+    double x_4elem_0r       = x_border_left + x_4elem_step * 1 - gap_within_half;
+    double x_4elem_1l       = x_border_left + x_4elem_step * 1 + gap_within_half;
+    double x_4elem_1r       = x_border_left + x_4elem_step * 2 - gap_within_half;
+    double x_4elem_2l       = x_border_left + x_4elem_step * 2 + gap_within_half;
+    double x_4elem_2r       = x_border_left + x_4elem_step * 3 - gap_within_half;
+    double x_4elem_3l       = x_border_left + x_4elem_step * 3 + gap_within_half;
+    double x_4elem_3r       = x_border_left + x_4elem_step * 4 - gap_within_half;
+
+    double y_head_1         = y_border_top + text_big;
+    double y_head_2         = y_head_1 + text_small;
+
+    double y_text_t         = y_head_2 + gap_within;
+    double y_text_b         = y_text_t + textblock_height;
+    double y_img_heat_t     = y_text_b + gap_within;
+    double y_img_heat_b     = y_img_heat_t + image_height;
+    double y_img_leg_t      = y_img_heat_b + gap_within_half;
+    double y_img_leg_b      = y_img_leg_t + legend_height;
+    double y_img_oth_t      = y_img_leg_b + gap_within;
+    double y_img_oth_b      = y_img_oth_t + image_height;
+    double y_plot_t         = y_img_oth_b + gap_within;
+    double y_plot_b         = y_border_bottom;
 
     //header of summary
     PDF_Summary.add_Text(
@@ -2237,7 +2287,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "10%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_10], 'g', 4) + "um/s\n"
                 "Median " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEDIAN], 'g', 4) + "um/s\n"
                 "90%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_90], 'g', 4) + "um/s",
-                x_border_left, x_left_mid, y_img_1_mid, y_img_1_under,
+                x_4elem_1l, x_4elem_1r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
     //Angle
@@ -2255,7 +2305,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°",
-                x_left_mid, x_mid_left, y_img_1_mid, y_img_1_under,
+                x_4elem_2l, x_4elem_2r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
 
@@ -2271,10 +2321,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     PDF_Summary.add_Image(
                 View_Results.pQI(),
-                x_mid_right, x_border_right, y_img_2_above, y_img_2_under);
+                x_3elem_0l, x_3elem_0r, y_img_heat_t, y_img_heat_b);
     PDF_Summary.add_Image(
                 &MA_Result_HeatmapLegend,
-               x_mid_right, x_border_right, y_legend_above, y_legend_under);
+                x_3elem_0l, x_3elem_0r, y_img_leg_t, y_img_leg_b);
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
                 View_Results.pQI(),
@@ -2316,6 +2366,12 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     PDF_Overview.add_Image(
                 &MA_Result_HeatmapLegend,
                 0.05, 0.95, 0.85, 0.95);
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_1l, x_3elem_1r, y_img_heat_t, y_img_heat_b);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+                x_3elem_1l, x_3elem_1r, y_img_leg_t, y_img_leg_b);
 
     ui->comboBox_Res_Heat_Mode->setCurrentIndex(2);
     Update_Ui();
@@ -2345,10 +2401,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
     PDF_Summary.add_Image(
                 View_Results.pQI(),
-                x_border_left, x_mid_left, y_img_2_above, y_img_2_under);
+                x_3elem_2l, x_3elem_2r, y_img_heat_t, y_img_heat_b);
     PDF_Summary.add_Image(
                 &MA_Result_HeatmapLegend,
-               x_border_left, x_mid_left, y_legend_above, y_legend_under);
+                x_3elem_2l, x_3elem_2r, y_img_leg_t, y_img_leg_b);
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Image(
                 View_Results.pQI(),
@@ -2368,6 +2424,180 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     PDF_Overview.add_Image(
                 &MA_Result_HeatmapLegend,
                 0.05, 0.95, 0.85, 0.95);
+
+
+    //vortex center graphic
+
+    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VORTEX_CENTER);
+    //other settings on default
+
+    //4x5, no ransac
+    ui->spinBox_ParamGridHorizontal->setValue(5);
+    ui->spinBox_ParamGridVertical->setValue(4);
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(false);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacOff - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacOff.png");
+
+    //4x5, ransac points 50%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacPoints_50prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacPoints_50prz_1M_iters.png");
+
+    //4x5, ransac lines 50%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacLines_50prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacLines_50prz_1M_iters.png");
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_2l, x_3elem_2r, y_img_oth_t, y_img_oth_b);
+
+
+    //4x5, ransac points 75%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacPoints_75prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacPoints_75prz_1M_iters.png");
+
+    //4x5, ransac lines 75%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacLines_75prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacLines_75prz_1M_iters.png");
+
+    //4x5, ransac points 50%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacPoints_50prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacPoints_50prz_100k_iters.png");
+
+    //4x5, ransac lines 50%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacLines_50prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacLines_50prz_100k_iters.png");
+
+    //4x5, ransac points 75%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacPoints_75prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacPoints_75prz_100k_iters.png");
+
+    //4x5, ransac lines 75%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_4x5_RansacLines_75prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_4x5_RansacLines_75prz_100k_iters.png");
+
+    //8x10, no ransac
+    ui->spinBox_ParamGridHorizontal->setValue(8);
+    ui->spinBox_ParamGridVertical->setValue(10);
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(false);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacOff - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacOff.png");
+
+    //8x10, ransac points 50%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacPoints_50prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacPoints_50prz_1M_iters.png");
+
+    //8x10, ransac lines 50%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacLines_50prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacLines_50prz_1M_iters.png");
+
+    //8x10, ransac points 75%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacPoints_75prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacPoints_75prz_1M_iters.png");
+
+    //8x10, ransac lines 75%, 1M
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(1000000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacLines_75prz_1M_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacLines_75prz_1M_iters.png");
+
+    //8x10, ransac points 50%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacPoints_50prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacPoints_50prz_100k_iters.png");
+
+    //8x10, ransac lines 50%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(50);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacLines_50prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacLines_50prz_100k_iters.png");
+
+    //8x10, ransac points 75%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacPoints_75prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacPoints_75prz_100k_iters.png");
+
+    //8x10, ransac lines 75%, 100k
+    ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
+    ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(1);
+    ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
+    ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_8x10_RansacLines_75prz_100k_iters - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacLines_75prz_100k_iters.png");
+
+
+
+    //----------------------------------------------------------------------vector fields
 
     //gamma softer for vector field backgrounds
     ui->doubleSpinBox_Res_TimeProjSum_Gamma->setValue(0.5);
@@ -2418,13 +2648,13 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
                 "Base speed unit: um/s\n"
                 "Base angle unit: °\n",
-                x_border_left, x_mid_left, y_img_1_above, y_img_1_mid,
+                x_4elem_0l, x_4elem_0r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
     //same img to summary (basic vector graphic)
     PDF_Summary.add_Image(
                 View_Results.pQI(),
-                x_mid_right, x_border_right, y_img_1_above, y_img_1_under);
+                x_3elem_0l, x_3elem_0r, y_img_oth_t, y_img_oth_b);
 
 
     //save motion vector field video
@@ -3115,7 +3345,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_10s.png");
     PDF_Summary.add_Image(
                 &QI_ImgSave_tmp,
-                x_border_left, x_border_right, y_graph_above, y_border_bottom);
+                x_border_left, x_border_right, y_plot_t, y_plot_b);
 
     //reset
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
@@ -3133,6 +3363,9 @@ void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, i
         qDebug() << "Save_ResultVectorFieldVideo quit because:" << "Requirements not met";
         return;
     }
+
+    if(!ui->action_Save_vectorfield_videos_on_analysis->isChecked())
+        return;
 
     //remember settings before
     int old_WindowMode      = ui->comboBox_Res_MovAv_TimeWindow->currentIndex();

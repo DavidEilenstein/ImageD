@@ -2934,6 +2934,7 @@
      <string>Analysis</string>
     </property>
     <addaction name="action_Save_Analysis_All"/>
+    <addaction name="action_Save_vectorfield_videos_on_analysis"/>
    </widget>
    <addaction name="menuData"/>
    <addaction name="menuWindow"/>
@@ -2991,6 +2992,20 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F5</string>
+   </property>
+  </action>
+  <action name="action_Save_vectorfield_videos_on_analysis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save vectorfield videos on analysis</string>
+   </property>
+   <property name="toolTip">
+    <string>Save vectorfield videos on analysis</string>
    </property>
   </action>
  </widget>

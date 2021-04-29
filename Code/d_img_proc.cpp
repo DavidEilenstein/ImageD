@@ -4223,7 +4223,7 @@ int D_Img_Proc::Crop_Rect_Rot(Mat *pMA_Out, Mat *pMA_In, RotatedRect rrect)
     MA_tmp_rot.release();
 
     //crop bounding rect
-    qDebug() << "Crop_Circle start: Crop_Rect_Abs";
+    //qDebug() << "Crop_Circle start: Crop_Rect_Abs";
     int ER = Crop_Rect_Abs(
                 pMA_Out,
                 &MA_tmp_img_rot,
@@ -4248,7 +4248,7 @@ int D_Img_Proc::Crop_Circle(Mat *pMA_Out, Mat *pMA_In, int x, int y, int r)
     Mat MA_tmp_mask = Mat::zeros(
                 pMA_In->size(),
                 CV_8UC1);
-    qDebug() << "Crop_Circle start: Draw_Circle";
+    //qDebug() << "Crop_Circle start: Draw_Circle";
     int ER = Draw_Circle(
                 &MA_tmp_mask,
                 x,
@@ -4267,7 +4267,7 @@ int D_Img_Proc::Crop_Circle(Mat *pMA_Out, Mat *pMA_In, int x, int y, int r)
 
     //apply mask
     Mat MA_tmp_roi;
-    qDebug() << "Crop_Circle start: Mask";
+    //qDebug() << "Crop_Circle start: Mask";
     ER = Mask(
                 &MA_tmp_roi,
                 pMA_In,
@@ -4282,7 +4282,7 @@ int D_Img_Proc::Crop_Circle(Mat *pMA_Out, Mat *pMA_In, int x, int y, int r)
 
 
     //crop bounding rect
-    qDebug() << "Crop_Circle start: Crop_Rect_Abs";
+    //qDebug() << "Crop_Circle start: Crop_Rect_Abs";
     ER = Crop_Rect_Abs(
                 pMA_Out,
                 &MA_tmp_roi,
@@ -5329,7 +5329,7 @@ int D_Img_Proc::Threshold_Adaptive(Mat *pMA_Out, Mat *pMA_In, int out_mode, doub
     if(pMA_In->channels() > 1)                                                  return ER_channel_bad;
     if((out_mode != CV_THRESH_BINARY) && (out_mode != CV_THRESH_BINARY_INV))    return ER_type_bad;
 
-    qDebug() << "Fix 2 * mask_size + 1 in D_Img_Proc::Threshold_Adaptive!!!!!!!!!!!";
+    //qDebug() << "Fix 2 * mask_size + 1 in D_Img_Proc::Threshold_Adaptive!!!!!!!!!!!";
     adaptiveThreshold(
                 *pMA_In,
                 *pMA_Out,
@@ -8666,7 +8666,7 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
         v_threads_y[t].join();
     }
 
-    qDebug() << "Filter_Maximum_1C" << "finish";
+    //qDebug() << "Filter_Maximum_1C" << "finish";
 
     //finish
     MA_tmpf_Buffer_x.release();
@@ -9672,12 +9672,12 @@ int D_Img_Proc::Filter_Eilenstein(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, func
                 pMA_Mask);
     if(ER != ER_okay)   return ER;
 
-    qDebug() << "Filter_Eilenstein (Channel and Format Handler) - in channels switch";
+    //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - in channels switch";
     switch (pMA_In->channels()) {
 
     case 1:
     {
-        qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel 1/1";
+        //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel 1/1";
         int ER = Filter_Eilenstein_1C(
                     pMA_Out,
                     &MA_tmp_double_in,
@@ -9709,7 +9709,7 @@ int D_Img_Proc::Filter_Eilenstein(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, func
         Mat MA_tmp_filtered[ch];
         for(int c = 0; c < ch; c++)
         {
-            qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/2";
+            //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/2";
             int ER = Filter_Eilenstein_1C(
                         &(MA_tmp_filtered[c]),
                         &(MA_tmp_in[c]),
@@ -9755,7 +9755,7 @@ int D_Img_Proc::Filter_Eilenstein(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, func
         Mat MA_tmp_filtered[ch];
         for(int c = 0; c < ch; c++)
         {
-            qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/3";
+            //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/3";
             int ER = Filter_Eilenstein_1C(
                         &(MA_tmp_filtered[c]),
                         &(MA_tmp_in[c]),
@@ -9801,7 +9801,7 @@ int D_Img_Proc::Filter_Eilenstein(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, func
         Mat MA_tmp_filtered[ch];
         for(int c = 0; c < ch; c++)
         {
-            qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/4";
+            //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - proc channel" << c << "/4";
             int ER = Filter_Eilenstein_1C(
                         &(MA_tmp_filtered[c]),
                         &(MA_tmp_in[c]),
@@ -9833,13 +9833,13 @@ int D_Img_Proc::Filter_Eilenstein(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, func
 
     MA_tmp_double_in.release();
     MA_tmp_double_mask.release();
-    qDebug() << "Filter_Eilenstein (Channel and Format Handler) - end";
+    //qDebug() << "Filter_Eilenstein (Channel and Format Handler) - end";
     return ER_okay;
 }
 
 int D_Img_Proc::Filter_Eilenstein_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, function<double (double cur, double nei)> response_CurNei, function<double (double res, double wei)> weight_ResWeigth, function<double (vector<double> v_res)> combine_Responses)
 {
-    qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - start";
+    //qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - start";
 
     if(pMA_In->empty())                     return ER_empty;
     if(pMA_In->channels() != 1)             return ER_channel_bad;
@@ -9879,7 +9879,7 @@ int D_Img_Proc::Filter_Eilenstein_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
     *pMA_Out = Mat::zeros(pMA_In->size(), CV_64FC1);
 
     //loop image
-    qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - start the looping";
+    //qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - start the looping";
     //qDebug() << "before " << "Image: Yi" << Yi << "Xi" << Xi << "- Mask:" << "Ym" << Ym << "Xm" << Xm << "- Neighbors:" << "Yn" << Yn << "Xn" << Xn;
     for(Yi = SYm; Yi < (Hi - SYm); Yi++)
     {
@@ -9930,7 +9930,7 @@ int D_Img_Proc::Filter_Eilenstein_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
 
     //imshow("Filter_Eilenstein (CV_64FC1, processing) - end", *pMA_Out);
 
-    qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - end";
+    //qDebug() << "Filter_Eilenstein (CV_64FC1, processing) - end";
     return ER_okay;
 }
 
@@ -10566,7 +10566,7 @@ int D_Img_Proc::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
         int col_end     = Wi + SXm;
 
         //start thread
-        qDebug() << "start thread" << t << "of" << thread_number << "- from" << col_start << "/" << row_start << "to" << col_end << "/" << row_end;
+        //qDebug() << "start thread" << t << "of" << thread_number << "- from" << col_start << "/" << row_start << "to" << col_end << "/" << row_end;
         v_threads[t] = thread(
                     Filter_Function_8bit_1C_Thread,
                     pMA_Out,
@@ -10586,7 +10586,7 @@ int D_Img_Proc::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
     for(int t = 0; t < thread_number; t++)
     {
         v_threads[t].join();
-        qDebug() << "join thread" << t << "of" << thread_number;
+        //qDebug() << "join thread" << t << "of" << thread_number;
     }
 
     MA_tmp_in_padded.release();
@@ -13332,14 +13332,14 @@ int D_Img_Proc::Calc_LUT(vector<int> *vLUT, Mat *pMA_Label)
 
 int D_Img_Proc::Split_img2vv_value(vector<vector<double> > *vv_data_LabPix, Mat *pMA_Value, Mat *pMA_Label, bool ignore_0)
 {
-    qDebug() << "Value" << Type_of_Mat(pMA_Value);
-    qDebug() << "Label" << Type_of_Mat(pMA_Label);
+    //qDebug() << "Value" << Type_of_Mat(pMA_Value);
+    //qDebug() << "Label" << Type_of_Mat(pMA_Label);
 
     if(pMA_Label->empty() || pMA_Value->empty())                                                                return ER_empty;
     if(pMA_Value->channels() != 1)                                                                              return ER_channel_bad;
     if((pMA_Label->type() != CV_16UC1) && (pMA_Label->type() != CV_32SC1))                                      return ER_type_bad;
     if(pMA_Label->size() != pMA_Value->size())                                                                  return ER_size_missmatch;
-    qDebug() << "Split_img2vv-------------------------------";
+    //qDebug() << "Split_img2vv-------------------------------";
 
     //values
     unsigned int width = pMA_Label->cols;
@@ -13571,7 +13571,7 @@ int D_Img_Proc::Split_img2vv_value(vector<vector<double> > *vv_data_LabPix, Mat 
 
         case CV_64FC1://--------------------------------------------------------
         {
-            qDebug() << "loop image and export data";
+            //qDebug() << "loop image and export data";
             double* ptr_Val = reinterpret_cast<double*>(pMA_Value->data);       //cast to read as double
             int* ptr_Lab = reinterpret_cast<int*>(pMA_Label->data);             //cast to read as 32bit
             for (unsigned int px = 0; px < area; px++, ptr_Val++, ptr_Lab++)    //loop pixels
@@ -13604,7 +13604,7 @@ int D_Img_Proc::Split_img2vv_value(vector<vector<double> > *vv_data_LabPix, Mat 
     //dirty way of removing the 1st element. i cant find why it is there
     vv_data_LabPix->erase(vv_data_LabPix->begin());
 
-    qDebug() << "============================================ sucess (Split_img2vv)";
+    //qDebug() << "============================================ sucess (Split_img2vv)";
     return ER_okay;
 }
 
@@ -14672,7 +14672,7 @@ int D_Img_Proc::Reduce_Geometric(Mat *pMA_Out, Mat *pMA_In, int geometric, int c
 
         for(int c = 0; c < CompList.size(); c++)
         {
-            qDebug() << "c/x/y/r" << c << v_center_x[c] << v_center_y[c] << v_radius[c];
+            //qDebug() << "c/x/y/r" << c << v_center_x[c] << v_center_y[c] << v_radius[c];
 
             circle(
                         *pMA_Out,
@@ -15025,7 +15025,7 @@ int D_Img_Proc::Floodfill_Delta(Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_
     Mat MA_tmp_label = Mat::zeros(pMA_In->size(), CV_16UC1);
 
     //start recursion
-    qDebug() << "Floodfill_Delta Start recursion: Floodfill_Delta_Step";
+    //qDebug() << "Floodfill_Delta Start recursion: Floodfill_Delta_Step";
     Floodfill_Delta_Step(
                 pMA_Out,
                 &MA_tmp_label,
@@ -15078,7 +15078,7 @@ bool D_Img_Proc::Floodfill_Delta_Step(Mat *pMA_Target, Mat *pMA_Check, int x, in
     //replace value in out image
     pMA_Target->at<uchar>(y, x) = val_new;
     pMA_Check->at<ushort>(y, x) = 1;
-    qDebug() << "Set pixel" << x << y << "to value" << val_new;
+    //qDebug() << "Set pixel" << x << y << "to value" << val_new;
 
     //recursive call to neighbors
     Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y, +1,  0, val_new, val_delta, val_current);
@@ -16510,14 +16510,14 @@ Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
                         V = max;
 
     //"contrast color" (not a nice version, but it works for the moment)
-    qDebug() << "HSV in" << H << S << V;
+    //qDebug() << "HSV in" << H << S << V;
     if(V >= 0.5)        V = 0;
     else                V = 1;
     if(((7.0 / 12) * PI_2_0) < H && H < ((9.0 / 12) * PI_2_0))  V = 1;  //white on blue is always better than black on blue
     if(H >= PI)         H -= PI;
     else                H += PI;
     /*always*/          S = 0;
-    qDebug() << "HSV out" << H << S << V;
+    //qDebug() << "HSV out" << H << S << V;
 
     //HSV transfrom invers
     int     hi  = floor(H / (PI / 3.0));
@@ -16887,7 +16887,7 @@ int D_Img_Proc::ExtremeValuesColor(Mat *pMA_Out, Mat *pMA_In, double rel_low, do
 
 int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_H, QStringList QSL_S, QStringList QSL_V, QString QS_H, QString QS_S, QString QS_V, double H_angle_min, double H_angle_range, double scale, double thickness)
 {
-    qDebug() << "Legend_HSV" << "Errors";
+    //qDebug() << "Legend_HSV" << "Errors";
     if(QSL_H.empty())                           return ER_empty;
     if(QSL_S.empty())                           return ER_empty;
     if(QSL_V.empty())                           return ER_empty;
@@ -16899,34 +16899,34 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
     if(width <= 30 || height <= 30)             return ER_size_bad;
 
     //alloc out
-    qDebug() << "Legend_HSV" << "Alloc";
+    //qDebug() << "Legend_HSV" << "Alloc";
     *pMA_Out = Mat::zeros(height, width, CV_64FC3);
 
     //Segments
     //horizontal
-    qDebug() << "Legend_HSV" << "Segments horizontal";
+    //qDebug() << "Legend_HSV" << "Segments horizontal";
     size_t n_horizontal = QSL_H.size() + 1;
     vector<size_t> vOffsets_horizontal(n_horizontal+1);
     for(size_t i = 0; i < vOffsets_horizontal.size(); i++)
         vOffsets_horizontal[i] = i * (static_cast<double>(width)/n_horizontal);
-    qDebug() << "Legend_HSV" << "Segments horizontal" << vOffsets_horizontal;
+    //qDebug() << "Legend_HSV" << "Segments horizontal" << vOffsets_horizontal;
 
     size_t width_colored = (width/n_horizontal) * (n_horizontal - 2);
 
     //vertical
-    qDebug() << "Legend_HSV" << "Segments vertical";
+    //qDebug() << "Legend_HSV" << "Segments vertical";
     size_t n_vertical = 3;
     vector<size_t> vOffsets_vertical(n_vertical+1);
     for(size_t i = 0; i < vOffsets_vertical.size(); i++)
         vOffsets_vertical[i] = i * (static_cast<double>(height)/n_vertical);
-    qDebug() << "Legend_HSV" << "Segments vertical" << vOffsets_vertical;
+    //qDebug() << "Legend_HSV" << "Segments vertical" << vOffsets_vertical;
 
     size_t height_segment_vertical = height/n_vertical;
 
     //init img with color
 
     //hue
-    qDebug() << "Legend_HSV" << "Color init hue";
+    //qDebug() << "Legend_HSV" << "Color init hue";
     for(size_t x = 0; x < width_colored; x++)
     {
         double H    = ((static_cast<double>(x) / width_colored) * H_angle_range) + H_angle_min;
@@ -16955,10 +16955,10 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
     }
 
     //saturation
-    qDebug() << "Legend_HSV" << "Color init saturation";
+    //qDebug() << "Legend_HSV" << "Color init saturation";
     for(size_t x = 0; x < width_colored; x++)
     {
-        qDebug() << "Legend_HSV" << "Color init saturation x=" << x;
+        //qDebug() << "Legend_HSV" << "Color init saturation x=" << x;
         double H    = 0;
         double S    = (static_cast<double>(x) / width_colored);
         double V    = 1;
@@ -16979,14 +16979,14 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
         case 5:     R = V;      G = p;      B = q;      break;
         default:    R = V;      G = t;      B = p;      break;}
         Vec3d col(B, G, R);
-        qDebug() << "Legend_HSV" << "Color init saturation R/G/B" << R << G << B;
+        //qDebug() << "Legend_HSV" << "Color init saturation R/G/B" << R << G << B;
 
         for(size_t y = 0; y < height_segment_vertical; y++)
             pMA_Out->at<Vec3d>(y + vOffsets_vertical[1], x + vOffsets_horizontal[1]) = col;
     }
 
     //value
-    qDebug() << "Legend_HSV" << "Color init value";
+    //qDebug() << "Legend_HSV" << "Color init value";
     for(size_t x = 0; x < width_colored; x++)
     {
         double H    = 0;
@@ -17019,7 +17019,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
     size_t text_offset_h = +1;//px
 
     //put text on it
-    qDebug() << "Legend_HSV" << "Put text";
+    //qDebug() << "Legend_HSV" << "Put text";
     Draw_Text_ContrastColor(
             pMA_Out,
             QS_H,
@@ -17043,7 +17043,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
             scale);
 
     //put values on it
-    qDebug() << "Legend_HSV" << "Put values hue";
+    //qDebug() << "Legend_HSV" << "Put values hue";
     //hue
     for(int i = 0; i < QSL_H.size(); i++)
         Draw_Text_ContrastColor(
@@ -17054,7 +17054,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
                 thickness,
                 scale);
     //saturation
-    qDebug() << "Legend_HSV" << "Put values saturation";
+    //qDebug() << "Legend_HSV" << "Put values saturation";
     for(int i = 0; i < QSL_S.size(); i++)
         Draw_Text_ContrastColor(
                 pMA_Out,
@@ -17064,7 +17064,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
                 thickness,
                 scale);
     //value
-    qDebug() << "Legend_HSV" << "Put values value";
+    //qDebug() << "Legend_HSV" << "Put values value";
     for(int i = 0; i < QSL_V.size(); i++)
         Draw_Text_ContrastColor(
                 pMA_Out,
@@ -17074,7 +17074,7 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
                 thickness,
                 scale);
 
-    qDebug() << "Legend_HSV" << "end";
+    //qDebug() << "Legend_HSV" << "end";
     return ER_okay;
 }
 
