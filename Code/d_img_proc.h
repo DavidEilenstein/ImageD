@@ -367,6 +367,7 @@ public:
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r, uchar val_r, uchar val_g, uchar val_b);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double value = 255);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness, double val_r, double val_g, double val_b);
+    static int      Draw_Line                   (Mat *pMA_Target, Point P1, Point P2, unsigned int thickness, double val_r, double val_g, double val_b);
     static int      Draw_Line_Bresenham         (Mat *pMA_Target, Point P1, Point P2, double val);
     static int      Draw_Line_Angle             (Mat *pMA_Target, double length, double center_x, double center_y, double angle, unsigned int thickness = 1, double value = 255);
     static int      Draw_Vector                 (Mat *pMA_Target, int offset_x, int offset_y, double length_value, double angle_value, double length_error = 0, double angle_error = 0, int vector_thickness = 1, uchar value = 255, int error_steps = 360, int error_thickness = 1);

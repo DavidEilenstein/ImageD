@@ -99,6 +99,7 @@ private slots:
     void Update_Result_GraphicsTimeProjectSum();
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
+    D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
     void Update_Result_AngleStatCustom();
@@ -195,6 +196,10 @@ private slots:
     void on_checkBox_Res_VortexCenter_Ransac_stateChanged(int arg1);
     void on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1);
 
+    void on_doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec_valueChanged(double arg1);
+
+    void on_spinBox_Res_VortexCenter_MoveingAverage_TimeWindow_frm_valueChanged(int arg1);
+
 private:
     Ui::D_MAKRO_CiliaSphereTracker *ui;
     bool ClosingPossible = false;
@@ -249,6 +254,9 @@ private:
     vector<double>                      v_VideoStats_Shifts_um_s;
     vector<double>                      v_VideoStats_Angles_Rad;
     vector<double>                      v_VideoStats_Angles_Grad;
+
+    //detected vortex center
+    //D_Geo_Point_2D                      P_VortexCenter;
 
     //Grid Sampling
     vector<vector<vector<vector<Point2f>>>>     vvvv_XYFrmObjPositions;
@@ -381,7 +389,7 @@ private:
         "Graphics: Time Sum-Projection of Objects",
         "Graphics: Movement Vectors",
         "Graphics: Heatmap",
-        "Graphixs: Vortex Center",
+        "Graphics: Vortex Center",
         "Custom Statistical Speed Analysis",
         "Custom Statistical Angle Analysis",
         "Main Speed Analysis",

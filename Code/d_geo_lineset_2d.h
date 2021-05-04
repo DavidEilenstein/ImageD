@@ -20,6 +20,7 @@
 #include <vector>
 #include <fstream>
 #include <math.h>
+#include <thread>
 
 //Qt
 #include <QDebug>
@@ -68,6 +69,10 @@ public:
 
 private:
     vector<D_Geo_Line_2D> v_lines;
+
+    //threaded ransac
+    static void intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
+
 };
 
 #endif // D_GEO_LINESET_2D_H

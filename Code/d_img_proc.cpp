@@ -15191,6 +15191,20 @@ int D_Img_Proc::Draw_Line(Mat *pMA_Target, unsigned int x1, unsigned int y1, uns
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Line(Mat *pMA_Target, Point P1, Point P2, unsigned int thickness, double val_r, double val_g, double val_b)
+{
+    return Draw_Line(
+                pMA_Target,
+                P1.x,
+                P1.y,
+                P2.x,
+                P2.y,
+                thickness,
+                val_r,
+                val_g,
+                val_b);
+}
+
 /*!
  * \brief D_Img_Proc::Draw_Line_Bresenham custum function to draw a line between 0° and 45°
  * \details recommended to use cv's draw line function instead. This code is limited in fuction and is not tested properly!

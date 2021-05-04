@@ -142,27 +142,49 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
     ///init centers & stds top/current
     D_Geo_Point_2D center_best = D_Geo_Point_2D(0, 0, 0);
     *least_deviation = INFINITY;
-    double std_current;
+    *IntersectionsUsed = D_Geo_PointSet_2D();
 
-    ///try iterations subsets
-    for(size_t i = 0; i < iterations; i++)
+    ///get number of cpus
+    size_t n_cpu = getNumberOfCPUs();
+
+    ///init threads guesses
+    vector<D_Geo_Point_2D>      v_CenterGuesses             (n_cpu, D_Geo_Point_2D(0, 0, 0));
+    vector<double>              v_DeviationsOfGuesses       (n_cpu, INFINITY);
+    vector<D_Geo_PointSet_2D>   v_IntersectionsUsedbyGuesses(n_cpu, D_Geo_PointSet_2D());
+
+    ///create & start threads
+    vector<thread> v_threads(n_cpu);
+    for(size_t i = 0; i < n_cpu; i++)
     {
-        ///use subset of lines or intersection points
-        D_Geo_PointSet_2D Point_subset;
-        if(subset_of_points_not_lines)
-            Point_subset = intersections_pairwise().subset_random(subset_size_rel);
-        else
-            Point_subset = subset_random(subset_size_rel).intersections_pairwise();
+        //calc number of iterations to be performed by this thread
+        size_t iterations_thread = iterations / n_cpu;
+        if(i == n_cpu - 1)
+            iterations_thread = iterations - (i * iterations_thread);
 
-        ///find best guess for center
-        D_Geo_Point_2D center_current = Point_subset.center(&std_current);
+        //start threads
+        v_threads[i] = thread(
+                    intersection_ransac_thread,
+                    this,
+                    &(v_CenterGuesses[i]),
+                    &(v_DeviationsOfGuesses[i]),
+                    &(v_IntersectionsUsedbyGuesses[i]),
+                    subset_size_rel,
+                    iterations_thread,
+                    subset_of_points_not_lines);
+    }
 
-        ///save as new best guess, if better than old best guess
-        if(std_current < *least_deviation)
+    ///join threads and find best guess
+    for(size_t i = 0; i < n_cpu; i++)
+    {
+        //join thread
+        v_threads[i].join();
+
+        //check, if guess is new best
+        if(v_DeviationsOfGuesses[i] < *least_deviation)
         {
-            center_best = center_current;
-            *least_deviation = std_current;
-            *IntersectionsUsed = Point_subset;
+            center_best = v_CenterGuesses[i];
+            *least_deviation = v_DeviationsOfGuesses[i];
+            *IntersectionsUsed = v_IntersectionsUsedbyGuesses[i];
         }
     }
 
@@ -196,5 +218,43 @@ D_Geo_PointSet_2D D_Geo_LineSet_2D::intersections_clustered_kmeans_ransac(double
 
     ///return best guess
     return centers_best;
+}
+
+void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
+{
+    ///init centers & stds top/current
+    *center_best = D_Geo_Point_2D(0, 0, 0);
+    *least_deviation = INFINITY;
+    *IntersectionsUsed = D_Geo_PointSet_2D();
+    double std_current;
+
+    ///return empty set, vanishing center and infinite deviation, when iterations is 0
+    if(iterations <= 0)
+        return;
+
+    ///try iterations subsets
+    for(size_t i = 0; i < iterations; i++)
+    {
+        ///use subset of lines or intersection points
+        D_Geo_PointSet_2D Point_subset;
+        if(subset_of_points_not_lines)
+            Point_subset = line_set->intersections_pairwise().subset_random(subset_size_rel);
+        else
+            Point_subset = line_set->subset_random(subset_size_rel).intersections_pairwise();
+
+        ///find best guess for center
+        D_Geo_Point_2D center_current = Point_subset.center(&std_current);
+
+        ///save as new best guess, if better than old best guess
+        if(std_current < *least_deviation)
+        {
+            *center_best = center_current;
+            *least_deviation = std_current;
+            *IntersectionsUsed = Point_subset;
+        }
+    }
+
+    ///return
+    return;
 }
 
