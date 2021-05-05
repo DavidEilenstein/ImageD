@@ -103,6 +103,7 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->doubleSpinBox_Res_TimeProjSum_ColorLow,             SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_TimeProjSum_ColorHigh,            SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     //Vector field
+    connect(ui->comboBox_Res_VectorFieldParam_ShiftType,            SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_VectorFieldParam_Length_Value,         SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_VectorFieldParam_Length_Error,         SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_VectorFieldParam_Angle_Value,          SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
@@ -389,7 +390,7 @@ void D_MAKRO_CiliaSphereTracker::Update_VideoProc_All()
     {
         //index of new frame in circular list
         int index_NewImg = frame_index_effective % frames_smooth_count;
-        qDebug() << "==================================================================" << "frame" << frame_cur << "/" << frame_index_effective << "index_NewImg =" << index_NewImg;
+        //qDebug() << "==================================================================" << "frame" << frame_cur << "/" << frame_index_effective << "index_NewImg =" << index_NewImg;
 
         //triggers image processing update
         ui->spinBox_Proc_Frame->setValue(frame_cur);
@@ -551,6 +552,9 @@ void D_MAKRO_CiliaSphereTracker::Update_Results()
     if(!state_VidProcUp2date && ui->comboBox_Res_Type->currentIndex() != RES_GRAPHICS_TIME_SUM_PROJ)
         return;
 
+    if(state_blockResultUpdate)
+        return;
+
     switch (ui->comboBox_Res_Type->currentIndex()) {
     case RES_GRAPHICS_TIME_SUM_PROJ:        Update_Result_GraphicsTimeProjectSum();     break;
     case RES_GRAPHICS_VECTORS:              Update_Result_GraphicsVectors();            break;
@@ -679,8 +683,11 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
     double shift_scale = ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value() * VS_InputVideo.get_FrameRateFps();    //before stats calcs
     double radius_scale = ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->value();                                          //visualization only
 
-    //containers of data to be shown
+    //calc center, if needed
+    if(!state_vortex_center_calced)
+        Update_Result_GraphicsVortexCenter();
 
+    //containers of data to be shown
     vector<vector<double>> vv_XY_LengthValues(nx);
     vector<vector<double>> vv_XY_LengthErrors(nx);
     vector<vector<double>> vv_XY_AngleValues(nx);
@@ -702,6 +709,12 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
             vector<double> v_ShiftsInCell;
             vector<double> v_AnglesInCell;
 
+            //calc dist2center
+            D_Geo_Point_2D P_GridCellCenter(
+                        ((gx + 0.5) / static_cast<double>(nx)) * spatial_roi_width,
+                        ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height);
+            double dist2center = state_vortex_center_calced ? P_VortexCenter.distance(P_GridCellCenter) : 0;
+
             //loop time window
             for(size_t it = it_start; it < it_end; it++)
             {
@@ -711,10 +724,30 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
                 //loop, extract and rescale lengths
                 for(size_t obj = 0; obj < no; obj++)
                 {
-                    v_ShiftsInCell.push_back(vvvv_XYFrmObjShifts[gx][gy][it][obj] * shift_scale);
-                    v_AnglesInCell.push_back(vvvv_XYFrmObjAngles[gx][gy][it][obj]);
+                    //linear or angular shift
+                    if(ui->comboBox_Res_VectorFieldParam_ShiftType->currentIndex() == SHIFT_TYPE_LINEAR)
+                    {
+                        v_ShiftsInCell.push_back(vvvv_XYFrmObjShifts[gx][gy][it][obj] * shift_scale);
+                        v_AnglesInCell.push_back(vvvv_XYFrmObjAngles[gx][gy][it][obj]);//angle of movement
+                    }
+                    else
+                    {
+                        //linear shift --> angular shift in rad
+                        v_ShiftsInCell.push_back(dist2center > 0 ? ((vvvv_XYFrmObjShifts[gx][gy][it][obj] * shift_scale) / (dist2center)) : 0.0);
+
+                        //calc angel that is 90° to movement direction and points away from vortex center
+                        double a_movement = vvvv_XYFrmObjAngles[gx][gy][it][obj];
+                        double a_orthogonal_1 = a_movement + 3 * PI_0_5;
+                        double a_orthogonal_2 = a_movement + 1 * PI_0_5;
+                        D_Geo_Point_2D P_d1(a_orthogonal_1);
+                        D_Geo_Point_2D P_d2(a_orthogonal_2);
+                        double dist_1 = P_VortexCenter.distance(P_GridCellCenter.add_inhomo(P_d1));
+                        double dist_2 = P_VortexCenter.distance(P_GridCellCenter.add_inhomo(P_d2));
+                        v_AnglesInCell.push_back(dist_1 > dist_2 ? a_orthogonal_1 : a_orthogonal_2);
+                    }
                 }
             }
+
 
             //calc stats
             vector<double> v_Shifts_Stats;
@@ -730,8 +763,18 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
                         v_AnglesInCell);
 
             //Export needed stats
-            vv_XY_LengthValues[gx][gy] = v_Shifts_Stats[stat_length_val] * radius_scale;
-            vv_XY_LengthErrors[gx][gy] = v_Shifts_Stats[stat_length_err] * radius_scale;
+            //shift
+            if(ui->comboBox_Res_VectorFieldParam_ShiftType->currentIndex() == SHIFT_TYPE_LINEAR)
+            {
+                vv_XY_LengthValues[gx][gy] = v_Shifts_Stats[stat_length_val] * radius_scale;
+                vv_XY_LengthErrors[gx][gy] = v_Shifts_Stats[stat_length_err] * radius_scale;
+            }
+            else
+            {
+                vv_XY_LengthValues[gx][gy] = v_Shifts_Stats[stat_length_val];
+                vv_XY_LengthErrors[gx][gy] = v_Shifts_Stats[stat_length_err];
+            }
+            //angles
             vv_XY_AngleValues[gx][gy] = v_Angles_Stats[stat_angle_val];
             vv_XY_AngleErrors[gx][gy] = v_Angles_Stats[stat_angle_err];
 
@@ -746,63 +789,184 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVectors()
         }
     }
 
+    //=========================================================================================================== draw results ===================
+
     //draw vector field
-    Mat MA_tmp_overlay = Mat::zeros(MA_TimeProject_Show.size(), CV_8UC1);
+    Mat MA_tmp_overlay_field = Mat::zeros(MA_TimeProject_Show.size(), CV_8UC1);
     //qDebug() << "Update_Result_GraphicsVectors" << "Draw_VectorField";
-    //check, if vectors or circles shall be drawn
-    if(ui->comboBox_Res_VectorFieldParam_Angle_Value ->currentIndex() == c_STAT_CIRC_CONST_0 && ui->comboBox_Res_VectorFieldParam_Angle_Error->currentIndex() == c_STAT_CIRC_CONST_PI)
+    if(ui->comboBox_Res_VectorFieldParam_ShiftType->currentIndex() == SHIFT_TYPE_LINEAR)
     {
-        ERR(D_Img_Proc::Draw_CircleField(
-                &MA_tmp_overlay,
-                vv_XY_LengthValues,
-                vv_XY_LengthErrors,
-                255,
-                ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
-                false,
-                ui->checkBox_Res_GridVisParam_Grid->isChecked(),
-                ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
-                ui->checkBox_Res_GridVisParam_Labels->isChecked(),
-                ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
-                ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: linear shifts
+
+        //check, if vectors or circles shall be drawn
+        if(ui->comboBox_Res_VectorFieldParam_Angle_Value ->currentIndex() == c_STAT_CIRC_CONST_0 && ui->comboBox_Res_VectorFieldParam_Angle_Error->currentIndex() == c_STAT_CIRC_CONST_PI)
+        {
+            ERR(D_Img_Proc::Draw_CircleField(
+                    &MA_tmp_overlay_field,
+                    vv_XY_LengthValues,
+                    vv_XY_LengthErrors,
+                    255,
+                    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
+                    false,
+                    ui->checkBox_Res_GridVisParam_Grid->isChecked(),
+                    ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
+                    ui->checkBox_Res_GridVisParam_Labels->isChecked(),
+                    ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
+                    ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
+                "Update_Result_GraphicsVectors",
+                "Draw_CircleField");
+        }
+        else
+        {
+            ERR(D_Img_Proc::Draw_VectorField(
+                    &MA_tmp_overlay_field,
+                    vv_XY_LengthValues,
+                    vv_XY_AngleValues,
+                    vv_XY_LengthErrors,
+                    vv_XY_AngleErrors,
+                    255,
+                    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
+                    ui->spinBox_Res_VectorFieldParam_KindeySteps->value(),
+                    ui->spinBox_Res_VectorFieldParam_Thickness_Error->value(),
+                    ui->checkBox_Res_GridVisParam_Grid->isChecked(),
+                    ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
+                    ui->checkBox_Res_GridVisParam_Labels->isChecked(),
+                    ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
+                    ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
+                "Update_Result_GraphicsVectors",
+                "Draw_VectorField");
+        }
+
+        //add overlay to image
+        ERR(D_Img_Proc::OverlayOverwrite(
+                &MA_Result,
+                &MA_TimeProject_Show,
+                &MA_tmp_overlay_field,
+                0, 255, 0,
+                1.0,
+                1.0),
             "Update_Result_GraphicsVectors",
-            "Draw_CircleField");
+            "OverlayOverwrite - Vectorfield");
     }
     else
     {
-        ERR(D_Img_Proc::Draw_VectorField(
-                &MA_tmp_overlay,
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: angular shifts
+
+        //------------------------ lines ---------------------------
+
+        //draw lines from grid cell centers to vortex center
+        Mat MA_tmp_overlay_lines = Mat::zeros(MA_TimeProject_Show.size(), CV_8UC1);
+        for(size_t gx = 0; gx < nx; gx++)
+        {
+            for(size_t gy = 0; gy < ny; gy++)
+            {
+                //grid cell center
+                D_Geo_Point_2D P_GridCellCenter(
+                            ((gx + 0.5) / static_cast<double>(nx)) * spatial_roi_width,
+                            ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height);
+
+                //line from center of grid cell to center of vortex
+                D_Geo_Line_2D L_GridCenter_VortexCenter(P_GridCellCenter, P_VortexCenter);
+
+                //check, if vortex center is in image or not
+                if(P_VortexCenter.in_rect(&MA_tmp_overlay_lines))
+                {
+                    //.................. vortex center in image ..............................
+
+                    ERR(D_Img_Proc::Draw_Line(
+                            &MA_tmp_overlay_lines,
+                            P_GridCellCenter.x(),
+                            P_GridCellCenter.y(),
+                            P_VortexCenter.x(),
+                            P_VortexCenter.y(),
+                            max(2.0 , ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value() / 2.0),
+                            255),
+                        "Update_Result_GraphicsVortexCenter",
+                        "Draw_Line - center vortex to center grid cell");
+                }
+                else
+                {
+                    //.................... vortex center out of image ...........................
+
+                    //calc 2 points on line that intersect image border
+                    D_Geo_Point_2D P1_Border, P2_Border;
+                    if(L_GridCenter_VortexCenter.intersection_rect(&P1_Border, &P2_Border, &MA_tmp_overlay_lines))
+                    {
+                        //find point on border between grid cell center and vortex center
+                        double dist_sum_p1 = P1_Border.distance(P_VortexCenter) + P1_Border.distance(P_GridCellCenter);
+                        double dist_sum_p2 = P2_Border.distance(P_VortexCenter) + P2_Border.distance(P_GridCellCenter);
+                        D_Geo_Point_2D P_Border2Use = dist_sum_p1 < dist_sum_p2 ? P1_Border : P2_Border;
+
+                        //draw line
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_tmp_overlay_lines,
+                                P_GridCellCenter.x(),
+                                P_GridCellCenter.y(),
+                                P_Border2Use.x(),
+                                P_Border2Use.y(),
+                                max(2.0 , ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value() / 2.0),
+                                255),
+                            "Update_Result_GraphicsVortexCenter",
+                            "Draw_Line - center vortex to center grid cell");
+                    }
+                }
+            }
+        }
+
+        //add line overlay to image
+        Mat MA_tmp_LinesAdded;
+        ERR(D_Img_Proc::OverlayOverwrite(
+                &MA_tmp_LinesAdded,
+                &MA_TimeProject_Show,
+                &MA_tmp_overlay_lines,
+                0, 0, 255,
+                1.0,
+                1.0),
+            "Update_Result_GraphicsVectors",
+            "OverlayOverwrite - Lines");
+
+        //------------------------ arcs ---------------------------
+
+        //radii of arcs
+        double arc_radius = (min(spatial_roi_width / nx, spatial_roi_height / ny) / 3.0) * radius_scale;
+        vector<vector<double>> vv_arc_radii(nx, vector<double>(ny, arc_radius));
+
+        //draw arc field
+        ERR(D_Img_Proc::Draw_ArcField(
+                &MA_tmp_overlay_field,
                 vv_XY_LengthValues,
-                vv_XY_AngleValues,
                 vv_XY_LengthErrors,
-                vv_XY_AngleErrors,
+                vv_XY_AngleValues,
+                vv_arc_radii,
                 255,
                 ui->spinBox_Res_VectorFieldParam_Thickness_Vector->value(),
                 ui->spinBox_Res_VectorFieldParam_KindeySteps->value(),
-                ui->spinBox_Res_VectorFieldParam_Thickness_Error->value(),
                 ui->checkBox_Res_GridVisParam_Grid->isChecked(),
                 ui->spinBox_Res_GridVisParam_Thickness_Grid->value(),
                 ui->checkBox_Res_GridVisParam_Labels->isChecked(),
                 ui->spinBox_Res_GridVisParam_Thickness_Label->value(),
                 ui->doubleSpinBox_Res_GridVisParam_Label_Scaling->value()),
             "Update_Result_GraphicsVectors",
-            "Draw_VectorField");
+            "Draw_ArcField");
+
+        //add overlay to image
+        ERR(D_Img_Proc::OverlayOverwrite(
+                &MA_Result,
+                &MA_tmp_LinesAdded,
+                &MA_tmp_overlay_field,
+                0, 255, 0,
+                1.0,
+                1.0),
+            "Update_Result_GraphicsVectors",
+            "OverlayOverwrite - Vectorfield");
+        MA_tmp_LinesAdded.release();
     }
 
-    //add overlay to image
-    //qDebug() << "Update_Result_GraphicsVectors" << "OverlayOverwrite";
-    ERR(D_Img_Proc::OverlayOverwrite(
-            &MA_Result,
-            &MA_TimeProject_Show,
-            &MA_tmp_overlay,
-            0, 255, 0,
-            1.0,
-            1.0),
-        "Update_Result_GraphicsVectors",
-        "OverlayOverwrite");
-    MA_tmp_overlay.release();
-    qDebug() << "check";
+
+
 
     //clear
+    MA_tmp_overlay_field.release();
     vv_XY_LengthValues.clear();
     vv_XY_LengthErrors.clear();
     vv_XY_AngleValues.clear();
@@ -948,7 +1112,7 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
                         P_VideoOffset.y + ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height);
 
             //direction vector is 90° to measured direction of movement
-            double line_angle = - v_Angles_Stats[c_STAT_CIRC_MEAN_ANG]; //-angle because some orientation incoherencies
+            double line_angle = v_Angles_Stats[c_STAT_CIRC_MEAN_ANG] - PI_0_5; //-angle because some orientation incoherencies
 
             //line that goes approx through vortex center
             lines->add_line_point_angle(P_support, line_angle);
@@ -1065,7 +1229,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
     //scale offset
     D_Geo_Point_2D P_Offset_scaled = D_Geo_Point_2D(P_VideoOffset.x * res_scale, P_VideoOffset.y * res_scale);
 
-    if(ui->checkBox_Res_VortexCenter_MovingAverage->isChecked())
+    if(ui->checkBox_Res_VortexCenter_MovingAverage->isChecked())    //.................................................................. moving average
     {
         //-------------------- calc ---------------------
 
@@ -1159,7 +1323,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
             }
         }
     }
-    else
+    else                //.................................................................................................... full video
     {
         //grid size
         size_t nx = vvvv_XYFrmObjShifts.size();
@@ -1176,6 +1340,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
                     well_diameter_px,
                     P_VideoOffset,
                     0, -1); //full video
+
+        //save center for more calculations
+        P_VortexCenter = P_Center.add_inhomo(D_Geo_Point_2D(-P_VideoOffset.x, -P_VideoOffset.y));
+        state_vortex_center_calced = true;
 
         //scale
         D_Geo_Point_2D P_Center_scaled = P_Center.scale(res_scale);
@@ -2281,13 +2449,13 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //relative layout params for summary
     double gap_border       = 0.02;
-    double gap_within       = 0.005;
+    double gap_within       = 0.01;
     double gap_within_half  = gap_within / 2.0;
     double text_big         = 0.0425;
     double text_small       = 0.0225;
     double image_height     = 0.17;
     double legend_height    = 0.014;
-    double textblock_height = 0.08;
+    double textblock_height = 0.1;
 
     double x_border_left    = 0 + gap_border;
     double x_border_right   = 1 - gap_border;
@@ -2534,6 +2702,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_Ransac75przOfPoints_grid4x5_iters100k - " + name_current + ".png");
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_Ransac75przOfPoints_grid4x5_iters100k.png");
 
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_2l, x_3elem_2r, y_img_oth_t, y_img_oth_b);
+
     /*
     //4x5, no ransac
     ui->spinBox_ParamGridHorizontal->setValue(5);
@@ -2708,6 +2880,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //vector field
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VECTORS);
+    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
 
     //setting 5x4 (for high resolution use)
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
@@ -2745,27 +2918,22 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveStackGraphics_Vector.path() + "/VectorField4x5 - " + name_current + ".png\n" +
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField4x5.png");
 
-    //basic info for interpretation
-    PDF_Summary.add_Text(
-                "Image size: (" + QString::number(vMA_ProcSteps[STEP_CROP].cols * conv_px2um, 'g', 4) + " x " + QString::number(vMA_ProcSteps[STEP_CROP].rows * conv_px2um) + ")um\n"
-                "Time analysed: " + QString::number(vv_FrmObjPositions.size() * VS_InputVideo.get_FrameTimeSec(), 'g', 4) + "s\n"
-                "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
-                "Base speed unit: um/s\n"
-                "Base angle unit: °\n",
-                x_4elem_0l, x_4elem_0r, y_text_t, y_text_b,
-                10,
-                Qt::AlignCenter);
     //same img to summary (basic vector graphic)
     PDF_Summary.add_Image(
                 View_Results.pQI(),
                 x_3elem_0l, x_3elem_0r, y_img_oth_t, y_img_oth_b);
 
+    //basic info for interpretation
+    QString QS_VecField_Interpretation = "";
+    QS_VecField_Interpretation.append(
+                "Image size: (" + QString::number(vMA_ProcSteps[STEP_CROP].cols * conv_px2um, 'g', 4) + " x " + QString::number(vMA_ProcSteps[STEP_CROP].rows * conv_px2um) + ")um\n"
+                "Time analysed: " + QString::number(vv_FrmObjPositions.size() * VS_InputVideo.get_FrameTimeSec(), 'g', 4) + "s\n"
+                "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n");
 
     //save motion vector field video
     Save_ResultVectorFieldVideo(
                 DIR_SaveStackGraphics_Video.path() + "/MotionVectorField4x5 - " + name_current + ".avi",
-                5,
-                4,
+                5, 4,
                 10,
                 BACKGR_VIDEO);
 
@@ -2788,6 +2956,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
 
     //setting 10x8 (for high resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "vector 10x8 high res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2824,6 +2993,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField10x8.png");
 
     //setting 10x8 (for low resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "vector 10x8 low res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2841,6 +3011,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
 
     //setting 20x16
+    //qDebug() << "Save_AnalysisSingle" << "vector 20x16";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2878,6 +3049,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField20x16.png");
 
     //angle only (for high resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "angle high res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_CONST_1);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_CONST_0);
@@ -2916,6 +3088,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldAngle.png");
 
     //angle only (for low resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "angle low res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_CONST_1);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_CONST_0);
@@ -2933,6 +3106,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
 
     //setting speed (for high resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "speed high res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2970,6 +3144,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorField20x16.png");
 
     //setting speed (for low resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "speed low res";
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
@@ -2986,8 +3161,80 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VectorFieldSpeed_ForLowResolutionUse.png");
     Update_Ui();
 
+    //angular shift arc field -----------------------------------------
+
+    state_blockResultUpdate = true;
+
+    //qDebug() << "Save_AnalysisSingle" << "arcs change to angular" << SHIFT_TYPE_ANGULAR;
+    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_ANGULAR);
+
+    //setting 5x4 (for high resolution use)
+    //qDebug() << "Save_AnalysisSingle" << "arcs start param changes";
+    ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180);
+    ui->spinBox_ParamGridHorizontal->setValue(5);
+    ui->spinBox_ParamGridVertical->setValue(4);
+    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(15);
+    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
+    ui->checkBox_Res_GridVisParam_Grid->setChecked(true);
+    ui->checkBox_Res_GridVisParam_Labels->setChecked(true);
+    ui->spinBox_Res_VectorFieldParam_Thickness_Vector->setValue(3);
+    //qDebug() << "Save_AnalysisSingle" << "arcs update results";
+    state_blockResultUpdate = false;
+    Update_Results();
+    //qDebug() << "Save_AnalysisSingle" << "arcs update ui";
+    Update_Ui();
+    //qDebug() << "Save_AnalysisSingle" << "arcs save img";
+    View_Results.Save_Image(DIR_SaveStackGraphics_Vector.path() + "/ArcField4x5 - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - ArcField4x5.png");
+    ui->groupBox_Res->grab().save(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - ArcField4x5_Settings.png");
+
+    //qDebug() << "Save_AnalysisSingle" << "arcs overview";
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Arc Field 4x5\n"
+                "\n"
+                "Arc angle: " + ui->comboBox_Res_VectorFieldParam_Length_Value->currentText() + " +/- " + ui->comboBox_Res_VectorFieldParam_Length_Error->currentText() + "\n"
+                "\n"
+                "Length unit is angular shift per " + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value()) + " seconds(s).\n"
+                "Image size: (" + QString::number(vMA_ProcSteps[STEP_CROP].cols * conv_px2um) + " x " + QString::number(vMA_ProcSteps[STEP_CROP].rows * conv_px2um) + ")um)\n"
+                "\n"
+                "Blue lines connect grid cell center and approximated vortex center.\n"
+                "Orientation of arcs is 90° to movemnet vector pointing away from center.\n"
+                "If orientations of arcs and lines doesn't match, center estimation is bad."
+                "\n"
+                "Useful to get an overview of the angular movemnets.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Vector.path() + "/ArcField4x5 - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - ArcField4x5.png");
+
+    //same img to summary (basic vector graphic)
+    //qDebug() << "Save_AnalysisSingle" << "arcs summary";
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_1l, x_3elem_1r, y_img_oth_t, y_img_oth_b);
+
+    //basic info for interpretation
+    //qDebug() << "Save_AnalysisSingle" << "arcs interpretation text append";
+    QS_VecField_Interpretation.append(
+                "Arc angle refers to angular shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
+                "Base speed unit: um/s\n"
+                "Base angle unit: °");
+    //qDebug() << "Save_AnalysisSingle" << "arcs interpretaton text add";
+    PDF_Summary.add_Text(
+                QS_VecField_Interpretation,
+                x_4elem_0l, x_4elem_0r, y_text_t, y_text_b,
+                10,
+                Qt::AlignCenter);
 
     //plots---------------------------------------------------------------
+
+    //qDebug() << "Save_AnalysisSingle" << "plots";
 
     QImage QI_ImgSave_tmp;
 
@@ -3592,6 +3839,7 @@ void D_MAKRO_CiliaSphereTracker::Data_Add()
     state_RoiSpaceSelected = false;
     state_TimeProjectInit = false;
     state_GridSamplingSplit = false;
+    state_vortex_center_calced = false;
 
     Data_SelectVideo();
     Update_ImgProc_All();
@@ -3621,6 +3869,7 @@ void D_MAKRO_CiliaSphereTracker::Data_Clear()
     state_RoiSpaceSelected = false;
     state_TimeProjectInit = false;
     state_GridSamplingSplit = false;
+    state_vortex_center_calced = false;
 }
 
 void D_MAKRO_CiliaSphereTracker::Data_SelectVideo()
@@ -3631,6 +3880,7 @@ void D_MAKRO_CiliaSphereTracker::Data_SelectVideo()
     state_TimeProjectInit = false;
     state_set_VidProcUp2date(false);
     state_GridSamplingSplit = false;
+    state_vortex_center_calced = false;
 
 
     ERR(
@@ -4404,4 +4654,11 @@ void D_MAKRO_CiliaSphereTracker::on_spinBox_Res_VortexCenter_MoveingAverage_Time
     ui->doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec->setValue(arg1 * VS_InputVideo.get_frame_2_timeSec());
     ui->doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec->blockSignals(false);
     Update_Results();
+}
+
+void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_VectorFieldParam_ShiftType_currentIndexChanged(int index)
+{
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setEnabled(index == SHIFT_TYPE_LINEAR);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setEnabled(index == SHIFT_TYPE_LINEAR);
+    ui->label_Res_VectorFieldParam_Angle->setEnabled(index == SHIFT_TYPE_LINEAR);
 }

@@ -84,6 +84,9 @@ public:
     double          angle(D_Geo_Point_2D P);
     D_Geo_Line_2D   connection(D_Geo_Point_2D P);
     double          distance(D_Geo_Point_2D P);
+    bool            in_rect(size_t t, size_t b, size_t l, size_t r);
+    bool            in_rect(Rect *rect);
+    bool            in_rect(Mat *img);
 
 private:
 

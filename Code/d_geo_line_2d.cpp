@@ -54,7 +54,7 @@ bool D_Geo_Line_2D::set_point_direction(D_Geo_Point_2D P_support, D_Geo_Point_2D
 
 bool D_Geo_Line_2D::set_point_angle(D_Geo_Point_2D P_support, double angle_rad)
 {
-    qDebug() << "D_Geo_Line_2D::set_point_angle x/y/a" << P_support.x() << P_support.y() << angle_rad * Rad2Grad;
+    //qDebug() << "D_Geo_Line_2D::set_point_angle x/y/a" << P_support.x() << P_support.y() << angle_rad * Rad2Grad;
     return set_point_direction(P_support, D_Geo_Point_2D(angle_rad));
 }
 

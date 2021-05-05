@@ -15366,6 +15366,98 @@ int D_Img_Proc::Draw_Vector(Mat *pMA_Target, int offset_x, int offset_y, double 
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Arc(Mat *pMA_Target, int offset_x, int offset_y, double arc_angle, double arc_orientation, double radius, int line_thickness, uchar value, int draw_arc_steps)
+{
+    if(pMA_Target->empty())                                     return ER_empty;
+    if(pMA_Target->type() != CV_8UC1)                           return ER_type_bad;
+
+    //angle sampling
+    double a_sampling_step = arc_angle / draw_arc_steps;
+    double a_sampling = a_sampling_step;
+
+    //poits to connect with lines to draw arc
+    Point2d P1(
+                offset_x + cos(arc_orientation - arc_angle / 2.0) * radius,
+                offset_y + sin(arc_orientation - arc_angle / 2.0) * radius);
+    Point2d P2;
+
+    //loop arc and draw line segments
+    while(a_sampling <= arc_angle)
+    {
+        //anlge to draw line to next
+        double a = arc_orientation - arc_angle / 2.0 + a_sampling;
+
+        //save old point
+        P2 = P1;
+
+        //calc new point
+        P1.x = offset_x + cos(a) * radius;
+        P1.y = offset_y + sin(a) * radius;
+
+        //draw line
+        Draw_Line(
+                    pMA_Target,
+                    P1.x, P1.y,
+                    P2.x, P2.y,
+                    line_thickness,
+                    value);
+
+        //next angle
+        a_sampling += a_sampling_step;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Arc(Mat *pMA_Target, int offset_x, int offset_y, double arc_angle_value, double arc_angle_error, double arc_orientation, double radius, int line_thickness, uchar value, int draw_arc_steps)
+{
+    if(pMA_Target->empty())                                     return ER_empty;
+    if(pMA_Target->type() != CV_8UC1)                           return ER_type_bad;
+
+
+    //lines for arc angle
+
+    //line 1
+    int ER = Draw_Line(
+                pMA_Target,
+                offset_x,
+                offset_y,
+                offset_x + cos(arc_orientation - arc_angle_value / 2.0) * radius,
+                offset_y + sin(arc_orientation - arc_angle_value / 2.0) * radius,
+                line_thickness,
+                value);
+    if(ER != ER_okay)
+        return ER;
+
+    //line 2
+    ER = Draw_Line(
+                pMA_Target,
+                offset_x,
+                offset_y,
+                offset_x + cos(arc_orientation + arc_angle_value / 2.0) * radius,
+                offset_y + sin(arc_orientation + arc_angle_value / 2.0) * radius,
+                line_thickness,
+                value);
+    if(ER != ER_okay)
+        return ER;
+
+    //draw arc
+    ER = Draw_Arc(
+                pMA_Target,
+                offset_x,
+                offset_y,
+                arc_angle_value + 2 * arc_angle_error,
+                arc_orientation,
+                radius,
+                max(line_thickness/2, 2),
+                value,
+                draw_arc_steps);
+    if(ER != ER_okay)
+        return ER;
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Draw_VectorField(Mat *pMA_Target, vector<vector<double> > vv_XY_length_value, vector<vector<double> > vv_XY_angle_value, vector<vector<double> > vv_XY_length_error, vector<vector<double> > vv_XY_angle_error, uchar value, int vector_thickness, int error_steps, int error_thickness, bool grid_add, int grid_thicknes, bool label_add, int label_thickness, double label_scale)
 {
     if(pMA_Target->empty())                                 return ER_empty;
@@ -15435,6 +15527,79 @@ int D_Img_Proc::Draw_VectorField(Mat *pMA_Target, vector<vector<double> > vv_XY_
                         value,
                         error_steps,
                         error_thickness);
+        }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc_angle_value, vector<vector<double> > vv_XY_arc_angle_error, vector<vector<double> > vv_XY_arc_orientation_value, vector<vector<double> > vv_XY_arc_radius_value, uchar value, int thickness, int arc_draw_steps, bool grid_add, int grid_thicknes, bool label_add, int label_thickness, double label_scale)
+{
+    if(pMA_Target->empty())                                 return ER_empty;
+    if(pMA_Target->type() != CV_8UC1)                       return ER_type_bad;
+    if(vv_XY_arc_angle_value.empty())                       return ER_empty;
+
+    //size checks x
+    size_t nx = vv_XY_arc_angle_value.size();
+    if(vv_XY_arc_angle_error.size() != nx)              {qDebug() << "Draw_VectorField size checks x vv_XY_arc_angle_error.size() != nx" << nx;             return ER_size_missmatch;}
+    if(vv_XY_arc_orientation_value.size() != nx)        {qDebug() << "Draw_VectorField size checks x vv_XY_arc_orientation_value.size() != nx" << nx;       return ER_size_missmatch;}
+    if(vv_XY_arc_radius_value.size() != nx)             {qDebug() << "Draw_VectorField size checks x vv_XY_arc_radius_value.size() != nx" << nx;            return ER_size_missmatch;}
+
+    //size checks y
+    size_t ny = vv_XY_arc_angle_value[0].size();
+    for(size_t ix = 0; ix < nx; ix++)
+    {
+        if(vv_XY_arc_angle_value[ix].size() != ny)      {qDebug() << "Draw_VectorField size checks y vv_XY_arc_angle_value[ix].size() != ny" << ny;         return ER_size_missmatch;}
+        if(vv_XY_arc_angle_error[ix].size() != ny)      {qDebug() << "Draw_VectorField size checks y vv_XY_arc_angle_error[ix].size() != ny" << ny;         return ER_size_missmatch;}
+        if(vv_XY_arc_orientation_value[ix].size() != ny){qDebug() << "Draw_VectorField size checks y vv_XY_arc_orientation_value[ix].size() != ny" << ny;   return ER_size_missmatch;}
+        if(vv_XY_arc_radius_value[ix].size() != ny)     {qDebug() << "Draw_VectorField size checks y vv_XY_arc_radius_value[ix].size() != ny" << ny;        return ER_size_missmatch;}
+    }
+    int ER;
+
+    //draw grid
+    ER = Draw_Grid(
+                pMA_Target,
+                nx,
+                ny,
+                grid_add,
+                grid_thicknes,
+                label_add,
+                label_thickness,
+                label_scale,
+                static_cast<uchar>(value));
+    if(ER != ER_okay)
+        return ER;
+
+    //size (as double to save cast operations later)
+    double w = pMA_Target->cols;
+    double h = pMA_Target->rows;
+
+    //shift box corner to box center
+    double sx = w / (2 * nx);
+    double sy = h / (2 * ny);
+
+    //draw vectors
+    for(size_t gx = 0; gx < nx; gx++)
+        for(size_t gy = 0; gy < ny; gy++)
+        {
+            //center of box = offset of vector
+            int ox = static_cast<int>((static_cast<double>(gx) / nx) * w + sx);
+            int oy = static_cast<int>((static_cast<double>(gy) / ny) * h + sy);
+
+            //test output
+            //qDebug() << "Draw_VectorField" << "draw at" << ox << "/" << oy << "length" << vv_XY_arc_angle_value[gx][gy] << vv_XY_arc_angle_error[gx][gy] << "angle" << vv_XY_angle_value[gx][gy] << vv_XY_angle_error[gx][gy];
+
+            //draw vector
+            Draw_Arc(
+                        pMA_Target,
+                        ox,
+                        oy,
+                        vv_XY_arc_angle_value[gx][gy],
+                        vv_XY_arc_angle_error[gx][gy],
+                        vv_XY_arc_orientation_value[gx][gy],
+                        vv_XY_arc_radius_value[gx][gy],
+                        thickness,
+                        value,
+                        arc_draw_steps);
         }
 
     return ER_okay;

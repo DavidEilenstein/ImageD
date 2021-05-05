@@ -1720,6 +1720,32 @@
              <number>3</number>
             </property>
             <item>
+             <widget class="QComboBox" name="comboBox_Res_VectorFieldParam_ShiftType">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <item>
+               <property name="text">
+                <string>Linear Shift</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Angular Shift</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="label_5">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -1728,7 +1754,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Shift/Length</string>
+               <string>:</string>
               </property>
              </widget>
             </item>
@@ -1752,15 +1778,28 @@
              <widget class="QComboBox" name="comboBox_Res_VectorFieldParam_Length_Error"/>
             </item>
             <item>
-             <widget class="QLabel" name="label_6">
+             <widget class="Line" name="line_13">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_Res_VectorFieldParam_Angle">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
-               <string>Angle</string>
+               <string>Angle:</string>
               </property>
              </widget>
             </item>
@@ -1815,7 +1854,7 @@
                <double>0.010000000000000</double>
               </property>
               <property name="maximum">
-               <double>99.000000000000000</double>
+               <double>999.000000000000000</double>
               </property>
               <property name="singleStep">
                <double>0.250000000000000</double>

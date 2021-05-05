@@ -200,6 +200,8 @@ private slots:
 
     void on_spinBox_Res_VortexCenter_MoveingAverage_TimeWindow_frm_valueChanged(int arg1);
 
+    void on_comboBox_Res_VectorFieldParam_ShiftType_currentIndexChanged(int index);
+
 private:
     Ui::D_MAKRO_CiliaSphereTracker *ui;
     bool ClosingPossible = false;
@@ -256,7 +258,8 @@ private:
     vector<double>                      v_VideoStats_Angles_Grad;
 
     //detected vortex center
-    //D_Geo_Point_2D                      P_VortexCenter;
+    bool                                state_vortex_center_calced = false;
+    D_Geo_Point_2D                      P_VortexCenter;
 
     //Grid Sampling
     vector<vector<vector<vector<Point2f>>>>     vvvv_XYFrmObjPositions;
@@ -304,6 +307,7 @@ private:
     bool                                state_GridSamplingSplit = false;
     bool                                state_StackProcessing   = false;
     bool                                state_StatSummaryCalced = false;
+    bool                                state_blockResultUpdate = false;
 
 
     //error handling
@@ -325,6 +329,12 @@ private:
         "Crop Roi",
         "Blur",
         "Binarize"
+    };
+
+    enum SHIFT_TYPE {
+        SHIFT_TYPE_LINEAR,
+        SHIFT_TYPE_ANGULAR,
+        SHIFT_TYPE_NUMBER_OF
     };
 
     enum BACKGR {

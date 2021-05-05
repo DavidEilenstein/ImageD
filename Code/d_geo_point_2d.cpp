@@ -55,8 +55,8 @@ void D_Geo_Point_2D::set_point(D_Geo_Point_2D P)
 
 void D_Geo_Point_2D::set_angle_unifrom(double angle_rad)
 {
-    m_u = sin(angle_rad);
-    m_v = cos(angle_rad);
+    m_u = cos(angle_rad);
+    m_v = sin(angle_rad);
     m_w = 1;
 }
 
@@ -162,4 +162,21 @@ double D_Geo_Point_2D::distance(D_Geo_Point_2D P)
     double dx = x() - P.x();
     double dy = y() - P.y();
     return sqrt(dx * dx + dy * dy);
+}
+
+bool D_Geo_Point_2D::in_rect(size_t t, size_t b, size_t l, size_t r)
+{
+    double X = x();
+    double Y = y();
+    return Y >= t && Y < b && X >= l && X < r;
+}
+
+bool D_Geo_Point_2D::in_rect(Rect *rect)
+{
+    return in_rect(rect->tl().y, rect->br().y, rect->tl().x, rect->br().x);
+}
+
+bool D_Geo_Point_2D::in_rect(Mat *img)
+{
+    return in_rect(0, img->rows, 0, img->cols);
 }
