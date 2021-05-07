@@ -1052,12 +1052,16 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
 
 D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, double well_diameter_px, Point P_VideoOffset, int t_start, int t_end)
 {
+    qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "check";
+
     //Check requirements
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
     {
         qDebug() << "Update_Result_GraphicsVortexCenter" << "requirements not met";
         return D_Geo_Point_2D(0, 0, 0);
     }
+
+    qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "start";
 
     //time window
     if(t_end >= frame_end - frame_start_ana)        t_end   = frame_end - frame_start_ana;
@@ -1157,17 +1161,22 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
     }
 
     //return vortex center
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "end";
     return P_center;
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 {
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter" << "check";
+
     //Check requirements
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
     {
-        qDebug() << "Update_Result_GraphicsVortexCenter" << "requirements not met";
+        //qDebug() << "Update_Result_GraphicsVortexCenter" << "requirements not met";
         return;
     }
+
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter" << "start";
 
     //scaled unit conversions
     double res_scale = ui->doubleSpinBox_Res_VortexCenter_Resolution_Rel->value() / 100.0;
@@ -1465,6 +1474,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
     MA_Result = MA_tmp_Well.clone();
     MA_tmp_Well.release();
     Update_Image_Results();
+
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter" << "end";
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
@@ -3711,7 +3722,7 @@ void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, i
     //Check requirements
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
     {
-        qDebug() << "Save_ResultVectorFieldVideo quit because:" << "Requirements not met";
+        //qDebug() << "Save_ResultVectorFieldVideo quit because:" << "Requirements not met";
         return;
     }
 
@@ -3751,14 +3762,14 @@ void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, i
     VW_Out.init_VideoWriter();
     if(!VW_Out.is_Init())
     {
-        qDebug() << "Save_ResultVectorFieldVideo quit because:" << "!VW_Out.is_Init()";
+        //qDebug() << "Save_ResultVectorFieldVideo quit because:" << "!VW_Out.is_Init()";
         return;
     }
 
     //loop video
     for(int frame = frame_start; frame <= frame_end; frame++)
     {
-        qDebug() << "Save_ResultVectorFieldVideo - Frame" << frame;
+        //qDebug() << "Save_ResultVectorFieldVideo - Frame" << frame;
 
         //update
         ui->spinBox_Res_MovAv_CurrentFrame->setValue(frame);

@@ -44,7 +44,7 @@ void D_Geo_LineSet_2D::add_line_point_angle(D_Geo_Point_2D P_support, double ang
 
 /*!
  * \brief D_Geo_LineSet_2D::subset_random takes a subset of the line set for i.e. RANSAC methods
- * \param percent percentage of elemenets --> subset size
+ * \param rel_size percent percentage of elemenets --> subset size
  * \return subset of lines
  */
 D_Geo_LineSet_2D D_Geo_LineSet_2D::subset_random(double rel_size)
@@ -53,15 +53,20 @@ D_Geo_LineSet_2D D_Geo_LineSet_2D::subset_random(double rel_size)
     rel_size < 0 ? rel_size = 0 : rel_size > 1 ? rel_size = 1 : rel_size;
 
     ///calc subset size
-    size_t n_new = v_lines.size() * rel_size;
+    size_t n_all = v_lines.size();
+    size_t n_sub = ceil(n_all * rel_size);
 
-    ///shuffel lines
-    random_shuffle(v_lines.begin(), v_lines.end());
+    ///create vector of indices and shuffel it
+    vector<size_t> v_indices(n_all);
+    iota(v_indices.begin(), v_indices.end(), 0);
+    std::random_device rd;
+    auto rng = std::default_random_engine {rd()};
+    shuffle(v_indices.begin(), v_indices.end(), rng);
 
     ///create line subset
     D_Geo_LineSet_2D subset;
-    for(size_t i = 0; i < n_new; i++)
-        subset.add_line(v_lines[i]);
+    for(size_t i = 0; i < n_sub; i++)
+        subset.add_line(v_lines[v_indices[i]]);
 
     ///return subset
     return subset;
@@ -147,6 +152,9 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
     ///get number of cpus
     size_t n_cpu = getNumberOfCPUs();
 
+    ///init random gen
+    srand(time(NULL));
+
     ///init threads guesses
     vector<D_Geo_Point_2D>      v_CenterGuesses             (n_cpu, D_Geo_Point_2D(0, 0, 0));
     vector<double>              v_DeviationsOfGuesses       (n_cpu, INFINITY);
@@ -222,6 +230,8 @@ D_Geo_PointSet_2D D_Geo_LineSet_2D::intersections_clustered_kmeans_ransac(double
 
 void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
 {
+    //qDebug() << "D_Geo_LineSet_2D::intersection_ransac_thread" << "with" << iterations << "iterations";
+
     ///init centers & stds top/current
     *center_best = D_Geo_Point_2D(0, 0, 0);
     *least_deviation = INFINITY;

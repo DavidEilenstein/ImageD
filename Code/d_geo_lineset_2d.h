@@ -21,6 +21,7 @@
 #include <fstream>
 #include <math.h>
 #include <thread>
+#include <time.h>
 
 //Qt
 #include <QDebug>

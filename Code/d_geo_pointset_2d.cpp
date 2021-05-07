@@ -29,15 +29,20 @@ D_Geo_PointSet_2D D_Geo_PointSet_2D::subset_random(double rel_size)
     rel_size < 0 ? rel_size = 0 : rel_size > 1 ? rel_size = 1 : rel_size;
 
     ///calc subset size
-    size_t n_new = v_points.size() * rel_size;
+    size_t n_all = v_points.size();
+    size_t n_sub = ceil(n_all * rel_size);
 
-    ///shuffel lines
-    random_shuffle(v_points.begin(), v_points.end());
+    ///create vector of indices and shuffel it
+    vector<size_t> v_indices(n_all);
+    iota(v_indices.begin(), v_indices.end(), 0);
+    std::random_device rd;
+    auto rng = std::default_random_engine {rd()};
+    shuffle(v_indices.begin(), v_indices.end(), rng);
 
     ///create line subset
     D_Geo_PointSet_2D subset;
-    for(size_t i = 0; i < n_new; i++)
-        subset.add_point(v_points[i]);
+    for(size_t i = 0; i < n_sub; i++)
+        subset.add_point(v_points[v_indices[i]]);
 
     ///return subset
     return subset;
