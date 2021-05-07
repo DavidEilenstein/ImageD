@@ -17531,7 +17531,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
     return ER_okay;
 }
 
-int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel, double frame2time)
+int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, Point2f P_VortexCenter, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel, double frame2time)
 {
     //errors
     if(pMA_InValue->empty())            return ER_empty;
@@ -17597,6 +17597,19 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         *ptr_a_sin = *ptr_count > 0 ? *ptr_a_sin / *ptr_count : 0;
         *ptr_a_cos = *ptr_count > 0 ? *ptr_a_cos / *ptr_count : 0;
         *ptr_time *= frame2time;
+    }
+
+    //norm shift image to center distance if angular speed shall be displayed
+    if(mode == 1)
+    {
+        for(int y = 0; y < MA_tmp_Acc_Shift.rows; y++)
+            for(int x = 0; x < MA_tmp_Acc_Shift.cols; x++)
+            {
+                double dx = x - P_VortexCenter.x;
+                double dy = y - P_VortexCenter.y;
+                double dist = sqrt(dx * dx + dy * dy);
+                MA_tmp_Acc_Shift.at<double>(y, x) = dist > 0 ? MA_tmp_Acc_Shift.at<double>(y, x) / dist : 0;
+            }
     }
 
     //blur accumulations
@@ -17800,20 +17813,20 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         double H;
         double S;
         double V;
-        if(mode == 0)//speed only
+        if(mode == 0 || mode == 1)// linear/angular speed only
         {
             H           = range_shifts > 0 ? ((2/3.0) * PI_2_0) * (1 - ((shift - shift_min) / range_shifts)) : ((2/3.0) * PI_2_0);
             S           = 1;
             V           = (range_value > 0) ? ((*ptr_value - value_min) / range_value) : 0;
         }
-        else if(mode == 1)//angle only
+        else if(mode == 2)//angle only
         {
             H           = atan2(*ptr_a_cos, *ptr_a_sin);
             if(H < 0)   H += PI_2_0;
             S           = 1;
             V           = (range_value > 0) && ((abs(*ptr_a_cos) + abs(*ptr_a_sin)) > 0) ? ((*ptr_value - value_min) / range_value) : 0;
         }
-        else if(mode == 2)//both (speed and angle)
+        else if(mode == 3)//both (speed and angle)
         {
             H           = atan2(*ptr_a_cos, *ptr_a_sin);
             if(H < 0)   H += PI_2_0;
@@ -17859,7 +17872,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     double H_angle_range = PI_2_0;
     switch (mode) {
 
-    case 0://speed only
+    case 0://linear speed only
     {
         QS_H = "Speed um/s";
         QS_S = "-";
@@ -17880,7 +17893,28 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     }
         break;
 
-    case 1://angle only
+    case 1://angular speed only
+    {
+        QS_H = "Speed rad/s";
+        QS_S = "-";
+        QS_V = "\"Count\"";
+        H_angle_range = (2/3.0) * PI_2_0;
+        for(size_t i = 0; i < legend_examples; i++)
+        {
+            if(i == 0)
+                QSL_H.append("<=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else if(i == legend_examples - 1)
+                QSL_H.append(">=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+            else
+                QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
+
+            QSL_S.append("-");
+            QSL_V.append(QString::number((i * (range_value / static_cast<double>(legend_examples-1)) * value_scale) + value_min, 'g', 3));
+        }
+    }
+        break;
+
+    case 2://angle only
     {
         QS_H = "Angle deg";
         QS_S = "-";
@@ -17896,7 +17930,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     }
         break;
 
-    case 2://both (speed and angle)
+    case 3://both (speed and angle)
     {
         QS_H = "Angle deg";
         QS_S = "Speed um/s";
@@ -17919,7 +17953,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
     }
         break;
 
-    case 3://time
+    case 4://time
     {
         QS_H = "Time s";
         QS_S = "-";

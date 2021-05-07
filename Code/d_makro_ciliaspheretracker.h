@@ -100,6 +100,7 @@ private slots:
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
     D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
+    void CalcVortexCenter_asBasisForOtherCalc();
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
     void Update_Result_AngleStatCustom();
@@ -117,6 +118,7 @@ private slots:
     void Data_SelectRoiSpace();
 
     void Data_CalcFullVideoStats();
+    void Data_CalcFullVideoStats_AngularSpeed();
     void Data_Split2GridSampling();
 
     void Update_Ui_Roi();
@@ -251,15 +253,23 @@ private:
     vector<vector<double>>              vv_FrmObjShifts;
     vector<vector<double>>              vv_FrmObjAngles;
 
-    //Summary of Data (full video)
-    vector<double>                      v_VideoStats_Shifts_px_frm;
-    vector<double>                      v_VideoStats_Shifts_um_s;
-    vector<double>                      v_VideoStats_Angles_Rad;
-    vector<double>                      v_VideoStats_Angles_Grad;
-
     //detected vortex center
     bool                                state_vortex_center_calced = false;
     D_Geo_Point_2D                      P_VortexCenter;
+
+    //gathered containers
+    vector<double>                      vShiftsAll_px_frm;
+    vector<double>                      vShiftsAll_um_s;
+    vector<double>                      vShiftsAll_rad_s;
+    vector<double>                      vAnglesAll_Rad;
+    vector<double>                      vAnglesAll_Grad;
+
+    //Summary of Data (full video)
+    vector<double>                      v_VideoStats_Shifts_px_frm;
+    vector<double>                      v_VideoStats_Shifts_um_s;
+    vector<double>                      v_VideoStats_Shifts_rad_s;
+    vector<double>                      v_VideoStats_Angles_Rad;
+    vector<double>                      v_VideoStats_Angles_Grad;
 
     //Grid Sampling
     vector<vector<vector<vector<Point2f>>>>     vvvv_XYFrmObjPositions;
@@ -307,6 +317,7 @@ private:
     bool                                state_GridSamplingSplit = false;
     bool                                state_StackProcessing   = false;
     bool                                state_StatSummaryCalced = false;
+    bool                                state_StatSummaryCalced_angularSpeed = false;
     bool                                state_blockResultUpdate = false;
 
 
@@ -335,6 +346,21 @@ private:
         SHIFT_TYPE_LINEAR,
         SHIFT_TYPE_ANGULAR,
         SHIFT_TYPE_NUMBER_OF
+    };
+
+    enum HEATMAP_TYPE {
+        HEAT_SPEED_LINEAR,
+        HEAT_SPEED_ANGULAR,
+        HEAT_ANGLE,
+        HEAT_SPEED_LINEAR_AND_ANGLE,
+        HEAT_TIME
+    };
+    const QStringList QSL_HeatmapTypes = {
+        "Linear speed as color (blue=slow, red=fast)",
+        "Angular speed as color (blue = slow, red = fast)",
+        "Angle as color (red=0°)",
+        "Linear speed as saturation (gray=slow, intense=fast), angle as color (red=0°)",
+        "Time as color (blue=old, red=new)"
     };
 
     enum BACKGR {

@@ -1664,28 +1664,7 @@
            <number>3</number>
           </property>
           <item row="0" column="0">
-           <widget class="QComboBox" name="comboBox_Res_Heat_Mode">
-            <item>
-             <property name="text">
-              <string>Speed as color (blue=slow, red=fast)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Angle as color (red=0°)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Speed as saturation (gray=slow, intense=fast), angle as color (red=0°)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Time as color (blue=old, red=new)</string>
-             </property>
-            </item>
-           </widget>
+           <widget class="QComboBox" name="comboBox_Res_Heat_Mode"/>
           </item>
          </layout>
         </widget>
@@ -2749,7 +2728,7 @@
                <number>1000000</number>
               </property>
               <property name="value">
-               <number>10</number>
+               <number>10000</number>
               </property>
              </widget>
             </item>

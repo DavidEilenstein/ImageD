@@ -1017,6 +1017,15 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
         return;
     }
 
+    //calc center if needed and not done yet
+    if(!state_vortex_center_calced && ui->comboBox_Res_Heat_Mode->currentIndex() == HEAT_SPEED_ANGULAR)
+        Update_Result_GraphicsVortexCenter();
+    if(!state_vortex_center_calced && ui->comboBox_Res_Heat_Mode->currentIndex() == HEAT_SPEED_ANGULAR)
+    {
+        ERR(ER_other, "Update_Result_GraphicsHeatmap", "Unable to show angular speed heatmap because no valid vortex center was found");
+        return;
+    }
+
     //Heatmap
     ER = D_Img_Proc::ObjectsMovement_Heatmap(
                 &MA_Result,
@@ -1025,6 +1034,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
                 vv_FrmObjPositions,
                 vv_FrmObjShifts,
                 vv_FrmObjAngles,
+                P_VortexCenter.CV_Point2f(),
                 conv_px2um * VS_InputVideo.get_FrameRateFps(),  //px/frm -> um/sec (as a factor to be applied to px/frm value)
                 value_max / 255.0,                              //factor for 8bit gray value to movements count
                 5, 5,                                           //blur
@@ -1163,6 +1173,11 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
     //return vortex center
     //qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "end";
     return P_center;
+}
+
+void D_MAKRO_CiliaSphereTracker::CalcVortexCenter_asBasisForOtherCalc()
+{
+
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
@@ -2356,18 +2371,27 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
     DIR_SaveSingles.setPath(DIR_SaveMaster.path() + "/SingleVideos");                   QDir().mkdir(DIR_SaveSingles.path());
 
     //Create tables for stats
-    ofstream OS_SaveStats_Speed;
+    ofstream OS_SaveStats_SpeedLinear;
+    ofstream OS_SaveStats_SpeedAngular;
     ofstream OS_SaveStats_Angle;
-    OS_SaveStats_Speed.open((DIR_SaveStackOverview.path() + "/StackStats_Speed.csv").toStdString());
+    OS_SaveStats_SpeedLinear.open((DIR_SaveStackOverview.path() + "/StackStats_SpeedLinear.csv").toStdString());
+    OS_SaveStats_SpeedAngular.open((DIR_SaveStackOverview.path() + "/StackStats_SpeedAngular.csv").toStdString());
     OS_SaveStats_Angle.open((DIR_SaveStackOverview.path() + "/StackStats_Angle.csv").toStdString());
 
     //init stat tables
-    OS_SaveStats_Speed
-            << "File,"      << "StackStats_Speed.csv" << "\n"
+    OS_SaveStats_SpeedLinear
+            << "File,"      << "StackStats_SpeedLinear.csv" << "\n"
             << "Path,"      << DIR_SaveStackOverview.path().toStdString() << "\n"
             << "DateTime,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
             << "\n"
             << "Base unit," << "um/s"
+            << "\n";
+    OS_SaveStats_SpeedAngular
+            << "File,"      << "StackStats_SpeedLinear.csv" << "\n"
+            << "Path,"      << DIR_SaveStackOverview.path().toStdString() << "\n"
+            << "DateTime,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "\n"
+            << "Base unit," << "rad/s"
             << "\n";
     OS_SaveStats_Angle
             << "File,"      << "StackStats_Angle.csv" << "\n"
@@ -2379,9 +2403,11 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
 
     //stats as header of columns
     for(int s = 0; s < c_STAT_NUMBER_OF_STATS; s++)
-        OS_SaveStats_Speed << "," << QSL_StatList[s].toStdString();
+        OS_SaveStats_SpeedLinear << "," << QSL_StatList[s].toStdString();
+    for(int s = 0; s < c_STAT_NUMBER_OF_STATS; s++)
+        OS_SaveStats_SpeedAngular << "," << QSL_StatList[s].toStdString();
     for(int s = 0; s < c_STAT_CIRC_NUMBER_OF; s++)
-        OS_SaveStats_Angle << "," << QSL_StatList[s].toStdString();
+        OS_SaveStats_Angle << "," << QSL_StatListCirc[s].toStdString();
 
     state_StackProcessing = true;
 
@@ -2395,16 +2421,21 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
         Save_AnalysisSingle();
 
         //stream to stat tables
-        OS_SaveStats_Speed << "\n" << QSL_Videos_Names[v].toStdString();
+        OS_SaveStats_SpeedLinear << "\n" << QSL_Videos_Names[v].toStdString();
+        OS_SaveStats_SpeedAngular << "\n" << QSL_Videos_Names[v].toStdString();
         OS_SaveStats_Angle << "\n" << QSL_Videos_Names[v].toStdString();
         for(size_t s = 0; s < v_VideoStats_Shifts_um_s.size(); s++)
-            OS_SaveStats_Speed << "," << v_VideoStats_Shifts_um_s[s];
+            OS_SaveStats_SpeedLinear << "," << v_VideoStats_Shifts_um_s[s];
+        if(state_StatSummaryCalced_angularSpeed)
+            for(size_t s = 0; s < v_VideoStats_Shifts_rad_s.size(); s++)
+                OS_SaveStats_SpeedAngular << "," << v_VideoStats_Shifts_rad_s[s];
         for(size_t s = 0; s < v_VideoStats_Angles_Grad.size(); s++)
             OS_SaveStats_Angle << "," << v_VideoStats_Angles_Grad[s];
     }
 
     //close filestreams
-    OS_SaveStats_Speed.close();
+    OS_SaveStats_SpeedLinear.close();
+    OS_SaveStats_SpeedAngular.close();
     OS_SaveStats_Angle.close();
 
     state_StackProcessing = false;
@@ -2542,18 +2573,19 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //Stats--------------------------------------------------------------- (Graphics will be continued)
 
     //stat list
-    //Speed
+
+    //Speed linear
     //long
-    QString QS_Stats_Speed = "Statistics of speed in full video:\n"
+    QString QS_Stats_SpeedLinear = "Statistics of linear speed in full video:\n"
                              "\n"
                              "Base speed unit is um/s.\n";
     for(size_t s = 0; s < v_VideoStats_Shifts_um_s.size(); s++)
-        QS_Stats_Speed.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_um_s[s]));
+        QS_Stats_SpeedLinear.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_um_s[s]));
     PDF_Overview.add_NewPage();
-    PDF_Overview.add_Text(QS_Stats_Speed);
+    PDF_Overview.add_Text(QS_Stats_SpeedLinear);
     //short
     PDF_Summary.add_Text(
-                "Speed Stats:\n"
+                "Linear speed stats:\n"
                 "Average " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "um/s\n"
                 "STD " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "um/s\n"
                 "10%-Quantil " + QString::number(v_VideoStats_Shifts_um_s[c_STAT_QUANTIL_10], 'g', 4) + "um/s\n"
@@ -2562,6 +2594,33 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 x_4elem_1l, x_4elem_1r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
+
+    //Speed angular
+    if(!state_StatSummaryCalced_angularSpeed)
+        Data_CalcFullVideoStats_AngularSpeed();
+    if(state_StatSummaryCalced_angularSpeed)
+    {
+        //long
+        QString QS_Stats_SpeedAngular = "Statistics of angular speed in full video:\n"
+                                 "\n"
+                                 "Base speed unit is rad/s.\n";
+        for(size_t s = 0; s < v_VideoStats_Shifts_rad_s.size(); s++)
+            QS_Stats_SpeedAngular.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_rad_s[s]));
+        PDF_Overview.add_NewPage();
+        PDF_Overview.add_Text(QS_Stats_SpeedAngular);
+        //short
+        PDF_Summary.add_Text(
+                    "Angular speed stats:\n"
+                    "Average " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "rad/s\n"
+                    "STD " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "rad/s\n"
+                    "10%-Quantil " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_QUANTIL_10], 'g', 4) + "rad/s\n"
+                    "Median " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_MEDIAN], 'g', 4) + "rad/s\n"
+                    "90%-Quantil " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_QUANTIL_90], 'g', 4) + "rad/s",
+                    x_4elem_2l, x_4elem_2r, y_text_t, y_text_b,
+                    10,
+                    Qt::AlignCenter);
+    }
+
     //Angle
     //long
     QString QS_Stats_Angle = "Statistics of angle in full video:\n"
@@ -2577,126 +2636,11 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°",
-                x_4elem_2l, x_4elem_2r, y_text_t, y_text_b,
+                x_4elem_3l, x_4elem_3r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
 
     //Graphics (again)---------------------------------------------------------------
-
-    //Heatmap
-    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_HEATMAP);
-
-    ui->comboBox_Res_Heat_Mode->setCurrentIndex(0);
-    Update_Ui();
-    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeed - " + name_current + ".png");
-    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeed.png");
-
-    PDF_Summary.add_Image(
-                View_Results.pQI(),
-                x_3elem_0l, x_3elem_0r, y_img_heat_t, y_img_heat_b);
-    PDF_Summary.add_Image(
-                &MA_Result_HeatmapLegend,
-                x_3elem_0l, x_3elem_0r, y_img_leg_t, y_img_leg_b);
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Image(
-                View_Results.pQI(),
-                "Heatmap (Speed)\n"
-                "\n"
-                "Color: Speed (red <= 10%-quantil, blue => 90%-quantil)\n"
-                "Saturation: 100% (no information)\n"
-                "Value: Default tracks-graphics"
-                "\n"
-                "Color map is realative to video content.\n"
-                "\n"
-                "Useful to get an overview of the spatial speed distribution.\n"
-                "\n"
-                "Image can be found in:\n" +
-                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeed - " + name_current + ".png\n" +
-                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeed.png");
-    PDF_Overview.add_Image(
-                &MA_Result_HeatmapLegend,
-                0.05, 0.95, 0.85, 0.95);
-
-    ui->comboBox_Res_Heat_Mode->setCurrentIndex(1);
-    Update_Ui();
-    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapAngle - " + name_current + ".png");
-    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Image(
-                View_Results.pQI(),
-                "Heatmap (Angle)\n"
-                "\n"
-                "Color: Angle (See legend at the bottom of this page)\n"
-                "Saturation: 100% (no information)\n"
-                "Value: Default tracks-graphics"
-                "\n"
-                "Useful to get an overview of the spatial angle distribution.\n"
-                "\n"
-                "Image can be found in:\n" +
-                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapAngle - " + name_current + ".png\n" +
-                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
-    PDF_Overview.add_Image(
-                &MA_Result_HeatmapLegend,
-                0.05, 0.95, 0.85, 0.95);
-    PDF_Summary.add_Image(
-                View_Results.pQI(),
-                x_3elem_1l, x_3elem_1r, y_img_heat_t, y_img_heat_b);
-    PDF_Summary.add_Image(
-                &MA_Result_HeatmapLegend,
-                x_3elem_1l, x_3elem_1r, y_img_leg_t, y_img_leg_b);
-
-    ui->comboBox_Res_Heat_Mode->setCurrentIndex(2);
-    Update_Ui();
-    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngle - " + name_current + ".png");
-    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Image(
-                View_Results.pQI(),
-                "Heatmap (Spped and Angle)\n"
-                "\n"
-                "Color: Angle (see legend at the bottom of this page)\n"
-                "Saturation: Speed (gray <= 10%-Quantil, intense color >= 90%-Quantil\n"
-                "Value: Default tracks-graphics"
-                "\n"
-                "Useful to get an overview of the spatial speed and angle distribution.\n"
-                "\n"
-                "Image can be found in:\n" +
-                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngle - " + name_current + ".png\n" +
-                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
-    PDF_Overview.add_Image(
-                &MA_Result_HeatmapLegend,
-                0.05, 0.95, 0.85, 0.95);
-
-    ui->comboBox_Res_Heat_Mode->setCurrentIndex(3);
-    Update_Ui();
-    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png");
-    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
-    PDF_Summary.add_Image(
-                View_Results.pQI(),
-                x_3elem_2l, x_3elem_2r, y_img_heat_t, y_img_heat_b);
-    PDF_Summary.add_Image(
-                &MA_Result_HeatmapLegend,
-                x_3elem_2l, x_3elem_2r, y_img_leg_t, y_img_leg_b);
-    PDF_Overview.add_NewPage();
-    PDF_Overview.add_Image(
-                View_Results.pQI(),
-                "Heatmap (Time)\n"
-                "\n"
-                "Color: Time (red=new, blue=old)\n"
-                "Saturation: 100% (no information)\n"
-                "Value: Default tracks-graphics"
-                "\n"
-                "Color map is realative to video content.\n"
-                "\n"
-                "Useful to get an overview of timely behaviour.\n"
-                "\n"
-                "Image can be found in:\n" +
-                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png\n" +
-                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
-    PDF_Overview.add_Image(
-                &MA_Result_HeatmapLegend,
-                0.05, 0.95, 0.85, 0.95);
-
 
     //vortex center graphic
 
@@ -2883,6 +2827,148 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_8x10_RansacLines_75prz_100k_iters.png");
     */
 
+    //---------------------------------------------------- heatmaps -----------------
+
+    //Heatmap
+    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_HEATMAP);
+
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_SPEED_LINEAR);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedLinear - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedLinear.png");
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_0l, x_3elem_0r, y_img_heat_t, y_img_heat_b);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+                x_3elem_0l, x_3elem_0r, y_img_leg_t, y_img_leg_b);
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (linear speed)\n"
+                "\n"
+                "Color: Linear speed (red <= 10%-quantil, blue => 90%-quantil)\n"
+                "Saturation: 100% (no information)\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Color map is realative to video content.\n"
+                "\n"
+                "Useful to get an overview of the spatial linear speed distribution.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedLinear - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedLinear.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_SPEED_ANGULAR);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngular - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngular.png");
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_1l, x_3elem_1r, y_img_heat_t, y_img_heat_b);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+                x_3elem_1l, x_3elem_1r, y_img_leg_t, y_img_leg_b);
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (angular speed)\n"
+                "\n"
+                "Color: Speed (red <= 10%-quantil, blue => 90%-quantil)\n"
+                "Saturation: 100% (no information)\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Color map is realative to video content.\n"
+                "\n"
+                "Useful to get an overview of the spatial angular speed distribution.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngular - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngular.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_ANGLE);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapAngle - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (Angle)\n"
+                "\n"
+                "Color: Angle (See legend at the bottom of this page)\n"
+                "Saturation: 100% (no information)\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Useful to get an overview of the spatial angle distribution.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapAngle - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapAngle.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_SPEED_LINEAR_AND_ANGLE);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngle - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (Spped and Angle)\n"
+                "\n"
+                "Color: Angle (see legend at the bottom of this page)\n"
+                "Saturation: Speed (gray <= 10%-Quantil, intense color >= 90%-Quantil\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Useful to get an overview of the spatial speed and angle distribution.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapSpeedAngle - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapSpeedAngle.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
+    ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_TIME);
+    Update_Ui();
+    View_Results.Save_Image(DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png");
+    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
+    PDF_Summary.add_Image(
+                View_Results.pQI(),
+                x_3elem_2l, x_3elem_2r, y_img_heat_t, y_img_heat_b);
+    PDF_Summary.add_Image(
+                &MA_Result_HeatmapLegend,
+                x_3elem_2l, x_3elem_2r, y_img_leg_t, y_img_leg_b);
+    PDF_Overview.add_NewPage();
+    PDF_Overview.add_Image(
+                View_Results.pQI(),
+                "Heatmap (Time)\n"
+                "\n"
+                "Color: Time (red=new, blue=old)\n"
+                "Saturation: 100% (no information)\n"
+                "Value: Default tracks-graphics"
+                "\n"
+                "Color map is realative to video content.\n"
+                "\n"
+                "Useful to get an overview of timely behaviour.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackGraphics_Heatmap.path() + "/HeatmapTime - " + name_current + ".png\n" +
+                DIR_SaveCurrentGraphics.path() + "/" + name_current + " - HeatmapTime.png");
+    PDF_Overview.add_Image(
+                &MA_Result_HeatmapLegend,
+                0.05, 0.95, 0.85, 0.95);
+
+
+
+
 
     //----------------------------------------------------------------------vector fields
 
@@ -2939,7 +3025,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     QS_VecField_Interpretation.append(
                 "Image size: (" + QString::number(vMA_ProcSteps[STEP_CROP].cols * conv_px2um, 'g', 4) + " x " + QString::number(vMA_ProcSteps[STEP_CROP].rows * conv_px2um) + ")um\n"
                 "Time analysed: " + QString::number(vv_FrmObjPositions.size() * VS_InputVideo.get_FrameTimeSec(), 'g', 4) + "s\n"
-                "Vector length refers to shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n");
+                "Vectors length: linear shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n");
 
     //save motion vector field video
     Save_ResultVectorFieldVideo(
@@ -3233,7 +3319,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //basic info for interpretation
     //qDebug() << "Save_AnalysisSingle" << "arcs interpretation text append";
     QS_VecField_Interpretation.append(
-                "Arc angle refers to angular shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
+                "Arc angles: angular shift/" + QString::number(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->value(), 'g', 4) + "s\n"
                 "Base speed unit: um/s\n"
                 "Base angle unit: °");
     //qDebug() << "Save_AnalysisSingle" << "arcs interpretaton text add";
@@ -3965,10 +4051,10 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats()
     double conv_px_per_frm_2_um_per_s = conv_perFrame2perSecond * conv_px2um;
 
     //gathered containers
-    vector<double> vShiftsAll_px_frm;
-    vector<double> vShiftsAll_um_s;
-    vector<double> vAnglesAll_Rad;
-    vector<double> vAnglesAll_Grad;
+    vShiftsAll_px_frm.clear();
+    vShiftsAll_um_s.clear();
+    vAnglesAll_Rad.clear();
+    vAnglesAll_Grad.clear();
 
     //gather
     for(size_t frm = 0; frm < vv_FrmObjShifts.size(); frm++)
@@ -4008,6 +4094,40 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats()
         "Calc_Stats_Circ_Grad");
 
     state_StatSummaryCalced = true;
+    qDebug() << "D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats" << "start";
+}
+
+void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
+{
+    state_StatSummaryCalced_angularSpeed = false;
+
+    if(!state_vortex_center_calced)
+        Update_Result_GraphicsVortexCenter();
+    if(!state_vortex_center_calced)
+        return;
+
+    //clear
+    vShiftsAll_rad_s.clear();
+
+    //gather
+    for(size_t frm = 0; frm < vv_FrmObjShifts.size(); frm++)
+        for(size_t obj = 0; obj < vv_FrmObjShifts[frm].size(); obj++)
+        {
+            double dx = vv_FrmObjPositions[frm][obj].x - P_VortexCenter.x();
+            double dy = vv_FrmObjPositions[frm][obj].y - P_VortexCenter.y();
+            double dist = sqrt(dx * dx + dy * dy);
+
+            vShiftsAll_rad_s.push_back(dist > 0 ? vv_FrmObjShifts[frm][obj] / dist : 0);
+        }
+
+    ERR(D_Stat::Calc_Stats(
+            &v_VideoStats_Shifts_rad_s,
+            vShiftsAll_rad_s,
+            true),
+        "Data_CalcFullVideoStats",
+        "Calc_Stats (rad/s)");
+
+    state_StatSummaryCalced_angularSpeed = true;
 }
 
 void D_MAKRO_CiliaSphereTracker::Data_Split2GridSampling()
@@ -4244,6 +4364,7 @@ void D_MAKRO_CiliaSphereTracker::Populate_CB_Start()
     Populate_CB_Single(ui->comboBox_Res_MovAv_Background,                   QSL_Background,     BACKGR_PROJECTION);
     Populate_CB_Single(ui->comboBox_Res_MovAv_TimeWindow,                   QSL_TimeWindow,     TIME_WINDOW_FULL_VIDEO);
     Populate_CB_Single(ui->comboBox_Res_PlotLine_FixRange_T,                QSL_PlotTime,       PLOT_TIME_VIDEO_LENGTH);
+    Populate_CB_Single(ui->comboBox_Res_Heat_Mode,                          QSL_HeatmapTypes,   HEAT_SPEED_LINEAR);
 
     //stats
     Populate_CB_Single(ui->comboBox_Res_VectorFieldParam_Length_Value,      QSL_StatList,       c_STAT_MEAN_ARITMETIC);
@@ -4416,7 +4537,10 @@ void D_MAKRO_CiliaSphereTracker::state_set_VidProcUp2date(bool is_up2date)
     ui->pushButton_Proc_FullVideo->setEnabled(!is_up2date);
 
     if(!is_up2date)
+    {
         state_StatSummaryCalced = false;
+        state_StatSummaryCalced_angularSpeed = false;
+    }
 }
 
 void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_TimeProjSum_Gamma_stateChanged(int arg1)
