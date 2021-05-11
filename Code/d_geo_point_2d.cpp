@@ -166,9 +166,37 @@ double D_Geo_Point_2D::distance(D_Geo_Point_2D P)
 
 bool D_Geo_Point_2D::in_rect(size_t t, size_t b, size_t l, size_t r)
 {
+    double min_dist, max_dist;
+    return in_rect(t, b, l, r, &min_dist, &max_dist);
+}
+
+bool D_Geo_Point_2D::in_rect(size_t t, size_t b, size_t l, size_t r, double *min_dist, double *max_dist)
+{
+    //check range
     double X = x();
     double Y = y();
-    return Y >= t && Y < b && X >= l && X < r;
+    bool in_range = Y >= t && Y < b && X >= l && X < r;
+
+    //vector of corners
+    vector<D_Geo_Point_2D> corners(4);
+    corners[0] = D_Geo_Point_2D(l, t);
+    corners[1] = D_Geo_Point_2D(l, b);
+    corners[2] = D_Geo_Point_2D(r, t);
+    corners[3] = D_Geo_Point_2D(r, b);
+
+    //get min/max
+    *min_dist = INFINITY;
+    *max_dist = 0;
+    for(size_t i = 0; i < corners.size(); i++)
+    {
+        double dist = distance(corners[i]);
+        *min_dist = min(*min_dist, dist);
+        *max_dist = max(*max_dist, dist);
+    }
+    if(in_range)
+        *min_dist = 0;
+
+    return in_range;
 }
 
 bool D_Geo_Point_2D::in_rect(Rect *rect)

@@ -58,8 +58,10 @@ public:
     //naive center/std
     D_Geo_Point_2D center();
     D_Geo_Point_2D center(double *std);
+    D_Geo_Point_2D center(double *std, vector<double> *v_residuals);
     double standard_deviation(D_Geo_Point_2D P_reference);
     double standard_deviation();
+    double standard_deviation(D_Geo_Point_2D P_reference, vector<double> *v_residuals);
 
     //k-means culstering
     D_Geo_PointSet_2D centers_clusters_kmeans(size_t k, size_t iterations, double *deviation);

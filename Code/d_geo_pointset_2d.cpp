@@ -131,33 +131,22 @@ D_Geo_Point_2D D_Geo_PointSet_2D::center()
 
 D_Geo_Point_2D D_Geo_PointSet_2D::center(double *std)
 {
+    vector<double> v_residuals;
+    return center(std, &v_residuals);
+}
+
+D_Geo_Point_2D D_Geo_PointSet_2D::center(double *std, vector<double> *v_residuals)
+{
     D_Geo_Point_2D P_mean = center();
-    *std = standard_deviation(P_mean);
+    *std = standard_deviation(P_mean, v_residuals);
     return P_mean;
 }
 
-/*!
- * \brief D_Geo_PointSet_2D::standard_deviation calcs suqared deviation of all points to reference point
- * \param P_reference reference point to calc deviation to
- * \return distance standard deviation to reference point
- */
+
 double D_Geo_PointSet_2D::standard_deviation(D_Geo_Point_2D P_reference)
 {
-    if(v_points.size() <= 0)
-        return 0;
-
-    double x_ref = P_reference.x();
-    double y_ref = P_reference.y();
-
-    double sum_dist_pow2 = 0;
-    for(size_t i = 0; i < v_points.size(); i++)
-    {
-        double dx = x_ref - v_points[i].x();
-        double dy = y_ref - v_points[i].y();
-        sum_dist_pow2 += dx * dx + dy * dy;
-    }
-
-    return sqrt(sum_dist_pow2 / v_points.size());
+    vector<double> v_residuals;
+    return standard_deviation(P_reference, &v_residuals);
 }
 
 /*!
@@ -167,6 +156,30 @@ double D_Geo_PointSet_2D::standard_deviation(D_Geo_Point_2D P_reference)
 double D_Geo_PointSet_2D::standard_deviation()
 {
     return standard_deviation(center());
+}
+
+double D_Geo_PointSet_2D::standard_deviation(D_Geo_Point_2D P_reference, vector<double> *v_residuals)
+{
+    if(v_points.size() <= 0)
+        return 0;
+
+    v_residuals->clear();
+
+    double x_ref = P_reference.x();
+    double y_ref = P_reference.y();
+
+    double sum_dist_pow2 = 0;
+    for(size_t i = 0; i < v_points.size(); i++)
+    {
+        double dx = x_ref - v_points[i].x();
+        double dy = y_ref - v_points[i].y();
+        double dist_pow2 = dx * dx + dy * dy;
+        sum_dist_pow2 += dist_pow2;
+        double dist = sqrt(dist_pow2);
+        v_residuals->push_back(dist);
+    }
+
+    return sqrt(sum_dist_pow2 / v_points.size());
 }
 
 D_Geo_PointSet_2D D_Geo_PointSet_2D::centers_clusters_kmeans(size_t k, size_t iterations, double *deviation)

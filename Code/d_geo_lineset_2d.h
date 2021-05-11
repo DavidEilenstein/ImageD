@@ -60,9 +60,10 @@ public:
 
     //center of intersections
     D_Geo_Point_2D intersection(double *deviation);
+    D_Geo_Point_2D intersection(double *deviation, vector<double> *v_residuals);
     D_Geo_Point_2D intersection_ransac(double *least_deviation, double lines_needed_for_modell_rel, double p_good_guess, double p_outliers, bool subset_of_points_not_lines);
     D_Geo_Point_2D intersection_ransac(double *least_deviation, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
-    D_Geo_Point_2D intersection_ransac(double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
+    D_Geo_Point_2D intersection_ransac(double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, vector<double> *v_residuals, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
 
     //k-means clustering of pairwise intersections
     D_Geo_PointSet_2D intersections_clustered_kmeans(double *deviation, size_t k, size_t iterations);
@@ -72,7 +73,7 @@ private:
     vector<D_Geo_Line_2D> v_lines;
 
     //threaded ransac
-    static void intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
+    static void intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, vector<double> *v_residuals, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines);
 
 };
 

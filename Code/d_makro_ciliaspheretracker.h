@@ -99,13 +99,14 @@ private slots:
     void Update_Result_GraphicsTimeProjectSum();
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
-    D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
+    D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
     void CalcVortexCenter_asBasisForOtherCalc();
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
     void Update_Result_AngleStatCustom();
     void Update_Result_SpeedAnalysis();
     void Update_Result_AngleAnalysis();
+    void Update_Result_Histogram();
 
     void Save_AnalysisAll();
     void Save_AnalysisSingle();
@@ -256,11 +257,14 @@ private:
     //detected vortex center
     bool                                state_vortex_center_calced = false;
     D_Geo_Point_2D                      P_VortexCenter;
+    vector<double>                      v_VortexCenterResiduals_Used;
+    vector<double>                      v_VortexCenterResiduals_All;
 
     //gathered containers
     vector<double>                      vShiftsAll_px_frm;
     vector<double>                      vShiftsAll_um_s;
     vector<double>                      vShiftsAll_rad_s;
+    vector<double>                      vDistancesToVortexCenter_All_um;
     vector<double>                      vAnglesAll_Rad;
     vector<double>                      vAnglesAll_Grad;
 
@@ -268,6 +272,7 @@ private:
     vector<double>                      v_VideoStats_Shifts_px_frm;
     vector<double>                      v_VideoStats_Shifts_um_s;
     vector<double>                      v_VideoStats_Shifts_rad_s;
+    vector<double>                      v_VideoStats_DistancesToVortexCenter_All_um;
     vector<double>                      v_VideoStats_Angles_Rad;
     vector<double>                      v_VideoStats_Angles_Grad;
 
@@ -348,6 +353,13 @@ private:
         SHIFT_TYPE_NUMBER_OF
     };
 
+    enum HIST_TYPE {
+        HIST_LINEAR_SPEED,
+        HIST_ANGULAR_SPEED,
+        HIST_DIST_CENTER_INTERSECTIONS,
+        HIST_TYPE_NUMBER_OF
+    };
+
     enum HEATMAP_TYPE {
         HEAT_SPEED_LINEAR,
         HEAT_SPEED_ANGULAR,
@@ -418,6 +430,7 @@ private:
         RES_ANGLE_STAT_CUSTOM,
         RES_SPEED_ANALYSIS,
         RES_ANGLE_ANALYSIS,
+        RES_HISTOGRAM,
         RES_OVERVIEW,
         RES_NUMBER_OF
     };
@@ -430,6 +443,7 @@ private:
         "Custom Statistical Angle Analysis",
         "Main Speed Analysis",
         "Main Angle Analysis",
+        "Histogram",
         "Overview"
     };
 

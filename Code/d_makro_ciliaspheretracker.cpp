@@ -113,6 +113,14 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->spinBox_Res_VectorFieldParam_Thickness_Error,       SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds, SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength,     SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    //histogram
+    connect(ui->doubleSpinBox_Res_Histo_MaxSpeedLinear,             SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_Histo_MaxSpeedAngular,            SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections, SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_Histo_Classes,                          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->checkBox_Res_Histo_Acc,                             SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->checkBox_Res_Histo_Uni,                             SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->comboBox_Res_Histo_Type,                            SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     //grid
     //connect(ui->spinBox_ParamGridHorizontal,                      SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));    treated separatly in slot
     //connect(ui->spinBox_ParamGridVertical,                        SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));    treated separatly in slot
@@ -564,6 +572,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Results()
     case RES_ANGLE_STAT_CUSTOM:             Update_Result_AngleStatCustom();            break;
     case RES_SPEED_ANALYSIS:                Update_Result_SpeedAnalysis();              break;
     case RES_ANGLE_ANALYSIS:                Update_Result_AngleAnalysis();              break;
+    case RES_HISTOGRAM:                     Update_Result_Histogram();                  break;
     case RES_OVERVIEW:
     {
         Update_Result_SpeedAnalysis();
@@ -1060,7 +1069,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
     MA_tmp_Value_Gray.release();
 }
 
-D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, double well_diameter_px, Point P_VideoOffset, int t_start, int t_end)
+D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start, int t_end)
 {
     qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "check";
 
@@ -1144,25 +1153,43 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
     bool ransac = ui->checkBox_Res_VortexCenter_Ransac->isChecked();
 
     //approx intersection of line set is calculated
+
+    //prepare containers
     *deviation = INFINITY;
     D_Geo_Point_2D P_center(well_radius_px , well_radius_px);//init in center of well
     D_Geo_PointSet_2D PS_IntersectionsUsed;
 
-    //choose method and calc center
+    //calc all intersections
+    D_Geo_PointSet_2D PS_IntersectionsAll = lines->intersections_pairwise();
+
+    //choose method and calc center, std and residuals
     if(!clustering && !ransac)
     {
         P_center = lines->intersection(
-                    deviation);
-        PS_IntersectionsUsed = lines->intersections_pairwise();
+                    deviation,
+                    v_residuals_used);
+        PS_IntersectionsUsed = PS_IntersectionsAll;
+        *v_residuals_all = *v_residuals_used;
     }
     else if(!clustering && ransac)
     {
         P_center = lines->intersection_ransac(
                     deviation,
                     &PS_IntersectionsUsed,
+                    v_residuals_used,
                     ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->value() / 100.0,
                     ui->spinBox_Res_VortexCenter_RansacIterations->value(),
                     ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->currentIndex() == 0);
+
+        //calc all distances to center
+        size_t n_intersections_all = PS_IntersectionsAll.size();
+        v_residuals_all->resize(n_intersections_all);
+        for(size_t i = 0; i < n_intersections_all; i++)
+        {
+            double dx = P_center.x() - PS_IntersectionsAll.point(i).x();
+            double dy = P_center.y() - PS_IntersectionsAll.point(i).y();
+            (*v_residuals_all)[i] = sqrt(dx * dx + dy * dy);
+        }
     }
     else
     {
@@ -1282,11 +1309,15 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
             //alloc results
             double center_deviation = INFINITY;
             D_Geo_LineSet_2D Lines_NormalsOfMovementVectors;
+            vector<double> v_residuals_all;
+            vector<double> v_residuals_used;
 
             //calc centers
             D_Geo_Point_2D P_Center = CalcVortexCenter(
                         &Lines_NormalsOfMovementVectors,
                         &center_deviation,
+                        &v_residuals_all,
+                        &v_residuals_used,
                         well_diameter_px,
                         P_VideoOffset,
                         t_start_frm, t_end_frm);
@@ -1357,16 +1388,22 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 
         //calc normal lines and center lines
         double center_deviation = INFINITY;
+        vector<double> v_residuals_all;
+        vector<double> v_residuals_used;
         D_Geo_LineSet_2D Lines_NormalsOfMovementVectors;
         D_Geo_Point_2D P_Center = CalcVortexCenter(
                     &Lines_NormalsOfMovementVectors,
                     &center_deviation,
+                    &v_residuals_all,
+                    &v_residuals_used,
                     well_diameter_px,
                     P_VideoOffset,
                     0, -1); //full video
 
         //save center for more calculations
         P_VortexCenter = P_Center.add_inhomo(D_Geo_Point_2D(-P_VideoOffset.x, -P_VideoOffset.y));
+        v_VortexCenterResiduals_All = v_residuals_all;
+        v_VortexCenterResiduals_Used = v_residuals_used;
         state_vortex_center_calced = true;
 
         //scale
@@ -2317,6 +2354,127 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
             pChartView_Results_Poincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
         }
     }
+}
+
+void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
+{
+    bool reqirements_ok = true;
+    int mode = ui->comboBox_Res_Histo_Type->currentIndex();
+
+    //Check general requirements
+    if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_VidProcUp2date)
+        reqirements_ok = false;
+
+    //check stat summary
+    if(reqirements_ok)
+    {
+        if(!state_StatSummaryCalced)
+            Data_CalcFullVideoStats();
+        if(!state_StatSummaryCalced)
+            reqirements_ok = false;
+    }
+
+    //check center calc
+    if(reqirements_ok)
+    {
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            Data_CalcFullVideoStats_AngularSpeed();
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            reqirements_ok = false;
+    }
+
+    //Check requirements
+    if(!reqirements_ok)
+    {
+        D_Plot::Plot_Empty(pChartView_Results_Line, "Reqirements for Update_Result_AngleAnalysis failed");
+        D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_AngleAnalysis failed");
+        Table_Results.clear_data();
+
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        {
+            D_Plot::Plot_Empty(pChartView_Results_Overview_AngleLine, "Reqirements for Update_Result_AngleAnalysis failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview_AnglePoincare, "Reqirements for Update_Result_AngleAnalysis failed");
+        }
+
+        return;
+    };
+
+    //calc range of distances to vortex center
+    double dist_to_center_min;
+    double dist_to_center_max;
+    P_VortexCenter.in_rect(0, spatial_roi_height, 0, spatial_roi_width, &dist_to_center_min, &dist_to_center_max);
+
+    switch (mode) {
+
+    case HIST_LINEAR_SPEED:
+    {
+        ERR(D_Plot::Plot_Hist_WithStats_Color(
+                    pChartView_Results_Line,
+                    vShiftsAll_um_s,
+                    vDistancesToVortexCenter_All_um,
+                    D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                    0,
+                    ui->doubleSpinBox_Res_Histo_MaxSpeedLinear->value(),
+                    dist_to_center_min,
+                    dist_to_center_max,
+                    ui->spinBox_Res_Histo_Classes->value(),
+                    v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC],
+                    v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_TOTAL],
+                    "<b>Linear shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                    "linear shift um/s",
+                    ui->checkBox_Res_Histo_Uni->isChecked(),
+                    ui->checkBox_Res_Histo_Acc->isChecked()),
+                "Update_Result_Histogram",
+                "D_Plot::Plot_Hist_WithStats_Color - Linear Speed");
+    }
+        break;
+
+    case HIST_ANGULAR_SPEED:
+    {
+        ERR(D_Plot::Plot_Hist_WithStats_Color(
+                    pChartView_Results_Line,
+                    vShiftsAll_rad_s,
+                    vDistancesToVortexCenter_All_um,
+                    D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                    0,
+                    ui->doubleSpinBox_Res_Histo_MaxSpeedAngular->value(),
+                    dist_to_center_min,
+                    dist_to_center_max,
+                    ui->spinBox_Res_Histo_Classes->value(),
+                    v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
+                    v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
+                    "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                    "angular shift um/s",
+                    ui->checkBox_Res_Histo_Uni->isChecked(),
+                    ui->checkBox_Res_Histo_Acc->isChecked()),
+                "Update_Result_Histogram",
+                "D_Plot::Plot_Hist_WithStats_Color - Angular Speed");
+    }
+        break;
+
+    case HIST_DIST_CENTER_INTERSECTIONS:
+    {
+        vector<vector<double>> vv_data(2);
+        vv_data[0] = v_VortexCenterResiduals_All;
+        vv_data[1] = v_VortexCenterResiduals_Used;
+
+        ERR(D_Plot::Plot_Hist_WithStats(
+                    pChartView_Results_Line,
+                    vv_data,
+                    0,
+                    ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections->value(),
+                    ui->spinBox_Res_Histo_Classes->value(),
+                    "<b>Distance from line intersections to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
+                    "distance um",
+                    ui->checkBox_Res_Histo_Uni->isChecked(),
+                    ui->checkBox_Res_Histo_Acc->isChecked()),
+                "Update_Result_Histogram",
+                "D_Plot::Plot_Hist_WithStats - Distance");
+    }
+        break;
+
+    }
+
 }
 
 void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
@@ -4108,6 +4266,7 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
 
     //clear
     vShiftsAll_rad_s.clear();
+    vDistancesToVortexCenter_All_um.clear();
 
     //gather
     for(size_t frm = 0; frm < vv_FrmObjShifts.size(); frm++)
@@ -4117,6 +4276,7 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
             double dy = vv_FrmObjPositions[frm][obj].y - P_VortexCenter.y();
             double dist = sqrt(dx * dx + dy * dy);
 
+            vDistancesToVortexCenter_All_um.push_back(dist);
             vShiftsAll_rad_s.push_back(dist > 0 ? vv_FrmObjShifts[frm][obj] / dist : 0);
         }
 
@@ -4125,7 +4285,14 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
             vShiftsAll_rad_s,
             true),
         "Data_CalcFullVideoStats",
-        "Calc_Stats (rad/s)");
+        "Calc_Stats (shift rad/s)");
+
+    ERR(D_Stat::Calc_Stats(
+            &v_VideoStats_DistancesToVortexCenter_All_um,
+            vDistancesToVortexCenter_All_um,
+            true),
+        "Data_CalcFullVideoStats",
+        "Calc_Stats (dist um)");
 
     state_StatSummaryCalced_angularSpeed = true;
 }
@@ -4240,6 +4407,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     ui->groupBox_Res_AngleCustom->setVisible        (                                                                                  res_type == RES_ANGLE_STAT_CUSTOM                                                                                                                    || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
     ui->groupBox_Res_MovAv->setVisible              (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW || (res_type == RES_GRAPHICS_VORTEX_CENTER && ui->checkBox_Res_VortexCenter_MovingAverage->isChecked()));
     ui->groupBox_Res_Heat->setVisible               (                                                                                                                                                               res_type == RES_GRAPHICS_HEATMAP);
+    ui->groupBox_Res_Histo->setVisible              (                                                                                                                                                               res_type == RES_HISTOGRAM);
     ui->groupBox_Res_VortexCenter->setVisible       (                                                                                                                                                               res_type == RES_GRAPHICS_VORTEX_CENTER);
 
 

@@ -392,6 +392,337 @@ int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool
     return ER_okay;
 }
 
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc)
+{
+    function<double(vector<double>)> F_mean = D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC);
+    function<double(vector<double>)> F_std  = D_Stat::Function_SingleStat(c_STAT_CIRC_STAN_DEV_TOTAL);
+
+    size_t n = vv_Data.size();
+
+    vector<double> v_means(n);
+    vector<double> v_std(n);
+    for(size_t i = 0; i < n; i++)
+    {
+        v_means[i] = F_mean(vv_Data[i]);
+        v_std[i] = F_std(vv_Data[i]);
+    }
+
+    return Plot_Hist_WithStats(
+                pChartView,
+                vv_Data,
+                min_x,
+                max_x,
+                n_classes,
+                v_means,
+                v_std,
+                name_title,
+                name_x,
+                uni,
+                acc);
+}
+
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc)
+{
+    //clear old content
+    Free_Memory(pChartView);
+
+    //error checks
+    if(vv_Data.empty())             return ER_empty;
+    size_t n_sets = vv_Data.size();
+    for(size_t i = 0; i < n_sets; i++)
+        if(vv_Data.empty())
+            return ER_empty;
+    if(v_mean.size() != n_sets)     return ER_size_missmatch;
+    if(v_std.size() != n_sets)      return ER_size_missmatch;
+    if(min_x >= max_x)              return ER_parameter_missmatch;
+    if(n_classes <= 1)              return ER_parameter_bad;
+
+    //Chart
+    QChart *chart = new QChart();
+    chart->setTitle(name_title);
+
+    //Axis
+    //qDebug() << "Axis";
+    QValueAxis *x_axis = new QValueAxis();
+    x_axis->setTitleText(acc ? name_x + " (up to)" : name_x);
+    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisX(x_axis);
+
+    QValueAxis *y_axis = new QValueAxis();
+    y_axis->setTitleText(uni ? "relative amount" : "absolute amount");
+    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisY(y_axis);
+
+    //calc hist
+    vector<vector<double>> vv_hist(n_classes, vector<double>());
+    double range_x = max_x - min_x;
+    double step_x = range_x / (n_classes - 1);
+    size_t n_data_max = 0;
+    for(size_t i_set = 0; i_set < n_sets; i_set++)
+    {
+        vv_hist[i_set].resize(n_classes);
+        size_t n_data = vv_Data[i_set].size();
+        n_data_max = max(n_data_max, n_data);
+        for(size_t i_data = 0; i_data < n_data; i_data++)
+        {
+            size_t i_hist =  min(static_cast<double>(n_classes - 1), max(0.0, ((vv_Data[i_set][i_data] - min_x) / step_x)));
+            vv_hist[i_set][i_hist]++;
+        }
+    }
+
+    //tune hist
+    if(uni)
+        for(size_t i_set = 0; i_set < n_sets; i_set++)
+            for(size_t i_hist = 0; i_hist < n_classes; i_hist++)
+                vv_hist[i_set][i_hist] /= n_data_max;
+    if(acc)
+        for(size_t i_set = 0; i_set < n_sets; i_set++)
+            for(size_t i_hist = 0; i_hist < n_classes; i_hist++)
+                vv_hist[i_set][i_hist] += vv_hist[i_set][i_hist - 1];
+
+    //Series hist
+    double y_max = 0;
+    vector<QLineSeries*> v_series_hist(n_sets);
+    for(size_t i_set = 0; i_set < n_sets; i_set++)
+    {
+        //relative position
+        double rel_pos = n_sets <= 1 ? 0 : static_cast<double>(i_set) / (n_sets - 1);
+
+        //series
+        v_series_hist[i_set] = new QLineSeries;
+
+        //data
+        for(size_t i_hist = 0; i_hist < n_classes; i_hist++)
+        {
+            v_series_hist[i_set]->append(min_x + i_hist * step_x, vv_hist[i_set][i_hist]);
+            y_max = max(y_max, vv_hist[i_set][i_hist]);
+        }
+
+        //attach
+        chart->addSeries(v_series_hist[i_set]);
+        v_series_hist[i_set]->attachAxis(x_axis);
+        v_series_hist[i_set]->attachAxis(y_axis);
+
+        //calc color
+        if(n_sets == 1)
+        {
+            v_series_hist[i_set]->setColor(Qt::black);
+        }
+        else
+        {
+            QColor color;
+            color.setHsv(rel_pos * 240, 255, 255);
+            v_series_hist[i_set]->setColor(color);
+        }
+    }
+
+    //Series std
+    vector<QLineSeries*> v_series_std(n_sets);
+    for(size_t i_set = 0; i_set < n_sets; i_set++)
+    {
+        //relative position
+        double rel_pos = n_sets <= 1 ? 0 : static_cast<double>(i_set) / (n_sets - 1);
+
+        //series
+        v_series_std[i_set] = new QLineSeries;
+
+        double dev_low = v_mean[i_set] - v_std[i_set];
+        double dev_high = v_mean[i_set] + v_std[i_set];
+        if((dev_low >= min_x && dev_low <= max_x) || (dev_high >= min_x && dev_high <= max_x) || (dev_low < min_x && dev_high > max_x))
+        {
+            v_series_std[i_set]->append(max(min_x, dev_low) , y_max * rel_pos);
+            v_series_std[i_set]->append(min(max_x, dev_high) , y_max * rel_pos);
+        }
+
+        //attach
+        chart->addSeries(v_series_std[i_set]);
+        v_series_std[i_set]->attachAxis(x_axis);
+        v_series_std[i_set]->attachAxis(y_axis);
+
+        //calc color
+        if(n_sets == 1)
+        {
+            v_series_std[i_set]->setColor(Qt::black);
+        }
+        else
+        {
+            QColor color;
+            color.setHsv(rel_pos * 240, 255, 255);
+            v_series_std[i_set]->setColor(color);
+        }
+    }
+
+    //Series mean
+    vector<QScatterSeries*> v_series_mean(n_sets);
+    for(size_t i_set = 0; i_set < n_sets; i_set++)
+    {
+        //relative position
+        double rel_pos = n_sets <= 1 ? 0 : static_cast<double>(i_set) / (n_sets - 1);
+
+        //series
+        v_series_mean[i_set] = new QScatterSeries;
+
+        //data
+        if(v_mean[i_set] >= min_x && v_mean[i_set] <= max_x)
+            v_series_mean[i_set]->append(v_mean[i_set] , y_max * rel_pos);
+
+        //attach
+        chart->addSeries(v_series_mean[i_set]);
+        v_series_mean[i_set]->attachAxis(x_axis);
+        v_series_mean[i_set]->attachAxis(y_axis);
+        v_series_mean[i_set]->setMarkerSize(15);
+
+        //calc color
+        if(n_sets == 1)
+        {
+            v_series_mean[i_set]->setColor(Qt::black);
+        }
+        else
+        {
+            QColor color;
+            color.setHsv(rel_pos * 240, 255, 255);
+            v_series_mean[i_set]->setColor(color);
+        }
+    }
+
+    //show in plot
+    chart->legend()->hide();
+    pChartView->setChart(chart);
+    y_axis->setMin(0.0);
+    y_axis->setMax(y_max);
+
+    return ER_okay;
+}
+
+int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc)
+{
+    //clear old content
+    Free_Memory(pChartView);
+
+    if(v_DataHist.empty())                          return ER_empty;
+    if(v_DataColor.empty())                         return ER_empty;
+    if(v_DataHist.size() != v_DataColor.size())     return ER_size_missmatch;
+    if(min_x_hist >= max_x_hist)                    return ER_parameter_missmatch;
+    if(min_x_color >= max_x_color)                  return ER_parameter_missmatch;
+    if(n_classes <= 1)                              return ER_parameter_bad;
+
+    //data count
+    size_t n = v_DataHist.size();
+
+    //Chart
+    QChart *chart = new QChart();
+    chart->setTitle(name_title);
+
+    //Axis
+    //qDebug() << "Axis";
+    QValueAxis *x_axis = new QValueAxis();
+    x_axis->setTitleText(acc ? name_x + " (up to)" : name_x);
+    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisX(x_axis);
+
+    QValueAxis *y_axis = new QValueAxis();
+    y_axis->setTitleText(uni ? "relative amount" : "absolute amount");
+    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setMin(0.0);
+    chart->setAxisY(y_axis);
+
+    //data ranges and steps
+    double range_x_hist = max_x_hist - min_x_hist;
+    double step_x_hist = range_x_hist / (n_classes - 1);
+    double range_x_color = max_x_color - min_x_color;
+    double step_x_color = range_x_color / (n_classes - 1);
+
+    //calc hist and save color calc values
+    vector<double> v_hist(n_classes, 0);
+    vector<vector<double>> vv_hist_ColorDataRaw(n_classes, vector<double>());
+    for(size_t i_data = 0; i_data < n; i_data++)
+    {
+        size_t i_hist = static_cast<size_t>(min(static_cast<double>(n_classes - 1), max(0.0, ((v_DataHist[i_data] - min_x_hist) / step_x_hist))));
+        v_hist[i_hist]++;
+        vv_hist_ColorDataRaw[i_hist].push_back(v_DataColor[i_data]);
+    }
+
+    //tune hist
+    if(uni)
+        for(size_t i = 0; i < n_classes; i++)
+            v_hist[i] /= n;
+    if(acc)
+        for(size_t i = 1; i < n_classes; i++)
+            v_hist[i] += v_hist[i - 1];
+
+    //Series hist
+    double max_y = 0;
+    vector<QLineSeries*> v_series_hist(n_classes - 1);
+    for(size_t i_hist = 0; i_hist < n_classes - 1; i_hist++)
+    {
+        //init series
+        v_series_hist[i_hist] = new QLineSeries();
+
+        //add data
+        v_series_hist[i_hist]->append(min_x_hist + (i_hist * step_x_hist), v_hist[i_hist]);
+        v_series_hist[i_hist]->append(min_x_hist + ((i_hist + 1) * step_x_hist), v_hist[i_hist + 1]);
+
+        //calc max of all series
+        max_y = max(max_y, max(v_hist[i_hist], v_hist[i_hist + 1]));
+
+        //attach
+        chart->addSeries(v_series_hist[i_hist]);
+        v_series_hist[i_hist]->attachAxis(x_axis);
+        v_series_hist[i_hist]->attachAxis(y_axis);
+
+        //calc and set color
+        if(vv_hist_ColorDataRaw[i_hist].empty())
+        {
+            v_series_hist[i_hist]->setColor(Qt::darkGray);
+        }
+        else
+        {
+            double color_mean = max(min_x_color, min(max_x_color, F_ColorStat(vv_hist_ColorDataRaw[i_hist])));
+            QColor color;
+            color.setHsv((1 - ((color_mean - min_x_color) / range_x_color)) * 240, 255, 255);
+            v_series_hist[i_hist]->setColor(color);
+        }
+    }
+
+    //Series std
+    QLineSeries *series_std  = new QLineSeries();
+    double dev_low = mean_hist - std_hist;
+    double dev_high = mean_hist + std_hist;
+    if((dev_low >= min_x_hist && dev_low <= max_x_hist) || (dev_high >= min_x_hist && dev_high <= max_x_hist) || (dev_low < min_x_hist && dev_high > max_x_hist))
+    {
+        series_std->append(max(min_x_hist, dev_low) , 0.0);
+        series_std->append(min(max_x_hist, dev_high) , 0.0);
+    }
+    //attach
+    chart->addSeries(series_std);
+    series_std->setColor(Qt::black);
+    series_std->attachAxis(x_axis);
+    series_std->attachAxis(y_axis);
+
+    //Series mean
+    QScatterSeries *series_mean  = new QScatterSeries();
+    if(mean_hist >= min_x_hist && mean_hist <= max_x_hist)
+    {
+        series_mean->append(mean_hist , 0.0);
+    }
+    //attach
+    chart->addSeries(series_mean);
+    series_mean->setMarkerSize(15);
+    series_mean->setColor(Qt::black);
+    series_mean->attachAxis(x_axis);
+    series_mean->attachAxis(y_axis);
+
+    //show in plot
+    chart->legend()->hide();
+    pChartView->setChart(chart);
+    x_axis->setMin(min_x_hist);
+    x_axis->setMax(max_x_hist);
+    y_axis->setMin(0.0);
+    y_axis->setMax(max_y);
+
+    return ER_okay;
+}
+
 int D_Plot::Plot_Hist_Single_Classes(QChartView *pChartView, vector<double> *v_hist, double min, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)
 {
     //clear old content

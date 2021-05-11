@@ -107,6 +107,11 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection(double *deviation)
     return intersections_pairwise().center(deviation);
 }
 
+D_Geo_Point_2D D_Geo_LineSet_2D::intersection(double *deviation, vector<double> *v_residuals)
+{
+    return intersections_pairwise().center(deviation, v_residuals);
+}
+
 /*!
  * \brief D_Geo_LineSet_2D::intersection_ransac Find best guess for intersections center of line set
  * \param least_deviation remaining deviation in subset
@@ -139,10 +144,11 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, do
 D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
 {
     D_Geo_PointSet_2D PS;
-    return intersection_ransac(least_deviation, &PS, subset_size_rel, iterations, subset_of_points_not_lines);
+    vector<double> v_residuals;
+    return intersection_ransac(least_deviation, &PS, &v_residuals, subset_size_rel, iterations, subset_of_points_not_lines);
 }
 
-D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
+D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, vector<double> *v_residuals, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
 {
     ///init centers & stds top/current
     D_Geo_Point_2D center_best = D_Geo_Point_2D(0, 0, 0);
@@ -159,6 +165,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
     vector<D_Geo_Point_2D>      v_CenterGuesses             (n_cpu, D_Geo_Point_2D(0, 0, 0));
     vector<double>              v_DeviationsOfGuesses       (n_cpu, INFINITY);
     vector<D_Geo_PointSet_2D>   v_IntersectionsUsedbyGuesses(n_cpu, D_Geo_PointSet_2D());
+    vector<vector<double>>      v_ResidualsOfGuesses        (n_cpu, vector<double>(1, 0));
 
     ///create & start threads
     vector<thread> v_threads(n_cpu);
@@ -176,6 +183,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
                     &(v_CenterGuesses[i]),
                     &(v_DeviationsOfGuesses[i]),
                     &(v_IntersectionsUsedbyGuesses[i]),
+                    &(v_ResidualsOfGuesses[i]),
                     subset_size_rel,
                     iterations_thread,
                     subset_of_points_not_lines);
@@ -193,6 +201,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
             center_best = v_CenterGuesses[i];
             *least_deviation = v_DeviationsOfGuesses[i];
             *IntersectionsUsed = v_IntersectionsUsedbyGuesses[i];
+            *v_residuals = v_ResidualsOfGuesses[i];
         }
     }
 
@@ -228,7 +237,7 @@ D_Geo_PointSet_2D D_Geo_LineSet_2D::intersections_clustered_kmeans_ransac(double
     return centers_best;
 }
 
-void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
+void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_Geo_Point_2D *center_best, double *least_deviation, D_Geo_PointSet_2D *IntersectionsUsed, vector<double> *v_residuals, double subset_size_rel, size_t iterations, bool subset_of_points_not_lines)
 {
     //qDebug() << "D_Geo_LineSet_2D::intersection_ransac_thread" << "with" << iterations << "iterations";
 
@@ -237,6 +246,7 @@ void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_
     *least_deviation = INFINITY;
     *IntersectionsUsed = D_Geo_PointSet_2D();
     double std_current;
+    vector<double> v_residuals_guess;
 
     ///return empty set, vanishing center and infinite deviation, when iterations is 0
     if(iterations <= 0)
@@ -253,7 +263,7 @@ void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_
             Point_subset = line_set->subset_random(subset_size_rel).intersections_pairwise();
 
         ///find best guess for center
-        D_Geo_Point_2D center_current = Point_subset.center(&std_current);
+        D_Geo_Point_2D center_current = Point_subset.center(&std_current, &v_residuals_guess);
 
         ///save as new best guess, if better than old best guess
         if(std_current < *least_deviation)
@@ -261,6 +271,7 @@ void D_Geo_LineSet_2D::intersection_ransac_thread(D_Geo_LineSet_2D *line_set, D_
             *center_best = center_current;
             *least_deviation = std_current;
             *IntersectionsUsed = Point_subset;
+            *v_residuals = v_residuals_guess;
         }
     }
 
