@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_4_5 (07.04.21)</span>
+   &#160;<span id="projectnumber">v1_5_0 (11.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -111,6 +111,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aa1615986e1d3f6edd1b37009f9951c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac88ad368e4965243e4e10bc7f517e857"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac88ad368e4965243e4e10bc7f517e857">Plot_Hist</a> (QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool uniform, bool accum, double *max_occured)</td></tr>
 <tr class="separator:ac88ad368e4965243e4e10bc7f517e857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f8f4554563444d99d6b582ee6f33cb"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a93f8f4554563444d99d6b582ee6f33cb">Plot_Hist_WithStats</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni=true, bool acc=false)</td></tr>
+<tr class="separator:a93f8f4554563444d99d6b582ee6f33cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca1f841ef41b721bec24f2599a471a5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#acca1f841ef41b721bec24f2599a471a5">Plot_Hist_WithStats</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; vv_Data, double min_x, double max_x, size_t n_classes, vector&lt; double &gt; v_mean, vector&lt; double &gt; v_std, QString name_title, QString name_x, bool uni=true, bool acc=false)</td></tr>
+<tr class="separator:acca1f841ef41b721bec24f2599a471a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28b2a82c4b4c3e2df6cb8b3a624f1753"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a28b2a82c4b4c3e2df6cb8b3a624f1753">Plot_Hist_WithStats_Color</a> (QChartView *pChartView, vector&lt; double &gt; v_DataHist, vector&lt; double &gt; v_DataColor, function&lt; double(vector&lt; double &gt;)&gt; F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni=true, bool acc=false)</td></tr>
+<tr class="separator:a28b2a82c4b4c3e2df6cb8b3a624f1753"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acadf464f62a5badd8275887e099d2009"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#acadf464f62a5badd8275887e099d2009">Plot_Hist_Single_Classes</a> (QChartView *pChartView, vector&lt; double &gt; *v_hist, double min, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
 <tr class="separator:acadf464f62a5badd8275887e099d2009"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa66c38f3ada51ad2254e1ad4a190a7f8"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#aa66c38f3ada51ad2254e1ad4a190a7f8">Plot_Hist_Multi_Classes</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vv_hist, double min_x, double max_x, double max_y, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
@@ -1254,6 +1260,288 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>ignore_first</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93f8f4554563444d99d6b582ee6f33cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f8f4554563444d99d6b582ee6f33cb">&#9670;&nbsp;</a></span>Plot_Hist_WithStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int D_Plot::Plot_Hist_WithStats </td>
+          <td>(</td>
+          <td class="paramtype">QChartView *&#160;</td>
+          <td class="paramname"><em>pChartView</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vv_Data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_classes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>uni</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>acc</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acca1f841ef41b721bec24f2599a471a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acca1f841ef41b721bec24f2599a471a5">&#9670;&nbsp;</a></span>Plot_Hist_WithStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int D_Plot::Plot_Hist_WithStats </td>
+          <td>(</td>
+          <td class="paramtype">QChartView *&#160;</td>
+          <td class="paramname"><em>pChartView</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vv_Data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_classes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_mean</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_std</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>uni</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>acc</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28b2a82c4b4c3e2df6cb8b3a624f1753"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28b2a82c4b4c3e2df6cb8b3a624f1753">&#9670;&nbsp;</a></span>Plot_Hist_WithStats_Color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Plot::Plot_Hist_WithStats_Color </td>
+          <td>(</td>
+          <td class="paramtype">QChartView *&#160;</td>
+          <td class="paramname"><em>pChartView</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_DataHist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_DataColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">function&lt; double(vector&lt; double &gt;)&gt;&#160;</td>
+          <td class="paramname"><em>F_ColorStat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x_hist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x_hist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x_color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x_color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_classes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mean_hist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>std_hist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>uni</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>acc</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

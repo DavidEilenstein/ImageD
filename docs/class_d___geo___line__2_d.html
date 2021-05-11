@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_4_5 (07.04.21)</span>
+   &#160;<span id="projectnumber">v1_5_0 (11.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -145,6 +145,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad30549fb950dcc463fc5831a305e301f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a253b4cf1acd6ed53803f541aeb112691"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___line__2_d.html#a253b4cf1acd6ed53803f541aeb112691">point_on_line</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P, double dist_max=0)</td></tr>
 <tr class="separator:a253b4cf1acd6ed53803f541aeb112691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace598f38504b2d32a02b5d4bbf7ad752"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___line__2_d.html#ace598f38504b2d32a02b5d4bbf7ad752">intersection_rect</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P1, <a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P2, double t, double b, double l, double r)</td></tr>
+<tr class="separator:ace598f38504b2d32a02b5d4bbf7ad752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addbbfa1d427fd8a8883a91379653821c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___line__2_d.html#addbbfa1d427fd8a8883a91379653821c">intersection_rect</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P1, <a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P2, Rect R)</td></tr>
+<tr class="separator:addbbfa1d427fd8a8883a91379653821c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211e24b34b47d3928782e80fa7613eac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___geo___line__2_d.html#a211e24b34b47d3928782e80fa7613eac">intersection_rect</a> (<a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P1, <a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *P2, Mat *M)</td></tr>
+<tr class="separator:a211e24b34b47d3928782e80fa7613eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_d___geo___line__2_d.html" title="The D_Geo_Line_2D class represents a 2D line and offers usefulls methods for standard tasks for 2D po...">D_Geo_Line_2D</a> class represents a 2D line and offers usefulls methods for standard tasks for 2D points and lines. </p>
@@ -330,6 +336,126 @@ Public Member Functions</h2></td></tr>
           <td class="paramtype"><a class="el" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a>&#160;</td>
           <td class="paramname"><em>L</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace598f38504b2d32a02b5d4bbf7ad752"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace598f38504b2d32a02b5d4bbf7ad752">&#9670;&nbsp;</a></span>intersection_rect() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Geo_Line_2D::intersection_rect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a211e24b34b47d3928782e80fa7613eac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a211e24b34b47d3928782e80fa7613eac">&#9670;&nbsp;</a></span>intersection_rect() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Geo_Line_2D::intersection_rect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>M</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addbbfa1d427fd8a8883a91379653821c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addbbfa1d427fd8a8883a91379653821c">&#9670;&nbsp;</a></span>intersection_rect() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Geo_Line_2D::intersection_rect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *&#160;</td>
+          <td class="paramname"><em>P2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Rect&#160;</td>
+          <td class="paramname"><em>R</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

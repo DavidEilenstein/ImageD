@@ -40,36 +40,74 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     pChartView_Results_Poincare->setRubberBand(QChartView::RectangleRubberBand);
     pChartView_Results_Poincare->setInteractive(true);
 
-    pChartView_Results_Overview_SpeedLine = new QChartView();
-    D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedLine, "Plot Initialized (Overview, Speed, Line)");
-    ui->gridLayout_Res_Overview_SpeedLine->addWidget(pChartView_Results_Overview_SpeedLine);
-    pChartView_Results_Overview_SpeedLine->setRenderHint(QPainter::Antialiasing);
-    pChartView_Results_Overview_SpeedLine->setRubberBand(QChartView::RectangleRubberBand);
-    pChartView_Results_Overview_SpeedLine->setInteractive(true);
-
-    pChartView_Results_Overview_SpeedPoincare = new QChartView();
-    D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedPoincare, "Plot Initialized (Overview, Speed, Poincare)");
-    ui->gridLayout_Res_Overview_SpeedPoincare->addWidget(pChartView_Results_Overview_SpeedPoincare);
-    pChartView_Results_Overview_SpeedPoincare->setRenderHint(QPainter::Antialiasing);
-    pChartView_Results_Overview_SpeedPoincare->setRubberBand(QChartView::RectangleRubberBand);
-    pChartView_Results_Overview_SpeedPoincare->setInteractive(true);
-    pChartView_Results_Overview_SpeedPoincare->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
 
-    pChartView_Results_Overview_AngleLine = new QChartView();
-    D_Plot::Plot_Empty(pChartView_Results_Overview_AngleLine, "Plot Initialized (Overview, Angle, Line)");
-    ui->gridLayout_Res_Overview_AngleLine->addWidget(pChartView_Results_Overview_AngleLine);
-    pChartView_Results_Overview_AngleLine->setRenderHint(QPainter::Antialiasing);
-    pChartView_Results_Overview_AngleLine->setRubberBand(QChartView::RectangleRubberBand);
-    pChartView_Results_Overview_AngleLine->setInteractive(true);
+    pChartView_Results_Overview1_SpeedLine = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedLine, "Plot Initialized (Overview, Speed, Line)");
+    ui->gridLayout_Res_Overview_SpeedLine->addWidget(pChartView_Results_Overview1_SpeedLine);
+    pChartView_Results_Overview1_SpeedLine->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview1_SpeedLine->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview1_SpeedLine->setInteractive(true);
 
-    pChartView_Results_Overview_AnglePoincare = new QChartView();
-    D_Plot::Plot_Empty(pChartView_Results_Overview_AnglePoincare, "Plot Initialized (Overview, Angle, Poincare)");
-    ui->gridLayout_Res_Overview_AnglePoincare->addWidget(pChartView_Results_Overview_AnglePoincare);
-    pChartView_Results_Overview_AnglePoincare->setRenderHint(QPainter::Antialiasing);
-    pChartView_Results_Overview_AnglePoincare->setRubberBand(QChartView::RectangleRubberBand);
-    pChartView_Results_Overview_AnglePoincare->setInteractive(true);
-    pChartView_Results_Overview_AnglePoincare->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    pChartView_Results_Overview1_SpeedPoincare = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedPoincare, "Plot Initialized (Overview, Speed, Poincare)");
+    ui->gridLayout_Res_Overview_SpeedPoincare->addWidget(pChartView_Results_Overview1_SpeedPoincare);
+    pChartView_Results_Overview1_SpeedPoincare->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview1_SpeedPoincare->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview1_SpeedPoincare->setInteractive(true);
+    pChartView_Results_Overview1_SpeedPoincare->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+
+    pChartView_Results_Overview1_AngleLine = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview1_AngleLine, "Plot Initialized (Overview, Angle, Line)");
+    ui->gridLayout_Res_Overview_AngleLine->addWidget(pChartView_Results_Overview1_AngleLine);
+    pChartView_Results_Overview1_AngleLine->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview1_AngleLine->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview1_AngleLine->setInteractive(true);
+
+    pChartView_Results_Overview1_AnglePoincare = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview1_AnglePoincare, "Plot Initialized (Overview, Angle, Poincare)");
+    ui->gridLayout_Res_Overview_AnglePoincare->addWidget(pChartView_Results_Overview1_AnglePoincare);
+    pChartView_Results_Overview1_AnglePoincare->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview1_AnglePoincare->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview1_AnglePoincare->setInteractive(true);
+    pChartView_Results_Overview1_AnglePoincare->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+
+
+
+    pChartView_Results_Overview2_SpeedLinear_Line = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Line, "Plot Initialized (Overview2, linear speed, Line)");
+    ui->gridLayout_Res_OverviewNew_Line_LinearSpeed->addWidget(pChartView_Results_Overview2_SpeedLinear_Line);
+    pChartView_Results_Overview2_SpeedLinear_Line->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview2_SpeedLinear_Line->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview2_SpeedLinear_Line->setInteractive(true);
+
+    pChartView_Results_Overview2_SpeedAngular_Line = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Line, "Plot Initialized (Overview2, angular speed, Line)");
+    ui->gridLayout_Res_OverviewNew_Line_AngularSpeed->addWidget(pChartView_Results_Overview2_SpeedAngular_Line);
+    pChartView_Results_Overview2_SpeedAngular_Line->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview2_SpeedAngular_Line->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview2_SpeedAngular_Line->setInteractive(true);
+
+    pChartView_Results_Overview2_SpeedLinear_Hist = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Hist, "Plot Initialized (Overview2, linear speed, hist)");
+    ui->gridLayout_Res_OverviewNew_Hist_LinearSpeed->addWidget(pChartView_Results_Overview2_SpeedLinear_Hist);
+    pChartView_Results_Overview2_SpeedLinear_Hist->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview2_SpeedLinear_Hist->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview2_SpeedLinear_Hist->setInteractive(true);
+
+    pChartView_Results_Overview2_SpeedAngular_Hist = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Hist, "Plot Initialized (Overview2, angular speed, hist)");
+    ui->gridLayout_Res_OverviewNew_Hist_AngularSpeed->addWidget(pChartView_Results_Overview2_SpeedAngular_Hist);
+    pChartView_Results_Overview2_SpeedAngular_Hist->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview2_SpeedAngular_Hist->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview2_SpeedAngular_Hist->setInteractive(true);
+
+    pChartView_Results_Overview2_DistCenterIntersections_Hist = new QChartView();
+    D_Plot::Plot_Empty(pChartView_Results_Overview2_DistCenterIntersections_Hist, "Plot Initialized (Overview2, distance intersections to center, hist)");
+    ui->gridLayout_Res_OverviewNew_Hist_DistanceCenterIntersections->addWidget(pChartView_Results_Overview2_DistCenterIntersections_Hist);
+    pChartView_Results_Overview2_DistCenterIntersections_Hist->setRenderHint(QPainter::Antialiasing);
+    pChartView_Results_Overview2_DistCenterIntersections_Hist->setRubberBand(QChartView::RectangleRubberBand);
+    pChartView_Results_Overview2_DistCenterIntersections_Hist->setInteractive(true);
 
     //Table
     Table_Results.set_TW(ui->tableWidget_Results);
@@ -117,7 +155,8 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->doubleSpinBox_Res_Histo_MaxSpeedLinear,             SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_Histo_MaxSpeedAngular,            SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections, SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
-    connect(ui->spinBox_Res_Histo_Classes,                          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_Histo_Classes_Speed,                    SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_Histo_Classes_Dist,                     SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_Histo_Acc,                             SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_Histo_Uni,                             SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_Histo_Type,                            SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
@@ -133,6 +172,7 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->spinBox_Res_GridVisParam_Thickness_Label,           SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_GridVisParam_Label_Scaling,       SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     //custom analysis
+    connect(ui->comboBox_Res_SpeedCustom_ShiftType,                 SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_SpeedCustom_Stat_Value,                SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_SpeedCustom_Stat_Uncertanty,           SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_AngleCustom_Stat_Value,                SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
@@ -145,8 +185,10 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->checkBox_Res_PlotLine_FixRange_A,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_PlotLine_FixRange_T_max,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
-    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
-    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_max,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear,   SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear,   SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular,  SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular,  SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_PlotLine_FixRange_A_max,          SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     //heatmap
@@ -226,8 +268,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Views()
     View_Proc.Update_View();
     View_Results.Update_View();
 
-    pChartView_Results_Overview_SpeedPoincare->setBaseSize(pChartView_Results_Overview_SpeedPoincare->height(), pChartView_Results_Overview_SpeedPoincare->height());
-    pChartView_Results_Overview_AnglePoincare->setBaseSize(pChartView_Results_Overview_AnglePoincare->height(), pChartView_Results_Overview_AnglePoincare->height());
+    pChartView_Results_Overview1_SpeedPoincare->setBaseSize(pChartView_Results_Overview1_SpeedPoincare->height(), pChartView_Results_Overview1_SpeedPoincare->height());
+    pChartView_Results_Overview1_AnglePoincare->setBaseSize(pChartView_Results_Overview1_AnglePoincare->height(), pChartView_Results_Overview1_AnglePoincare->height());
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Images()
@@ -573,13 +615,41 @@ void D_MAKRO_CiliaSphereTracker::Update_Results()
     case RES_SPEED_ANALYSIS:                Update_Result_SpeedAnalysis();              break;
     case RES_ANGLE_ANALYSIS:                Update_Result_AngleAnalysis();              break;
     case RES_HISTOGRAM:                     Update_Result_Histogram();                  break;
-    case RES_OVERVIEW:
+
+    case RES_OVERVIEW1:
     {
         Update_Result_SpeedAnalysis();
         Update_Result_AngleAnalysis();
     }
         break;
-    default:                                                                            return;}
+
+    case RES_OVERVIEW2:
+    {
+        ui->comboBox_Res_SpeedCustom_ShiftType->blockSignals(true);
+        size_t index_old = ui->comboBox_Res_SpeedCustom_ShiftType->currentIndex();
+        ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
+        Update_Result_SpeedAnalysis();
+        ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_ANGULAR);
+        Update_Result_SpeedAnalysis();
+        ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(index_old);
+        ui->comboBox_Res_SpeedCustom_ShiftType->blockSignals(false);
+
+        ui->comboBox_Res_Histo_Type->blockSignals(true);
+        index_old = ui->comboBox_Res_Histo_Type->currentIndex();
+        ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_LINEAR_SPEED);
+        Update_Result_Histogram();
+        ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_ANGULAR_SPEED);
+        Update_Result_Histogram();
+        ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_DIST_CENTER_INTERSECTIONS);
+        Update_Result_Histogram();
+        ui->comboBox_Res_Histo_Type->setCurrentIndex(index_old);
+        ui->comboBox_Res_Histo_Type->blockSignals(false);
+    }
+        break;
+
+    default:
+        return;
+    }
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsTimeProjectSum()
@@ -1280,7 +1350,154 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
     //scale offset
     D_Geo_Point_2D P_Offset_scaled = D_Geo_Point_2D(P_VideoOffset.x * res_scale, P_VideoOffset.y * res_scale);
 
-    if(ui->checkBox_Res_VortexCenter_MovingAverage->isChecked())    //.................................................................. moving average
+    //mode
+    int mode = ui->checkBox_Res_VortexCenter_MovingAverage->checkState();
+
+    if(mode == 0 || mode == 1)                //.................................................................................................... full video
+    {
+        //grid size
+        size_t nx = vvvv_XYFrmObjShifts.size();
+        size_t ny = vvvv_XYFrmObjShifts[0].size();
+
+        //-------------------- calc ---------------------
+
+        //calc normal lines and center lines
+        double center_deviation = INFINITY;
+        vector<double> v_residuals_all;
+        vector<double> v_residuals_used;
+        D_Geo_LineSet_2D Lines_NormalsOfMovementVectors;
+        D_Geo_Point_2D P_Center = CalcVortexCenter(
+                    &Lines_NormalsOfMovementVectors,
+                    &center_deviation,
+                    &v_residuals_all,
+                    &v_residuals_used,
+                    well_diameter_px,
+                    P_VideoOffset,
+                    0, -1); //full video
+
+        //save center for more calculations
+        P_VortexCenter = P_Center.add_inhomo(D_Geo_Point_2D(-P_VideoOffset.x, -P_VideoOffset.y));
+        v_VortexCenterResiduals_All = v_residuals_all;
+        v_VortexCenterResiduals_Used = v_residuals_used;
+        state_vortex_center_calced = true;
+
+        //scale
+        D_Geo_Point_2D P_Center_scaled = P_Center.scale(res_scale);
+        double center_deviation_scaled = center_deviation * res_scale;
+
+        //get center
+        int center_x_scaled = P_Center_scaled.x();
+        int center_y_scaled = P_Center_scaled.y();
+
+        //check center position in img?
+        bool x_ok = center_x_scaled >= 0 && center_x_scaled < well_diameter_px;
+        bool y_ok = center_y_scaled >= 0 && center_y_scaled < well_diameter_px;
+
+        //-------------------- draw ---------------------
+
+        //deviation dot
+        if(x_ok && y_ok)
+            ERR(D_Img_Proc::Draw_Dot(
+                    &MA_tmp_Well,
+                    P_Center_scaled.x(),
+                    P_Center_scaled.y(),
+                    center_deviation_scaled * 2,
+                    100, 0, 100),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Dot - grid cell centers");
+
+        //draw well as black circle again (in case deviaition is so huge that well can't be seen anymore)
+        ERR(D_Img_Proc::Draw_Circle(
+                &MA_tmp_Well,
+                well_radius_px_scaled, well_radius_px_scaled,
+                well_radius_px_scaled,
+                0, 0, 0,
+                thickness * 3),
+            "Update_Result_GraphicsVortexCenter",
+            "Draw_Circle - Well diameter");
+
+        //insert video backgound graphic
+        ERR(D_Img_Proc::Insert(
+                    &MA_tmp_Well,
+                    &MA_TimeProject_Show,
+                    P_Offset_scaled.x(),
+                    P_Offset_scaled.y(),
+                    res_scale),
+            "Update_Result_GraphicsVortexCenter",
+            "D_Img_Proc::Insert - video background in well img");
+
+        //normal lines
+        for(size_t i = 0; i < Lines_NormalsOfMovementVectors.size(); i++)
+        {
+            D_Geo_Point_2D P1, P2;
+            if(Lines_NormalsOfMovementVectors.line(i).intersection_rect(&P1, &P2, 0, well_diameter_px, 0, well_diameter_px))
+                ERR(D_Img_Proc::Draw_Line(
+                        &MA_tmp_Well,
+                        P1.scale(res_scale).CV_Point(),
+                        P2.scale(res_scale).CV_Point(),
+                        max(2.0 , ceil(thickness / 4.0)),
+                        128, 0, 128),
+                    "Update_Result_GraphicsVortexCenter",
+                    "Draw_Line - Lines_NormalsOfMovementVectors[" + QString::number(i) + "]");
+        }
+
+        //anchors of normal lines
+        for(size_t gx = 0; gx < nx; gx++)
+            for(size_t gy = 0; gy < ny; gy++)
+                ERR(D_Img_Proc::Draw_Dot(
+                        &MA_tmp_Well,
+                        P_Offset_scaled.x() + ((gx + 0.5) / static_cast<double>(nx)) * spatial_roi_width * res_scale,
+                        P_Offset_scaled.y() + ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height * res_scale,
+                        thickness * 2,
+                        128, 0, 128),
+                    "Update_Result_GraphicsVortexCenter",
+                    "Draw_Dot - grid cell centers");
+
+        //center y
+        if(y_ok)
+            ERR(D_Img_Proc::Draw_Line(
+                    &MA_tmp_Well,
+                    0, center_y_scaled,
+                    well_diameter_px_scaled - 1, center_y_scaled,
+                    thickness,
+                    255, 0, 255),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Line - Center Y");
+
+        //center x
+        if(x_ok)
+            ERR(D_Img_Proc::Draw_Line(
+                    &MA_tmp_Well,
+                    center_x_scaled, 0,
+                    center_x_scaled, well_diameter_px_scaled - 1,
+                    thickness,
+                    255, 0, 255),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Line - Center X");
+
+        //center dot and deviation circle
+        if(x_ok && y_ok)
+        {
+            ERR(D_Img_Proc::Draw_Dot(
+                    &MA_tmp_Well,
+                    center_x_scaled, center_y_scaled,
+                    thickness * 5,
+                    255, 0, 255),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Dot - Center");
+
+            ERR(D_Img_Proc::Draw_Circle(
+                    &MA_tmp_Well,
+                    center_x_scaled, center_y_scaled,
+                    center_deviation_scaled,
+                    255, 0, 255,
+                    thickness),
+                "Update_Result_GraphicsVortexCenter",
+                "Draw_Circle - STD");
+        }
+    }
+
+    if(mode == 2 || mode == 1)    //.................................................................. moving average
     {
         //-------------------- calc ---------------------
 
@@ -1336,189 +1553,59 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 
 
         //insert video background graphic
-        ERR(D_Img_Proc::Insert(
-                    &MA_tmp_Well,
-                    &MA_TimeProject_Show,
-                    P_Offset_scaled.x(),
-                    P_Offset_scaled.y(),
-                    res_scale),
-            "Update_Result_GraphicsVortexCenter",
-            "D_Img_Proc::Insert - video background in well img");
+        if(mode == 2)
+            ERR(D_Img_Proc::Insert(
+                        &MA_tmp_Well,
+                        &MA_TimeProject_Show,
+                        P_Offset_scaled.x(),
+                        P_Offset_scaled.y(),
+                        res_scale),
+                "Update_Result_GraphicsVortexCenter",
+                "D_Img_Proc::Insert - video background in well img");
 
         size_t n = v_CentersScaled.size();
+        D_Geo_Point_2D P_last;
         for(size_t i = 0; i < n; i++)
         {
             //calc color
-            double i_rel = n > 1 ? 1 - (static_cast<double>(i) / (n - 1)) : 1;
+            double i_rel = n > 1 ? static_cast<double>(i) / (n - 1) : 0;
             QColor color;
-            color.setHsv(static_cast<uchar>(360 * i_rel * (2.0/3.0)), 255, 255);
+            color.setHsv((1 - i_rel) * 240, 255, 255);
 
             //get center
             D_Geo_Point_2D P_Center_scaled = v_CentersScaled[i];
-            int center_x_scaled = P_Center_scaled.x();
-            int center_y_scaled = P_Center_scaled.y();
 
-            //deviation
-            //double center_deviation_scaled = v_DeviationsScaled[i];
-
-            //check center position in img?
-            bool x_ok = center_x_scaled >= 0 && center_x_scaled < well_diameter_px;
-            bool y_ok = center_y_scaled >= 0 && center_y_scaled < well_diameter_px;
-
-            //center dor and deviation circle
-            if(x_ok && y_ok)
+            //draw center as dot
+            if(P_Center_scaled.in_rect(0, well_diameter_px_scaled, 0, well_diameter_px_scaled))
             {
                 ERR(D_Img_Proc::Draw_Dot(
                         &MA_tmp_Well,
-                        center_x_scaled, center_y_scaled,
+                        P_Center_scaled.x(), P_Center_scaled.y(),
                         thickness * 3,
                         color.red(), color.green(), color.blue()),
                     "Update_Result_GraphicsVortexCenter",
                     "Draw_Dot - Center");
             }
-        }
-    }
-    else                //.................................................................................................... full video
-    {
-        //grid size
-        size_t nx = vvvv_XYFrmObjShifts.size();
-        size_t ny = vvvv_XYFrmObjShifts[0].size();
 
-        //-------------------- calc ---------------------
+            //draw center connection as line for later centers
+            if(i >= 1)
+            {
+                D_Geo_Line_2D L_CenterConnect(P_Center_scaled, P_last);
+                D_Geo_Point_2D P1;
+                D_Geo_Point_2D P2;
+                if(L_CenterConnect.intersection_rect(&P1, &P2, 0, well_diameter_px_scaled, 0, well_diameter_px_scaled))
+                    ERR(D_Img_Proc::Draw_Line(
+                            &MA_tmp_Well,
+                            P_Center_scaled.x(), P_Center_scaled.y(),
+                            P_last.x(), P_last.y(),
+                            1,
+                            color.red(), color.green(), color.blue()),
+                        "Update_Result_GraphicsVortexCenter",
+                        "Draw_Line - Center X");
+            }
 
-        //calc normal lines and center lines
-        double center_deviation = INFINITY;
-        vector<double> v_residuals_all;
-        vector<double> v_residuals_used;
-        D_Geo_LineSet_2D Lines_NormalsOfMovementVectors;
-        D_Geo_Point_2D P_Center = CalcVortexCenter(
-                    &Lines_NormalsOfMovementVectors,
-                    &center_deviation,
-                    &v_residuals_all,
-                    &v_residuals_used,
-                    well_diameter_px,
-                    P_VideoOffset,
-                    0, -1); //full video
-
-        //save center for more calculations
-        P_VortexCenter = P_Center.add_inhomo(D_Geo_Point_2D(-P_VideoOffset.x, -P_VideoOffset.y));
-        v_VortexCenterResiduals_All = v_residuals_all;
-        v_VortexCenterResiduals_Used = v_residuals_used;
-        state_vortex_center_calced = true;
-
-        //scale
-        D_Geo_Point_2D P_Center_scaled = P_Center.scale(res_scale);
-        double center_deviation_scaled = center_deviation * res_scale;
-
-        //get center
-        int center_x_scaled = P_Center_scaled.x();
-        int center_y_scaled = P_Center_scaled.y();
-
-        //check center position in img?
-        bool x_ok = center_x_scaled >= 0 && center_x_scaled < well_diameter_px;
-        bool y_ok = center_y_scaled >= 0 && center_y_scaled < well_diameter_px;
-
-        //-------------------- draw ---------------------
-
-        //deviation dot
-        if(x_ok && y_ok)
-            ERR(D_Img_Proc::Draw_Dot(
-                    &MA_tmp_Well,
-                    P_Center_scaled.x(),
-                    P_Center_scaled.y(),
-                    center_deviation_scaled * 2,
-                    100, 0, 0),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Dot - grid cell centers");
-
-        //draw well as black circle again (in case deviaition is so huge that well can't be seen anymore)
-        ERR(D_Img_Proc::Draw_Circle(
-                &MA_tmp_Well,
-                well_radius_px_scaled, well_radius_px_scaled,
-                well_radius_px_scaled,
-                0, 0, 0,
-                thickness * 3),
-            "Update_Result_GraphicsVortexCenter",
-            "Draw_Circle - Well diameter");
-
-        //insert video backgound graphic
-        ERR(D_Img_Proc::Insert(
-                    &MA_tmp_Well,
-                    &MA_TimeProject_Show,
-                    P_Offset_scaled.x(),
-                    P_Offset_scaled.y(),
-                    res_scale),
-            "Update_Result_GraphicsVortexCenter",
-            "D_Img_Proc::Insert - video background in well img");
-
-        //normal lines
-        for(size_t i = 0; i < Lines_NormalsOfMovementVectors.size(); i++)
-        {
-            D_Geo_Point_2D P1, P2;
-            if(Lines_NormalsOfMovementVectors.line(i).intersection_rect(&P1, &P2, 0, well_diameter_px, 0, well_diameter_px))
-                ERR(D_Img_Proc::Draw_Line(
-                        &MA_tmp_Well,
-                        P1.scale(res_scale).CV_Point(),
-                        P2.scale(res_scale).CV_Point(),
-                        max(2.0 , ceil(thickness / 4.0)),
-                        0, 0, 255),
-                    "Update_Result_GraphicsVortexCenter",
-                    "Draw_Line - Lines_NormalsOfMovementVectors[" + QString::number(i) + "]");
-        }
-
-        //anchors of normal lines
-        for(size_t gx = 0; gx < nx; gx++)
-            for(size_t gy = 0; gy < ny; gy++)
-                ERR(D_Img_Proc::Draw_Dot(
-                        &MA_tmp_Well,
-                        P_Offset_scaled.x() + ((gx + 0.5) / static_cast<double>(nx)) * spatial_roi_width * res_scale,
-                        P_Offset_scaled.y() + ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height * res_scale,
-                        thickness * 2,
-                        0, 255, 255),
-                    "Update_Result_GraphicsVortexCenter",
-                    "Draw_Dot - grid cell centers");
-
-        //center y
-        if(y_ok)
-            ERR(D_Img_Proc::Draw_Line(
-                    &MA_tmp_Well,
-                    0, center_y_scaled,
-                    well_diameter_px_scaled - 1, center_y_scaled,
-                    thickness,
-                    0, 255, 0),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Line - Center Y");
-
-        //center x
-        if(x_ok)
-            ERR(D_Img_Proc::Draw_Line(
-                    &MA_tmp_Well,
-                    center_x_scaled, 0,
-                    center_x_scaled, well_diameter_px_scaled - 1,
-                    thickness,
-                    0, 255, 0),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Line - Center X");
-
-        //center dor and deviation circle
-        if(x_ok && y_ok)
-        {
-            ERR(D_Img_Proc::Draw_Dot(
-                    &MA_tmp_Well,
-                    center_x_scaled, center_y_scaled,
-                    thickness * 5,
-                    0, 255, 0),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Dot - Center");
-
-            ERR(D_Img_Proc::Draw_Circle(
-                    &MA_tmp_Well,
-                    center_x_scaled, center_y_scaled,
-                    center_deviation_scaled,
-                    255, 0, 0,
-                    thickness),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Circle - STD");
+            //save current center as last center for next center
+            P_last = P_Center_scaled;
         }
     }
 
@@ -1532,14 +1619,35 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
 {
-    //Check requirements
+    bool reqirements_ok = true;
+    int shift_type = ui->comboBox_Res_SpeedCustom_ShiftType->currentIndex();
+
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_GridSamplingSplit || !state_VidProcUp2date)
+        reqirements_ok = false;
+
+    //check stat summary
+    if(reqirements_ok)
+    {
+        if(!state_StatSummaryCalced)
+            Data_CalcFullVideoStats();
+        if(!state_StatSummaryCalced)
+            reqirements_ok = false;
+    }
+
+    //check center calc
+    if(reqirements_ok && shift_type == SHIFT_TYPE_ANGULAR)
+    {
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            Data_CalcFullVideoStats_AngularSpeed();
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            reqirements_ok = false;
+    }
+
+    if(!reqirements_ok)
     {
         D_Plot::Plot_Empty(pChartView_Results_Line, "Reqirements for Update_Result_SpeedStatCustom failed");
-        D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_SpeedStatCustom failed");
-        Table_Results.clear_data();
         return;
-    };
+    }
 
     //error checker
     int ER;
@@ -1627,8 +1735,25 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
                         //loop objects
                         for(size_t obj = 0; obj < no; obj++)
                         {
-                            //scale to shift/second and export
-                            v_Shifts_InCellInTimeWindow.push_back(vvvv_XYFrmObjShifts[gx][gy][it_cur][obj] * conv_perFrame2perSecond * conv_px2um);
+                            //scale and export data
+                            if(shift_type == SHIFT_TYPE_LINEAR)
+                            {
+                                //linear shift
+                                v_Shifts_InCellInTimeWindow.push_back(vv_FrmObjShifts[it_cur][obj] * conv_perFrame2perSecond * conv_px2um);
+                            }
+                            else
+                            {
+                                //angular shift
+
+                                //dist to center
+                                double dx = vv_FrmObjPositions[it_cur][obj].x - P_VortexCenter.x();
+                                double dy = vv_FrmObjPositions[it_cur][obj].y - P_VortexCenter.y();
+                                double dist = sqrt(dx * dx + dy * dy);
+
+                                double shift_linear = vv_FrmObjShifts[it_cur][obj];
+
+                                v_Shifts_InCellInTimeWindow.push_back(dist > 0 ? shift_linear / dist : 0);
+                            }
                         }
                     }
 
@@ -1669,6 +1794,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
             cell_index_all++;
         }
 
+
+
     //Plot Line
     ER = D_Plot::Plot_Line_XY_Multi(
                 pChartView_Results_Line,
@@ -1698,13 +1825,27 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
     //cosmetic stuff for the plot
 
     if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_CUSTOM)
-        pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+    {
+        if(shift_type == SHIFT_TYPE_LINEAR)
+            pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+        else
+            pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+    }
     else if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_VIDEO_LENGTH)
-        pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+    {
+        if(shift_type == SHIFT_TYPE_LINEAR)
+            pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+        else
+            pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+    }
 
     if(ui->checkBox_Res_PlotLine_FixRange_S->isChecked())
-            pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
-
+    {
+        if(shift_type == SHIFT_TYPE_LINEAR)
+            pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+        else
+            pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+    }
     //pChartView_Results_Line->chart()->legend()->setAlignment(Qt::AlignLeft);
 }
 
@@ -1895,21 +2036,56 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleStatCustom()
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
 {
-    //Check requirements
+    bool reqirements_ok = true;
+    int shift_type = ui->comboBox_Res_SpeedCustom_ShiftType->currentIndex();
+
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_GridSamplingSplit || !state_VidProcUp2date)
+        reqirements_ok = false;
+
+    //check stat summary
+    if(reqirements_ok)
+    {
+        if(!state_StatSummaryCalced)
+            Data_CalcFullVideoStats();
+        if(!state_StatSummaryCalced)
+            reqirements_ok = false;
+    }
+
+    //check center calc
+    if(reqirements_ok && shift_type == SHIFT_TYPE_ANGULAR)
+    {
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            Data_CalcFullVideoStats_AngularSpeed();
+        if(!state_vortex_center_calced || !state_StatSummaryCalced_angularSpeed)
+            reqirements_ok = false;
+    }
+
+    //Check requirements
+    if(!reqirements_ok)
     {
         D_Plot::Plot_Empty(pChartView_Results_Line, "Reqirements for Update_Result_SpeedAnalysis failed");
         D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_SpeedAnalysis failed");
         Table_Results.clear_data();
 
-        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
         {
-            D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedLine, "Reqirements for Update_Result_SpeedAnalysis failed");
-            D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedPoincare, "Reqirements for Update_Result_SpeedAnalysis failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedLine, "Reqirements for Update_Result_SpeedAnalysis failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedPoincare, "Reqirements for Update_Result_SpeedAnalysis failed");
+        }
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
+        {
+            if(shift_type == SHIFT_TYPE_LINEAR)
+            {
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Line, "Reqirements for Update_Result_SpeedAnalysis failed");
+            }
+            else
+            {
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Line, "Reqirements for Update_Result_SpeedAnalysis failed");
+            }
         }
 
         return;
-    };
+    }
 
     //error checker
     int ER;
@@ -1962,8 +2138,25 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
             //loop objects
             for(size_t obj = 0; obj < no; obj++)
             {
-                //scale to shift/second and export
-                v_Shifts_InTimeWindow.push_back(vv_FrmObjShifts[it_cur][obj] * conv_perFrame2perSecond * conv_px2um);
+                //scale and export data
+                if(shift_type == SHIFT_TYPE_LINEAR)
+                {
+                    //linear shift
+                    v_Shifts_InTimeWindow.push_back(vv_FrmObjShifts[it_cur][obj] * conv_perFrame2perSecond * conv_px2um);
+                }
+                else
+                {
+                    //angular shift
+
+                    //dist to center
+                    double dx = vv_FrmObjPositions[it_cur][obj].x - P_VortexCenter.x();
+                    double dy = vv_FrmObjPositions[it_cur][obj].y - P_VortexCenter.y();
+                    double dist = sqrt(dx * dx + dy * dy);
+
+                    double shift_linear = vv_FrmObjShifts[it_cur][obj];
+
+                    v_Shifts_InTimeWindow.push_back(dist > 0 ? shift_linear / dist : 0);
+                }
             }
         }
 
@@ -1993,21 +2186,35 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
         }
     }
 
-    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+
+    //Plot title
+    QString QS_Title_Line = shift_type == SHIFT_TYPE_LINEAR ? "<b>Linear speed vs Time</b>" : "<b>Angular speed vs Time</b>";
+    QS_Title_Line.append("<br>" + ui->comboBox_Data_Videos->currentText() +
+                    "<br>"
+                    "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
+                    "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames");
+
+    QString QS_Title_Poincare = shift_type == SHIFT_TYPE_LINEAR ? "<b>Linear speed poincare</b>" : "<b>Angular speed poincare</b>";
+    QS_Title_Poincare.append("<br>" + ui->comboBox_Data_Videos->currentText() +
+                             "<br>"
+                             "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
+                             "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames");
+
+
+    //Speed unit
+    QString QS_Unit = shift_type == SHIFT_TYPE_LINEAR ? "(um/s)" : "(rad/s)";
+
+    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
     {
         //Plot Line
         ER = D_Plot::Plot_Line_XY_Multi(
-                    pChartView_Results_Overview_SpeedLine,
+                    pChartView_Results_Overview1_SpeedLine,
                     v_ValuesX,
                     vv_ValuesY,
-                    "<b>Speed, Line</b>"
-                    "<br>" + ui->comboBox_Data_Videos->currentText() +
-                    "<br>"
-                    "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
-                    "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames",
+                    QS_Title_Line,
                     QSL_SeriesNames,
                     "Time/s",
-                    "Stats of speed /(um/s)",
+                    "Stats of speed /" + QS_Unit,
                     true,
                     true,
                     true,
@@ -2015,23 +2222,48 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
 
         //Plot Poincare
         ER = D_Plot::Plot_Poincare_XY_Single(
-                    pChartView_Results_Overview_SpeedPoincare,
+                    pChartView_Results_Overview1_SpeedPoincare,
                     vv_ValuesY[PLOT_SUMMARY_MID],
-                    "<b>Speed, Poincare</b>"
-                    "<br>" + ui->comboBox_Data_Videos->currentText() +
-                    "<br>"
-                    "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
-                    "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames",
+                    QS_Title_Poincare,
                     QSL_SeriesNames[PLOT_SUMMARY_MID],
-                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /(um/s) at t",
-                    QSL_SeriesNames[PLOT_SUMMARY_MID] + "<br>of Speed /(um/s)<br>at t+" + QString::number(ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->value()) + "s",
+                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /" + QS_Unit + " at t",
+                    QSL_SeriesNames[PLOT_SUMMARY_MID] + "<br>of Speed /" + QS_Unit + "<br>at t+" + QString::number(ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->value()) + "s",
                     ui->spinBox_Res_PlotPoincare_Shift_Frames->value(),
                     true,
                     true,
                     true,
                     Qt::AlignTop);
 
-        pChartView_Results_Overview_SpeedPoincare->setFixedSize(pChartView_Results_Overview_SpeedPoincare->height(), pChartView_Results_Overview_SpeedPoincare->height());
+        pChartView_Results_Overview1_SpeedPoincare->setFixedSize(pChartView_Results_Overview1_SpeedPoincare->height(), pChartView_Results_Overview1_SpeedPoincare->height());
+    }
+    else if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
+    {
+        if(shift_type == SHIFT_TYPE_LINEAR)
+            ER = D_Plot::Plot_Line_XY_Multi(
+                        pChartView_Results_Overview2_SpeedLinear_Line,
+                        v_ValuesX,
+                        vv_ValuesY,
+                        QS_Title_Line,
+                        QSL_SeriesNames,
+                        "Time /s",
+                        "Stats of linear speed /" + QS_Unit,
+                        true,
+                        true,
+                        true,
+                        Qt::AlignTop);
+        else
+            ER = D_Plot::Plot_Line_XY_Multi(
+                        pChartView_Results_Overview2_SpeedAngular_Line,
+                        v_ValuesX,
+                        vv_ValuesY,
+                        QS_Title_Line,
+                        QSL_SeriesNames,
+                        "Time /s",
+                        "Stats of linear speed /" + QS_Unit,
+                        true,
+                        true,
+                        true,
+                        Qt::AlignTop);
     }
     else
     {
@@ -2040,14 +2272,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
                     pChartView_Results_Line,
                     v_ValuesX,
                     vv_ValuesY,
-                    "<b>Main Speed Analysis</b>"
-                    "<br>" + ui->comboBox_Data_Videos->currentText() +
-                    "<br>"
-                    "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
-                    "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames",
+                    QS_Title_Line,
                     QSL_SeriesNames,
                     "Time/s",
-                    "Stats of speed /(um/s)",
+                    "Stats of speed /" + QS_Unit,
                     true,
                     true,
                     true,
@@ -2057,14 +2285,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
         ER = D_Plot::Plot_Poincare_XY_Single(
                     pChartView_Results_Poincare,
                     vv_ValuesY[PLOT_SUMMARY_MID],
-                    "<b>Main Speed Analysis</b>"
-                    "<br>" + ui->comboBox_Data_Videos->currentText() +
-                    "<br>"
-                    "<br>Moving average over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + "s"
-                    "<br>Considered time windows with at least one detetction in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of frames",
+                    QS_Title_Poincare,
                     QSL_SeriesNames[PLOT_SUMMARY_MID],
-                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /(um/s) at t",
-                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /(um/s) at t+" + QString::number(ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->value()) + "s",
+                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /" + QS_Unit + " at t",
+                    QSL_SeriesNames[PLOT_SUMMARY_MID] + " of Speed /" + QS_Unit + " at t+" + QString::number(ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->value()) + "s",
                     ui->spinBox_Res_PlotPoincare_Shift_Frames->value(),
                     true,
                     true,
@@ -2078,41 +2302,98 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
         D_Plot::Plot_Empty(pChartView_Results_Poincare, "Calc worked, Plot failed");
         Table_Results.clear_data();
 
-        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
         {
-            D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedLine, "Calc worked, Plot failed");
-            D_Plot::Plot_Empty(pChartView_Results_Overview_SpeedPoincare, "Calc worked, Plot failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedLine, "Calc worked, Plot failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_SpeedPoincare, "Calc worked, Plot failed");
         }
+
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
+        {
+            if(shift_type == SHIFT_TYPE_LINEAR)
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Line, "Calc worked, Plot failed");
+            else
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Line, "Calc worked, Plot failed");
+        }
+
         return;
     }
 
     //cosmetic stuff for the plot
-    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
     {
         if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_CUSTOM)
-            pChartView_Results_Overview_SpeedLine->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+            pChartView_Results_Overview1_SpeedLine->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
         else if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_VIDEO_LENGTH)
-            pChartView_Results_Overview_SpeedLine->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+            pChartView_Results_Overview1_SpeedLine->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
 
         if(ui->checkBox_Res_PlotLine_FixRange_S->isChecked())
         {
-            pChartView_Results_Overview_SpeedLine->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
-            pChartView_Results_Overview_SpeedPoincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
-            pChartView_Results_Overview_SpeedPoincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
+            if(shift_type == SHIFT_TYPE_LINEAR)
+            {
+                pChartView_Results_Overview1_SpeedLine->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+                pChartView_Results_Overview1_SpeedPoincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+                pChartView_Results_Overview1_SpeedPoincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+            }
+            else
+            {
+                pChartView_Results_Overview1_SpeedLine->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+                pChartView_Results_Overview1_SpeedPoincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+                pChartView_Results_Overview1_SpeedPoincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+            }
+        }
+    }
+    else if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
+    {
+        if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_CUSTOM)
+        {
+            if(shift_type == SHIFT_TYPE_LINEAR)
+                pChartView_Results_Overview2_SpeedLinear_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+            else
+                pChartView_Results_Overview2_SpeedAngular_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+        }
+        else if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_VIDEO_LENGTH)
+        {
+            if(shift_type == SHIFT_TYPE_LINEAR)
+                pChartView_Results_Overview2_SpeedLinear_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+            else
+                pChartView_Results_Overview2_SpeedAngular_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+        }
+
+        if(ui->checkBox_Res_PlotLine_FixRange_S->isChecked())
+        {
+            if(shift_type == SHIFT_TYPE_LINEAR)
+                pChartView_Results_Overview2_SpeedLinear_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+            else
+                pChartView_Results_Overview2_SpeedAngular_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
         }
     }
     else
     {
         if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_CUSTOM)
+        {
             pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+        }
         else if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_VIDEO_LENGTH)
+        {
             pChartView_Results_Line->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+        }
 
         if(ui->checkBox_Res_PlotLine_FixRange_S->isChecked())
         {
-            pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
-            pChartView_Results_Poincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
-            pChartView_Results_Poincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->value());
+            if(shift_type == SHIFT_TYPE_LINEAR)
+            {
+                pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+                pChartView_Results_Poincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+                pChartView_Results_Poincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->value());
+            }
+            else
+            {
+                pChartView_Results_Line->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+                pChartView_Results_Poincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+                pChartView_Results_Poincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->value());
+            }
+
         }
     }
 
@@ -2130,10 +2411,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
         D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_AngleAnalysis failed");
         Table_Results.clear_data();
 
-        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
         {
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AngleLine, "Reqirements for Update_Result_AngleAnalysis failed");
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AnglePoincare, "Reqirements for Update_Result_AngleAnalysis failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_AngleLine, "Reqirements for Update_Result_AngleAnalysis failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_AnglePoincare, "Reqirements for Update_Result_AngleAnalysis failed");
         }
 
         return;
@@ -2224,11 +2505,11 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
         }
     }
 
-    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
     {
         //Plot Line
         ER = D_Plot::Plot_Line_XY_Multi(
-                    pChartView_Results_Overview_AngleLine,
+                    pChartView_Results_Overview1_AngleLine,
                     v_ValuesX,
                     vv_ValuesY,
                     "<b>Angle, Line</b>"
@@ -2247,7 +2528,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
 
         //Plot Poincare
         ER = D_Plot::Plot_Poincare_XY_Single(
-                    pChartView_Results_Overview_AnglePoincare,
+                    pChartView_Results_Overview1_AnglePoincare,
                     vv_ValuesY[PLOT_SUMMARY_MID],
                     "<b>Angle, Poincare</b>"
                     "<br>" + ui->comboBox_Data_Videos->currentText() +
@@ -2264,7 +2545,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
                     true,
                     Qt::AlignTop);
 
-        pChartView_Results_Overview_AnglePoincare->setFixedSize(pChartView_Results_Overview_AnglePoincare->height(), pChartView_Results_Overview_AnglePoincare->height());
+        pChartView_Results_Overview1_AnglePoincare->setFixedSize(pChartView_Results_Overview1_AnglePoincare->height(), pChartView_Results_Overview1_AnglePoincare->height());
     }
     else
     {
@@ -2315,10 +2596,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
         D_Plot::Plot_Empty(pChartView_Results_Poincare, "Calc worked, Plot failed");
         Table_Results.clear_data();
 
-        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
         {
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AngleLine, "Calc worked, Plot failed");
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AnglePoincare, "Calc worked, Plot failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_AngleLine, "Calc worked, Plot failed");
+            D_Plot::Plot_Empty(pChartView_Results_Overview1_AnglePoincare, "Calc worked, Plot failed");
         }
 
         return;
@@ -2326,18 +2607,18 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_AngleAnalysis()
 
 
     //cosmetic stuff for the plot
-    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+    if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
     {
         if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_CUSTOM)
-            pChartView_Results_Overview_AngleLine->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
+            pChartView_Results_Overview1_AngleLine->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_T_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_T_max->value());
         else if(ui->comboBox_Res_PlotLine_FixRange_T->currentIndex() == PLOT_TIME_VIDEO_LENGTH)
-            pChartView_Results_Overview_AngleLine->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
+            pChartView_Results_Overview1_AngleLine->chart()->axes(Qt::Horizontal).back()->setRange(0, VS_InputVideo.get_DurationSec());
 
         if(ui->checkBox_Res_PlotLine_FixRange_A->isChecked())
         {
-            pChartView_Results_Overview_AngleLine->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
-            pChartView_Results_Overview_AnglePoincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
-            pChartView_Results_Overview_AnglePoincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
+            pChartView_Results_Overview1_AngleLine->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
+            pChartView_Results_Overview1_AnglePoincare->chart()->axes(Qt::Vertical).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
+            pChartView_Results_Overview1_AnglePoincare->chart()->axes(Qt::Horizontal).back()->setRange(ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->value(), ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->value());
         }
     }
     else
@@ -2386,18 +2667,41 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
     //Check requirements
     if(!reqirements_ok)
     {
-        D_Plot::Plot_Empty(pChartView_Results_Line, "Reqirements for Update_Result_AngleAnalysis failed");
-        D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_AngleAnalysis failed");
+        D_Plot::Plot_Empty(pChartView_Results_Line, "Reqirements for Update_Result_Histogram failed");
+        D_Plot::Plot_Empty(pChartView_Results_Poincare, "Reqirements for Update_Result_Histogram failed");
         Table_Results.clear_data();
 
-        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW)
+        if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
         {
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AngleLine, "Reqirements for Update_Result_AngleAnalysis failed");
-            D_Plot::Plot_Empty(pChartView_Results_Overview_AnglePoincare, "Reqirements for Update_Result_AngleAnalysis failed");
+            switch (ui->comboBox_Res_Histo_Type->currentIndex()) {
+
+            case HIST_LINEAR_SPEED:
+            {
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Hist, "Reqirements for Update_Result_Histogram failed");
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedLinear_Hist, "Reqirements for Update_Result_Histogram failed");
+            }
+                break;
+
+            case HIST_ANGULAR_SPEED:
+            {
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Hist, "Reqirements for Update_Result_Histogram failed");
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_SpeedAngular_Hist, "Reqirements for Update_Result_Histogram failed");
+            }
+                break;
+
+            case HIST_DIST_CENTER_INTERSECTIONS:
+            {
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_DistCenterIntersections_Hist, "Reqirements for Update_Result_Histogram failed");
+                D_Plot::Plot_Empty(pChartView_Results_Overview2_DistCenterIntersections_Hist, "Reqirements for Update_Result_Histogram failed");
+            }
+                break;
+            default:
+                break;
+            }
         }
 
         return;
-    };
+    }
 
     //calc range of distances to vortex center
     double dist_to_center_min;
@@ -2408,47 +2712,87 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
 
     case HIST_LINEAR_SPEED:
     {
-        ERR(D_Plot::Plot_Hist_WithStats_Color(
-                    pChartView_Results_Line,
-                    vShiftsAll_um_s,
-                    vDistancesToVortexCenter_All_um,
-                    D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
-                    0,
-                    ui->doubleSpinBox_Res_Histo_MaxSpeedLinear->value(),
-                    dist_to_center_min,
-                    dist_to_center_max,
-                    ui->spinBox_Res_Histo_Classes->value(),
-                    v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC],
-                    v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_TOTAL],
-                    "<b>Linear shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
-                    "linear shift um/s",
-                    ui->checkBox_Res_Histo_Uni->isChecked(),
-                    ui->checkBox_Res_Histo_Acc->isChecked()),
-                "Update_Result_Histogram",
-                "D_Plot::Plot_Hist_WithStats_Color - Linear Speed");
+        if(ui->comboBox_Res_Type->currentIndex() == RES_HISTOGRAM)
+            ERR(D_Plot::Plot_Hist_WithStats_Color(
+                        pChartView_Results_Line,
+                        vShiftsAll_um_s,
+                        vDistancesToVortexCenter_All_um,
+                        D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxSpeedLinear->value(),
+                        dist_to_center_min,
+                        dist_to_center_max,
+                        ui->spinBox_Res_Histo_Classes_Speed->value(),
+                        v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_TOTAL],
+                        "<b>Linear shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                        "linear shift um/s",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats_Color - Linear Speed");
+        else
+            ERR(D_Plot::Plot_Hist_WithStats_Color(
+                        pChartView_Results_Overview2_SpeedLinear_Hist,
+                        vShiftsAll_um_s,
+                        vDistancesToVortexCenter_All_um,
+                        D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxSpeedLinear->value(),
+                        dist_to_center_min,
+                        dist_to_center_max,
+                        ui->spinBox_Res_Histo_Classes_Speed->value(),
+                        v_VideoStats_Shifts_um_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_um_s[c_STAT_STAN_DEV_TOTAL],
+                        "<b>Linear shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                        "linear shift um/s",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats_Color - Linear Speed");
     }
         break;
 
     case HIST_ANGULAR_SPEED:
     {
-        ERR(D_Plot::Plot_Hist_WithStats_Color(
-                    pChartView_Results_Line,
-                    vShiftsAll_rad_s,
-                    vDistancesToVortexCenter_All_um,
-                    D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
-                    0,
-                    ui->doubleSpinBox_Res_Histo_MaxSpeedAngular->value(),
-                    dist_to_center_min,
-                    dist_to_center_max,
-                    ui->spinBox_Res_Histo_Classes->value(),
-                    v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
-                    v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
-                    "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
-                    "angular shift um/s",
-                    ui->checkBox_Res_Histo_Uni->isChecked(),
-                    ui->checkBox_Res_Histo_Acc->isChecked()),
-                "Update_Result_Histogram",
-                "D_Plot::Plot_Hist_WithStats_Color - Angular Speed");
+        if(ui->comboBox_Res_Type->currentIndex() == RES_HISTOGRAM)
+            ERR(D_Plot::Plot_Hist_WithStats_Color(
+                        pChartView_Results_Line,
+                        vShiftsAll_rad_s,
+                        vDistancesToVortexCenter_All_um,
+                        D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxSpeedAngular->value(),
+                        dist_to_center_min,
+                        dist_to_center_max,
+                        ui->spinBox_Res_Histo_Classes_Speed->value(),
+                        v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
+                        "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                        "angular shift um/s",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats_Color - Angular Speed");
+        else
+            ERR(D_Plot::Plot_Hist_WithStats_Color(
+                        pChartView_Results_Overview2_SpeedAngular_Hist,
+                        vShiftsAll_rad_s,
+                        vDistancesToVortexCenter_All_um,
+                        D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxSpeedAngular->value(),
+                        dist_to_center_min,
+                        dist_to_center_max,
+                        ui->spinBox_Res_Histo_Classes_Speed->value(),
+                        v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
+                        "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
+                        "angular shift um/s",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats_Color - Angular Speed");
     }
         break;
 
@@ -2458,18 +2802,32 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
         vv_data[0] = v_VortexCenterResiduals_All;
         vv_data[1] = v_VortexCenterResiduals_Used;
 
-        ERR(D_Plot::Plot_Hist_WithStats(
-                    pChartView_Results_Line,
-                    vv_data,
-                    0,
-                    ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections->value(),
-                    ui->spinBox_Res_Histo_Classes->value(),
-                    "<b>Distance from line intersections to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
-                    "distance um",
-                    ui->checkBox_Res_Histo_Uni->isChecked(),
-                    ui->checkBox_Res_Histo_Acc->isChecked()),
-                "Update_Result_Histogram",
-                "D_Plot::Plot_Hist_WithStats - Distance");
+        if(ui->comboBox_Res_Type->currentIndex() == RES_HISTOGRAM)
+            ERR(D_Plot::Plot_Hist_WithStats(
+                        pChartView_Results_Line,
+                        vv_data,
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections->value(),
+                        ui->spinBox_Res_Histo_Classes_Dist->value(),
+                        "<b>Distance from line intersections to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
+                        "distance um",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats - Distance");
+        else
+            ERR(D_Plot::Plot_Hist_WithStats(
+                        pChartView_Results_Overview2_DistCenterIntersections_Hist,
+                        vv_data,
+                        0,
+                        ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections->value(),
+                        ui->spinBox_Res_Histo_Classes_Dist->value(),
+                        "<b>Distance from line intersections to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
+                        "distance um",
+                        ui->checkBox_Res_Histo_Uni->isChecked(),
+                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                    "Update_Result_Histogram",
+                    "D_Plot::Plot_Hist_WithStats - Distance");
     }
         break;
 
@@ -2805,6 +3163,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VORTEX_CENTER);
     ui->spinBox_ParamGridHorizontal->setValue(5);
     ui->spinBox_ParamGridVertical->setValue(4);
+    ui->checkBox_Res_VortexCenter_MovingAverage->setCheckState(Qt::CheckState::PartiallyChecked);
     ui->checkBox_Res_VortexCenter_Ransac->setChecked(true);
     ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0); //0=points, 1=lines
     ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
@@ -3499,9 +3858,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //speed stat
     ui->comboBox_Res_Type->setCurrentIndex(RES_SPEED_STAT_CUSTOM);
+    ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
     ui->checkBox_Res_PlotLine_FixRange_S->setChecked(true);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->setValue(0);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->setValue(120);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->setValue(0);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->setValue(120);
 
     //means
     ui->comboBox_Res_SpeedCustom_Stat_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
@@ -3671,11 +4031,12 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //.....................................................................
 
-    //speed analysis
+    //linear speed analysis
     ui->comboBox_Res_Type->setCurrentIndex(RES_SPEED_ANALYSIS);
+    ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
     ui->checkBox_Res_PlotLine_FixRange_S->setChecked(true);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->setValue(0);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->setValue(120);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->setValue(0);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->setValue(120);
 
     //mean+-SD
     ui->comboBox_Res_SpeedCustom_Stat_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
@@ -3685,41 +4046,41 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(1.0);
     ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(1.0);
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
-    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_MeanSD_01s - " + name_current + ".png");
-    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_MeanSD_01s.png");
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Linear_MeanSD_01s - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Linear_MeanSD_01s.png");
     Update_Ui();
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
     PDF_Overview.add_Image(
                 &QI_ImgSave_tmp,
-                "Speed vs Time 1x1 1s\n"
+                "Linear speed vs Time 1x1 1s\n"
                 "\n"
                 "X-axis: Full time axis of video in seconds\n"
-                "Y-Axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
+                "Y-Axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
                 "\n"
                 "Unit is shift in um per second.\n"
                 "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
                 "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
                 "\n"
                 "No spatial information contained.\n"
-                "Useful to see speed vs time in full video considering short termed variation.\n"
+                "Useful to see linear speed vs time in full video considering short termed variation.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_MeanSD_01s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_MeanSD_01s.png");
+                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Linear_MeanSD_01s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Linear_MeanSD_01s.png");
 
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_POINCARE);
-    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_MeanSD_01s - " + name_current + ".png");
-    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_MeanSD_01s.png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Linear_MeanSD_01s - " + name_current + ".png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Linear_MeanSD_01s.png");
     Update_Ui();
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Poincare->grab().toImage();
     PDF_Overview.add_Image(
                 &QI_ImgSave_tmp,
-                "Speed Variation 1x1 1s\n"
+                "Linear speed Variation 1x1 1s\n"
                 "\n"
-                "X-axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
-                "Y-Axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
+                "X-axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
+                "Y-Axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
                 "\n"
                 "Unit is shift in um per second.\n"
                 "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
@@ -3728,51 +4089,51 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial information contained.\n"
                 "Expansion in main diagonal (gray line) shows long term variation.\n"
                 "Expansion in other diagonal shows short term variation.\n"
-                "Useful to see different types of variation of speed.\n"
+                "Useful to see different types of variation of linear speed.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_MeanSD_01s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_MeanSD_01s.png");
+                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Linear_MeanSD_01s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Linear_MeanSD_01s.png");
 
     //mean+-SD 10s
     ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(10.0);
     ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(10.0);
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
-    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_MeanSD_10s - " + name_current + ".png");
-    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_MeanSD_10s.png");
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Linear_MeanSD_10s - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Linear_MeanSD_10s.png");
     Update_Ui();
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
     PDF_Overview.add_Image(
                 &QI_ImgSave_tmp,
-                "Speed vs Time 1x1 10s\n"
+                "Linear speed vs Time 1x1 10s\n"
                 "\n"
                 "X-axis: Full time axis of video in seconds\n"
-                "Y-Axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
+                "Y-Axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
                 "\n"
                 "Unit is shift in um per second.\n"
                 "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
                 "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
                 "\n"
                 "No spatial information contained.\n"
-                "Useful to get an overview of speed vs time in full video.\n"
+                "Useful to get an overview of linear speed vs time in full video.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_MeanSD_10s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_MeanSD_10s.png");
+                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Linear_MeanSD_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Linear_MeanSD_10s.png");
 
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_POINCARE);
-    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_MeanSD_10s - " + name_current + ".png");
-    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_MeanSD_10s.png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Linear_MeanSD_10s - " + name_current + ".png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Linear_MeanSD_10s.png");
     Update_Ui();
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Poincare->grab().toImage();
     PDF_Overview.add_Image(
                 &QI_ImgSave_tmp,
-                "Speed Variation 1x1 1s\n"
+                "Linear speed variation 1x1 1s\n"
                 "\n"
-                "X-axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
-                "Y-Axis: Speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
+                "X-axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
+                "Y-Axis: Linear speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
                 "\n"
                 "Unit is shift in um per second.\n"
                 "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
@@ -3781,11 +4142,135 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial information contained.\n"
                 "Expansion in main diagonal (gray line) shows long term variation.\n"
                 "Expansion in other diagonal shows short term variation.\n"
-                "Useful to see different types of variation of speed.\n"
+                "Useful to see different types of variation of linear speed.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_MeanSD_10s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_MeanSD_10s.png");
+                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Linear_MeanSD_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Linear_MeanSD_10s.png");
+
+
+
+
+
+    //angular speed analysis
+    ui->comboBox_Res_Type->setCurrentIndex(RES_SPEED_ANALYSIS);
+    ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_ANGULAR);
+    ui->checkBox_Res_PlotLine_FixRange_S->setChecked(true);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->setValue(0);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->setValue(0.0045);
+
+    //mean+-SD
+    ui->comboBox_Res_SpeedCustom_Stat_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+
+    //mean+-SD 1s
+    ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(1.0);
+    ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(1.0);
+    ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Angular_MeanSD_01s - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Angular_MeanSD_01s.png");
+    Update_Ui();
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed vs Time 1x1 1s\n"
+                "\n"
+                "X-axis: Full time axis of video in seconds\n"
+                "Y-Axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
+                "\n"
+                "Unit is shift in um per second.\n"
+                "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
+                "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
+                "\n"
+                "No spatial information contained.\n"
+                "Useful to see angular speed vs time in full video considering short termed variation.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Angular_MeanSD_01s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Angular_MeanSD_01s.png");
+
+    ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_POINCARE);
+    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Angular_MeanSD_01s - " + name_current + ".png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Angular_MeanSD_01s.png");
+    Update_Ui();
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Poincare->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed Variation 1x1 1s\n"
+                "\n"
+                "X-axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
+                "Y-Axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
+                "\n"
+                "Unit is shift in um per second.\n"
+                "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
+                "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
+                "\n"
+                "No spatial information contained.\n"
+                "Expansion in main diagonal (gray line) shows long term variation.\n"
+                "Expansion in other diagonal shows short term variation.\n"
+                "Useful to see different types of variation of angular speed.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Angular_MeanSD_01s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Angular_MeanSD_01s.png");
+
+    //mean+-SD 10s
+    ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(10.0);
+    ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(10.0);
+    ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Angular_MeanSD_10s - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Angular_MeanSD_10s.png");
+    Update_Ui();
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed vs Time 1x1 10s\n"
+                "\n"
+                "X-axis: Full time axis of video in seconds\n"
+                "Y-Axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + " +/- " + ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->currentText() + ")\n"
+                "\n"
+                "Unit is shift in um per second.\n"
+                "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
+                "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
+                "\n"
+                "No spatial information contained.\n"
+                "Useful to get an overview of angular speed vs time in full video.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Speed.path() + "/PlotLine_SpeedAnalysis_Angular_MeanSD_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotLine_SpeedAnalysis_Angular_MeanSD_10s.png");
+
+    ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_POINCARE);
+    pChartView_Results_Poincare->grab().save(DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Angular_MeanSD_10s - " + name_current + ".png");
+    pChartView_Results_Poincare->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Angular_MeanSD_10s.png");
+    Update_Ui();
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Poincare->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed variation 1x1 1s\n"
+                "\n"
+                "X-axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t+1s\n"
+                "Y-Axis: Angular speed (" + ui->comboBox_Res_SpeedCustom_Stat_Value->currentText() + ") at t\n"
+                "\n"
+                "Unit is shift in um per second.\n"
+                "Data is smoothed over " + QString::number(ui->doubleSpinBox_Res_MovAv_WindowTime->value()) + " second(s) and full frame.\n"
+                "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
+                "\n"
+                "No spatial information contained.\n"
+                "Expansion in main diagonal (gray line) shows long term variation.\n"
+                "Expansion in other diagonal shows short term variation.\n"
+                "Useful to see different types of variation of angular speed.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Speed.path() + "/PlotPoincare_SpeedAnalysis_Angular_MeanSD_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - PlotPoincare_SpeedAnalysis_Angular_MeanSD_10s.png");
+
+
+
 
 
 
@@ -3909,15 +4394,178 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //......................
 
-    //overview
-    ui->comboBox_Res_Type->setCurrentIndex(RES_OVERVIEW);
+    //histograms
+    ui->comboBox_Res_Type->setCurrentIndex(RES_HISTOGRAM);
+    ui->checkBox_Res_Histo_Uni->setChecked(true);
+
+    //non accumulated
+    ui->checkBox_Res_Histo_Acc->setChecked(false);
+
+    //linear speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_LINEAR_SPEED);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_LinearSpeed - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_LinearSpeed.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Linear speed histogram\n"
+                "\n"
+                "X-axis: Linear speed (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Not accumulated\n"
+                "\n"
+                "Base analysis data: Linear speed\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_LinearSpeed - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_LinearSpeed.png");
+
+    //angular speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_ANGULAR_SPEED);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_AngularSpeed - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_AngularSpeed.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed histogram\n"
+                "\n"
+                "X-axis: Angular speed (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Not accumulated\n"
+                "\n"
+                "Base analysis data: Angular speed\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_AngularSpeed - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_AngularSpeed.png");
+
+
+    //distance to vortex center speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_DIST_CENTER_INTERSECTIONS);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Distance from vortex center to intersections histogram\n"
+                "\n"
+                "X-axis: Distance from vortex center to intersections (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Not accumulated\n"
+                "\n"
+                "Base analysis data: Distance from vortex center to intersections\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections.png");
+
+
+    //non accumulated
+    ui->checkBox_Res_Histo_Acc->setChecked(true);
+
+    //linear speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_LINEAR_SPEED);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_LinearSpeed - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_LinearSpeed.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Linear speed histogram\n"
+                "\n"
+                "X-axis: Linear speed (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Accumulated\n"
+                "\n"
+                "Base analysis data: Linear speed\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_LinearSpeed - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_LinearSpeed.png");
+
+    //angular speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_ANGULAR_SPEED);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_AngularSpeed - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_AngularSpeed.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Angular speed histogram\n"
+                "\n"
+                "X-axis: Angular speed (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Accumulated\n"
+                "\n"
+                "Base analysis data: Angular speed\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_AngularSpeed - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_AngularSpeed.png");
+
+
+    //distance to vortex center speed
+    ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_DIST_CENTER_INTERSECTIONS);
+    Update_Ui();
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Distance from vortex center to intersections histogram\n"
+                "\n"
+                "X-axis: Distance from vortex center to intersections (separated in " + QString::number(ui->spinBox_Res_Histo_Classes_Speed->value()) + " classes)\n"
+                "Y-Axis: Realtive amount\n"
+                "Accumulated\n"
+                "\n"
+                "Base analysis data: Distance from vortex center to intersections\n"
+                "Color codes mean distance to vortex center of elements in speed class (blue = near, red = far).\n"
+                "\n"
+                "No spatial or time information contained.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections.png");
+
+    ui->checkBox_Res_Histo_Acc->setChecked(false);
+
+    //......................
+
+    //overview old
+    ui->comboBox_Res_Type->setCurrentIndex(RES_OVERVIEW1);
+
+    ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
 
     //1s
     ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(1.0);
     ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(1.0);
     Update_Ui();
-    ui->page_Res_Overview->grab().save(DIR_SaveStackPlot_Overview.path() + "/Overview_01s - " + name_current + ".png");
-    ui->page_Res_Overview->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_01s.png");
+    ui->page_Res_Overview->grab().save(DIR_SaveStackPlot_Overview.path() + "/Overview_LinePoincare_01s - " + name_current + ".png");
+    ui->page_Res_Overview->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LinePoincare_01s.png");
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = ui->page_Res_Overview->grab().toImage();
     PDF_Overview.add_Image(
@@ -3928,15 +4576,15 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Overview.path() + "/Overview_01s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_01s.png");
+                DIR_SaveStackPlot_Overview.path() + "/Overview_LinePoincare_01s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LinePoincare_01s.png");
 
     //10s
     ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(10.0);
     ui->doubleSpinBox_Res_PlotPoincare_Shift_Seconds->setValue(10.0);
     Update_Ui();
-    ui->page_Res_Overview->grab().save(DIR_SaveStackPlot_Overview.path() + "/Overview_10s - " + name_current + ".png");
-    ui->page_Res_Overview->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_10s.png");
+    ui->page_Res_Overview->grab().save(DIR_SaveStackPlot_Overview.path() + "/Overview_LinePoincare_10s - " + name_current + ".png");
+    ui->page_Res_Overview->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LinePoincare_10s.png");
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = ui->page_Res_Overview->grab().toImage();
     PDF_Overview.add_Image(
@@ -3947,11 +4595,34 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Overview.path() + "/Overview_10s - " + name_current + ".png" +
-                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_10s.png");
+                DIR_SaveStackPlot_Overview.path() + "/Overview_LinePoincare_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LinePoincare_10s.png");
+
+
+
+    //overview new
+    ui->comboBox_Res_Type->setCurrentIndex(RES_OVERVIEW2);
+
+    ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(10.0);
+    Update_Ui();
+    ui->page_Res_OverviewNew->grab().save(DIR_SaveStackPlot_Overview.path() + "/Overview_LineHist_10s - " + name_current + ".png");
+    ui->page_Res_OverviewNew->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LineHist_10s.png");
+    PDF_Overview.add_NewPage();
+    QI_ImgSave_tmp = ui->page_Res_OverviewNew->grab().toImage();
+    PDF_Overview.add_Image(
+                &QI_ImgSave_tmp,
+                "Overview 10s (histograms and linear plots)\n"
+                "\n"
+                "Shows a summuary of other plots from this analysis (on previous pages).\n"
+                "Only chunks with at least one movement detetction per frame in at least " + QString::number(ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->value()) + "% of candidate frames generate a data point in linear plots.\n"
+                "\n"
+                "Image can be found in:\n" +
+                DIR_SaveStackPlot_Overview.path() + "/Overview_LineHist_10s - " + name_current + ".png" +
+                DIR_SaveCurrentPlot.path() + "/" + name_current + " - Overview_LineHist_10s.png");
     PDF_Summary.add_Image(
                 &QI_ImgSave_tmp,
                 x_border_left, x_border_right, y_plot_t, y_plot_b);
+
 
     //reset
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
@@ -4056,7 +4727,7 @@ void D_MAKRO_CiliaSphereTracker::Data_Add()
     //number of loaded videos
     int vid_count_old = FIL_Videos.size();
 
-    //fill listst for easy access
+    //fill lists for easy access
     for(int f = 0; f < QSl_Paths.size(); f++)
     {
         //basics
@@ -4152,6 +4823,14 @@ void D_MAKRO_CiliaSphereTracker::Data_SelectVideo()
     movav_current_start = frame_start_ana;
     movav_window_frames = (ui->doubleSpinBox_Res_MovAv_WindowTime->value() + 0.5 * VS_InputVideo.get_FrameTimeSec()) * VS_InputVideo.get_FrameRateFps();
     Update_Ui_ResMovAv();
+
+    //analyse file name to find position in well
+    QString QS_Name = QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()];
+    ui->radioButton_Res_VortexCenter_VideoPos_C->setChecked(true);
+    if(QS_Name.endsWith("a") || QS_Name.endsWith("d"))
+        ui->radioButton_Res_VortexCenter_VideoPos_L->setChecked(true);
+    if(QS_Name.endsWith("c") || QS_Name.endsWith("f"))
+        ui->radioButton_Res_VortexCenter_VideoPos_R->setChecked(true);
 }
 
 void D_MAKRO_CiliaSphereTracker::Data_SelectRoiTime()
@@ -4402,10 +5081,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     ui->groupBox_Res_GridSamplingParam->setVisible  (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS     || res_type == RES_GRAPHICS_VORTEX_CENTER);
     ui->groupBox_Res_GridVisParam->setVisible       (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_VectorFieldParam->setVisible   (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
-    ui->groupBox_Res_TimeAxis->setVisible           (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM                                                                                || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
-    ui->groupBox_Res_SpeedCustom->setVisible        (                                           res_type == RES_SPEED_STAT_CUSTOM                                                                                                                       || res_type == RES_SPEED_ANALYSIS                                       || res_type == RES_OVERVIEW);
-    ui->groupBox_Res_AngleCustom->setVisible        (                                                                                  res_type == RES_ANGLE_STAT_CUSTOM                                                                                                                    || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
-    ui->groupBox_Res_MovAv->setVisible              (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW || (res_type == RES_GRAPHICS_VORTEX_CENTER && ui->checkBox_Res_VortexCenter_MovingAverage->isChecked()));
+    ui->groupBox_Res_TimeAxis->setVisible           (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM                                                                                || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
+    ui->groupBox_Res_SpeedCustom->setVisible        (                                           res_type == RES_SPEED_STAT_CUSTOM                                                                                                                       || res_type == RES_SPEED_ANALYSIS                                       || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
+    ui->groupBox_Res_AngleCustom->setVisible        (                                                                                  res_type == RES_ANGLE_STAT_CUSTOM                                                                                                                    || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1);
+    ui->groupBox_Res_MovAv->setVisible              (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2 || (res_type == RES_GRAPHICS_VORTEX_CENTER && ui->checkBox_Res_VortexCenter_MovingAverage->isChecked()));
     ui->groupBox_Res_Heat->setVisible               (                                                                                                                                                               res_type == RES_GRAPHICS_HEATMAP);
     ui->groupBox_Res_Histo->setVisible              (                                                                                                                                                               res_type == RES_HISTOGRAM);
     ui->groupBox_Res_VortexCenter->setVisible       (                                                                                                                                                               res_type == RES_GRAPHICS_VORTEX_CENTER);
@@ -4416,20 +5095,22 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     ui->spinBox_ParamGrid_CellEnd->setEnabled       (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM);
     ui->spinBox_Res_MovAv_CurrentFrame->setEnabled  (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->doubleSpinBox_Res_MovAv_CurrentTime->setEnabled(                                                                                                                       res_type == RES_GRAPHICS_VECTORS);
-    ui->spinBox_Res_MovAv_WindowFrames->setEnabled  (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
-    ui->doubleSpinBox_Res_MovAv_WindowTime->setEnabled(                                         res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW);
+    ui->spinBox_Res_MovAv_WindowFrames->setEnabled  (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
+    ui->doubleSpinBox_Res_MovAv_WindowTime->setEnabled(                                         res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS                                         || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
     ui->comboBox_Res_MovAv_Background->setEnabled   (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->comboBox_Res_MovAv_TimeWindow->setEnabled   (                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
     ui->horizontalSlider_Res_MovAv_CurrentStart->setEnabled(                                                                                                                   res_type == RES_GRAPHICS_VECTORS);
     ui->horizontalSlider_Res_MovAv_CurrentEnd->setEnabled(                                                                                                                     res_type == RES_GRAPHICS_VECTORS);
 
     //plot range
-    ui->checkBox_Res_PlotLine_FixRange_S->setEnabled(res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
-    ui->checkBox_Res_PlotLine_FixRange_A->setEnabled(res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->setEnabled((res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW) && ui->checkBox_Res_PlotLine_FixRange_A->isChecked());
-    ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->setEnabled((res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW) && ui->checkBox_Res_PlotLine_FixRange_A->isChecked());
+    ui->checkBox_Res_PlotLine_FixRange_S->setEnabled(res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->setEnabled((res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2) && ui->checkBox_Res_PlotLine_FixRange_S->isChecked());
+    ui->checkBox_Res_PlotLine_FixRange_A->setEnabled(res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_A_min->setEnabled((res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1) && ui->checkBox_Res_PlotLine_FixRange_A->isChecked());
+    ui->doubleSpinBox_Res_PlotLine_FixRange_A_max->setEnabled((res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1) && ui->checkBox_Res_PlotLine_FixRange_A->isChecked());
 
     //moving average
     if(res_type == RES_GRAPHICS_VECTORS)
@@ -4445,17 +5126,17 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     }
 
     //speed uncertantiy stat plot
-    if(res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW)
+    if(res_type == RES_SPEED_STAT_CUSTOM || res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2)
     {
-        ui->label_Res_SpeedCustom_Stat_Uncertanty->setEnabled(res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW);
-        ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->setEnabled(res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW);
+        ui->label_Res_SpeedCustom_Stat_Uncertanty->setEnabled(res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
+        ui->comboBox_Res_SpeedCustom_Stat_Uncertanty->setEnabled(res_type == RES_SPEED_ANALYSIS || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
     }
 
     //angle uncertantiy stat plot
-    if(res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW)
+    if(res_type == RES_ANGLE_STAT_CUSTOM || res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1)
     {
-        ui->label_Res_AngleCustom_Stat_Uncertanty->setEnabled(res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW);
-        ui->comboBox_Res_AngleCustom_Stat_Uncertanty->setEnabled(res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW);
+        ui->label_Res_AngleCustom_Stat_Uncertanty->setEnabled(res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1);
+        ui->comboBox_Res_AngleCustom_Stat_Uncertanty->setEnabled(res_type == RES_ANGLE_ANALYSIS || res_type == RES_OVERVIEW1);
     }
 }
 
@@ -4755,8 +5436,10 @@ void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_Type_currentIndexChanged(int in
     //show fitting viewer
     if(index == RES_GRAPHICS_TIME_SUM_PROJ || index == RES_GRAPHICS_VECTORS || index == RES_GRAPHICS_HEATMAP || index == RES_GRAPHICS_VORTEX_CENTER)
         ui->stackedWidget_Res_Type->setCurrentIndex(0);
-    else if(index == RES_OVERVIEW)
+    else if(index == RES_OVERVIEW1)
         ui->stackedWidget_Res_Type->setCurrentIndex(2);
+    else if(index == RES_OVERVIEW2)
+        ui->stackedWidget_Res_Type->setCurrentIndex(3);
     else
         ui->stackedWidget_Res_Type->setCurrentIndex(1);
 
@@ -4899,8 +5582,10 @@ void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_PlotLine_FixRange_T_currentInde
 
 void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_PlotLine_FixRange_S_stateChanged(int arg1)
 {
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min->setEnabled(arg1);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max->setEnabled(arg1);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_linear->setEnabled(arg1);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_linear->setEnabled(arg1);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->setEnabled(arg1);
+    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->setEnabled(arg1);
 }
 
 void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_PlotLine_FixRange_A_stateChanged(int arg1)
@@ -4965,3 +5650,12 @@ void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_VectorFieldParam_ShiftType_curr
     ui->comboBox_Res_VectorFieldParam_Angle_Error->setEnabled(index == SHIFT_TYPE_LINEAR);
     ui->label_Res_VectorFieldParam_Angle->setEnabled(index == SHIFT_TYPE_LINEAR);
 }
+
+void D_MAKRO_CiliaSphereTracker::on_comboBox_Res_Histo_Type_currentIndexChanged(int index)
+{
+    if(index == HIST_DIST_CENTER_INTERSECTIONS)
+        ui->stackedWidget_HistClasses->setCurrentIndex(1);
+    else
+        ui->stackedWidget_HistClasses->setCurrentIndex(0);
+}
+

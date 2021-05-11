@@ -205,6 +205,9 @@ private slots:
 
     void on_comboBox_Res_VectorFieldParam_ShiftType_currentIndexChanged(int index);
 
+    void on_comboBox_Res_Histo_Type_currentIndexChanged(int index);
+
+
 private:
     Ui::D_MAKRO_CiliaSphereTracker *ui;
     bool ClosingPossible = false;
@@ -292,10 +295,17 @@ private:
     //Plot
     QChartView                          *pChartView_Results_Line;
     QChartView                          *pChartView_Results_Poincare;
-    QChartView                          *pChartView_Results_Overview_SpeedLine;
-    QChartView                          *pChartView_Results_Overview_AngleLine;
-    QChartView                          *pChartView_Results_Overview_SpeedPoincare;
-    QChartView                          *pChartView_Results_Overview_AnglePoincare;
+
+    QChartView                          *pChartView_Results_Overview1_SpeedLine;
+    QChartView                          *pChartView_Results_Overview1_AngleLine;
+    QChartView                          *pChartView_Results_Overview1_SpeedPoincare;
+    QChartView                          *pChartView_Results_Overview1_AnglePoincare;
+
+    QChartView                          *pChartView_Results_Overview2_SpeedLinear_Line;
+    QChartView                          *pChartView_Results_Overview2_SpeedAngular_Line;
+    QChartView                          *pChartView_Results_Overview2_SpeedLinear_Hist;
+    QChartView                          *pChartView_Results_Overview2_SpeedAngular_Hist;
+    QChartView                          *pChartView_Results_Overview2_DistCenterIntersections_Hist;
 
     //ROI (Time)
     int                                 frame_start = 4 * 24;//1
@@ -401,8 +411,8 @@ private:
         PLOT_TIME_DEFAULT,
         PLOT_TIME_NUMBER_OF
     };
-    const QStringList QSL_PlotTime{
-        "Length",
+    const QStringList QSL_PlotTime {
+        "Video length",
         "Custom",
         "Default"
     };
@@ -431,7 +441,8 @@ private:
         RES_SPEED_ANALYSIS,
         RES_ANGLE_ANALYSIS,
         RES_HISTOGRAM,
-        RES_OVERVIEW,
+        RES_OVERVIEW1,
+        RES_OVERVIEW2,
         RES_NUMBER_OF
     };
     const QStringList QSL_ResTypes = {
@@ -444,7 +455,8 @@ private:
         "Main Speed Analysis",
         "Main Angle Analysis",
         "Histogram",
-        "Overview"
+        "Overview Old",
+        "Overview New"
     };
 
 };
