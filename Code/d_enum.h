@@ -2285,21 +2285,12 @@ PH_g_earth              = 9.80665;
  *      - Huang rank order filter visualization (uni project, see below)
  *      - Softmax classifier visualization (uni project, see below)
  *
- * Installation:
- *      1. Go to <a href="https://github.com/DavidEilenstein/ImageD/releases">https://github.com/DavidEilenstein/ImageD/releases</a>
- *      2. Select the version you want to dowload (click on the blue headline with v<number> in it. You can see the current version number at the top of this page)
- *      3. Download the "ImageD_v<number>.zip"
- *      4. Unzip it in a folder of your choice
- *      5. Double click the ImageD.exe to run the program
- *
- * Hint for users at GSI without admin permissions: There might be problems launching the .exe in some folders. If that occurs, please contact me for support.
- *
  * \section doc_sec Documentation
  *
  * There are four types of documentation:
- *      1. Code:        The documentation of the code is done on this webpage. Just navigate with the panels on the right and on the top or use the serach function.
+ *      1. Code:        The documentation of the code is done on this webpage. Just navigate with the panels on the left and on the top or use the serach function.
  *      2. Manuals:     There are user manual PDFs for each modul of the program. They are not public yet. Please contact me for more information.
- *      3. Theory:      My bachelor thesis about the concepts of ImageD. Not published yet. Please contact me for more information.
+ *      3. Theory:      My bachelor thesis about the concepts of ImageD and my master thesis about microsphere tracking on cilia in videos. Both not published yet. Please contact me for more information.
  *      4. Tutorials:   YouTube "how to" videos. See next section for direct links.
  *
  * \section links_sec Weblinks
