@@ -392,7 +392,7 @@ int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool
     return ER_okay;
 }
 
-int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc)
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
     function<double(vector<double>)> F_mean = D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC);
     function<double(vector<double>)> F_std  = D_Stat::Function_SingleStat(c_STAT_CIRC_STAN_DEV_TOTAL);
@@ -418,10 +418,11 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
                 name_title,
                 name_x,
                 uni,
-                acc);
+                acc,
+                axe_tick_count);
 }
 
-int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc)
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
     //clear old content
     Free_Memory(pChartView);
@@ -445,12 +446,12 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(acc ? name_x + " (up to)" : name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(axe_tick_count);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(uni ? "relative amount" : "absolute amount");
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(axe_tick_count);
     chart->setAxisY(y_axis);
 
     //calc hist
@@ -594,7 +595,7 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
     return ER_okay;
 }
 
-int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc)
+int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
     //clear old content
     Free_Memory(pChartView);
@@ -617,12 +618,12 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(acc ? name_x + " (up to)" : name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(axe_tick_count);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(uni ? "relative amount" : "absolute amount");
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(axe_tick_count);
     y_axis->setMin(0.0);
     chart->setAxisY(y_axis);
 
@@ -630,7 +631,6 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
     double range_x_hist = max_x_hist - min_x_hist;
     double step_x_hist = range_x_hist / (n_classes - 1);
     double range_x_color = max_x_color - min_x_color;
-    double step_x_color = range_x_color / (n_classes - 1);
 
     //calc hist and save color calc values
     vector<double> v_hist(n_classes, 0);

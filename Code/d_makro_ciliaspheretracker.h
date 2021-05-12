@@ -100,7 +100,6 @@ private slots:
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
     D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
-    void CalcVortexCenter_asBasisForOtherCalc();
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
     void Update_Result_AngleStatCustom();
@@ -233,6 +232,7 @@ private:
     QDir                                DIR_SaveStackPlot_Overview;
     QDir                                DIR_SaveStackPlot_Speed;
     QDir                                DIR_SaveStackPlot_Angle;
+    QDir                                DIR_SaveStackPlot_Vortex;
     QDir                                DIR_SaveStackOverview;
     QDir                                DIR_SaveSingles;
     QDir                                DIR_SaveCurrent;
@@ -266,7 +266,7 @@ private:
     //gathered containers
     vector<double>                      vShiftsAll_px_frm;
     vector<double>                      vShiftsAll_um_s;
-    vector<double>                      vShiftsAll_rad_s;
+    vector<double>                      vShiftsAll_grad_s;
     vector<double>                      vDistancesToVortexCenter_All_um;
     vector<double>                      vAnglesAll_Rad;
     vector<double>                      vAnglesAll_Grad;
@@ -274,7 +274,7 @@ private:
     //Summary of Data (full video)
     vector<double>                      v_VideoStats_Shifts_px_frm;
     vector<double>                      v_VideoStats_Shifts_um_s;
-    vector<double>                      v_VideoStats_Shifts_rad_s;
+    vector<double>                      v_VideoStats_Shifts_grad_s;
     vector<double>                      v_VideoStats_DistancesToVortexCenter_All_um;
     vector<double>                      v_VideoStats_Angles_Rad;
     vector<double>                      v_VideoStats_Angles_Grad;

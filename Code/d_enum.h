@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_5_0";
-const QString           D_QS_Release  = "11.05.2021";
+const QString           D_QS_Version  = "v1_5_1";
+const QString           D_QS_Release  = "12.05.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -2267,6 +2267,31 @@ PH_g_earth              = 9.80665;
  *      4. Unzip it in a folder of your choice
  *      5. Double click the ImageD.exe to run the program
  *
+ * \section plugin_sec Plugins
+ *
+ * ImageD includes a lot of plugins for specific tasks, mostly in the field of biophysics:
+ *      - Cytoplasmatic dsDNA detection in fluorescence microscopy images
+ *      - Mitochondria analysis in flim images
+ *      - Cell colony size distribution measurement
+ *      - Tracking nuclear foci over time (by Manon Nickler)
+ *      - Measuring intensity profiles of ion tracks in crystals
+ *      - Multipage TIF image visualizer (false color and basic processing)
+ *      - DNA fibre thickness estimation (see below)
+ *      - Radon decay curve fitting
+ *      - Cerebral organoids size distribution estimation
+ *      - Tracking microspheres on cilia cells (master thesis)
+ *      - Air drag measuring from videos of falling objects (uni project)
+ *      - Nuclear foci tracking in mosaiked videos and cell pedigree estimation (WIP)
+ *      - Huang rank order filter visualization (uni project, see below)
+ *      - Softmax classifier visualization (uni project, see below)
+ *
+ * Installation:
+ *      1. Go to <a href="https://github.com/DavidEilenstein/ImageD/releases">https://github.com/DavidEilenstein/ImageD/releases</a>
+ *      2. Select the version you want to dowload (click on the blue headline with v<number> in it. You can see the current version number at the top of this page)
+ *      3. Download the "ImageD_v<number>.zip"
+ *      4. Unzip it in a folder of your choice
+ *      5. Double click the ImageD.exe to run the program
+ *
  * Hint for users at GSI without admin permissions: There might be problems launching the .exe in some folders. If that occurs, please contact me for support.
  *
  * \section doc_sec Documentation
@@ -2312,7 +2337,7 @@ PH_g_earth              = 9.80665;
  * \subsection other_sec_thanks Thanks
  *
  * Special thanks goes to:
- *      - My supervisor at <a href="https://www.gsi.de/en/start/news.htm">GSI</a> <a href="https://www.gsi.de/work/forschung/biophysik/team_details.htm?no_cache=1&name=scholz&vorname=michael">Dr. Michael Scholz</a> who gives me a lot of freedom in developing ImageD and who trusts my skills
+ *      - My former supervisor at <a href="https://www.gsi.de/en/start/news.htm">GSI</a> <a href="https://www.gsi.de/work/forschung/biophysik/team_details.htm?no_cache=1&name=scholz&vorname=michael">Dr. Michael Scholz</a> who gives me a lot of freedom in developing ImageD and who trusts my skills
  *      - The professors in <a href="https://fbmn.h-da.de/index.php/Studienangebote/OBV">Machine Vision and Photonics</a> at <a href="https://h-da.de/">Hochschule Darmstadt</a> who always take time for my crazy questions. In particular <a href="https://www.fbmn.h-da.de/~ohser/">Prof. Dr. Joachim Ohser</a>, <a href="https://fbmn.h-da.de/~netzsch/">Prof. Dr. Thomas Netzsch</a> and <a href="https://www.fbmn.h-da.de/~heckenkamp/">Prof. Dr. Christoph Heckenkamp</a>
  *      - My fellow students Chiara, <a href="https://github.com/schnaader">Christian</a> and <a href="https://github.com/B-LechCode">Simon</a> who are always good discussion partners with clever ideas
  *
@@ -2321,7 +2346,7 @@ PH_g_earth              = 9.80665;
  * Information about the developer:
  *      - Name: David Eilenstein
  *      - Contact: D.Eilenstein@gsi.de
- *      - Degree: Bachelor of Science in <a href="https://fbmn.h-da.de/index.php/Studienangebote/OBV">Machine Vision and Photonics</a> at <a href="https://h-da.de/">Hochschule Darmstadt</a> (expected Master of Science 2021)
+ *      - Degree: Bachelor and Master of Science in <a href="https://fbmn.h-da.de/index.php/Studienangebote/OBV">Machine Vision and Photonics</a> at <a href="https://h-da.de/">Hochschule Darmstadt</a>
  *      - Job: Writing ImageD and plugins for specialized solutions in the <a href="https://www.gsi.de/en/work/research/biophysics.htm">biophysics</a> department at <a href="https://www.gsi.de/en/start/news.htm">GSI Darmstadt</a>
  *      - Other: <a href="https://youtu.be/n-_fRfmTA1M">The species of athletic nerds actually exist :-P</a>
  *

@@ -197,12 +197,9 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->doubleSpinBox_Res_VortexCenter_WellDiameter,        SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_VortexCenter_Resolution_Rel,      SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
     connect(ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize,    SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
-    connect(ui->spinBox_Res_VortexCenter_kMeans_k,                  SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
-    connect(ui->spinBox_Res_VortexCenter_kMeans_Iterations,         SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->spinBox_Res_VortexCenter_Thickness,                 SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->spinBox_Res_VortexCenter_RansacIterations,          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_VortexCenter_Ransac,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
-    connect(ui->checkBox_Res_VortexCenter_kMeans,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_VortexCenter_MovingAverage,            SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->radioButton_Res_VortexCenter_VideoPos_C,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
     connect(ui->radioButton_Res_VortexCenter_VideoPos_B,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
@@ -1219,7 +1216,7 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
     //----------------------------------------------------------------- calc center -----------------------------------------
 
     //options
-    bool clustering = ui->checkBox_Res_VortexCenter_kMeans->isChecked();
+    bool clustering = false; //ui->checkBox_Res_VortexCenter_kMeans->isChecked();
     bool ransac = ui->checkBox_Res_VortexCenter_Ransac->isChecked();
 
     //approx intersection of line set is calculated
@@ -1270,11 +1267,6 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
     //return vortex center
     //qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "end";
     return P_center;
-}
-
-void D_MAKRO_CiliaSphereTracker::CalcVortexCenter_asBasisForOtherCalc()
-{
-
 }
 
 void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
@@ -1390,8 +1382,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
         int center_y_scaled = P_Center_scaled.y();
 
         //check center position in img?
-        bool x_ok = center_x_scaled >= 0 && center_x_scaled < well_diameter_px;
-        bool y_ok = center_y_scaled >= 0 && center_y_scaled < well_diameter_px;
+        bool x_ok = center_x_scaled >= 0 && center_x_scaled < well_diameter_px_scaled;
+        bool y_ok = center_y_scaled >= 0 && center_y_scaled < well_diameter_px_scaled;
 
         //-------------------- draw ---------------------
 
@@ -1752,7 +1744,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedStatCustom()
 
                                 double shift_linear = vv_FrmObjShifts[it_cur][obj];
 
-                                v_Shifts_InCellInTimeWindow.push_back(dist > 0 ? shift_linear / dist : 0);
+                                v_Shifts_InCellInTimeWindow.push_back(dist > 0 ? (shift_linear / dist) * Rad2Grad : 0);
                             }
                         }
                     }
@@ -2155,7 +2147,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
 
                     double shift_linear = vv_FrmObjShifts[it_cur][obj];
 
-                    v_Shifts_InTimeWindow.push_back(dist > 0 ? shift_linear / dist : 0);
+                    v_Shifts_InTimeWindow.push_back(dist > 0 ? (shift_linear / dist) * Rad2Grad : 0);
                 }
             }
         }
@@ -2202,7 +2194,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_SpeedAnalysis()
 
 
     //Speed unit
-    QString QS_Unit = shift_type == SHIFT_TYPE_LINEAR ? "(um/s)" : "(rad/s)";
+    QString QS_Unit = shift_type == SHIFT_TYPE_LINEAR ? "(um/s)" : "(°/s)";
 
     if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW1)
     {
@@ -2747,7 +2739,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
                         "<b>Linear shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
                         "linear shift um/s",
                         ui->checkBox_Res_Histo_Uni->isChecked(),
-                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                        ui->checkBox_Res_Histo_Acc->isChecked(),
+                        5),
                     "Update_Result_Histogram",
                     "D_Plot::Plot_Hist_WithStats_Color - Linear Speed");
     }
@@ -2758,7 +2751,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
         if(ui->comboBox_Res_Type->currentIndex() == RES_HISTOGRAM)
             ERR(D_Plot::Plot_Hist_WithStats_Color(
                         pChartView_Results_Line,
-                        vShiftsAll_rad_s,
+                        vShiftsAll_grad_s,
                         vDistancesToVortexCenter_All_um,
                         D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
                         0,
@@ -2766,10 +2759,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
                         dist_to_center_min,
                         dist_to_center_max,
                         ui->spinBox_Res_Histo_Classes_Speed->value(),
-                        v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
-                        v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
+                        v_VideoStats_Shifts_grad_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_grad_s[c_STAT_STAN_DEV_TOTAL],
                         "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
-                        "angular shift um/s",
+                        "angular shift °/s",
                         ui->checkBox_Res_Histo_Uni->isChecked(),
                         ui->checkBox_Res_Histo_Acc->isChecked()),
                     "Update_Result_Histogram",
@@ -2777,7 +2770,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
         else
             ERR(D_Plot::Plot_Hist_WithStats_Color(
                         pChartView_Results_Overview2_SpeedAngular_Hist,
-                        vShiftsAll_rad_s,
+                        vShiftsAll_grad_s,
                         vDistancesToVortexCenter_All_um,
                         D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC),
                         0,
@@ -2785,12 +2778,13 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
                         dist_to_center_min,
                         dist_to_center_max,
                         ui->spinBox_Res_Histo_Classes_Speed->value(),
-                        v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC],
-                        v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_TOTAL],
+                        v_VideoStats_Shifts_grad_s[c_STAT_MEAN_ARITMETIC],
+                        v_VideoStats_Shifts_grad_s[c_STAT_STAN_DEV_TOTAL],
                         "<b>Angular shifts histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>Color: Mean Distance to Vortex Center",
-                        "angular shift um/s",
+                        "angular shift °/s",
                         ui->checkBox_Res_Histo_Uni->isChecked(),
-                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                        ui->checkBox_Res_Histo_Acc->isChecked(),
+                        5),
                     "Update_Result_Histogram",
                     "D_Plot::Plot_Hist_WithStats_Color - Angular Speed");
     }
@@ -2822,10 +2816,11 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
                         0,
                         ui->doubleSpinBox_Res_Histo_MaxDistCenterIntersections->value(),
                         ui->spinBox_Res_Histo_Classes_Dist->value(),
-                        "<b>Distance from line intersections to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
+                        "<b>Distance from line intersections<br>to approximate center histogram</b><br>" + QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()] + "<br>blue: used intersections, red: all intersections",
                         "distance um",
                         ui->checkBox_Res_Histo_Uni->isChecked(),
-                        ui->checkBox_Res_Histo_Acc->isChecked()),
+                        ui->checkBox_Res_Histo_Acc->isChecked(),
+                        5),
                     "Update_Result_Histogram",
                     "D_Plot::Plot_Hist_WithStats - Distance");
     }
@@ -2880,6 +2875,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
     DIR_SaveStackPlot.setPath(DIR_SaveStack.path() + "/Plot");                          QDir().mkdir(DIR_SaveStackPlot.path());
     DIR_SaveStackPlot_Speed.setPath(DIR_SaveStackPlot.path() + "/Speed");               QDir().mkdir(DIR_SaveStackPlot_Speed.path());
     DIR_SaveStackPlot_Angle.setPath(DIR_SaveStackPlot.path() + "/Angle");               QDir().mkdir(DIR_SaveStackPlot_Angle.path());
+    DIR_SaveStackPlot_Vortex.setPath(DIR_SaveStackPlot.path() + "/Vortex");             QDir().mkdir(DIR_SaveStackPlot_Vortex.path());
     DIR_SaveStackPlot_Overview.setPath(DIR_SaveStackPlot.path() + "/Overview");         QDir().mkdir(DIR_SaveStackPlot_Overview.path());
     //overview
     DIR_SaveStackOverview.setPath(DIR_SaveStack.path() + "/Overview");                  QDir().mkdir(DIR_SaveStackOverview.path());
@@ -2907,14 +2903,14 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
             << "Path,"      << DIR_SaveStackOverview.path().toStdString() << "\n"
             << "DateTime,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
             << "\n"
-            << "Base unit," << "rad/s"
+            << "Base unit," << "°/s"
             << "\n";
     OS_SaveStats_Angle
             << "File,"      << "StackStats_Angle.csv" << "\n"
             << "Path,"      << DIR_SaveStackOverview.path().toStdString() << "\n"
             << "DateTime,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
             << "\n"
-            << "Base unit," << "degree"
+            << "Base unit," << "°"
             << "\n";
 
     //stats as header of columns
@@ -2943,8 +2939,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
         for(size_t s = 0; s < v_VideoStats_Shifts_um_s.size(); s++)
             OS_SaveStats_SpeedLinear << "," << v_VideoStats_Shifts_um_s[s];
         if(state_StatSummaryCalced_angularSpeed)
-            for(size_t s = 0; s < v_VideoStats_Shifts_rad_s.size(); s++)
-                OS_SaveStats_SpeedAngular << "," << v_VideoStats_Shifts_rad_s[s];
+            for(size_t s = 0; s < v_VideoStats_Shifts_grad_s.size(); s++)
+                OS_SaveStats_SpeedAngular << "," << v_VideoStats_Shifts_grad_s[s];
         for(size_t s = 0; s < v_VideoStats_Angles_Grad.size(); s++)
             OS_SaveStats_Angle << "," << v_VideoStats_Angles_Grad[s];
     }
@@ -3119,19 +3115,19 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
         //long
         QString QS_Stats_SpeedAngular = "Statistics of angular speed in full video:\n"
                                  "\n"
-                                 "Base speed unit is rad/s.\n";
-        for(size_t s = 0; s < v_VideoStats_Shifts_rad_s.size(); s++)
-            QS_Stats_SpeedAngular.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_rad_s[s]));
+                                 "Base speed unit is °/s.\n";
+        for(size_t s = 0; s < v_VideoStats_Shifts_grad_s.size(); s++)
+            QS_Stats_SpeedAngular.append("\n" + QSL_StatList[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Shifts_grad_s[s]));
         PDF_Overview.add_NewPage();
         PDF_Overview.add_Text(QS_Stats_SpeedAngular);
         //short
         PDF_Summary.add_Text(
                     "Angular speed stats:\n"
-                    "Average " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "rad/s\n"
-                    "STD " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "rad/s\n"
-                    "10%-Quantil " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_QUANTIL_10], 'g', 4) + "rad/s\n"
-                    "Median " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_MEDIAN], 'g', 4) + "rad/s\n"
-                    "90%-Quantil " + QString::number(v_VideoStats_Shifts_rad_s[c_STAT_QUANTIL_90], 'g', 4) + "rad/s",
+                    "Average " + QString::number(v_VideoStats_Shifts_grad_s[c_STAT_MEAN_ARITMETIC], 'g', 4) + "°/s\n"
+                    "STD " + QString::number(v_VideoStats_Shifts_grad_s[c_STAT_STAN_DEV_SAMPLE], 'g', 4) + "°/s\n"
+                    "10%-Quantil " + QString::number(v_VideoStats_Shifts_grad_s[c_STAT_QUANTIL_10], 'g', 4) + "°/s\n"
+                    "Median " + QString::number(v_VideoStats_Shifts_grad_s[c_STAT_MEDIAN], 'g', 4) + "°/s\n"
+                    "90%-Quantil " + QString::number(v_VideoStats_Shifts_grad_s[c_STAT_QUANTIL_90], 'g', 4) + "°/s",
                     x_4elem_2l, x_4elem_2r, y_text_t, y_text_b,
                     10,
                     Qt::AlignCenter);
@@ -4156,8 +4152,6 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->comboBox_Res_Type->setCurrentIndex(RES_SPEED_ANALYSIS);
     ui->comboBox_Res_SpeedCustom_ShiftType->setCurrentIndex(SHIFT_TYPE_ANGULAR);
     ui->checkBox_Res_PlotLine_FixRange_S->setChecked(true);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_min_angular->setValue(0);
-    ui->doubleSpinBox_Res_PlotLine_FixRange_S_max_angular->setValue(0.0045);
 
     //mean+-SD
     ui->comboBox_Res_SpeedCustom_Stat_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
@@ -4422,7 +4416,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_LinearSpeed - " + name_current + ".png" +
+                DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_LinearSpeed - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_LinearSpeed.png");
 
     //angular speed
@@ -4446,14 +4440,14 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_AngularSpeed - " + name_current + ".png" +
+                DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_AngularSpeed - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_AngularSpeed.png");
 
 
     //distance to vortex center speed
     ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_DIST_CENTER_INTERSECTIONS);
     Update_Ui();
-    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Vortex.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
     pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections.png");
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
@@ -4471,11 +4465,11 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
+                DIR_SaveStackPlot_Vortex.path() + "/Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_NonAccumulated_DistanceVortexCenterToIntersections.png");
 
 
-    //non accumulated
+    //accumulated
     ui->checkBox_Res_Histo_Acc->setChecked(true);
 
     //linear speed
@@ -4499,7 +4493,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_LinearSpeed - " + name_current + ".png" +
+                DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_LinearSpeed - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_LinearSpeed.png");
 
     //angular speed
@@ -4523,14 +4517,14 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_AngularSpeed - " + name_current + ".png" +
+                DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_AngularSpeed - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_AngularSpeed.png");
 
 
     //distance to vortex center speed
     ui->comboBox_Res_Histo_Type->setCurrentIndex(HIST_DIST_CENTER_INTERSECTIONS);
     Update_Ui();
-    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Speed.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
+    pChartView_Results_Line->grab().save(DIR_SaveStackPlot_Vortex.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png");
     pChartView_Results_Line->grab().save(DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections.png");
     PDF_Overview.add_NewPage();
     QI_ImgSave_tmp = pChartView_Results_Line->grab().toImage();
@@ -4548,7 +4542,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "No spatial or time information contained.\n"
                 "\n"
                 "Image can be found in:\n" +
-                DIR_SaveStackPlot_Angle.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
+                DIR_SaveStackPlot_Vortex.path() + "/Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections - " + name_current + ".png" +
                 DIR_SaveCurrentPlot.path() + "/" + name_current + " - Plot_Histogram_Accumulated_DistanceVortexCenterToIntersections.png");
 
     ui->checkBox_Res_Histo_Acc->setChecked(false);
@@ -4826,11 +4820,27 @@ void D_MAKRO_CiliaSphereTracker::Data_SelectVideo()
 
     //analyse file name to find position in well
     QString QS_Name = QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()];
-    ui->radioButton_Res_VortexCenter_VideoPos_C->setChecked(true);
-    if(QS_Name.endsWith("a") || QS_Name.endsWith("d"))
+
+    //check, if left
+    QStringList QSL_LeftEndings = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_L->text().split(",");
+    bool pos_left = false;
+    for(int i = 0; i < QSL_LeftEndings.size(); i++)
+        if(QS_Name.endsWith(QSL_LeftEndings[i]))
+            pos_left = true;
+
+    //check, if right
+    QStringList QSL_RightEndings = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_R->text().split(",");
+    bool pos_right = false;
+    for(int i = 0; i < QSL_RightEndings.size(); i++)
+        if(QS_Name.endsWith(QSL_RightEndings[i]))
+            pos_right = true;
+
+    if(pos_left)
         ui->radioButton_Res_VortexCenter_VideoPos_L->setChecked(true);
-    if(QS_Name.endsWith("c") || QS_Name.endsWith("f"))
+    else if(pos_right)
         ui->radioButton_Res_VortexCenter_VideoPos_R->setChecked(true);
+    else
+        ui->radioButton_Res_VortexCenter_VideoPos_C->setChecked(true);
 }
 
 void D_MAKRO_CiliaSphereTracker::Data_SelectRoiTime()
@@ -4944,7 +4954,7 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
         return;
 
     //clear
-    vShiftsAll_rad_s.clear();
+    vShiftsAll_grad_s.clear();
     vDistancesToVortexCenter_All_um.clear();
 
     //gather
@@ -4956,15 +4966,15 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
             double dist = sqrt(dx * dx + dy * dy);
 
             vDistancesToVortexCenter_All_um.push_back(dist);
-            vShiftsAll_rad_s.push_back(dist > 0 ? vv_FrmObjShifts[frm][obj] / dist : 0);
+            vShiftsAll_grad_s.push_back(dist > 0 ? (vv_FrmObjShifts[frm][obj] / dist) * Rad2Grad : 0);
         }
 
     ERR(D_Stat::Calc_Stats(
-            &v_VideoStats_Shifts_rad_s,
-            vShiftsAll_rad_s,
+            &v_VideoStats_Shifts_grad_s,
+            vShiftsAll_grad_s,
             true),
         "Data_CalcFullVideoStats",
-        "Calc_Stats (shift rad/s)");
+        "Calc_Stats (shift °/s)");
 
     ERR(D_Stat::Calc_Stats(
             &v_VideoStats_DistancesToVortexCenter_All_um,
@@ -5624,8 +5634,8 @@ void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_Ransac_stateChange
 
 void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1)
 {
-    ui->spinBox_Res_VortexCenter_kMeans_k->setEnabled(arg1);
-    ui->spinBox_Res_VortexCenter_kMeans_Iterations->setEnabled(arg1);
+    //ui->spinBox_Res_VortexCenter_kMeans_k->setEnabled(arg1);
+    //ui->spinBox_Res_VortexCenter_kMeans_Iterations->setEnabled(arg1);
 }
 
 void D_MAKRO_CiliaSphereTracker::on_doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec_valueChanged(double arg1)

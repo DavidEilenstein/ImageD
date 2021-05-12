@@ -1752,22 +1752,22 @@
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="suffix">
-                 <string> rad/s</string>
+                 <string> °/s</string>
                 </property>
                 <property name="decimals">
-                 <number>4</number>
+                 <number>2</number>
                 </property>
                 <property name="minimum">
-                 <double>0.000100000000000</double>
+                 <double>0.010000000000000</double>
                 </property>
                 <property name="maximum">
-                 <double>0.010000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="singleStep">
                  <double>0.000100000000000</double>
                 </property>
                 <property name="value">
-                 <double>0.004500000000000</double>
+                 <double>0.200000000000000</double>
                 </property>
                </widget>
               </item>
@@ -1795,16 +1795,16 @@
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="suffix">
-                 <string> rad/s</string>
+                 <string> °/s</string>
                 </property>
                 <property name="decimals">
-                 <number>4</number>
+                 <number>3</number>
                 </property>
                 <property name="minimum">
                  <double>0.000000000000000</double>
                 </property>
                 <property name="maximum">
-                 <double>0.010000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="singleStep">
                  <double>0.000100000000000</double>
@@ -2193,6 +2193,34 @@
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="0" column="6" rowspan="3">
+           <widget class="Line" name="line_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Line" name="line_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" rowspan="3">
+           <widget class="Line" name="line_9">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="8" rowspan="3">
+           <widget class="Line" name="line_10">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="4" rowspan="3">
            <layout class="QGridLayout" name="gridLayout_21">
             <item row="2" column="1">
@@ -2265,74 +2293,6 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="3">
-           <widget class="QLabel" name="label_18">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>position</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QSpinBox" name="spinBox_Res_VortexCenter_Thickness">
-              <property name="buttonSymbols">
-               <enum>QAbstractSpinBox::NoButtons</enum>
-              </property>
-              <property name="suffix">
-               <string>px</string>
-              </property>
-              <property name="prefix">
-               <string>thickness </string>
-              </property>
-              <property name="minimum">
-               <number>2</number>
-              </property>
-              <property name="value">
-               <number>5</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox_Res_VortexCenter_Resolution_Rel">
-              <property name="buttonSymbols">
-               <enum>QAbstractSpinBox::NoButtons</enum>
-              </property>
-              <property name="prefix">
-               <string/>
-              </property>
-              <property name="suffix">
-               <string>% of resolution</string>
-              </property>
-              <property name="decimals">
-               <number>0</number>
-              </property>
-              <property name="minimum">
-               <double>5.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>5.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>25.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="5" rowspan="3">
-           <widget class="Line" name="line_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
@@ -2387,6 +2347,54 @@
             </item>
            </layout>
           </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QSpinBox" name="spinBox_Res_VortexCenter_Thickness">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="suffix">
+               <string>px</string>
+              </property>
+              <property name="prefix">
+               <string>thickness </string>
+              </property>
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBox_Res_VortexCenter_Resolution_Rel">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="prefix">
+               <string/>
+              </property>
+              <property name="suffix">
+               <string>% of resolution</string>
+              </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
+              <property name="minimum">
+               <double>5.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>5.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>25.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="0" column="3">
            <widget class="QLabel" name="label_19">
             <property name="text">
@@ -2394,7 +2402,7 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="6" rowspan="3">
+          <item row="0" column="7" rowspan="3">
            <layout class="QGridLayout" name="gridLayout_25">
             <item row="1" column="1">
              <widget class="QDoubleSpinBox" name="doubleSpinBox_Res_VortexCenter_Ransac_pGoodGuess">
@@ -2538,104 +2546,8 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="1">
-           <widget class="Line" name="line_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="8">
-           <widget class="Line" name="line_12">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" rowspan="3">
-           <widget class="Line" name="line_9">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="8">
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QCheckBox" name="checkBox_Res_VortexCenter_kMeans">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>k-means</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_Res_VortexCenter_kMeans_k">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="buttonSymbols">
-               <enum>QAbstractSpinBox::NoButtons</enum>
-              </property>
-              <property name="suffix">
-               <string> vortexes</string>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>10</number>
-              </property>
-              <property name="value">
-               <number>2</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_Res_VortexCenter_kMeans_Iterations">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="buttonSymbols">
-               <enum>QAbstractSpinBox::NoButtons</enum>
-              </property>
-              <property name="suffix">
-               <string> iters</string>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>1000</number>
-              </property>
-              <property name="value">
-               <number>1</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="7" rowspan="3">
-           <widget class="Line" name="line_10">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="8">
+          <item row="2" column="9">
            <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QCheckBox" name="checkBox_Res_VortexCenter_MovingAverage">
-              <property name="text">
-               <string>Moving Average</string>
-              </property>
-              <property name="tristate">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QSpinBox" name="spinBox_Res_VortexCenter_MoveingAverage_TimeWindow_frm">
               <property name="buttonSymbols">
@@ -2668,6 +2580,197 @@
               </property>
               <property name="value">
                <double>10.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLabel" name="label_18">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>position</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="9">
+           <widget class="QCheckBox" name="checkBox_Res_VortexCenter_MovingAverage">
+            <property name="text">
+             <string>Moving Average</string>
+            </property>
+            <property name="tristate">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5" rowspan="3">
+           <layout class="QGridLayout" name="gridLayout_34">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Center</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_20">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Left</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLineEdit" name="lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_L">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>a,d</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Right</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLineEdit" name="lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_R">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>c,f</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_23">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>ends with</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" colspan="2">
+             <widget class="QLabel" name="label_22">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Default</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_24">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>ends with</string>
               </property>
              </widget>
             </item>
@@ -3326,22 +3429,22 @@
                  <string>maximum speed </string>
                 </property>
                 <property name="suffix">
-                 <string> rad/s</string>
+                 <string>°/s</string>
                 </property>
                 <property name="decimals">
-                 <number>4</number>
+                 <number>2</number>
                 </property>
                 <property name="minimum">
-                 <double>0.000100000000000</double>
-                </property>
-                <property name="maximum">
                  <double>0.010000000000000</double>
                 </property>
+                <property name="maximum">
+                 <double>1.000000000000000</double>
+                </property>
                 <property name="singleStep">
-                 <double>0.000100000000000</double>
+                 <double>0.001000000000000</double>
                 </property>
                 <property name="value">
-                 <double>0.004500000000000</double>
+                 <double>0.200000000000000</double>
                 </property>
                </widget>
               </item>
@@ -3501,7 +3604,7 @@
                  <number>10</number>
                 </property>
                 <property name="value">
-                 <number>100</number>
+                 <number>50</number>
                 </property>
                </widget>
               </item>
