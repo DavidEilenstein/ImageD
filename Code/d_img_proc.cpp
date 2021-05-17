@@ -15532,7 +15532,7 @@ int D_Img_Proc::Draw_VectorField(Mat *pMA_Target, vector<vector<double> > vv_XY_
     return ER_okay;
 }
 
-int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc_angle_value, vector<vector<double> > vv_XY_arc_angle_error, vector<vector<double> > vv_XY_arc_orientation_value, vector<vector<double> > vv_XY_arc_radius_value, uchar value, int thickness, int arc_draw_steps, bool grid_add, int grid_thicknes, bool label_add, int label_thickness, double label_scale)
+int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc_angle_value, vector<vector<double> > vv_XY_arc_angle_error, vector<vector<double> > vv_XY_arc_orientation_value, vector<vector<double> > vv_XY_arc_radius_value, vector<vector<size_t>> vv_XY_draw_if_non_zero, uchar value, int thickness, int arc_draw_steps, bool grid_add, int grid_thicknes, bool label_add, int label_thickness, double label_scale)
 {
     if(pMA_Target->empty())                                 return ER_empty;
     if(pMA_Target->type() != CV_8UC1)                       return ER_type_bad;
@@ -15543,6 +15543,7 @@ int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc
     if(vv_XY_arc_angle_error.size() != nx)              {qDebug() << "Draw_VectorField size checks x vv_XY_arc_angle_error.size() != nx" << nx;             return ER_size_missmatch;}
     if(vv_XY_arc_orientation_value.size() != nx)        {qDebug() << "Draw_VectorField size checks x vv_XY_arc_orientation_value.size() != nx" << nx;       return ER_size_missmatch;}
     if(vv_XY_arc_radius_value.size() != nx)             {qDebug() << "Draw_VectorField size checks x vv_XY_arc_radius_value.size() != nx" << nx;            return ER_size_missmatch;}
+    if(vv_XY_draw_if_non_zero.size() != nx)             {qDebug() << "Draw_VectorField size checks x vv_XY_draw_if_non_zero.size() != nx" << nx;            return ER_size_missmatch;}
 
     //size checks y
     size_t ny = vv_XY_arc_angle_value[0].size();
@@ -15552,6 +15553,7 @@ int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc
         if(vv_XY_arc_angle_error[ix].size() != ny)      {qDebug() << "Draw_VectorField size checks y vv_XY_arc_angle_error[ix].size() != ny" << ny;         return ER_size_missmatch;}
         if(vv_XY_arc_orientation_value[ix].size() != ny){qDebug() << "Draw_VectorField size checks y vv_XY_arc_orientation_value[ix].size() != ny" << ny;   return ER_size_missmatch;}
         if(vv_XY_arc_radius_value[ix].size() != ny)     {qDebug() << "Draw_VectorField size checks y vv_XY_arc_radius_value[ix].size() != ny" << ny;        return ER_size_missmatch;}
+        if(vv_XY_draw_if_non_zero[ix].size() != ny)     {qDebug() << "Draw_VectorField size checks y vv_XY_draw_if_non_zero[ix].size() != ny" << ny;        return ER_size_missmatch;}
     }
     int ER;
 
@@ -15580,27 +15582,28 @@ int D_Img_Proc::Draw_ArcField(Mat *pMA_Target, vector<vector<double> > vv_XY_arc
     //draw vectors
     for(size_t gx = 0; gx < nx; gx++)
         for(size_t gy = 0; gy < ny; gy++)
-        {
-            //center of box = offset of vector
-            int ox = static_cast<int>((static_cast<double>(gx) / nx) * w + sx);
-            int oy = static_cast<int>((static_cast<double>(gy) / ny) * h + sy);
+            if(vv_XY_draw_if_non_zero[gx][gy] > 0)
+            {
+                //center of box = offset of vector
+                int ox = static_cast<int>((static_cast<double>(gx) / nx) * w + sx);
+                int oy = static_cast<int>((static_cast<double>(gy) / ny) * h + sy);
 
-            //test output
-            //qDebug() << "Draw_VectorField" << "draw at" << ox << "/" << oy << "length" << vv_XY_arc_angle_value[gx][gy] << vv_XY_arc_angle_error[gx][gy] << "angle" << vv_XY_angle_value[gx][gy] << vv_XY_angle_error[gx][gy];
+                //test output
+                //qDebug() << "Draw_VectorField" << "draw at" << ox << "/" << oy << "length" << vv_XY_arc_angle_value[gx][gy] << vv_XY_arc_angle_error[gx][gy] << "angle" << vv_XY_angle_value[gx][gy] << vv_XY_angle_error[gx][gy];
 
-            //draw vector
-            Draw_Arc(
-                        pMA_Target,
-                        ox,
-                        oy,
-                        vv_XY_arc_angle_value[gx][gy],
-                        vv_XY_arc_angle_error[gx][gy],
-                        vv_XY_arc_orientation_value[gx][gy],
-                        vv_XY_arc_radius_value[gx][gy],
-                        thickness,
-                        value,
-                        arc_draw_steps);
-        }
+                //draw vector
+                Draw_Arc(
+                            pMA_Target,
+                            ox,
+                            oy,
+                            vv_XY_arc_angle_value[gx][gy],
+                            vv_XY_arc_angle_error[gx][gy],
+                            vv_XY_arc_orientation_value[gx][gy],
+                            vv_XY_arc_radius_value[gx][gy],
+                            thickness,
+                            value,
+                            arc_draw_steps);
+            }
 
     return ER_okay;
 }

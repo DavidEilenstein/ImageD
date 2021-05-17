@@ -595,7 +595,7 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
     return ER_okay;
 }
 
-int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
+int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat_Hue, function<double (vector<double>)> F_ColorStat_Value, double min_x_hist, double max_x_hist, double min_x_color_hue, double max_x_color_hue, double min_x_color_value, double max_x_color_value, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
     //clear old content
     Free_Memory(pChartView);
@@ -604,7 +604,8 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
     if(v_DataColor.empty())                         return ER_empty;
     if(v_DataHist.size() != v_DataColor.size())     return ER_size_missmatch;
     if(min_x_hist >= max_x_hist)                    return ER_parameter_missmatch;
-    if(min_x_color >= max_x_color)                  return ER_parameter_missmatch;
+    if(min_x_color_hue >= max_x_color_hue)          return ER_parameter_missmatch;
+    if(min_x_color_value >= max_x_color_value)      return ER_parameter_missmatch;
     if(n_classes <= 1)                              return ER_parameter_bad;
 
     //data count
@@ -630,7 +631,8 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
     //data ranges and steps
     double range_x_hist = max_x_hist - min_x_hist;
     double step_x_hist = range_x_hist / (n_classes - 1);
-    double range_x_color = max_x_color - min_x_color;
+    double range_x_color_hue = max_x_color_hue - min_x_color_hue;
+    double range_x_color_value = max_x_color_value - min_x_color_value;
 
     //calc hist and save color calc values
     vector<double> v_hist(n_classes, 0);
@@ -677,9 +679,16 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
         }
         else
         {
-            double color_mean = max(min_x_color, min(max_x_color, F_ColorStat(vv_hist_ColorDataRaw[i_hist])));
+            double hue_stat = max(min_x_color_hue, min(max_x_color_hue, F_ColorStat_Hue(vv_hist_ColorDataRaw[i_hist])));
+            double hue = (1 - ((hue_stat - min_x_color_hue) / range_x_color_hue)) * 240;
+
+            double value_stat = max(min_x_color_value, min(max_x_color_value, F_ColorStat_Value(vv_hist_ColorDataRaw[i_hist])));
+            double value = (1 - ((value_stat - min_x_color_value) / range_x_color_value)) * 255;
+
+            //qDebug() << "hue/value" << hue << value;
+
             QColor color;
-            color.setHsv((1 - ((color_mean - min_x_color) / range_x_color)) * 240, 255, 255);
+            color.setHsv(hue, 255, value);
             v_series_hist[i_hist]->setColor(color);
         }
     }

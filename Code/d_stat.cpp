@@ -1033,7 +1033,6 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         };
 
 
-
     case c_STAT_MINIMUM:
         return [](vector<double> v_x)
         {
