@@ -1601,57 +1601,60 @@ int D_Img_Proc::Duplicate(Mat *pMA_Out, Mat *pMA_In)
 int D_Img_Proc::Insert(Mat *pMA_Target, Mat *pMA_Insert, int offset_x, int offset_y)
 {
     if(pMA_Target->type() != pMA_Insert->type())            return ER_type_missmatch;
-    if(pMA_Target->cols <= offset_x + pMA_Insert->cols)     return ER_size_missmatch;
-    if(pMA_Target->rows <= offset_y + pMA_Insert->rows)     return ER_size_missmatch;
+
+    int x_start = max(0, -offset_x);
+    int y_start = max(0, -offset_y);
+    int x_end = min(pMA_Insert->cols, pMA_Target->cols - offset_x);
+    int y_end = min(pMA_Insert->rows, pMA_Target->rows - offset_y);
 
     switch (pMA_Insert->type())
     {
 
     case CV_8UC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<uchar>(offset_y + y, offset_x + x) = pMA_Insert->at<uchar>(y, x);
         break;
 
     case CV_8SC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<char>(offset_y + y, offset_x + x) = pMA_Insert->at<char>(y, x);
         break;
 
     case CV_16UC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<ushort>(offset_y + y, offset_x + x) = pMA_Insert->at<ushort>(y, x);
         break;
 
     case CV_16SC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<short>(offset_y + y, offset_x + x) = pMA_Insert->at<short>(y, x);
         break;
 
     case CV_32SC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<int>(offset_y + y, offset_x + x) = pMA_Insert->at<int>(y, x);
         break;
 
     case CV_32FC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<float>(offset_y + y, offset_x + x) = pMA_Insert->at<float>(y, x);
         break;
 
     case CV_64FC1:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<double>(offset_y + y, offset_x + x) = pMA_Insert->at<double>(y, x);
         break;
 
     case CV_8UC3:
-        for(int y = 0; y < pMA_Insert->rows; y++)
-            for(int x = 0; x < pMA_Insert->cols; x++)
+        for(int y = y_start; y < y_end; y++)
+            for(int x = x_start; x < x_end; x++)
                 pMA_Target->at<Vec3b>(offset_y + y, offset_x + x) = pMA_Insert->at<Vec3b>(y, x);
         break;
 

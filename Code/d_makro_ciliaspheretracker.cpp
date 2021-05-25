@@ -1351,11 +1351,13 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
                 pos_in_well_rel * well_diameter_px - pos_offset_x_px,
                 well_radius_px - pos_offset_y_px);
 
+    /*
     //make sure area is in well
     P_VideoOffset.x = max(P_VideoOffset.x, 0);
     P_VideoOffset.y = max(P_VideoOffset.y, 0);
     P_VideoOffset.x = min(P_VideoOffset.x, static_cast<int>(well_diameter_px - spatial_roi_width - 1));
     P_VideoOffset.y = min(P_VideoOffset.y, static_cast<int>(well_diameter_px - spatial_roi_height - 1));
+    */
 
     //projection graphics as basis for video area
     Update_Result_GraphicsTimeProjectSum();
@@ -1418,103 +1420,85 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 
         //deviation dot
         if(x_ok && y_ok)
-            ERR(D_Img_Proc::Draw_Dot(
+            D_Img_Proc::Draw_Dot(
                     &MA_tmp_Well,
                     P_Center_scaled.x(),
                     P_Center_scaled.y(),
                     center_deviation_scaled * 2,
-                    100, 0, 100),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Dot - grid cell centers");
+                    100, 0, 100);
 
         //draw well as black circle again (in case deviaition is so huge that well can't be seen anymore)
-        ERR(D_Img_Proc::Draw_Circle(
+        D_Img_Proc::Draw_Circle(
                 &MA_tmp_Well,
                 well_radius_px_scaled, well_radius_px_scaled,
                 well_radius_px_scaled,
                 0, 0, 0,
-                thickness * 3),
-            "Update_Result_GraphicsVortexCenter",
-            "Draw_Circle - Well diameter");
+                thickness * 3);
 
         //insert video backgound graphic
-        ERR(D_Img_Proc::Insert(
+        D_Img_Proc::Insert(
                     &MA_tmp_Well,
                     &MA_TimeProject_Show,
                     P_Offset_scaled.x(),
                     P_Offset_scaled.y(),
-                    res_scale),
-            "Update_Result_GraphicsVortexCenter",
-            "D_Img_Proc::Insert - video background in well img");
+                    res_scale);
 
         //normal lines
         for(size_t i = 0; i < Lines_NormalsOfMovementVectors.size(); i++)
         {
             D_Geo_Point_2D P1, P2;
             if(Lines_NormalsOfMovementVectors.line(i).intersection_rect(&P1, &P2, 0, well_diameter_px, 0, well_diameter_px))
-                ERR(D_Img_Proc::Draw_Line(
+                D_Img_Proc::Draw_Line(
                         &MA_tmp_Well,
                         P1.scale(res_scale).CV_Point(),
                         P2.scale(res_scale).CV_Point(),
                         max(2.0 , ceil(thickness / 4.0)),
-                        128, 0, 128),
-                    "Update_Result_GraphicsVortexCenter",
-                    "Draw_Line - Lines_NormalsOfMovementVectors[" + QString::number(i) + "]");
+                        128, 0, 128);
         }
 
         //anchors of normal lines
         for(size_t gx = 0; gx < nx; gx++)
             for(size_t gy = 0; gy < ny; gy++)
-                ERR(D_Img_Proc::Draw_Dot(
+                D_Img_Proc::Draw_Dot(
                         &MA_tmp_Well,
                         P_Offset_scaled.x() + ((gx + 0.5) / static_cast<double>(nx)) * spatial_roi_width * res_scale,
                         P_Offset_scaled.y() + ((gy + 0.5) / static_cast<double>(ny)) * spatial_roi_height * res_scale,
                         thickness * 2,
-                        128, 0, 128),
-                    "Update_Result_GraphicsVortexCenter",
-                    "Draw_Dot - grid cell centers");
+                        128, 0, 128);
 
         //center y
         if(y_ok)
-            ERR(D_Img_Proc::Draw_Line(
+            D_Img_Proc::Draw_Line(
                     &MA_tmp_Well,
                     0, center_y_scaled,
                     well_diameter_px_scaled - 1, center_y_scaled,
                     thickness,
-                    255, 0, 255),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Line - Center Y");
+                    255, 0, 255);
 
         //center x
         if(x_ok)
-            ERR(D_Img_Proc::Draw_Line(
+            D_Img_Proc::Draw_Line(
                     &MA_tmp_Well,
                     center_x_scaled, 0,
                     center_x_scaled, well_diameter_px_scaled - 1,
                     thickness,
-                    255, 0, 255),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Line - Center X");
+                    255, 0, 255);
 
         //center dot and deviation circle
         if(x_ok && y_ok)
         {
-            ERR(D_Img_Proc::Draw_Dot(
+            D_Img_Proc::Draw_Dot(
                     &MA_tmp_Well,
                     center_x_scaled, center_y_scaled,
                     thickness * 5,
-                    255, 0, 255),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Dot - Center");
+                    255, 0, 255);
 
-            ERR(D_Img_Proc::Draw_Circle(
+            D_Img_Proc::Draw_Circle(
                     &MA_tmp_Well,
                     center_x_scaled, center_y_scaled,
                     center_deviation_scaled,
                     255, 0, 255,
-                    thickness),
-                "Update_Result_GraphicsVortexCenter",
-                "Draw_Circle - STD");
+                    thickness);
         }
     }
 
@@ -1575,14 +1559,12 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
 
         //insert video background graphic
         if(mode == 2)
-            ERR(D_Img_Proc::Insert(
+            D_Img_Proc::Insert(
                         &MA_tmp_Well,
                         &MA_TimeProject_Show,
                         P_Offset_scaled.x(),
                         P_Offset_scaled.y(),
-                        res_scale),
-                "Update_Result_GraphicsVortexCenter",
-                "D_Img_Proc::Insert - video background in well img");
+                        res_scale);
 
         size_t n = v_CentersScaled.size();
         D_Geo_Point_2D P_last;
@@ -1599,13 +1581,11 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
             //draw center as dot
             if(P_Center_scaled.in_rect(0, well_diameter_px_scaled, 0, well_diameter_px_scaled))
             {
-                ERR(D_Img_Proc::Draw_Dot(
+                D_Img_Proc::Draw_Dot(
                         &MA_tmp_Well,
                         P_Center_scaled.x(), P_Center_scaled.y(),
                         thickness * 3,
-                        color.red(), color.green(), color.blue()),
-                    "Update_Result_GraphicsVortexCenter",
-                    "Draw_Dot - Center");
+                        color.red(), color.green(), color.blue());
             }
 
             //draw center connection as line for later centers
@@ -1615,14 +1595,12 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
                 D_Geo_Point_2D P1;
                 D_Geo_Point_2D P2;
                 if(L_CenterConnect.intersection_rect(&P1, &P2, 0, well_diameter_px_scaled, 0, well_diameter_px_scaled))
-                    ERR(D_Img_Proc::Draw_Line(
+                    D_Img_Proc::Draw_Line(
                             &MA_tmp_Well,
                             P_Center_scaled.x(), P_Center_scaled.y(),
                             P_last.x(), P_last.y(),
                             1,
-                            color.red(), color.green(), color.blue()),
-                        "Update_Result_GraphicsVortexCenter",
-                        "Draw_Line - Center X");
+                            color.red(), color.green(), color.blue());
             }
 
             //save current center as last center for next center
