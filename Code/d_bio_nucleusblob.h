@@ -52,7 +52,7 @@ public:
     //set/add foic
     void                            set_FociChannels(size_t channels)                           {vvFoci.resize(channels);}
     void                            set_Foci(size_t channel, vector<D_Bio_Focus> v_foci)        {if(channel < vvFoci.size()) vvFoci[channel] = v_foci;}
-    void                            set_Foci(vector<vector<D_Bio_Focus>> vv_foci)                   {vvFoci = vv_foci;}
+    void                            set_Foci(vector<vector<D_Bio_Focus>> vv_foci)               {vvFoci = vv_foci;}
     void                            add_Focus(size_t channel, D_Bio_Focus focus)                {if(channel < vvFoci.size()) vvFoci[channel].push_back(focus);}
 
     //get foci or describing info
@@ -68,7 +68,10 @@ public:
     void                            block_save_StitchingBorder_BottomRight(size_t x, size_t y)  {block_stitching_border = true; block_stitching_border_x = x; block_stitching_border_y = y;}
 
     //save
-    int                             save(QString path);
+    //int                           save(QString path, bool simple);
+    //int                           save_detailed(QString path);
+    int                             save_simple(QString path_of_dir_to_save_in, bool save_foci);
+    bool                            load_simple(QString nucleus_file, bool load_foci);
 
     //copied from D_BioFocus because inhering causes problems...
 
@@ -91,11 +94,11 @@ public:
     double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}
 
 private:
-    bool            load(QString QS_DirLoad);
 
-    double                          m_time              = 0;
+    //bool            load(QString QS_DirLoad);
+
+    double                          m_time = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;
-    QStringList                     QSL_FociChannelNames;
 
     size_t                          leftmost();
     size_t                          topmost();
@@ -108,16 +111,57 @@ private:
     bool                            state_feats_calced  = false;
     void                            CalcFeats();
 
-    vector<Point>                   m_contour           = vector<Point> {};
-    vector<Point>                   m_convex_hull       = vector<Point> {};
+    vector<Point>                   m_contour;
+    vector<Point>                   m_convex_hull;
 
     Point2f                         m_centroid          = Point2f(0, 0);
     double                          m_area              = 0;
     double                          m_compactness       = 0;
     double                          m_convexity         = 0;
 
-    vector<double>                  vSignalMedians      = vector<double> {};
-    vector<double>                  vSignalMedDevs      = vector<double> {};
+    vector<double>                  vSignalMedians;
+    vector<double>                  vSignalMedDevs;
+
+    const QStringList QSL_FileSections = {
+        ":::::::::::::::::::: Begin",
+        ":::::::::::::::::::: MetaInfo",
+        ":::::::::::::::::::: Values",
+        ":::::::::::::::::::: CountourPixels",
+        ":::::::::::::::::::: Foci",
+        ":::::::::::::::::::: End"
+    };
+    enum FILE_SECTIONS {
+        FILE_SECTION_BEGIN,
+        FILE_SECTION_META_INFO,
+        FILE_SECTION_VALUES,
+        FILE_SECTION_CONTOUR_PIXELS,
+        FILE_SECTION_FOCI,
+        FILE_SECTION_END,
+        FILE_SECTION_NUMBER_OF
+    };
+
+    const QStringList QSL_FileSubsections = {
+        "Default",
+        ".................... Channel",
+        "-------------------- Focus Begin",
+        "-------------------- Focus End",
+        "Median",
+        "AverageAbsoluteDeviationFromMedian",
+        "Position",
+        "AreaConvexityCompactness"
+    };
+    enum FILE_SUBSECTIONS {
+        FILE_SUBSECTION_DEFAULT,
+        FILE_SUBSECTION_NEW_FOCI_CHANNEL,
+        FILE_SUBSECTION_FOCUS_BEGIN,
+        FILE_SUBSECTION_FOCUS_END,
+        FILE_SUBSECTION_MEDIAN,
+        FILE_SUBSECTION_MEDIAN_DEVIATION,
+        FILE_SUBSECTION_POSITION,
+        FILE_SUBSECTION_SHAPE,
+        FILE_SUBSECTION_NUMBER_OF
+    };
+
 };
 
 #endif // D_BIO_NUCLEUSBLOB_H

@@ -8,6 +8,7 @@ QT       += core gui
 QT       += charts
 QT       += multimedia
 QT       += multimediawidgets
+#QT       += winextras
 
 #CONFIG+= static
 

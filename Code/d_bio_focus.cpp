@@ -13,22 +13,24 @@ D_Bio_Focus::D_Bio_Focus()
 
 }
 
+/*
 D_Bio_Focus::D_Bio_Focus(QString QS_PathLoad)
 {
-     if(load(QS_PathLoad))
-         CalcFeats();
+     load(QS_PathLoad);
 }
+*/
 
 D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, Point Offset)
 {
     //save data
+
     //apply offset to contour
-    m_contour.resize(contour_points.size());
-    for(size_t i = 0; i < m_contour.size(); i++)
-        m_contour[i] = contour_points[i] + Offset;
+    vector<Point> countour_with_offset(contour_points.size());
+    for(size_t i = 0; i < countour_with_offset.size(); i++)
+        countour_with_offset[i] = contour_points[i] + Offset;
 
     //calc feats
-    CalcFeats();
+    CalcFeats(countour_with_offset);
 }
 
 D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset)
@@ -38,14 +40,29 @@ D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<double> signal_med
     vSignalMedDevs = signal_meddevs;
 
     //apply offset to contour
-    m_contour.resize(contour_points.size());
-    for(size_t i = 0; i < m_contour.size(); i++)
-        m_contour[i] = contour_points[i] + Offset;
+    vector<Point> countour_with_offset(contour_points.size());
+    for(size_t i = 0; i < countour_with_offset.size(); i++)
+        countour_with_offset[i] = contour_points[i] + Offset;
 
     //calc feats
-    CalcFeats();
+    CalcFeats(countour_with_offset);
 }
 
+D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<double> signal_medians, vector<double> signal_meddevs)
+{
+    //save data
+    vSignalMedians  = signal_medians;
+    vSignalMedDevs  = signal_meddevs;
+    m_centroid      = centroid;
+    m_area          = area;
+    m_compactness   = compactness;
+    m_convexity     = convexity;
+
+    //no stats need to be calced
+    state_feats_calced = true;
+}
+
+/*
 int D_Bio_Focus::save(QString path)
 {
     //qDebug() << "D_Bio_Focus::save";
@@ -128,7 +145,9 @@ int D_Bio_Focus::save(QString path)
 
     return ER_okay;
 }
+*/
 
+/*
 bool D_Bio_Focus::load(QString QS_PathLoad)
 {
     //check file
@@ -220,11 +239,12 @@ bool D_Bio_Focus::load(QString QS_PathLoad)
     //finish
     return true;
 }
+*/
 
-void D_Bio_Focus::CalcFeats()
+void D_Bio_Focus::CalcFeats(vector<Point> contour)
 {
     //empty?
-    if(m_contour.empty())
+    if(contour.empty())
     {
         //qDebug() << "D_Bio_Focus::CalcFeats()" << "WARNING Contour empty";
         m_centroid      = Point2f(0, 0);
@@ -235,13 +255,13 @@ void D_Bio_Focus::CalcFeats()
     }
 
     //calc moments
-    Moments moments_tmp = moments(m_contour);
+    Moments moments_tmp = moments(contour);
 
     //calc centroids
     if(moments_tmp.m00 == 0)
     {
-        double center_x = m_contour[0].x;
-        double center_y = m_contour[0].y;
+        double center_x = contour[0].x;
+        double center_y = contour[0].y;
         //qDebug() << "D_Bio_Focus::CalcFeats() centroid x/y" << center_x << center_y << "WARNING No mass!";
         m_centroid = Point2f(center_x, center_y);
     }
@@ -257,14 +277,15 @@ void D_Bio_Focus::CalcFeats()
     if(moments_tmp.m00 == 0)
         m_area = 0;
     else
-        m_area = contourArea(m_contour);
+        m_area = contourArea(contour);
 
     //Perimeter
-    double perimeter = arcLength(m_contour, true);
+    double perimeter = arcLength(contour, true);
 
     //convex hull
-    convexHull(m_contour, m_convex_hull);
-    double hull_perimeter = arcLength(m_convex_hull, true);
+    vector<Point> convex_hull;
+    convexHull(contour, convex_hull);
+    double hull_perimeter = arcLength(convex_hull, true);
 
     //other features
     if(perimeter == 0)

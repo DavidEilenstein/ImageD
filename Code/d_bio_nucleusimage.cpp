@@ -364,21 +364,24 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
 
     //nucleus list
     //qDebug() << "calc_NucleiDecomposition" << "nucleus list";
-    vNuclei.resize(n_nuclei);
     for(size_t i = 0; i < n_nuclei; i++)
     {
-        vNuclei[i] = D_Bio_NucleusBlob(
-                    CompList_Nuclei.get_Component(i).get_Contour(),
-                    vvNuclei_Median[i],
-                    vvNuclei_MedDev[i],
-                    time,
-                    P_Offset);
-        vNuclei[i].set_FociChannels(n_channels_foci);
+        //create nucleus
+        D_Bio_NucleusBlob NucBlob(
+                            CompList_Nuclei.get_Component(i).get_Contour(),
+                            vvNuclei_Median[i],
+                            vvNuclei_MedDev[i],
+                            time,
+                            P_Offset);
+
+        NucBlob.set_FociChannels(n_channels_foci);
 
         if(blockSave_StichBorder_BottomRight)
-            vNuclei[i].block_save_StitchingBorder_BottomRight(
+            NucBlob.block_save_StitchingBorder_BottomRight(
                         block_x_right,
                         block_y_bottom);
+
+        vNuclei.push_back(NucBlob);
     }
 
     //foci list
@@ -437,7 +440,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     return ER_okay;
 }
 
-int D_Bio_NucleusImage::save(QString path)
+int D_Bio_NucleusImage::save(QString path, bool save_foci)
 {
     //qDebug() << "D_Bio_NucleusImage::save";
 
@@ -466,7 +469,7 @@ int D_Bio_NucleusImage::save(QString path)
     {
         //qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i;
 
-        int ER = vNuclei[i].save(DIR_Image.path());
+        int ER = vNuclei[i].save_simple(DIR_Image.path(), save_foci);
         if(ER != ER_okay)
         {
             qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i << "ERROR:" << QSL_Errors[ER];

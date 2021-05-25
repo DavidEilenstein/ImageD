@@ -72,7 +72,7 @@ public:
     explicit D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent = nullptr);
     ~D_MAKRO_MegaFoci();
 
-    //overladed events
+    //overloaded events
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *event);
     void set_ClosingPossible(bool closeable)     {ClosingPossible = closeable;}

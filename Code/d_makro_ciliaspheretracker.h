@@ -41,6 +41,8 @@
 #include <qplaintextedit.h>
 #include <QColorDialog>
 #include <QPdfWriter>
+//#include <QWinTaskbarButton>
+//#include <QWinTaskbarProgress>
 
 //Qt::Charts
 #include <QChartView>
@@ -116,6 +118,9 @@ private slots:
     void Data_SelectVideo();
     void Data_SelectRoiTime();
     void Data_SelectRoiSpace();
+
+    double Data_GetVideoPos(QFileInfo FI_Video);
+    double Data_GetSetVideoPos_Current();
 
     void Data_CalcFullVideoStats();
     void Data_CalcFullVideoStats_AngularSpeed();
@@ -213,6 +218,10 @@ private:
 
     //Storage
     D_Storage                           *pStore;
+
+    //task bar progress
+    //QWinTaskbarButton                   *pTaskBarButton;
+    //QWinTaskbarProgress                 *pTaskBarProgress;
 
     //Paths
     QFileInfoList                       FIL_Videos;

@@ -1064,7 +1064,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
         return;
 
 
-    ///vector od foci segmentation images indices
+    ///vector of foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
     vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
     vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
@@ -1111,7 +1111,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     {
         StatusSet("Save decomposition in files");
         ERR(
-                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(DIR_SaveDetections.path()),
+                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(DIR_SaveDetections.path(), true),
                 "Update_ImageDecomposition",
                 "ImageDecomp.save(DIR_SaveDetections.path())");
     }

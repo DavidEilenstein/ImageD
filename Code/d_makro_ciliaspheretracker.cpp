@@ -19,6 +19,15 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     //Storeage
     pStore = pStorage;
 
+    /*
+    //task bar progress
+    pTaskBarButton = new QWinTaskbarButton(this);
+    pTaskBarButton->setWindow(windowHandle());
+    pTaskBarButton->setOverlayIcon(QIcon(":/logo/ImageD_Logo.png"));
+    pTaskBarProgress = pTaskBarButton->progress();
+    pTaskBarProgress->setVisible(true);
+    */
+
     //Viewer
     View_Proc.set_GV(ui->graphicsView_Proc);
     View_Results.set_GV(ui->graphicsView_Results);
@@ -202,12 +211,13 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->spinBox_Res_VortexCenter_RansacIterations,          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_VortexCenter_Ransac,                   SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
     connect(ui->checkBox_Res_VortexCenter_MovingAverage,            SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
-    connect(ui->radioButton_Res_VortexCenter_VideoPos_C,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
-    connect(ui->radioButton_Res_VortexCenter_VideoPos_B,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
-    connect(ui->radioButton_Res_VortexCenter_VideoPos_T,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
-    connect(ui->radioButton_Res_VortexCenter_VideoPos_L,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
-    connect(ui->radioButton_Res_VortexCenter_VideoPos_R,            SIGNAL(clicked()),                          this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines,     SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
+    //vortex center file name interpretation
+    connect(ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Use,        SIGNAL(valueChanged(double)),               this,                   SLOT(Update_Results()));
+    connect(ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Set1,       SIGNAL(valueChanged(double)),               this,                   SLOT(Data_GetSetVideoPos_Current()));
+    connect(ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Set2,       SIGNAL(valueChanged(double)),               this,                   SLOT(Data_GetSetVideoPos_Current()));
+    connect(ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_Set1,SIGNAL(editingFinished()),                  this,                   SLOT(Data_GetSetVideoPos_Current()));
+    connect(ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_Set2,SIGNAL(editingFinished()),                  this,                   SLOT(Data_GetSetVideoPos_Current()));
 
 
     //on start
@@ -1316,6 +1326,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
     double well_diameter_um = ui->doubleSpinBox_Res_VortexCenter_WellDiameter->value();
     int well_diameter_px = well_diameter_um * conv_um2px;
     int well_diameter_px_scaled = well_diameter_px * res_scale;
+    int well_radius_px = well_diameter_px / 2.0;
     int well_radius_px_scaled = well_diameter_px_scaled / 2.0;
     //create well image (white background)
     Mat MA_tmp_Well = Mat(
@@ -1333,20 +1344,13 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsVortexCenter()
         "Draw_Circle - Well diameter");
 
     //calc pos in well
-    double pos_step_px = well_diameter_px / 6.0;
     double pos_offset_x_px = spatial_roi_width / 2.0;
     double pos_offset_y_px = spatial_roi_height / 2.0;
-    Point P_VideoOffset(0,0);
-    if(ui->radioButton_Res_VortexCenter_VideoPos_C->isChecked())
-        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
-    else if(ui->radioButton_Res_VortexCenter_VideoPos_T->isChecked())
-        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 1 * pos_step_px - pos_offset_y_px);
-    else if(ui->radioButton_Res_VortexCenter_VideoPos_B->isChecked())
-        P_VideoOffset = Point(3 * pos_step_px - pos_offset_x_px, 5 * pos_step_px - pos_offset_y_px);
-    else if(ui->radioButton_Res_VortexCenter_VideoPos_L->isChecked())
-        P_VideoOffset = Point(1 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
-    else if(ui->radioButton_Res_VortexCenter_VideoPos_R->isChecked())
-        P_VideoOffset = Point(5 * pos_step_px - pos_offset_x_px, 3 * pos_step_px - pos_offset_y_px);
+    double pos_in_well_rel = ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Use->value() / 100;
+    Point P_VideoOffset(
+                pos_in_well_rel * well_diameter_px - pos_offset_x_px,
+                well_radius_px - pos_offset_y_px);
+
     //make sure area is in well
     P_VideoOffset.x = max(P_VideoOffset.x, 0);
     P_VideoOffset.y = max(P_VideoOffset.y, 0);
@@ -2893,12 +2897,10 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
     }
 
     //masterfolder
-
     DIR_SaveMaster.setPath(QS_Folder_Out_Sub);
     QDir().mkdir(DIR_SaveMaster.path());
 
     //subfolders
-
     //stack
     //master
     DIR_SaveStack.setPath(DIR_SaveMaster.path() + "/Stack");                            QDir().mkdir(DIR_SaveStack.path());
@@ -2962,9 +2964,18 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
 
     state_StackProcessing = true;
 
+    //start taskbar progress
+    //pTaskBarProgress->show();
+    //pTaskBarProgress->setRange(0, FIL_Videos.size());
+    //pTaskBarProgress->setValue(0);
+
     //loop single videos
     for(int v = 0; v < FIL_Videos.size(); v++)
     {
+        //set taskbar progress
+        //pTaskBarProgress->setValue(v);
+        //Update_Ui();
+
         //load current video
         ui->comboBox_Data_Videos->setCurrentIndex(v);
 
@@ -4858,29 +4869,7 @@ void D_MAKRO_CiliaSphereTracker::Data_SelectVideo()
     movav_window_frames = (ui->doubleSpinBox_Res_MovAv_WindowTime->value() + 0.5 * VS_InputVideo.get_FrameTimeSec()) * VS_InputVideo.get_FrameRateFps();
     Update_Ui_ResMovAv();
 
-    //analyse file name to find position in well
-    QString QS_Name = QSL_Videos_Names[ui->comboBox_Data_Videos->currentIndex()];
-
-    //check, if left
-    QStringList QSL_LeftEndings = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_L->text().split(",");
-    bool pos_left = false;
-    for(int i = 0; i < QSL_LeftEndings.size(); i++)
-        if(QS_Name.endsWith(QSL_LeftEndings[i]))
-            pos_left = true;
-
-    //check, if right
-    QStringList QSL_RightEndings = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_R->text().split(",");
-    bool pos_right = false;
-    for(int i = 0; i < QSL_RightEndings.size(); i++)
-        if(QS_Name.endsWith(QSL_RightEndings[i]))
-            pos_right = true;
-
-    if(pos_left)
-        ui->radioButton_Res_VortexCenter_VideoPos_L->setChecked(true);
-    else if(pos_right)
-        ui->radioButton_Res_VortexCenter_VideoPos_R->setChecked(true);
-    else
-        ui->radioButton_Res_VortexCenter_VideoPos_C->setChecked(true);
+    Data_GetSetVideoPos_Current();
 }
 
 void D_MAKRO_CiliaSphereTracker::Data_SelectRoiTime()
@@ -4929,6 +4918,41 @@ void D_MAKRO_CiliaSphereTracker::Data_SelectRoiSpace()
     state_RoiSpaceSelected = true;
 }
 
+double D_MAKRO_CiliaSphereTracker::Data_GetVideoPos(QFileInfo FI_Video)
+{
+    //analyse file name to find position in well
+    QString QS_Name = FI_Video.baseName();
+
+    //check if ends with 3 character number
+    bool ok;
+    double rel_pos = QS_Name.right(3).toDouble(&ok) / 100.0;
+    if(ok)
+        return rel_pos;
+
+    //check set 1
+    QStringList QSL_Set1 = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_Set1->text().split(",");
+    for(int i = 0; i < QSL_Set1.size(); i++)
+        if(QS_Name.endsWith(QSL_Set1[i]))
+            return ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Set1->value() / 100.0;
+
+    //check set 2
+    QStringList QSL_Set2 = ui->lineEdit_Res_VortexCenter_VideoPos_FilenameEnd_Set2->text().split(",");
+    for(int i = 0; i < QSL_Set2.size(); i++)
+        if(QS_Name.endsWith(QSL_Set2[i]))
+            return ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Set2->value() / 100.0;
+
+    //default
+    return 0.5;
+}
+
+double D_MAKRO_CiliaSphereTracker::Data_GetSetVideoPos_Current()
+{
+    double index = ui->comboBox_Data_Videos->currentIndex();
+    double pos = index < FIL_Videos.size() ? Data_GetVideoPos(FIL_Videos[index]) : 0.5;
+    ui->doubleSpinBox_Res_VortexCenter_RelPos_H_Use->setValue(pos * 100);
+    return pos;
+}
+
 void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats()
 {
     state_StatSummaryCalced = false;
@@ -4954,31 +4978,43 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats()
         }
 
     //calc stats
-    ERR(D_Stat::Calc_Stats(
-            &v_VideoStats_Shifts_px_frm,
-            vShiftsAll_px_frm,
-            true),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats (px/frm)");
+    if(!vShiftsAll_px_frm.empty())
+        ERR(D_Stat::Calc_Stats(
+                &v_VideoStats_Shifts_px_frm,
+                vShiftsAll_px_frm,
+                true),
+            "Data_CalcFullVideoStats",
+            "Calc_Stats (px/frm)");
+    else
+        v_VideoStats_Shifts_px_frm.resize(c_STAT_NUMBER_OF_STATS, 0);
 
-    ERR(D_Stat::Calc_Stats(
-            &v_VideoStats_Shifts_um_s,
-            vShiftsAll_um_s,
-            true),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats (um/s)");
+    if(!vShiftsAll_um_s.empty())
+        ERR(D_Stat::Calc_Stats(
+                &v_VideoStats_Shifts_um_s,
+                vShiftsAll_um_s,
+                true),
+            "Data_CalcFullVideoStats",
+            "Calc_Stats (um/s)");
+    else
+        v_VideoStats_Shifts_um_s.resize(c_STAT_NUMBER_OF_STATS, 0);
 
-    ERR(D_Stat::Calc_Stats_Circ_Rad(
-            &v_VideoStats_Angles_Rad,
-            vAnglesAll_Rad),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats_Circ_Rad");
+    if(!vAnglesAll_Rad.empty())
+        ERR(D_Stat::Calc_Stats_Circ_Rad(
+                &v_VideoStats_Angles_Rad,
+                vAnglesAll_Rad),
+            "Data_CalcFullVideoStats",
+            "Calc_Stats_Circ_Rad");
+    else
+        v_VideoStats_Angles_Rad.resize(c_STAT_CIRC_NUMBER_OF, 0);
 
-    ERR(D_Stat::Calc_Stats_Circ_Grad(
-            &v_VideoStats_Angles_Grad,
-            vAnglesAll_Grad),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats_Circ_Grad");
+    if(!vAnglesAll_Grad.empty())
+        ERR(D_Stat::Calc_Stats_Circ_Grad(
+                &v_VideoStats_Angles_Grad,
+                vAnglesAll_Grad),
+            "Data_CalcFullVideoStats",
+            "Calc_Stats_Circ_Grad");
+    else
+        v_VideoStats_Angles_Grad.resize(c_STAT_CIRC_NUMBER_OF, 0);
 
     state_StatSummaryCalced = true;
     qDebug() << "D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats" << "start";
@@ -5009,19 +5045,25 @@ void D_MAKRO_CiliaSphereTracker::Data_CalcFullVideoStats_AngularSpeed()
             vShiftsAll_grad_s.push_back(dist > 0 ? (vv_FrmObjShifts[frm][obj] / dist) * Rad2Grad : 0);
         }
 
-    ERR(D_Stat::Calc_Stats(
-            &v_VideoStats_Shifts_grad_s,
-            vShiftsAll_grad_s,
-            true),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats (shift °/s)");
+    if(!vShiftsAll_grad_s.empty())
+        ERR(D_Stat::Calc_Stats(
+                &v_VideoStats_Shifts_grad_s,
+                vShiftsAll_grad_s,
+                true),
+            "Data_CalcFullVideoStats_AngularSpeed",
+            "Calc_Stats (shift °/s)");
+    else
+        v_VideoStats_Shifts_grad_s.resize(c_STAT_NUMBER_OF_STATS, 0);
 
-    ERR(D_Stat::Calc_Stats(
-            &v_VideoStats_DistancesToVortexCenter_All_um,
-            vDistancesToVortexCenter_All_um,
-            true),
-        "Data_CalcFullVideoStats",
-        "Calc_Stats (dist um)");
+    if(!vDistancesToVortexCenter_All_um.empty())
+        ERR(D_Stat::Calc_Stats(
+                &v_VideoStats_DistancesToVortexCenter_All_um,
+                vDistancesToVortexCenter_All_um,
+                true),
+            "Data_CalcFullVideoStats_AngularSpeed",
+            "Calc_Stats (dist um)");
+    else
+        v_VideoStats_DistancesToVortexCenter_All_um.resize(c_STAT_NUMBER_OF_STATS, 0);
 
     state_StatSummaryCalced_angularSpeed = true;
 }
@@ -5343,6 +5385,13 @@ void D_MAKRO_CiliaSphereTracker::on_comboBox_Data_Videos_currentIndexChanged(int
 
 void D_MAKRO_CiliaSphereTracker::ERR(int err, QString func, QString detail)
 {
+    /*
+    //pause task bar on error during stack processing
+    if(state_StackProcessing)
+        if(err != ER_okay)
+            pTaskBarProgress->pause();
+            */
+
     ER.ERR(err, "D_MAKRO_CiliaSphereTracker", func, detail);
 }
 
