@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_1 (12.05.21)</span>
+   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -132,8 +132,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba9afd935cbdde4dc6ad338271fc36f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf9f3daf2367fd3287d73a7c7a5a6455"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#adf9f3daf2367fd3287d73a7c7a5a6455">block_save_StitchingBorder_BottomRight</a> (size_t x, size_t y)</td></tr>
 <tr class="separator:adf9f3daf2367fd3287d73a7c7a5a6455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2537aa48b4403c6057a0b01ac0dca97f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a2537aa48b4403c6057a0b01ac0dca97f">save</a> (QString path)</td></tr>
-<tr class="separator:a2537aa48b4403c6057a0b01ac0dca97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86648fe7eeb4768b3ab5fb9ff35a457"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ac86648fe7eeb4768b3ab5fb9ff35a457">save_simple</a> (QString path_of_dir_to_save_in, bool save_foci)</td></tr>
+<tr class="separator:ac86648fe7eeb4768b3ab5fb9ff35a457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5fb15023dcfe69d472b4bf88a9fc87bf">load_simple</a> (QString nucleus_file, bool load_foci)</td></tr>
+<tr class="separator:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24d26909d3f7653cdf704d094e664724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">set_value_channels</a> (size_t channels)</td></tr>
 <tr class="separator:a24d26909d3f7653cdf704d094e664724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9f40983c3dffe17376b1399b8554cb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aa9f40983c3dffe17376b1399b8554cb3">set_values_medians</a> (vector&lt; double &gt; vMedian)</td></tr>
@@ -781,18 +783,56 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2537aa48b4403c6057a0b01ac0dca97f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2537aa48b4403c6057a0b01ac0dca97f">&#9670;&nbsp;</a></span>save()</h2>
+<a id="a5fb15023dcfe69d472b4bf88a9fc87bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fb15023dcfe69d472b4bf88a9fc87bf">&#9670;&nbsp;</a></span>load_simple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int D_Bio_NucleusBlob::save </td>
+          <td class="memname">bool D_Bio_NucleusBlob::load_simple </td>
           <td>(</td>
           <td class="paramtype">QString&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>nucleus_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>load_foci</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac86648fe7eeb4768b3ab5fb9ff35a457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86648fe7eeb4768b3ab5fb9ff35a457">&#9670;&nbsp;</a></span>save_simple()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Bio_NucleusBlob::save_simple </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path_of_dir_to_save_in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>save_foci</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

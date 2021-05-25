@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"d__stat_8cpp.html":[4,0,0,113],
 "d__stat_8h.html":[4,0,0,114],
 "d__stat_8h_source.html":[4,0,0,114],
 "d__stat__tester_8cpp.html":[4,0,0,115],
@@ -71,8 +72,8 @@ var NAVTREEINDEX8 =
 "functions_d.html":[3,3,0,3],
 "functions_e.html":[3,3,0,4],
 "functions_f.html":[3,3,0,5],
-"functions_func.html":[3,3,1],
 "functions_func.html":[3,3,1,0],
+"functions_func.html":[3,3,1],
 "functions_func_b.html":[3,3,1,1],
 "functions_func_c.html":[3,3,1,2],
 "functions_func_d.html":[3,3,1,3],
@@ -139,8 +140,8 @@ var NAVTREEINDEX8 =
 "group__proc.html":[1,0],
 "group__proc___m_a__2___q_i.html":[1,0,0],
 "hierarchy.html":[3,2],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "index.html#doc_sec":[0,3],
 "index.html#intro_sec":[0,0],
 "index.html#istall_sec":[0,1],

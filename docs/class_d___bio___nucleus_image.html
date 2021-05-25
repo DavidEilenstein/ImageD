@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_1 (12.05.21)</span>
+   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -110,8 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9ff78a677150f13eee5857f170522fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38cbc981792c6d7dac2c5e09b78039bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a38cbc981792c6d7dac2c5e09b78039bc">calc_NucleiDecomposition</a> (Mat *pMA_NucleiBinary, vector&lt; Mat &gt; *pvMA_FociBinary, vector&lt; Mat &gt; *pvMA_Values, Point P_Offset=Point(0, 0), size_t time=0, int neighborhood=4, bool blockSave_StichBorder_BottomRight=false, size_t block_x_right=INFINITY, size_t block_y_bottom=INFINITY)</td></tr>
 <tr class="separator:a38cbc981792c6d7dac2c5e09b78039bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49fa008e098f379066ae20149200f6e6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a49fa008e098f379066ae20149200f6e6">save</a> (QString path)</td></tr>
-<tr class="separator:a49fa008e098f379066ae20149200f6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06eaa702968d276750aaa550c3a416cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a06eaa702968d276750aaa550c3a416cb">save</a> (QString path, bool save_foci)</td></tr>
+<tr class="separator:a06eaa702968d276750aaa550c3a416cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#afe1cf1ccb2fa9c6dab784311eceb9830">get_Contours_append</a> (vector&lt; vector&lt; Point &gt;&gt; *pvScaledContours, double scale)</td></tr>
 <tr class="separator:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c4578f9be86bc61fc8dbb453f8f869f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a6c4578f9be86bc61fc8dbb453f8f869f">get_FociCount_append</a> (QStringList *pQSL_FociCounts)</td></tr>
@@ -671,8 +671,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a49fa008e098f379066ae20149200f6e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49fa008e098f379066ae20149200f6e6">&#9670;&nbsp;</a></span>save()</h2>
+<a id="a06eaa702968d276750aaa550c3a416cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06eaa702968d276750aaa550c3a416cb">&#9670;&nbsp;</a></span>save()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -681,8 +681,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname">int D_Bio_NucleusImage::save </td>
           <td>(</td>
           <td class="paramtype">QString&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>save_foci</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

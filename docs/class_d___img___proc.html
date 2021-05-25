@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_1 (12.05.21)</span>
+   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -613,8 +613,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2438ee4532fe44596b7554aa7f5c226e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a333cfaf8328841a35ae71c26f8ff93de"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a333cfaf8328841a35ae71c26f8ff93de">Draw_VectorField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_length_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_angle_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_length_error, vector&lt; vector&lt; double &gt;&gt; vv_XY_angle_error, uchar value=255, int vector_thickness=3, int error_steps=360, int error_thickness=1, bool grid_add=true, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
 <tr class="separator:a333cfaf8328841a35ae71c26f8ff93de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79c11eab51405c663d701f2745f13e8f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a79c11eab51405c663d701f2745f13e8f">Draw_ArcField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_angle_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_angle_error, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_orientation_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_radius_value, uchar value=255, int thickness=3, int arc_draw_steps=360, bool grid_add=true, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
-<tr class="separator:a79c11eab51405c663d701f2745f13e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9fde936a69dc1278db76e00d12bf634"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af9fde936a69dc1278db76e00d12bf634">Draw_ArcField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_angle_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_angle_error, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_orientation_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_arc_radius_value, vector&lt; vector&lt; size_t &gt; &gt; vv_XY_draw_if_non_zero, uchar value=255, int thickness=3, int arc_draw_steps=360, bool grid_add=true, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
+<tr class="separator:af9fde936a69dc1278db76e00d12bf634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa04db6258f8c262e22b47c4e85ff1d16"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aa04db6258f8c262e22b47c4e85ff1d16">Draw_CircleField</a> (Mat *pMA_Target, vector&lt; vector&lt; double &gt;&gt; vv_XY_radius_value, vector&lt; vector&lt; double &gt;&gt; vv_XY_radius_error, uchar value=255, int circle_thickness=1, bool circles_filled=true, bool grid_add=false, int grid_thicknes=2, bool label_add=false, int label_thickness=2, double label_scale=1.0)</td></tr>
 <tr class="separator:aa04db6258f8c262e22b47c4e85ff1d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bd009c38ce6f9f4a8dad263ee8c1559"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0bd009c38ce6f9f4a8dad263ee8c1559">Draw_Rect</a> (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness=1, double val=255)</td></tr>
@@ -2463,8 +2463,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a79c11eab51405c663d701f2745f13e8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79c11eab51405c663d701f2745f13e8f">&#9670;&nbsp;</a></span>Draw_ArcField()</h2>
+<a id="af9fde936a69dc1278db76e00d12bf634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9fde936a69dc1278db76e00d12bf634">&#9670;&nbsp;</a></span>Draw_ArcField()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2501,6 +2501,12 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
           <td class="paramname"><em>vv_XY_arc_radius_value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; size_t &gt; &gt;&#160;</td>
+          <td class="paramname"><em>vv_XY_draw_if_non_zero</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

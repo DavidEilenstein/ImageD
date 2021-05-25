@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"d__enum_8h.html#af6495c6ab27e01bd3312577d420d4c25a093f0f75b734c9c4dc0e9527cb26d110":[4,0,0,20,18,1],
 "d__enum_8h.html#af6495c6ab27e01bd3312577d420d4c25a7d504e996f57c3d4851f78f5925e97cd":[4,0,0,20,18,0],
 "d__enum_8h.html#af6495c6ab27e01bd3312577d420d4c25a80eac55648c95a959c931858dbb917f1":[4,0,0,20,18,4],
 "d__enum_8h.html#af6495c6ab27e01bd3312577d420d4c25a81f9f5b84fed525dd40f3090ba6c5b1e":[4,0,0,20,18,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "d__popup__plot_8h_source.html":[4,0,0,110],
 "d__popup__rangeselector_8cpp.html":[4,0,0,111],
 "d__popup__rangeselector_8h.html":[4,0,0,112],
-"d__popup__rangeselector_8h_source.html":[4,0,0,112],
-"d__stat_8cpp.html":[4,0,0,113]
+"d__popup__rangeselector_8h_source.html":[4,0,0,112]
 };

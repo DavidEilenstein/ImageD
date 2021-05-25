@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_1 (12.05.21)</span>
+   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -115,8 +115,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a204f933730151c09901d50f9bf9ccfe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac30c8ee1ebd068f4fd13f930343dcac1"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac30c8ee1ebd068f4fd13f930343dcac1">Plot_Hist_WithStats</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; vv_Data, double min_x, double max_x, size_t n_classes, vector&lt; double &gt; v_mean, vector&lt; double &gt; v_std, QString name_title, QString name_x, bool uni=true, bool acc=false, size_t axe_tick_count=<a class="el" href="d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2">AXE_TICK_COUNT_DEFAULT</a>)</td></tr>
 <tr class="separator:ac30c8ee1ebd068f4fd13f930343dcac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75f7de7517668c06d1cf847ffb923785"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a75f7de7517668c06d1cf847ffb923785">Plot_Hist_WithStats_Color</a> (QChartView *pChartView, vector&lt; double &gt; v_DataHist, vector&lt; double &gt; v_DataColor, function&lt; double(vector&lt; double &gt;)&gt; F_ColorStat, double min_x_hist, double max_x_hist, double min_x_color, double max_x_color, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni=true, bool acc=false, size_t axe_tick_count=<a class="el" href="d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2">AXE_TICK_COUNT_DEFAULT</a>)</td></tr>
-<tr class="separator:a75f7de7517668c06d1cf847ffb923785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5ae1a2579fe08a585829fe25e131dd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a8a5ae1a2579fe08a585829fe25e131dd">Plot_Hist_WithStats_Color</a> (QChartView *pChartView, vector&lt; double &gt; v_DataHist, vector&lt; double &gt; v_DataColor, function&lt; double(vector&lt; double &gt;)&gt; F_ColorStat_Hue, function&lt; double(vector&lt; double &gt;)&gt; F_ColorStat_Value, double min_x_hist, double max_x_hist, double min_x_color_hue, double max_x_color_hue, double min_x_color_value, double max_x_color_value, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni=true, bool acc=false, size_t axe_tick_count=<a class="el" href="d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2">AXE_TICK_COUNT_DEFAULT</a>)</td></tr>
+<tr class="separator:a8a5ae1a2579fe08a585829fe25e131dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acadf464f62a5badd8275887e099d2009"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#acadf464f62a5badd8275887e099d2009">Plot_Hist_Single_Classes</a> (QChartView *pChartView, vector&lt; double &gt; *v_hist, double min, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
 <tr class="separator:acadf464f62a5badd8275887e099d2009"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa66c38f3ada51ad2254e1ad4a190a7f8"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#aa66c38f3ada51ad2254e1ad4a190a7f8">Plot_Hist_Multi_Classes</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vv_hist, double min_x, double max_x, double max_y, double step, QString name_title, QString name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
@@ -1456,8 +1456,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a75f7de7517668c06d1cf847ffb923785"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75f7de7517668c06d1cf847ffb923785">&#9670;&nbsp;</a></span>Plot_Hist_WithStats_Color()</h2>
+<a id="a8a5ae1a2579fe08a585829fe25e131dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a5ae1a2579fe08a585829fe25e131dd">&#9670;&nbsp;</a></span>Plot_Hist_WithStats_Color()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1487,7 +1487,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">function&lt; double(vector&lt; double &gt;)&gt;&#160;</td>
-          <td class="paramname"><em>F_ColorStat</em>, </td>
+          <td class="paramname"><em>F_ColorStat_Hue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">function&lt; double(vector&lt; double &gt;)&gt;&#160;</td>
+          <td class="paramname"><em>F_ColorStat_Value</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1505,13 +1511,25 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>min_x_color</em>, </td>
+          <td class="paramname"><em>min_x_color_hue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_x_color</em>, </td>
+          <td class="paramname"><em>max_x_color_hue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x_color_value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x_color_value</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
