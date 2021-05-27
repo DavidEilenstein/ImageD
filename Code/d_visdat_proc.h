@@ -131,7 +131,7 @@ public:
     static int  Write_2D_Plane          (D_VisDat_Obj *pVD_Out, Mat *pMA_In, D_VisDat_Slice_2D OutPlane);
     static int  Write_2D_Plane          (D_VisDat_Obj *pVD_Out, QString path, D_VisDat_Slice_2D OutPlane);
     static int  Write_3D_Cuboid         (D_VisDat_Obj *pVD_Out, Mat *pMA_In, D_VisDat_Slice_3D OutPlane);
-    static int  Instert_atPos           (D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Source, vector<int> vOffset);
+    static int  Insert_atPos            (D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Source, vector<int> vOffset);
 
     //read VD->Mat
     static int  Read_2D_Plane           (Mat *pMA_Out, D_VisDat_Obj *pVD_In, D_VisDat_Slice_2D InPlane);
@@ -173,6 +173,7 @@ public:
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4]);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
     static int  Channels_Split          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel);
+    static int  Channel_Supression      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static int  Convert_8UC1_binary     (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Visualize_to8bit        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
     static int  Convert_Angle2Color_Rad (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InAngleRad, uchar Saturation = 255, uchar Value = 255);
@@ -299,6 +300,7 @@ public:
     static int  Draw_Label_Numbers              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, double scale, double thickness, bool center);
     static int  Draw_Label_Numbers_LUT          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
     static int  Draw_Label_Text                 (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
+    static int  OverlayOverwrite                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
 
     //Other
     static int  Neighborhood_Configs            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);

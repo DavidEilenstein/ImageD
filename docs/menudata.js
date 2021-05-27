@@ -95,6 +95,7 @@ var menudata={children:[
 {text:"c",url:"globals_c.html#index_c"},
 {text:"d",url:"globals_d.html#index_d"},
 {text:"e",url:"globals_e.html#index_e"},
+{text:"f",url:"globals_f.html#index_f"},
 {text:"g",url:"globals_g.html#index_g"},
 {text:"m",url:"globals_m.html#index_m"},
 {text:"p",url:"globals_p.html#index_p"},
@@ -112,7 +113,9 @@ var menudata={children:[
 {text:"r",url:"globals_vars.html#index_r"},
 {text:"s",url:"globals_vars.html#index_s"}]},
 {text:"Enumerations",url:"globals_enum.html",children:[
-{text:"d",url:"globals_enum.html#index_d"}]},
+{text:"d",url:"globals_enum.html#index_d"},
+{text:"f",url:"globals_enum.html#index_f"}]},
 {text:"Enumerator",url:"globals_eval.html",children:[
 {text:"c",url:"globals_eval.html#index_c"},
-{text:"e",url:"globals_eval_e.html#index_e"}]}]}]}]}
+{text:"e",url:"globals_eval_e.html#index_e"},
+{text:"f",url:"globals_eval_f.html#index_f"}]}]}]}]}

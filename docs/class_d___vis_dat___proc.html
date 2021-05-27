@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -197,8 +197,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a4580ca0f16787fa1707d8790f5aad27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abac12f759de7ee97da704e28c7af0dc4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#abac12f759de7ee97da704e28c7af0dc4">Write_3D_Cuboid</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, Mat *pMA_In, <a class="el" href="class_d___vis_dat___slice__3_d.html">D_VisDat_Slice_3D</a> OutPlane)</td></tr>
 <tr class="separator:abac12f759de7ee97da704e28c7af0dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab6b0ee6654eea99842bb58a16d4d6be"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#aab6b0ee6654eea99842bb58a16d4d6be">Instert_atPos</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Target, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Source, vector&lt; int &gt; vOffset)</td></tr>
-<tr class="separator:aab6b0ee6654eea99842bb58a16d4d6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23f5eee2ff974ba5c2bf7e17c1830d80"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a23f5eee2ff974ba5c2bf7e17c1830d80">Insert_atPos</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Target, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Source, vector&lt; int &gt; vOffset)</td></tr>
+<tr class="separator:a23f5eee2ff974ba5c2bf7e17c1830d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8e4d69c28b47c23166740c73734ed1c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ac8e4d69c28b47c23166740c73734ed1c">Read_2D_Plane</a> (Mat *pMA_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___slice__2_d.html">D_VisDat_Slice_2D</a> InPlane)</td></tr>
 <tr class="separator:ac8e4d69c28b47c23166740c73734ed1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55b5cd62d22a16c0de306ff36c57a02f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a55b5cd62d22a16c0de306ff36c57a02f">Read_3D_Cuboid</a> (Mat *pMA_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___slice__3_d.html">D_VisDat_Slice_3D</a> InPlane)</td></tr>
@@ -257,6 +257,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a6f1988edb9bef826a4b21a2aaa1873a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac015951297e752413a09255e1ee372e7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ac015951297e752413a09255e1ee372e7">Channels_Split</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int channel)</td></tr>
 <tr class="separator:ac015951297e752413a09255e1ee372e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25dbbe90be80328d9adeb0f00083eea9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a25dbbe90be80328d9adeb0f00083eea9">Channel_Supression</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, bool use_r=true, bool use_g=true, bool use_b=true, bool force_3ch=false)</td></tr>
+<tr class="separator:a25dbbe90be80328d9adeb0f00083eea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5dbdaf7764c89d0f26af6b253c7be7d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ab5dbdaf7764c89d0f26af6b253c7be7d">Convert_8UC1_binary</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
 <tr class="separator:ab5dbdaf7764c89d0f26af6b253c7be7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc100ab81245d52152bcb396fbf19b31"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#abc100ab81245d52152bcb396fbf19b31">Visualize_to8bit</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max=false)</td></tr>
@@ -461,6 +463,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae11ff847ce51a16a48fa3abdcd9b4d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a81d8b33d44a1ab9e4f9645a91372ecfe">Draw_Label_Text</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r=0, uchar g=0, uchar b=0, int connectivity=4)</td></tr>
 <tr class="separator:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a891797195c6e7decfe8040e9910cb2ea"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a891797195c6e7decfe8040e9910cb2ea">OverlayOverwrite</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Background, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Overlay, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
+<tr class="separator:a891797195c6e7decfe8040e9910cb2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc0bc833aaefe9b3b7ec74ecb3081da"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#acfc0bc833aaefe9b3b7ec74ecb3081da">Neighborhood_Configs</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
 <tr class="separator:acfc0bc833aaefe9b3b7ec74ecb3081da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1bf390e4a95e850831393b0329cd5f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a5f1bf390e4a95e850831393b0329cd5f">Euler_Number</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, double *euler_number, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
@@ -774,6 +778,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double *&#160;</td>
           <td class="paramname"><em>max_ext</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25dbbe90be80328d9adeb0f00083eea9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25dbbe90be80328d9adeb0f00083eea9">&#9670;&nbsp;</a></span>Channel_Supression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Channel_Supression </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_r</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_g</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_b</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_3ch</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -5956,8 +6020,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aab6b0ee6654eea99842bb58a16d4d6be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab6b0ee6654eea99842bb58a16d4d6be">&#9670;&nbsp;</a></span>Instert_atPos()</h2>
+<a id="a23f5eee2ff974ba5c2bf7e17c1830d80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23f5eee2ff974ba5c2bf7e17c1830d80">&#9670;&nbsp;</a></span>Insert_atPos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5966,7 +6030,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int D_VisDat_Proc::Instert_atPos </td>
+          <td class="memname">int D_VisDat_Proc::Insert_atPos </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
           <td class="paramname"><em>pVD_Target</em>, </td>
@@ -8460,6 +8524,60 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a891797195c6e7decfe8040e9910cb2ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a891797195c6e7decfe8040e9910cb2ea">&#9670;&nbsp;</a></span>OverlayOverwrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::OverlayOverwrite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Background</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Overlay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_overlay</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_backgr</em> = <code>1.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

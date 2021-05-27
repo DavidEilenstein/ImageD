@@ -55,7 +55,7 @@ public:
     int calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
     int calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
 
-    int save(QString path, bool save_foci);
+    int save(QString path, bool save_foci_in_nuclei, bool save_foci_separate);
 
     int get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
     int get_FociCount_append(QStringList *pQSL_FociCounts);
@@ -67,6 +67,10 @@ private:
     size_t m_time = 0;
     Point m_Offset = Point(0, 0);
     vector<D_Bio_NucleusBlob>   vNuclei;
+    vector<vector<D_Bio_Focus>> vvFoci;
+
+
+
 };
 
 #endif // D_BIO_NUCLEUSIMAGE_H

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -143,6 +143,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a0a585d909056a48f461d771be6e681cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bf435d074863515f187cc4cbeeaad09"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2bf435d074863515f187cc4cbeeaad09">Quantiles_ofPixelvalues</a> (double *q_low, double *q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros)</td></tr>
 <tr class="separator:a2bf435d074863515f187cc4cbeeaad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ece2649c593fc1b5e30043ed74a1209"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1ece2649c593fc1b5e30043ed74a1209">Quantiles_ofPixelvalues</a> (vector&lt; double &gt; *v_q_low, vector&lt; double &gt; *v_q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros)</td></tr>
+<tr class="separator:a1ece2649c593fc1b5e30043ed74a1209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade384a94caf4fcebb2f8e5654824a030"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ade384a94caf4fcebb2f8e5654824a030">Convert_Mat_to_QImage</a> (QImage *pQI_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:ade384a94caf4fcebb2f8e5654824a030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c24dccbe0aa390afdfdd9ec6082a236"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0c24dccbe0aa390afdfdd9ec6082a236">Convert_QImage_to_Mat</a> (Mat *pMA_Out, QImage *pQI_In)</td></tr>
@@ -191,6 +193,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2e33ff9200a7d5f6c8be68fee2e650a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6085b1fe01e65067b7f5b5285314bbe3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6085b1fe01e65067b7f5b5285314bbe3">Spread_8bit_to_float01</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:a6085b1fe01e65067b7f5b5285314bbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6cf17d319a43a934bb36763f984eaa"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1b6cf17d319a43a934bb36763f984eaa">Channel_Supression</a> (Mat *pMA_Out, Mat *pMA_In, bool use_r=true, bool use_g=true, bool use_b=true, bool force_3ch=false)</td></tr>
+<tr class="separator:a1b6cf17d319a43a934bb36763f984eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9bfb3204adaad569efce26a75c65612"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#af9bfb3204adaad569efce26a75c65612">Split</a> (Mat *pMA_Out, Mat *pMA_In, unsigned int channel)</td></tr>
 <tr class="separator:af9bfb3204adaad569efce26a75c65612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4428edcff98c5f736292f9bd86691e32"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a4428edcff98c5f736292f9bd86691e32">Merge</a> (Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, unsigned int channels, bool channel_use[4])</td></tr>
@@ -207,6 +211,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a0662c131abbfbe2b7c0e6ace4ef4fbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a510ba6e739a3e53c9f6427d0984809b0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a510ba6e739a3e53c9f6427d0984809b0">GammaSpread</a> (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min=0, double out_max=255, bool force_8bit=false)</td></tr>
 <tr class="separator:a510ba6e739a3e53c9f6427d0984809b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ceb3d624d9b640cb1bd51e578d63986"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6ceb3d624d9b640cb1bd51e578d63986">GammaSpread</a> (Mat *pMA_Out, Mat *pMA_In, double gamma, vector&lt; double &gt; v_in_min, vector&lt; double &gt; v_in_max, double out_min=0, double out_max=255, bool force_8bit=false)</td></tr>
+<tr class="separator:a6ceb3d624d9b640cb1bd51e578d63986"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94b80c9861798ffa06b83c8935ae8360"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a94b80c9861798ffa06b83c8935ae8360">GammaSpread_Quantiles</a> (Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min=0, double out_max=255, bool force_8bit=false, bool ignore_zeros=true)</td></tr>
 <tr class="separator:a94b80c9861798ffa06b83c8935ae8360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1397956ae15b4aa10e0790c0141a809"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ae1397956ae15b4aa10e0790c0141a809">Visualize_to8bit</a> (Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max=false, int mode_complex=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>)</td></tr>
@@ -662,6 +668,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a44b54da102aaf64fe743625ba132884b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4c392a996d51931074b4995ce1ca168"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac4c392a996d51931074b4995ce1ca168">Highlight_NumericalProblems</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:ac4c392a996d51931074b4995ce1ca168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ea0f7ecb6bec27a69108c21e18fd7ef"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ea0f7ecb6bec27a69108c21e18fd7ef">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
+<tr class="separator:a8ea0f7ecb6bec27a69108c21e18fd7ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab518aa5728b97fd9602f4871554feef0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ab518aa5728b97fd9602f4871554feef0">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
 <tr class="separator:ab518aa5728b97fd9602f4871554feef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a025590f8a2b49c63c4843984fcd039ab"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a025590f8a2b49c63c4843984fcd039ab">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
@@ -1009,6 +1017,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">Mat *&#160;</td>
           <td class="paramname"><em>pMA_Label</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b6cf17d319a43a934bb36763f984eaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b6cf17d319a43a934bb36763f984eaa">&#9670;&nbsp;</a></span>Channel_Supression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Channel_Supression </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_r</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_g</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_b</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_3ch</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -7981,7 +8049,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a510ba6e739a3e53c9f6427d0984809b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a510ba6e739a3e53c9f6427d0984809b0">&#9670;&nbsp;</a></span>GammaSpread()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a510ba6e739a3e53c9f6427d0984809b0">&#9670;&nbsp;</a></span>GammaSpread() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8018,6 +8086,78 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>in_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>out_max</em> = <code>255</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_8bit</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ceb3d624d9b640cb1bd51e578d63986"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ceb3d624d9b640cb1bd51e578d63986">&#9670;&nbsp;</a></span>GammaSpread() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::GammaSpread </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_in_min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_in_max</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -13236,8 +13376,62 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a8ea0f7ecb6bec27a69108c21e18fd7ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ea0f7ecb6bec27a69108c21e18fd7ef">&#9670;&nbsp;</a></span>OverlayOverwrite() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::OverlayOverwrite </td>
+          <td>(</td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_Overlay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_overlay</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_backgr</em> = <code>1.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab518aa5728b97fd9602f4871554feef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab518aa5728b97fd9602f4871554feef0">&#9670;&nbsp;</a></span>OverlayOverwrite() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab518aa5728b97fd9602f4871554feef0">&#9670;&nbsp;</a></span>OverlayOverwrite() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13297,7 +13491,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a025590f8a2b49c63c4843984fcd039ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a025590f8a2b49c63c4843984fcd039ab">&#9670;&nbsp;</a></span>OverlayOverwrite() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a025590f8a2b49c63c4843984fcd039ab">&#9670;&nbsp;</a></span>OverlayOverwrite() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13555,7 +13749,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a2bf435d074863515f187cc4cbeeaad09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bf435d074863515f187cc4cbeeaad09">&#9670;&nbsp;</a></span>Quantiles_ofPixelvalues()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bf435d074863515f187cc4cbeeaad09">&#9670;&nbsp;</a></span>Quantiles_ofPixelvalues() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13574,6 +13768,66 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double *&#160;</td>
           <td class="paramname"><em>q_high</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>low_rel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>high_rel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ignore_zeros</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ece2649c593fc1b5e30043ed74a1209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ece2649c593fc1b5e30043ed74a1209">&#9670;&nbsp;</a></span>Quantiles_ofPixelvalues() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Quantiles_ofPixelvalues </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; double &gt; *&#160;</td>
+          <td class="paramname"><em>v_q_low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; *&#160;</td>
+          <td class="paramname"><em>v_q_high</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

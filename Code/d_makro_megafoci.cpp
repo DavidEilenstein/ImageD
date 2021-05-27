@@ -128,7 +128,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(ui->spinBox_PageIndex_Other,                    SIGNAL(valueChanged(int)),                  this,               SLOT(Update_PagesConfig()));
     //overview big
     connect(ui->spinBox_OverviewBig_T,                      SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
-    connect(ui->checkBox_OverviewBig_ResultsShow,           SIGNAL(stateChanged(int)),                  this,               SLOT(Update_Images_OverviewBig()));
+    connect(ui->comboBox_OverviewBig_Type,                  SIGNAL(currentIndexChanged(int)),           this,               SLOT(Update_Images_OverviewBig()));
 
     //stack
     connect(ui->pushButton_ProcFullStack,                   SIGNAL(clicked(bool)),                      this,               SLOT(Stack_Process_All()));
@@ -143,15 +143,16 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     Populate_CB_AtStart();
 
     ///update ui accesibility
+    StatusSet("Setting ui defaults to avoid confusion");
     ui->groupBox_Dataset->setEnabled(true);
-    ui->groupBox_Viewport->setEnabled(false);
     ui->groupBox_VisTrafo->setEnabled(false);
     ui->groupBox_View->setEnabled(false);
     ui->groupBox_Control->setEnabled(false);
 
     ///set default indices
-    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);
+    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_VIEWPORT);
     ui->stackedWidget_View->setCurrentIndex(VIEW_PAGE_IMG_PROC);
+    ui->stackedWidget_StepMajor->setCurrentIndex(MODE_MAJOR_0_DATASET_DIM);
 
     ///get dataset attributes
     /*
@@ -168,7 +169,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
 
     ///start status
     StatusSet("Ready to serve your will my master");
-    StatusSet("I'm hungry, please feed dataset");
+    StatusSet("Please define the dimensions of your dataset. Unless you like random stuff to happen, this should stay the same for full analysis ;-)");
 }
 
 D_MAKRO_MegaFoci::~D_MAKRO_MegaFoci()
@@ -330,6 +331,10 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
 
 void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
 {
+    ///get overview type (channels, overlay)
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "start";
+    size_t overview_type = ui->comboBox_OverviewBig_Type->currentIndex();
+
     ///get inidices to show
     int t = ui->spinBox_OverviewBig_T->value();
 
@@ -340,15 +345,34 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
     D_VisDat_Slice_2D Slice2d(-1, -1, 0, t, 0, 0);
 
     ///crop 2D plane from VD
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "extract plane";
+    Mat MA_tmp_plane;
     ERR(D_VisDat_Proc::Read_2D_Plane(
-                &MA_OverviewBig_Show,
+                &MA_tmp_plane,
                 &VD_Overview_Save,
                 Slice2d),
         "Update_Images_OverviewBig",
         "D_VisDat_Proc::Read_2D_Plane - Crop<br>" + Slice2d.info() + "<br>from<br>" + VD_Overview_Save.info());
 
+    ///extract needed channels
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "select channels";
+    bool use_b = (overview_type == OVERVIEW_TYPE_RFP) || (overview_type == OVERVIEW_TYPE_COLOR) || (overview_type == OVERVIEW_TYPE_AUTODETECT);
+    bool use_g = (overview_type == OVERVIEW_TYPE_GFP) || (overview_type == OVERVIEW_TYPE_COLOR) || (overview_type == OVERVIEW_TYPE_AUTODETECT);
+    bool use_r = (overview_type == OVERVIEW_TYPE_DIC);
+    ERR(D_Img_Proc::Channel_Supression(
+                &MA_OverviewBig_Show,
+                &MA_tmp_plane,
+                use_r,
+                use_g,
+                use_b,
+                false),
+        "Update_Images_OverviewBig",
+        "D_Img_Proc::Channel_Supression - " + QSL_OverviewTypes[overview_type]);
+    MA_tmp_plane.release();
+
     ///if results shall be shown, create contour/text overlay in image
-    if(ui->checkBox_OverviewBig_ResultsShow->isChecked())
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "add overlay";
+    if(overview_type == OVERVIEW_TYPE_AUTODETECT)
     {
         ///create containers for info describing detected nuclei and foci
         QStringList QSl_FociCounts;
@@ -378,7 +402,10 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
     }
 
     ///display Mat
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "display";
     Viewer_OverviewBig.Update_Image(&MA_OverviewBig_Show);
+
+    //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "finish";
 }
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage()
@@ -581,11 +608,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     //Visualtsation -------------------------------------------------------------------------------------------------------
 
-    case STEP_VIS_PAGES_AS_COLOR:
+    case STEP_VIS_PAGES_AS_COLOR_GFP_RFP:
     {
         bool use_channels[4] = {true, true, false, false};
         ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
                 &(vVD_ImgProcSteps[STEP_PCK_RFP]),
                 &(vVD_ImgProcSteps[STEP_PCK_GFP]),
                 &(vVD_ImgProcSteps[STEP_PCK_RFP]),
@@ -593,16 +620,16 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 3,
                 use_channels),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_PAGES_AS_COLOR - Visualize signals in color");
+            "STEP_VIS_PAGES_AS_COLOR_GFP_RFP - Visualize signals in color");
     }
         break;
 
-    case STEP_VIS_PAGES_AS_COLOR_QUANTILS:
+    case STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP:
     {
         ERR(D_VisDat_Proc::GammaSpread_Quantiles(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
                 1,
                 ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value() / 100.0,
@@ -611,7 +638,41 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
                 true,
                 false),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_PAGES_AS_COLOR_QUANTILS - Visualize signals in color");
+            "STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP - Visualize signals in color");
+    }
+        break;
+
+    case STEP_VIS_PAGES_AS_COLOR_ALL:
+    {
+        bool use_channels[4] = {true, true, true, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
+                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
+                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
+                &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                3,
+                use_channels),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_PAGES_AS_COLOR_ALL - Visualize signals in color");
+    }
+        break;
+
+    case STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL:
+    {
+        ERR(D_VisDat_Proc::GammaSpread_Quantiles(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
+                1,
+                ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value() / 100.0,
+                ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value() / 100.0,
+                0,
+                255,
+                true,
+                false),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL - Visualize signals in color");
 
         Overview_Update();
     }
@@ -808,23 +869,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_FOC_GFP_MASK_IN_NUC:
-    {
-        ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_MASK_IN_NUC]),
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN])),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_GFP_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
-    }
-        break;
-
     case STEP_FOC_GFP_SELECT_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
                 c_FEAT_AREA,
                 ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value(),
                 ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value(),
@@ -864,23 +914,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
     }
         break;
 
-    case STEP_FOC_RFP_MASK_IN_NUC:
-    {
-        ERR(D_VisDat_Proc::Math_2img_BitwiseAnd(
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_MASK_IN_NUC]),
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN])),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_RFP_MASK_IN_NUC - (GFP) Select foci candidates that are inside nuclei");
-    }
-        break;
-
     case STEP_FOC_RFP_SELECT_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_MASK_IN_NUC]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
                 c_FEAT_AREA,
                 ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value(),
                 ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value(),
@@ -973,24 +1012,42 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
     case STEP_VIS_REGIONS:
     {
-        ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS])),
+        //color code:
+        //R: Nuclei Borders
+        //G: GFP Foci
+        //M: RFP Foci
+        //W: GFP Foci + RFP Foci
+
+        //merge to red channel
+        D_VisDat_Obj VD_tmp_red;
+        ERR(D_VisDat_Proc::Math_2img_Maximum(
+                &VD_tmp_red,
+                &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS - Nuclei and foci area as color");
+            "STEP_VIS_REGIONS - Math_2img_Maximum calc red channel");
+
+        //merge to rgb image
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),          //out
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),  //B
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),  //G
+                &VD_tmp_red),                                   //R
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS - Channels_Merge Nuclei and foci area as color");
     }
         break;
 
     case STEP_VIS_REGIONS_BACKGROUND:
     {
-        ERR(D_VisDat_Proc::Math_2img_Addition(
+        ERR(D_VisDat_Proc::OverlayOverwrite(
                 &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS])),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),
+                ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
+                ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND - Math_2img_Addition");
+            "STEP_VIS_REGIONS_BACKGROUND - OverlayOverwrite");
     }
         break;
 
@@ -1008,14 +1065,14 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
         int pos_t = ui->spinBox_Viewport_T->value();
 
         //get foci counts as QStringList
-        QStringList QSL_LabelTexts;
+        QStringList QSL_LabelTexts = QStringList();
         vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_FociCount_append(&QSL_LabelTexts);
 
         int ER = D_VisDat_Proc::Draw_Label_Text(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
-                &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
+                    &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
+                    &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
+                    &(vVD_ImgProcSteps[STEP_NUC_RFP_SELECT_MEAN]),
                     QSL_LabelTexts,
                     false,
                     1, 2,
@@ -1062,7 +1119,6 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     state_image_decomposed = false;
     if(!state_image_decomposition_init)
         return;
-
 
     ///vector of foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
@@ -1111,7 +1167,10 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     {
         StatusSet("Save decomposition in files");
         ERR(
-                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(DIR_SaveDetections.path(), true),
+                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(
+                        DIR_SaveDetections.path(),  //path to save to
+                        false,                      //don't save foci matched to nuclei
+                        true),                      //save foci as separate file
                 "Update_ImageDecomposition",
                 "ImageDecomp.save(DIR_SaveDetections.path())");
     }
@@ -1176,11 +1235,14 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     QDir().mkdir(DIR_SaveMaster.path());
 
     //Save subfolders
-    DIR_SaveMosaik.setPath(DIR_SaveMaster.path() + "/Mosaik");
-    QDir().mkdir(DIR_SaveMosaik.path());
+    DIR_SaveMosaik_All.setPath(DIR_SaveMaster.path() + "/Mosaik");                          QDir().mkdir(DIR_SaveMosaik_All.path());
+    DIR_SaveMosaik_Color.setPath(DIR_SaveMosaik_All.path() + "/Color");                     QDir().mkdir(DIR_SaveMosaik_Color.path());
+    DIR_SaveMosaik_DIC.setPath(DIR_SaveMosaik_All.path() + "/DIC");                         QDir().mkdir(DIR_SaveMosaik_DIC.path());
+    DIR_SaveMosaik_GFP.setPath(DIR_SaveMosaik_All.path() + "/GFP");                         QDir().mkdir(DIR_SaveMosaik_GFP.path());
+    DIR_SaveMosaik_RFP.setPath(DIR_SaveMosaik_All.path() + "/RFP");                         QDir().mkdir(DIR_SaveMosaik_RFP.path());
+    DIR_SaveMosaik_AutoDetetctions.setPath(DIR_SaveMosaik_All.path() + "/AutoDetections");  QDir().mkdir(DIR_SaveMosaik_AutoDetetctions.path());
 
-    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");
-    QDir().mkdir(DIR_SaveDetections.path());
+    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");  QDir().mkdir(DIR_SaveDetections.path());
 
     //make error handler stream to file instead of showing popups
     StatusSet("Disabling error popups. Error log can be found in:" + DIR_SaveMaster.path() + "/ErrorLog.csv");
@@ -1194,6 +1256,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     StatusSet("Start to loop all viewports");
     StatusSet("Time to get a cofee");
     state_stack_processing = true;
+    this->setEnabled(false);
 
     //finish time prognosis
     D_FinishTimePrognosis TimePrognosis(
@@ -1236,6 +1299,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     ER.set_Popup_active(true);
     ER.set_FileStream_active(false);
 
+    this->setEnabled(true);
     state_stack_processing = false;
 }
 
@@ -1246,17 +1310,34 @@ void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
 
     ///Overwrite and update mosaik
 
-    ///Mosaik normal
-    ui->checkBox_OverviewBig_ResultsShow->blockSignals(true);
-    ui->checkBox_OverviewBig_ResultsShow->setChecked(false);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_Input_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+    ui->comboBox_OverviewBig_Type->blockSignals(true);
 
-    ///mosaik with results
-    ui->checkBox_OverviewBig_ResultsShow->setChecked(true);
+    ///Mosaik dic
+    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_DIC);
     Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik.path() + "/Mosaik_Result_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
-    ui->checkBox_OverviewBig_ResultsShow->blockSignals(false);
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_DIC.path() + "/Mosaik_DIC_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ///Mosaik gfp
+    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_GFP);
+    Update_Images_OverviewBig();
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_GFP.path() + "/Mosaik_GFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ///Mosaik rfp
+    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_RFP);
+    Update_Images_OverviewBig();
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_RFP.path() + "/Mosaik_RFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ///Mosaik color
+    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_COLOR);
+    Update_Images_OverviewBig();
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Color.path() + "/Mosaik_Color_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ///Mosaik with results
+    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_AUTODETECT);
+    Update_Images_OverviewBig();
+    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_AutoDetetctions.path() + "/Mosaik_AutoDetections_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+    ui->comboBox_OverviewBig_Type->blockSignals(false);
 }
 
 void D_MAKRO_MegaFoci::Populate_CB_AtStart()
@@ -1271,6 +1352,8 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
     Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,          STEP_VIS_REGIONS_FOCI_COUNT);
 
     Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,       c_STAT_QUANTIL_95);
+
+    Populate_CB_Single(ui->comboBox_OverviewBig_Type,                       QSL_OverviewTypes,  OVERVIEW_TYPE_COLOR);
 }
 
 void D_MAKRO_MegaFoci::Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index)
@@ -1412,11 +1495,11 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
 
     //update ui accesibility
     ui->groupBox_Dataset->setEnabled(false);
-    ui->groupBox_Viewport->setEnabled(true);
+    ui->pushButton_DataLoad->setEnabled(false);
     ui->groupBox_VisTrafo->setEnabled(true);
     ui->groupBox_View->setEnabled(true);
     ui->groupBox_Control->setEnabled(true);
-    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);
+    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_VIEWPORT);
 
     //update states
     state_dataset_img_list_loaded = true;
@@ -1485,7 +1568,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
     ERR(D_VisDat_Proc::Scale_ToSize(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &VD_tmp_CurrentColorScaled,
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL]),
                 static_cast<int>((dataset_dim_img_x * (1.0 + border_prz)) * overview_scale),
                 static_cast<int>((dataset_dim_img_y * (1.0 + border_prz)) * overview_scale)),
         "Overview_Update",
@@ -1503,7 +1586,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
     vOffset[c_DIM_T] = pos_t;
 
     //insert in overview
-    ERR(D_VisDat_Proc::Instert_atPos(
+    ERR(D_VisDat_Proc::Insert_atPos(
                 &VD_Overview_Save,
                 &VD_tmp_CurrentColorScaled,
                 vOffset),
@@ -1513,7 +1596,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
         "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
 
     Update_Images_OverviewSmall();
-    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && !ui->checkBox_OverviewBig_ResultsShow->isChecked())
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && ui->comboBox_OverviewBig_Type->currentIndex() != OVERVIEW_TYPE_AUTODETECT)
         Update_Images_OverviewBig();
 }
 
@@ -1861,7 +1944,18 @@ void D_MAKRO_MegaFoci::CreateZero_Image(D_VisDat_Obj *img)
             1,
             dataset_dim_p_exist),
         dataset_type_mat,
-        0);
+                0);
+}
+
+void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
+{
+    if(mode >= MODE_MAJOR_NUMBER_OF)
+        return;
+
+    mode_major_current = mode;
+    ui->stackedWidget_StepMajor->setCurrentIndex(mode_major_current);
+
+    StatusSet("MAJOR MODE: " + QSL_ModeMajor[mode_major_current]);
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -1906,7 +2000,7 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
     ui->label_pre_4->setStyleSheet(index == STEP_PRE_STITCH ? QS_StyleActive : QS_StyleNormal);
     ui->label_pre_5->setStyleSheet(index == STEP_PRE_PROJECT_Z ? QS_StyleActive : QS_StyleNormal);
     //vis
-    ui->label_vis_1->setStyleSheet(index == STEP_VIS_PAGES_AS_COLOR_QUANTILS ? QS_StyleActive : QS_StyleNormal);
+    ui->label_vis_1_3->setStyleSheet((index == STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL || index == STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP) ? QS_StyleActive : QS_StyleNormal);
     //nuc
     ui->label_nuc_0->setStyleSheet(index == STEP_NUC_GFP_BLUR_MEDIAN ? QS_StyleActive : QS_StyleNormal);
     ui->label_nuc_1->setStyleSheet(index == STEP_NUC_GFP_EDGE_CV ? QS_StyleActive : QS_StyleNormal);
@@ -1927,6 +2021,8 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
     ui->label_foc_rfp_3->setStyleSheet(index == STEP_FOC_RFP_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
     //foci both
     ui->label_foc_both_1->setStyleSheet(index == STEP_FOC_BOTH_SELECT_AREA ? QS_StyleActive : QS_StyleNormal);
+    //vis
+    ui->label_vis_6->setStyleSheet(index == STEP_VIS_REGIONS_BACKGROUND ? QS_StyleActive : QS_StyleNormal);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_Viewport_P_valueChanged(int arg1)
@@ -2138,7 +2234,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueC
     if(arg1 > ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value())
         ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS);
+        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1)
@@ -2146,7 +2242,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_value
     if(arg1 < ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value())
         ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS);
+        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1)
@@ -2161,4 +2257,58 @@ void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1
     ui->spinBox_ImgProc_Stitch_Overlap_y->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_y), 'g', 4) + "%)");
     Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
     Overview_Init();
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom(STEP_VIS_REGIONS_BACKGROUND);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom(STEP_VIS_REGIONS_BACKGROUND);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_1_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_1_AUTO_DETECTION);
+    StatusSet("I'm hungry. Please feed dataset.");
+    StatusSet("(See button in the upper left)");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_2_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_2_MANU_CORRECT_DETECTION);
+    StatusSet("Time to tell the PC where it messed up");
+    StatusSet("Nothing can replace a true expert like you ;-)");
+    StatusSet("Start by loading precalculated data from step 1");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_3_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI);
+    StatusSet("Time for monkey work again. Lean back and watch the show.");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_4_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE);
+    StatusSet("Try to figure out which potato is the mother of another");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_5_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_5_MANU_CORRECT_PEDIGREE);
+    StatusSet("Time for potato family therapy");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_StepMajor_6_clicked()
+{
+    set_ModeMajor_Current(MODE_MAJOR_6_EPIC_ANALYSIS);
+    StatusSet("Time to harvest the fruits of all the work <3");
+}
+
+void D_MAKRO_MegaFoci::on_horizontalSlider_OverviewBig_T_valueChanged(int value)
+{
+    ui->spinBox_OverviewBig_T->setValue(value);
 }

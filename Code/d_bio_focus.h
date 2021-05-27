@@ -80,8 +80,8 @@ private:
     double          m_compactness   = 0;
     double          m_convexity     = 0;
 
-    vector<double> vSignalMedians   = vector<double> {};
-    vector<double> vSignalMedDevs   = vector<double> {};
+    vector<double> vSignalMedians;
+    vector<double> vSignalMedDevs;
 };
 
 #endif // D_BIO_FOCUS_H

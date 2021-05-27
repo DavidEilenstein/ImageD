@@ -109,6 +109,21 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Channel_Split(int channel)
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Channel_Supression(bool use_r, bool use_g, bool use_b, bool force_3ch)
+{
+    return
+            [use_r, use_g, use_b, force_3ch](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Channel_Supression(
+                    pMA_Out,
+                    pMA_In,
+                    use_r,
+                    use_g,
+                    use_b,
+                    force_3ch);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_8UC1_binary()
 {
     return
@@ -1413,6 +1428,20 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::ClassBorder_kNN(int n)
                     pMA_Class0,
                     pMA_Class1,
                     n);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(double intensity_overlay, double intensity_backgr)
+{
+    return
+            [intensity_overlay, intensity_backgr](Mat *pMA_Out, Mat *pMA_BG, Mat *pMA_Overlay)
+    {
+        return D_Img_Proc::OverlayOverwrite(
+                    pMA_Out,
+                    pMA_BG,
+                    pMA_Overlay,
+                    intensity_overlay,
+                    intensity_backgr);
     };
 }
 

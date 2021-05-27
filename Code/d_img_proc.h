@@ -84,6 +84,7 @@ public:
 
     static int      Stat_ofPixelvalues          (double *value, Mat *pMA_In, int stat, bool ignore_zeros);
     static int      Quantiles_ofPixelvalues     (double *q_low, double *q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros);
+    static int      Quantiles_ofPixelvalues     (vector<double> *v_q_low, vector<double> *v_q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros);
 
     static int      Convert_Mat_to_QImage       (QImage *pQI_Out, Mat *pMA_In);
     static int      Convert_QImage_to_Mat       (Mat *pMA_Out, QImage *pQI_In);
@@ -113,6 +114,7 @@ public:
     static int      Normalize                   (Mat *pMA_Out, Mat *pMA_In, unsigned int norm, unsigned int type, double min, double max);
     static int      Spread_16_bit_to_8bit       (Mat *pMA_Out, Mat *pMA_In, double in_max, double out_max);
     static int      Spread_8bit_to_float01      (Mat *pMA_Out, Mat *pMA_In);
+    static int      Channel_Supression          (Mat *pMA_Out, Mat *pMA_In, bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static int      Split                       (Mat *pMA_Out, Mat *pMA_In, unsigned int channel);
     static int      Merge                       (Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, unsigned int channels, bool channel_use[4]);
     static int      Duplicate2Channels          (Mat *pMA_Out, Mat *pMA_In, int channels);
@@ -121,6 +123,7 @@ public:
     static int      Combi_8UC1_binary           (Mat *pMA_Out, Mat *pMA_In);
     static int      GammaSpread_1C              (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min = 0, double out_max = 255, bool force_8bit = false);
     static int      GammaSpread                 (Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min = 0, double out_max = 255, bool force_8bit = false);
+    static int      GammaSpread                 (Mat *pMA_Out, Mat *pMA_In, double gamma, vector<double> v_in_min, vector<double> v_in_max, double out_min = 0, double out_max = 255, bool force_8bit = false);
     static int      GammaSpread_Quantiles       (Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static int      Visualize_to8bit            (Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false, int mode_complex = c_COMPLEX2REAL_RE_IM);
     static int      Visualize_to8bit_1C         (Mat *pMA_Out, Mat *pMA_In, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double crop_min, double crop_max, double val_gamma, double val_center, double val_scale);
@@ -400,6 +403,7 @@ public:
     static Scalar   Contrast_Color              (Vec3d val_RGB);
     static int      Highlight_NumericalProblems (Mat *pMA_Out, Mat *pMA_In);
 
+    static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      ExtremeValuesColor          (Mat *pMA_Out, Mat *pMA_In, double rel_low = 0.1, double rel_high = 0.9, double gamma = 1.0, bool color_low = false, bool color_high = true, bool zero_as_lowest = true);

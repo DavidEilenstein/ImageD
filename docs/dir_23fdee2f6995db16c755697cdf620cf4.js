@@ -9,9 +9,7 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
       [ "D_Bio_Focus", "class_d___bio___focus.html", "class_d___bio___focus" ]
     ] ],
     [ "d_bio_nucleusblob.cpp", "d__bio__nucleusblob_8cpp.html", null ],
-    [ "d_bio_nucleusblob.h", "d__bio__nucleusblob_8h.html", [
-      [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", "class_d___bio___nucleus_blob" ]
-    ] ],
+    [ "d_bio_nucleusblob.h", "d__bio__nucleusblob_8h.html", "d__bio__nucleusblob_8h" ],
     [ "d_bio_nucleusimage.cpp", "d__bio__nucleusimage_8cpp.html", null ],
     [ "d_bio_nucleusimage.h", "d__bio__nucleusimage_8h.html", [
       [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html", "class_d___bio___nucleus_image" ]

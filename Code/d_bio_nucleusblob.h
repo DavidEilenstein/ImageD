@@ -122,46 +122,48 @@ private:
     vector<double>                  vSignalMedians;
     vector<double>                  vSignalMedDevs;
 
-    const QStringList QSL_FileSections = {
-        ":::::::::::::::::::: Begin",
-        ":::::::::::::::::::: MetaInfo",
-        ":::::::::::::::::::: Values",
-        ":::::::::::::::::::: CountourPixels",
-        ":::::::::::::::::::: Foci",
-        ":::::::::::::::::::: End"
-    };
-    enum FILE_SECTIONS {
-        FILE_SECTION_BEGIN,
-        FILE_SECTION_META_INFO,
-        FILE_SECTION_VALUES,
-        FILE_SECTION_CONTOUR_PIXELS,
-        FILE_SECTION_FOCI,
-        FILE_SECTION_END,
-        FILE_SECTION_NUMBER_OF
-    };
 
-    const QStringList QSL_FileSubsections = {
-        "Default",
-        ".................... Channel",
-        "-------------------- Focus Begin",
-        "-------------------- Focus End",
-        "Median",
-        "AverageAbsoluteDeviationFromMedian",
-        "Position",
-        "AreaConvexityCompactness"
-    };
-    enum FILE_SUBSECTIONS {
-        FILE_SUBSECTION_DEFAULT,
-        FILE_SUBSECTION_NEW_FOCI_CHANNEL,
-        FILE_SUBSECTION_FOCUS_BEGIN,
-        FILE_SUBSECTION_FOCUS_END,
-        FILE_SUBSECTION_MEDIAN,
-        FILE_SUBSECTION_MEDIAN_DEVIATION,
-        FILE_SUBSECTION_POSITION,
-        FILE_SUBSECTION_SHAPE,
-        FILE_SUBSECTION_NUMBER_OF
-    };
 
 };
+
+const QStringList QSL_FileSections = {
+     ":::::::::::::::::::: Begin",
+     ":::::::::::::::::::: MetaInfo",
+     ":::::::::::::::::::: Values",
+     ":::::::::::::::::::: CountourPixels",
+     ":::::::::::::::::::: Foci",
+     ":::::::::::::::::::: End"
+ };
+ enum FILE_SECTIONS {
+     FILE_SECTION_BEGIN,
+     FILE_SECTION_META_INFO,
+     FILE_SECTION_VALUES,
+     FILE_SECTION_CONTOUR_PIXELS,
+     FILE_SECTION_FOCI,
+     FILE_SECTION_END,
+     FILE_SECTION_NUMBER_OF
+ };
+
+ const QStringList QSL_FileSubsections = {
+     "Default",
+     ".................... Channel",
+     "-------------------- Focus Begin",
+     "-------------------- Focus End",
+     "Median",
+     "AverageAbsoluteDeviationFromMedian",
+     "Position",
+     "AreaConvexityCompactness"
+ };
+ enum FILE_SUBSECTIONS {
+     FILE_SUBSECTION_DEFAULT,
+     FILE_SUBSECTION_NEW_FOCI_CHANNEL,
+     FILE_SUBSECTION_FOCUS_BEGIN,
+     FILE_SUBSECTION_FOCUS_END,
+     FILE_SUBSECTION_MEDIAN,
+     FILE_SUBSECTION_MEDIAN_DEVIATION,
+     FILE_SUBSECTION_POSITION,
+     FILE_SUBSECTION_SHAPE,
+     FILE_SUBSECTION_NUMBER_OF
+ };
 
 #endif // D_BIO_NUCLEUSBLOB_H

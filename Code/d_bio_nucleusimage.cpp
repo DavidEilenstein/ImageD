@@ -364,6 +364,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
 
     //nucleus list
     //qDebug() << "calc_NucleiDecomposition" << "nucleus list";
+    vNuclei.clear();
     for(size_t i = 0; i < n_nuclei; i++)
     {
         //create nucleus
@@ -386,7 +387,8 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
 
     //foci list
     //qDebug() << "calc_NucleiDecomposition" << "foci list";
-    vector<vector<D_Bio_Focus>> vvFoci(n_channels_foci);
+    vvFoci.clear();
+    vvFoci.resize(n_channels_foci);
     for(size_t cf = 0; cf < n_channels_foci; cf++)
     {
         vvFoci[cf].resize(vn_foci[cf]);
@@ -417,6 +419,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
             }
             else
             {
+                /*
                 //centroid in background -> find nearest contour of nucleus
 
                 double dist_nearest = INFINITY;
@@ -432,6 +435,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
                 }
 
                 vNuclei[i_opt].add_Focus(cf, vvFoci[cf][f]);
+                */
             }
         }
 
@@ -440,11 +444,11 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     return ER_okay;
 }
 
-int D_Bio_NucleusImage::save(QString path, bool save_foci)
+int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_foci_separate)
 {
     //qDebug() << "D_Bio_NucleusImage::save";
 
-    //add time
+    //add time to path
     path += "/Time_" + QString::number(m_time);
     QDir DIR_Time(path);
     if(!DIR_Time.exists())
@@ -454,7 +458,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci)
             return ER_file_not_exist;
     }
 
-    //add offset
+    //add offset to path
     path += "/Image_T" + QString::number(m_time) + "_Y" + QString::number(m_Offset.y) + "_X" + QString::number(m_Offset.x);
     QDir DIR_Image(path);
     if(!DIR_Image.exists())
@@ -469,13 +473,74 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci)
     {
         //qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i;
 
-        int ER = vNuclei[i].save_simple(DIR_Image.path(), save_foci);
+        int ER = vNuclei[i].save_simple(DIR_Image.path(), save_foci_in_nuclei);
         if(ER != ER_okay)
         {
             qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i << "ERROR:" << QSL_Errors[ER];
             return ER;
         }
     }
+
+    //save foci separate
+    if(save_foci_separate)
+    {
+        //parent directory
+        QDir DIR_Save(path);
+        if(!DIR_Save.exists())
+        {
+            QDir().mkdir(DIR_Save.path());
+            if(!DIR_Save.exists())
+                return ER_file_not_exist;
+        }
+
+        //TYX coordinate
+        QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(m_Offset.y)) + "_X" + QString::number(static_cast<int>(m_Offset.x));
+        QString QS_PathFoci_Base = path + "/Foci_" + QS_Coordinate_TYX;
+
+        //loop channels
+        for(size_t c = 0; c < vvFoci.size(); c++)
+        {
+            //File
+            //qDebug() << "D_Bio_NucleusImage::save" << "get filename";
+            QFileInfo FI_FociChannel(QS_PathFoci_Base + "_C" + QString::number(c) + ".txt");
+
+            //stream to text file
+            //qDebug() << "D_Bio_NucleusImage::save" << "open stream";
+            ofstream OS_FociChannel(FI_FociChannel.absoluteFilePath().toStdString());
+            if(!OS_FociChannel.is_open())
+                return ER_StreamNotOpen;
+
+            OS_FociChannel << QSL_FileSubsections[FILE_SUBSECTION_NEW_FOCI_CHANNEL].toStdString() << ";" << c;
+
+            //loop foci
+            //qDebug() << "D_Bio_NucleusImage::save" << "loop foci";
+            for(size_t f = 0; f < vvFoci[c].size(); f++)
+            {
+                //qDebug() << "D_Bio_NucleusImage::save" << "focus" << f << "of" << vvFoci[c].size();
+
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_FOCUS_BEGIN].toStdString();
+
+                D_Bio_Focus focus = vvFoci[c][f];
+
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_POSITION].toStdString() << ";" << focus.centroid().x << ";" << focus.centroid().y;
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_SHAPE].toStdString() << ";" << focus.area() << ";" << focus.convexity() << ";" << focus.compactness();
+
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN].toStdString();
+                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
+                    OS_FociChannel << ";" << focus.signal_median(i_cv);
+
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN_DEVIATION].toStdString();
+                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
+                    OS_FociChannel << ";" << focus.signal_dev2med(i_cv);
+
+                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_FOCUS_END].toStdString();
+            }
+
+            OS_FociChannel.close();
+            //qDebug() << "D_Bio_NucleusImage::save" << "end of chanel ---------------------------------";
+        }
+    }
+    //qDebug() << "D_Bio_NucleusImage::save" << "end of foci save";
 
     //finished
     return ER_okay;

@@ -180,6 +180,18 @@ private slots:
     void on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1);
     void on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1);
 
+    void on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
+
+    void on_pushButton_StepMajor_1_clicked();
+    void on_pushButton_StepMajor_2_clicked();
+    void on_pushButton_StepMajor_3_clicked();
+    void on_pushButton_StepMajor_4_clicked();
+    void on_pushButton_StepMajor_5_clicked();
+    void on_pushButton_StepMajor_6_clicked();
+
+    void on_horizontalSlider_OverviewBig_T_valueChanged(int value);
+
 private:
     Ui::D_MAKRO_MegaFoci *ui;
     bool ClosingPossible = false;
@@ -209,7 +221,12 @@ private:
 
     //save dirs
     QDir                                DIR_SaveMaster;
-    QDir                                DIR_SaveMosaik;
+    QDir                                DIR_SaveMosaik_All;
+    QDir                                DIR_SaveMosaik_Color;
+    QDir                                DIR_SaveMosaik_GFP;
+    QDir                                DIR_SaveMosaik_RFP;
+    QDir                                DIR_SaveMosaik_DIC;
+    QDir                                DIR_SaveMosaik_AutoDetetctions;
     QDir                                DIR_SaveDetections;
 
     //dataset dimension
@@ -318,8 +335,10 @@ private:
         STEP_PCK_RFP,
 
         //Visualization
-        STEP_VIS_PAGES_AS_COLOR,
-        STEP_VIS_PAGES_AS_COLOR_QUANTILS,
+        STEP_VIS_PAGES_AS_COLOR_GFP_RFP,
+        STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP,
+        STEP_VIS_PAGES_AS_COLOR_ALL,
+        STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL,
 
         //Find Nuclei
         STEP_NUC_GFP_BLUR_MEDIAN,
@@ -340,13 +359,11 @@ private:
         //Find Foci GFP
         STEP_FOC_GFP_BLUR_MEDIAN,
         STEP_FOC_GFP_BINARY_THRES,
-        STEP_FOC_GFP_MASK_IN_NUC,
         STEP_FOC_GFP_SELECT_AREA,
 
         //Find Foci RFP
         STEP_FOC_RFP_BLUR_MEDIAN,
         STEP_FOC_RFP_BINARY_THRES,
-        STEP_FOC_RFP_MASK_IN_NUC,
         STEP_FOC_RFP_SELECT_AREA,
 
         //Match Foci
@@ -379,7 +396,9 @@ private:
         "pck-2 RFP pick Signal",
 
         "vis-0 Color GFP green RFP blue",
-        "vis-1 Color crop interquantil",
+        "vis-1 Color GFP RFP crop interquantil",
+        "vis-2 Color all channels",
+        "vis-3 Color all crop interquantil",
 
         "nuc-0 GFP circular median blur",
         "nuc-1 GFP circular CV edges",
@@ -393,17 +412,15 @@ private:
         "nuc-9 Select by Roundness",
         "nuc-10 Select by Mean RFP Signal",
 
-        "vis-2 Nuclei segemntation borders",
+        "vis-4 Nuclei segemntation borders",
 
         "foc-gfp-0 circular median blur",
         "foc-gfp-1 binarize by threshold",
-        "foc-gfp-2 Mask by selected nuclei",
-        "foc-gfp-3 Select by Area",
+        "foc-gfp-2 Select by Area",
 
         "foc-rfp-0 circular median blur",
         "foc-rfp-1 binarize by threshold",
-        "foc-rfp-2 Mask by selected nuclei",
-        "foc-rfp-3 Select by Area",
+        "foc-rfp-2 Select by Area",
 
         "foc-both-0 foci detected in GFP and RFP",
         "foc-both-0 Select by Area",
@@ -413,13 +430,14 @@ private:
         "cla-2 Foci in GFP only",
         "cla-3 Foci in RFP only",
 
-        "vis-3 Regions",
-        "vis-4 Regions with background",
-        "vis-5 Regions with foci counts"
+        "vis-5 Regions",
+        "vis-6 Regions with background",
+        "vis-7 Regions with foci counts"
     };
 
     //Tabs
     enum TABS_CONTROL {
+        TAB_CONTROL_VIEWPORT,
         TAB_CONTROL_IMG_PROC,
         TAB_CONTROL_OVERVIEW_BIG,
         TAB_CONTROL_NUMBER_OF
@@ -432,6 +450,49 @@ private:
         VIEW_PAGE_STACK,
         VIEW_PAGE_PLOT
     };
+
+    //overview types
+    enum OVERVIEW_TYPE {
+        OVERVIEW_TYPE_DIC,
+        OVERVIEW_TYPE_GFP,
+        OVERVIEW_TYPE_RFP,
+        OVERVIEW_TYPE_COLOR,
+        OVERVIEW_TYPE_AUTODETECT,
+        OVERVIEW_TYPE_NUMBER_OF
+    };
+    const QStringList QSL_OverviewTypes = {
+        "Gray DIC",
+        "Gray GFP",
+        "Gray RFP",
+        "Color GFP and RFP",
+        "Color auto detections"
+    };
+
+    //major steps managment ----------------------------------------------------------
+
+    //major steps
+    enum MODE_MAJOR {
+        MODE_MAJOR_0_DATASET_DIM,
+        MODE_MAJOR_1_AUTO_DETECTION,
+        MODE_MAJOR_2_MANU_CORRECT_DETECTION,
+        MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI,
+        MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE,
+        MODE_MAJOR_5_MANU_CORRECT_PEDIGREE,
+        MODE_MAJOR_6_EPIC_ANALYSIS,
+        MODE_MAJOR_NUMBER_OF
+    };
+    const QStringList QSL_ModeMajor = {
+        "Dataset definition",
+        "Automatic detection",
+        "Manuel correction of detetctions",
+        "Automatic matching foci to nuclei",
+        "Automatic pedigree reconstruction",
+        "Manual pedigree correction",
+        "Epic analysis"
+    };
+
+    size_t mode_major_current = MODE_MAJOR_0_DATASET_DIM;
+    void set_ModeMajor_Current(size_t mode);
 
 };
 

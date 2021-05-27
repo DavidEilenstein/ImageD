@@ -704,6 +704,30 @@ int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ig
 
 int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros)
 {
+   if(pMA_In->channels() != 1)          return ER_channel_bad;
+
+   vector<double> v_q_low(1, 0);
+   vector<double> v_q_high(1, 0);
+
+   int ER = Quantiles_ofPixelvalues(
+               &v_q_low,
+               &v_q_high,
+               pMA_In,
+               low_rel,
+               high_rel,
+               ignore_zeros);
+
+   if(ER == ER_okay)
+   {
+       *q_low = v_q_low[0];
+       *q_high = v_q_high[0];
+   }
+
+   return ER;
+}
+
+int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> *v_q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros)
+{
     if(pMA_In->channels() != 1 && pMA_In->channels() != 3)      return ER_channel_bad;
     if(low_rel  < 0 || low_rel  > 1)                            return ER_parameter_bad;
     if(high_rel < 0 || high_rel > 1)                            return ER_parameter_bad;
@@ -714,7 +738,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
     //qDebug() << "area:" << area;
 
     //read values
-    vector<double> vValues;
+    vector<vector<double>> vvValues(pMA_In->channels());
 
     //type switch
     //qDebug() << "Type switch:" << Type_of_Mat(pMA_In);
@@ -725,7 +749,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         uchar* ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -734,7 +758,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         char* ptr_in = reinterpret_cast<char*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -743,7 +767,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         ushort* ptr_in = reinterpret_cast<ushort*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -752,7 +776,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         short* ptr_in = reinterpret_cast<short*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -761,7 +785,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         int* ptr_in = reinterpret_cast<int*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -770,7 +794,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -779,7 +803,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
         double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
             if(*ptr_in != 0 || !ignore_zeros)
-                vValues.push_back(static_cast<double>(*ptr_in));
+                vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
 
@@ -792,7 +816,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -807,7 +831,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -822,7 +846,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -837,7 +861,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -852,7 +876,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -867,7 +891,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
             {
                 double val = (*ptr_in)[c];
                 if(val != 0 || !ignore_zeros)
-                    vValues.push_back(val);
+                    vvValues[c].push_back(val);
             }
         }
     }
@@ -879,22 +903,21 @@ int D_Img_Proc::Quantiles_ofPixelvalues(double *q_low, double *q_high, Mat *pMA_
 
     //calc quantiles
     //qDebug() << "sort";
-    sort(vValues.begin(), vValues.end());
-    if(vValues.size() > 0)
+    v_q_low->resize(pMA_In->channels(), 0);
+    v_q_high->resize(pMA_In->channels(), 0);
+    for(int c = 0; c < pMA_In->channels(); c++)
     {
-        //qDebug() << "get quantiles";
-        size_t i_low  = static_cast<size_t>(low_rel   * (vValues.size() - 1));
-        size_t i_high = static_cast<size_t>(high_rel  * (vValues.size() - 1));
-        //qDebug() << "size, low, high" << vValues.size() << i_low << i_high;
-        *q_low  = vValues[i_low];
-        *q_high = vValues[i_high];
-        //qDebug() << "got quantiles" << *q_low << *q_high;
-    }
-    else
-    {
-        //qDebug() << "set to default values";
-        *q_low = 0.0;
-        *q_high = 0.0;
+        sort(vvValues[c].begin(), vvValues[c].end());
+        if(vvValues[c].size() > 0)
+        {
+            //qDebug() << "get quantiles";
+            size_t i_low  = static_cast<size_t>(low_rel   * (vvValues[c].size() - 1));
+            size_t i_high = static_cast<size_t>(high_rel  * (vvValues[c].size() - 1));
+            //qDebug() << "size, low, high" << vValues.size() << i_low << i_high;
+            (*v_q_low)[c]  = vvValues[c][i_low];
+            (*v_q_high)[c] = vvValues[c][i_high];
+            //qDebug() << "got quantiles" << *q_low << *q_high;
+        }
     }
 
     return ER_okay;
@@ -2885,6 +2908,60 @@ int D_Img_Proc::Spread_8bit_to_float01(Mat *pMA_Out, Mat *pMA_In)
     return ER_okay;
 }
 
+int D_Img_Proc::Channel_Supression(Mat *pMA_Out, Mat *pMA_In, bool use_r, bool use_g, bool use_b, bool force_3ch)
+{
+    if(pMA_In->depth() != CV_8U)            return ER_bitdepth_bad;
+    if(pMA_In->channels() != 3)             return ER_channel_bad;
+
+    //channels to be used
+    vector<size_t>  channels2use;
+    if(use_b)       channels2use.push_back(0);
+    if(use_g)       channels2use.push_back(1);
+    if(use_r)       channels2use.push_back(2);
+
+    //check, if stupid black image
+    if(channels2use.empty())
+    {
+        *pMA_Out = Mat::zeros(pMA_In->size(), pMA_In->type());
+        return ER_okay;
+    }
+
+    //check, if single chanel
+    bool single_channel = (channels2use.size() == 1) && !force_3ch;
+
+    //px couont
+    size_t area = pMA_In->cols * pMA_In->rows;
+
+    //do the processing
+    if(single_channel)
+    {
+        size_t channel_used = channels2use[0];
+
+        *pMA_Out = Mat(pMA_In->size(), CV_8UC1);
+        Vec3b* ptr_in  = reinterpret_cast<Vec3b*>(pMA_In->data);
+        uchar* ptr_out = reinterpret_cast<uchar*>(pMA_Out->data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = (*ptr_in)[channel_used];
+    }
+    else
+    {
+        *pMA_Out = Mat(pMA_In->size(), CV_8UC3);
+        Vec3b* ptr_in  = reinterpret_cast<Vec3b*>(pMA_In->data);
+        Vec3b* ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
+        for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+        {
+            Vec3b col_out;
+            use_b ? col_out[0] = (*ptr_in)[0] : 0;
+            use_g ? col_out[1] = (*ptr_in)[1] : 0;
+            use_r ? col_out[2] = (*ptr_in)[2] : 0;
+            *ptr_out = col_out;
+        }
+    }
+
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Split(Mat *pMA_Out, Mat *pMA_In, unsigned int channel)
 {
     if(pMA_In->empty())                     return ER_empty;
@@ -3580,7 +3657,28 @@ int D_Img_Proc::GammaSpread_1C(Mat *pMA_Out, Mat *pMA_In, double gamma, double i
 
 int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit)
 {
-    if(pMA_In->empty()) return ER_empty;
+    if(pMA_In->empty())                         return ER_empty;
+
+    size_t channels = pMA_In->channels();
+    vector<double> v_in_min(channels, in_min);
+    vector<double> v_in_max(channels, in_max);
+
+    return GammaSpread(
+                pMA_Out,
+                pMA_In,
+                gamma,
+                v_in_min,
+                v_in_max,
+                out_min,
+                out_max,
+                force_8bit);
+}
+
+int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, vector<double> v_in_min, vector<double> v_in_max, double out_min, double out_max, bool force_8bit)
+{
+    if(pMA_In->empty())                         return ER_empty;
+    if(v_in_min.size() != pMA_In->channels())   return ER_channel_missmatch;
+    if(v_in_max.size() != pMA_In->channels())   return ER_channel_missmatch;
 
     switch (pMA_In->channels()) {
 
@@ -3590,8 +3688,8 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
                     pMA_Out,
                     pMA_In,
                     gamma,
-                    in_min,
-                    in_max,
+                    v_in_min[0],
+                    v_in_max[0],
                     out_min,
                     out_max,
                     force_8bit);
@@ -3613,8 +3711,8 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
                         &(MA_tmp_proc[c]),
                         &(MA_tmp_in[c]),
                         gamma,
-                        in_min,
-                        in_max,
+                        v_in_min[c],
+                        v_in_max[c],
                         out_min,
                         out_max,
                         force_8bit);
@@ -3648,8 +3746,8 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
                         &(MA_tmp_proc[c]),
                         &(MA_tmp_in[c]),
                         gamma,
-                        in_min,
-                        in_max,
+                        v_in_min[c],
+                        v_in_max[c],
                         out_min,
                         out_max,
                         force_8bit);
@@ -3683,8 +3781,8 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
                         &(MA_tmp_proc[c]),
                         &(MA_tmp_in[c]),
                         gamma,
-                        in_min,
-                        in_max,
+                        v_in_min[c],
+                        v_in_max[c],
                         out_min,
                         out_max,
                         force_8bit);
@@ -3713,10 +3811,11 @@ int D_Img_Proc::GammaSpread(Mat *pMA_Out, Mat *pMA_In, double gamma, double in_m
 
 int D_Img_Proc::GammaSpread_Quantiles(Mat *pMA_Out, Mat *pMA_In, double gamma, double quantile_low, double quantile_high, double out_min, double out_max, bool force_8bit, bool ignore_zeros)
 {
-    double in_min, in_max;
+    vector<double> v_in_min;
+    vector<double> v_in_max;
     int ER = Quantiles_ofPixelvalues(
-                &in_min,
-                &in_max,
+                &v_in_min,
+                &v_in_max,
                 pMA_In,
                 quantile_low,
                 quantile_high,
@@ -3728,8 +3827,8 @@ int D_Img_Proc::GammaSpread_Quantiles(Mat *pMA_Out, Mat *pMA_In, double gamma, d
                 pMA_Out,
                 pMA_In,
                 gamma,
-                in_min,
-                in_max,
+                v_in_min,
+                v_in_max,
                 out_min,
                 out_max,
                 force_8bit);
@@ -16781,6 +16880,38 @@ int D_Img_Proc::Highlight_NumericalProblems(Mat *pMA_Out, Mat *pMA_In)
     return ER_okay;
 }
 
+int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay, double intensity_backgr)
+{
+    if(pMA_In->type() != CV_8UC3)                       return ER_type_bad;
+    if(pMA_Overlay->type() != CV_8UC3)                  return ER_type_bad;
+    if(pMA_In->size() != pMA_Overlay->size())           return ER_size_missmatch;
+    if(intensity_overlay < 0 || intensity_overlay > 1)  return ER_parameter_bad;
+    if(intensity_backgr < 0 || intensity_backgr > 1)    return ER_parameter_bad;
+
+    //init out
+    int ER = Math_ImgScal_Mult(
+                pMA_Out,
+                pMA_In,
+                intensity_backgr);
+    if(ER != ER_okay && ER != ER_empty)
+        return ER;
+
+    //px count
+    int area = pMA_Out->rows * pMA_Out->cols;
+
+    //loop & replace
+    Vec3b* ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
+    Vec3b* ptr_ovr = reinterpret_cast<Vec3b*>(pMA_Overlay->data);
+    for(int px = 0; px < area; px++, ptr_out++, ptr_ovr++)
+        if((*ptr_ovr)[0] > 0 || (*ptr_ovr)[1] > 0 || (*ptr_ovr)[2] > 0)
+            *ptr_out = Vec3b(
+                    (*ptr_ovr)[0] * intensity_overlay,
+                    (*ptr_ovr)[1] * intensity_overlay,
+                    (*ptr_ovr)[2] * intensity_overlay);
+
+    return ER_okay;
+}
+
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay, double intensity_backgr)
 {
     return OverlayOverwrite(
@@ -16800,6 +16931,7 @@ int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uc
     if(pMA_Overlay->type() != CV_8UC1)                  return ER_type_bad;
     if(pMA_In->size() != pMA_Overlay->size())           return ER_size_missmatch;
     if(intensity_overlay < 0 || intensity_overlay > 1)  return ER_parameter_bad;
+    if(intensity_backgr < 0 || intensity_backgr > 1)    return ER_parameter_bad;
 
     //init out
     int ER = Math_ImgScal_Mult(

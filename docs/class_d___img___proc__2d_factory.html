@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_5_5 (25.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -121,6 +121,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a17155b691bb7aba5d00f92a479a56297"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad23f3bbe6c41496081aa46afbe1b4f81"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ad23f3bbe6c41496081aa46afbe1b4f81">Channel_Split</a> (int channel)</td></tr>
 <tr class="separator:ad23f3bbe6c41496081aa46afbe1b4f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a136283777577983149d82f2414fcd18b"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a136283777577983149d82f2414fcd18b">Channel_Supression</a> (bool use_r=true, bool use_g=true, bool use_b=true, bool force_3ch=false)</td></tr>
+<tr class="separator:a136283777577983149d82f2414fcd18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4071ce25c76e2d17712428450a1292db"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a4071ce25c76e2d17712428450a1292db">Convert_8UC1_binary</a> ()</td></tr>
 <tr class="separator:a4071ce25c76e2d17712428450a1292db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d73d62f6bda6ede8bd5eb140b6452a2"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a6d73d62f6bda6ede8bd5eb140b6452a2">Visualize_to8bit</a> (int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max=false)</td></tr>
@@ -303,6 +305,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae38e4b37eecb2bbca6d212188b254030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ac2327d1e79d80b719c4f2deca2726e"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a5ac2327d1e79d80b719c4f2deca2726e">ClassBorder_kNN</a> (int n)</td></tr>
 <tr class="separator:a5ac2327d1e79d80b719c4f2deca2726e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc2cd03875aa9610a51ac2df98e24e8"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#aadc2cd03875aa9610a51ac2df98e24e8">OverlayOverwrite</a> (double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
+<tr class="separator:aadc2cd03875aa9610a51ac2df98e24e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9225f7a030d6aed6515471ed97d2f67"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ac9225f7a030d6aed6515471ed97d2f67">Transformation_Watershed_Custom</a> (int connectivity=8)</td></tr>
 <tr class="separator:ac9225f7a030d6aed6515471ed97d2f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b7ee804fd759a667777cb619cee4169"><td class="memItemLeft" align="right" valign="top">static function&lt; int(Mat *, Mat *, Mat *, Mat *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a9b7ee804fd759a667777cb619cee4169">Math_3img_Addition</a> ()</td></tr>
@@ -444,6 +448,54 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>channel</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a136283777577983149d82f2414fcd18b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a136283777577983149d82f2414fcd18b">&#9670;&nbsp;</a></span>Channel_Supression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *)&gt; D_Img_Proc_2dFactory::Channel_Supression </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_r</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_g</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_b</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_3ch</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -4055,6 +4107,42 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aadc2cd03875aa9610a51ac2df98e24e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc2cd03875aa9610a51ac2df98e24e8">&#9670;&nbsp;</a></span>OverlayOverwrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(Mat *, Mat *, Mat *)&gt; D_Img_Proc_2dFactory::OverlayOverwrite </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_overlay</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>intensity_backgr</em> = <code>1.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

@@ -66,6 +66,7 @@ public:
     static function<int (Mat *, Mat *)>                         Normalize                       (int norm, int type, double min, double max);
     static function<int (Mat *, Mat *)>                         Convert_Double                  ();
     static function<int (Mat *, Mat *)>                         Channel_Split                   (int channel);
+    static function<int (Mat *, Mat *)>                         Channel_Supression              (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static function<int (Mat *, Mat *)>                         Convert_8UC1_binary             ();
     static function<int (Mat *, Mat *)>                         Visualize_to8bit                (int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
 
@@ -177,6 +178,8 @@ public:
     static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Numbers_LUT          (vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
     static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Text                 (QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
     static function<int (Mat *, Mat *, Mat *)>                  ClassBorder_kNN                 (int n);
+
+    static function<int (Mat *, Mat *, Mat *)>                  OverlayOverwrite                (double intensity_overlay = 1.0, double intensity_backgr = 1.0);
 
 
     //3 Input -> 1 Output

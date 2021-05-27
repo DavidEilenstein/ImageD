@@ -2592,7 +2592,7 @@ int D_VisDat_Proc::Write_3D_Cuboid(D_VisDat_Obj *pVD_Out, Mat *pMA_In, D_VisDat_
     return ER_okay;
 }
 
-int D_VisDat_Proc::Instert_atPos(D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Source, vector<int> vOffset)
+int D_VisDat_Proc::Insert_atPos(D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Source, vector<int> vOffset)
 {
     if(pVD_Target->pMA_full()->empty())             return ER_empty;
     if(pVD_Source->pMA_full()->empty())             return ER_empty;
@@ -4520,6 +4520,39 @@ int D_VisDat_Proc::Channels_Split(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, i
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 D_Img_Proc_2dFactory::Channel_Split(
                     channel),
+                pVD_Out,
+                pVD_In);
+}
+
+int D_VisDat_Proc::Channel_Supression(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, bool use_r, bool use_g, bool use_b, bool force_3ch)
+{
+    //calc channel number
+    vector<size_t>  channels2use;
+    if(use_b)       channels2use.push_back(0);
+    if(use_g)       channels2use.push_back(1);
+    if(use_r)       channels2use.push_back(2);
+    bool single_channel = (channels2use.size() == 1) && !force_3ch;
+
+    if(single_channel)
+        *pVD_Out = D_VisDat_Obj(
+                    pVD_In->Dim(),
+                    D_Img_Proc::TypeIndex_of_Mat(
+                        1,
+                        pVD_In->pMA_full()->depth()));
+    else
+        *pVD_Out = D_VisDat_Obj(
+                    pVD_In->Dim(),
+                    D_Img_Proc::TypeIndex_of_Mat(
+                        3,
+                        pVD_In->pMA_full()->depth()));
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Channel_Supression(
+                    use_r,
+                    use_g,
+                    use_b,
+                    force_3ch),
                 pVD_Out,
                 pVD_In);
 }
@@ -6519,6 +6552,18 @@ int D_VisDat_Proc::Draw_Label_Text(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out
                 pVD_Out,
                 pVD_In,
                 pVD_Label);
+}
+
+int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay, double intensity_backgr)
+{
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::OverlayOverwrite(
+                    intensity_overlay,
+                    intensity_backgr),
+                pVD_Out,
+                pVD_Background,
+                pVD_Overlay);
 }
 
 int D_VisDat_Proc::Neighborhood_Configs(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
