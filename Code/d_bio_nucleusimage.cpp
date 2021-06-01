@@ -322,42 +322,64 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
         }
     //qDebug() << "calc_NucleiDecomposition" << "loop image finished";
 
-    //stats
-    //qDebug() << "calc_NucleiDecomposition" << "stats";
-    function<double (vector<double>)> F_Median = D_Stat::Function_SingleStat(c_STAT_MEDIAN);
-    function<double (vector<double>)> F_MedDev = D_Stat::Function_SingleStat(c_STAT_ABS_DEV_MED);
-
     //nuclei stats
     //qDebug() << "calc_NucleiDecomposition" << "nuclei stats";
-    vector<vector<double>> vvNuclei_Median(n_nuclei);
-    vector<vector<double>> vvNuclei_MedDev(n_nuclei);
-    for(size_t i = 0; i < n_nuclei; i++)
+    vector<vector<vector<double>>> vvvNucleusStatChannel(n_nuclei, vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(n_channels_values, 0)));
+    //loop nuclei
+    for(size_t nuc = 0; nuc < n_nuclei; nuc++)
     {
-        vvNuclei_Median[i].resize(n_channels_values);
-        vvNuclei_MedDev[i].resize(n_channels_values);
-        for(size_t cv = 0; cv < n_channels_values; cv++)
+        //loop value channels
+        for(size_t chv = 0; chv < n_channels_values; chv++)
         {
-            vvNuclei_Median[i][cv] = F_Median(vvvNucleiChannelsValues[i][cv]);
-            vvNuclei_MedDev[i][cv] = F_MedDev(vvvNucleiChannelsValues[i][cv]);
+            //calc stats
+            vector<double> vValueStats;
+            D_Stat::Calc_Stats(
+                        &vValueStats,
+                        vvvNucleiChannelsValues[nuc][chv],
+                        true);
+
+            vvvNucleusStatChannel[nuc][VAL_STAT_COUNT][chv]             = vValueStats[c_STAT_COUNT];
+            vvvNucleusStatChannel[nuc][VAL_STAT_MEAN][chv]              = vValueStats[c_STAT_MEAN_ARITMETIC];
+            vvvNucleusStatChannel[nuc][VAL_STAT_STD][chv]               = vValueStats[c_STAT_STAN_DEV_SAMPLE];
+            vvvNucleusStatChannel[nuc][VAL_STAT_SKEW][chv]              = vValueStats[c_STAT_SKEWNESS_SAMPLE];
+            vvvNucleusStatChannel[nuc][VAL_STAT_KURTOSIS][chv]          = vValueStats[c_STAT_KURTOSIS_SAMPLE];
+            vvvNucleusStatChannel[nuc][VAL_STAT_MEDIAN][chv]            = vValueStats[c_STAT_MEDIAN];
+            vvvNucleusStatChannel[nuc][VAL_STAT_MEDIAN_DEVIATION][chv]  = vValueStats[c_STAT_ABS_DEV_MED];
         }
     }
 
     //foci stats
     //qDebug() << "calc_NucleiDecomposition" << "foci stats";
-    vector<vector<vector<double>>> vvvFChannelFNumber_Median(n_channels_foci);
-    vector<vector<vector<double>>> vvvFChannelFNumber_MedDev(n_channels_foci);
-    for(size_t cf = 0; cf < n_channels_foci; cf++)
+    vector<vector<vector<vector<double>>>> vvvv_FChannel_Focus_Stat_VChannel(n_channels_foci);
+    //loop channels where foci are detected in
+    for(size_t chf = 0; chf < n_channels_foci; chf++)
     {
-        vvvFChannelFNumber_Median[cf].resize(vn_foci[cf]);
-        vvvFChannelFNumber_MedDev[cf].resize(vn_foci[cf]);
-        for(size_t f = 0; f < vn_foci[cf]; f++)
+        //loop foci in focus channel
+        vvvv_FChannel_Focus_Stat_VChannel[chf].resize(vn_foci[chf]);
+        for(size_t foc = 0; foc < vn_foci[chf]; foc++)
         {
-            vvvFChannelFNumber_Median[cf][f].resize(n_channels_values);
-            vvvFChannelFNumber_MedDev[cf][f].resize(n_channels_values);
-            for(size_t cv = 0; cv < n_channels_values; cv++)
+            //loop stats
+            vvvv_FChannel_Focus_Stat_VChannel[chf][foc].resize(VAL_STAT_NUMBER_OF);
+            for(size_t stat = 0; stat < VAL_STAT_NUMBER_OF; stat++)
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][stat].resize(n_channels_values, 0);
+
+            //loop value channels per focus and calc stats
+            for(size_t chv = 0; chv < n_channels_values; chv++)
             {
-                vvvFChannelFNumber_Median[cf][f][cv] = F_Median(vvvvFChannelFNumberChannelsValues[cf][f][cv]);
-                vvvFChannelFNumber_MedDev[cf][f][cv] = F_MedDev(vvvvFChannelFNumberChannelsValues[cf][f][cv]);
+                //calc stats
+                vector<double> vValueStats;
+                D_Stat::Calc_Stats(
+                            &vValueStats,
+                            vvvvFChannelFNumberChannelsValues[chf][foc][chv],
+                            true);
+
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_COUNT][chv]             = vValueStats[c_STAT_COUNT];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_MEAN][chv]              = vValueStats[c_STAT_MEAN_ARITMETIC];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_STD][chv]               = vValueStats[c_STAT_STAN_DEV_SAMPLE];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_SKEW][chv]              = vValueStats[c_STAT_SKEWNESS_SAMPLE];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_KURTOSIS][chv]          = vValueStats[c_STAT_KURTOSIS_SAMPLE];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_MEDIAN][chv]            = vValueStats[c_STAT_MEDIAN];
+                vvvv_FChannel_Focus_Stat_VChannel[chf][foc][VAL_STAT_MEDIAN_DEVIATION][chv]  = vValueStats[c_STAT_ABS_DEV_MED];
             }
         }
     }
@@ -370,8 +392,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
         //create nucleus
         D_Bio_NucleusBlob NucBlob(
                             CompList_Nuclei.get_Component(i).get_Contour(),
-                            vvNuclei_Median[i],
-                            vvNuclei_MedDev[i],
+                            vvvNucleusStatChannel[i],
                             time,
                             P_Offset);
 
@@ -390,15 +411,11 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     vvFoci.clear();
     vvFoci.resize(n_channels_foci);
     for(size_t cf = 0; cf < n_channels_foci; cf++)
-    {
-        vvFoci[cf].resize(vn_foci[cf]);
         for(size_t f = 0; f < vn_foci[cf]; f++)
-            vvFoci[cf][f] = D_Bio_Focus(
+            vvFoci[cf].push_back(D_Bio_Focus(
                         vCompList_Foci[cf].get_Component(f).get_Contour(),
-                        vvvFChannelFNumber_Median[cf][f],
-                        vvvFChannelFNumber_MedDev[cf][f],
-                        P_Offset);
-    }
+                        vvvv_FChannel_Focus_Stat_VChannel[cf][f],
+                        P_Offset));
 
     //match foci to nuclei
     //qDebug() << "calc_NucleiDecomposition" << "match foci to nuclei";
@@ -476,7 +493,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
         int ER = vNuclei[i].save_simple(DIR_Image.path(), save_foci_in_nuclei);
         if(ER != ER_okay)
         {
-            qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i << "ERROR:" << QSL_Errors[ER];
+            //qDebug() << "D_Bio_NucleusImage::save" << "nucleus" << i << "ERROR:" << QSL_Errors[ER];
             return ER;
         }
     }
@@ -484,6 +501,8 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
     //save foci separate
     if(save_foci_separate)
     {
+        //qDebug() << "D_Bio_NucleusImage::save" << "save_foci_separate";
+
         //parent directory
         QDir DIR_Save(path);
         if(!DIR_Save.exists())
@@ -501,7 +520,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
         for(size_t c = 0; c < vvFoci.size(); c++)
         {
             //File
-            //qDebug() << "D_Bio_NucleusImage::save" << "get filename";
+            //qDebug() << "D_Bio_NucleusImage::save" << "get filename" << "channel" << c;
             QFileInfo FI_FociChannel(QS_PathFoci_Base + "_C" + QString::number(c) + ".txt");
 
             //stream to text file
@@ -516,23 +535,27 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
             //qDebug() << "D_Bio_NucleusImage::save" << "loop foci";
             for(size_t f = 0; f < vvFoci[c].size(); f++)
             {
-                //qDebug() << "D_Bio_NucleusImage::save" << "focus" << f << "of" << vvFoci[c].size();
+              //qDebug() << "D_Bio_NucleusImage::save" << "focus" << f << "of" << vvFoci[c].size();
 
                 OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_FOCUS_BEGIN].toStdString();
 
+                //qDebug() << "D_Bio_NucleusImage::save" << "get focus";
                 D_Bio_Focus focus = vvFoci[c][f];
 
+                //qDebug() << "D_Bio_NucleusImage::save" << "center";
                 OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_POSITION].toStdString() << ";" << focus.centroid().x << ";" << focus.centroid().y;
+                //qDebug() << "D_Bio_NucleusImage::save" << "shape";
                 OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_SHAPE].toStdString() << ";" << focus.area() << ";" << focus.convexity() << ";" << focus.compactness();
 
-                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN].toStdString();
-                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
-                    OS_FociChannel << ";" << focus.signal_median(i_cv);
+                //qDebug() << "D_Bio_NucleusImage::save" << "loop stats";
+                for(size_t stat = 0; stat < VAL_STAT_NUMBER_OF; stat++)
+                {
+                    OS_FociChannel << "\n" << QSL_ValueStat_Subsection[stat].toStdString();
+                    for(size_t ch = 0; ch < focus.channels(); ch++)
+                        OS_FociChannel << ";" << focus.signal_stat(ch, stat);
+                }
 
-                OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN_DEVIATION].toStdString();
-                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
-                    OS_FociChannel << ";" << focus.signal_dev2med(i_cv);
-
+                //qDebug() << "D_Bio_NucleusImage::save" << "focus end";
                 OS_FociChannel << "\n" << QSL_FileSubsections[FILE_SUBSECTION_FOCUS_END].toStdString();
             }
 

@@ -44,11 +44,13 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, double time, 
     CalcFeats();
 }
 
-D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset)
+D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, Point Offset)
 {
     //save data
-    vSignalMedians = signal_medians;
-    vSignalMedDevs = signal_meddevs;
+    if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
+        vvSignalStats_StatChannel = SignalStats_StatChannel;
+    else
+        vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
     //apply offset to contour
     m_contour.resize(contour_points.size());
@@ -59,12 +61,14 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<double
     CalcFeats();
 }
 
-D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, double time, Point Offset)
+D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, double time, Point Offset)
 {
     //save data
     m_time = time;
-    vSignalMedians = signal_medians;
-    vSignalMedDevs = signal_meddevs;
+    if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
+        vvSignalStats_StatChannel = SignalStats_StatChannel;
+    else
+        vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
     //apply offset to contour
     m_contour.resize(contour_points.size());
@@ -220,6 +224,8 @@ int D_Bio_NucleusBlob::save_detailed(QString path)
 
 int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foci)
 {
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "start";
+
     //only save if not part of neigbour image (stichting)
     if(block_stitching_border)
         if(leftmost() > block_stitching_border_x || topmost() > block_stitching_border_y)
@@ -241,35 +247,41 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
     QFileInfo FI_Nucleus(path_of_dir_to_save_in + "/Nucleus" + QS_Coordinate_TYX + ".txt");
 
     //stream to text file
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "init stream";
     ofstream OS_NucleusFile(FI_Nucleus.absoluteFilePath().toStdString());
     if(!OS_NucleusFile.is_open())
     {
-        //qDebug() << "D_Bio_NucleusBlob::save" << "ERROR Stream not open:" << DIR_Save.path() + "/Nucleus_T" + QString::number(m_time) + "_X" + QString::number(static_cast<int>(m_centroid.x)) + "_Y" + QString::number(static_cast<int>(m_centroid.y))+ ".txt";
+        qDebug() << "D_Bio_NucleusBlob::save_simple" << "error: file can't be streamed to";
         return ER_StreamNotOpen;
     }
 
     //meta info
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "meta info";
     OS_NucleusFile << QSL_FileSections[FILE_SECTION_META_INFO].toStdString();
     OS_NucleusFile << "\n" << "File" << ";" << FI_Nucleus.baseName().toStdString();
 
-    //values
+    //value stats
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "value stats";
     OS_NucleusFile << "\n" << QSL_FileSections[FILE_SECTION_VALUES].toStdString();
-    //median
-    OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN].toStdString();
-    for(size_t i = 0; i < vSignalMedians.size(); i++)
-        OS_NucleusFile << ";" << vSignalMedians[i];
-    //deviation
-    OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN_DEVIATION].toStdString();
-    for(size_t i = 0; i < vSignalMedDevs.size(); i++)
-        OS_NucleusFile << ";" << vSignalMedDevs[i];
+    for(size_t stat = 0; stat < vvSignalStats_StatChannel.size(); stat++)
+    {
+        //qDebug() << stat;
+        //qDebug() << QSL_ValueStat_Subsection[stat];
+        OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[stat].toStdString();
+        for(size_t ch = 0; ch < vvSignalStats_StatChannel[stat].size(); ch++)
+            OS_NucleusFile << ";" << vvSignalStats_StatChannel[stat][ch];
+    }
 
     //contour
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "contour";
     OS_NucleusFile << "\n" << QSL_FileSections[FILE_SECTION_CONTOUR_PIXELS].toStdString();
     for(size_t i = 0; i < m_contour.size(); i++)
         OS_NucleusFile << "\n" << m_contour[i].x << ";" << m_contour[i].y;
 
     if(save_foci)
     {
+        //qDebug() << "D_Bio_NucleusBlob::save_simple" << "save_foci";
+
         //Foci
         OS_NucleusFile << "\n" << QSL_FileSections[FILE_SECTION_FOCI].toStdString();
 
@@ -285,12 +297,13 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
                 D_Bio_Focus focus = vvFoci[i_cf][i_fo];
                 OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_POSITION].toStdString() << ";" << focus.centroid().x << ";" << focus.centroid().y;
                 OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_SHAPE].toStdString() << ";" << focus.area() << ";" << focus.convexity() << ";" << focus.compactness();
-                OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN].toStdString();
-                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
-                    OS_NucleusFile << ";" << focus.signal_median(i_cv);
-                OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_MEDIAN_DEVIATION].toStdString();
-                for(size_t i_cv = 0; i_cv < focus.channels(); i_cv++)
-                    OS_NucleusFile << ";" << focus.signal_dev2med(i_cv);
+
+                for(size_t stat = 0; stat < VAL_STAT_NUMBER_OF; stat++)
+                {
+                    OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[stat].toStdString();
+                    for(size_t ch = 0; ch < focus.channels(); ch++)
+                        OS_NucleusFile << ";" << focus.signal_stat(ch, stat);
+                }
 
                 OS_NucleusFile << "\n" << QSL_FileSubsections[FILE_SUBSECTION_FOCUS_END].toStdString();
             }
@@ -301,6 +314,7 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
     OS_NucleusFile << "\n" << QSL_FileSections[FILE_SECTION_END].toStdString();
     OS_NucleusFile.close();
 
+    //qDebug() << "D_Bio_NucleusBlob::save_simple" << "end";
     return ER_okay;
 }
 
@@ -322,8 +336,8 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     QTextStream TS_Nucleus(&F_Nucleus);
 
     //clear old
-    vSignalMedians.clear();
-    vSignalMedDevs.clear();
+    vvSignalStats_StatChannel.clear();
+    vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF);
     m_contour.clear();
     if(load_foci)
         vvFoci.clear();
@@ -384,30 +398,22 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
 
             case FILE_SECTION_VALUES:               //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             {
+                size_t stat_index;
                 switch (subsection) {
+                case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
+                case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
+                case FILE_SUBSECTION_STD:               stat_index = VAL_STAT_STD;              break;
+                case FILE_SUBSECTION_SKEW:              stat_index = VAL_STAT_SKEW;             break;
+                case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
+                case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
+                case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
+                default:                                stat_index = VAL_STAT_NUMBER_OF;        break;}
 
-                case FILE_SUBSECTION_MEDIAN:
-                    for(int i = 1; i < QSL_LineEntrys.size(); i++)
-                    {
-                        bool ok;
-                        double value = QSL_LineEntrys[i].toDouble(&ok);
-                        vSignalMedians.push_back(ok ? value : 0);
-
-                    }
-                    break;
-
-                case FILE_SUBSECTION_MEDIAN_DEVIATION:
-                    for(int i = 1; i < QSL_LineEntrys.size(); i++)
-                    {
-                        bool ok;
-                        double value = QSL_LineEntrys[i].toDouble(&ok);
-                        vSignalMedDevs.push_back(ok ? value : 0);
-                    }
-                    break;
-
-                default:
-                    //do nothing
-                    break;
+                for(int ch = 1; ch < QSL_LineEntrys.size(); ch++)
+                {
+                    bool ok;
+                    double value = QSL_LineEntrys[ch].toDouble(&ok);
+                    vvSignalStats_StatChannel[stat_index].push_back(ok ? value : 0);
                 }
             }
                 break;
@@ -444,8 +450,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                         double focus_area = 0;
                         double focus_compactness = 0;
                         double focus_convexity = 0;
-                        vector<double> focus_medians;
-                        vector<double> focus_meddevs;
+                        vector<vector<double>> focus_StatsChannels;
 
                         bool focus_end = false;
                         while(!TS_Nucleus.atEnd() && !focus_end)
@@ -498,24 +503,30 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                             }
                                 break;
 
+                            case FILE_SUBSECTION_VAL_COUNT:
+                            case FILE_SUBSECTION_MEAN:
+                            case FILE_SUBSECTION_STD:
+                            case FILE_SUBSECTION_SKEW:
+                            case FILE_SUBSECTION_KURTOSIS:
                             case FILE_SUBSECTION_MEDIAN:
-                            {
-                                for(int i = 1; i < QSL_LineEntrys_focus.size(); i++)
-                                {
-                                    bool ok;
-                                    double value = QSL_LineEntrys_focus[i].toDouble(&ok);
-                                    focus_medians.push_back(ok ? value : 0);
-                                }
-                            }
-                                break;
-
                             case FILE_SUBSECTION_MEDIAN_DEVIATION:
                             {
-                                for(int i = 1; i < QSL_LineEntrys_focus.size(); i++)
+                                size_t stat_index;
+                                switch (subsection_focus) {
+                                case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
+                                case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
+                                case FILE_SUBSECTION_STD:               stat_index = VAL_STAT_STD;              break;
+                                case FILE_SUBSECTION_SKEW:              stat_index = VAL_STAT_SKEW;             break;
+                                case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
+                                case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
+                                case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
+                                default:                                stat_index = VAL_STAT_NUMBER_OF;        break;}
+
+                                for(int ch = 1; ch < QSL_LineEntrys_focus.size(); ch++)
                                 {
                                     bool ok;
-                                    double value = QSL_LineEntrys_focus[i].toDouble(&ok);
-                                    focus_meddevs.push_back(ok ? value : 0);
+                                    double value = QSL_LineEntrys_focus[ch].toDouble(&ok);
+                                    focus_StatsChannels[stat_index].push_back(ok ? value : 0);
                                 }
                             }
                                 break;
@@ -532,10 +543,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                                                                    focus_area,
                                                                    focus_compactness,
                                                                    focus_convexity,
-                                                                   focus_medians,
-                                                                   focus_meddevs));
-
-
+                                                                   focus_StatsChannels));
                     }
                         break;
 

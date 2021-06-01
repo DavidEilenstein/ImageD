@@ -22,7 +22,22 @@ D_Bio_Focus::D_Bio_Focus(QString QS_PathLoad)
 
 D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, Point Offset)
 {
+    //apply offset to contour
+    vector<Point> countour_with_offset(contour_points.size());
+    for(size_t i = 0; i < countour_with_offset.size(); i++)
+        countour_with_offset[i] = contour_points[i] + Offset;
+
+    //calc feats
+    CalcFeats(countour_with_offset);
+}
+
+D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, Point Offset)
+{
     //save data
+    if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
+        vvSignalStats_StatChannel = SignalStats_StatChannel;
+    else
+        vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
     //apply offset to contour
     vector<Point> countour_with_offset(contour_points.size());
@@ -33,26 +48,13 @@ D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, Point Offset)
     CalcFeats(countour_with_offset);
 }
 
-D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset)
+D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel)
 {
     //save data
-    vSignalMedians = signal_medians;
-    vSignalMedDevs = signal_meddevs;
-
-    //apply offset to contour
-    vector<Point> countour_with_offset(contour_points.size());
-    for(size_t i = 0; i < countour_with_offset.size(); i++)
-        countour_with_offset[i] = contour_points[i] + Offset;
-
-    //calc feats
-    CalcFeats(countour_with_offset);
-}
-
-D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<double> signal_medians, vector<double> signal_meddevs)
-{
-    //save data
-    vSignalMedians  = signal_medians;
-    vSignalMedDevs  = signal_meddevs;
+    if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
+        vvSignalStats_StatChannel = SignalStats_StatChannel;
+    else
+        vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
     m_centroid      = centroid;
     m_area          = area;
     m_compactness   = compactness;
@@ -61,6 +63,26 @@ D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, doub
     //no stats need to be calced
     state_feats_calced = true;
 }
+
+size_t D_Bio_Focus::channels()
+{
+    if(vvSignalStats_StatChannel.empty())
+        return 0;
+    else
+        return vvSignalStats_StatChannel[0].size();
+}
+
+double D_Bio_Focus::signal_stat(size_t channel, size_t stat_local_id)
+{
+    if(stat_local_id >= vvSignalStats_StatChannel.size())
+        return 0;
+
+    if(channel >= vvSignalStats_StatChannel[stat_local_id].size())
+        return 0;
+
+    return vvSignalStats_StatChannel[stat_local_id][channel];
+}
+
 
 /*
 int D_Bio_Focus::save(QString path)

@@ -12,6 +12,7 @@
 //own
 #include <d_enum.h>
 #include <d_stat.h>
+#include <d_bio_enum.h>
 
 //Qt
 #include <QFileDialog>
@@ -44,14 +45,15 @@ public:
     D_Bio_Focus();
     //D_Bio_Focus(QString QS_PathLoad);
     D_Bio_Focus(vector<Point> contour_points, Point Offset = Point(0, 0));
-    D_Bio_Focus(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset = Point(0, 0));
-    D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<double> signal_medians, vector<double> signal_meddevs);
+    D_Bio_Focus(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, Point Offset = Point(0, 0));
+    D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel);
 
-    void            set_value_channels(size_t channels)             {vSignalMedians.resize(channels); vSignalMedDevs.resize(channels);}
-    void            set_values_medians(vector<double> vMedian)      {vSignalMedians = vMedian;}
-    void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
-    void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
-    void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
+    void            set_value_channels(size_t channels)             {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
+  //void            set_values_stat(size_t stat_local_id, vector<double> vSignals_Stat);
+  //void            set_values_medians(vector<double> vMedian)      {vvSignalStats[VAL_STAT_MEDIAN] = vMedian;}
+  //void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
+  //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
+  //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
     Point2f         centroid()                                      {return m_centroid;}
     double          area()                                          {return m_area;}
@@ -62,9 +64,10 @@ public:
     double          dist2centroid(Point2f point)                    {return norm(point - m_centroid);}
     double          dist2contour_circle_equivalent(Point2f point)   {return dist2centroid(point) - radius_circle_equivalent();}
 
-    size_t          channels()                                      {return min(vSignalMedDevs.size(), vSignalMedians.size());}
-    double          signal_median(size_t channel)                   {return channel < vSignalMedians.size() ? vSignalMedians[channel] : 0;}
-    double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}
+    size_t          channels();
+    double          signal_stat(size_t channel, size_t stat_local_id);
+    double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
+    double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
     //int             save(QString path);
 
@@ -80,8 +83,7 @@ private:
     double          m_compactness   = 0;
     double          m_convexity     = 0;
 
-    vector<double> vSignalMedians;
-    vector<double> vSignalMedDevs;
+    vector<vector<double>> vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 };
 
 #endif // D_BIO_FOCUS_H

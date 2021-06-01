@@ -1223,11 +1223,11 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
     //Create new save dir
     unsigned int count = 0;
-    QString QS_Folder_Out_Sub = QS_SavePath + "/Results_0";
+    QString QS_Folder_Out_Sub = QS_SavePath + "/Results_Step1_0";
     while(QDir(QS_Folder_Out_Sub).exists())
     {
         count++;
-        QS_Folder_Out_Sub = QS_SavePath + "/Results_" + QString::number(count);
+        QS_Folder_Out_Sub = QS_SavePath + "/Results_Step1_" + QString::number(count);
     }
 
     //masterfolder

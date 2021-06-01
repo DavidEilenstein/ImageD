@@ -117,6 +117,8 @@ SOURCES += \
     d_makro_huangvisualization.cpp
 
 HEADERS += \
+    d_bio_enum.h \
+    d_bio_enum.h \
     d_bio_focus.h \
     d_bio_nucleusblob.h \
     d_bio_nucleusimage.h \

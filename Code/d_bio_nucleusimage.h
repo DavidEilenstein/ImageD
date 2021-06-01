@@ -18,6 +18,7 @@
 #include <d_visdat_obj.h>
 #include <d_visdat_proc.h>
 #include <d_component_list.h>
+#include <d_bio_enum.h>
 
 //Qt
 #include <QFileDialog>
@@ -68,9 +69,6 @@ private:
     Point m_Offset = Point(0, 0);
     vector<D_Bio_NucleusBlob>   vNuclei;
     vector<vector<D_Bio_Focus>> vvFoci;
-
-
-
 };
 
 #endif // D_BIO_NUCLEUSIMAGE_H

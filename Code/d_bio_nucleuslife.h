@@ -14,6 +14,7 @@
 #include <d_stat.h>
 #include <d_math.h>
 #include <d_bio_nucleusblob.h>
+#include <d_bio_enum.h>
 
 //Qt
 #include <QFileDialog>

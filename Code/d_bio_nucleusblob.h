@@ -14,6 +14,7 @@
 #include <d_stat.h>
 #include <d_math.h>
 #include <d_bio_focus.h>
+#include <d_bio_enum.h>
 
 //Qt
 #include <QFileDialog>
@@ -46,8 +47,8 @@ public:
     D_Bio_NucleusBlob(QString QS_PathLoad);
     D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset = Point(0, 0));
     D_Bio_NucleusBlob(vector<Point> contour_points, double time, Point Offset = Point(0, 0));
-    D_Bio_NucleusBlob(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, Point Offset = Point(0, 0));
-    D_Bio_NucleusBlob(vector<Point> contour_points, vector<double> signal_medians, vector<double> signal_meddevs, double time, Point Offset = Point(0, 0));
+    D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, Point Offset = Point(0, 0));
+    D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, double time, Point Offset = Point(0, 0));
 
     //set/add foic
     void                            set_FociChannels(size_t channels)                           {vvFoci.resize(channels);}
@@ -75,11 +76,11 @@ public:
 
     //copied from D_BioFocus because inhering causes problems...
 
-    void            set_value_channels(size_t channels)             {vSignalMedians.resize(channels); vSignalMedDevs.resize(channels);}
-    void            set_values_medians(vector<double> vMedian)      {vSignalMedians = vMedian;}
-    void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
-    void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
-    void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
+    void            set_value_channels(size_t channels)             {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
+  //void            set_values_medians(vector<double> vMedian)      {vSignalMedians = vMedian;}
+  //void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
+  //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
+  //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
     vector<Point>   contour()                                       {                                       return m_contour;}
     double          dist2contour(Point2f point)                     {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
@@ -90,8 +91,10 @@ public:
     double          compactness()                                   {if(state_feats_calced) CalcFeats();    return m_compactness;}
     double          convexity()                                     {if(state_feats_calced) CalcFeats();    return m_convexity;}
 
-    double          signal_median(size_t channel)                   {return channel < vSignalMedians.size() ? vSignalMedians[channel] : 0;}
-    double          signal_dev2med(size_t channel)                  {return channel < vSignalMedDevs.size() ? vSignalMedDevs[channel] : 0;}
+    size_t          channels()                                      {return vvSignalStats_StatChannel.empty() ? 0 : vvSignalStats_StatChannel[0].size();}
+    double          signal_stat(size_t channel, size_t stat_local_id){return stat_local_id < vvSignalStats_StatChannel.size() ? (channel < vvSignalStats_StatChannel[stat_local_id].size() ? vvSignalStats_StatChannel[stat_local_id][channel] : 0) : 0;}
+    double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
+    double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
 private:
 
@@ -119,51 +122,10 @@ private:
     double                          m_compactness       = 0;
     double                          m_convexity         = 0;
 
-    vector<double>                  vSignalMedians;
-    vector<double>                  vSignalMedDevs;
+    vector<vector<double>>          vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
 
 
 };
-
-const QStringList QSL_FileSections = {
-     ":::::::::::::::::::: Begin",
-     ":::::::::::::::::::: MetaInfo",
-     ":::::::::::::::::::: Values",
-     ":::::::::::::::::::: CountourPixels",
-     ":::::::::::::::::::: Foci",
-     ":::::::::::::::::::: End"
- };
- enum FILE_SECTIONS {
-     FILE_SECTION_BEGIN,
-     FILE_SECTION_META_INFO,
-     FILE_SECTION_VALUES,
-     FILE_SECTION_CONTOUR_PIXELS,
-     FILE_SECTION_FOCI,
-     FILE_SECTION_END,
-     FILE_SECTION_NUMBER_OF
- };
-
- const QStringList QSL_FileSubsections = {
-     "Default",
-     ".................... Channel",
-     "-------------------- Focus Begin",
-     "-------------------- Focus End",
-     "Median",
-     "AverageAbsoluteDeviationFromMedian",
-     "Position",
-     "AreaConvexityCompactness"
- };
- enum FILE_SUBSECTIONS {
-     FILE_SUBSECTION_DEFAULT,
-     FILE_SUBSECTION_NEW_FOCI_CHANNEL,
-     FILE_SUBSECTION_FOCUS_BEGIN,
-     FILE_SUBSECTION_FOCUS_END,
-     FILE_SUBSECTION_MEDIAN,
-     FILE_SUBSECTION_MEDIAN_DEVIATION,
-     FILE_SUBSECTION_POSITION,
-     FILE_SUBSECTION_SHAPE,
-     FILE_SUBSECTION_NUMBER_OF
- };
 
 #endif // D_BIO_NUCLEUSBLOB_H
