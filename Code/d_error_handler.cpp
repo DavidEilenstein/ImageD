@@ -49,7 +49,7 @@ void D_Error_Handler::ERR(int err, QString sender, QString func, QString detail)
 
         MSG.setBaseSize(400, 200);
         MSG.setStyleSheet("QLabel{min-width: 400px;}");
-        MSG.setText("An error occured... Q.Q");
+        MSG.setText("An error occured... " + QS_Fun_Sad);
         MSG.setInformativeText(er_info);
 
         MSG.exec();

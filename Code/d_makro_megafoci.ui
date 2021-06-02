@@ -284,6 +284,25 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_ImageReward">
+         <property name="minimumSize">
+          <size>
+           <width>292</width>
+           <height>292</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>292</width>
+           <height>292</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -2513,7 +2532,7 @@
                <number>3</number>
               </property>
               <item row="0" column="0">
-               <widget class="QGroupBox" name="groupBox_14">
+               <widget class="QGroupBox" name="groupBox_MS2_ViewerControls_3">
                 <property name="title">
                  <string/>
                 </property>
@@ -2594,22 +2613,52 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(255,0,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color:  rgb(255,0,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,255,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,255,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,0,255);
+color: white;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_3"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,0,255);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="4">
                   <widget class="QLabel" name="label_33">
@@ -2676,6 +2725,9 @@
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255,255,255);</string>
+                   </property>
                    <property name="text">
                     <string>Point Color</string>
                    </property>
@@ -2685,7 +2737,11 @@
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_3"/>
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_3">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -2718,7 +2774,7 @@
                <number>3</number>
               </property>
               <item row="0" column="0">
-               <widget class="QGroupBox" name="groupBox_15">
+               <widget class="QGroupBox" name="groupBox_MS2_ViewerControls_4">
                 <property name="title">
                  <string/>
                 </property>
@@ -2799,22 +2855,52 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(255,0,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color:  rgb(255,0,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,255,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,255,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,0,255);
+color: white;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_4"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,0,255);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="4">
                   <widget class="QLabel" name="label_39">
@@ -2881,6 +2967,9 @@
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255,255,255);</string>
+                   </property>
                    <property name="text">
                     <string>Point Color</string>
                    </property>
@@ -2890,7 +2979,11 @@
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_4"/>
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_4">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -2923,7 +3016,7 @@
                <number>3</number>
               </property>
               <item row="0" column="0">
-               <widget class="QGroupBox" name="groupBox_13">
+               <widget class="QGroupBox" name="groupBox_MS2_ViewerControls_2">
                 <property name="title">
                  <string/>
                 </property>
@@ -3004,22 +3097,52 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(255,0,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color:  rgb(255,0,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,255,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,255,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,0,255);
+color: white;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_2"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,0,255);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="4">
                   <widget class="QLabel" name="label_27">
@@ -3086,6 +3209,9 @@
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255,255,255);</string>
+                   </property>
                    <property name="text">
                     <string>Point Color</string>
                    </property>
@@ -3095,7 +3221,11 @@
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_2"/>
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_2">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -3122,10 +3252,14 @@
                <number>3</number>
               </property>
               <item row="2" column="0" colspan="3">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_1"/>
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_1">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0" colspan="3">
-               <widget class="QGroupBox" name="groupBox_12">
+               <widget class="QGroupBox" name="groupBox_MS2_ViewerControls_1">
                 <property name="title">
                  <string/>
                 </property>
@@ -3206,22 +3340,52 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255,0,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color:  rgb(255,0,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(0,255,0);
+color: black;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,255,0);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0,0,255);
+color: white;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_1"/>
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_1">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: gray;
+color: rgb(0,0,255);</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="4">
                   <widget class="QLabel" name="label_21">
@@ -3287,6 +3451,9 @@
                      <width>16777215</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255,255,255);</string>
                    </property>
                    <property name="text">
                     <string>Point Color</string>
@@ -3642,6 +3809,9 @@
              <layout class="QGridLayout" name="gridLayout_27">
               <item row="0" column="0">
                <widget class="QPushButton" name="pushButton_MS2_FileDialog">
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
                 <property name="text">
                  <string>File management dialog</string>
                 </property>
@@ -3846,6 +4016,42 @@
               <property name="spacing">
                <number>3</number>
               </property>
+              <item row="1" column="0">
+               <layout class="QGridLayout" name="gridLayout_29">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_14">
+                  <property name="minimumSize">
+                   <size>
+                    <width>75</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Show settings</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QCheckBox" name="checkBox_MS2_ViewerShowSettings">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
               <item row="0" column="0">
                <layout class="QGridLayout" name="gridLayout_39">
                 <property name="spacing">
@@ -3939,7 +4145,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0">
+                <item row="0" column="0" rowspan="2">
                  <widget class="QLabel" name="label_13">
                   <property name="minimumSize">
                    <size>
@@ -3954,14 +4160,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Maximize and</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string>show settings</string>
+                   <string>Maximize</string>
                   </property>
                  </widget>
                 </item>

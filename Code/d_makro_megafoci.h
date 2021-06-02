@@ -23,6 +23,7 @@
 #include <d_finishtimeprognosis.h>
 #include <d_bio_nucleuspedigree.h>
 #include <d_bio_nucleusimage.h>
+#include <d_imagerewardsystem.h>
 
 //Qt
 #include <QMainWindow>
@@ -39,6 +40,9 @@
 #include <QColorDialog>
 #include <QLabel>
 #include <d_popup_rangeselector.h>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QGroupBox>
 
 //Qt::Charts
 #include <QChartView>
@@ -104,6 +108,9 @@ private slots:
     void Populate_CB_AtStart();
     void Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index = 0);
 
+    //connectors
+    void ConnectViewersVisTrafo(D_Viewer* view);
+
     bool Load_Dataset();
     void Overview_Init();
     void Overview_Update();
@@ -166,9 +173,6 @@ private slots:
     void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1);
 
-
-    void on_action_Process_full_stack_triggered();
-
     void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
 
     void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
@@ -199,6 +203,9 @@ private:
     //error handling
     D_Error_Handler ER;
     void ERR(int err, QString func = "not specified", QString detail = "not specified");
+
+    //reward system
+    D_ImageRewardSystem                 RewardSystem;
 
     //Storage
     D_Storage                           *pStore;
@@ -494,6 +501,141 @@ private:
     size_t mode_major_current = MODE_MAJOR_0_DATASET_DIM;
     void set_ModeMajor_Current(size_t mode);
 
+    //major steps 2 ----------------------------------------------------------
+
+private slots:
+
+    void on_checkBox_MS2_ViewerShowSettings_clicked(bool checked);
+    void on_pushButton_MS2_FileDialog_clicked();
+
+    void on_pushButton_MS2_ViewerMaximize_1_clicked();
+    void on_pushButton_MS2_ViewerMaximize_2_clicked();
+    void on_pushButton_MS2_ViewerMaximize_3_clicked();
+    void on_pushButton_MS2_ViewerMaximize_4_clicked();
+
+    void on_pushButton_MS2_ViewerSettings_PointColor_1_clicked();
+    void on_pushButton_MS2_ViewerSettings_PointColor_2_clicked();
+    void on_pushButton_MS2_ViewerSettings_PointColor_3_clicked();
+    void on_pushButton_MS2_ViewerSettings_PointColor_4_clicked();
+
+    void on_checkBox_MS2_ViewerSettings_ConnectZoom_1_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ConnectZoom_2_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ConnectZoom_3_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ConnectZoom_4_clicked(bool checked);
+
+    void on_checkBox_MS2_ViewerSettings_ViewTransform_1_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ViewTransform_2_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ViewTransform_3_clicked(bool checked);
+    void on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(bool checked);
+
+    void on_pushButton_MS2_Tools_ProgressToCorrect_clicked();
+
+    void on_pushButton_MS2_Tools_Progress_Corrected_clicked();
+
+private:
+    void                        MS2_init_ui();
+    const static size_t         MS2_ViewersCount = 4;
+    const static size_t         MS2_ViewersChannels = 3; //sorted bgr
+    int                         MS2_ViewerMaximized = -1;
+
+    //ui elments
+    D_Viewer                    MS2_Viewer1;
+    D_Viewer                    MS2_Viewer2;
+    D_Viewer                    MS2_Viewer3;
+    D_Viewer                    MS2_Viewer4;
+    D_Viewer                    MS2_Viewer_Viewport;
+    vector<D_Viewer*>           v_MS2_Viewer;
+    vector<QPushButton*>        v_MS2_PUB_Viewer_Maximize;
+    vector<QPushButton*>        v_MS2_PUB_Viewer_PointColor;
+    vector<vector<QComboBox*>>  vv_MS2_COB_ViewerChannel_Image_viewer_bgr;
+    vector<vector<QComboBox*>>  vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr;
+    vector<QCheckBox*>          v_MS2_CHB_Viewer_Transform;
+    vector<QCheckBox*>          v_MS2_CHB_Viewer_ConnectZoom;
+    vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupAll;
+    vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupSettings;
+
+    //remember stuff for ui
+    vector<QColor>              v_MS2_COL_Viewer_PointColor;
+
+    //images to show
+    vector<Mat>                 v_MS2_MA_Images2Show;
+    Mat                         MA_MS2_ViewportShow;
+
+    //channel images
+    vector<Mat>                 v_MS2_MA_ChannelsImage_Full;
+    vector<Mat>                 v_MS2_MA_ChannelsImage_Croped;
+    vector<Mat>                 v_MS2_MA_ChannelsOverlay_Croped;
+
+    //DIRs in
+    QDir                        DIR_MS2_In_Master;
+    QDir                        DIR_MS2_In_Detections;
+    QDir                        DIR_MS2_In_Mosaik;
+    vector<vector<QDir>>        vDIR_MS2_In_Detections_TimesNuclei;
+
+    //DIRs out
+    QDir                        DIR_MS2_Out_Master;
+    QDir                        DIR_MS2_Out_Detections;
+    vector<vector<QDir>>        vDIR_MS2_Out_Detections_TimesNuclei;
+
+    //data
+    double                              MS2_ImageScale = 0.3;
+    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_In;
+    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_Out;
+    vector<vector<size_t>>              vv_MS2_NucImg_State;
+
+    //states
+    bool                        state_MS2_data_loaded = false;
+
+    void                        MS2_ViewerMaximize(int v2max);
+    void                        MS2_ViewerPointColor(size_t v2col);
+    void                        MS2_ViewerConnectZooms(size_t v2con, bool con);
+    void                        MS2_ViewerSetVisTrafoActive(size_t v2tra, bool active);
+    void                        MS2_ViewersPopulateCBs();
+
+    void                        MS2_UpdateViews();
+    void                        MS2_UpdateImages();
+    void                        MS2_UpdateImage(size_t img2update);
+    void                        MS2_UpdateImage_Viewport();
+
+
+    bool                        MS2_LoadData();
+
+    enum MS2_CHANNELS_IMAGE {
+        MS2_CH_IMG_EMPTY,
+        MS2_CH_IMG_DIC,
+        MS2_CH_IMG_GFP,
+        MS2_CH_IMG_RFP,
+        MS2_CH_IMG_NUMBER_OF
+    };
+    const QStringList QSL_MS2_ChannelsImage = {
+        "empty",
+        "DIC",
+        "GFP",
+        "RFP"
+    };
+
+    enum MS2_CHANNELS_OVERLAY {
+        MS2_CH_OVR_EMPTY,
+        MS2_CH_OVR_NUCLEI,
+        MS2_CH_OVR_FOCI_GFP,
+        MS2_CH_OVR_FOCI_RFP,
+        MS2_CH_OVR_FOCI_BOTH,
+        MS2_CH_OVR_NUMBER_OF
+    };
+    const QStringList QSL_MS2_ChannelsOverlay = {
+        "empty",
+        "Nuclei",
+        "Foci GFP",
+        "Foci RFP",
+        "Foci both"
+    };
+
+    enum MS2_IMAGE_STATE {
+        MS2_IMG_STATE_NOT_FOUND,
+        MS2_IMG_STATE_TO_PROCESS,
+        MS2_IMG_STATE_PROCESSED,
+        MS2_IMG_STATE_NUMBER_OF
+    };
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

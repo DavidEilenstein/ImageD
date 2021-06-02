@@ -16773,52 +16773,64 @@ int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContour
     return ER_okay;
 }
 
-Scalar D_Img_Proc::Contrast_Color(Vec3d val_RGB)
+QColor D_Img_Proc::Contrast_Color(QColor col_in, bool force_black_and_white, bool mirror_hue, bool force_light2blue)
 {
-    //original RGB
-    double R = val_RGB[2];
-    double G = val_RGB[1];
-    double B = val_RGB[0];
+    double H = col_in.hue();
+    double S = col_in.saturation();
+    double V = col_in.value();
 
-    //HSV transform
-    double H, S, V;
-    double max = std::max(R, std::max(G, B));
-    double min = std::min(R, std::min(G, B));
-    double range = max - min;
-    if(range == 0)      H = 0;
-    else if(max == R)   H = (PI / 3.0) * (0 + ((G - B)/range));
-    else if(max == G)   H = (PI / 3.0) * (2 + ((B - R)/range));
-    else /*(max == B)*/ H = (PI / 3.0) * (4 + ((R - G)/range));
-    if(max == 0)        S = 0;
-    else                S = range / max;
-                        V = max;
+    //opposite value (light<->dark)
+    if(V >= 128)
+        V = 0;
+    else
+        V = 255;
 
-    //"contrast color" (not a nice version, but it works for the moment)
-    //qDebug() << "HSV in" << H << S << V;
-    if(V >= 0.5)        V = 0;
-    else                V = 1;
-    if(((7.0 / 12) * PI_2_0) < H && H < ((9.0 / 12) * PI_2_0))  V = 1;  //white on blue is always better than black on blue
-    if(H >= PI)         H -= PI;
-    else                H += PI;
-    /*always*/          S = 0;
-    //qDebug() << "HSV out" << H << S << V;
+    //bright on intense blue is always better than dark on intense blue
+    if(force_light2blue)
+        if(S >= 128)
+            if(((7.0 / 12) * 360) < H && H < ((9.0 / 12) * 360))
+                V = 255;
 
-    //HSV transfrom invers
-    int     hi  = floor(H / (PI / 3.0));
-    double  f   = (H / (PI / 3.0)) - hi;
-    double  p   = V * (1 - S);
-    double  q   = V * (1 - (S * f));
-    double  t   = V * (1 - (S * (1 - f)));
-    switch (hi) {
-    case 1:     R = q;      G = V;      B = p;      break;
-    case 2:     R = p;      G = V;      B = t;      break;
-    case 3:     R = p;      G = q;      B = V;      break;
-    case 4:     R = t;      G = p;      B = V;      break;
-    case 5:     R = V;      G = p;      B = q;      break;
-    default:    R = V;      G = t;      B = p;      break;}
+    //change color
+    if(mirror_hue)
+    {
+        if(H >= 180)
+            H -= 180;
+        else
+            H += 180;
+    }
 
-    //contrast RGB
-    return Scalar(B, G, R);
+    //focre black/white
+    if(force_black_and_white)
+        S = 0;
+    else
+        S = 255;
+
+    QColor col_out;
+    col_out.setHsv(H, S, V);
+    return col_out;
+}
+
+Scalar D_Img_Proc::Contrast_Color(Vec3d val_BGR, bool force_black_and_white, bool mirror_hue, bool force_light2blue)
+{
+    QColor col_in(
+                val_BGR[2],
+                val_BGR[1],
+                val_BGR[0]);
+    QColor col_out = Contrast_Color(
+                col_in,
+                force_black_and_white,
+                mirror_hue,
+                force_light2blue);
+    return Scalar(
+                col_out.blue(),
+                col_out.green(),
+                col_out.red());
+}
+
+QString D_Img_Proc::Color2Text4StyleSheet(QColor col_in)
+{
+    return "rgb(" + QString::number(col_in.red()) + "," + QString::number(col_in.green()) + "," + QString::number(col_in.blue()) + ")";
 }
 
 int D_Img_Proc::Highlight_NumericalProblems(Mat *pMA_Out, Mat *pMA_In)

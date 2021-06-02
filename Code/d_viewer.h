@@ -74,6 +74,7 @@ public:
 
     //connector
     void                    connect_Zoom(D_Viewer *viewer);
+    void                    set_zoom_connection_active(int active = 1) {zoom_connection_active = static_cast<bool>(active);}
 
     //get pointers to members
     Mat                     *pMA()          {return &MA_Data;}
@@ -166,8 +167,10 @@ public slots:
     void        Set_VisTrafo_Mode_Anchor(int mode = c_VIS_TRAFO_ANCHOR_DYNAMIC)     {vis_trafo_mode_anchor = mode;              Proc_ShowImgOrPlot();}
     void        Set_VisTrafo_Mode_Range (int mode = c_VIS_TRAFO_RANGE_DYNAMIC)      {vis_trafo_mode_range = mode;               Proc_ShowImgOrPlot();}
     void        Set_VisTrafo_Mode_Complex(int mode = c_COMPLEX2REAL_RE_IM)          {vis_trafo_mode_complex = mode;             Proc_ShowImgOrPlot();}
-    void        Set_Zomm                (double x_rel, double y_rel, double factor);
+    void        Set_Zoom                (double x_rel, double y_rel, double factor);
+    void        Set_Zoom_Extern         (double x_rel, double y_rel, double factor);
     void        Set_ZoomReset           ();
+    void        Set_ZoomReset_Extern    ();
 
     //slots recieved on actions in scene
     void        MouseMoved              (int x, int y);
@@ -272,7 +275,8 @@ private:    //members
 
     bool                    zoom_active     = false;
     bool                    zoom_changed    = false;
-    const double            zoom_step       = 1.10;
+    bool                    zoom_connection_active = true;
+    double                  zoom_step       = 1.10;
     double                  zoom_factor_cur = 1.00;
     double                  zoom_factor_old = 1.00;
     double                  zoom_factor_min = 0.01;

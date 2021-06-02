@@ -86,8 +86,8 @@ void D_Viewer::connect_Zoom(D_Viewer *viewer)
         for(size_t v2 = 0; v2 < v_ConnectedViewersZoom.size(); v2++)
             if(v1 != v2)
             {
-                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed(double,double,double)),   v_ConnectedViewersZoom[v2],     SLOT(Set_Zomm(double,double,double)));
-                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed_Reset()),                 v_ConnectedViewersZoom[v2],     SLOT(Set_ZoomReset()));
+                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed(double,double,double)),   v_ConnectedViewersZoom[v2],     SLOT(Set_Zoom_Extern(double,double,double)));
+                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed_Reset()),                 v_ConnectedViewersZoom[v2],     SLOT(Set_ZoomReset_Extern()));
             }
 }
 
@@ -222,7 +222,8 @@ void D_Viewer::Proc_MA_2_QI()
 
     //zoom?
     if(zoom_active || zoom_changed)
-        emit Zoomed(cursor_x_rel, cursor_y_rel, zoom_factor_cur);
+        if(zoom_connection_active)
+            emit Zoomed(cursor_x_rel, cursor_y_rel, zoom_factor_cur);
 
     //zoom reset?
     if(zoom_changed && zoom_factor_cur == 1.0)
@@ -2135,14 +2136,22 @@ void D_Viewer::Set_Aspect_Mode(bool keep)
     Update_View();
 }
 
+void D_Viewer::Set_Zoom_Extern(double x_rel, double y_rel, double factor)
+{
+    if(zoom_connection_active)
+        return Set_Zoom(x_rel, y_rel, factor);
+}
+
 /*!
- * \brief D_Viewer::Set_Zomm Set zoom parameters and apply zoom
+ * \brief D_Viewer::Set_Zoom Set zoom parameters and apply zoom
  * \param x_rel relative zoom position in x [0, 1]
  * \param y_rel relative zoom position in y [0, 1]
  * \param factor zoom factor (0, 1]
  */
-void D_Viewer::Set_Zomm(double x_rel, double y_rel, double factor)
+void D_Viewer::Set_Zoom(double x_rel, double y_rel, double factor)
 {
+
+
     cursor_x_rel = x_rel;
     cursor_y_rel = y_rel;
     zoom_factor_old = zoom_factor_cur;
@@ -2164,6 +2173,12 @@ void D_Viewer::Set_ZoomReset()
     blockSignals(true);
     Zoom_Update();
     blockSignals(false);
+}
+
+void D_Viewer::Set_ZoomReset_Extern()
+{
+    if(zoom_connection_active)
+        return Set_ZoomReset();
 }
 
 /*!

@@ -366,7 +366,7 @@ void D_StepWindow::set_ViewZoom(double x_rel, double y_rel, double factor, int p
     if(!ui->action_Connect_Steps_Zoom->isChecked())         return;
     if(plane != ui->comboBox_View_Plane->currentIndex())    return;
 
-    Viewer.Set_Zomm(x_rel, y_rel, factor);
+    Viewer.Set_Zoom(x_rel, y_rel, factor);
 
     //qDebug() << "set_ViewZoom" << "in step:" << pos_Dest << factor << QSL_Planes[plane];
 }

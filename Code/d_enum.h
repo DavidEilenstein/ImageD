@@ -2203,6 +2203,12 @@ const QStringList QSL_Counties = {
     "Zimbabwe"
 };
 
+const QString QS_Fun_TableFlip = "(┛ಠ_ಠ)┛彡┻━┻";
+const QString QS_Fun_Confused = "ಠಿ_ಠ";
+const QString QS_Fun_IDontKnow = "¯\(◉‿◉)/¯";
+const QString QS_Fun_Sad = "( ͡ಠ ʖ̯ ͡ಠ)";
+const QString QS_Fun_Happy = "(✿◠‿◠)";
+
 //Plot
 const int
 AXE_TICK_COUNT_DEFAULT  = 10;

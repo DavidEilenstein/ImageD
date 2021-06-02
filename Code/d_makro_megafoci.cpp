@@ -62,46 +62,14 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     L_SB_InfoVD->setToolTip("Info about current VisDat");
     ui->statusbar->addPermanentWidget(L_SB_InfoVD);
 
+    ///set label for image reward system
+    RewardSystem.set_target_label(ui->label_ImageReward);
+
     ///connects
     //viewer
-    connect(ui->groupBox_VisTrafo,                          SIGNAL(clicked(bool)),                      &Viewer_Main,       SLOT(Set_VisTrafo_ActiveBool(bool)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMin,             SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_SpreadInMin(double)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMax,             SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_SpreadInMax(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Gamma,               SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_Gamma(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogCenter,           SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_Center(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogDivisor,          SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_Divisor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Anchor,              SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_Anchor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Range,               SIGNAL(valueChanged(double)),               &Viewer_Main,       SLOT(Set_VisTrafo_Range(double)));
-    connect(ui->comboBox_VisTrafo_CropMode,                 SIGNAL(currentIndexChanged(int)),           &Viewer_Main,       SLOT(Set_VisTrafo_Mode_Crop(int)));
-    connect(ui->comboBox_VisTrafo_TransformationMode,       SIGNAL(currentIndexChanged(int)),           &Viewer_Main,       SLOT(Set_VisTrafo_Mode_Trafo(int)));
-    connect(ui->comboBox_VisTrafo_AnchorMode,               SIGNAL(currentIndexChanged(int)),           &Viewer_Main,       SLOT(Set_VisTrafo_Mode_Anchor(int)));
-    connect(ui->comboBox_VisTrafo_RangeMode,                SIGNAL(currentIndexChanged(int)),           &Viewer_Main,       SLOT(Set_VisTrafo_Mode_Range(int)));
-
-    connect(ui->groupBox_VisTrafo,                          SIGNAL(clicked(bool)),                      &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_ActiveBool(bool)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMin,             SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_SpreadInMin(double)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMax,             SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_SpreadInMax(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Gamma,               SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Gamma(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogCenter,           SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Center(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogDivisor,          SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Divisor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Anchor,              SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Anchor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Range,               SIGNAL(valueChanged(double)),               &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Range(double)));
-    connect(ui->comboBox_VisTrafo_CropMode,                 SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Mode_Crop(int)));
-    connect(ui->comboBox_VisTrafo_TransformationMode,       SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Mode_Trafo(int)));
-    connect(ui->comboBox_VisTrafo_AnchorMode,               SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Mode_Anchor(int)));
-    connect(ui->comboBox_VisTrafo_RangeMode,                SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewSmall,   SLOT(Set_VisTrafo_Mode_Range(int)));
-
-    connect(ui->groupBox_VisTrafo,                          SIGNAL(clicked(bool)),                      &Viewer_OverviewBig,     SLOT(Set_VisTrafo_ActiveBool(bool)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMin,             SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_SpreadInMin(double)));
-    connect(ui->doubleSpinBox_VisTrafo_CropMax,             SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_SpreadInMax(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Gamma,               SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Gamma(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogCenter,           SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Center(double)));
-    connect(ui->doubleSpinBox_VisTrafo_LogDivisor,          SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Divisor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Anchor,              SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Anchor(double)));
-    connect(ui->doubleSpinBox_VisTrafo_Range,               SIGNAL(valueChanged(double)),               &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Range(double)));
-    connect(ui->comboBox_VisTrafo_CropMode,                 SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Mode_Crop(int)));
-    connect(ui->comboBox_VisTrafo_TransformationMode,       SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Mode_Trafo(int)));
-    connect(ui->comboBox_VisTrafo_AnchorMode,               SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Mode_Anchor(int)));
-    connect(ui->comboBox_VisTrafo_RangeMode,                SIGNAL(currentIndexChanged(int)),           &Viewer_OverviewBig,     SLOT(Set_VisTrafo_Mode_Range(int)));
+    ConnectViewersVisTrafo(&Viewer_Main);
+    ConnectViewersVisTrafo(&Viewer_OverviewSmall);
+    ConnectViewersVisTrafo(&Viewer_OverviewBig);
 
     //status bar
     connect(&Viewer_Main,                                   SIGNAL(MouseMoved_Value(QString)),          L_SB_ValueAtCursor, SLOT(setText(QString)));
@@ -196,6 +164,15 @@ void D_MAKRO_MegaFoci::resizeEvent(QResizeEvent *event)
 {
     event->accept();
     Update_Views();
+
+    switch (mode_major_current) {
+    case MODE_MAJOR_1_AUTO_DETECTION:               Update_Views();         break;
+    case MODE_MAJOR_2_MANU_CORRECT_DETECTION:       MS2_UpdateViews();      break;
+    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:                            break;
+    case MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE:                            break;
+    case MODE_MAJOR_5_MANU_CORRECT_PEDIGREE:                                break;
+    case MODE_MAJOR_6_EPIC_ANALYSIS:                                        break;
+    default:                                                                break;}
 }
 
 void D_MAKRO_MegaFoci::Update_Ui()
@@ -1365,6 +1342,23 @@ void D_MAKRO_MegaFoci::Populate_CB_Single(QComboBox *CB, QStringList QSL, int in
     CB->blockSignals(false);
 }
 
+void D_MAKRO_MegaFoci::ConnectViewersVisTrafo(D_Viewer *view)
+{
+    connect(ui->groupBox_VisTrafo,                          SIGNAL(clicked(bool)),                      view,   SLOT(Set_VisTrafo_ActiveBool(bool)));
+    connect(ui->doubleSpinBox_VisTrafo_CropMin,             SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_SpreadInMin(double)));
+    connect(ui->doubleSpinBox_VisTrafo_CropMax,             SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_SpreadInMax(double)));
+    connect(ui->doubleSpinBox_VisTrafo_Gamma,               SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_Gamma(double)));
+    connect(ui->doubleSpinBox_VisTrafo_LogCenter,           SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_Center(double)));
+    connect(ui->doubleSpinBox_VisTrafo_LogDivisor,          SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_Divisor(double)));
+    connect(ui->doubleSpinBox_VisTrafo_Anchor,              SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_Anchor(double)));
+    connect(ui->doubleSpinBox_VisTrafo_Range,               SIGNAL(valueChanged(double)),               view,   SLOT(Set_VisTrafo_Range(double)));
+    connect(ui->comboBox_VisTrafo_CropMode,                 SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Crop(int)));
+    connect(ui->comboBox_VisTrafo_TransformationMode,       SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Trafo(int)));
+    connect(ui->comboBox_VisTrafo_AnchorMode,               SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Anchor(int)));
+    connect(ui->comboBox_VisTrafo_RangeMode,                SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Range(int)));
+
+}
+
 bool D_MAKRO_MegaFoci::Load_Dataset()
 {
     if(!state_page_indices_consistent)
@@ -1956,6 +1950,257 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
     ui->stackedWidget_StepMajor->setCurrentIndex(mode_major_current);
 
     StatusSet("MAJOR MODE: " + QSL_ModeMajor[mode_major_current]);
+
+    if(mode == MODE_MAJOR_2_MANU_CORRECT_DETECTION)
+        MS2_init_ui();
+}
+
+void D_MAKRO_MegaFoci::MS2_init_ui()
+{
+    //fill vectors
+
+    //viewers
+    MS2_Viewer1.set_GV(ui->graphicsView_MS2_Viewer_1);
+    MS2_Viewer2.set_GV(ui->graphicsView_MS2_Viewer_2);
+    MS2_Viewer3.set_GV(ui->graphicsView_MS2_Viewer_3);
+    MS2_Viewer4.set_GV(ui->graphicsView_MS2_Viewer_4);
+    v_MS2_Viewer.resize(MS2_ViewersCount);
+    v_MS2_Viewer[0] = &MS2_Viewer1;
+    v_MS2_Viewer[1] = &MS2_Viewer2;
+    v_MS2_Viewer[2] = &MS2_Viewer3;
+    v_MS2_Viewer[3] = &MS2_Viewer4;
+    MS2_Viewer_Viewport.set_GV(ui->graphicsView_MS2_Viewport);
+
+    //maximizers
+    v_MS2_PUB_Viewer_Maximize.resize(MS2_ViewersCount);
+    v_MS2_PUB_Viewer_Maximize[0] = ui->pushButton_MS2_ViewerMaximize_1;
+    v_MS2_PUB_Viewer_Maximize[1] = ui->pushButton_MS2_ViewerMaximize_2;
+    v_MS2_PUB_Viewer_Maximize[2] = ui->pushButton_MS2_ViewerMaximize_3;
+    v_MS2_PUB_Viewer_Maximize[3] = ui->pushButton_MS2_ViewerMaximize_4;
+
+    //point color selectors
+    v_MS2_PUB_Viewer_PointColor.resize(MS2_ViewersCount);
+    v_MS2_PUB_Viewer_PointColor[0] = ui->pushButton_MS2_ViewerSettings_PointColor_1;
+    v_MS2_PUB_Viewer_PointColor[1] = ui->pushButton_MS2_ViewerSettings_PointColor_2;
+    v_MS2_PUB_Viewer_PointColor[2] = ui->pushButton_MS2_ViewerSettings_PointColor_3;
+    v_MS2_PUB_Viewer_PointColor[3] = ui->pushButton_MS2_ViewerSettings_PointColor_4;
+
+    //channels image
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr.resize(MS2_ViewersCount, vector<QComboBox*>(MS2_ViewersChannels));
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][0] = ui->comboBox_MS2_ViewerSettings_Image_B_1;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][1] = ui->comboBox_MS2_ViewerSettings_Image_G_1;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][2] = ui->comboBox_MS2_ViewerSettings_Image_R_1;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][0] = ui->comboBox_MS2_ViewerSettings_Image_B_2;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][1] = ui->comboBox_MS2_ViewerSettings_Image_G_2;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][2] = ui->comboBox_MS2_ViewerSettings_Image_R_2;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][0] = ui->comboBox_MS2_ViewerSettings_Image_B_3;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][1] = ui->comboBox_MS2_ViewerSettings_Image_G_3;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][2] = ui->comboBox_MS2_ViewerSettings_Image_R_3;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][0] = ui->comboBox_MS2_ViewerSettings_Image_B_4;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][1] = ui->comboBox_MS2_ViewerSettings_Image_G_4;
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][2] = ui->comboBox_MS2_ViewerSettings_Image_R_4;
+
+    //channels overlay
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr.resize(MS2_ViewersCount, vector<QComboBox*>(MS2_ViewersChannels));
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_1;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][1] = ui->comboBox_MS2_ViewerSettings_Overlay_G_1;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][2] = ui->comboBox_MS2_ViewerSettings_Overlay_R_1;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[1][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_2;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[1][1] = ui->comboBox_MS2_ViewerSettings_Overlay_G_2;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[1][2] = ui->comboBox_MS2_ViewerSettings_Overlay_R_2;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[2][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_3;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[2][1] = ui->comboBox_MS2_ViewerSettings_Overlay_G_3;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[2][2] = ui->comboBox_MS2_ViewerSettings_Overlay_R_3;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_4;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][1] = ui->comboBox_MS2_ViewerSettings_Overlay_G_4;
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][2] = ui->comboBox_MS2_ViewerSettings_Overlay_R_4;
+
+    //transforms
+    v_MS2_CHB_Viewer_Transform.resize(MS2_ViewersCount);
+    v_MS2_CHB_Viewer_Transform[0] = ui->checkBox_MS2_ViewerSettings_ViewTransform_1;
+    v_MS2_CHB_Viewer_Transform[1] = ui->checkBox_MS2_ViewerSettings_ViewTransform_2;
+    v_MS2_CHB_Viewer_Transform[2] = ui->checkBox_MS2_ViewerSettings_ViewTransform_3;
+    v_MS2_CHB_Viewer_Transform[3] = ui->checkBox_MS2_ViewerSettings_ViewTransform_4;
+
+    //connect zooms
+    v_MS2_CHB_Viewer_ConnectZoom.resize(MS2_ViewersCount);
+    v_MS2_CHB_Viewer_ConnectZoom[0] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_1;
+    v_MS2_CHB_Viewer_ConnectZoom[1] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_2;
+    v_MS2_CHB_Viewer_ConnectZoom[2] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_3;
+    v_MS2_CHB_Viewer_ConnectZoom[3] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_4;
+
+    //group boxes
+    v_MS2_GRB_Viewer_GroupAll.resize(MS2_ViewersCount);
+    v_MS2_GRB_Viewer_GroupAll[0] = ui->groupBox_MS2_Viewer_1;
+    v_MS2_GRB_Viewer_GroupAll[1] = ui->groupBox_MS2_Viewer_2;
+    v_MS2_GRB_Viewer_GroupAll[2] = ui->groupBox_MS2_Viewer_3;
+    v_MS2_GRB_Viewer_GroupAll[3] = ui->groupBox_MS2_Viewer_4;
+
+    //group boxes settings
+    v_MS2_GRB_Viewer_GroupSettings.resize(MS2_ViewersCount);
+    v_MS2_GRB_Viewer_GroupSettings[0] = ui->groupBox_MS2_ViewerControls_1;
+    v_MS2_GRB_Viewer_GroupSettings[1] = ui->groupBox_MS2_ViewerControls_2;
+    v_MS2_GRB_Viewer_GroupSettings[2] = ui->groupBox_MS2_ViewerControls_3;
+    v_MS2_GRB_Viewer_GroupSettings[3] = ui->groupBox_MS2_ViewerControls_4;
+
+    //inital sates
+
+    //point colors
+    v_MS2_COL_Viewer_PointColor.resize(MS2_ViewersCount, Qt::white);
+
+    //connect zooms
+    for(size_t i = 0; i < MS2_ViewersCount; i++)
+        for(size_t j = i + 1; j < MS2_ViewersCount; j++)
+            v_MS2_Viewer[i]->connect_Zoom(v_MS2_Viewer[j]);
+
+    //activate view transformations
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        v_MS2_Viewer[v]->Set_VisTrafo_ActiveInt(1);
+
+    //inital images
+    v_MS2_MA_Images2Show.resize(MS2_ViewersCount, pStore->get_Adress(0)->clone());
+    MA_MS2_ViewportShow = pStore->get_Adress(0)->clone();
+    v_MS2_MA_ChannelsImage_Full.resize(MS2_CH_IMG_NUMBER_OF, Mat(3, 3, CV_8UC1, Scalar(128)));
+    v_MS2_MA_ChannelsImage_Croped.resize(MS2_CH_IMG_NUMBER_OF, Mat(3, 3, CV_8UC1, Scalar(128)));
+    v_MS2_MA_ChannelsOverlay_Croped.resize(MS2_CH_IMG_NUMBER_OF, Mat(3, 3, CV_8UC1, Scalar(128)));
+
+    //populate CBs
+    MS2_ViewersPopulateCBs();
+
+    //connects
+
+    //viewers vis trafo
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        ConnectViewersVisTrafo(v_MS2_Viewer[v]);
+
+    //connect(ui->pushButton_MS2_FileDialog,              SIGNAL(clicked()),                      this,       SLOT(MS2_LoadData()));
+
+
+    //show
+    MS2_UpdateImages();
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerMaximize(int v2max)
+{
+    if(v2max < 0 || v2max >= static_cast<int>(MS2_ViewersCount))
+        return;
+
+    if(v2max == MS2_ViewerMaximized)
+    {
+        for(size_t v = 0; v < v_MS2_GRB_Viewer_GroupAll.size(); v++)
+        {
+            v_MS2_GRB_Viewer_GroupAll[v]->setVisible(true);
+            v_MS2_PUB_Viewer_Maximize[v]->setStyleSheet("font-weight: normal");
+        }
+        MS2_ViewerMaximized = -1;
+    }
+    else
+    {
+        for(size_t v = 0; v < v_MS2_GRB_Viewer_GroupAll.size(); v++)
+        {
+            bool max_this_one = static_cast<int>(v) == v2max;
+            v_MS2_GRB_Viewer_GroupAll[v]->setVisible(max_this_one);
+            v_MS2_PUB_Viewer_Maximize[v]->setStyleSheet(max_this_one ? "font-weight: bold" : "font-weight: normal");
+        }
+        MS2_ViewerMaximized = v2max;
+    }
+
+    Update_Views();
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerPointColor(size_t v2col)
+{
+    if(v2col < 0 || v2col >= MS2_ViewersCount)
+        return;
+
+    //get color
+    QColor col = QColorDialog::getColor(
+                v_MS2_COL_Viewer_PointColor[v2col],
+                this,
+                "Select point color to display in viewer");
+
+    //set color to button
+    QString QS_Style = "background-color: " + D_Img_Proc::Color2Text4StyleSheet(col) + ";\n" + "color: " + D_Img_Proc::Color2Text4StyleSheet(D_Img_Proc::Contrast_Color(col)) + ";";
+    qDebug() << QS_Style;
+    v_MS2_PUB_Viewer_PointColor[v2col]->setStyleSheet(QS_Style);
+
+    //save color
+    v_MS2_COL_Viewer_PointColor[v2col] = col;
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerConnectZooms(size_t v2con, bool con)
+{
+    v_MS2_Viewer[v2con]->set_zoom_connection_active(con);
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerSetVisTrafoActive(size_t v2tra, bool active)
+{
+    v_MS2_Viewer[v2tra]->set_zoom_connection_active(active && ui->groupBox_VisTrafo->isChecked());
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewersPopulateCBs()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        for(size_t c = 0; c < MS2_ViewersChannels; c++)
+        {
+            Populate_CB_Single(vv_MS2_COB_ViewerChannel_Image_viewer_bgr[v][c],     QSL_MS2_ChannelsImage,      MS2_CH_IMG_EMPTY);
+            Populate_CB_Single(vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[v][c],   QSL_MS2_ChannelsOverlay,    MS2_CH_OVR_EMPTY);
+        }
+
+    Populate_CB_Single(ui->comboBox_MS2_ViewportBackground,     QSL_MS2_ChannelsImage,      MS2_CH_IMG_EMPTY);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateViews()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        v_MS2_Viewer[v]->Update_View();
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImages()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        MS2_UpdateImage(v);
+
+    MS2_UpdateImage_Viewport();
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage(size_t img2update)
+{
+    v_MS2_Viewer[img2update]->Update_Image(&(v_MS2_MA_Images2Show[img2update]));
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
+{
+    MS2_Viewer_Viewport.Update_Image(&MA_MS2_ViewportShow);
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData()
+{
+    StatusSet("I need a results folder of step 1. now!");
+
+    QString QS_MasterIn = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 1 as input for step 2 (must beginn with 'Results_Step1_').",
+                pStore->dir_M_MegaFoci()->path());
+
+    //check if dir was selected
+    if(QS_MasterIn.isEmpty())
+    {
+        StatusSet("Listen here... if u dont gimme data, i cant work...");
+        return false;
+    }
+
+    //check, if dir is results from step 1
+    if(!QS_MasterIn.contains("Results_Step1"))
+    {
+        StatusSet("You should selct results from step 1... " + QS_Fun_TableFlip);
+        return false;
+    }
+
+    RewardSystem.get_reward();
+
+    state_MS2_data_loaded = true;
+    return true;
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -2209,11 +2454,6 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(dou
 
 
 
-void D_MAKRO_MegaFoci::on_action_Process_full_stack_triggered()
-{
-    Stack_Process_All();
-}
-
 void D_MAKRO_MegaFoci::on_spinBox_DataDim_P_exist_valueChanged(int arg1)
 {
     ui->spinBox_PageIndex_Other->setEnabled(arg1 > 2);
@@ -2280,7 +2520,7 @@ void D_MAKRO_MegaFoci::on_pushButton_StepMajor_2_clicked()
 {
     set_ModeMajor_Current(MODE_MAJOR_2_MANU_CORRECT_DETECTION);
     StatusSet("Time to tell the PC where it messed up");
-    StatusSet("Nothing can replace a true expert like you ;-)");
+    StatusSet("Nothing can replace a true expert like you " + QS_Fun_Happy);
     StatusSet("Start by loading precalculated data from step 1");
 }
 
@@ -2311,4 +2551,114 @@ void D_MAKRO_MegaFoci::on_pushButton_StepMajor_6_clicked()
 void D_MAKRO_MegaFoci::on_horizontalSlider_OverviewBig_T_valueChanged(int value)
 {
     ui->spinBox_OverviewBig_T->setValue(value);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerShowSettings_clicked(bool checked)
+{
+    for(size_t v = 0; v < v_MS2_GRB_Viewer_GroupSettings.size(); v++)
+        v_MS2_GRB_Viewer_GroupSettings[v]->setVisible(checked);
+
+    MS2_UpdateViews();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_FileDialog_clicked()
+{
+    if(MS2_LoadData())
+    {
+        ui->groupBox_MS2_Files->setEnabled(false);
+        ui->groupBox_MS2_Viewers->setEnabled(true);
+        ui->groupBox_MS2_Viewport->setEnabled(true);
+        ui->groupBox_MS2_Tools->setEnabled(true);
+        ui->groupBox_MS2_ViewerControls->setEnabled(true);
+    }
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerMaximize_1_clicked()
+{
+    MS2_ViewerMaximize(0);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerMaximize_2_clicked()
+{
+    MS2_ViewerMaximize(1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerMaximize_3_clicked()
+{
+    MS2_ViewerMaximize(2);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerMaximize_4_clicked()
+{
+    MS2_ViewerMaximize(3);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerSettings_PointColor_1_clicked()
+{
+    MS2_ViewerPointColor(0);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerSettings_PointColor_2_clicked()
+{
+    MS2_ViewerPointColor(1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerSettings_PointColor_3_clicked()
+{
+    MS2_ViewerPointColor(2);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ViewerSettings_PointColor_4_clicked()
+{
+    MS2_ViewerPointColor(3);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ConnectZoom_1_clicked(bool checked)
+{
+    MS2_ViewerConnectZooms(0, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ConnectZoom_2_clicked(bool checked)
+{
+    MS2_ViewerConnectZooms(1, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ConnectZoom_3_clicked(bool checked)
+{
+    MS2_ViewerConnectZooms(2, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ConnectZoom_4_clicked(bool checked)
+{
+    MS2_ViewerConnectZooms(3, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_1_clicked(bool checked)
+{
+    MS2_ViewerSetVisTrafoActive(0, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_2_clicked(bool checked)
+{
+    MS2_ViewerSetVisTrafoActive(1, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_3_clicked(bool checked)
+{
+    MS2_ViewerSetVisTrafoActive(2, checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(bool checked)
+{
+    MS2_ViewerSetVisTrafoActive(3, checked);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ProgressToCorrect_clicked()
+{
+
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Progress_Corrected_clicked()
+{
+    RewardSystem.get_reward();
 }
