@@ -1,3 +1,11 @@
+/************************************
+ *   added:     02.06.2021          *
+ *   author:    David Eilenstein    *
+ *   contact:   D.Eilenstein@gsi.de *
+ *   project:   ImageD              *
+ *   facility:  GSI Darmstadt, Ger  *
+ ************************************/
+
 #include "d_imagerewardsystem.h"
 
 

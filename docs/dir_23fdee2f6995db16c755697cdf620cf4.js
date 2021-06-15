@@ -4,12 +4,15 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_analysiswindow.h", "d__analysiswindow_8h.html", [
       [ "D_AnalysisWindow", "class_d___analysis_window.html", "class_d___analysis_window" ]
     ] ],
+    [ "d_bio_enum.h", "d__bio__enum_8h.html", "d__bio__enum_8h" ],
     [ "d_bio_focus.cpp", "d__bio__focus_8cpp.html", null ],
     [ "d_bio_focus.h", "d__bio__focus_8h.html", [
       [ "D_Bio_Focus", "class_d___bio___focus.html", "class_d___bio___focus" ]
     ] ],
     [ "d_bio_nucleusblob.cpp", "d__bio__nucleusblob_8cpp.html", null ],
-    [ "d_bio_nucleusblob.h", "d__bio__nucleusblob_8h.html", "d__bio__nucleusblob_8h" ],
+    [ "d_bio_nucleusblob.h", "d__bio__nucleusblob_8h.html", [
+      [ "D_Bio_NucleusBlob", "class_d___bio___nucleus_blob.html", "class_d___bio___nucleus_blob" ]
+    ] ],
     [ "d_bio_nucleusimage.cpp", "d__bio__nucleusimage_8cpp.html", null ],
     [ "d_bio_nucleusimage.h", "d__bio__nucleusimage_8h.html", [
       [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html", "class_d___bio___nucleus_image" ]
@@ -78,6 +81,10 @@ var dir_23fdee2f6995db16c755697cdf620cf4 =
     [ "d_geo_pointset_2d.cpp", "d__geo__pointset__2d_8cpp.html", null ],
     [ "d_geo_pointset_2d.h", "d__geo__pointset__2d_8h.html", [
       [ "D_Geo_PointSet_2D", "class_d___geo___point_set__2_d.html", "class_d___geo___point_set__2_d" ]
+    ] ],
+    [ "d_imagerewardsystem.cpp", "d__imagerewardsystem_8cpp.html", null ],
+    [ "d_imagerewardsystem.h", "d__imagerewardsystem_8h.html", [
+      [ "D_ImageRewardSystem", "class_d___image_reward_system.html", "class_d___image_reward_system" ]
     ] ],
     [ "d_img_proc.cpp", "d__img__proc_8cpp.html", null ],
     [ "d_img_proc.h", "d__img__proc_8h.html", [

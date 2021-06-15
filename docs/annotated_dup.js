@@ -20,6 +20,7 @@ var annotated_dup =
     [ "D_Geo_Point_2D", "class_d___geo___point__2_d.html", "class_d___geo___point__2_d" ],
     [ "D_Geo_Point_3D", "class_d___geo___point__3_d.html", "class_d___geo___point__3_d" ],
     [ "D_Geo_PointSet_2D", "class_d___geo___point_set__2_d.html", "class_d___geo___point_set__2_d" ],
+    [ "D_ImageRewardSystem", "class_d___image_reward_system.html", "class_d___image_reward_system" ],
     [ "D_Img_Proc", "class_d___img___proc.html", "class_d___img___proc" ],
     [ "D_Img_Proc_2dFactory", "class_d___img___proc__2d_factory.html", "class_d___img___proc__2d_factory" ],
     [ "D_Img_Proc_3D", "class_d___img___proc__3_d.html", "class_d___img___proc__3_d" ],

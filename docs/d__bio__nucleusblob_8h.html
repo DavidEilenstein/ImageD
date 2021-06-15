@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -85,9 +85,7 @@ $(document).ready(function(){initNavTree('d__bio__nucleusblob_8h.html',''); init
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">d_bio_nucleusblob.h File Reference</div>  </div>
 </div><!--header-->
@@ -96,6 +94,7 @@ $(document).ready(function(){initNavTree('d__bio__nucleusblob_8h.html',''); init
 <code>#include &lt;<a class="el" href="d__stat_8h_source.html">d_stat.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="d__math_8h_source.html">d_math.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="d__bio__focus_8h_source.html">d_bio_focus.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="d__bio__enum_8h_source.html">d_bio_enum.h</a>&gt;</code><br />
 <code>#include &lt;QFileDialog&gt;</code><br />
 <code>#include &lt;QFileInfo&gt;</code><br />
 <code>#include &lt;QFileInfoList&gt;</code><br />
@@ -117,140 +116,7 @@ $(document).ready(function(){initNavTree('d__bio__nucleusblob_8h.html',''); init
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ab5769c014b5e0dd5587bcda63ed54fd1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1">FILE_SECTIONS</a> { <br />
-&#160;&#160;<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a63489d3f077cd3feaa6ea50a014febac">FILE_SECTION_BEGIN</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a712d6b4dd1df98130b9a86f95c6da53e">FILE_SECTION_META_INFO</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1accb03e1e70ecea87dc8513462e52da7d">FILE_SECTION_VALUES</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a91723ae8ec2513d7c070d0c748b05d07">FILE_SECTION_CONTOUR_PIXELS</a>, 
-<br />
-&#160;&#160;<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1af744f8c990c95916adb3f1aa3318b36e">FILE_SECTION_FOCI</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1aab12eb888eb726db93e27d2dfcf0141c">FILE_SECTION_END</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1aef30543056edb2fe083cb7b150ffc543">FILE_SECTION_NUMBER_OF</a>
-<br />
- }</td></tr>
-<tr class="separator:ab5769c014b5e0dd5587bcda63ed54fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cf53879519e32cf43b6dc57203d0869"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869">FILE_SUBSECTIONS</a> { <br />
-&#160;&#160;<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869acdb3cd8377ca9d4cd293433cc587ab46">FILE_SUBSECTION_DEFAULT</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a50255a15b96232a38b9ac5b4b7ee5260">FILE_SUBSECTION_NEW_FOCI_CHANNEL</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a64a390b54e6451455b587582f5c0b9b1">FILE_SUBSECTION_FOCUS_BEGIN</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a4528fff3d3a743764e111e39392b60d8">FILE_SUBSECTION_FOCUS_END</a>, 
-<br />
-&#160;&#160;<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a88eac70862e78d938a16bd950af05e3e">FILE_SUBSECTION_MEDIAN</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869adb770605bbbbc4adbd8297e5ad01a0ef">FILE_SUBSECTION_MEDIAN_DEVIATION</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a3ad86f21a51be69dac954f1025a1840a">FILE_SUBSECTION_POSITION</a>, 
-<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a02d2f0c1bef9a4e97de33d80d6a77e1d">FILE_SUBSECTION_SHAPE</a>, 
-<br />
-&#160;&#160;<a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869a7da7dacea8be85cf793fb6e498e7c688">FILE_SUBSECTION_NUMBER_OF</a>
-<br />
- }</td></tr>
-<tr class="separator:a7cf53879519e32cf43b6dc57203d0869"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ada7973eb72010d807733a4235932bcc0"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__bio__nucleusblob_8h.html#ada7973eb72010d807733a4235932bcc0">QSL_FileSections</a></td></tr>
-<tr class="separator:ada7973eb72010d807733a4235932bcc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50f86767b379acabf26208d8f8c469e6"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__bio__nucleusblob_8h.html#a50f86767b379acabf26208d8f8c469e6">QSL_FileSubsections</a></td></tr>
-<tr class="separator:a50f86767b379acabf26208d8f8c469e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ab5769c014b5e0dd5587bcda63ed54fd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5769c014b5e0dd5587bcda63ed54fd1">&#9670;&nbsp;</a></span>FILE_SECTIONS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="d__bio__nucleusblob_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1">FILE_SECTIONS</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1a63489d3f077cd3feaa6ea50a014febac"></a>FILE_SECTION_BEGIN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1a712d6b4dd1df98130b9a86f95c6da53e"></a>FILE_SECTION_META_INFO&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1accb03e1e70ecea87dc8513462e52da7d"></a>FILE_SECTION_VALUES&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1a91723ae8ec2513d7c070d0c748b05d07"></a>FILE_SECTION_CONTOUR_PIXELS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1af744f8c990c95916adb3f1aa3318b36e"></a>FILE_SECTION_FOCI&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1aab12eb888eb726db93e27d2dfcf0141c"></a>FILE_SECTION_END&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ab5769c014b5e0dd5587bcda63ed54fd1aef30543056edb2fe083cb7b150ffc543"></a>FILE_SECTION_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="a7cf53879519e32cf43b6dc57203d0869"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cf53879519e32cf43b6dc57203d0869">&#9670;&nbsp;</a></span>FILE_SUBSECTIONS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="d__bio__nucleusblob_8h.html#a7cf53879519e32cf43b6dc57203d0869">FILE_SUBSECTIONS</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869acdb3cd8377ca9d4cd293433cc587ab46"></a>FILE_SUBSECTION_DEFAULT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a50255a15b96232a38b9ac5b4b7ee5260"></a>FILE_SUBSECTION_NEW_FOCI_CHANNEL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a64a390b54e6451455b587582f5c0b9b1"></a>FILE_SUBSECTION_FOCUS_BEGIN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a4528fff3d3a743764e111e39392b60d8"></a>FILE_SUBSECTION_FOCUS_END&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a88eac70862e78d938a16bd950af05e3e"></a>FILE_SUBSECTION_MEDIAN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869adb770605bbbbc4adbd8297e5ad01a0ef"></a>FILE_SUBSECTION_MEDIAN_DEVIATION&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a3ad86f21a51be69dac954f1025a1840a"></a>FILE_SUBSECTION_POSITION&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a02d2f0c1bef9a4e97de33d80d6a77e1d"></a>FILE_SUBSECTION_SHAPE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7cf53879519e32cf43b6dc57203d0869a7da7dacea8be85cf793fb6e498e7c688"></a>FILE_SUBSECTION_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ada7973eb72010d807733a4235932bcc0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada7973eb72010d807733a4235932bcc0">&#9670;&nbsp;</a></span>QSL_FileSections</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const QStringList QSL_FileSections</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: Begin&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: MetaInfo&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: Values&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: CountourPixels&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: Foci&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;:::::::::::::::::::: End&quot;</span></div>
-<div class="line"> }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a50f86767b379acabf26208d8f8c469e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50f86767b379acabf26208d8f8c469e6">&#9670;&nbsp;</a></span>QSL_FileSubsections</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const QStringList QSL_FileSubsections</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">     <span class="stringliteral">&quot;Default&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;.................... Channel&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;-------------------- Focus Begin&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;-------------------- Focus End&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;Median&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;AverageAbsoluteDeviationFromMedian&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;Position&quot;</span>,</div>
-<div class="line">     <span class="stringliteral">&quot;AreaConvexityCompactness&quot;</span></div>
-<div class="line"> }</div>
-</div><!-- fragment -->
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

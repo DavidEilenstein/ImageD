@@ -1183,14 +1183,14 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
                 this);
     pop_range_select.exec();
 
-    //get save location
+    ///get save location
     StatusSet("Get save dir");
     QString QS_SavePath = QFileDialog::getExistingDirectory(
                 this,
                 "Select save directory for results of stack processing",
                 pStore->dir_M_MegaFoci()->path());
 
-    //check if save location is valid
+    ///check if save location is valid
     if(QS_SavePath.isEmpty())
     {
         StatusSet("Quit because no dir was selected");
@@ -1198,8 +1198,8 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     }
     //pStore->set_dir_M_MegaFoci(QS_SavePath);
 
-    //Create new save dir
-    unsigned int count = 0;
+    ///Create new save dir
+    size_t count = 0;
     QString QS_Folder_Out_Sub = QS_SavePath + "/Results_Step1_0";
     while(QDir(QS_Folder_Out_Sub).exists())
     {
@@ -1949,10 +1949,90 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
     mode_major_current = mode;
     ui->stackedWidget_StepMajor->setCurrentIndex(mode_major_current);
 
-    StatusSet("MAJOR MODE: " + QSL_ModeMajor[mode_major_current]);
+    StatusSet("MAJOR MODE:\n" + QSL_ModeMajor[mode_major_current]);
 
     if(mode == MODE_MAJOR_2_MANU_CORRECT_DETECTION)
+    {
         MS2_init_ui();
+    }
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor(QComboBox *CB_R, QComboBox *CB_G, QComboBox *CB_B, bool color_background_not_text)
+{
+    int n = 3;
+
+    //color comboboxes in vector
+    vector<QComboBox*> vCB(n);
+    vCB[0] = CB_R;
+    vCB[1] = CB_G;
+    vCB[2] = CB_B;
+
+    //indices of CBs in vector
+    vector<int> vIndices(n);
+    for(int i = 0; i < n; i++)
+        vIndices[i] = vCB[i]->currentIndex();
+
+    //calc color and set it to ui
+    for(int i = 0; i < n; i++)
+    {
+        //calc channels if not empty
+        vector<uchar> vChannel(n, 0);
+        if(vIndices[i] != 0)
+            for(int c = 0; c < n; c++)
+                vChannel[c] = (vIndices[c] == vIndices[i]) ? 255 : 0;
+
+        //calc color
+        QColor color(vChannel[0], vChannel[1], vChannel[2]);
+        QColor color_contrast = D_Img_Proc::Contrast_Color(color);
+
+        //foreground or background?
+        if(color_background_not_text)
+            vCB[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";\n" + "color: " + D_Img_Proc::Color2Text4StyleSheet(color_contrast) + ";");
+        else
+            vCB[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color_contrast) + ";\n" + "color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
+    }
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor_Image(size_t viewer_id)
+{
+    if(viewer_id >= vv_MS2_COB_ViewerChannel_Image_viewer_bgr.size())
+        return;
+
+    MS2_SetComboboxColor(
+                vv_MS2_COB_ViewerChannel_Image_viewer_bgr[viewer_id][2],
+                vv_MS2_COB_ViewerChannel_Image_viewer_bgr[viewer_id][1],
+                vv_MS2_COB_ViewerChannel_Image_viewer_bgr[viewer_id][0],
+                true);
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor_Overlay(size_t viewer_id)
+{
+    if(viewer_id >= vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr.size())
+        return;
+
+    MS2_SetComboboxColor(
+                vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[viewer_id][2],
+                vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[viewer_id][1],
+                vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[viewer_id][0],
+                false);
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor_ImageAll()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        MS2_SetComboboxColor_Image(v);
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor_OverlayAll()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        MS2_SetComboboxColor_Overlay(v);
+}
+
+void D_MAKRO_MegaFoci::MS2_SetComboboxColor_All()
+{
+    MS2_SetComboboxColor_ImageAll();
+    MS2_SetComboboxColor_OverlayAll();
 }
 
 void D_MAKRO_MegaFoci::MS2_init_ui()
@@ -2000,6 +2080,11 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][1] = ui->comboBox_MS2_ViewerSettings_Image_G_4;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][2] = ui->comboBox_MS2_ViewerSettings_Image_R_4;
 
+    //connect image channel selector CBs to color change of themselves
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        for(size_t c = 0; c < MS2_ViewersChannels; c++)
+            connect(vv_MS2_COB_ViewerChannel_Image_viewer_bgr[v][c], SIGNAL(currentIndexChanged(int)), this, SLOT(MS2_SetComboboxColor_ImageAll()));
+
     //channels overlay
     vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr.resize(MS2_ViewersCount, vector<QComboBox*>(MS2_ViewersChannels));
     vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_1;
@@ -2014,6 +2099,11 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][0] = ui->comboBox_MS2_ViewerSettings_Overlay_B_4;
     vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][1] = ui->comboBox_MS2_ViewerSettings_Overlay_G_4;
     vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][2] = ui->comboBox_MS2_ViewerSettings_Overlay_R_4;
+
+    //connect overlay channel selector CBs to color change of themselves
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        for(size_t c = 0; c < MS2_ViewersChannels; c++)
+            connect(vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[v][c], SIGNAL(currentIndexChanged(int)), this, SLOT(MS2_SetComboboxColor_OverlayAll()));
 
     //transforms
     v_MS2_CHB_Viewer_Transform.resize(MS2_ViewersCount);
@@ -2042,6 +2132,13 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     v_MS2_GRB_Viewer_GroupSettings[1] = ui->groupBox_MS2_ViewerControls_2;
     v_MS2_GRB_Viewer_GroupSettings[2] = ui->groupBox_MS2_ViewerControls_3;
     v_MS2_GRB_Viewer_GroupSettings[3] = ui->groupBox_MS2_ViewerControls_4;
+
+    //draw modi
+    v_MS2_PUB_DrawModi.resize(MS2_DRAW_MODE_NUMBER_OF);
+    v_MS2_PUB_DrawModi[MS2_DRAW_MODE_NUCLEI] = ui->pushButton_MS2_Tools_Channel_Nuclei;
+    v_MS2_PUB_DrawModi[MS2_DRAW_MODE_FOCI_GFP] = ui->pushButton_MS2_Tools_Channel_GFPonly;
+    v_MS2_PUB_DrawModi[MS2_DRAW_MODE_FOCI_RFP] = ui->pushButton_MS2_Tools_Channel_RFPonly;
+    v_MS2_PUB_DrawModi[MS2_DRAW_MODE_FOCI_BOTH] = ui->pushButton_MS2_Tools_Channel_GFPandRFP;
 
     //inital sates
 
@@ -2120,8 +2217,7 @@ void D_MAKRO_MegaFoci::MS2_ViewerPointColor(size_t v2col)
                 "Select point color to display in viewer");
 
     //set color to button
-    QString QS_Style = "background-color: " + D_Img_Proc::Color2Text4StyleSheet(col) + ";\n" + "color: " + D_Img_Proc::Color2Text4StyleSheet(D_Img_Proc::Contrast_Color(col)) + ";";
-    qDebug() << QS_Style;
+    QString QS_Style = "background-color: " + D_Img_Proc::Color2Text4StyleSheet(D_Img_Proc::Contrast_Color(col)) + ";\n" + "color: " + D_Img_Proc::Color2Text4StyleSheet(col) + ";";
     v_MS2_PUB_Viewer_PointColor[v2col]->setStyleSheet(QS_Style);
 
     //save color
@@ -2174,10 +2270,88 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
     MS2_Viewer_Viewport.Update_Image(&MA_MS2_ViewportShow);
 }
 
+void D_MAKRO_MegaFoci::MS2_DrawMode_Set(size_t mode)
+{
+    if(mode >= MS2_DRAW_MODE_NUMBER_OF)
+        return;
+
+    MS2_draw_mode = mode;
+
+    for(size_t m = 0; m < MS2_DRAW_MODE_NUMBER_OF; m++)
+        v_MS2_PUB_DrawModi[m]->setStyleSheet(m == mode ? "font-weight: bold" : "");
+}
+
+bool D_MAKRO_MegaFoci::MS2_CalcMosaik_Size()
+{
+    MS2_MosaikImageScale = ui->doubleSpinBox_OverviewQuality->value() / 100;
+
+    for(size_t c = 0; c < vDIR_MS2_In_MosaikChannels.size(); c++)
+    {
+        QFileInfoList FIL_Entrys = vDIR_MS2_In_MosaikChannels[c].entryInfoList();
+        for(int f = 0; f < FIL_Entrys.size(); f++)
+        {
+            if(FIL_Entrys[f].suffix() == "png")
+            {
+                Mat MA_tmp_dummy4size;
+                int ER = D_Img_Proc::Load_From_Path(
+                                 &MA_tmp_dummy4size,
+                                 FIL_Entrys[f]);
+
+                if(ER == ER_okay)
+                {
+                    MS2_MosaikImageHeight = MA_tmp_dummy4size.rows;
+                    MS2_MosaikImageWidth = MA_tmp_dummy4size.cols;
+                    MA_tmp_dummy4size.release();
+                    return true;
+                }
+
+                MA_tmp_dummy4size.release();
+            }
+        }
+    }
+
+    StatusSet("Your mosaik folder contains no images... want too fool me?");
+    return false;
+}
+
 bool D_MAKRO_MegaFoci::MS2_LoadData()
 {
-    StatusSet("I need a results folder of step 1. now!");
+    state_MS2_data_loaded = false;
 
+    if(!MS2_LoadData_DirsIn())
+    {
+        StatusSet("Load ERROR: Dirs in");
+        return false;
+    }
+
+    Update_Ui();
+    if(!MS2_LoadData_DirsOut())
+    {
+        StatusSet("Load ERROR: dirs out");
+        return false;
+    }
+
+    Update_Ui();
+    if(!MS2_CalcMosaik_Size())
+    {
+        StatusSet("Load ERROR: get mosaik size");
+        return false;
+    }
+
+    Update_Ui();
+    if(!MS2_LoadData_Time(0))
+    {
+        StatusSet("Load ERROR: data time 0");
+        return false;
+    }
+
+    state_MS2_data_loaded = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_DirsIn()
+{
+    StatusSet("I need a results folder of step 1. now!");
     QString QS_MasterIn = QFileDialog::getExistingDirectory(
                 this,
                 "Please select results folder of step 1 as input for step 2 (must beginn with 'Results_Step1_').",
@@ -2197,9 +2371,248 @@ bool D_MAKRO_MegaFoci::MS2_LoadData()
         return false;
     }
 
-    RewardSystem.get_reward();
+    //master dir in
+    DIR_MS2_In_Master.setPath(QS_MasterIn);
+    if(!DIR_MS2_In_Master.exists())
+    {
+        StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+        return false;
+    }
 
-    state_MS2_data_loaded = true;
+    //dir in: detections
+    DIR_MS2_In_Detections.setPath(DIR_MS2_In_Master.path() + "/Detections");
+    if(!DIR_MS2_In_Detections.exists())
+    {
+        StatusSet("Your selected reults folder does not contain a detections folder... That won't work.");
+        return false;
+    }
+
+    //dir in: mosaik
+    DIR_MS2_In_Mosaik.setPath(DIR_MS2_In_Master.path() + "/Mosaik");
+    if(!DIR_MS2_In_Mosaik.exists())
+    {
+        StatusSet("Your selected reults folder does not contain a mosaik folder... That won't work.");
+        return false;
+    }
+
+    //dir in: mosaik channels
+    vDIR_MS2_In_MosaikChannels.resize(MS2_CH_MOSAIK_NUMBER_OF);
+    for(size_t ch = 0; ch < MS2_CH_MOSAIK_NUMBER_OF; ch++)
+    {
+        vDIR_MS2_In_MosaikChannels[ch].setPath(DIR_MS2_In_Mosaik.path() + "/" + QSL_MS2_ChannelsMosaik[ch]);
+        if(!vDIR_MS2_In_MosaikChannels[ch].exists())
+        {
+            StatusSet("Your selected reults folder does not contain a " + QSL_MS2_ChannelsMosaik[ch] + " mosaik folder... " + QS_Fun_Sad);
+            return false;
+        }
+    }
+
+    //correct input data selected
+    StatusSet("Input valid:\n" + DIR_MS2_In_Master.path());
+
+    //save input dir
+    QDir DIR_parent(DIR_MS2_In_Master);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci(DIR_parent.path());
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
+{
+    StatusSet("Want to start a new step 2 editing or want to continue with an existing one?");
+
+    switch(QMessageBox::question(
+                this,
+                "Output directory selection",
+                "New editing or continue with existing step 2 output?",
+                "Create new output",                        //0
+                "Continue with existing output",            //1
+                "Cancel",                                   //2
+                0))
+    {
+    case 0: //.................................... new output ....................................
+    {
+        StatusSet("Please select the dir you want to store your results to.");
+        QString QS_MasterOut = QFileDialog::getExistingDirectory(
+                    this,
+                    "Please select the master results folder where your step 2 results shall be stored.",
+                    pStore->dir_M_MegaFoci()->path());
+
+        //check if dir was selected
+        if(QS_MasterOut.isEmpty())
+        {
+            StatusSet("If u dont give me a folder name, i cant work...");
+            return false;
+        }
+
+        size_t count = 0;
+        QString QS_Folder_Out_Sub = QS_MasterOut + "/Results_Step2_0";
+        while(QDir(QS_Folder_Out_Sub).exists())
+        {
+            count++;
+            QS_Folder_Out_Sub = QS_MasterOut + "/Results_Step2_" + QString::number(count);
+        }
+
+        //master dir out
+        DIR_MS2_Out_Master.setPath(QS_Folder_Out_Sub);
+        QDir().mkdir(DIR_MS2_Out_Master.path());
+        if(!DIR_MS2_Out_Master.exists())
+        {
+            StatusSet("Your results folder creation failed. Maybe you have no permission to write to the selected folder?");
+            return false;
+        }
+
+        //correct input data selected
+        StatusSet("Your results will be saved in: " + DIR_MS2_Out_Master.path());
+
+        //save results dir
+        QDir DIR_parent(DIR_MS2_Out_Master);
+        DIR_parent.cdUp();
+        pStore->set_dir_M_MegaFoci(DIR_parent.path());
+
+        //create corrected detections dir
+        DIR_MS2_Out_DetectionsCorrected.setPath(DIR_MS2_Out_Master.path() + "/DetectionsCorrected");
+        QDir().mkdir(DIR_MS2_Out_DetectionsCorrected.path());
+        if(!DIR_MS2_Out_DetectionsCorrected.exists())
+        {
+            StatusSet("Failed to create corrected detections folder. Maybe you have no permission to write to the selected folder?");
+            return false;
+        }
+    }
+    return true;
+
+    case 1: //.................................... existing output ....................................
+    {
+        StatusSet("Please select results directory to edit.");
+        QString QS_MasterOut = QFileDialog::getExistingDirectory(
+                    this,
+                    "Please select results folder of step 2 you want to edit (must beginn with 'Results_Step2_').",
+                    pStore->dir_M_MegaFoci()->path());
+
+        //check if dir was selected
+        if(QS_MasterOut.isEmpty())
+        {
+            StatusSet("Didn't you find your data? A clean file system is a nice thing, right?");
+            return false;
+        }
+
+        //check, if dir is results from step 2
+        if(!QS_MasterOut.contains("Results_Step2"))
+        {
+            StatusSet("You should selct results from step 2... " + QS_Fun_TableFlip);
+            return false;
+        }
+
+        //master dir out
+        DIR_MS2_Out_Master.setPath(QS_MasterOut);
+        if(!DIR_MS2_Out_Master.exists())
+        {
+            StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+            return false;
+        }
+
+        //dir out: detections
+        DIR_MS2_Out_DetectionsCorrected.setPath(DIR_MS2_Out_Master.path() + "/DetectionsCorrected");
+        if(!DIR_MS2_Out_DetectionsCorrected.exists())
+        {
+            StatusSet("Your selected reults folder does not contain a detections folder... That won't work.");
+            return false;
+        }
+
+        //correct input data selected
+        StatusSet("Output valid:\n" + DIR_MS2_Out_Master.path());
+
+        //save output dir
+        QDir DIR_parent(DIR_MS2_Out_Master);
+        DIR_parent.cdUp();
+        pStore->set_dir_M_MegaFoci(DIR_parent.path());
+    }
+    return true;
+
+    default: //.................................... esc or cancel ....................................
+    {
+        StatusSet("You quit the step 2 output selection.");
+    }
+    return false;
+
+    }
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_Time(size_t t)
+{
+    if(t >= dataset_dim_t)
+        return false;
+
+    if(!MS2_LoadData_Mosaiks_In(t))
+        return false;
+
+    if(!MS2_LoadData_Detections_In(t))
+        return false;
+
+    if(!MS2_LoadData_Detections_Out(t))
+        return false;
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_Mosaiks_In(size_t t)
+{
+    if(t >= dataset_dim_t)
+        return false;
+
+    //resize img vector
+    v_MS2_MA_ChannelsImage_Full.resize(
+                MS2_CH_IMG_NUMBER_OF,
+                Mat::zeros(
+                    MS2_MosaikImageHeight,
+                    MS2_MosaikImageWidth,
+                    CV_8UC1));
+
+    //loop channels
+    for(size_t ch = 0; ch < MS2_CH_MOSAIK_NUMBER_OF; ch++)
+    {
+        QFileInfo FI(vDIR_MS2_In_MosaikChannels[ch].path() + "/Mosaik_" + QSL_MS2_ChannelsMosaik[ch] + "_T" + QString::number(t) + ".png");
+        Mat MA_tmp_channel;
+        int ER = ER_okay;
+
+        //try loading existing img
+        if(FI.exists())
+        {
+            ER = D_Img_Proc::Load_From_Path(
+                        &(v_MS2_MA_ChannelsImage_Full[ch+1]),
+                        FI);
+            ERR(
+                        ER,
+                        "MS2_LoadData_Mosaiks_In",
+                        "Failed to load " + FI.absoluteFilePath() + ".\nAn empty channel image is created instead");
+        }
+    }
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_In(size_t t)
+{
+    if(t >= dataset_dim_t)
+        return false;
+
+    //resize mosaic detections container
+    vv_MS2_NucImg_In_mosaikXY.resize(dataset_dim_mosaic_x, vector<D_Bio_NucleusImage>(dataset_dim_mosaic_y));
+
+    // !!!!!!!!!!!!!
+    // CONTINUE HERE
+    // !!!!!!!!!!!!!
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_Out(size_t t)
+{
+    if(t >= dataset_dim_t)
+        return false;
+
+
     return true;
 }
 
@@ -2520,7 +2933,7 @@ void D_MAKRO_MegaFoci::on_pushButton_StepMajor_2_clicked()
 {
     set_ModeMajor_Current(MODE_MAJOR_2_MANU_CORRECT_DETECTION);
     StatusSet("Time to tell the PC where it messed up");
-    StatusSet("Nothing can replace a true expert like you " + QS_Fun_Happy);
+    StatusSet("Nothing can replace an expert like you " + QS_Fun_Happy);
     StatusSet("Start by loading precalculated data from step 1");
 }
 
@@ -2567,9 +2980,11 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_FileDialog_clicked()
     {
         ui->groupBox_MS2_Files->setEnabled(false);
         ui->groupBox_MS2_Viewers->setEnabled(true);
+        ui->groupBox_VisTrafo->setEnabled(true);
         ui->groupBox_MS2_Viewport->setEnabled(true);
         ui->groupBox_MS2_Tools->setEnabled(true);
         ui->groupBox_MS2_ViewerControls->setEnabled(true);
+        MS2_SetComboboxColor_All();
     }
 }
 
@@ -2661,4 +3076,24 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ProgressToCorrect_clicked()
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Progress_Corrected_clicked()
 {
     RewardSystem.get_reward();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_Nuclei_clicked()
+{
+    MS2_DrawMode_Set(MS2_DRAW_MODE_NUCLEI);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_GFPonly_clicked()
+{
+    MS2_DrawMode_Set(MS2_DRAW_MODE_FOCI_GFP);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_RFPonly_clicked()
+{
+    MS2_DrawMode_Set(MS2_DRAW_MODE_FOCI_RFP);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked()
+{
+    MS2_DrawMode_Set(MS2_DRAW_MODE_FOCI_BOTH);
 }

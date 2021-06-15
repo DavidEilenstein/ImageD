@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -372,6 +372,15 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>set_Mats()
 : <a class="el" href="class_d___value___distribution___list.html#a5d0b09e9ee523dc65d917f94b477acae">D_Value_Distribution_List</a>
 </li>
+<li>set_mode_cat()
+: <a class="el" href="class_d___image_reward_system.html#a576bff9cf4ffc16efa068d2f5295ca60">D_ImageRewardSystem</a>
+</li>
+<li>set_mode_horse()
+: <a class="el" href="class_d___image_reward_system.html#a5bbceff92262c873313fad74ef35cccb">D_ImageRewardSystem</a>
+</li>
+<li>set_mode_person()
+: <a class="el" href="class_d___image_reward_system.html#a3ecf80dbba86cf06b7bee8f54d9dd13f">D_ImageRewardSystem</a>
+</li>
 <li>set_Name()
 : <a class="el" href="class_d___component.html#ada81e4d884259e321ad052e60ca43d42">D_Component</a>
 , <a class="el" href="class_d___viewer.html#a4d58ecd31d268ded51dcfa8c53416b78">D_Viewer</a>
@@ -490,7 +499,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___storage.html#af92988515cb3b692b372c9fd17a61d23">D_Storage</a>
 </li>
 <li>set_Size()
-: <a class="el" href="class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea">D_VideoWriter</a>
+: <a class="el" href="class_d___video_writer.html#af2fbc530002e16fa75838f2f6ea5b1fd">D_VideoWriter</a>
 , <a class="el" href="class_d___vis_dat___header.html#a50f6042671fd05f4f306b37f0e67c25a">D_VisDat_Header</a>
 </li>
 <li>set_size_Dim()
@@ -532,6 +541,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>set_StepCount()
 : <a class="el" href="class_d___finish_time_prognosis.html#a547f0087448b69ffe8cb64adbd00edbb">D_FinishTimePrognosis</a>
 </li>
+<li>set_target_label()
+: <a class="el" href="class_d___image_reward_system.html#a7b1d1c1466a2c6b8371ac2ae144dedb8">D_ImageRewardSystem</a>
+</li>
 <li>set_times()
 : <a class="el" href="class_d___storage.html#a07cb600af996f34aa114d5aa17386772">D_Storage</a>
 </li>
@@ -566,22 +578,6 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>set_value_channels()
 : <a class="el" href="class_d___bio___focus.html#af88e4eed3ccb34b2bee0188c191b24ad">D_Bio_Focus</a>
 , <a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">D_Bio_NucleusBlob</a>
-</li>
-<li>set_value_dev2med()
-: <a class="el" href="class_d___bio___focus.html#a6e81553247f4403696f43c239412fef3">D_Bio_Focus</a>
-, <a class="el" href="class_d___bio___nucleus_blob.html#ac3068a53de7d8a33ce012ae2fbc65f92">D_Bio_NucleusBlob</a>
-</li>
-<li>set_value_median()
-: <a class="el" href="class_d___bio___focus.html#a82ec4fdbf05652a4fd70ee15b84e2d8e">D_Bio_Focus</a>
-, <a class="el" href="class_d___bio___nucleus_blob.html#a14beede16a3fc94f724b201f4d94d7ba">D_Bio_NucleusBlob</a>
-</li>
-<li>set_values_devs2med()
-: <a class="el" href="class_d___bio___focus.html#a5aa7ab17ac0d3db084b16740dab4d9ef">D_Bio_Focus</a>
-, <a class="el" href="class_d___bio___nucleus_blob.html#a30a56b5fbf20612997b833320db45dda">D_Bio_NucleusBlob</a>
-</li>
-<li>set_values_medians()
-: <a class="el" href="class_d___bio___focus.html#a460838c033f19ab7e04ce7c1915f864f">D_Bio_Focus</a>
-, <a class="el" href="class_d___bio___nucleus_blob.html#aa9f40983c3dffe17376b1399b8554cb3">D_Bio_NucleusBlob</a>
 </li>
 <li>set_VideoPath()
 : <a class="el" href="class_d___video_slicer.html#a67dde4db413b0e8a1d11a12a6ceb134a">D_VideoSlicer</a>
@@ -638,11 +634,22 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___viewer.html#a56ce244c94ee8ff08785514b9f439a30">D_Viewer</a>
 </li>
 <li>Set_Zomm()
-: <a class="el" href="class_d___viewer.html#ab6e9ae3f5b572305a112de1fc5f82f0b">D_Viewer</a>
-, <a class="el" href="class_d___viewer___img.html#ad0e5aba4d63299dd8378da971f0c0983">D_Viewer_Img</a>
+: <a class="el" href="class_d___viewer___img.html#ad0e5aba4d63299dd8378da971f0c0983">D_Viewer_Img</a>
+</li>
+<li>Set_Zoom()
+: <a class="el" href="class_d___viewer.html#ac868bfe0d8628fb02d76d737372d93da">D_Viewer</a>
+</li>
+<li>set_zoom_connection_active()
+: <a class="el" href="class_d___viewer.html#a995691afc5a3c1b207ae6115523737f4">D_Viewer</a>
+</li>
+<li>Set_Zoom_Extern()
+: <a class="el" href="class_d___viewer.html#a479e1b5dbc4f3245fd6c776aa63a6959">D_Viewer</a>
 </li>
 <li>Set_ZoomReset()
 : <a class="el" href="class_d___viewer.html#ac589e81dbf1b2172fc0883c910e4bef4">D_Viewer</a>
+</li>
+<li>Set_ZoomReset_Extern()
+: <a class="el" href="class_d___viewer.html#aeb886fd280f0ec330ee7041910aa0d06">D_Viewer</a>
 </li>
 <li>Shading_Correct()
 : <a class="el" href="class_d___img___proc.html#a2a91cb1a26aefde4be89f8dcecb53fae">D_Img_Proc</a>
@@ -662,6 +669,10 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>signal_median()
 : <a class="el" href="class_d___bio___focus.html#af4fcdb2f58a1f23dc26a788dbc03b25b">D_Bio_Focus</a>
 , <a class="el" href="class_d___bio___nucleus_blob.html#a9bd7f703efcd3638b0c0250e619ac155">D_Bio_NucleusBlob</a>
+</li>
+<li>signal_stat()
+: <a class="el" href="class_d___bio___focus.html#ac50f8c5b22bc24c9014ef00cebb2d564">D_Bio_Focus</a>
+, <a class="el" href="class_d___bio___nucleus_blob.html#adc9a1923846a0a65fca4a07cbf09931c">D_Bio_NucleusBlob</a>
 </li>
 <li>Similarity_2D_h_deg()
 : <a class="el" href="class_d___math.html#a15d863b85e122b997a7b1ba6806bf2ee">D_Math</a>
@@ -758,10 +769,10 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="class_d___img___proc.html#a6085b1fe01e65067b7f5b5285314bbe3">D_Img_Proc</a>
 </li>
 <li>standard_deviation()
-: <a class="el" href="class_d___geo___point_set__2_d.html#adc55bbc65bf4a473d8696f17bc459b56">D_Geo_PointSet_2D</a>
+: <a class="el" href="class_d___geo___point_set__2_d.html#ae6bf37cf7aa33e4fa09e0e35f273ad1e">D_Geo_PointSet_2D</a>
 </li>
 <li>start()
-: <a class="el" href="class_d___finish_time_prognosis.html#ae0af19a169b2df195fa6fb7d97faa850">D_FinishTimePrognosis</a>
+: <a class="el" href="class_d___finish_time_prognosis.html#afa17cd9ba65027f413c25f9f2f7639c5">D_FinishTimePrognosis</a>
 </li>
 <li>start_working()
 : <a class="el" href="class_d___job___manager.html#aa4770819e73bc052f5e63723a3b0fd6c">D_Job_Manager</a>

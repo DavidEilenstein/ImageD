@@ -505,6 +505,13 @@ private:
 
 private slots:
 
+    void MS2_SetComboboxColor(QComboBox *CB_R, QComboBox *CB_G, QComboBox *CB_B, bool color_background_not_text);
+    void MS2_SetComboboxColor_Image(size_t viewer_id);
+    void MS2_SetComboboxColor_Overlay(size_t viewer_id);
+    void MS2_SetComboboxColor_ImageAll();
+    void MS2_SetComboboxColor_OverlayAll();
+    void MS2_SetComboboxColor_All();
+
     void on_checkBox_MS2_ViewerShowSettings_clicked(bool checked);
     void on_pushButton_MS2_FileDialog_clicked();
 
@@ -529,8 +536,12 @@ private slots:
     void on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(bool checked);
 
     void on_pushButton_MS2_Tools_ProgressToCorrect_clicked();
-
     void on_pushButton_MS2_Tools_Progress_Corrected_clicked();
+
+    void on_pushButton_MS2_Tools_Channel_Nuclei_clicked();
+    void on_pushButton_MS2_Tools_Channel_GFPonly_clicked();
+    void on_pushButton_MS2_Tools_Channel_RFPonly_clicked();
+    void on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked();
 
 private:
     void                        MS2_init_ui();
@@ -554,6 +565,8 @@ private:
     vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupAll;
     vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupSettings;
 
+    vector<QPushButton*>        v_MS2_PUB_DrawModi;
+
     //remember stuff for ui
     vector<QColor>              v_MS2_COL_Viewer_PointColor;
 
@@ -570,18 +583,24 @@ private:
     QDir                        DIR_MS2_In_Master;
     QDir                        DIR_MS2_In_Detections;
     QDir                        DIR_MS2_In_Mosaik;
-    vector<vector<QDir>>        vDIR_MS2_In_Detections_TimesNuclei;
+    vector<QDir>                vDIR_MS2_In_MosaikChannels;
+    vector<vector<QDir>>        vvDIR_MS2_In_Detections_TimesNuclei;
 
     //DIRs out
     QDir                        DIR_MS2_Out_Master;
-    QDir                        DIR_MS2_Out_Detections;
-    vector<vector<QDir>>        vDIR_MS2_Out_Detections_TimesNuclei;
+    QDir                        DIR_MS2_Out_DetectionsCorrected;
+    vector<vector<QDir>>        vvDIR_MS2_Out_DetectionsCorrected_TimesNuclei;
 
     //data
-    double                              MS2_ImageScale = 0.3;
-    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_In;
-    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_Out;
-    vector<vector<size_t>>              vv_MS2_NucImg_State;
+    double                              MS2_MosaikImageScale;
+    int                                 MS2_MosaikImageWidth;
+    int                                 MS2_MosaikImageHeight;
+    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_In_mosaikXY;
+    vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_Out_mosaikXY;
+    vector<vector<size_t>>              vv_MS2_NucImg_State_mosaikXY;
+
+    //drawing
+    size_t                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
 
     //states
     bool                        state_MS2_data_loaded = false;
@@ -597,8 +616,30 @@ private:
     void                        MS2_UpdateImage(size_t img2update);
     void                        MS2_UpdateImage_Viewport();
 
+    void                        MS2_DrawMode_Set(size_t mode);
+
+    bool                        MS2_CalcMosaik_Size();
 
     bool                        MS2_LoadData();
+    bool                        MS2_LoadData_DirsIn();
+    bool                        MS2_LoadData_DirsOut();
+
+    bool                        MS2_LoadData_Time(size_t t);
+    bool                        MS2_LoadData_Mosaiks_In(size_t t);
+    bool                        MS2_LoadData_Detections_In(size_t t);
+    bool                        MS2_LoadData_Detections_Out(size_t t);
+
+    enum MS2_CHANNELS_MOSAIK {
+        MS2_CH_MOSAIK_DIC,
+        MS2_CH_MOSAIK_GFP,
+        MS2_CH_MOSAIK_RFP,
+        MS2_CH_MOSAIK_NUMBER_OF
+    };
+    const QStringList QSL_MS2_ChannelsMosaik = {
+        "DIC",
+        "GFP",
+        "RFP"
+    };
 
     enum MS2_CHANNELS_IMAGE {
         MS2_CH_IMG_EMPTY,
@@ -635,6 +676,14 @@ private:
         MS2_IMG_STATE_TO_PROCESS,
         MS2_IMG_STATE_PROCESSED,
         MS2_IMG_STATE_NUMBER_OF
+    };
+
+    enum MS2_DRAW_MODE {
+        MS2_DRAW_MODE_NUCLEI,
+        MS2_DRAW_MODE_FOCI_GFP,
+        MS2_DRAW_MODE_FOCI_RFP,
+        MS2_DRAW_MODE_FOCI_BOTH,
+        MS2_DRAW_MODE_NUMBER_OF
     };
 };
 

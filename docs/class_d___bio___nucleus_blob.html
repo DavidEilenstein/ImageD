@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -104,11 +104,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9b35f36793a793e50e0a3ae92e1519e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a246d68b2a457db12885bdc5bc052dd49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a246d68b2a457db12885bdc5bc052dd49">D_Bio_NucleusBlob</a> (vector&lt; Point &gt; contour_points, double time, Point Offset=Point(0, 0))</td></tr>
 <tr class="separator:a246d68b2a457db12885bdc5bc052dd49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af766314063df498bd29875f554f7d76a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#af766314063df498bd29875f554f7d76a">D_Bio_NucleusBlob</a> (vector&lt; Point &gt; contour_points, vector&lt; double &gt; signal_medians, vector&lt; double &gt; signal_meddevs, Point Offset=Point(0, 0))</td></tr>
-<tr class="separator:af766314063df498bd29875f554f7d76a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6635150e7ab2727561ee3465f5ddc290"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a6635150e7ab2727561ee3465f5ddc290">D_Bio_NucleusBlob</a> (vector&lt; Point &gt; contour_points, vector&lt; double &gt; signal_medians, vector&lt; double &gt; signal_meddevs, double time, Point Offset=Point(0, 0))</td></tr>
-<tr class="separator:a6635150e7ab2727561ee3465f5ddc290"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad299ca424441f9b3f95c400f93ed411d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ad299ca424441f9b3f95c400f93ed411d">set_FociChannels</a> (size_t channels)</td></tr>
+<tr class="memitem:a65d0c10b1bf117af4abbd9d13bb8ac65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a65d0c10b1bf117af4abbd9d13bb8ac65">D_Bio_NucleusBlob</a> (vector&lt; Point &gt; contour_points, vector&lt; vector&lt; double &gt;&gt; SignalStats_StatChannel, Point Offset=Point(0, 0))</td></tr>
+<tr class="separator:a65d0c10b1bf117af4abbd9d13bb8ac65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65e87197f3aa6abb02a3675b62a0a5e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a65e87197f3aa6abb02a3675b62a0a5e4">D_Bio_NucleusBlob</a> (vector&lt; Point &gt; contour_points, vector&lt; vector&lt; double &gt;&gt; SignalStats_StatChannel, double time, Point Offset=Point(0, 0))</td></tr>
+<tr class="separator:a65e87197f3aa6abb02a3675b62a0a5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad299ca424441f9b3f95c400f93ed411d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ad299ca424441f9b3f95c400f93ed411d">set_FociChannels</a> (size_t <a class="el" href="class_d___bio___nucleus_blob.html#ad0dfcb3175bd97cf557b6ee99f1db9a4">channels</a>)</td></tr>
 <tr class="separator:ad299ca424441f9b3f95c400f93ed411d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a349a554f2dfc390e5eeac953542a73aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a349a554f2dfc390e5eeac953542a73aa">set_Foci</a> (size_t channel, vector&lt; <a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a> &gt; v_foci)</td></tr>
 <tr class="separator:a349a554f2dfc390e5eeac953542a73aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,16 +136,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac86648fe7eeb4768b3ab5fb9ff35a457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5fb15023dcfe69d472b4bf88a9fc87bf">load_simple</a> (QString nucleus_file, bool load_foci)</td></tr>
 <tr class="separator:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24d26909d3f7653cdf704d094e664724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">set_value_channels</a> (size_t channels)</td></tr>
+<tr class="memitem:a24d26909d3f7653cdf704d094e664724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">set_value_channels</a> (size_t <a class="el" href="class_d___bio___nucleus_blob.html#ad0dfcb3175bd97cf557b6ee99f1db9a4">channels</a>)</td></tr>
 <tr class="separator:a24d26909d3f7653cdf704d094e664724"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9f40983c3dffe17376b1399b8554cb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aa9f40983c3dffe17376b1399b8554cb3">set_values_medians</a> (vector&lt; double &gt; vMedian)</td></tr>
-<tr class="separator:aa9f40983c3dffe17376b1399b8554cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30a56b5fbf20612997b833320db45dda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a30a56b5fbf20612997b833320db45dda">set_values_devs2med</a> (vector&lt; double &gt; vMedDev)</td></tr>
-<tr class="separator:a30a56b5fbf20612997b833320db45dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14beede16a3fc94f724b201f4d94d7ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a14beede16a3fc94f724b201f4d94d7ba">set_value_median</a> (size_t channel, double Median)</td></tr>
-<tr class="separator:a14beede16a3fc94f724b201f4d94d7ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3068a53de7d8a33ce012ae2fbc65f92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ac3068a53de7d8a33ce012ae2fbc65f92">set_value_dev2med</a> (size_t channel, double MedDev)</td></tr>
-<tr class="separator:ac3068a53de7d8a33ce012ae2fbc65f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9041253fbef60cec8e6b0af139658bca"><td class="memItemLeft" align="right" valign="top">vector&lt; Point &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a9041253fbef60cec8e6b0af139658bca">contour</a> ()</td></tr>
 <tr class="separator:a9041253fbef60cec8e6b0af139658bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f182d5ba076abcc8bdec1728a9b02aa"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a1f182d5ba076abcc8bdec1728a9b02aa">dist2contour</a> (Point2f point)</td></tr>
@@ -160,6 +152,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a73b69b7b4a4b5e8e0cfe91638a704818"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56aad27bca6564d24f6272a2e0ad4425"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a56aad27bca6564d24f6272a2e0ad4425">convexity</a> ()</td></tr>
 <tr class="separator:a56aad27bca6564d24f6272a2e0ad4425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0dfcb3175bd97cf557b6ee99f1db9a4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ad0dfcb3175bd97cf557b6ee99f1db9a4">channels</a> ()</td></tr>
+<tr class="separator:ad0dfcb3175bd97cf557b6ee99f1db9a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc9a1923846a0a65fca4a07cbf09931c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#adc9a1923846a0a65fca4a07cbf09931c">signal_stat</a> (size_t channel, size_t stat_local_id)</td></tr>
+<tr class="separator:adc9a1923846a0a65fca4a07cbf09931c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd7f703efcd3638b0c0250e619ac155"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a9bd7f703efcd3638b0c0250e619ac155">signal_median</a> (size_t channel)</td></tr>
 <tr class="separator:a9bd7f703efcd3638b0c0250e619ac155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8fee59e82c38b57b317f5dc74236740"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aa8fee59e82c38b57b317f5dc74236740">signal_dev2med</a> (size_t channel)</td></tr>
@@ -263,8 +259,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af766314063df498bd29875f554f7d76a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af766314063df498bd29875f554f7d76a">&#9670;&nbsp;</a></span>D_Bio_NucleusBlob() <span class="overload">[5/6]</span></h2>
+<a id="a65d0c10b1bf117af4abbd9d13bb8ac65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65d0c10b1bf117af4abbd9d13bb8ac65">&#9670;&nbsp;</a></span>D_Bio_NucleusBlob() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,14 +274,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>signal_medians</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>signal_meddevs</em>, </td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>SignalStats_StatChannel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -303,8 +293,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6635150e7ab2727561ee3465f5ddc290"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6635150e7ab2727561ee3465f5ddc290">&#9670;&nbsp;</a></span>D_Bio_NucleusBlob() <span class="overload">[6/6]</span></h2>
+<a id="a65e87197f3aa6abb02a3675b62a0a5e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65e87197f3aa6abb02a3675b62a0a5e4">&#9670;&nbsp;</a></span>D_Bio_NucleusBlob() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,14 +308,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>signal_medians</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>signal_meddevs</em>, </td>
+          <td class="paramtype">vector&lt; vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>SignalStats_StatChannel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -458,6 +442,31 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">Point2f D_Bio_NucleusBlob::centroid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0dfcb3175bd97cf557b6ee99f1db9a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0dfcb3175bd97cf557b6ee99f1db9a4">&#9670;&nbsp;</a></span>channels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t D_Bio_NucleusBlob::channels </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -953,130 +962,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac3068a53de7d8a33ce012ae2fbc65f92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3068a53de7d8a33ce012ae2fbc65f92">&#9670;&nbsp;</a></span>set_value_dev2med()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Bio_NucleusBlob::set_value_dev2med </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>MedDev</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a14beede16a3fc94f724b201f4d94d7ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14beede16a3fc94f724b201f4d94d7ba">&#9670;&nbsp;</a></span>set_value_median()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Bio_NucleusBlob::set_value_median </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>Median</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a30a56b5fbf20612997b833320db45dda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30a56b5fbf20612997b833320db45dda">&#9670;&nbsp;</a></span>set_values_devs2med()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Bio_NucleusBlob::set_values_devs2med </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>vMedDev</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa9f40983c3dffe17376b1399b8554cb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9f40983c3dffe17376b1399b8554cb3">&#9670;&nbsp;</a></span>set_values_medians()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Bio_NucleusBlob::set_values_medians </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>vMedian</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="aa8fee59e82c38b57b317f5dc74236740"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8fee59e82c38b57b317f5dc74236740">&#9670;&nbsp;</a></span>signal_dev2med()</h2>
 
@@ -1118,6 +1003,42 @@ Public Member Functions</h2></td></tr>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>channel</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc9a1923846a0a65fca4a07cbf09931c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc9a1923846a0a65fca4a07cbf09931c">&#9670;&nbsp;</a></span>signal_stat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Bio_NucleusBlob::signal_stat </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>stat_local_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

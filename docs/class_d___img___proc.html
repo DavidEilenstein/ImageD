@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_0 (27.05.21)</span>
+   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -664,8 +664,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">Draw_ContourText</a> (Mat *pMA_Target, vector&lt; vector&lt; Point &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; Point2f &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
 <tr class="memdesc:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd" title="D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.">D_Img_Proc::Draw_ContourText</a> draw contours in an image with added text at contours centers.  <a href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">More...</a><br /></td></tr>
 <tr class="separator:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44b54da102aaf64fe743625ba132884b"><td class="memItemLeft" align="right" valign="top">static Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a44b54da102aaf64fe743625ba132884b">Contrast_Color</a> (Vec3d val_RGB)</td></tr>
-<tr class="separator:a44b54da102aaf64fe743625ba132884b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fd8862d5f97053f11fc3fc0abb7813b"><td class="memItemLeft" align="right" valign="top">static QColor&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a2fd8862d5f97053f11fc3fc0abb7813b">Contrast_Color</a> (QColor col_in, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</td></tr>
+<tr class="separator:a2fd8862d5f97053f11fc3fc0abb7813b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbfd338585f43bd59560d044f0735847"><td class="memItemLeft" align="right" valign="top">static Scalar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#adbfd338585f43bd59560d044f0735847">Contrast_Color</a> (Vec3d val_BGR, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</td></tr>
+<tr class="separator:adbfd338585f43bd59560d044f0735847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91950905b6e0cac3d6df819ffef2bb49"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a91950905b6e0cac3d6df819ffef2bb49">Color2Text4StyleSheet</a> (QColor col_in)</td></tr>
+<tr class="separator:a91950905b6e0cac3d6df819ffef2bb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4c392a996d51931074b4995ce1ca168"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac4c392a996d51931074b4995ce1ca168">Highlight_NumericalProblems</a> (Mat *pMA_Out, Mat *pMA_In)</td></tr>
 <tr class="separator:ac4c392a996d51931074b4995ce1ca168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ea0f7ecb6bec27a69108c21e18fd7ef"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ea0f7ecb6bec27a69108c21e18fd7ef">OverlayOverwrite</a> (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
@@ -1239,6 +1243,32 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a91950905b6e0cac3d6df819ffef2bb49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91950905b6e0cac3d6df819ffef2bb49">&#9670;&nbsp;</a></span>Color2Text4StyleSheet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString D_Img_Proc::Color2Text4StyleSheet </td>
+          <td>(</td>
+          <td class="paramtype">QColor&#160;</td>
+          <td class="paramname"><em>col_in</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0ebcb476ab95d22a547d5da02e42fef5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ebcb476ab95d22a547d5da02e42fef5">&#9670;&nbsp;</a></span>Color_Grab()</h2>
 
@@ -1335,8 +1365,56 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a44b54da102aaf64fe743625ba132884b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44b54da102aaf64fe743625ba132884b">&#9670;&nbsp;</a></span>Contrast_Color()</h2>
+<a id="a2fd8862d5f97053f11fc3fc0abb7813b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fd8862d5f97053f11fc3fc0abb7813b">&#9670;&nbsp;</a></span>Contrast_Color() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QColor D_Img_Proc::Contrast_Color </td>
+          <td>(</td>
+          <td class="paramtype">QColor&#160;</td>
+          <td class="paramname"><em>col_in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_black_and_white</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mirror_hue</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_light2blue</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adbfd338585f43bd59560d044f0735847"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbfd338585f43bd59560d044f0735847">&#9670;&nbsp;</a></span>Contrast_Color() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1348,8 +1426,30 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">Scalar D_Img_Proc::Contrast_Color </td>
           <td>(</td>
           <td class="paramtype">Vec3d&#160;</td>
-          <td class="paramname"><em>val_RGB</em></td><td>)</td>
+          <td class="paramname"><em>val_BGR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_black_and_white</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mirror_hue</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_light2blue</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

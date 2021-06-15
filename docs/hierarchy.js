@@ -85,7 +85,8 @@ var hierarchy =
       [ "m_makro_foci", "classm__makro__foci.html", null ]
     ] ],
     [ "QObject", null, [
-      [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", null ]
+      [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", null ],
+      [ "D_ImageRewardSystem", "class_d___image_reward_system.html", null ]
     ] ],
     [ "QPdfWriter", null, [
       [ "D_PDF_Writer", "class_d___p_d_f___writer.html", null ]

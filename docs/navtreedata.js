@@ -69,14 +69,14 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"class_d___geo___point__2_d.html#a989af22d9c82bd13c9fe3331ffe73783",
-"class_d___step_window.html",
-"class_d___viewer.html#ac7894f6bf82a46cdc821d09769e58725",
-"class_d___vis_dat___range.html#adc39788f030bde70e1da58310f0f0959",
-"d__enum_8h.html#a16c5cd51ba06aae8fa6a29c674402172a1484da41b76285bc6f9e2e5e13defc84",
-"d__enum_8h.html#a7ba433d5f680862848cd96c94b7a474ba1c57e707c11b44c05c78365464ec130c",
-"d__enum_8h.html#ad90323e0e68539a28becee62d350d7b4a06164f238d0ae6619d91a459a267efdd",
-"d__plot_8h.html"
+"class_d___geo___point__2_d.html#abf834db0f8dba7c09150246aff0f4f7d",
+"class_d___stat.html",
+"class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8",
+"class_d___vis_dat___range.html#ac73740ffec8b8cd5ce42b11dab8b96a3",
+"d__enum_8h.html#a0f74149e5107c82fb232695e9dff3937a520ac1566fd0b449044cd0d9568ab621",
+"d__enum_8h.html#a63ba2d30b4b9cb1c80ceb8ed9f21241aaa0f5cfb4b71c3194ee45ea2ba427b7ea",
+"d__enum_8h.html#ac18efa7120b04926abd93d3717c2a837ae6cddabd4ca722b1044a3f2f00cd3551",
+"d__makro__megafoci_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
