@@ -320,6 +320,8 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
 
 bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
 {
+  //qDebug() << "D_Bio_NucleusBlob::load_simple - read:" << nucleus_file << "--------------------------------";
+
     //File
     QFileInfo FI_Nucleus(nucleus_file);
     if(!FI_Nucleus.exists())
@@ -347,6 +349,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     int foci_channel_current = -1;
 
     //read line by line
+  //qDebug() << "start loop";
     bool end_loop = false;
     for(size_t l = 0; !TS_Nucleus.atEnd() && !end_loop; l++)
     {
@@ -354,6 +357,8 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
         QString QS_Line = TS_Nucleus.readLine();
         QStringList QSL_LineEntrys = QS_Line.split(";");
         QString QS_LineFirst = QSL_LineEntrys.empty() ? "" : QSL_LineEntrys.first();
+      //qDebug() << "Line:" << QSL_LineEntrys << "..........................................................................";
+
 
         //check for new section
         bool new_section = false;
@@ -362,7 +367,12 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             {
                 section = i;
                 new_section = true;
+              //qDebug() << "Section found:" << i << QSL_FileSections[i];
             }
+        if(!new_section)
+        {
+          //qDebug() << "No new section found";
+        }
 
         //new section
         if(new_section)
@@ -371,12 +381,13 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             case FILE_SECTION_END:      end_loop = true;        break;
             case FILE_SECTION_FOCI:     end_loop = !load_foci;  break;
             default:                                            break;}
+          //qDebug() << "end loop?" << end_loop;
         }
         else
         {
-            //not a new section
+            //not a new section but a new line
 
-            //get subsection
+            //get subsection in this line
             bool subsection_found = false;
             size_t subsection = FILE_SUBSECTION_DEFAULT;
             for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !subsection_found; i++)
@@ -384,7 +395,12 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                 {
                     subsection = i;
                     subsection_found = true;
+                  //qDebug() << "Subsection found:" << i << QSL_FileSubsections[i];
                 }
+            if(!subsection_found)
+            {
+              //qDebug() << "No new subsection found";
+            }
 
             //check section to select action
             switch (section)
@@ -393,12 +409,14 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             case FILE_SECTION_END:                  //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             {
                 end_loop = true;
+              //qDebug() << "2nd section switch:" << "end loop";
             }
                 break;
 
             case FILE_SECTION_VALUES:               //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             {
-                size_t stat_index;
+                bool stat_found = true;
+                size_t stat_index = VAL_STAT_NUMBER_OF;
                 switch (subsection) {
                 case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
                 case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
@@ -407,13 +425,23 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                 case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
                 case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
                 case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
-                default:                                stat_index = VAL_STAT_NUMBER_OF;        break;}
+                default:                                stat_found = false;                     break;}
 
-                for(int ch = 1; ch < QSL_LineEntrys.size(); ch++)
+                if(stat_found)
                 {
-                    bool ok;
-                    double value = QSL_LineEntrys[ch].toDouble(&ok);
-                    vvSignalStats_StatChannel[stat_index].push_back(ok ? value : 0);
+                  //qDebug() << "2nd section switch: section " << QSL_FileSections[FILE_SECTION_VALUES] << "stat" << QSL_ValueStat_Subsection[stat_index];
+
+                    for(int ch = 1; ch < QSL_LineEntrys.size(); ch++)
+                    {
+                        bool ok;
+                        double value = QSL_LineEntrys[ch].toDouble(&ok);
+                        vvSignalStats_StatChannel[stat_index].push_back(ok ? value : 0);
+                    }
+                  //qDebug() << QSL_ValueStat_Subsection[stat_index] << "loaded:" << vvSignalStats_StatChannel[stat_index];
+                }
+                else
+                {
+                  //qDebug() << "subsection index" << subsection << "does not match any stat index!";
                 }
             }
                 break;
@@ -421,18 +449,23 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             case FILE_SECTION_CONTOUR_PIXELS:       //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 if(QSL_LineEntrys.size() == 2)
                 {
+                  //qDebug() << "contour";
                     bool ok_x;
                     double x = QSL_LineEntrys[0].toDouble(&ok_x);
                     bool ok_y;
                     double y = QSL_LineEntrys[1].toDouble(&ok_y);
                     if(ok_x && ok_y)
+                    {
                         m_contour.push_back(Point2f(x, y));
+                      //qDebug() << "Add contour pixel" << x << y;
+                    }
                 }
                 break;
 
             case FILE_SECTION_FOCI:                 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 if(load_foci)
                 {
+                  //qDebug() << "load foci";
                     switch (subsection)
                     {
 
@@ -575,7 +608,16 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
 
     //--------------------------------------------------- end
     F_Nucleus.close();
+
+    //calc features based on loaded data
+    CalcFeats();
+
     return true;
+}
+
+QString D_Bio_NucleusBlob::info()
+{
+    return "D_Bio_NucleusBlob::info - " + QString::number(area()) + "px area - " + QString::number(get_FociChannels()) + " foci channels";
 }
 
 /*

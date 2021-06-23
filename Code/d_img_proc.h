@@ -388,6 +388,7 @@ public:
     static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val, int thickness = 1, bool filled = false);
     static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val_r, int val_g, int val_b, int thickness = 1, bool filled = false);
     static int      Draw_Ellipse                (Mat *pMA_Target, RotatedRect ell, double val_r, double val_g, double val_b, int thickness = 1);
+    static int      Draw_MarkerSymbol           (Mat *pMA_Target, int x1, int y1, int x2, int y2, int symbol_id, uchar r, uchar g, uchar b, double scale = 1);
     static int      Draw_Text                   (QImage *pQI_Target, QString text_tl, QString text_tr, QString text_bl, QString text_br, unsigned int size, QColor color);
     static int      Draw_Text                   (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0, double value = 255);
     static int      Draw_Text_ContrastColor     (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0);
@@ -398,6 +399,7 @@ public:
     static int      Draw_Label_Numbers          (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness, bool center);
     static int      Draw_Label_Numbers_Corner   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
     static int      Draw_Label_Numbers_Center   (Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness);
+    static int      Draw_Contours               (Mat *pMA_Target, vector<vector<Point>> vContours, int line_thickness, double value);
     static int      Draw_ContourText            (Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);
     static QColor   Contrast_Color              (QColor col_in, bool force_black_and_white = true, bool mirror_hue = true, bool force_light2blue = true);
@@ -405,6 +407,8 @@ public:
     static QString  Color2Text4StyleSheet       (QColor col_in);
     static int      Highlight_NumericalProblems (Mat *pMA_Out, Mat *pMA_In);
 
+
+    static int      OverlayImage                (Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *pMA_BaseB, Mat *pMA_OverR, Mat *pMA_OverG, Mat *pMA_OverB, uchar thresh_overlay = 0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0, double intensity_backgr = 1.0);

@@ -56,15 +56,29 @@ public:
     int calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
     int calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
 
+    int load(QString path);
+    int load_foci(QFileInfoList FIL_foci);
     int save(QString path, bool save_foci_in_nuclei, bool save_foci_separate);
 
     int get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
     int get_FociCount_append(QStringList *pQSL_FociCounts);
     int get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale);
 
-    vector<D_Bio_NucleusBlob> get_nuclei() {return vNuclei;}
+    size_t get_nuclei_count()                       {return vNuclei.size();}
+    size_t get_foci_channel_count()                 {return vvFoci.size();}
+    size_t get_foci_count(size_t foci_channel)      {return foci_channel < get_foci_channel_count() ? vvFoci[foci_channel].size() : 0;}
+
+    vector<vector<Point>> get_nuclei_contours(double scale = 1, Point scaled_offset = Point(0, 0));
+
+    vector<D_Bio_NucleusBlob> get_nuclei()          {return vNuclei;}
+    D_Bio_Focus get_focus(size_t ch, size_t foc)    {return ch < vvFoci.size() ? (foc < vvFoci[ch].size() ? (vvFoci[ch][foc]) : (D_Bio_Focus())) : (D_Bio_Focus());}
+
+    QString info();
 
 private:
+
+    bool            load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel);
+
     size_t m_time = 0;
     Point m_Offset = Point(0, 0);
     vector<D_Bio_NucleusBlob>   vNuclei;

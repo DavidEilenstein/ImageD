@@ -543,6 +543,60 @@ private slots:
     void on_pushButton_MS2_Tools_Channel_RFPonly_clicked();
     void on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked();
 
+    void on_comboBox_MS2_ViewportBackground_currentIndexChanged(int index);
+
+    void MS2_ViewerMaximize(int v2max);
+    void MS2_ViewerPointColor(size_t v2col);
+    void MS2_ViewerConnectZooms(size_t v2con, bool con);
+    void MS2_ViewerSetVisTrafoActive(size_t v2tra);
+    void MS2_ViewerSetVisTrafoActive_All();
+    void MS2_ViewersPopulateCBs();
+    void MS2_ViewersSelectDefaultCBs();
+
+    void MS2_UpdateViews();
+    void MS2_UpdateImages();
+    void MS2_UpdateImage1();
+    void MS2_UpdateImage2();
+    void MS2_UpdateImage3();
+    void MS2_UpdateImage4();
+    void MS2_UpdateImage(size_t img2update);
+    void MS2_UpdateImages_Editing();
+
+    void MS2_UpdateImage_Viewport();
+
+    void MS2_UpdateViewportPos();
+    void MS2_InitOverlays();
+    void MS2_UpdateOverlays();
+    void MS2_UpdateOverlay(size_t overlay_index);
+
+
+    void MS2_DrawMode_Set(size_t mode);
+
+    bool MS2_CalcMosaik_Size();
+
+    bool MS2_LoadData();
+    bool MS2_LoadData_DirsIn();
+    bool MS2_LoadData_DirsOut();
+
+    bool MS2_LoadData_TimeSelected();
+    bool MS2_LoadData_Time(size_t t);
+    bool MS2_LoadData_Mosaiks_In(size_t t);
+    bool MS2_LoadData_Detections_In(size_t t, bool error_when_no_dir);
+    bool MS2_LoadData_Detections_Out(size_t t);
+    bool MS2_LoadData_Detections(size_t t, bool error_when_no_dir, vector<vector<D_Bio_NucleusImage> > *vvNucleiTarget, QDir DIR_Source, vector<vector<size_t> > *vvState, size_t state_found, size_t state_not_found);
+
+    void on_groupBox_VisTrafo_clicked();
+
+    void on_doubleSpinBox_MS2_Params_NucleusBorderThickness_valueChanged(double arg1);
+    void on_doubleSpinBox_MS2_Params_FociMinRadius_valueChanged(double arg1);
+
+    void on_pushButton_MS2_Viewport_Left_clicked();
+    void on_pushButton_MS2_Viewport_Right_clicked();
+    void on_pushButton_MS2_Viewport_Up_clicked();
+    void on_pushButton_MS2_Viewport_Down_clicked();
+    void on_pushButton_MS2_Viewport_Next_clicked();
+    void on_pushButton_MS2_Viewport_Previous_clicked();
+
 private:
     void                        MS2_init_ui();
     const static size_t         MS2_ViewersCount = 4;
@@ -593,41 +647,26 @@ private:
 
     //data
     double                              MS2_MosaikImageScale;
+    double                              MS2_MosaikBorderPrz;
     int                                 MS2_MosaikImageWidth;
     int                                 MS2_MosaikImageHeight;
     vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_In_mosaikXY;
     vector<vector<D_Bio_NucleusImage>>  vv_MS2_NucImg_Out_mosaikXY;
-    vector<vector<size_t>>              vv_MS2_NucImg_State_mosaikXY;
+    vector<vector<size_t>>              vv_MS2_NucImg_State_In_mosaikXY;
+    vector<vector<size_t>>              vv_MS2_NucImg_State_Out_mosaikXY;
+
+    //viewport pos
+    Point                       MS2_ViewportOffset_NotScaled = Point(0,0);
+    Point                       MS2_ViewportOffset_Scaled = Point(0,0);
 
     //drawing
     size_t                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
 
     //states
     bool                        state_MS2_data_loaded = false;
+    bool                        state_MS2_detections_loaded = false;
 
-    void                        MS2_ViewerMaximize(int v2max);
-    void                        MS2_ViewerPointColor(size_t v2col);
-    void                        MS2_ViewerConnectZooms(size_t v2con, bool con);
-    void                        MS2_ViewerSetVisTrafoActive(size_t v2tra, bool active);
-    void                        MS2_ViewersPopulateCBs();
 
-    void                        MS2_UpdateViews();
-    void                        MS2_UpdateImages();
-    void                        MS2_UpdateImage(size_t img2update);
-    void                        MS2_UpdateImage_Viewport();
-
-    void                        MS2_DrawMode_Set(size_t mode);
-
-    bool                        MS2_CalcMosaik_Size();
-
-    bool                        MS2_LoadData();
-    bool                        MS2_LoadData_DirsIn();
-    bool                        MS2_LoadData_DirsOut();
-
-    bool                        MS2_LoadData_Time(size_t t);
-    bool                        MS2_LoadData_Mosaiks_In(size_t t);
-    bool                        MS2_LoadData_Detections_In(size_t t);
-    bool                        MS2_LoadData_Detections_Out(size_t t);
 
     enum MS2_CHANNELS_MOSAIK {
         MS2_CH_MOSAIK_DIC,
@@ -673,6 +712,7 @@ private:
 
     enum MS2_IMAGE_STATE {
         MS2_IMG_STATE_NOT_FOUND,
+        MS2_IMG_STATE_LOADED,
         MS2_IMG_STATE_TO_PROCESS,
         MS2_IMG_STATE_PROCESSED,
         MS2_IMG_STATE_NUMBER_OF

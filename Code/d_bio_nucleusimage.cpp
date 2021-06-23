@@ -461,6 +461,172 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     return ER_okay;
 }
 
+int D_Bio_NucleusImage::load(QString path)
+{
+    QDir DIR(path);
+    if(!DIR.exists())
+        return ER_file_not_exist;
+
+    //clear old
+    vNuclei.clear();
+    vvFoci.clear();
+
+    //foci (to be loaded later)
+    QFileInfoList FIL_foci;
+
+    //list of files
+    QFileInfoList FIL = DIR.entryInfoList(QDir::Files | QDir::NoDot | QDir::NoDotDot);
+    for(int f = 0; f < FIL.size(); f++)
+    {
+        //file
+        QFileInfo FI = FIL[f];
+
+        //check if .txt
+        if(FI.suffix() == "txt")
+        {
+            //nuclei?
+            if(FI.baseName().contains("Nucleus_T"))
+            {
+                D_Bio_NucleusBlob NucLoad;
+                if(NucLoad.load_simple(FI.absoluteFilePath(), false))
+                {
+                    //qDebug() << NucLoad.info();
+                    vNuclei.push_back(NucLoad);
+                }
+            }
+
+            //foci?
+            if(FI.baseName().contains("Foci_T"))
+            {
+                FIL_foci.push_back(FI);
+            }
+        }
+    }
+
+    //load foci
+    return load_foci(FIL_foci);
+}
+
+int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
+{
+    //FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME
+
+    //foci channels
+    size_t n_foci_channels = FIL_foci.size();
+    vvFoci.resize(n_foci_channels);
+
+    //qDebug() << "D_Bio_NucleusImage::load_foci" << "start" << "----------------------------------------------------------------------------";
+
+    //loop channels
+    for(size_t ch = 0; ch < n_foci_channels; ch++)
+    {
+        QFileInfo FI = FIL_foci[ch];
+        //qDebug() << "D_Bio_NucleusImage::load_foci" << "channel" << ch << ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::";
+
+        if(FI.suffix() == "txt")
+        {
+            QString QS_filename = FI.baseName();
+            //qDebug() << "D_Bio_NucleusImage::load_foci" << "filename" << QS_filename;
+
+            if(QS_filename.contains("Foci_T") && QS_filename.contains("_Y") && QS_filename.contains("_X"))
+            {
+                //---------------------------------- read foci channel file (start) ----------------------------------
+                //qDebug() << "D_Bio_NucleusImage::load_foci" << "_corrdinate indicators contained";
+
+                //file
+                QFile F_Nucleus(FI.absoluteFilePath());
+                if (!F_Nucleus.open(QIODevice::ReadOnly))
+                    return ER_StreamNotOpen;
+
+                //text stream
+                QTextStream TS_FociChannel(&F_Nucleus);
+
+                //info needed for interpretation
+                size_t subsection = FILE_SUBSECTION_DEFAULT;
+                int foci_channel_current = -1;
+
+
+
+                //read line by line
+                for(size_t l = 0; !TS_FociChannel.atEnd(); l++)
+                {
+                    //line and entrys in line
+                    QString QS_Line = TS_FociChannel.readLine();
+                    QStringList QSL_LineEntrys = QS_Line.split(";");
+                    QString QS_LineFirst = QSL_LineEntrys.empty() ? "" : QSL_LineEntrys.first();
+                    //qDebug() << "D_Bio_NucleusImage::load_foci" << "read line" << QSL_LineEntrys << "------------------------------------------------------";
+
+                    //get subsection
+                    bool subsection_found = false;
+                    for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !subsection_found; i++)
+                        if(QS_LineFirst == QSL_FileSubsections[i])
+                        {
+                            subsection = i;
+                            subsection_found = true;
+                            //qDebug() << "D_Bio_NucleusImage::load_foci" << "subsection found" << QSL_FileSubsections[i];
+                        }
+                    if(!subsection_found)
+                    {
+                        //qDebug() << "D_Bio_NucleusImage::load_foci" << "no subsection found XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+                    }
+
+                    //subsection switch
+                    switch (subsection)
+                    {
+
+                    case FILE_SUBSECTION_NEW_FOCI_CHANNEL:
+                    {
+                        //qDebug() << "D_Bio_NucleusImage::load_foci" << "FILE_SUBSECTION_NEW_FOCI_CHANNEL";
+
+                        if(QSL_LineEntrys.size() == 2)
+                        {
+                            bool ok;
+                            int ch = QSL_LineEntrys[1].toInt(&ok);
+                            foci_channel_current = ok ? ch : -1;
+
+                            if(ok)
+                            {
+                                //qDebug() << "D_Bio_NucleusImage::load_foci" << "new channel" << ch;
+                            }
+                            else
+                            {
+                                //qDebug() << "D_Bio_NucleusImage::load_foci" << "IVALID CHANNEL ERROR";
+                            }
+                        }
+                    }
+                        break;
+
+                    case FILE_SUBSECTION_FOCUS_BEGIN:
+                    {
+                        D_Bio_Focus FocLoad;
+                        if(load_focus(&FocLoad, &TS_FociChannel))
+                        {
+                            if(foci_channel_current >= 0 && foci_channel_current < static_cast<int>(vvFoci.size()))
+                            {
+                                vvFoci[foci_channel_current].push_back(FocLoad);
+                                //qDebug() << "D_Bio_NucleusImage::load_foci" << "ADD NEW FOCUS :-)";
+                            }
+                        }
+                    }
+                        break;
+
+                    default:
+                    {
+                        //do nothing / skip lines that don't make sense here
+                    }
+                        break;
+                    }
+
+                }
+
+                //---------------------------------- read foci channel file (end) ----------------------------------
+            }
+        }
+    }
+
+    return ER_okay;
+}
+
 int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_foci_separate)
 {
     //qDebug() << "D_Bio_NucleusImage::save";
@@ -514,7 +680,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
 
         //TYX coordinate
         QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(m_Offset.y)) + "_X" + QString::number(static_cast<int>(m_Offset.x));
-        QString QS_PathFoci_Base = path + "/Foci_" + QS_Coordinate_TYX;
+        QString QS_PathFoci_Base = path + "/Foci" + QS_Coordinate_TYX;
 
         //loop channels
         for(size_t c = 0; c < vvFoci.size(); c++)
@@ -592,4 +758,221 @@ int D_Bio_NucleusImage::get_Centroids_append(vector<Point2f> *pvScaledCentroids,
         pvScaledCentroids->push_back(vNuclei[i].centroid() * scale);
 
     return ER_okay;
+}
+
+vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Point scaled_offset)
+{
+    //qDebug() << "D_Bio_NucleusImage::get_nuclei_contours" << "scale" << scale << "offset x/y" << scaled_offset.x << scaled_offset.y;
+    vector<vector<Point>> vvPointsContour(vNuclei.size());
+    for(size_t nuc = 0; nuc < vNuclei.size(); nuc++)
+    {
+        vector<Point> v_contour = vNuclei[nuc].contour();
+
+        for(size_t px = 0; px < v_contour.size(); px++)
+        {
+            int x = v_contour[px].x;
+            int y = v_contour[px].y;
+            vvPointsContour[nuc].push_back(
+                        Point(
+                            (x * scale) + scaled_offset.x,
+                            (y * scale) + scaled_offset.y));
+        }
+    }
+
+    return vvPointsContour;
+}
+
+QString D_Bio_NucleusImage::info()
+{
+    return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset.x) + "/" + QString::number(m_Offset.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
+}
+
+bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel)
+{
+    //........................................... read focus (start) ...........................................
+    //qDebug() << "D_Bio_NucleusImage::load_focus" << "READ NEW FOCUS" << "......................................................................................";
+
+    //data of new focus
+    Point2f focus_centroid(0, 0);
+    double focus_area = 0;
+    double focus_compactness = 0;
+    double focus_convexity = 0;
+    vector<vector<double>> focus_StatsChannels(VAL_STAT_NUMBER_OF, vector<double>(vvFoci.size(), 0));
+
+    bool focus_end = false;
+    while(!pTS_FociChannel->atEnd() && !focus_end)
+    {
+        //line and entrys in line in focus
+        QString QS_Line_focus = pTS_FociChannel->readLine();
+        QStringList QSL_LineEntrys_focus = QS_Line_focus.split(";");
+        QString QS_LineFirst_focus = QSL_LineEntrys_focus.empty() ? "" : QSL_LineEntrys_focus.first();
+        //qDebug() << "D_Bio_NucleusImage::load_focus" << "read line in foucs" << QSL_LineEntrys_focus << "- - - - - - - - - - - - - - - - - - - - - - - - ";
+
+        //get subsection in focus
+        bool subsection_found_focus = false;
+        size_t subsection_focus = FILE_SUBSECTION_DEFAULT;
+        for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found_focus; i++)
+            if(QS_LineFirst_focus == QSL_FileSubsections[i])
+            {
+                subsection_focus = i;
+                subsection_found_focus = true;
+                //qDebug() << "D_Bio_NucleusImage::load_focus" << "found focus subsection" << QSL_FileSubsections[i];
+            }
+        if(!subsection_found_focus)
+        {
+            //qDebug() << "D_Bio_NucleusImage::load_focus" << "no focus seubsection found xxxxxxxxxxxxxxxxxxxxx";
+        }
+
+        //add data to focus
+        //qDebug() << "D_Bio_NucleusImage::load_focus" << "start focus subsection switch";
+        switch (subsection_focus) {
+
+        case FILE_SUBSECTION_POSITION:
+        {
+            //qDebug() << "D_Bio_NucleusImage::load_focus" << "FILE_SUBSECTION_POSITION";
+            if(QSL_LineEntrys_focus.size() == 3)
+            {
+                bool ok_x;
+                double x = QSL_LineEntrys_focus[1].toDouble(&ok_x);
+                bool ok_y;
+                double y = QSL_LineEntrys_focus[2].toDouble(&ok_y);
+                if(ok_x && ok_y)
+                {
+                    focus_centroid = Point2f(x, y);
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "loaded centroid:" << focus_centroid.x << focus_centroid.y;
+                }
+                else
+                {
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "unable to read centroid";
+                }
+            }
+        }
+            break;
+
+        case FILE_SUBSECTION_SHAPE:
+        {
+            //qDebug() << "D_Bio_NucleusImage::load_focus" << "FILE_SUBSECTION_SHAPE";
+
+            if(QSL_LineEntrys_focus.size() == 4)
+            {
+                //qDebug() << "D_Bio_NucleusImage::load_focus" << "correct block count in shape line in focus";
+
+                bool ok_area;
+                double load_area = QSL_LineEntrys_focus[1].toDouble(&ok_area);
+                if(ok_area)
+                {
+                    focus_area = load_area;
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "load area" << focus_area;
+                }
+                else
+                {
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "area load error";
+                }
+
+
+                bool ok_compactness;
+                double load_compactness = QSL_LineEntrys_focus[2].toDouble(&ok_compactness);
+                if(ok_compactness)
+                {
+                    focus_compactness = load_compactness;
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "load compactness" << focus_compactness;
+                }
+                else
+                {
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "compactness error";
+                }
+
+                bool ok_convexity;
+                double load_convexity = QSL_LineEntrys_focus[3].toDouble(&ok_convexity);
+                if(ok_convexity)
+                {
+                    focus_convexity = load_convexity;
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "load convexity" << load_convexity;
+                }
+                else
+                {
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "convexity error";
+                }
+            }
+        }
+            break;
+
+        case FILE_SUBSECTION_VAL_COUNT:
+        case FILE_SUBSECTION_MEAN:
+        case FILE_SUBSECTION_STD:
+        case FILE_SUBSECTION_SKEW:
+        case FILE_SUBSECTION_KURTOSIS:
+        case FILE_SUBSECTION_MEDIAN:
+        case FILE_SUBSECTION_MEDIAN_DEVIATION:
+        {
+            bool ok_stat = true;
+            size_t stat_index;
+            switch (subsection_focus) {
+            case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
+            case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
+            case FILE_SUBSECTION_STD:               stat_index = VAL_STAT_STD;              break;
+            case FILE_SUBSECTION_SKEW:              stat_index = VAL_STAT_SKEW;             break;
+            case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
+            case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
+            case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
+            default:                                ok_stat = false;                        break;}
+
+            if(ok_stat)
+            {
+                //qDebug() << "D_Bio_NucleusImage::load_focus" << "stat read" << QSL_ValueStat_Subsection[stat_index];
+                for(int block = 1; block < QSL_LineEntrys_focus.size(); block++)
+                {
+                    bool ok;
+                    double value = QSL_LineEntrys_focus[block].toDouble(&ok);
+                    size_t channel = block - 1;
+
+                    //qDebug() << "D_Bio_NucleusImage::load_focus" << "read block" << block << QSL_LineEntrys_focus[block] << "to channel" << channel;
+
+                    if(stat_index >= 0 && stat_index < focus_StatsChannels.size())
+                        if(channel >= 0 && channel < focus_StatsChannels[stat_index].size())
+                        {
+                            focus_StatsChannels[stat_index][channel] = ok ? value : 0;
+                            if(ok)
+                            {
+                                //qDebug() << "D_Bio_NucleusImage::load_focus" << "read stat" << value;
+                            }
+                            else
+                            {
+                                //qDebug() << "D_Bio_NucleusImage::load_focus" << "value read error (Value)";
+                            }
+                        }
+                }
+            }
+            else
+            {
+                //qDebug() << "D_Bio_NucleusImage::load_focus" << "value read error (ID)";
+            }
+        }
+            break;
+
+        case FILE_SUBSECTION_DEFAULT:
+        {
+            //do nothing / proceed with next line
+        }
+            break;
+
+        case FILE_SUBSECTION_FOCUS_END:
+        default:
+        {
+            //qDebug() << "D_Bio_NucleusImage::load_focus" << "END / DEFAULT";
+            focus_end = true;
+        }
+        }
+    }
+
+    //........................................... reading focus (end) ...........................................
+
+    *FocusLoad = D_Bio_Focus(
+                focus_centroid,
+                focus_area,
+                focus_compactness,
+                focus_convexity,
+                focus_StatsChannels);
+
+    return true;
 }

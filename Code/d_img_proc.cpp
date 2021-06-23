@@ -4255,7 +4255,7 @@ int D_Img_Proc::Crop_Rect_Rel(Mat *pMA_Out, Mat *pMA_In, double x1_rel, double y
 
     //imshow("full", *pMA_In);
     *pMA_Out = pMA_In->clone();
-    *pMA_Out = (*pMA_Out)(Rect(x, y, w, h));
+    *pMA_Out = (*pMA_Out)(Rect(x, y, w, h)).clone();
     //imshow("crop", *pMA_Out);
 
     (*offset_x) = x;
@@ -16206,6 +16206,169 @@ int D_Img_Proc::Draw_Ellipse(Mat *pMA_Target, RotatedRect ell, double val_r, dou
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y2, int symbol_id, uchar r, uchar g, uchar b, double scale)
+{
+    if(pMA_Target->empty())             return ER_empty;
+    if(pMA_Target->type() != CV_8UC3)   return ER_type_bad;
+
+    //make sure range fits
+    x1 = min(max(0, x1), pMA_Target->cols - 1);
+    x2 = min(max(0, x1), pMA_Target->cols - 1);
+    y1 = min(max(0, y2), pMA_Target->rows - 1);
+    y2 = min(max(0, y2), pMA_Target->rows - 1);
+
+    //center
+    int xc = (x1 + x2) / 2.0;
+    int yc = (y1 + y2) / 2.0;
+
+    //size
+    int xs = x2 - x1;
+    int ys = y2 - y1;
+
+    //rescale corners of drawing area
+    x1 = xc - ((xs / 2.0) * scale);
+    x2 = xc - ((xs / 2.0) * scale);
+    y1 = yc - ((ys / 2.0) * scale);
+    y2 = yc - ((ys / 2.0) * scale);
+
+    //make sure range fits (scaled)
+    x1 = min(max(0, x1), pMA_Target->cols - 1);
+    x2 = min(max(0, x1), pMA_Target->cols - 1);
+    y1 = min(max(0, y2), pMA_Target->rows - 1);
+    y2 = min(max(0, y2), pMA_Target->rows - 1);
+
+    //center (scaled)
+    xc = (x1 + x2) / 2.0;
+    yc = (y1 + y2) / 2.0;
+
+    //size (scaled)
+    xs = x2 - x1;
+    ys = y2 - y1;
+
+    switch (symbol_id) {
+
+    case c_MARKER_SYMBOL_CIRCLE:
+    case c_MARKER_SYMBOL_DOT:
+    {
+        bool dot = symbol_id == c_MARKER_SYMBOL_DOT;
+        return Draw_Circle(
+                    pMA_Target,
+                    xc, yc,
+                    min(xs, ys) / 2.0,
+                    r, g, b,
+                    max(2.0, min(xs, ys) / 10.0),
+                    dot);
+    }
+        break;
+
+    case c_MARKER_SYMBOL_PLUS:
+    {
+        //vertical
+        int ER = Draw_Line(
+                    pMA_Target,
+                    xc, y1,
+                    xc, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //horizoontal
+        ER = Draw_Line(
+                    pMA_Target,
+                    x1, yc,
+                    x2, yc,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+    }
+        break;
+
+    case c_MARKER_SYMBOL_MINUS:
+    {
+        return Draw_Line(
+                    pMA_Target,
+                    x1, yc,
+                    x2, yc,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+    }
+        break;
+
+    case c_MARKER_SYMBOL_CROSS:
+    {
+        //tl br
+        int ER = Draw_Line(
+                    pMA_Target,
+                    x1, y1,
+                    x2, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //bl tr
+        ER = Draw_Line(
+                    pMA_Target,
+                    x2, y1,
+                    x1, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+    }
+        break;
+
+    case c_MARKER_SYMBOL_3CIRCLES:
+    case c_MARKER_SYMBOL_3DOTS:
+    {
+        bool dot = symbol_id == c_MARKER_SYMBOL_3CIRCLES;
+        double r = min(ys / 2.0, xs / 8.0);
+        double t = max(r/5.0, 2.0);
+
+        //left
+        int ER = Draw_Circle(
+                    pMA_Target,
+                    xc - (3 * r), yc,
+                    r,
+                    r, g, b,
+                    t,
+                    dot);
+        if(ER != ER_okay)
+            return ER;
+
+        //mid
+        ER = Draw_Circle(
+                    pMA_Target,
+                    xc, yc,
+                    r,
+                    r, g, b,
+                    t,
+                    dot);
+        if(ER != ER_okay)
+            return ER;
+
+        //right
+        ER = Draw_Circle(
+                    pMA_Target,
+                    xc + (3 * r), yc,
+                    r,
+                    r, g, b,
+                    t,
+                    dot);
+        if(ER != ER_okay)
+            return ER;
+    }
+        break;
+
+    default:
+        return ER_parameter_bad;
+    }
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Draw_Text(QImage *pQI_Target, QString text_tl, QString text_tr, QString text_bl, QString text_br, unsigned int size, QColor color)
 {
     if(pQI_Target->isNull())    return ER_empty;
@@ -16723,6 +16886,43 @@ int D_Img_Proc::Draw_Label_Numbers_Center(Mat *pMA_Out, Mat *pMA_Label, double s
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point> > vContours, int line_thickness, double value)
+{
+    ///error checks
+    if(pMA_Target->empty())                                         return ER_empty;
+
+    ///calc draw color with fitting channel count
+    Scalar color;
+    switch (pMA_Target->channels()) {
+    case 1: color = Scalar(value);                      break;
+    case 2: color = Scalar(value, value);               break;
+    case 3: color = Scalar(value, value, value);        break;
+    case 4: color = Scalar(value, value, value, value); break;
+    default:                                            return ER_channel_bad;}
+
+    /*
+    for(size_t blob = 0; blob < vContours.size(); blob++)
+    {
+        qDebug() << "blob" << blob << "of" << vContours.size() << "-----------------------------------------------------------------";
+        for(size_t pt = 0; pt < vContours[blob].size(); pt++)
+        {
+            qDebug() << "point" << pt << "of" << vContours[blob].size() << "x" << vContours[blob][pt].x << "/" << pMA_Target->cols << "y" << vContours[blob][pt].y << "/" << pMA_Target->rows;
+        }
+    }
+    */
+
+    ///draw contours
+    if(!vContours.empty())
+        drawContours(
+                    *pMA_Target,
+                    vContours,
+                    -1,
+                    color,
+                    line_thickness);
+
+    return ER_okay;
+}
+
 /*!
  * \brief D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers
  * \param pMA_Target image to draw in
@@ -16747,7 +16947,7 @@ int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContour
     case 2: color = Scalar(value, value);               break;
     case 3: color = Scalar(value, value, value);        break;
     case 4: color = Scalar(value, value, value, value); break;
-    default:                                            return ER_type_bad;}
+    default:                                            return ER_channel_bad;}
 
     ///draw contours
     drawContours(
@@ -16887,6 +17087,53 @@ int D_Img_Proc::Highlight_NumericalProblems(Mat *pMA_Out, Mat *pMA_In)
     else
     {
         *pMA_Out = pMA_In->clone();
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::OverlayImage(Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *pMA_BaseB, Mat *pMA_OverR, Mat *pMA_OverG, Mat *pMA_OverB, uchar thresh_overlay)
+{
+    if(pMA_BaseR->empty())                          return ER_empty;
+    if(pMA_BaseG->empty())                          return ER_empty;
+    if(pMA_BaseB->empty())                          return ER_empty;
+    if(pMA_OverR->empty())                          return ER_empty;
+    if(pMA_OverG->empty())                          return ER_empty;
+    if(pMA_OverB->empty())                          return ER_empty;
+    if(pMA_BaseR->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_BaseG->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_BaseB->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_OverR->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_OverG->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_OverB->type() != CV_8UC1)                return ER_type_bad;
+    if(pMA_BaseR->size() != pMA_BaseG->size())      return ER_size_missmatch;
+    if(pMA_BaseR->size() != pMA_BaseB->size())      return ER_size_missmatch;
+    if(pMA_BaseR->size() != pMA_OverR->size())      return ER_size_missmatch;
+    if(pMA_BaseR->size() != pMA_OverG->size())      return ER_size_missmatch;
+    if(pMA_BaseR->size() != pMA_OverB->size())      return ER_size_missmatch;
+
+    //init out
+    *pMA_Out = Mat(pMA_BaseR->size(), CV_8UC3);
+
+    //size
+    size_t area = pMA_Out->rows * pMA_Out->cols;
+
+    //pointers to data
+    Vec3b* ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
+    uchar* ptr_BR = reinterpret_cast<uchar*>(pMA_BaseR->data);
+    uchar* ptr_BG = reinterpret_cast<uchar*>(pMA_BaseG->data);
+    uchar* ptr_BB = reinterpret_cast<uchar*>(pMA_BaseB->data);
+    uchar* ptr_OR = reinterpret_cast<uchar*>(pMA_OverR->data);
+    uchar* ptr_OG = reinterpret_cast<uchar*>(pMA_OverG->data);
+    uchar* ptr_OB = reinterpret_cast<uchar*>(pMA_OverB->data);
+
+    //loop images
+    for(size_t px = 0; px < area; px++, ptr_out++, ptr_BR++, ptr_BG++, ptr_BB++, ptr_OR++, ptr_OG++, ptr_OB++)
+    {
+        if(*ptr_OR > thresh_overlay || *ptr_OG > thresh_overlay || *ptr_OB > thresh_overlay)
+            *ptr_out = Vec3b(*ptr_OB, *ptr_OG, *ptr_OR);
+        else
+            *ptr_out = Vec3b(*ptr_BB, *ptr_BG, *ptr_BR);
     }
 
     return ER_okay;

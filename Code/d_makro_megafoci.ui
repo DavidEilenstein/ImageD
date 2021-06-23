@@ -28,13 +28,13 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>300</width>
+        <width>350</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>300</width>
+        <width>350</width>
         <height>16777215</height>
        </size>
       </property>
@@ -248,13 +248,13 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>300</width>
+        <width>350</width>
         <height>60</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>300</width>
+        <width>350</width>
         <height>16777215</height>
        </size>
       </property>
@@ -288,14 +288,14 @@
         <widget class="QLabel" name="label_ImageReward">
          <property name="minimumSize">
           <size>
-           <width>292</width>
-           <height>292</height>
+           <width>342</width>
+           <height>342</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>292</width>
-           <height>292</height>
+           <width>342</width>
+           <height>342</height>
           </size>
          </property>
          <property name="text">
@@ -2701,7 +2701,7 @@
                     <string>Transform</string>
                    </property>
                    <property name="checked">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -2938,7 +2938,7 @@ background-color: rgb(0,0,0);</string>
                     <string>Transform</string>
                    </property>
                    <property name="checked">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3175,7 +3175,7 @@ background-color: rgb(0,0,0);</string>
                     <string>Transform</string>
                    </property>
                    <property name="checked">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3413,7 +3413,7 @@ background-color: rgb(0,0,0);</string>
                     <string>Transform</string>
                    </property>
                    <property name="checked">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3488,299 +3488,6 @@ background-color: rgb(0,0,0);</string>
            <property name="spacing">
             <number>3</number>
            </property>
-           <item row="2" column="0">
-            <widget class="QGroupBox" name="groupBox_MS2_Tools">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="title">
-              <string>Tools</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_28">
-              <item row="2" column="0">
-               <layout class="QGridLayout" name="gridLayout_31">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Ellipse">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Ellipse (E)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>E</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_10">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Apply points</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Polygon">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Polygon (Q)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>Q</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Remove">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Remove (R)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>R</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="3" column="0">
-               <layout class="QGridLayout" name="gridLayout_32">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_History_Undo">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Undo (F)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>F</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_11">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>History</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_History_Redo">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Redo (G)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>G</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="1" column="0">
-               <layout class="QGridLayout" name="gridLayout_30">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_9">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Record points</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_RecordPoints_Cancel">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Cancel (Esc)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>Esc</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_RecordPoints_Start">
-                  <property name="text">
-                   <string>Start (Space)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>Space</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="4" column="0">
-               <layout class="QGridLayout" name="gridLayout_34">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Corrected">
-                  <property name="text">
-                   <string>Corrected (X)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>X</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_12">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Image progress</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_ProgressToCorrect">
-                  <property name="text">
-                   <string>To correct (Y)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>Y</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="0">
-               <layout class="QGridLayout" name="gridLayout_33">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPonly">
-                  <property name="text">
-                   <string>GFP (2)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_Nuclei">
-                  <property name="styleSheet">
-                   <string notr="true">font-weight: bold</string>
-                  </property>
-                  <property name="text">
-                   <string>Nuclei (1)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_RFPonly">
-                  <property name="text">
-                   <string>RFP (3)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>3</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPandRFP">
-                  <property name="text">
-                   <string>GFP and RFP (4)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>4</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0" rowspan="2">
-                 <widget class="QLabel" name="label_8">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Active channel</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_MS2_Files">
              <property name="title">
@@ -3871,7 +3578,11 @@ background-color: rgb(0,0,0);</string>
                </widget>
               </item>
               <item row="1" column="0" colspan="4">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewport"/>
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewport">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="3" column="3">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Down">
@@ -3896,10 +3607,10 @@ background-color: rgb(0,0,0);</string>
               <item row="5" column="2" colspan="2">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
                 <property name="text">
-                 <string>Next to correct (C)</string>
+                 <string>Next to correct (M)</string>
                 </property>
                 <property name="shortcut">
-                 <string>C</string>
+                 <string>M</string>
                 </property>
                </widget>
               </item>
@@ -3972,181 +3683,642 @@ background-color: rgb(0,0,0);</string>
              </layout>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QGroupBox" name="groupBox_MS2_ViewerControls">
-             <property name="enabled">
-              <bool>false</bool>
+           <item row="2" column="0">
+            <widget class="QTabWidget" name="tabWidget_MS2_Control">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="title">
-              <string>Viewers</string>
+             <property name="currentIndex">
+              <number>0</number>
              </property>
-             <layout class="QGridLayout" name="gridLayout_36">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item row="1" column="0">
-               <layout class="QGridLayout" name="gridLayout_29">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_14">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
+             <widget class="QWidget" name="tab_MS2_Actions">
+              <attribute name="title">
+               <string>Actions</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout_38">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QGroupBox" name="groupBox_MS2_Tools">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="title">
+                  <string>Tools</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_28">
+                  <property name="leftMargin">
+                   <number>3</number>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
+                  <property name="topMargin">
+                   <number>3</number>
                   </property>
-                  <property name="text">
-                   <string>Show settings</string>
+                  <property name="rightMargin">
+                   <number>3</number>
                   </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QCheckBox" name="checkBox_MS2_ViewerShowSettings">
-                  <property name="text">
-                   <string/>
+                  <property name="bottomMargin">
+                   <number>3</number>
                   </property>
-                  <property name="checked">
-                   <bool>true</bool>
+                  <property name="spacing">
+                   <number>3</number>
                   </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="0">
-               <layout class="QGridLayout" name="gridLayout_39">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_1">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_33">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPonly">
+                      <property name="text">
+                       <string>GFP (2)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>2</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_Nuclei">
+                      <property name="styleSheet">
+                       <string notr="true">font-weight: bold</string>
+                      </property>
+                      <property name="text">
+                       <string>Nuclei (1)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>1</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_RFPonly">
+                      <property name="text">
+                       <string>RFP (3)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>3</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPandRFP">
+                      <property name="text">
+                       <string>GFP and RFP (4)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>4</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" rowspan="2">
+                     <widget class="QLabel" name="label_8">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Active channel</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="0">
+                   <layout class="QGridLayout" name="gridLayout_34">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_12">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Image progress</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Corrected">
+                      <property name="text">
+                       <string>Corrected (X)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>X</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_ToCorrect">
+                      <property name="text">
+                       <string>To correct (Y)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>Y</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Clear">
+                      <property name="text">
+                       <string>Clear (C)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>C</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Reset">
+                      <property name="text">
+                       <string>Reset to input (V)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>V</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="0">
+                   <layout class="QGridLayout" name="gridLayout_30">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_9">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Record points</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_RecordPoints_Cancel">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Cancel (Esc)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>Esc</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_RecordPoints_Start">
+                      <property name="text">
+                       <string>Start (Space)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>Space</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="0">
+                   <layout class="QGridLayout" name="gridLayout_31">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Ellipse">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Ellipse (E)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>E</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_10">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Apply points</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Polygon">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Polygon (Q)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>Q</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="3">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Remove">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Remove (R)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>R</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="5" column="0">
+                   <layout class="QGridLayout" name="gridLayout_32">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_History_Undo">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Undo (F)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_11">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>History</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="3">
+                     <widget class="QPushButton" name="pushButton_MS2_Tools_History_Redo">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Redo (G)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>G</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QGroupBox" name="groupBox_MS2_ViewerControls">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="title">
+                  <string>Viewers</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_36">
+                  <property name="leftMargin">
+                   <number>3</number>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
+                  <property name="topMargin">
+                   <number>3</number>
                   </property>
-                  <property name="text">
-                   <string>Top Left (F1)</string>
+                  <property name="rightMargin">
+                   <number>3</number>
                   </property>
-                  <property name="shortcut">
-                   <string>F1</string>
+                  <property name="bottomMargin">
+                   <number>3</number>
                   </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_3">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                  <property name="spacing">
+                   <number>3</number>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Bottom Left (F3)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>F3</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_2">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Top Right (F2)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>F2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_4">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Bottom Right (F4)</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>F4</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0" rowspan="2">
-                 <widget class="QLabel" name="label_13">
-                  <property name="minimumSize">
-                   <size>
-                    <width>75</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Maximize</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
+                  <item row="1" column="0">
+                   <layout class="QGridLayout" name="gridLayout_29">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_14">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Show settings</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QCheckBox" name="checkBox_MS2_ViewerShowSettings">
+                      <property name="text">
+                       <string>(I)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>I</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_39">
+                    <property name="spacing">
+                     <number>3</number>
+                    </property>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Top Left (F1)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F1</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_3">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Bottom Left (F3)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F3</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_2">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Top Right (F2)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F2</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_4">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Bottom Right (F4)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F4</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" rowspan="2">
+                     <widget class="QLabel" name="label_13">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Maximize</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_MS2_Params">
+              <attribute name="title">
+               <string>Parameters</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout_43">
+               <item row="0" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_NucleusBorderThickness">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Nucleus border width: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>2.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <spacer name="verticalSpacer_MS2_Params">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>211</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_FociMinRadius">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Force minumum focus radius: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>1</number>
+                 </property>
+                 <property name="minimum">
+                  <double>0.500000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.500000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>2.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_FociScale">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Scale foci radii displayed: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>%</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>10.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>10.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>100.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>

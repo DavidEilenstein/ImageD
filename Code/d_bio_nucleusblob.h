@@ -96,7 +96,10 @@ public:
     double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
     double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
+    QString         info();
+
 private:
+
 
     //bool            load(QString QS_DirLoad);
 

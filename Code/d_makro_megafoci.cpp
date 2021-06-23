@@ -1356,7 +1356,6 @@ void D_MAKRO_MegaFoci::ConnectViewersVisTrafo(D_Viewer *view)
     connect(ui->comboBox_VisTrafo_TransformationMode,       SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Trafo(int)));
     connect(ui->comboBox_VisTrafo_AnchorMode,               SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Anchor(int)));
     connect(ui->comboBox_VisTrafo_RangeMode,                SIGNAL(currentIndexChanged(int)),           view,   SLOT(Set_VisTrafo_Mode_Range(int)));
-
 }
 
 bool D_MAKRO_MegaFoci::Load_Dataset()
@@ -2040,6 +2039,7 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     //fill vectors
 
     //viewers
+    //editing viewers
     MS2_Viewer1.set_GV(ui->graphicsView_MS2_Viewer_1);
     MS2_Viewer2.set_GV(ui->graphicsView_MS2_Viewer_2);
     MS2_Viewer3.set_GV(ui->graphicsView_MS2_Viewer_3);
@@ -2049,7 +2049,9 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     v_MS2_Viewer[1] = &MS2_Viewer2;
     v_MS2_Viewer[2] = &MS2_Viewer3;
     v_MS2_Viewer[3] = &MS2_Viewer4;
+    //viewport viewer
     MS2_Viewer_Viewport.set_GV(ui->graphicsView_MS2_Viewport);
+
 
     //maximizers
     v_MS2_PUB_Viewer_Maximize.resize(MS2_ViewersCount);
@@ -2067,18 +2069,23 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
 
     //channels image
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr.resize(MS2_ViewersCount, vector<QComboBox*>(MS2_ViewersChannels));
+
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][0] = ui->comboBox_MS2_ViewerSettings_Image_B_1;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][1] = ui->comboBox_MS2_ViewerSettings_Image_G_1;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][2] = ui->comboBox_MS2_ViewerSettings_Image_R_1;
+
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][0] = ui->comboBox_MS2_ViewerSettings_Image_B_2;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][1] = ui->comboBox_MS2_ViewerSettings_Image_G_2;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][2] = ui->comboBox_MS2_ViewerSettings_Image_R_2;
+
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][0] = ui->comboBox_MS2_ViewerSettings_Image_B_3;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][1] = ui->comboBox_MS2_ViewerSettings_Image_G_3;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][2] = ui->comboBox_MS2_ViewerSettings_Image_R_3;
+
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][0] = ui->comboBox_MS2_ViewerSettings_Image_B_4;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][1] = ui->comboBox_MS2_ViewerSettings_Image_G_4;
     vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][2] = ui->comboBox_MS2_ViewerSettings_Image_R_4;
+
 
     //connect image channel selector CBs to color change of themselves
     for(size_t v = 0; v < MS2_ViewersCount; v++)
@@ -2150,9 +2157,18 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
         for(size_t j = i + 1; j < MS2_ViewersCount; j++)
             v_MS2_Viewer[i]->connect_Zoom(v_MS2_Viewer[j]);
 
-    //activate view transformations
+    //set view transformations
     for(size_t v = 0; v < MS2_ViewersCount; v++)
-        v_MS2_Viewer[v]->Set_VisTrafo_ActiveInt(1);
+    {
+        v_MS2_Viewer[v]->Set_VisTrafo_ActiveBool(false);
+        v_MS2_Viewer[v]->Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
+        v_MS2_Viewer[v]->Set_VisTrafo_Divisor(5);
+        v_MS2_Viewer[v]->Set_VisTrafo_Center(0);
+    }
+    MS2_Viewer_Viewport.Set_VisTrafo_ActiveBool(false);
+    MS2_Viewer_Viewport.Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
+    MS2_Viewer_Viewport.Set_VisTrafo_Divisor(5);
+    MS2_Viewer_Viewport.Set_VisTrafo_Center(0);
 
     //inital images
     v_MS2_MA_Images2Show.resize(MS2_ViewersCount, pStore->get_Adress(0)->clone());
@@ -2164,13 +2180,47 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     //populate CBs
     MS2_ViewersPopulateCBs();
 
-    //connects
+    //range of viewport selectors
+    ui->spinBox_MS2_Viewport_X->setMaximum(dataset_dim_mosaic_x - 1);
+    ui->spinBox_MS2_Viewport_Y->setMaximum(dataset_dim_mosaic_y - 1);
+    ui->spinBox_MS2_Viewport_T->setMaximum(dataset_dim_t - 1);
+
+    //connects------------------------------------------------------------------------------
 
     //viewers vis trafo
     for(size_t v = 0; v < MS2_ViewersCount; v++)
         ConnectViewersVisTrafo(v_MS2_Viewer[v]);
 
-    //connect(ui->pushButton_MS2_FileDialog,              SIGNAL(clicked()),                      this,       SLOT(MS2_LoadData()));
+    //update viewer images
+    connect(ui->comboBox_MS2_ViewerSettings_Image_R_1,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_G_1,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_B_1,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_R_1,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_G_1,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_1,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage1()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_R_2,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_G_2,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_B_2,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_R_2,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_G_2,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_2,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage2()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_R_3,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_G_3,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_B_3,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_R_3,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_G_3,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_3,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage3()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_R_4,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_G_4,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+    connect(ui->comboBox_MS2_ViewerSettings_Image_B_4,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_R_4,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_G_4,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+    connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_4,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
+
+    //range selection
+    connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_LoadData_Time(int)));
 
 
     //show
@@ -2202,6 +2252,7 @@ void D_MAKRO_MegaFoci::MS2_ViewerMaximize(int v2max)
         MS2_ViewerMaximized = v2max;
     }
 
+    Update_Ui();
     Update_Views();
 }
 
@@ -2222,6 +2273,9 @@ void D_MAKRO_MegaFoci::MS2_ViewerPointColor(size_t v2col)
 
     //save color
     v_MS2_COL_Viewer_PointColor[v2col] = col;
+
+    //update_image
+    MS2_UpdateImage(v2col);
 }
 
 void D_MAKRO_MegaFoci::MS2_ViewerConnectZooms(size_t v2con, bool con)
@@ -2229,21 +2283,56 @@ void D_MAKRO_MegaFoci::MS2_ViewerConnectZooms(size_t v2con, bool con)
     v_MS2_Viewer[v2con]->set_zoom_connection_active(con);
 }
 
-void D_MAKRO_MegaFoci::MS2_ViewerSetVisTrafoActive(size_t v2tra, bool active)
+void D_MAKRO_MegaFoci::MS2_ViewerSetVisTrafoActive(size_t v2tra)
 {
-    v_MS2_Viewer[v2tra]->set_zoom_connection_active(active && ui->groupBox_VisTrafo->isChecked());
+    v_MS2_Viewer[v2tra]->Set_VisTrafo_ActiveBool(v_MS2_CHB_Viewer_Transform[v2tra]->isChecked() && ui->groupBox_VisTrafo->isChecked());
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerSetVisTrafoActive_All()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        MS2_ViewerSetVisTrafoActive(v);
 }
 
 void D_MAKRO_MegaFoci::MS2_ViewersPopulateCBs()
 {
+    Populate_CB_Single(ui->comboBox_MS2_ViewportBackground,     QSL_MS2_ChannelsImage,      MS2_CH_IMG_DIC);
+
     for(size_t v = 0; v < MS2_ViewersCount; v++)
         for(size_t c = 0; c < MS2_ViewersChannels; c++)
         {
             Populate_CB_Single(vv_MS2_COB_ViewerChannel_Image_viewer_bgr[v][c],     QSL_MS2_ChannelsImage,      MS2_CH_IMG_EMPTY);
             Populate_CB_Single(vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[v][c],   QSL_MS2_ChannelsOverlay,    MS2_CH_OVR_EMPTY);
-        }
+        }   
+}
 
-    Populate_CB_Single(ui->comboBox_MS2_ViewportBackground,     QSL_MS2_ChannelsImage,      MS2_CH_IMG_EMPTY);
+void D_MAKRO_MegaFoci::MS2_ViewersSelectDefaultCBs()
+{
+    //viewer 1
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][0]->setCurrentIndex(MS2_CH_IMG_RFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][1]->setCurrentIndex(MS2_CH_IMG_GFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[0][2]->setCurrentIndex(MS2_CH_IMG_DIC);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][0]->setCurrentIndex(MS2_CH_OVR_NUCLEI);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][1]->setCurrentIndex(MS2_CH_OVR_NUCLEI);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[0][2]->setCurrentIndex(MS2_CH_OVR_NUCLEI);
+
+    //viewer 2
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][0]->setCurrentIndex(MS2_CH_IMG_DIC);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][1]->setCurrentIndex(MS2_CH_IMG_DIC);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[1][2]->setCurrentIndex(MS2_CH_IMG_DIC);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[1][2]->setCurrentIndex(MS2_CH_OVR_FOCI_BOTH);
+
+    //viewer 3
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][0]->setCurrentIndex(MS2_CH_IMG_GFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][1]->setCurrentIndex(MS2_CH_IMG_GFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[2][2]->setCurrentIndex(MS2_CH_IMG_GFP);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[2][1]->setCurrentIndex(MS2_CH_OVR_FOCI_GFP);
+
+    //viewer 4
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][0]->setCurrentIndex(MS2_CH_IMG_RFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][1]->setCurrentIndex(MS2_CH_IMG_RFP);
+    vv_MS2_COB_ViewerChannel_Image_viewer_bgr[3][2]->setCurrentIndex(MS2_CH_IMG_RFP);
+    vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[3][0]->setCurrentIndex(MS2_CH_OVR_FOCI_RFP);
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateViews()
@@ -2254,20 +2343,246 @@ void D_MAKRO_MegaFoci::MS2_UpdateViews()
 
 void D_MAKRO_MegaFoci::MS2_UpdateImages()
 {
-    for(size_t v = 0; v < MS2_ViewersCount; v++)
-        MS2_UpdateImage(v);
-
+    MS2_UpdateImages_Editing();
     MS2_UpdateImage_Viewport();
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage1()
+{
+    MS2_UpdateImage(0);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage2()
+{
+    MS2_UpdateImage(1);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage3()
+{
+    MS2_UpdateImage(2);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage4()
+{
+    MS2_UpdateImage(3);
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateImage(size_t img2update)
 {
+    ERR(D_Img_Proc::OverlayImage(
+            &(v_MS2_MA_Images2Show[img2update]),
+            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][2]->currentIndex()]),
+            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][1]->currentIndex()]),
+            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][0]->currentIndex()]),
+            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][2]->currentIndex()]),
+            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][1]->currentIndex()]),
+            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][0]->currentIndex()])));
+
     v_MS2_Viewer[img2update]->Update_Image(&(v_MS2_MA_Images2Show[img2update]));
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImages_Editing()
+{
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        MS2_UpdateImage(v);
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
 {
+    size_t i_channel_viewport = ui->comboBox_MS2_ViewportBackground->currentIndex();
+
+    if(i_channel_viewport >= v_MS2_MA_ChannelsImage_Full.size())
+        return;
+
+    //base image
+    int ER = D_Img_Proc::Duplicate2Channels(
+                &MA_MS2_ViewportShow,
+                &(v_MS2_MA_ChannelsImage_Full[i_channel_viewport]),
+                3);
+    if(ER != ER_okay)
+    {
+        ERR(ER, "MS2_UpdateImage_Viewport", "D_Img_Proc::Duplicate2Channels to MA_MS2_ViewportShow");
+        return;
+    }
+
+    //draw status symbols on img
+    //FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME no symbols visible... -.-
+    if(state_MS2_detections_loaded)
+    {
+        for(size_t ix = 0; ix < dataset_dim_mosaic_x; ix++)
+        {
+            for(size_t iy = 0; iy < dataset_dim_mosaic_y; iy++)
+            {
+                //rect
+                int x1 = max(0.0,                           (static_cast<double>(ix    ) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth);
+                int y1 = max(0.0,                           (static_cast<double>(iy    ) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight);
+                int x2 = min(MS2_MosaikImageWidth  - 1.0,   (static_cast<double>(ix + 1) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth);
+                int y2 = min(MS2_MosaikImageHeight - 1.0,   (static_cast<double>(iy + 1) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight);
+
+                //select style
+                bool known_state = true;
+                int symbol;
+                uchar r = 0;
+                uchar g = 0;
+                uchar b = 0;
+
+                switch (vv_MS2_NucImg_State_Out_mosaikXY[ix][iy]) {
+                case MS2_IMG_STATE_PROCESSED:   symbol = c_MARKER_SYMBOL_CIRCLE;    g = 255;    break;
+                case MS2_IMG_STATE_TO_PROCESS:  symbol = c_MARKER_SYMBOL_3DOTS;     b = 255;    break;
+                case MS2_IMG_STATE_NOT_FOUND:   symbol = c_MARKER_SYMBOL_CROSS;     r = 255;    break;
+                default:                        known_state = false;                            break;}
+
+                if(known_state)
+                {
+                    ERR(D_Img_Proc::Draw_MarkerSymbol(
+                            &MA_MS2_ViewportShow,
+                            x1, y1, x2, y2,
+                            symbol,
+                            r, g, b,
+                            0.9),
+                        "MS2_UpdateImage_Viewport",
+                        "D_Img_Proc::Draw_MarkerSymbol");
+                }
+            }
+        }
+    }
+
+    //show img
     MS2_Viewer_Viewport.Update_Image(&MA_MS2_ViewportShow);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateViewportPos()
+{
+    //mosaic coordinates
+    size_t mx = ui->spinBox_MS2_Viewport_X->value();
+    size_t my = ui->spinBox_MS2_Viewport_Y->value();
+
+    //check if coordinates are valid
+    if(mx >= dataset_dim_mosaic_x || my >= dataset_dim_mosaic_y)
+        return;
+
+    //relative border pos
+    double l = static_cast<double>(mx) / dataset_dim_mosaic_x;
+    double r = min(1.0, static_cast<double>(mx + 1 + MS2_MosaikBorderPrz) / dataset_dim_mosaic_x);
+    double t = static_cast<double>(my) / dataset_dim_mosaic_y;
+    double b = min(1.0, static_cast<double>(my + 1 + MS2_MosaikBorderPrz) / dataset_dim_mosaic_y);
+
+    //crop channel images
+    for(size_t ch = 0; ch < MS2_CH_IMG_NUMBER_OF; ch++)
+        ERR(D_Img_Proc::Crop_Rect_Rel(
+                &(v_MS2_MA_ChannelsImage_Croped[ch]),
+                &(v_MS2_MA_ChannelsImage_Full[ch]),
+                l, t, r, b));
+
+    //calc offsets
+    MS2_ViewportOffset_Scaled = Point(l * MS2_MosaikImageWidth, t * MS2_MosaikImageHeight);
+    MS2_ViewportOffset_NotScaled = MS2_ViewportOffset_Scaled / MS2_MosaikImageScale;
+
+    //calc overlays
+    MS2_InitOverlays();
+    MS2_UpdateOverlays();
+
+    //show
+    MS2_UpdateImages();
+}
+
+void D_MAKRO_MegaFoci::MS2_InitOverlays()
+{
+    //qDebug() << "MS2_InitOverlays" << "start";
+
+    Mat MA_tmp_black = Mat::zeros(v_MS2_MA_ChannelsImage_Croped[0].size(), CV_8UC1);
+
+    v_MS2_MA_ChannelsOverlay_Croped.resize(MS2_CH_OVR_NUMBER_OF);
+    for(size_t ovr = 0; ovr < MS2_CH_OVR_NUMBER_OF; ovr++)
+        v_MS2_MA_ChannelsOverlay_Croped[ovr] = MA_tmp_black.clone();
+
+    MA_tmp_black.release();
+
+    //qDebug() << "MS2_InitOverlays" << "finish";
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateOverlays()
+{
+    //qDebug() << "MS2_UpdateOverlays" << "start";
+
+    for(size_t ovr = 0; ovr < MS2_CH_OVR_NUMBER_OF; ovr++)
+        MS2_UpdateOverlay(ovr);
+
+    //qDebug() << "MS2_UpdateOverlays" << "finish";
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateOverlay(size_t overlay_index)
+{
+    //qDebug() << "MS2_UpdateOverlay" << overlay_index << "start";
+    if(overlay_index >= v_MS2_MA_ChannelsOverlay_Croped.size())
+        return;
+
+    //mosaic coordinates
+    size_t mx = ui->spinBox_MS2_Viewport_X->value();
+    size_t my = ui->spinBox_MS2_Viewport_Y->value();
+
+    //check if coordinates are valid
+    if(mx >= dataset_dim_mosaic_x || my >= dataset_dim_mosaic_y)
+    {
+        return;
+        qDebug() << "MS2_UpdateOverlay - mx" << mx << "or my" << my << "out of range";
+    }
+
+    //detections out
+    D_Bio_NucleusImage NucImg = vv_MS2_NucImg_Out_mosaikXY[mx][my];
+
+    //init empty overlay
+    Mat MA_tmp_black = Mat::zeros(v_MS2_MA_ChannelsOverlay_Croped[overlay_index].size(), CV_8UC1);
+    v_MS2_MA_ChannelsOverlay_Croped[overlay_index] = MA_tmp_black.clone();
+    MA_tmp_black.release();
+
+    switch (overlay_index) {
+
+    case MS2_CH_OVR_NUCLEI:
+    {
+        ERR(D_Img_Proc::Draw_Contours(
+                &(v_MS2_MA_ChannelsOverlay_Croped[overlay_index]),
+                NucImg.get_nuclei_contours(MS2_MosaikImageScale, - MS2_ViewportOffset_Scaled),
+                ui->doubleSpinBox_MS2_Params_NucleusBorderThickness->value(),
+                255));
+    }
+        break;
+
+    case MS2_CH_OVR_FOCI_GFP:
+    case MS2_CH_OVR_FOCI_RFP:
+    case MS2_CH_OVR_FOCI_BOTH:
+    {
+        size_t foc_index;
+        switch (overlay_index) {
+        case MS2_CH_OVR_FOCI_GFP:   foc_index = FOCI_GFP;   break;
+        case MS2_CH_OVR_FOCI_RFP:   foc_index = FOCI_RFP;   break;
+        case MS2_CH_OVR_FOCI_BOTH:  foc_index = FOCI_BOTH;  break;
+        default:                                            return;}
+
+        for(size_t f = 0; f < NucImg.get_foci_count(foc_index); f++)
+        {
+            D_Bio_Focus Foc = NucImg.get_focus(foc_index, f);
+
+            ERR(D_Img_Proc::Draw_Dot(
+                    &(v_MS2_MA_ChannelsOverlay_Croped[overlay_index]),
+                    (Foc.centroid().x * MS2_MosaikImageScale) - MS2_ViewportOffset_Scaled.x,
+                    (Foc.centroid().y * MS2_MosaikImageScale) - MS2_ViewportOffset_Scaled.y,
+                    max(
+                        ui->doubleSpinBox_MS2_Params_FociMinRadius->value(),
+                        sqrt(Foc.area() / PI) * MS2_MosaikImageScale * (ui->doubleSpinBox_MS2_Params_FociScale->value() / 100.0)),
+                    255));
+        }
+    }
+        break;
+
+    default:
+    {
+        //do nothing
+    }
+        break;
+    }
+
+    //qDebug() << "MS2_UpdateOverlay" << overlay_index << "finish";
 }
 
 void D_MAKRO_MegaFoci::MS2_DrawMode_Set(size_t mode)
@@ -2283,7 +2598,8 @@ void D_MAKRO_MegaFoci::MS2_DrawMode_Set(size_t mode)
 
 bool D_MAKRO_MegaFoci::MS2_CalcMosaik_Size()
 {
-    MS2_MosaikImageScale = ui->doubleSpinBox_OverviewQuality->value() / 100;
+    MS2_MosaikImageScale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+    MS2_MosaikBorderPrz = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
 
     for(size_t c = 0; c < vDIR_MS2_In_MosaikChannels.size(); c++)
     {
@@ -2345,6 +2661,10 @@ bool D_MAKRO_MegaFoci::MS2_LoadData()
         return false;
     }
 
+    //show inital images
+    MS2_ViewersSelectDefaultCBs();
+    MS2_UpdateImages();
+
     state_MS2_data_loaded = true;
     return true;
 }
@@ -2367,7 +2687,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsIn()
     //check, if dir is results from step 1
     if(!QS_MasterIn.contains("Results_Step1"))
     {
-        StatusSet("You should selct results from step 1... " + QS_Fun_TableFlip);
+        StatusSet("You should selct results from step 1...\n" + QS_Fun_TableFlip);
         return false;
     }
 
@@ -2500,7 +2820,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
         //check, if dir is results from step 2
         if(!QS_MasterOut.contains("Results_Step2"))
         {
-            StatusSet("You should selct results from step 2... " + QS_Fun_TableFlip);
+            StatusSet("You should selct results from step 2...\n" + QS_Fun_TableFlip);
             return false;
         }
 
@@ -2539,6 +2859,11 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
     }
 }
 
+bool D_MAKRO_MegaFoci::MS2_LoadData_TimeSelected()
+{
+    return MS2_LoadData_Time(ui->spinBox_MS2_Viewport_T->value());
+}
+
 bool D_MAKRO_MegaFoci::MS2_LoadData_Time(size_t t)
 {
     if(t >= dataset_dim_t)
@@ -2547,12 +2872,16 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Time(size_t t)
     if(!MS2_LoadData_Mosaiks_In(t))
         return false;
 
-    if(!MS2_LoadData_Detections_In(t))
+    if(!MS2_LoadData_Detections_In(t, false))
         return false;
 
     if(!MS2_LoadData_Detections_Out(t))
         return false;
 
+    MS2_UpdateViewportPos();
+
+    StatusSet("Data for t=" + QString::number(t) + " succsessfully loaded");
+    qDebug() << "Data for t=" + QString::number(t) + " succsessfully loaded";
     return true;
 }
 
@@ -2561,13 +2890,19 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Mosaiks_In(size_t t)
     if(t >= dataset_dim_t)
         return false;
 
+    StatusSet("Load mosaiks from step 1");
+
     //resize img vector
-    v_MS2_MA_ChannelsImage_Full.resize(
-                MS2_CH_IMG_NUMBER_OF,
-                Mat::zeros(
-                    MS2_MosaikImageHeight,
-                    MS2_MosaikImageWidth,
-                    CV_8UC1));
+    Mat MA_tmp_black = Mat::zeros(
+                MS2_MosaikImageHeight,
+                MS2_MosaikImageWidth,
+                CV_8UC1);
+
+    v_MS2_MA_ChannelsImage_Full.resize(MS2_CH_IMG_NUMBER_OF);
+    for(size_t ch = 0; ch < MS2_CH_IMG_NUMBER_OF; ch++)
+        v_MS2_MA_ChannelsImage_Full[ch] = MA_tmp_black.clone();
+
+    MA_tmp_black.release();
 
     //loop channels
     for(size_t ch = 0; ch < MS2_CH_MOSAIK_NUMBER_OF; ch++)
@@ -2592,19 +2927,22 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Mosaiks_In(size_t t)
     return true;
 }
 
-bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_In(size_t t)
+bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_In(size_t t, bool error_when_no_dir)
 {
     if(t >= dataset_dim_t)
         return false;
 
-    //resize mosaic detections container
-    vv_MS2_NucImg_In_mosaikXY.resize(dataset_dim_mosaic_x, vector<D_Bio_NucleusImage>(dataset_dim_mosaic_y));
+    qDebug() << "Load input detections from step 1";
+    StatusSet("Load input detections from step 1");
 
-    // !!!!!!!!!!!!!
-    // CONTINUE HERE
-    // !!!!!!!!!!!!!
-
-    return true;
+    return MS2_LoadData_Detections(
+                t,
+                error_when_no_dir,
+                &vv_MS2_NucImg_In_mosaikXY,
+                DIR_MS2_In_Detections,
+                &vv_MS2_NucImg_State_In_mosaikXY,
+                MS2_IMG_STATE_LOADED,
+                MS2_IMG_STATE_NOT_FOUND);
 }
 
 bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_Out(size_t t)
@@ -2612,6 +2950,147 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_Out(size_t t)
     if(t >= dataset_dim_t)
         return false;
 
+    qDebug() << "Load output detections from step 2";
+    StatusSet("Load output detections from step 2");
+
+    if(!MS2_LoadData_Detections(
+                t,
+                false,
+                &vv_MS2_NucImg_Out_mosaikXY,
+                DIR_MS2_Out_DetectionsCorrected,
+                &vv_MS2_NucImg_State_Out_mosaikXY,
+                MS2_IMG_STATE_PROCESSED,
+                MS2_IMG_STATE_NOT_FOUND))
+    {
+        qDebug() << "Load output detections from step 2 - ERROR";
+        StatusSet("Load output detections from step 2 - ERROR");
+        return false;
+    }
+
+    //copy loaded input detections if no output detections were found
+    for(size_t ix = 0; ix < vv_MS2_NucImg_State_In_mosaikXY.size(); ix++)
+    {
+        for(size_t iy = 0; iy < vv_MS2_NucImg_State_In_mosaikXY.size(); iy++)
+        {
+            if(vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] != MS2_IMG_STATE_PROCESSED)
+            {
+                if(vv_MS2_NucImg_State_In_mosaikXY[ix][iy] == MS2_IMG_STATE_LOADED)
+                {
+                    vv_MS2_NucImg_Out_mosaikXY[ix][iy] = vv_MS2_NucImg_In_mosaikXY[ix][iy];
+                    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+                    //qDebug() << "MS2_LoadData_Detections_Out" << "time" << t << "x/y" << ix << iy << "copy in to out";
+                }
+                else
+                {
+                    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_NOT_FOUND;
+                    //qDebug() << "MS2_LoadData_Detections_Out" << "time" << t << "x/y" << ix << iy << "no in found to copy to out";
+                }
+            }
+        }
+    }
+
+    state_MS2_detections_loaded = true;
+    //MS2_UpdateImage_Viewport();
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir, vector<vector<D_Bio_NucleusImage>> *vvNucleiTarget, QDir DIR_Source, vector<vector<size_t>> *vvState, size_t state_found, size_t state_not_found)
+{
+    if(t >= dataset_dim_t)
+        return false;
+
+    //resize mosaic detections container
+    vvNucleiTarget->clear();
+    vvNucleiTarget->resize(dataset_dim_mosaic_x, vector<D_Bio_NucleusImage>(dataset_dim_mosaic_y, D_Bio_NucleusImage()));
+
+    //resize state containers
+    vvState->clear();
+    vvState->resize(dataset_dim_mosaic_x, vector<size_t>(dataset_dim_mosaic_y, state_not_found));
+
+    //detections dir time t
+    QDir DIR_t(DIR_Source.path() + "/Time_" + QString::number(t));
+    if(!DIR_t.exists() && error_when_no_dir)
+        return false;
+
+    //get image directories
+    QStringList QSL_ImageDirs = DIR_t.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
+
+    //loop image dirs
+    for(int d = 0; d < QSL_ImageDirs.size(); d++)
+    {
+        //image dir
+        QString QS_ImageDirName = QSL_ImageDirs[d];
+        QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
+
+        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
+        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "DIR" << DIR_ImageTYX.path();
+        if(DIR_ImageTYX.exists())
+        {
+            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "dir exists";
+
+            //check if indicatros contained
+            if(QS_ImageDirName.contains("_X") && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("Image_T" + QString::number(t)))
+            {
+                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "indicator strings contained" << QS_ImageDirName;
+
+                //blocks in dir name
+                QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
+                if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
+                {
+                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "correct block count of name" << QSL_ImageDirBlocks;
+
+                    //get x
+                    bool ok_x;
+                    QString QS_BlockX = QSL_ImageDirBlocks[3];
+                    QS_BlockX = QS_BlockX.remove(0, 1);
+                    int dir_x = QS_BlockX.toInt(&ok_x);
+
+                    //get y
+                    bool ok_y;
+                    QString QS_BlockY = QSL_ImageDirBlocks[2];
+                    QS_BlockY = QS_BlockY.remove(0, 1);
+                    int dir_y = QS_BlockY.toInt(&ok_y);
+
+                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
+
+                    //conversion to numbers worked?
+                    if(ok_x && ok_y)
+                    {
+                        //calc indices
+                        size_t ix = floor(((static_cast<double>(dir_x) / (MS2_MosaikImageWidth  / MS2_MosaikImageScale)) * dataset_dim_mosaic_x) + 0.5);
+                        size_t iy = floor(((static_cast<double>(dir_y) / (MS2_MosaikImageHeight / MS2_MosaikImageScale)) * dataset_dim_mosaic_y) + 0.5);
+
+                        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
+
+                        //indices in range?
+                        if(ix < dataset_dim_mosaic_x && iy < dataset_dim_mosaic_y)
+                        {
+                            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "mosaix coordinates in range";
+
+                            //load nucleus image
+                            D_Bio_NucleusImage NucImg;
+                            int ER = NucImg.load(DIR_ImageTYX.path());
+                            ERR(ER, "MS2_LoadData_Detections", "Load nucleus image");
+
+                            //succsess?
+                            if(ER == ER_okay)
+                            {
+                                //save nucleus image
+                                (*vvNucleiTarget)[ix][iy] = NucImg;
+
+                                //mark image as found
+                                (*vvState)[ix][iy] = state_found;
+
+                                //test
+                                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "Loaded x/y" << ix << iy << NucImg.info();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     return true;
 }
@@ -2971,6 +3450,7 @@ void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerShowSettings_clicked(bool checked)
     for(size_t v = 0; v < v_MS2_GRB_Viewer_GroupSettings.size(); v++)
         v_MS2_GRB_Viewer_GroupSettings[v]->setVisible(checked);
 
+    Update_Ui();
     MS2_UpdateViews();
 }
 
@@ -3050,22 +3530,22 @@ void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ConnectZoom_4_clicked(bool
 
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_1_clicked(bool checked)
 {
-    MS2_ViewerSetVisTrafoActive(0, checked);
+    MS2_ViewerSetVisTrafoActive(0);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_2_clicked(bool checked)
 {
-    MS2_ViewerSetVisTrafoActive(1, checked);
+    MS2_ViewerSetVisTrafoActive(1);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_3_clicked(bool checked)
 {
-    MS2_ViewerSetVisTrafoActive(2, checked);
+    MS2_ViewerSetVisTrafoActive(2);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(bool checked)
 {
-    MS2_ViewerSetVisTrafoActive(3, checked);
+    MS2_ViewerSetVisTrafoActive(3);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ProgressToCorrect_clicked()
@@ -3096,4 +3576,60 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_RFPonly_clicked()
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked()
 {
     MS2_DrawMode_Set(MS2_DRAW_MODE_FOCI_BOTH);
+}
+
+void D_MAKRO_MegaFoci::on_comboBox_MS2_ViewportBackground_currentIndexChanged(int index)
+{
+    if(state_MS2_data_loaded)
+        MS2_UpdateImage_Viewport();
+}
+
+void D_MAKRO_MegaFoci::on_groupBox_VisTrafo_clicked()
+{
+    if(mode_major_current == MODE_MAJOR_2_MANU_CORRECT_DETECTION)
+        MS2_ViewerSetVisTrafoActive_All();
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS2_Params_NucleusBorderThickness_valueChanged(double arg1)
+{
+    MS2_UpdateOverlay(MS2_CH_OVR_NUCLEI);
+    MS2_UpdateImages_Editing();
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS2_Params_FociMinRadius_valueChanged(double arg1)
+{
+    MS2_UpdateOverlay(MS2_CH_OVR_FOCI_GFP);
+    MS2_UpdateOverlay(MS2_CH_OVR_FOCI_RFP);
+    MS2_UpdateOverlay(MS2_CH_OVR_FOCI_BOTH);
+    MS2_UpdateImages_Editing();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Left_clicked()
+{
+    ui->spinBox_MS2_Viewport_X->setValue(ui->spinBox_MS2_Viewport_X->value() - 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Right_clicked()
+{
+    ui->spinBox_MS2_Viewport_X->setValue(ui->spinBox_MS2_Viewport_X->value() + 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Up_clicked()
+{
+    ui->spinBox_MS2_Viewport_Y->setValue(ui->spinBox_MS2_Viewport_Y->value() - 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Down_clicked()
+{
+    ui->spinBox_MS2_Viewport_Y->setValue(ui->spinBox_MS2_Viewport_Y->value() + 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Next_clicked()
+{
+    ui->spinBox_MS2_Viewport_T->setValue(ui->spinBox_MS2_Viewport_T->value() + 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_Previous_clicked()
+{
+    ui->spinBox_MS2_Viewport_T->setValue(ui->spinBox_MS2_Viewport_T->value() - 1);
 }
