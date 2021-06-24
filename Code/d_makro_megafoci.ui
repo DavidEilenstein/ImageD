@@ -3616,6 +3616,9 @@ background-color: rgb(0,0,0);</string>
               </item>
               <item row="0" column="0" colspan="4">
                <layout class="QGridLayout" name="gridLayout_35">
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBox_MS2_ViewportBackground"/>
+                </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_7">
                   <property name="sizePolicy">
@@ -3629,8 +3632,21 @@ background-color: rgb(0,0,0);</string>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBox_MS2_ViewportBackground"/>
+                <item row="0" column="2">
+                 <widget class="QCheckBox" name="checkBox_MS2_ViewportOverlay">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Progress Overlay</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -3812,25 +3828,6 @@ background-color: rgb(0,0,0);</string>
                     <property name="spacing">
                      <number>3</number>
                     </property>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_12">
-                      <property name="minimumSize">
-                       <size>
-                        <width>80</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>80</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Image progress</string>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Corrected">
                       <property name="text">
@@ -3868,6 +3865,25 @@ background-color: rgb(0,0,0);</string>
                       </property>
                       <property name="shortcut">
                        <string>V</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" rowspan="2">
+                     <widget class="QLabel" name="label_12">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Image progress</string>
                       </property>
                      </widget>
                     </item>

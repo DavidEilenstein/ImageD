@@ -535,9 +535,6 @@ private slots:
     void on_checkBox_MS2_ViewerSettings_ViewTransform_3_clicked(bool checked);
     void on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(bool checked);
 
-    void on_pushButton_MS2_Tools_ProgressToCorrect_clicked();
-    void on_pushButton_MS2_Tools_Progress_Corrected_clicked();
-
     void on_pushButton_MS2_Tools_Channel_Nuclei_clicked();
     void on_pushButton_MS2_Tools_Channel_GFPonly_clicked();
     void on_pushButton_MS2_Tools_Channel_RFPonly_clicked();
@@ -597,6 +594,17 @@ private slots:
     void on_pushButton_MS2_Viewport_Next_clicked();
     void on_pushButton_MS2_Viewport_Previous_clicked();
 
+    void on_checkBox_MS2_ViewportOverlay_clicked();
+
+    void on_pushButton_MS2_Tools_Progress_Corrected_clicked();
+    void on_pushButton_MS2_Tools_Progress_Clear_clicked();
+    void on_pushButton_MS2_Tools_Progress_Reset_clicked();
+    void on_pushButton_MS2_Tools_Progress_ToCorrect_clicked();
+
+    void on_pushButton_MS2_Tools_History_Undo_clicked();
+
+    void on_pushButton_MS2_Tools_History_Redo_clicked();
+
 private:
     void                        MS2_init_ui();
     const static size_t         MS2_ViewersCount = 4;
@@ -643,7 +651,6 @@ private:
     //DIRs out
     QDir                        DIR_MS2_Out_Master;
     QDir                        DIR_MS2_Out_DetectionsCorrected;
-    vector<vector<QDir>>        vvDIR_MS2_Out_DetectionsCorrected_TimesNuclei;
 
     //data
     double                              MS2_MosaikImageScale;
@@ -656,15 +663,35 @@ private:
     vector<vector<size_t>>              vv_MS2_NucImg_State_Out_mosaikXY;
 
     //viewport pos
-    Point                       MS2_ViewportOffset_NotScaled = Point(0,0);
-    Point                       MS2_ViewportOffset_Scaled = Point(0,0);
+    Point                               MS2_ViewportOffset_NotScaled = Point(0,0);
+    Point                               MS2_ViewportOffset_Scaled = Point(0,0);
 
     //drawing
-    size_t                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
+    size_t                                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
+    void                                        MS2_Draw_Save();
+    void                                        MS2_Draw_Clear();
+    void                                        MS2_Draw_Reset();
+    void                                        MS2_Draw_SetProcessed();
+    void                                        MS2_Draw_SetToProcess();
+    void                                        MS2_Draw_UpdateUi();
+
+
+    //drawing editing backups
+    const size_t                                MS2_DetOutBackup_Count = 20;
+    bool                                        MS2_DetOutBackup_Init();
+    void                                        MS2_DetOutBackup_Save();
+    bool                                        MS2_DetOutBackup_Undo();
+    bool                                        MS2_DetOutBackup_Redo();
+    void                                        MS2_DetOutBackup_UpdateUi();
+    vector<vector<vector<D_Bio_NucleusImage>>>  vvv_MS2_DetectionsOutBackups_XYI;
+    vector<vector<size_t>>                      vvv_MS2_DetectionsOut_BackupCursor;
+    vector<vector<size_t>>                      vvv_MS2_DetectionsOut_BackupValidMax;
+
 
     //states
     bool                        state_MS2_data_loaded = false;
     bool                        state_MS2_detections_loaded = false;
+    bool                        state_MS2_backups_init = false;
 
 
 

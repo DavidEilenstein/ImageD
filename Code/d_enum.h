@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_6_4";
-const QString           D_QS_Release  = "23.06.2021";
+const QString           D_QS_Version  = "v1_6_5";
+const QString           D_QS_Release  = "24.06.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -1741,6 +1741,7 @@ enum D_MARKER_SYMBOL {
     c_MARKER_SYMBOL_CROSS,
     c_MARKER_SYMBOL_3CIRCLES,
     c_MARKER_SYMBOL_3DOTS,
+    c_MARKER_SYMBOL_TICK,
     c_MARKER_SYMBOL_NUMBER_OF
 };
 

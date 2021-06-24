@@ -13,22 +13,22 @@ D_Bio_NucleusImage::D_Bio_NucleusImage()
 
 }
 
-D_Bio_NucleusImage::D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+D_Bio_NucleusImage::D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
-    calc_NucleiDecomposition(pMA_NucleiBinary, pvMA_FociBinary, pvMA_Values, P_Offset, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
+    calc_NucleiDecomposition(pMA_NucleiBinary, pvMA_FociBinary, pvMA_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
 }
 
-D_Bio_NucleusImage::D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+D_Bio_NucleusImage::D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
-    calc_NucleiDecomposition(pVD_NucleiBinary, pvVD_FociBinary, pvVD_Values, P_Offset, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
+    calc_NucleiDecomposition(pVD_NucleiBinary, pvVD_FociBinary, pvVD_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
 }
 
-D_Bio_NucleusImage::D_Bio_NucleusImage(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+D_Bio_NucleusImage::D_Bio_NucleusImage(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
-    calc_NucleiDecomposition(pvVD_Images, index_NucleiBinary, vIndices_FociBinary, vIndices_Values, P_Offset, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
+    calc_NucleiDecomposition(pvVD_Images, index_NucleiBinary, vIndices_FociBinary, vIndices_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
 }
 
-int D_Bio_NucleusImage::calc_NucleiDecomposition(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+int D_Bio_NucleusImage::calc_NucleiDecomposition(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
     //error code
     int ER = ER_okay;
@@ -88,14 +88,14 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(D_VisDat_Obj *pVD_NucleiBinary,
 
 
     //call Mat version of this function
-    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
+    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
 
     //finish
     MA_NucleiBinary.release();
     return ER;
 }
 
-int D_Bio_NucleusImage::calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+int D_Bio_NucleusImage::calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
     //error code
     int ER = ER_okay;
@@ -155,20 +155,21 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(vector<D_VisDat_Obj> *pvVD_Imag
 
 
     //call Mat version of this function
-    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
+    ER = calc_NucleiDecomposition(&MA_NucleiBinary, &vMA_FociBinary, &vMA_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
 
     //finish
     MA_NucleiBinary.release();
     return ER;
 }
 
-int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
+int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
     //qDebug() << "calc_NucleiDecomposition" << "Start";
 
     //save
     m_time = time;
-    m_Offset = P_Offset;
+    m_Offset_Coord = P_Offset_coordinates;
+    m_Offset_Grid = P_Offset_mosaicgrid;
 
     //counts
     size_t n_channels_foci = pvMA_FociBinary->size();
@@ -394,7 +395,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
                             CompList_Nuclei.get_Component(i).get_Contour(),
                             vvvNucleusStatChannel[i],
                             time,
-                            P_Offset);
+                            P_Offset_coordinates);
 
         NucBlob.set_FociChannels(n_channels_foci);
 
@@ -415,7 +416,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
             vvFoci[cf].push_back(D_Bio_Focus(
                         vCompList_Foci[cf].get_Component(f).get_Contour(),
                         vvvv_FChannel_Focus_Stat_VChannel[cf][f],
-                        P_Offset));
+                        P_Offset_coordinates));
 
     //match foci to nuclei
     //qDebug() << "calc_NucleiDecomposition" << "match foci to nuclei";
@@ -424,7 +425,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
         {
             //centroid of focus
             Point centroid_focus = vvFoci[cf][f].centroid();
-            centroid_focus -= P_Offset; //correct offset to be able to acces image coordinate system
+            centroid_focus -= P_Offset_coordinates; //correct offset to be able to acces image coordinate system
 
             //nucleus label of focus
             int nucleus_label_focus = CompList_Nuclei.get_pMatLabels()->at<int>(centroid_focus);
@@ -627,7 +628,7 @@ int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
     return ER_okay;
 }
 
-int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_foci_separate)
+int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_foci_separate, bool save_name_mosaic_not_coordiante)
 {
     //qDebug() << "D_Bio_NucleusImage::save";
 
@@ -641,8 +642,15 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
             return ER_file_not_exist;
     }
 
+    //which offset to use in names?
+    Point P_OffsetNames;
+    if(save_name_mosaic_not_coordiante)
+        P_OffsetNames = m_Offset_Grid;
+    else
+        P_OffsetNames = m_Offset_Grid;
+
     //add offset to path
-    path += "/Image_T" + QString::number(m_time) + "_Y" + QString::number(m_Offset.y) + "_X" + QString::number(m_Offset.x);
+    path += "/Image_T" + QString::number(m_time) + "_Y" + QString::number(P_OffsetNames.y) + "_X" + QString::number(P_OffsetNames.x);
     QDir DIR_Image(path);
     if(!DIR_Image.exists())
     {
@@ -679,7 +687,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
         }
 
         //TYX coordinate
-        QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(m_Offset.y)) + "_X" + QString::number(static_cast<int>(m_Offset.x));
+        QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(P_OffsetNames.y)) + "_X" + QString::number(static_cast<int>(P_OffsetNames.x));
         QString QS_PathFoci_Base = path + "/Foci" + QS_Coordinate_TYX;
 
         //loop channels
@@ -784,7 +792,7 @@ vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Poin
 
 QString D_Bio_NucleusImage::info()
 {
-    return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset.x) + "/" + QString::number(m_Offset.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
+    return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
 }
 
 bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel)

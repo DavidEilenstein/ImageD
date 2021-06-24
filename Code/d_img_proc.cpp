@@ -16213,8 +16213,8 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
 
     //make sure range fits
     x1 = min(max(0, x1), pMA_Target->cols - 1);
-    x2 = min(max(0, x1), pMA_Target->cols - 1);
-    y1 = min(max(0, y2), pMA_Target->rows - 1);
+    x2 = min(max(0, x2), pMA_Target->cols - 1);
+    y1 = min(max(0, y1), pMA_Target->rows - 1);
     y2 = min(max(0, y2), pMA_Target->rows - 1);
 
     //center
@@ -16227,14 +16227,14 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
 
     //rescale corners of drawing area
     x1 = xc - ((xs / 2.0) * scale);
-    x2 = xc - ((xs / 2.0) * scale);
+    x2 = xc + ((xs / 2.0) * scale);
     y1 = yc - ((ys / 2.0) * scale);
-    y2 = yc - ((ys / 2.0) * scale);
+    y2 = yc + ((ys / 2.0) * scale);
 
     //make sure range fits (scaled)
     x1 = min(max(0, x1), pMA_Target->cols - 1);
-    x2 = min(max(0, x1), pMA_Target->cols - 1);
-    y1 = min(max(0, y2), pMA_Target->rows - 1);
+    x2 = min(max(0, x2), pMA_Target->cols - 1);
+    y1 = min(max(0, y1), pMA_Target->rows - 1);
     y2 = min(max(0, y2), pMA_Target->rows - 1);
 
     //center (scaled)
@@ -16244,6 +16244,8 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
     //size (scaled)
     xs = x2 - x1;
     ys = y2 - y1;
+
+    //qDebug() << "D_Img_Proc::Draw_MarkerSymbol" << "draw symbol with index" << symbol_id << "to x" << x1 << x2 << "of" << pMA_Target->cols << "and y" << y1 << y2 << "of" << pMA_Target->rows << "in color" << r << g << b;
 
     switch (symbol_id) {
 
@@ -16323,7 +16325,7 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
     case c_MARKER_SYMBOL_3CIRCLES:
     case c_MARKER_SYMBOL_3DOTS:
     {
-        bool dot = symbol_id == c_MARKER_SYMBOL_3CIRCLES;
+        bool dot = symbol_id == c_MARKER_SYMBOL_3DOTS;
         double r = min(ys / 2.0, xs / 8.0);
         double t = max(r/5.0, 2.0);
 
@@ -16357,6 +16359,33 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
                     r, g, b,
                     t,
                     dot);
+        if(ER != ER_okay)
+            return ER;
+    }
+        break;
+
+    case c_MARKER_SYMBOL_TICK:
+    {
+        //x/3
+        int x3 = (2 * x1 + x2) / 3.0;
+
+        //short line
+        int ER = Draw_Line(
+                    pMA_Target,
+                    x1, yc,
+                    x3, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //long line
+        ER = Draw_Line(
+                    pMA_Target,
+                    x3, y2,
+                    x2, y1,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
         if(ER != ER_okay)
             return ER;
     }
