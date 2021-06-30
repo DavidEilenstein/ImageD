@@ -544,6 +544,7 @@ private slots:
 
     void MS2_ViewerMaximize(int v2max);
     void MS2_ViewerPointColor(size_t v2col);
+    void MS2_ViewerPointDiameter(size_t v, double d);
     void MS2_ViewerConnectZooms(size_t v2con, bool con);
     void MS2_ViewerSetVisTrafoActive(size_t v2tra);
     void MS2_ViewerSetVisTrafoActive_All();
@@ -568,6 +569,7 @@ private slots:
 
 
     void MS2_DrawMode_Set(size_t mode);
+    void MS2_Draw_RecordedClicksChanged(size_t point_count);
 
     bool MS2_CalcMosaik_Size();
 
@@ -602,8 +604,31 @@ private slots:
     void on_pushButton_MS2_Tools_Progress_ToCorrect_clicked();
 
     void on_pushButton_MS2_Tools_History_Undo_clicked();
-
     void on_pushButton_MS2_Tools_History_Redo_clicked();
+
+    void on_pushButton_MS2_Tools_RecordPoints_Start_clicked();
+    void on_pushButton_MS2_Tools_RecordPoints_Cancel_clicked();
+    void on_pushButton_MS2_Tools_ApplyPoints_Polygon_clicked();
+    void on_pushButton_MS2_Tools_ApplyPoints_Ellipse_clicked();
+    void on_pushButton_MS2_Tools_ApplyPoints_Remove_clicked();
+
+    void on_spinBox_MS2_ViewerSettings_PointDiameter_1_valueChanged(int arg1);
+
+    void on_spinBox_MS2_ViewerSettings_PointDiameter_2_valueChanged(int arg1);
+
+    void on_spinBox_MS2_ViewerSettings_PointDiameter_3_valueChanged(int arg1);
+
+    void on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChanged(int arg1);
+
+    void on_pushButton_MS2_Viewport_NextToCorrect_clicked();
+
+    void on_spinBox_MS2_Viewport_X_valueChanged(int arg1);
+
+    void on_spinBox_MS2_Viewport_Y_valueChanged(int arg1);
+
+    void on_spinBox_MS2_Viewport_T_valueChanged(int arg1);
+
+    void on_progressBar_MS2_CorrectionProgress_valueChanged(int value);
 
 private:
     void                        MS2_init_ui();
@@ -667,13 +692,19 @@ private:
     Point                               MS2_ViewportOffset_Scaled = Point(0,0);
 
     //drawing
-    size_t                                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
-    void                                        MS2_Draw_Save();
-    void                                        MS2_Draw_Clear();
-    void                                        MS2_Draw_Reset();
-    void                                        MS2_Draw_SetProcessed();
-    void                                        MS2_Draw_SetToProcess();
-    void                                        MS2_Draw_UpdateUi();
+    size_t                              MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;
+    void                                MS2_Draw_Save();
+    void                                MS2_Draw_Clear();
+    void                                MS2_Draw_Reset();
+    void                                MS2_Draw_SetProcessed();
+    void                                MS2_Draw_SetToProcess();
+    void                                MS2_Draw_UpdateUi();
+    void                                MS2_Draw_RecordingStart();
+    void                                MS2_Draw_RecordingEnd();
+    void                                MS2_Draw_Ellipse();
+    void                                MS2_Draw_Polygon();
+    void                                MS2_Draw_Contour(vector<Point> contour);
+    void                                MS2_Draw_Remove();
 
 
     //drawing editing backups

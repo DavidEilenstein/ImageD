@@ -773,7 +773,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_Viewport">
               <attribute name="title">
@@ -2552,36 +2552,10 @@
                  <property name="spacing">
                   <number>3</number>
                  </property>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_28">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>R</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="2">
                   <widget class="QLabel" name="label_29">
                    <property name="text">
                     <string>Overlay</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_30">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>G</string>
                    </property>
                   </widget>
                  </item>
@@ -2598,10 +2572,62 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="3" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="0" column="1">
                   <widget class="QLabel" name="label_32">
                    <property name="text">
                     <string>Image</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
                    </property>
                   </widget>
                  </item>
@@ -2612,43 +2638,14 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_3">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_3">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_3">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="2" column="2">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_3">
-                   <property name="styleSheet">
-                    <string notr="true"/>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_3">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_3">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -2661,47 +2658,42 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_3">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_28">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string>Connect Zoom</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
+                    <string>R</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_3">
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_30">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string>Transform</string>
+                    <string>G</string>
                    </property>
-                   <property name="checked">
-                    <bool>false</bool>
+                  </widget>
+                 </item>
+                 <item row="3" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
                    </property>
                   </widget>
                  </item>
@@ -2725,6 +2717,75 @@ background-color: rgb(0,0,0);</string>
                    </property>
                    <property name="text">
                     <string>Point Color</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="5">
+                  <widget class="QSpinBox" name="spinBox_MS2_ViewerSettings_PointDiameter_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>d=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Connect Zoom</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Transform</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -2789,23 +2850,26 @@ background-color: rgb(0,0,0);</string>
                  <property name="spacing">
                   <number>3</number>
                  </property>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_34">
+                 <item row="3" column="4">
+                  <widget class="QPushButton" name="pushButton_MS2_ViewerSettings_PointColor_4">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="text">
-                    <string>R</string>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QLabel" name="label_35">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255,255,255);
+background-color: rgb(0,0,0);</string>
+                   </property>
                    <property name="text">
-                    <string>Overlay</string>
+                    <string>Point Color</string>
                    </property>
                   </widget>
                  </item>
@@ -2822,6 +2886,99 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
+                 <item row="1" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3" rowspan="4">
+                  <widget class="Line" name="line_13">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_38">
+                   <property name="text">
+                    <string>Image</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QLabel" name="label_39">
+                   <property name="text">
+                    <string>Other</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_35">
+                   <property name="text">
+                    <string>Overlay</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_37">
                    <property name="sizePolicy">
@@ -2835,70 +2992,58 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
-                  <widget class="QLabel" name="label_38">
-                   <property name="text">
-                    <string>Image</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3" rowspan="4">
-                  <widget class="Line" name="line_13">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_4">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_4">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_4">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_4">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_4">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="3" column="2">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="4">
-                  <widget class="QLabel" name="label_39">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_34">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
-                    <string>Other</string>
+                    <string>R</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="4">
+                 <item row="3" column="5">
+                  <widget class="QSpinBox" name="spinBox_MS2_ViewerSettings_PointDiameter_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>d=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="4" colspan="2">
                   <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_4">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -2920,7 +3065,7 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="4">
+                 <item row="2" column="4" colspan="2">
                   <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_4">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -2939,29 +3084,6 @@ background-color: rgb(0,0,0);</string>
                    </property>
                    <property name="checked">
                     <bool>false</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="4">
-                  <widget class="QPushButton" name="pushButton_MS2_ViewerSettings_PointColor_4">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(255,255,255);
-background-color: rgb(0,0,0);</string>
-                   </property>
-                   <property name="text">
-                    <string>Point Color</string>
                    </property>
                   </widget>
                  </item>
@@ -3026,6 +3148,46 @@ background-color: rgb(0,0,0);</string>
                  <property name="spacing">
                   <number>3</number>
                  </property>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_24">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>G</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3" rowspan="4">
+                  <widget class="Line" name="line_11">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QLabel" name="label_27">
+                   <property name="text">
+                    <string>Other</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_22">
                    <property name="sizePolicy">
@@ -3046,16 +3208,36 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_24">
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_2">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_26">
                    <property name="text">
-                    <string>G</string>
+                    <string>Image</string>
                    </property>
                   </widget>
                  </item>
@@ -3072,29 +3254,14 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
-                  <widget class="QLabel" name="label_26">
-                   <property name="text">
-                    <string>Image</string>
+                 <item row="2" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3" rowspan="4">
-                  <widget class="Line" name="line_11">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_2">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_2">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -3102,20 +3269,12 @@ background-color: rgb(0,0,0);</string>
                  </item>
                  <item row="2" column="1">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_2">
-                   <property name="styleSheet">
-                    <string notr="true"/>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_2">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_2">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -3123,59 +3282,14 @@ background-color: rgb(0,0,0);</string>
                  </item>
                  <item row="3" column="2">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="4">
-                  <widget class="QLabel" name="label_27">
-                   <property name="text">
-                    <string>Other</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Connect Zoom</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Transform</string>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3199,6 +3313,75 @@ background-color: rgb(0,0,0);</string>
                    </property>
                    <property name="text">
                     <string>Point Color</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="5">
+                  <widget class="QSpinBox" name="spinBox_MS2_ViewerSettings_PointDiameter_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>d=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Connect Zoom</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Transform</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3264,39 +3447,6 @@ background-color: rgb(0,0,0);</string>
                  <property name="spacing">
                   <number>3</number>
                  </property>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_19">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>R</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QLabel" name="label_16">
-                   <property name="text">
-                    <string>Overlay</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_18">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>G</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_20">
                    <property name="sizePolicy">
@@ -3317,36 +3467,14 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="3" rowspan="4">
-                  <widget class="Line" name="line_8">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="1" column="1">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_R_1">
-                   <property name="styleSheet">
-                    <string notr="true"/>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_1">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_1">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_1">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -3354,13 +3482,12 @@ background-color: rgb(0,0,0);</string>
                  </item>
                  <item row="3" column="1">
                   <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_B_1">
-                   <property name="styleSheet">
-                    <string notr="true"/>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_1">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -3373,47 +3500,16 @@ background-color: rgb(0,0,0);</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_1">
+                 <item row="1" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_R_1">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Connect Zoom</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_1">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Transform</string>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
+                   <property name="styleSheet">
+                    <string notr="true"/>
                    </property>
                   </widget>
                  </item>
@@ -3437,6 +3533,154 @@ background-color: rgb(0,0,0);</string>
                    </property>
                    <property name="text">
                     <string>Point Color</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_16">
+                   <property name="text">
+                    <string>Overlay</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_G_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Image_G_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="2">
+                  <widget class="QComboBox" name="comboBox_MS2_ViewerSettings_Overlay_B_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_19">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>R</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_18">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>G</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3" rowspan="4">
+                  <widget class="Line" name="line_8">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="5">
+                  <widget class="QSpinBox" name="spinBox_MS2_ViewerSettings_PointDiameter_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>d=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ConnectZoom_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Connect Zoom</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="4" colspan="2">
+                  <widget class="QCheckBox" name="checkBox_MS2_ViewerSettings_ViewTransform_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Transform</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -3537,18 +3781,21 @@ background-color: rgb(0,0,0);</string>
               <property name="spacing">
                <number>3</number>
               </property>
-              <item row="2" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Right">
+              <item row="6" column="2" colspan="2">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
                 <property name="text">
-                 <string>Right (D)</string>
+                 <string>Next to correct (M)</string>
                 </property>
                 <property name="shortcut">
-                 <string>D</string>
+                 <string>M</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="2">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Left">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Left (A)</string>
                 </property>
@@ -3557,23 +3804,39 @@ background-color: rgb(0,0,0);</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="2">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Next">
-                <property name="text">
-                 <string>Next (N)</string>
+              <item row="3" column="0">
+               <widget class="QSpinBox" name="spinBox_MS2_Viewport_Y">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
-                <property name="shortcut">
-                 <string>N</string>
+                <property name="suffix">
+                 <string/>
+                </property>
+                <property name="prefix">
+                 <string>Y (mosaic) = </string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Previous">
-                <property name="text">
-                 <string>Previous (B)</string>
+              <item row="5" column="0">
+               <widget class="QSpinBox" name="spinBox_MS2_Viewport_T">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
-                <property name="shortcut">
-                 <string>B</string>
+                <property name="prefix">
+                 <string>T (frames) = </string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QProgressBar" name="progressBar_MS2_CorrectionProgress">
+                <property name="value">
+                 <number>0</number>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+                </property>
+                <property name="format">
+                 <string>%p% corrected</string>
                 </property>
                </widget>
               </item>
@@ -3591,26 +3854,6 @@ background-color: rgb(0,0,0);</string>
                 </property>
                 <property name="shortcut">
                  <string>S</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Up">
-                <property name="text">
-                 <string>Up (W)</string>
-                </property>
-                <property name="shortcut">
-                 <string>W</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2" colspan="2">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
-                <property name="text">
-                 <string>Next to correct (M)</string>
-                </property>
-                <property name="shortcut">
-                 <string>M</string>
                 </property>
                </widget>
               </item>
@@ -3660,39 +3903,49 @@ background-color: rgb(0,0,0);</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QSpinBox" name="spinBox_MS2_Viewport_Y">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
+              <item row="2" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Right">
+                <property name="text">
+                 <string>Right (D)</string>
                 </property>
-                <property name="suffix">
-                 <string/>
-                </property>
-                <property name="prefix">
-                 <string>Y (mosaic) = </string>
+                <property name="shortcut">
+                 <string>D</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
-               <widget class="QSpinBox" name="spinBox_MS2_Viewport_T">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
+              <item row="3" column="2">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Up">
+                <property name="enabled">
+                 <bool>false</bool>
                 </property>
-                <property name="prefix">
-                 <string>T (frames) = </string>
+                <property name="text">
+                 <string>Up (W)</string>
+                </property>
+                <property name="shortcut">
+                 <string>W</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QProgressBar" name="progressBar_MS2_CorrectionProgress">
-                <property name="value">
-                 <number>0</number>
+              <item row="5" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Next">
+                <property name="text">
+                 <string>Next (N)</string>
                 </property>
-                <property name="alignment">
-                 <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+                <property name="shortcut">
+                 <string>N</string>
                 </property>
-                <property name="format">
-                 <string>%p% corrected</string>
+               </widget>
+              </item>
+              <item row="5" column="2">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Previous">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Previous (B)</string>
+                </property>
+                <property name="shortcut">
+                 <string>B</string>
                 </property>
                </widget>
               </item>

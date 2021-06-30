@@ -16287,6 +16287,50 @@ int D_Img_Proc::Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y
     }
         break;
 
+    case c_MARKER_SYMBOL_RECT:
+    {
+        //t
+        int ER = Draw_Line(
+                    pMA_Target,
+                    x1, y1,
+                    x2, y1,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //b
+        ER = Draw_Line(
+                    pMA_Target,
+                    x1, y2,
+                    x2, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //l
+        ER = Draw_Line(
+                    pMA_Target,
+                    x1, y1,
+                    x1, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+
+        //r
+        ER = Draw_Line(
+                    pMA_Target,
+                    x2, y1,
+                    x2, y2,
+                    max(2.0, min(xs, ys) / 10.0),
+                    r, g, b);
+        if(ER != ER_okay)
+            return ER;
+    }
+        break;
+
     case c_MARKER_SYMBOL_MINUS:
     {
         return Draw_Line(

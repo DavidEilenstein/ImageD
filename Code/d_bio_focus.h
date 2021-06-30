@@ -13,6 +13,7 @@
 #include <d_enum.h>
 #include <d_stat.h>
 #include <d_bio_enum.h>
+#include <d_math.h>
 
 //Qt
 #include <QFileDialog>
@@ -63,6 +64,7 @@ public:
 
     double          dist2centroid(Point2f point)                    {return norm(point - m_centroid);}
     double          dist2contour_circle_equivalent(Point2f point)   {return dist2centroid(point) - radius_circle_equivalent();}
+    bool            contains_point(Point P, double margin = 0)      {return dist2contour_circle_equivalent(P) <= margin;}
 
     size_t          channels();
     double          signal_stat(size_t channel, size_t stat_local_id);

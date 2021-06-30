@@ -795,6 +795,72 @@ QString D_Bio_NucleusImage::info()
     return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
 }
 
+bool D_Bio_NucleusImage::remove_focus(Point P, size_t channel, double margin)
+{
+    if(channel >= vvFoci.size())
+        return false;
+
+    double dist_closest = INFINITY;
+    size_t index_closest = 0;
+    for(size_t f = 0; f < vvFoci[channel].size(); f++)
+    {
+        double dist = vvFoci[channel][f].dist2contour_circle_equivalent(P);
+        if(dist < dist_closest)
+        {
+            dist_closest = dist;
+            index_closest = f;
+        }
+    }
+
+    if(dist_closest <= margin)
+    {
+        vvFoci[channel].erase(vvFoci[channel].begin() + index_closest);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void D_Bio_NucleusImage::remove_foci(vector<Point> vP, size_t channel, double margin)
+{
+    for(size_t p = 0; p < vP.size(); p++)
+        remove_focus(vP[p], channel, margin);
+
+}
+
+bool D_Bio_NucleusImage::remove_nucleus(Point P, double margin)
+{
+    double dist_closest = INFINITY;
+    size_t index_closest = 0;
+    for(size_t i = 0; i < vNuclei.size(); i++)
+    {
+        double dist = vNuclei[i].dist2contour(P);
+        if(dist < dist_closest)
+        {
+            dist_closest = dist;
+            index_closest = i;
+        }
+    }
+
+    if(dist_closest <= margin)
+    {
+        vNuclei.erase(vNuclei.begin() + index_closest);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void D_Bio_NucleusImage::remove_nuclei(vector<Point> vP, double margin)
+{
+    for(size_t p = 0; p < vP.size(); p++)
+        remove_nucleus(vP[p], margin);
+}
+
 bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel)
 {
     //........................................... read focus (start) ...........................................

@@ -78,6 +78,11 @@ public:
 
     QString info();
 
+    bool    remove_focus    (Point P,           size_t channel,     double margin = 0);
+    void    remove_foci     (vector<Point> vP,  size_t channel,     double margin = 0);
+    bool    remove_nucleus  (Point P,                               double margin = 0);
+    void    remove_nuclei   (vector<Point> vP,                      double margin = 0);
+
 private:
 
     bool            load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel);

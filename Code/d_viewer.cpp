@@ -14,6 +14,7 @@ D_Viewer::D_Viewer()
     //(only exist for beeing able to create Viwer-Object in headers)
 
     v_ConnectedViewersZoom.push_back(this);
+    v_ConnectedViewersClickRecord.push_back(this);
 }
 
 D_Viewer::D_Viewer(QGraphicsView *GV_ui)
@@ -78,17 +79,68 @@ void D_Viewer::clear_Image()
     Proc_MA_2_QI();
 }
 
+void D_Viewer::connect_PointRecord(D_Viewer *viewer)
+{
+    //check duplicate
+    for(size_t v = 0; v < v_ConnectedViewersClickRecord.size(); v++)
+        if(viewer == v_ConnectedViewersClickRecord[v])
+        {
+            return;
+            //qDebug() << "D_Viewer::connect_PointRecord" << QS_Name << "quit because of duplicat";
+        }
+
+    //append to connected viewers list
+    v_ConnectedViewersClickRecord.push_back(viewer);
+
+    //connect new viewer with others
+    for(size_t v = 0; v < v_ConnectedViewersClickRecord.size() - 1; v++)
+        {
+            //qDebug() << "D_Viewer::connect_PointRecord" << "host" << QS_Name << "connect" << viewer->name() << "with" << v_ConnectedViewersClickRecord[v]->name();
+
+            //disconnect and connect again to make sure it is connected only once
+
+            //forwards
+            //disconnect
+            disconnect(viewer,                          SIGNAL(ClickRecordSignal_Record(int, int)), v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Record_RecieveOnly(int, int)));
+            disconnect(viewer,                          SIGNAL(ClickRecordSignal_Quit()),           v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Quit_RecieveOnly()));
+            disconnect(viewer,                          SIGNAL(ClickRecordSignal_Clear()),          v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Clear_RecieveOnly()));
+            disconnect(viewer,                          SIGNAL(ClickRecordSignal_Start()),          v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Start_RecieveOnly()));
+            //connect
+            connect(viewer,                             SIGNAL(ClickRecordSignal_Record(int, int)), v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Record_RecieveOnly(int, int)));
+            connect(viewer,                             SIGNAL(ClickRecordSignal_Quit()),           v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Quit_RecieveOnly()));
+            connect(viewer,                             SIGNAL(ClickRecordSignal_Clear()),          v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Clear_RecieveOnly()));
+            connect(viewer,                             SIGNAL(ClickRecordSignal_Start()),          v_ConnectedViewersClickRecord[v],  SLOT(ClickRecord_Start_RecieveOnly()));
+
+            //backwards
+            //disconnect
+            disconnect(v_ConnectedViewersClickRecord[v],SIGNAL(ClickRecordSignal_Record(int, int)), viewer,                             SLOT(ClickRecord_Record_RecieveOnly(int, int)));
+            disconnect(v_ConnectedViewersClickRecord[v],SIGNAL(ClickRecordSignal_Quit()),           viewer,                             SLOT(ClickRecord_Quit_RecieveOnly()));
+            disconnect(v_ConnectedViewersClickRecord[v],SIGNAL(ClickRecordSignal_Clear()),          viewer,                             SLOT(ClickRecord_Clear_RecieveOnly()));
+            disconnect(v_ConnectedViewersClickRecord[v],SIGNAL(ClickRecordSignal_Start()),          viewer,                             SLOT(ClickRecord_Start_RecieveOnly()));
+            //connect
+            connect(v_ConnectedViewersClickRecord[v],   SIGNAL(ClickRecordSignal_Record(int, int)), viewer,                             SLOT(ClickRecord_Record_RecieveOnly(int, int)));
+            connect(v_ConnectedViewersClickRecord[v],   SIGNAL(ClickRecordSignal_Quit()),           viewer,                             SLOT(ClickRecord_Quit_RecieveOnly()));
+            connect(v_ConnectedViewersClickRecord[v],   SIGNAL(ClickRecordSignal_Clear()),          viewer,                             SLOT(ClickRecord_Clear_RecieveOnly()));
+            connect(v_ConnectedViewersClickRecord[v],   SIGNAL(ClickRecordSignal_Start()),          viewer,                             SLOT(ClickRecord_Start_RecieveOnly()));
+        }
+}
+
 void D_Viewer::connect_Zoom(D_Viewer *viewer)
 {
     v_ConnectedViewersZoom.push_back(viewer);
 
-    for(size_t v1 = 0; v1 < v_ConnectedViewersZoom.size(); v1++)
-        for(size_t v2 = 0; v2 < v_ConnectedViewersZoom.size(); v2++)
-            if(v1 != v2)
-            {
-                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed(double,double,double)),   v_ConnectedViewersZoom[v2],     SLOT(Set_Zoom_Extern(double,double,double)));
-                connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed_Reset()),                 v_ConnectedViewersZoom[v2],     SLOT(Set_ZoomReset_Extern()));
-            }
+        for(size_t v1 = 0; v1 < v_ConnectedViewersZoom.size(); v1++)
+            for(size_t v2 = 0; v2 < v_ConnectedViewersZoom.size(); v2++)
+                if(v1 != v2)
+                {
+                    //disconnect to ensure it is connected only once
+                    disconnect(v_ConnectedViewersZoom[v1],  SIGNAL(Zoomed(double,double,double)),   v_ConnectedViewersZoom[v2],     SLOT(Set_Zoom_Extern(double,double,double)));
+                    disconnect(v_ConnectedViewersZoom[v1],  SIGNAL(Zoomed_Reset()),                 v_ConnectedViewersZoom[v2],     SLOT(Set_ZoomReset_Extern()));
+
+                    //connect again
+                    connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed(double,double,double)),   v_ConnectedViewersZoom[v2],     SLOT(Set_Zoom_Extern(double,double,double)));
+                    connect(v_ConnectedViewersZoom[v1],     SIGNAL(Zoomed_Reset()),                 v_ConnectedViewersZoom[v2],     SLOT(Set_ZoomReset_Extern()));
+                }
 }
 
 double D_Viewer::img_val_min()
@@ -133,9 +185,14 @@ double D_Viewer::img_val_range()
 void D_Viewer::Init(QGraphicsView *GV_ui)
 {
     //connector list
+    //zoom
     v_ConnectedViewersZoom.clear();
     v_ConnectedViewersZoom.resize(1);
     v_ConnectedViewersZoom[0] = this;
+    //click record
+    v_ConnectedViewersClickRecord.clear();
+    v_ConnectedViewersClickRecord.resize(1);
+    v_ConnectedViewersClickRecord[0] = this;
 
     //Graphicsview
     GV_View = GV_ui;
@@ -194,12 +251,14 @@ void D_Viewer::Proc_ShowImgOrPlot()
 /*!
  * \brief D_Viewer::Proc_MA_2_QI Convert Mat to QImage and apply value transformation and zoom
  * \ingroup proc
- * \details emit signals Time_Image_Cvt, TypeChanged, TypeChanged_QI and Zoomed/Zoom_Reset if zoomed. Calls Proc_QI_2_PX. Includes time measurement.
+ * \details emit signals Time_Image_Cvt, TypeChanged, TypeChanged_QI and Zoomed/Zoom_Reset if zoomed. Calls Proc_DrawOverlay2QI. Includes time measurement.
  */
 void D_Viewer::Proc_MA_2_QI()
 {
+    //start time measurement
     QET_convert.start();
 
+    //convert
     int ER;
     if(zoom_active && vis_trafo_active)             //ZOOM  VISTRAFO
         ER = Proc_MA_2_QI_Zoom_And_Vistrafo();
@@ -210,11 +269,13 @@ void D_Viewer::Proc_MA_2_QI()
     else /*if(!zoom_active && !vis_trafo_active)*/  //zoom  vistrafo
         ER = Proc_MA_2_QI_NoZoom_NoVistrafo();
 
+    //stop time measurement
     time_convert = static_cast<unsigned int>(QET_convert.elapsed());
 
     if(ER != ER_okay)
         return;
 
+    //emit signals
     emit Time_Image_Cvt(time_convert);
     emit TypeChanged();
     emit TypeChanged_QI();
@@ -228,6 +289,35 @@ void D_Viewer::Proc_MA_2_QI()
     //zoom reset?
     if(zoom_changed && zoom_factor_cur == 1.0)
         emit Zoom_Reset();
+
+    Proc_DrawOverlay2QI();
+}
+
+/*!
+ * \brief D_Viewer::Proc_DrawOverlay2QI draw recorded clicks as overlay on QI, when click recording is active
+ * \details calls Proc_QI_2_PX after drawing overlay
+ */
+void D_Viewer::Proc_DrawOverlay2QI()
+{
+    if(click_recording_active)
+    {
+        QPainter painter(&QI_View);
+        QPen pen;
+        pen.setWidth(ClickRecord_PointDiameter);
+        pen.setColor(ClickRecord_OverlayColor);
+        pen.setCapStyle(Qt::RoundCap);
+        painter.setPen(pen);
+
+        for(size_t p = 0; p < vClicksRecorded.size(); p++)
+        {
+            int x = zoom_active ? vClicksRecorded[p].x - zoom_offset_x : vClicksRecorded[p].x;
+            int y = zoom_active ? vClicksRecorded[p].y - zoom_offset_y : vClicksRecorded[p].y;
+            if(x >= 0 || x < QI_View.width() || y >= 0 || y < QI_View.height())
+                painter.drawPoint(x, y);
+        }
+
+        painter.end();
+    }
 
     Proc_QI_2_PX();
 }
@@ -2297,6 +2387,9 @@ void D_Viewer::MouseClicked_Left(int x, int y)
     emit MouseClickedLeft_Pos(
                 x,
                 y);
+
+    if(click_recording_active)
+        ClickRecord_Record(x, y);
 }
 
 void D_Viewer::MouseClicked_Right(int x, int y)
@@ -2321,6 +2414,220 @@ void D_Viewer::MouseClicked_Mid(int x, int y)
     emit MouseClickedMid_Pos(
                 x,
                 y);
+}
+
+void D_Viewer::ClickRecord_Start()
+{
+    ClickRecord_Clear();
+    click_recording_active = true;
+    emit ClickRecordSignal_Start();
+}
+
+void D_Viewer::ClickRecord_Start_RecieveOnly()
+{
+    ClickRecord_Clear();
+    click_recording_active = true;
+}
+
+bool D_Viewer::ClickRecord_Record(Point P)
+{
+    if(!click_recording_active)
+        return false;
+
+    if(P.x < 0 || P.x >= MA_Data.cols || P.y < 0 || P.y >= MA_Data.rows)
+        return false;
+
+    vClicksRecorded.push_back(P);
+    emit ClickRecordSignal_Record(P.x, P.y);
+    ClickRecord_DrawOverlay();
+
+    return true;
+}
+
+bool D_Viewer::ClickRecord_Record(int x, int y)
+{
+    if(!click_recording_active)
+        return false;
+
+    if(x < 0 || x >= MA_Data.cols || y < 0 || y >= MA_Data.rows)
+        return false;
+
+    Point P(x, y);
+    vClicksRecorded.push_back(P);
+    emit ClickRecordSignal_Record(x, y);
+    ClickRecord_DrawOverlay();
+
+    emit ClickRecordSignal_RecordedPointsCount(vClicksRecorded.size());
+
+    return true;
+}
+
+bool D_Viewer::ClickRecord_Record_RecieveOnly(Point P)
+{
+    if(!click_recording_active)
+        return false;
+
+    if(P.x < 0 || P.x >= MA_Data.cols || P.y < 0 || P.y >= MA_Data.rows)
+        return false;
+
+    vClicksRecorded.push_back(P);
+    ClickRecord_DrawOverlay();
+
+    emit ClickRecordSignal_RecordedPointsCount(vClicksRecorded.size());
+
+    return true;
+}
+
+bool D_Viewer::ClickRecord_Record_RecieveOnly(int x, int y)
+{    
+    if(!click_recording_active)
+        return false;
+
+    if(x < 0 || x >= MA_Data.cols || y < 0 || y >= MA_Data.rows)
+        return false;
+
+    vClicksRecorded.push_back(Point(x, y));
+    ClickRecord_DrawOverlay();
+
+    return true;
+}
+
+void D_Viewer::ClickRecord_Clear()
+{
+    vClicksRecorded.clear();
+    emit ClickRecordSignal_Clear();
+    emit ClickRecordSignal_RecordedPointsCount(vClicksRecorded.size());
+    ClickRecord_DrawOverlay();
+}
+
+void D_Viewer::ClickRecord_Clear_RecieveOnly()
+{
+    vClicksRecorded.clear();
+    ClickRecord_DrawOverlay();
+}
+
+void D_Viewer::ClickRecord_Quit()
+{
+    ClickRecord_Clear();
+    click_recording_active = false;
+    emit ClickRecordSignal_Quit();
+    ClickRecord_DrawOverlay();
+}
+
+void D_Viewer::ClickRecord_Quit_RecieveOnly()
+{
+    ClickRecord_Clear_RecieveOnly();
+    click_recording_active = false;
+    ClickRecord_DrawOverlay();
+}
+
+vector<Point> D_Viewer::ClickRecord_GetPoints()
+{
+    emit ClickRecordSignal_GetPoints(vClicksRecorded);
+    return vClicksRecorded;
+}
+
+vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
+{
+    if(vClicksRecorded.empty())
+        return vClicksRecorded;
+
+    //calc ellipse
+    RotatedRect E = ClickRecord_Ellipse();
+
+    //draw ellipse
+    Mat MA_Draw = Mat::zeros(MA_Data.size(), CV_8UC1);
+    ellipse(MA_Draw, E, Scalar(255), 1, LINE_8);
+
+    //get contour of ellipse
+    vector<vector<Point>> vvContours;
+    vector<Vec4i> hierarchy;
+    findContours(MA_Draw, vvContours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE, Point(0, 0));
+    MA_Draw.release();
+
+    //check contours
+    if(vvContours.empty())
+        return vClicksRecorded;
+
+    //return ellipse contour
+    emit ClickRecordSignal_GetPoints_Ellipse(vvContours[0]);
+    return vvContours[0];
+}
+
+vector<Point> D_Viewer::ClickRecord_GetPoints_Polygon()
+{
+    if(vClicksRecorded.empty())
+        return vClicksRecorded;
+
+    //draw polygon
+    Mat MA_Draw = Mat::zeros(MA_Data.size(), CV_8UC1);
+    for(size_t i = 0; i < vClicksRecorded.size(); i++)
+        line(MA_Draw, vClicksRecorded[i], vClicksRecorded[(i+1) % vClicksRecorded.size()], Scalar(255), 1, LINE_8);
+
+    //get contour of polygon
+    vector<vector<Point>> vvContours;
+    vector<Vec4i> hierarchy;
+    findContours(MA_Draw, vvContours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE, Point(0, 0));
+    MA_Draw.release();
+
+    //check contours
+    if(vvContours.empty())
+        return vClicksRecorded;
+
+    //return polygon contour
+    emit ClickRecordSignal_GetPoints_Polygon(vvContours[0]);
+    return vvContours[0];
+}
+
+vector<Point> D_Viewer::ClickRecord_GetPoints_ConvexHull()
+{
+    if(vClicksRecorded.empty())
+        return vClicksRecorded;
+
+    //draw polygon
+    Mat MA_Draw = Mat::zeros(MA_Data.size(), CV_8UC1);
+    for(size_t i = 0; i < vClicksRecorded.size(); i++)
+        line(MA_Draw, vClicksRecorded[i], vClicksRecorded[(i+1) % vClicksRecorded.size()], Scalar(255), 1, LINE_8);
+
+    //get contour of polygon
+    vector<vector<Point>> vvContours;
+    vector<Vec4i> hierarchy;
+    findContours(MA_Draw, vvContours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE, Point(0, 0));
+    MA_Draw.release();
+
+    //check contours
+    if(vvContours.empty())
+        return vClicksRecorded;
+
+    //calc convex hull
+    vector<Point> CH;
+    convexHull(vvContours[0], CH);
+
+    //return convex hull
+    emit ClickRecordSignal_GetPoints_ConvexHull(CH);
+    return CH;
+}
+
+RotatedRect D_Viewer::ClickRecord_Ellipse()
+{
+    if(vClicksRecorded.empty())
+        return RotatedRect(Point2f(0,0), Point2f(0,0), Point2f(0,0));
+
+    RotatedRect E = fitEllipse(vClicksRecorded);
+    emit ClickRecordSignal_Ellipse(E);
+    return E;
+}
+
+void D_Viewer::ClickRecord_ChangeOverlayColor(QColor color)
+{
+    ClickRecord_OverlayColor = color;
+    ClickRecord_DrawOverlay();
+}
+
+void D_Viewer::ClickRecord_ChangeOverlayPointDiameter(int d)
+{
+    ClickRecord_PointDiameter = d;
+    ClickRecord_DrawOverlay();
 }
 
 void D_Viewer::Zoom_Pos(int x, int y)
@@ -2374,4 +2681,9 @@ void D_Viewer::Zoom_Update()
     Proc_ShowImgOrPlot();
 
     zoom_factor_old = zoom_factor_cur;
+}
+
+void D_Viewer::ClickRecord_DrawOverlay()
+{
+    Proc_MA_2_QI();
 }

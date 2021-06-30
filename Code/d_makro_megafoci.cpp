@@ -1230,7 +1230,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     ER.set_FileStream_path_csv(DIR_SaveMaster.path() + "/ErrorLog.csv");
 
     //set ui
-    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_IMG_PROC);
+    ui->tabWidget_Control->setCurrentIndex(TAB_CONTROL_VIEWPORT);
 
     //start the stack processing :-)
     StatusSet("Start to loop all viewports");
@@ -2054,7 +2054,9 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     v_MS2_Viewer[3] = &MS2_Viewer4;
     //viewport viewer
     MS2_Viewer_Viewport.set_GV(ui->graphicsView_MS2_Viewport);
-
+    //viewer names
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        v_MS2_Viewer[v]->set_Name("D_MAKRO_MegaFoci MS2_Viewer_" + QString::number(v));
 
     //maximizers
     v_MS2_PUB_Viewer_Maximize.resize(MS2_ViewersCount);
@@ -2157,7 +2159,7 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
 
     //connect zooms
     for(size_t i = 0; i < MS2_ViewersCount; i++)
-        for(size_t j = i + 1; j < MS2_ViewersCount; j++)
+        for(size_t j = 0; j < MS2_ViewersCount; j++)
             v_MS2_Viewer[i]->connect_Zoom(v_MS2_Viewer[j]);
 
     //set view transformations
@@ -2172,6 +2174,10 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     MS2_Viewer_Viewport.Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
     MS2_Viewer_Viewport.Set_VisTrafo_Divisor(5);
     MS2_Viewer_Viewport.Set_VisTrafo_Center(0);
+
+    //point size
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+        v_MS2_Viewer[v]->ClickRecord_ChangeOverlayPointDiameter(6);
 
     //inital images
     v_MS2_MA_Images2Show.resize(MS2_ViewersCount, pStore->get_Adress(0)->clone());
@@ -2229,6 +2235,12 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
     connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_LoadData_TimeSelected()));
 
+    //click recording
+    for(size_t v = 0; v < MS2_ViewersCount; v++)
+    {
+        v_MS2_Viewer[0]->connect_PointRecord(v_MS2_Viewer[v]);
+        connect(v_MS2_Viewer[v], SIGNAL(ClickRecordSignal_RecordedPointsCount(size_t)), this, SLOT(MS2_Draw_RecordedClicksChanged(size_t)));
+    }
 
     //show
     MS2_UpdateImages();
@@ -2261,7 +2273,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Save()
     }
     else
     {
-        qDebug() << "D_MAKRO_MegaFoci::MS2_Draw_Save" << DIR_ToClear << "does not exist";
+        //qDebug() << "D_MAKRO_MegaFoci::MS2_Draw_Save" << DIR_ToClear << "does not exist";
     }
 
     //save
@@ -2367,11 +2379,44 @@ void D_MAKRO_MegaFoci::MS2_Draw_UpdateUi()
     if(ix >= dataset_dim_mosaic_x || iy >= dataset_dim_mosaic_y)
         return;
 
-    //get state
+    //state
     size_t state = vv_MS2_NucImg_State_Out_mosaikXY[ix][iy];
-
     ui->pushButton_MS2_Tools_Progress_Corrected->setEnabled(state != MS2_IMG_STATE_PROCESSED);
     ui->pushButton_MS2_Tools_Progress_ToCorrect->setEnabled(state != MS2_IMG_STATE_TO_PROCESS);
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_RecordingStart()
+{
+    MS2_Viewer1.ClickRecord_Start();
+    ui->pushButton_MS2_Tools_RecordPoints_Start->setEnabled(false);
+    ui->pushButton_MS2_Tools_RecordPoints_Cancel->setEnabled(true);
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_RecordingEnd()
+{
+    MS2_Viewer1.ClickRecord_Quit();
+    ui->pushButton_MS2_Tools_RecordPoints_Start->setEnabled(true);
+    ui->pushButton_MS2_Tools_RecordPoints_Cancel->setEnabled(false);
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_Ellipse()
+{
+    return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Ellipse());
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_Polygon()
+{
+    return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Polygon());
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_Contour(vector<Point> contour)
+{
+
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_Remove()
+{
+
 }
 
 bool D_MAKRO_MegaFoci::MS2_DetOutBackup_Init()
@@ -2559,9 +2604,15 @@ void D_MAKRO_MegaFoci::MS2_ViewerPointColor(size_t v2col)
 
     //save color
     v_MS2_COL_Viewer_PointColor[v2col] = col;
+    v_MS2_Viewer[v2col]->ClickRecord_ChangeOverlayColor(col);
 
     //update_image
     MS2_UpdateImage(v2col);
+}
+
+void D_MAKRO_MegaFoci::MS2_ViewerPointDiameter(size_t v, double d)
+{
+    v_MS2_Viewer[v]->ClickRecord_ChangeOverlayPointDiameter(d);
 }
 
 void D_MAKRO_MegaFoci::MS2_ViewerConnectZooms(size_t v2con, bool con)
@@ -2730,7 +2781,7 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
                             r, g, b,
                             0.8),
                         "MS2_UpdateImage_Viewport",
-                        "D_Img_Proc::Draw_MarkerSymbol");
+                        "D_Img_Proc::Draw_MarkerSymbol - State");
                 }
             }
         }
@@ -2746,6 +2797,22 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
 
         //qDebug() << "D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport" << "can't draw state symbols, states not calced yet";
     }
+
+    //draw viewport on overview
+    int mx = ui->spinBox_MS2_Viewport_X->value();
+    int my = ui->spinBox_MS2_Viewport_Y->value();
+    int l = max(0.0,                           (static_cast<double>(mx                          ) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth);
+    int t = max(0.0,                           (static_cast<double>(my                          ) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight);
+    int r = min(MS2_MosaikImageWidth  - 1.0,   (static_cast<double>(mx + 1 + MS2_MosaikBorderPrz) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth);
+    int b = min(MS2_MosaikImageHeight - 1.0,   (static_cast<double>(my + 1 + MS2_MosaikBorderPrz) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight);
+    ERR(D_Img_Proc::Draw_MarkerSymbol(
+            &MA_MS2_ViewportShow,
+            l, t, r, b,
+            c_MARKER_SYMBOL_RECT,
+            255, 255, 255,
+            1),
+        "MS2_UpdateImage_Viewport",
+        "D_Img_Proc::Draw_MarkerSymbol - Viewport");
 
     //show img
     MS2_Viewer_Viewport.Update_Image(&MA_MS2_ViewportShow);
@@ -2785,6 +2852,9 @@ void D_MAKRO_MegaFoci::MS2_UpdateViewportPos()
     //update ui
     MS2_DetOutBackup_UpdateUi();
     MS2_Draw_UpdateUi();
+
+    //quit drawing
+    MS2_Draw_RecordingEnd();
 
     //show
     MS2_UpdateImages();
@@ -2898,6 +2968,13 @@ void D_MAKRO_MegaFoci::MS2_DrawMode_Set(size_t mode)
 
     for(size_t m = 0; m < MS2_DRAW_MODE_NUMBER_OF; m++)
         v_MS2_PUB_DrawModi[m]->setStyleSheet(m == mode ? "font-weight: bold" : "");
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_RecordedClicksChanged(size_t point_count)
+{
+    ui->pushButton_MS2_Tools_ApplyPoints_Remove->setEnabled(point_count >= 1);
+    ui->pushButton_MS2_Tools_ApplyPoints_Ellipse->setEnabled(point_count >= 4);
+    ui->pushButton_MS2_Tools_ApplyPoints_Polygon->setEnabled(point_count >= 3);
 }
 
 bool D_MAKRO_MegaFoci::MS2_CalcMosaik_Size()
@@ -3188,7 +3265,10 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Time(size_t t)
     MS2_UpdateViewportPos();
 
     StatusSet("Data for t=" + QString::number(t) + " succsessfully loaded");
-    qDebug() << "Data for t=" + QString::number(t) + " succsessfully loaded";
+
+    //quit drawing
+    MS2_Draw_RecordingEnd();
+
     return true;
 }
 
@@ -3976,4 +4056,96 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_History_Undo_clicked()
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_History_Redo_clicked()
 {
     MS2_DetOutBackup_Redo();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_RecordPoints_Start_clicked()
+{
+    MS2_Draw_RecordingStart();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_RecordPoints_Cancel_clicked()
+{
+    MS2_Draw_RecordingEnd();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Polygon_clicked()
+{
+    MS2_Draw_Polygon();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Ellipse_clicked()
+{
+    MS2_Draw_Ellipse();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Remove_clicked()
+{
+    MS2_Draw_Remove();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_1_valueChanged(int arg1)
+{
+    MS2_ViewerPointDiameter(0, arg1);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_2_valueChanged(int arg1)
+{
+    MS2_ViewerPointDiameter(1, arg1);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_3_valueChanged(int arg1)
+{
+    MS2_ViewerPointDiameter(2, arg1);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChanged(int arg1)
+{
+    MS2_ViewerPointDiameter(3, arg1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_NextToCorrect_clicked()
+{
+    if(!state_MS2_detections_loaded)
+        return;
+
+    size_t ix = ui->spinBox_MS2_Viewport_X->value();
+    size_t iy = ui->spinBox_MS2_Viewport_Y->value();
+    size_t it = ui->spinBox_MS2_Viewport_T->value();
+
+    for(size_t t = it; t < dataset_dim_t; t++)
+        for(size_t y = iy; y < dataset_dim_mosaic_x; y++)
+            for(size_t x = ix; x < dataset_dim_mosaic_y; x++)
+            {
+                if(x != ix || y != iy || t != it)
+                    if(vv_MS2_NucImg_State_Out_mosaikXY[x][y] != MS2_IMG_STATE_PROCESSED)
+                    {
+                        ui->spinBox_MS2_Viewport_X->setValue(x);
+                        ui->spinBox_MS2_Viewport_Y->setValue(y);
+                        ui->spinBox_MS2_Viewport_T->setValue(t);
+                        return;
+                    }
+            }
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_X_valueChanged(int arg1)
+{
+    ui->pushButton_MS2_Viewport_Left->setEnabled(arg1 > 0);
+    ui->pushButton_MS2_Viewport_Right->setEnabled(arg1 < static_cast<int>(dataset_dim_mosaic_x) - 1);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_Y_valueChanged(int arg1)
+{
+    ui->pushButton_MS2_Viewport_Up->setEnabled(arg1 > 0);
+    ui->pushButton_MS2_Viewport_Down->setEnabled(arg1 < static_cast<int>(dataset_dim_mosaic_y) - 1);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_T_valueChanged(int arg1)
+{
+    ui->pushButton_MS2_Viewport_Previous->setEnabled(arg1 > 0);
+    ui->pushButton_MS2_Viewport_Next->setEnabled(arg1 < static_cast<int>(dataset_dim_t) - 1);
+}
+
+void D_MAKRO_MegaFoci::on_progressBar_MS2_CorrectionProgress_valueChanged(int value)
+{
+    ui->pushButton_MS2_Viewport_NextToCorrect->setEnabled(value < ui->progressBar_MS2_CorrectionProgress->maximum());
 }

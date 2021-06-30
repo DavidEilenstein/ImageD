@@ -83,7 +83,6 @@ double D_Bio_Focus::signal_stat(size_t channel, size_t stat_local_id)
     return vvSignalStats_StatChannel[stat_local_id][channel];
 }
 
-
 /*
 int D_Bio_Focus::save(QString path)
 {

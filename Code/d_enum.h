@@ -17,8 +17,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_6_5";
-const QString           D_QS_Release  = "24.06.2021";
+const QString           D_QS_Version  = "v1_6_7";
+const QString           D_QS_Release  = "30.06.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -1736,6 +1736,7 @@ const std::vector<size_t> vFeatInvariant_Rotation = {
 enum D_MARKER_SYMBOL {
     c_MARKER_SYMBOL_CIRCLE,
     c_MARKER_SYMBOL_DOT,
+    c_MARKER_SYMBOL_RECT,
     c_MARKER_SYMBOL_PLUS,
     c_MARKER_SYMBOL_MINUS,
     c_MARKER_SYMBOL_CROSS,

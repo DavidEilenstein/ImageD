@@ -85,6 +85,7 @@ public:
     vector<Point>   contour()                                       {                                       return m_contour;}
     double          dist2contour(Point2f point)                     {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
     double          dist2centroid(Point2f point)                    {if(state_feats_calced) CalcFeats();    return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
+    bool            contains_point(Point P, double margin = 0)      {return dist2contour(P) <= margin;}
 
     Point2f         centroid()                                      {if(state_feats_calced) CalcFeats();    return m_centroid;}
     double          area()                                          {if(state_feats_calced) CalcFeats();    return m_area;}
@@ -97,6 +98,7 @@ public:
     double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
     QString         info();
+
 
 private:
 

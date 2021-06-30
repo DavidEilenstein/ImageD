@@ -73,6 +73,7 @@ public:
     void                    clear_Image();
 
     //connector
+    void                    connect_PointRecord(D_Viewer *viewer);
     void                    connect_Zoom(D_Viewer *viewer);
     void                    set_zoom_connection_active(int active = 1) {zoom_connection_active = static_cast<bool>(active);}
 
@@ -99,12 +100,15 @@ public:
     double                  zoom_y_rel()    {return cursor_y_rel;}
     double                  zoom_fact()     {return zoom_factor_cur;}
 
+    QString                 name()          {return QS_Name;}
+
 private:
     void        Init                        (QGraphicsView *GV_ui);
 
     //Processing image->view
     void        Proc_ShowImgOrPlot              ();
     void        Proc_MA_2_QI                    ();
+    void        Proc_DrawOverlay2QI             ();
     int         Proc_MA_2_QI_NoZoom_NoVistrafo  ();
     int         Proc_MA_2_QI_NoZoom_ButVistrafo ();
     int         Proc_MA_2_QI_Zoom_ButNoVistrafo ();
@@ -133,6 +137,8 @@ private slots:
     void        Zoom_Out                ();
     void        Zoom_Reset              ();
     void        Zoom_Update             ();
+
+    void        ClickRecord_DrawOverlay ();
 
 public slots:
 
@@ -171,6 +177,7 @@ public slots:
     void        Set_Zoom_Extern         (double x_rel, double y_rel, double factor);
     void        Set_ZoomReset           ();
     void        Set_ZoomReset_Extern    ();
+    void        Set_Name                (QString name)                              {QS_Name = name;}
 
     //slots recieved on actions in scene
     void        MouseMoved              (int x, int y);
@@ -178,6 +185,25 @@ public slots:
     void        MouseClicked_Left       (int x, int y);
     void        MouseClicked_Right      (int x, int y);
     void        MouseClicked_Mid        (int x, int y);
+
+    //click recording for drawing
+    void            ClickRecord_Start                   ();
+    void            ClickRecord_Start_RecieveOnly       ();
+    bool            ClickRecord_Record                  (Point P);
+    bool            ClickRecord_Record                  (int x, int y);
+    bool            ClickRecord_Record_RecieveOnly      (Point P);
+    bool            ClickRecord_Record_RecieveOnly      (int x, int y);
+    void            ClickRecord_Clear                   ();
+    void            ClickRecord_Clear_RecieveOnly       ();
+    void            ClickRecord_Quit                    ();
+    void            ClickRecord_Quit_RecieveOnly        ();
+    vector<Point>   ClickRecord_GetPoints               ();
+    vector<Point>   ClickRecord_GetPoints_Ellipse       ();
+    vector<Point>   ClickRecord_GetPoints_Polygon       ();
+    vector<Point>   ClickRecord_GetPoints_ConvexHull    ();
+    RotatedRect     ClickRecord_Ellipse                 ();
+    void            ClickRecord_ChangeOverlayColor      (QColor color);
+    void            ClickRecord_ChangeOverlayPointDiameter(int d);
 
 signals:
 
@@ -225,6 +251,18 @@ signals:
     //saved
     void Image_Saved        ();
     void Image_Saved        (QString path);
+
+    //click recording for drawing
+    void ClickRecordSignal_Start               ();
+    void ClickRecordSignal_Record              (int x, int y);
+    void ClickRecordSignal_RecordedPointsCount (size_t count);
+    void ClickRecordSignal_Clear               ();
+    void ClickRecordSignal_Quit                ();
+    void ClickRecordSignal_GetPoints           (vector<Point> vPoints);
+    void ClickRecordSignal_GetPoints_Ellipse   (vector<Point> vPointsEllipse);
+    void ClickRecordSignal_GetPoints_Polygon   (vector<Point> vPointsPolygon);
+    void ClickRecordSignal_GetPoints_ConvexHull(vector<Point> vPointsPolygon);
+    void ClickRecordSignal_Ellipse             (RotatedRect ellipse);
 
 private:    //members
 
@@ -305,8 +343,12 @@ private:    //members
     QElapsedTimer           QET_convert;
     unsigned int            time_convert;
 
-
-
+    //point recording
+    bool click_recording_active = false;
+    vector<Point> vClicksRecorded;
+    vector<D_Viewer*>       v_ConnectedViewersClickRecord;
+    QColor                  ClickRecord_OverlayColor = Qt::white;
+    double                  ClickRecord_PointDiameter = 1;
 };
 
 #endif // D_VIEWER_H
