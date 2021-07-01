@@ -789,6 +789,12 @@ private:
         MS2_DRAW_MODE_FOCI_BOTH,
         MS2_DRAW_MODE_NUMBER_OF
     };
+    const QStringList QSL_MS2_DrawMode = {
+        "nuclei",
+        "GFP",
+        "RFP",
+        "GFP and RFP"
+    };
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

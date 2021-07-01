@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
+   &#160;<span id="projectnumber">v1_7_0 (01.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -625,171 +625,282 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    <span class="keywordtype">void</span> on_checkBox_MS2_ViewerSettings_ViewTransform_3_clicked(<span class="keywordtype">bool</span> checked);</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <span class="keywordtype">void</span> on_checkBox_MS2_ViewerSettings_ViewTransform_4_clicked(<span class="keywordtype">bool</span> checked);</div>
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160; </div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ProgressToCorrect_clicked();</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Progress_Corrected_clicked();</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160; </div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_Nuclei_clicked();</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_GFPonly_clicked();</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_RFPonly_clicked();</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked();</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160; </div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    <span class="keywordtype">void</span>                        MS2_init_ui();</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">size_t</span>         MS2_ViewersCount = 4;</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">size_t</span>         MS2_ViewersChannels = 3; <span class="comment">//sorted bgr</span></div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;    <span class="keywordtype">int</span>                         MS2_ViewerMaximized = -1;</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160; </div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    <span class="comment">//ui elments</span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer1;</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer2;</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer3;</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer4;</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer_Viewport;</div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;    vector&lt;D_Viewer*&gt;           v_MS2_Viewer;</div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_Viewer_Maximize;</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_Viewer_PointColor;</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    vector&lt;vector&lt;QComboBox*&gt;&gt;  vv_MS2_COB_ViewerChannel_Image_viewer_bgr;</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;    vector&lt;vector&lt;QComboBox*&gt;&gt;  vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr;</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;    vector&lt;QCheckBox*&gt;          v_MS2_CHB_Viewer_Transform;</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;    vector&lt;QCheckBox*&gt;          v_MS2_CHB_Viewer_ConnectZoom;</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    vector&lt;QGroupBox*&gt;          v_MS2_GRB_Viewer_GroupAll;</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    vector&lt;QGroupBox*&gt;          v_MS2_GRB_Viewer_GroupSettings;</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160; </div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_DrawModi;</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_Nuclei_clicked();</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_GFPonly_clicked();</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_RFPonly_clicked();</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Channel_GFPandRFP_clicked();</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160; </div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    <span class="keywordtype">void</span> on_comboBox_MS2_ViewportBackground_currentIndexChanged(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160; </div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerMaximize(<span class="keywordtype">int</span> v2max);</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerPointColor(<span class="keywordtype">size_t</span> v2col);</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerPointDiameter(<span class="keywordtype">size_t</span> v, <span class="keywordtype">double</span> d);</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerConnectZooms(<span class="keywordtype">size_t</span> v2con, <span class="keywordtype">bool</span> con);</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerSetVisTrafoActive(<span class="keywordtype">size_t</span> v2tra);</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;    <span class="keywordtype">void</span> MS2_ViewerSetVisTrafoActive_All();</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;    <span class="keywordtype">void</span> MS2_ViewersPopulateCBs();</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    <span class="keywordtype">void</span> MS2_ViewersSelectDefaultCBs();</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160; </div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateViews();</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImages();</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage1();</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage2();</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage3();</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage4();</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage(<span class="keywordtype">size_t</span> img2update);</div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImages_Editing();</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160; </div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateImage_Viewport();</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160; </div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateViewportPos();</div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    <span class="keywordtype">void</span> MS2_InitOverlays();</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateOverlays();</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;    <span class="keywordtype">void</span> MS2_UpdateOverlay(<span class="keywordtype">size_t</span> overlay_index);</div>
 <div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160; </div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;    <span class="comment">//remember stuff for ui</span></div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    vector&lt;QColor&gt;              v_MS2_COL_Viewer_PointColor;</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160; </div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    <span class="comment">//images to show</span></div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_Images2Show;</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    Mat                         MA_MS2_ViewportShow;</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160; </div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    <span class="keywordtype">void</span> MS2_DrawMode_Set(<span class="keywordtype">size_t</span> mode);</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    <span class="keywordtype">void</span> MS2_Draw_RecordedClicks_UpdateAvailiableDrawModi();</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    <span class="keywordtype">void</span> MS2_Draw_RecordedClicksChanged(<span class="keywordtype">size_t</span> point_count);</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160; </div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    <span class="keywordtype">bool</span> MS2_CalcMosaik_Size();</div>
 <div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160; </div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <span class="comment">//channel images</span></div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsImage_Full;</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsImage_Croped;</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsOverlay_Croped;</div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160; </div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;    <span class="comment">//DIRs in</span></div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;    QDir                        DIR_MS2_In_Master;</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;    QDir                        DIR_MS2_In_Detections;</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    QDir                        DIR_MS2_In_Mosaik;</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;    vector&lt;QDir&gt;                vDIR_MS2_In_MosaikChannels;</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;    vector&lt;vector&lt;QDir&gt;&gt;        vvDIR_MS2_In_Detections_TimesNuclei;</div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160; </div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;    <span class="comment">//DIRs out</span></div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;    QDir                        DIR_MS2_Out_Master;</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;    QDir                        DIR_MS2_Out_DetectionsCorrected;</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;    vector&lt;vector&lt;QDir&gt;&gt;        vvDIR_MS2_Out_DetectionsCorrected_TimesNuclei;</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160; </div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;    <span class="comment">//data</span></div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;    <span class="keywordtype">double</span>                              MS2_MosaikImageScale;</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;    <span class="keywordtype">int</span>                                 MS2_MosaikImageWidth;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    <span class="keywordtype">int</span>                                 MS2_MosaikImageHeight;</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    vector&lt;vector&lt;D_Bio_NucleusImage&gt;&gt;  vv_MS2_NucImg_In_mosaikXY;</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;    vector&lt;vector&lt;D_Bio_NucleusImage&gt;&gt;  vv_MS2_NucImg_Out_mosaikXY;</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;    vector&lt;vector&lt;size_t&gt;&gt;              vv_MS2_NucImg_State_mosaikXY;</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData();</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_DirsIn();</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_DirsOut();</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160; </div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_TimeSelected();</div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_Time(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_Mosaiks_In(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_Detections_In(<span class="keywordtype">size_t</span> t, <span class="keywordtype">bool</span> error_when_no_dir);</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_Detections_Out(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;    <span class="keywordtype">bool</span> MS2_LoadData_Detections(<span class="keywordtype">size_t</span> t, <span class="keywordtype">bool</span> error_when_no_dir, vector&lt;vector&lt;D_Bio_NucleusImage&gt; &gt; *vvNucleiTarget, QDir DIR_Source, vector&lt;vector&lt;size_t&gt; &gt; *vvState, <span class="keywordtype">size_t</span> state_found, <span class="keywordtype">size_t</span> state_not_found);</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160; </div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;    <span class="keywordtype">void</span> on_groupBox_VisTrafo_clicked();</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160; </div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_MS2_Params_NucleusBorderThickness_valueChanged(<span class="keywordtype">double</span> arg1);</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_MS2_Params_FociMinRadius_valueChanged(<span class="keywordtype">double</span> arg1);</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160; </div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Left_clicked();</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Right_clicked();</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Up_clicked();</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Down_clicked();</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Next_clicked();</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_Previous_clicked();</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160; </div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;    <span class="keywordtype">void</span> on_checkBox_MS2_ViewportOverlay_clicked();</div>
 <div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160; </div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;    <span class="comment">//drawing</span></div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    <span class="keywordtype">size_t</span>                      MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160; </div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;    <span class="comment">//states</span></div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;    <span class="keywordtype">bool</span>                        state_MS2_data_loaded = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160; </div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;    <span class="keywordtype">void</span>                        MS2_ViewerMaximize(<span class="keywordtype">int</span> v2max);</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;    <span class="keywordtype">void</span>                        MS2_ViewerPointColor(<span class="keywordtype">size_t</span> v2col);</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;    <span class="keywordtype">void</span>                        MS2_ViewerConnectZooms(<span class="keywordtype">size_t</span> v2con, <span class="keywordtype">bool</span> con);</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;    <span class="keywordtype">void</span>                        MS2_ViewerSetVisTrafoActive(<span class="keywordtype">size_t</span> v2tra, <span class="keywordtype">bool</span> active);</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;    <span class="keywordtype">void</span>                        MS2_ViewersPopulateCBs();</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160; </div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;    <span class="keywordtype">void</span>                        MS2_UpdateViews();</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;    <span class="keywordtype">void</span>                        MS2_UpdateImages();</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;    <span class="keywordtype">void</span>                        MS2_UpdateImage(<span class="keywordtype">size_t</span> img2update);</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;    <span class="keywordtype">void</span>                        MS2_UpdateImage_Viewport();</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160; </div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;    <span class="keywordtype">void</span>                        MS2_DrawMode_Set(<span class="keywordtype">size_t</span> mode);</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Progress_Corrected_clicked();</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Progress_Clear_clicked();</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Progress_Reset_clicked();</div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_Progress_ToCorrect_clicked();</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160; </div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_History_Undo_clicked();</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_History_Redo_clicked();</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160; </div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_RecordPoints_Start_clicked();</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_RecordPoints_Cancel_clicked();</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPoints_Polygon_clicked();</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPoints_Ellipse_clicked();</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPoints_Remove_clicked();</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160; </div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_ViewerSettings_PointDiameter_1_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_ViewerSettings_PointDiameter_2_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_ViewerSettings_PointDiameter_3_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChanged(<span class="keywordtype">int</span> arg1);</div>
 <div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160; </div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    <span class="keywordtype">bool</span>                        MS2_CalcMosaik_Size();</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Viewport_NextToCorrect_clicked();</div>
 <div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160; </div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData();</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_DirsIn();</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_DirsOut();</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_Viewport_X_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_Viewport_Y_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;    <span class="keywordtype">void</span> on_spinBox_MS2_Viewport_T_valueChanged(<span class="keywordtype">int</span> arg1);</div>
 <div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160; </div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_Time(<span class="keywordtype">size_t</span> t);</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_Mosaiks_In(<span class="keywordtype">size_t</span> t);</div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_Detections_In(<span class="keywordtype">size_t</span> t);</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;    <span class="keywordtype">bool</span>                        MS2_LoadData_Detections_Out(<span class="keywordtype">size_t</span> t);</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160; </div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_MOSAIK {</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        MS2_CH_MOSAIK_DIC,</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;        MS2_CH_MOSAIK_GFP,</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        MS2_CH_MOSAIK_RFP,</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;        MS2_CH_MOSAIK_NUMBER_OF</div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;    };</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsMosaik = {</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;        <span class="stringliteral">&quot;DIC&quot;</span>,</div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;        <span class="stringliteral">&quot;GFP&quot;</span>,</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;        <span class="stringliteral">&quot;RFP&quot;</span></div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;    };</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160; </div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_IMAGE {</div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        MS2_CH_IMG_EMPTY,</div>
-<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;        MS2_CH_IMG_DIC,</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        MS2_CH_IMG_GFP,</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;        MS2_CH_IMG_RFP,</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;        MS2_CH_IMG_NUMBER_OF</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;    };</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsImage = {</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        <span class="stringliteral">&quot;empty&quot;</span>,</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;        <span class="stringliteral">&quot;DIC&quot;</span>,</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        <span class="stringliteral">&quot;GFP&quot;</span>,</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;        <span class="stringliteral">&quot;RFP&quot;</span></div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;    };</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160; </div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_OVERLAY {</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;        MS2_CH_OVR_EMPTY,</div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;        MS2_CH_OVR_NUCLEI,</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;        MS2_CH_OVR_FOCI_GFP,</div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;        MS2_CH_OVR_FOCI_RFP,</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;        MS2_CH_OVR_FOCI_BOTH,</div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;        MS2_CH_OVR_NUMBER_OF</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;    };</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsOverlay = {</div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;        <span class="stringliteral">&quot;empty&quot;</span>,</div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;        <span class="stringliteral">&quot;Nuclei&quot;</span>,</div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;        <span class="stringliteral">&quot;Foci GFP&quot;</span>,</div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;        <span class="stringliteral">&quot;Foci RFP&quot;</span>,</div>
-<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;        <span class="stringliteral">&quot;Foci both&quot;</span></div>
-<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;    };</div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160; </div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;    <span class="keyword">enum</span> MS2_IMAGE_STATE {</div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;        MS2_IMG_STATE_NOT_FOUND,</div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        MS2_IMG_STATE_TO_PROCESS,</div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        MS2_IMG_STATE_PROCESSED,</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        MS2_IMG_STATE_NUMBER_OF</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;    };</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160; </div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;    <span class="keyword">enum</span> MS2_DRAW_MODE {</div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;        MS2_DRAW_MODE_NUCLEI,</div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;        MS2_DRAW_MODE_FOCI_GFP,</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;        MS2_DRAW_MODE_FOCI_RFP,</div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;        MS2_DRAW_MODE_FOCI_BOTH,</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;        MS2_DRAW_MODE_NUMBER_OF</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    };</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;};</div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160; </div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;<span class="preprocessor">#endif // D_MAKRO_MEGAFOCI_H</span></div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;    <span class="keywordtype">void</span> on_progressBar_MS2_CorrectionProgress_valueChanged(<span class="keywordtype">int</span> value);</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160; </div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPoints_ConvexHull_clicked();</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160; </div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPoints_Points_clicked();</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160; </div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked();</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160; </div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;    <span class="keywordtype">void</span> on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked();</div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160; </div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    <span class="keywordtype">void</span>                        MS2_init_ui();</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">size_t</span>         MS2_ViewersCount = 4;</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">size_t</span>         MS2_ViewersChannels = 3; <span class="comment">//sorted bgr</span></div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;    <span class="keywordtype">int</span>                         MS2_ViewerMaximized = -1;</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160; </div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;    <span class="comment">//ui elments</span></div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer1;</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer2;</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer3;</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer4;</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                    MS2_Viewer_Viewport;</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;    vector&lt;D_Viewer*&gt;           v_MS2_Viewer;</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_Viewer_Maximize;</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_Viewer_PointColor;</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;    vector&lt;vector&lt;QComboBox*&gt;&gt;  vv_MS2_COB_ViewerChannel_Image_viewer_bgr;</div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;    vector&lt;vector&lt;QComboBox*&gt;&gt;  vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr;</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;    vector&lt;QCheckBox*&gt;          v_MS2_CHB_Viewer_Transform;</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    vector&lt;QCheckBox*&gt;          v_MS2_CHB_Viewer_ConnectZoom;</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;    vector&lt;QGroupBox*&gt;          v_MS2_GRB_Viewer_GroupAll;</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;    vector&lt;QGroupBox*&gt;          v_MS2_GRB_Viewer_GroupSettings;</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160; </div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    vector&lt;QPushButton*&gt;        v_MS2_PUB_DrawModi;</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160; </div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    <span class="comment">//remember stuff for ui</span></div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    vector&lt;QColor&gt;              v_MS2_COL_Viewer_PointColor;</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160; </div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;    <span class="comment">//images to show</span></div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_Images2Show;</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    Mat                         MA_MS2_ViewportShow;</div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160; </div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;    <span class="comment">//channel images</span></div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsImage_Full;</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsImage_Croped;</div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;    vector&lt;Mat&gt;                 v_MS2_MA_ChannelsOverlay_Croped;</div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160; </div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;    <span class="comment">//DIRs in</span></div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;    QDir                        DIR_MS2_In_Master;</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;    QDir                        DIR_MS2_In_Detections;</div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;    QDir                        DIR_MS2_In_Mosaik;</div>
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;    vector&lt;QDir&gt;                vDIR_MS2_In_MosaikChannels;</div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;    vector&lt;vector&lt;QDir&gt;&gt;        vvDIR_MS2_In_Detections_TimesNuclei;</div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160; </div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;    <span class="comment">//DIRs out</span></div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;    QDir                        DIR_MS2_Out_Master;</div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;    QDir                        DIR_MS2_Out_DetectionsCorrected;</div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160; </div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;    <span class="comment">//data</span></div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    <span class="keywordtype">double</span>                              MS2_MosaikImageScale;</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;    <span class="keywordtype">double</span>                              MS2_MosaikBorderPrz;</div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    <span class="keywordtype">int</span>                                 MS2_MosaikImageWidth;</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;    <span class="keywordtype">int</span>                                 MS2_MosaikImageHeight;</div>
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;    vector&lt;vector&lt;D_Bio_NucleusImage&gt;&gt;  vv_MS2_NucImg_In_mosaikXY;</div>
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    vector&lt;vector&lt;D_Bio_NucleusImage&gt;&gt;  vv_MS2_NucImg_Out_mosaikXY;</div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;    vector&lt;vector&lt;size_t&gt;&gt;              vv_MS2_NucImg_State_In_mosaikXY;</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;    vector&lt;vector&lt;size_t&gt;&gt;              vv_MS2_NucImg_State_Out_mosaikXY;</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160; </div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;    <span class="comment">//viewport pos</span></div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;    Point                               MS2_ViewportOffset_NotScaled = Point(0,0);</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;    Point                               MS2_ViewportOffset_Scaled = Point(0,0);</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160; </div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    <span class="comment">//drawing</span></div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    <span class="keywordtype">size_t</span>                              MS2_draw_mode = MS2_DRAW_MODE_NUCLEI;</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Save();</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Clear();</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Reset();</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_SetProcessed();</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_SetToProcess();</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_UpdateUi();</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_RecordingStart();</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_RecordingEnd();</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Ellipse();</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Polygon();</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_ConvexHull();</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Points();</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Contour(vector&lt;Point&gt; contour);</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    <span class="keywordtype">void</span>                                MS2_Draw_Remove();</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160; </div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160; </div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;    <span class="comment">//drawing editing backups</span></div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span>                                MS2_DetOutBackup_Count = 20;</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    <span class="keywordtype">bool</span>                                        MS2_DetOutBackup_Init();</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;    <span class="keywordtype">void</span>                                        MS2_DetOutBackup_Save();</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    <span class="keywordtype">bool</span>                                        MS2_DetOutBackup_Undo();</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    <span class="keywordtype">bool</span>                                        MS2_DetOutBackup_Redo();</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    <span class="keywordtype">void</span>                                        MS2_DetOutBackup_UpdateUi();</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;    vector&lt;vector&lt;vector&lt;D_Bio_NucleusImage&gt;&gt;&gt;  vvv_MS2_DetectionsOutBackups_XYI;</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    vector&lt;vector&lt;size_t&gt;&gt;                      vvv_MS2_DetectionsOut_BackupCursor;</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;    vector&lt;vector&lt;size_t&gt;&gt;                      vvv_MS2_DetectionsOut_BackupValidMax;</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160; </div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160; </div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    <span class="comment">//states</span></div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    <span class="keywordtype">bool</span>                        state_MS2_data_loaded = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    <span class="keywordtype">bool</span>                        state_MS2_detections_loaded = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    <span class="keywordtype">bool</span>                        state_MS2_backups_init = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160; </div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160; </div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160; </div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_MOSAIK {</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;        MS2_CH_MOSAIK_DIC,</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;        MS2_CH_MOSAIK_GFP,</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        MS2_CH_MOSAIK_RFP,</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        MS2_CH_MOSAIK_NUMBER_OF</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;    };</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsMosaik = {</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;        <span class="stringliteral">&quot;DIC&quot;</span>,</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        <span class="stringliteral">&quot;GFP&quot;</span>,</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;        <span class="stringliteral">&quot;RFP&quot;</span></div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    };</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160; </div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_IMAGE {</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;        MS2_CH_IMG_EMPTY,</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;        MS2_CH_IMG_DIC,</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;        MS2_CH_IMG_GFP,</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        MS2_CH_IMG_RFP,</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        MS2_CH_IMG_NUMBER_OF</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    };</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsImage = {</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;        <span class="stringliteral">&quot;empty&quot;</span>,</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        <span class="stringliteral">&quot;DIC&quot;</span>,</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;        <span class="stringliteral">&quot;GFP&quot;</span>,</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        <span class="stringliteral">&quot;RFP&quot;</span></div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    };</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160; </div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;    <span class="keyword">enum</span> MS2_CHANNELS_OVERLAY {</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;        MS2_CH_OVR_EMPTY,</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;        MS2_CH_OVR_NUCLEI,</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        MS2_CH_OVR_FOCI_GFP,</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        MS2_CH_OVR_FOCI_RFP,</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        MS2_CH_OVR_FOCI_BOTH,</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        MS2_CH_OVR_NUMBER_OF</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;    };</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_ChannelsOverlay = {</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        <span class="stringliteral">&quot;empty&quot;</span>,</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        <span class="stringliteral">&quot;Nuclei&quot;</span>,</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        <span class="stringliteral">&quot;Foci GFP&quot;</span>,</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        <span class="stringliteral">&quot;Foci RFP&quot;</span>,</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        <span class="stringliteral">&quot;Foci both&quot;</span></div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    };</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160; </div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;    <span class="keyword">enum</span> MS2_IMAGE_STATE {</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;        MS2_IMG_STATE_NOT_FOUND,</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;        MS2_IMG_STATE_LOADED,</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;        MS2_IMG_STATE_TO_PROCESS,</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;        MS2_IMG_STATE_PROCESSED,</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;        MS2_IMG_STATE_NUMBER_OF</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    };</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160; </div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;    <span class="keyword">enum</span> MS2_DRAW_MODE {</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;        MS2_DRAW_MODE_NUCLEI,</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;        MS2_DRAW_MODE_FOCI_GFP,</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;        MS2_DRAW_MODE_FOCI_RFP,</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;        MS2_DRAW_MODE_FOCI_BOTH,</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;        MS2_DRAW_MODE_NUMBER_OF</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;    };</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    <span class="keyword">const</span> QStringList QSL_MS2_DrawMode = {</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        <span class="stringliteral">&quot;nuclei&quot;</span>,</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;        <span class="stringliteral">&quot;GFP&quot;</span>,</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;        <span class="stringliteral">&quot;RFP&quot;</span>,</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;        <span class="stringliteral">&quot;GFP and RFP&quot;</span></div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    };</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;};</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160; </div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;<span class="preprocessor">#endif // D_MAKRO_MEGAFOCI_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ad__enum_8h_html_ac8144b625d81c2a27fac8dc24e01b9f4"><div class="ttname"><a href="d__enum_8h.html#ac8144b625d81c2a27fac8dc24e01b9f4">QSL_Errors</a></div><div class="ttdeci">const QStringList QSL_Errors</div><div class="ttdef"><b>Definition:</b> d_enum.h:147</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_a01a4349772351925aee3695ef511883b"><div class="ttname"><a href="class_d___vis_dat___obj.html#a01a4349772351925aee3695ef511883b">D_VisDat_Obj::info</a></div><div class="ttdeci">QString info()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.cpp:114</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd">ER_okay</a></div><div class="ttdeci">@ ER_okay</div><div class="ttdef"><b>Definition:</b> d_enum.h:102</div></div>
-<div class="ttc" id="aclass_d___viewer_html_a3faadc8fb614af80ad7b2849348d78a7"><div class="ttname"><a href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7">D_Viewer::Update_View</a></div><div class="ttdeci">void Update_View()</div><div class="ttdoc">D_Viewer::Update_View Starts the workflow to show an image.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:1998</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_image_html_ab855e90f7c195900b53dce6c72e6c94e"><div class="ttname"><a href="class_d___bio___nucleus_image.html#ab855e90f7c195900b53dce6c72e6c94e">D_Bio_NucleusImage::get_foci_count</a></div><div class="ttdeci">size_t get_foci_count(size_t foci_channel)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusimage.h:74</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a3faadc8fb614af80ad7b2849348d78a7"><div class="ttname"><a href="class_d___viewer.html#a3faadc8fb614af80ad7b2849348d78a7">D_Viewer::Update_View</a></div><div class="ttdeci">void Update_View()</div><div class="ttdoc">D_Viewer::Update_View Starts the workflow to show an image.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2088</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html">D_MAKRO_MegaFoci</a></div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.h:72</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a80a40163813289fa2bc517af9fc2b18d"><div class="ttname"><a href="class_d___vis_dat___proc.html#a80a40163813289fa2bc517af9fc2b18d">D_VisDat_Proc::Dim_Deserialise</a></div><div class="ttdeci">static int Dim_Deserialise(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_from=c_DIM_P, int dim_to=c_DIM_P, int spacing=1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:3722</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html_ac91313faafaef946187306f90ff38481"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html#ac91313faafaef946187306f90ff38481">D_MAKRO_MegaFoci::~D_MAKRO_MegaFoci</a></div><div class="ttdeci">~D_MAKRO_MegaFoci()</div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.cpp:143</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a9bd9b218a0b9a514f24f6b3755cf8988"><div class="ttname"><a href="class_d___vis_dat___proc.html#a9bd9b218a0b9a514f24f6b3755cf8988">D_VisDat_Proc::Scale_ToSize</a></div><div class="ttdeci">static int Scale_ToSize(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_dim_0, int size_dim_1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:4375</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a5181a180b68e3b67f764ba4d8e981b0b"><div class="ttname"><a href="class_d___vis_dat___proc.html#a5181a180b68e3b67f764ba4d8e981b0b">D_VisDat_Proc::Fill_Holes</a></div><div class="ttdeci">static int Fill_Holes(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:4767</div></div>
-<div class="ttc" id="ad__enum_8h_html_a0eed087d841065d777a056c26a56931c"><div class="ttname"><a href="d__enum_8h.html#a0eed087d841065d777a056c26a56931c">QS_Fun_Happy</a></div><div class="ttdeci">const QString QS_Fun_Happy</div><div class="ttdef"><b>Definition:</b> d_enum.h:2210</div></div>
+<div class="ttc" id="ad__enum_8h_html_a0eed087d841065d777a056c26a56931c"><div class="ttname"><a href="d__enum_8h.html#a0eed087d841065d777a056c26a56931c">QS_Fun_Happy</a></div><div class="ttdeci">const QString QS_Fun_Happy</div><div class="ttdef"><b>Definition:</b> d_enum.h:2222</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html_ab10902b7da4706c1ee3877bb795d64e4"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html#ab10902b7da4706c1ee3877bb795d64e4">D_MAKRO_MegaFoci::closeEvent</a></div><div class="ttdeci">void closeEvent(QCloseEvent *event)</div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.cpp:148</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a3d4e0ff1f2bb93a83a34d34583cd064e"><div class="ttname"><a href="class_d___vis_dat___proc.html#a3d4e0ff1f2bb93a83a34d34583cd064e">D_VisDat_Proc::Math_2img_Maximum</a></div><div class="ttdeci">static int Math_2img_Maximum(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:5609</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a></div><div class="ttdeci">@ c_DIM_X</div><div class="ttdef"><b>Definition:</b> d_enum.h:194</div></div>
@@ -799,29 +910,41 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a891797195c6e7decfe8040e9910cb2ea"><div class="ttname"><a href="class_d___vis_dat___proc.html#a891797195c6e7decfe8040e9910cb2ea">D_VisDat_Proc::OverlayOverwrite</a></div><div class="ttdeci">static int OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay=1.0, double intensity_backgr=1.0)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6557</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a></div><div class="ttdeci">@ c_DIM_Z</div><div class="ttdef"><b>Definition:</b> d_enum.h:196</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a23f5eee2ff974ba5c2bf7e17c1830d80"><div class="ttname"><a href="class_d___vis_dat___proc.html#a23f5eee2ff974ba5c2bf7e17c1830d80">D_VisDat_Proc::Insert_atPos</a></div><div class="ttdeci">static int Insert_atPos(D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Source, vector&lt; int &gt; vOffset)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:2595</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a75e514faeb039c42f9e19a89984ddd7e"><div class="ttname"><a href="class_d___viewer.html#a75e514faeb039c42f9e19a89984ddd7e">D_Viewer::ClickRecord_Start</a></div><div class="ttdeci">void ClickRecord_Start()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2419</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a></div><div class="ttdeci">@ c_DIM_T</div><div class="ttdef"><b>Definition:</b> d_enum.h:197</div></div>
-<div class="ttc" id="aclass_d___viewer_html_ad36a0444bd40ad7c01452081b55eff5b"><div class="ttname"><a href="class_d___viewer.html#ad36a0444bd40ad7c01452081b55eff5b">D_Viewer::Set_VisTrafo_ActiveBool</a></div><div class="ttdeci">void Set_VisTrafo_ActiveBool(bool active=true)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:157</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ad36a0444bd40ad7c01452081b55eff5b"><div class="ttname"><a href="class_d___viewer.html#ad36a0444bd40ad7c01452081b55eff5b">D_Viewer::Set_VisTrafo_ActiveBool</a></div><div class="ttdeci">void Set_VisTrafo_ActiveBool(bool active=true)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:165</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_image_html_aa26bf3d897009b8ff0f7b31434a44c0f"><div class="ttname"><a href="class_d___bio___nucleus_image.html#aa26bf3d897009b8ff0f7b31434a44c0f">D_Bio_NucleusImage::load</a></div><div class="ttdeci">int load(QString path)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusimage.cpp:472</div></div>
 <div class="ttc" id="ad__viewer_8h_html"><div class="ttname"><a href="d__viewer_8h.html">d_viewer.h</a></div></div>
 <div class="ttc" id="ad__plot_8h_html"><div class="ttname"><a href="d__plot_8h.html">d_plot.h</a></div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_af1ac6daaf90e39d02cac7c74ee6bdaf3"><div class="ttname"><a href="class_d___vis_dat___proc.html#af1ac6daaf90e39d02cac7c74ee6bdaf3">D_VisDat_Proc::Create_VD_SinglePaged</a></div><div class="ttdeci">static int Create_VD_SinglePaged(D_VisDat_Obj *pVD_New, QString QS_Path, int DimPage=c_DIM_P, int DimImgX=c_DIM_X, int DimImgY=c_DIM_Y)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:1291</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_adb0f5bcfab0fb034fb472eb78dc08c8d"><div class="ttname"><a href="class_d___img___proc.html#adb0f5bcfab0fb034fb472eb78dc08c8d">D_Img_Proc::Draw_Contours</a></div><div class="ttdeci">static int Draw_Contours(Mat *pMA_Target, vector&lt; vector&lt; Point &gt;&gt; vContours, int line_thickness, double value)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16962</div></div>
 <div class="ttc" id="aclass_d___img___proc_html_aba1fa9fcb97e91bfcfcda7f0580075d3"><div class="ttname"><a href="class_d___img___proc.html#aba1fa9fcb97e91bfcfcda7f0580075d3">D_Img_Proc::Load_From_Path</a></div><div class="ttdeci">static int Load_From_Path(Mat *pMA_Out, QFileInfo FI_path)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16</div></div>
 <div class="ttc" id="aclass_d___viewer_html"><div class="ttname"><a href="class_d___viewer.html">D_Viewer</a></div><div class="ttdoc">The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.</div><div class="ttdef"><b>Definition:</b> d_viewer.h:57</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_ae187346790427ff1ff9d65703b9abfee"><div class="ttname"><a href="class_d___vis_dat___proc.html#ae187346790427ff1ff9d65703b9abfee">D_VisDat_Proc::Copy</a></div><div class="ttdeci">static int Copy(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:3213</div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_a9d809d123c4c58a56f6460a4a1930bb9"><div class="ttname"><a href="class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9">D_Bio_Focus::area</a></div><div class="ttdeci">double area()</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:60</div></div>
 <div class="ttc" id="aclass_d___storage_html"><div class="ttname"><a href="class_d___storage.html">D_Storage</a></div><div class="ttdoc">The D_Storage class Used for storing data. There is only one instance in D_MainWindow .</div><div class="ttdef"><b>Definition:</b> d_storage.h:48</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_image_html_ae89aaca87b711c117b754dfb7142ff51"><div class="ttname"><a href="class_d___bio___nucleus_image.html#ae89aaca87b711c117b754dfb7142ff51">D_Bio_NucleusImage::get_focus</a></div><div class="ttdeci">D_Bio_Focus get_focus(size_t ch, size_t foc)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusimage.h:79</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a></div><div class="ttdeci">@ c_DIM_Y</div><div class="ttdef"><b>Definition:</b> d_enum.h:195</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_ab45be07de679f5678d44598376748171"><div class="ttname"><a href="class_d___img___proc.html#ab45be07de679f5678d44598376748171">D_Img_Proc::Draw_MarkerSymbol</a></div><div class="ttdeci">static int Draw_MarkerSymbol(Mat *pMA_Target, int x1, int y1, int x2, int y2, int symbol_id, uchar r, uchar g, uchar b, double scale=1)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16209</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html_ae93e70eeb8dfe5f5b4bc1ae62e19b346"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html#ae93e70eeb8dfe5f5b4bc1ae62e19b346">D_MAKRO_MegaFoci::resizeEvent</a></div><div class="ttdeci">void resizeEvent(QResizeEvent *event)</div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.cpp:163</div></div>
-<div class="ttc" id="aclass_d___viewer_html_ad930d0f9d7b3158439e86badac21cd7d"><div class="ttname"><a href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d">D_Viewer::Update_Image</a></div><div class="ttdeci">void Update_Image(Mat *MA_new)</div><div class="ttdoc">D_Viewer::Update_Image Set and show image.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:1981</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ad930d0f9d7b3158439e86badac21cd7d"><div class="ttname"><a href="class_d___viewer.html#ad930d0f9d7b3158439e86badac21cd7d">D_Viewer::Update_Image</a></div><div class="ttdeci">void Update_Image(Mat *MA_new)</div><div class="ttdoc">D_Viewer::Update_Image Set and show image.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2071</div></div>
 <div class="ttc" id="aclass_d___finish_time_prognosis_html"><div class="ttname"><a href="class_d___finish_time_prognosis.html">D_FinishTimePrognosis</a></div><div class="ttdoc">The D_FinishTimePrognosis class measures the time of processing steps and prognoses the finish time.</div><div class="ttdef"><b>Definition:</b> d_finishtimeprognosis.h:30</div></div>
+<div class="ttc" id="ad__enum_8h_html_a5f1c5cba7965931d700501032cad3230a339c7d5a9276e19ac9c3371f6ac577a5"><div class="ttname"><a href="d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a339c7d5a9276e19ac9c3371f6ac577a5">c_MARKER_SYMBOL_3DOTS</a></div><div class="ttdeci">@ c_MARKER_SYMBOL_3DOTS</div><div class="ttdef"><b>Definition:</b> d_enum.h:1744</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_ab2ba056860958e7ecd4fe29fed6c2e4f"><div class="ttname"><a href="class_d___img___proc.html#ab2ba056860958e7ecd4fe29fed6c2e4f">D_Img_Proc::Draw_Dot</a></div><div class="ttdeci">static int Draw_Dot(Mat *pMA_Target, int x, int y, int r, uchar val)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:15195</div></div>
 <div class="ttc" id="ad__table_8h_html"><div class="ttname"><a href="d__table_8h.html">d_table.h</a></div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a67abc03944129e2e0396519e0b1235fb"><div class="ttname"><a href="class_d___vis_dat___proc.html#a67abc03944129e2e0396519e0b1235fb">D_VisDat_Proc::Channels_Merge</a></div><div class="ttdeci">static int Channels_Merge(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4])</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_ac8e4d69c28b47c23166740c73734ed1c"><div class="ttname"><a href="class_d___vis_dat___proc.html#ac8e4d69c28b47c23166740c73734ed1c">D_VisDat_Proc::Read_2D_Plane</a></div><div class="ttdeci">static int Read_2D_Plane(Mat *pMA_Out, D_VisDat_Obj *pVD_In, D_VisDat_Slice_2D InPlane)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:2752</div></div>
-<div class="ttc" id="aclass_d___viewer_html_ad488d20c9940b81580693d3ab70ce5d6"><div class="ttname"><a href="class_d___viewer.html#ad488d20c9940b81580693d3ab70ce5d6">D_Viewer::Set_VisTrafo_SpreadInMax</a></div><div class="ttdeci">void Set_VisTrafo_SpreadInMax(double spread_max=255)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:160</div></div>
+<div class="ttc" id="ad__enum_8h_html_a952eac791b596a61bba0a133a3bb439f"><div class="ttname"><a href="d__enum_8h.html#a952eac791b596a61bba0a133a3bb439f">PI</a></div><div class="ttdeci">const double PI</div><div class="ttdef"><b>Definition:</b> d_enum.h:2231</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ad488d20c9940b81580693d3ab70ce5d6"><div class="ttname"><a href="class_d___viewer.html#ad488d20c9940b81580693d3ab70ce5d6">D_Viewer::Set_VisTrafo_SpreadInMax</a></div><div class="ttdeci">void Set_VisTrafo_SpreadInMax(double spread_max=255)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:168</div></div>
+<div class="ttc" id="aclass_d___bio___focus_html"><div class="ttname"><a href="class_d___bio___focus.html">D_Bio_Focus</a></div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:44</div></div>
 <div class="ttc" id="ad__enum_8h_html_ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55"><div class="ttname"><a href="d__enum_8h.html#ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55">c_VIS_TRAFO_RANGE_DYNAMIC</a></div><div class="ttdeci">@ c_VIS_TRAFO_RANGE_DYNAMIC</div><div class="ttdef"><b>Definition:</b> d_enum.h:453</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a3e2ee37bccb7ccda4adea3f1c153298c"><div class="ttname"><a href="class_d___vis_dat___proc.html#a3e2ee37bccb7ccda4adea3f1c153298c">D_VisDat_Proc::Math_2img_BitwiseAnd</a></div><div class="ttdeci">static int Math_2img_BitwiseAnd(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:5569</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa5c999d85a8345bc6dab24c567469953aac00b74ab19197342382eb92251d54a8"><div class="ttname"><a href="d__enum_8h.html#aa5c999d85a8345bc6dab24c567469953aac00b74ab19197342382eb92251d54a8">c_GEO_OUTLINE</a></div><div class="ttdeci">@ c_GEO_OUTLINE</div><div class="ttdef"><b>Definition:</b> d_enum.h:1743</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa5c999d85a8345bc6dab24c567469953aac00b74ab19197342382eb92251d54a8"><div class="ttname"><a href="d__enum_8h.html#aa5c999d85a8345bc6dab24c567469953aac00b74ab19197342382eb92251d54a8">c_GEO_OUTLINE</a></div><div class="ttdeci">@ c_GEO_OUTLINE</div><div class="ttdef"><b>Definition:</b> d_enum.h:1755</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_ae8e09935ac298808669b935063edb94b"><div class="ttname"><a href="class_d___vis_dat___proc.html#ae8e09935ac298808669b935063edb94b">D_VisDat_Proc::Math_2img_BitwiseOr</a></div><div class="ttdeci">static int Math_2img_BitwiseOr(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:5579</div></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html"><div class="ttname"><a href="class_d___vis_dat___dim.html">D_VisDat_Dim</a></div><div class="ttdoc">The D_VisDat_Dim class Represents a 6D volume.</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:48</div></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html_a3a19ddb6a7cfaafd56d50b8d14d3e949"><div class="ttname"><a href="class_d___vis_dat___dim.html#a3a19ddb6a7cfaafd56d50b8d14d3e949">D_VisDat_Dim::set_size_P</a></div><div class="ttdeci">void set_size_P(int P)</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:94</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a66568045987946d33fef61ba1c8bdd38"><div class="ttname"><a href="class_d___viewer.html#a66568045987946d33fef61ba1c8bdd38">D_Viewer::ClickRecord_GetPoints_Polygon</a></div><div class="ttdeci">vector&lt; Point &gt; ClickRecord_GetPoints_Polygon()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2567</div></div>
+<div class="ttc" id="ad__enum_8h_html_af1f508defab0ed606e466389ed05bcdd"><div class="ttname"><a href="d__enum_8h.html#af1f508defab0ed606e466389ed05bcdd">QS_Fun_Cat</a></div><div class="ttdeci">const QString QS_Fun_Cat</div><div class="ttdef"><b>Definition:</b> d_enum.h:2223</div></div>
 <div class="ttc" id="ad__enum_8h_html_a38763cbca4086c70d9bca29a593dd367a87c43fed6432e57fdb8cefd98d9640b3"><div class="ttname"><a href="d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a87c43fed6432e57fdb8cefd98d9640b3">c_STAT_QUANTIL_95</a></div><div class="ttdeci">@ c_STAT_QUANTIL_95</div><div class="ttdef"><b>Definition:</b> d_enum.h:501</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a4b01a75f2652c28e2170dced40d0fe53"><div class="ttname"><a href="class_d___vis_dat___proc.html#a4b01a75f2652c28e2170dced40d0fe53">D_VisDat_Proc::Filter_Stat_Circular</a></div><div class="ttdeci">static int Filter_Stat_Circular(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius, int stat, int border_type=BORDER_CONSTANT)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:5245</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_ab42ead4e9f3a96ed45ff1b984067dd5a"><div class="ttname"><a href="class_d___vis_dat___proc.html#ab42ead4e9f3a96ed45ff1b984067dd5a">D_VisDat_Proc::Transformation_Watershed_Auto</a></div><div class="ttdeci">static int Transformation_Watershed_Auto(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6159</div></div>
@@ -830,30 +953,36 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="aclass_d___vis_dat___obj_html"><div class="ttname"><a href="class_d___vis_dat___obj.html">D_VisDat_Obj</a></div><div class="ttdoc">The D_VisDat_Obj class Represents a 6D image.</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:50</div></div>
 <div class="ttc" id="ad__enum_8h_html_aeb001e0387cc53aa7476729c8e53e70c"><div class="ttname"><a href="d__enum_8h.html#aeb001e0387cc53aa7476729c8e53e70c">QSL_VisTrafo_Crop</a></div><div class="ttdeci">const QStringList QSL_VisTrafo_Crop</div><div class="ttdef"><b>Definition:</b> d_enum.h:421</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_acda878ca92fd1e1594a5ca4673f6f554"><div class="ttname"><a href="class_d___vis_dat___proc.html#acda878ca92fd1e1594a5ca4673f6f554">D_VisDat_Proc::Create_VD_Single_Constant</a></div><div class="ttdeci">static int Create_VD_Single_Constant(D_VisDat_Obj *pVD_New, D_VisDat_Dim dim_new, int type=CV_8UC1, double value=0)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:1209</div></div>
-<div class="ttc" id="aclass_d___viewer_html_afb0bb83986c7724bef49eb7b8aa5c227"><div class="ttname"><a href="class_d___viewer.html#afb0bb83986c7724bef49eb7b8aa5c227">D_Viewer::Set_VisTrafo_Divisor</a></div><div class="ttdeci">void Set_VisTrafo_Divisor(double divisor=0)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:162</div></div>
+<div class="ttc" id="aclass_d___viewer_html_afb0bb83986c7724bef49eb7b8aa5c227"><div class="ttname"><a href="class_d___viewer.html#afb0bb83986c7724bef49eb7b8aa5c227">D_Viewer::Set_VisTrafo_Divisor</a></div><div class="ttdeci">void Set_VisTrafo_Divisor(double divisor=0)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:170</div></div>
 <div class="ttc" id="ad__makro__megafoci_8h_html"><div class="ttname"><a href="d__makro__megafoci_8h.html">d_makro_megafoci.h</a></div></div>
 <div class="ttc" id="aclass_d___img___proc_html_a0bd009c38ce6f9f4a8dad263ee8c1559"><div class="ttname"><a href="class_d___img___proc.html#a0bd009c38ce6f9f4a8dad263ee8c1559">D_Img_Proc::Draw_Rect</a></div><div class="ttdeci">static int Draw_Rect(Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness=1, double val=255)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:15807</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_image_html_a4cadb9b7118e73b7e74e5a1a5b4716c3"><div class="ttname"><a href="class_d___bio___nucleus_image.html#a4cadb9b7118e73b7e74e5a1a5b4716c3">D_Bio_NucleusImage::get_nuclei_contours</a></div><div class="ttdeci">vector&lt; vector&lt; Point &gt; &gt; get_nuclei_contours(double scale=1, Point scaled_offset=Point(0, 0))</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusimage.cpp:789</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html_a4156a0407715f87764f22f5f6cfcf55a"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html#a4156a0407715f87764f22f5f6cfcf55a">D_MAKRO_MegaFoci::set_ClosingPossible</a></div><div class="ttdeci">void set_ClosingPossible(bool closeable)</div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.h:82</div></div>
-<div class="ttc" id="aclass_d___img___proc_html_aeb6ac89d1d3af56f01c8a29401e7cddd"><div class="ttname"><a href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">D_Img_Proc::Draw_ContourText</a></div><div class="ttdeci">static int Draw_ContourText(Mat *pMA_Target, vector&lt; vector&lt; Point &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; Point2f &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</div><div class="ttdoc">D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16736</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_aeb6ac89d1d3af56f01c8a29401e7cddd"><div class="ttname"><a href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">D_Img_Proc::Draw_ContourText</a></div><div class="ttdeci">static int Draw_ContourText(Mat *pMA_Target, vector&lt; vector&lt; Point &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; Point2f &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</div><div class="ttdoc">D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:17009</div></div>
 <div class="ttc" id="ad__bio__nucleuspedigree_8h_html"><div class="ttname"><a href="d__bio__nucleuspedigree_8h.html">d_bio_nucleuspedigree.h</a></div></div>
 <div class="ttc" id="aclass_d___image_reward_system_html_a7b1d1c1466a2c6b8371ac2ae144dedb8"><div class="ttname"><a href="class_d___image_reward_system.html#a7b1d1c1466a2c6b8371ac2ae144dedb8">D_ImageRewardSystem::set_target_label</a></div><div class="ttdeci">void set_target_label(QLabel *label)</div><div class="ttdef"><b>Definition:</b> d_imagerewardsystem.cpp:21</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_image_html"><div class="ttname"><a href="class_d___bio___nucleus_image.html">D_Bio_NucleusImage</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleusimage.h:48</div></div>
+<div class="ttc" id="aclass_d___bio___focus_html_aa10594125aae778dbb2507e618a367de"><div class="ttname"><a href="class_d___bio___focus.html#aa10594125aae778dbb2507e618a367de">D_Bio_Focus::centroid</a></div><div class="ttdeci">Point2f centroid()</div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:59</div></div>
 <div class="ttc" id="aclass_d___error___handler_html"><div class="ttname"><a href="class_d___error___handler.html">D_Error_Handler</a></div><div class="ttdoc">The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:38</div></div>
-<div class="ttc" id="ad__enum_8h_html_a9926c1245762eb98c63db02e38510629"><div class="ttname"><a href="d__enum_8h.html#a9926c1245762eb98c63db02e38510629">QS_Fun_Confused</a></div><div class="ttdeci">const QString QS_Fun_Confused</div><div class="ttdef"><b>Definition:</b> d_enum.h:2207</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html"><div class="ttname"><a href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:44</div></div>
+<div class="ttc" id="ad__enum_8h_html_a9926c1245762eb98c63db02e38510629"><div class="ttname"><a href="d__enum_8h.html#a9926c1245762eb98c63db02e38510629">QS_Fun_Confused</a></div><div class="ttdeci">const QString QS_Fun_Confused</div><div class="ttdef"><b>Definition:</b> d_enum.h:2219</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a6a764c0fc3fb900e6a590556df52b4c5"><div class="ttname"><a href="class_d___viewer.html#a6a764c0fc3fb900e6a590556df52b4c5">D_Viewer::ClickRecord_Quit</a></div><div class="ttdeci">void ClickRecord_Quit()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2509</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a3a78a66e99cdda5effba9769a6726750"><div class="ttname"><a href="class_d___vis_dat___proc.html#a3a78a66e99cdda5effba9769a6726750">D_VisDat_Proc::Transformation_Distance</a></div><div class="ttdeci">static int Transformation_Distance(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int metric, int precision, double spacing_x3d=1.0, double spacing_y3d=1.0, double spacing_z3d=1.0)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6070</div></div>
 <div class="ttc" id="aclass_d___img___proc_html_a610c8b5d541644948c3267fedcda5cb7"><div class="ttname"><a href="class_d___img___proc.html#a610c8b5d541644948c3267fedcda5cb7">D_Img_Proc::MinMax_of_Mat</a></div><div class="ttdeci">static int MinMax_of_Mat(Mat *pMA_In, double *min_ext, double *max_ext)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:1270</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a9370afe2f6b167adde33d3734b16f2c7"><div class="ttname"><a href="class_d___vis_dat___proc.html#a9370afe2f6b167adde33d3734b16f2c7">D_VisDat_Proc::Threshold_Adaptive_Gauss</a></div><div class="ttdeci">static int Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset, double scale=1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:4707</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a85bef15f8fb122612c5b3e9fa073637e"><div class="ttname"><a href="class_d___vis_dat___proc.html#a85bef15f8fb122612c5b3e9fa073637e">D_VisDat_Proc::Geometric_Reduce</a></div><div class="ttdeci">static int Geometric_Reduce(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int geometric, int connectivity, int thickness, uchar value)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6386</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_ac2262b6ed84bc65889ad1ead934e3bef"><div class="ttname"><a href="class_d___vis_dat___proc.html#ac2262b6ed84bc65889ad1ead934e3bef">D_VisDat_Proc::Dim_Project</a></div><div class="ttdeci">static int Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int dim_project=c_DIM_X, int stat=c_STAT_MEAN_ARITMETIC, int out_type=CV_64FC1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:3552</div></div>
-<div class="ttc" id="aclass_d___viewer_html_a781eeb0572a756a258e20b67e33f26df"><div class="ttname"><a href="class_d___viewer.html#a781eeb0572a756a258e20b67e33f26df">D_Viewer::Set_VisTrafo_Range</a></div><div class="ttdeci">void Set_VisTrafo_Range(double range=127.5)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:164</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a781eeb0572a756a258e20b67e33f26df"><div class="ttname"><a href="class_d___viewer.html#a781eeb0572a756a258e20b67e33f26df">D_Viewer::Set_VisTrafo_Range</a></div><div class="ttdeci">void Set_VisTrafo_Range(double range=127.5)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:172</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_a17f621c80457e1fe03118ead190deab1"><div class="ttname"><a href="class_d___img___proc.html#a17f621c80457e1fe03118ead190deab1">D_Img_Proc::Crop_Rect_Rel</a></div><div class="ttdeci">static int Crop_Rect_Rel(Mat *pMA_Out, Mat *pMA_In, double x1_rel, double y1_rel, double x2_rel, double y2_rel)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:4222</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a006923b0e0fa980d6c76ce5c3d9b1fb9"><div class="ttname"><a href="class_d___viewer.html#a006923b0e0fa980d6c76ce5c3d9b1fb9">D_Viewer::ClickRecord_GetPoints</a></div><div class="ttdeci">vector&lt; Point &gt; ClickRecord_GetPoints()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2524</div></div>
 <div class="ttc" id="ad__enum_8h_html_afddf8d0eab13c007de50c56d0fd9b863"><div class="ttname"><a href="d__enum_8h.html#afddf8d0eab13c007de50c56d0fd9b863">QSL_VisTrafo_Anchor</a></div><div class="ttdeci">const QStringList QSL_VisTrafo_Anchor</div><div class="ttdef"><b>Definition:</b> d_enum.h:445</div></div>
-<div class="ttc" id="aclass_d___viewer_html_a0d64ecb43a4f7f279f493292053b1a6c"><div class="ttname"><a href="class_d___viewer.html#a0d64ecb43a4f7f279f493292053b1a6c">D_Viewer::Set_VisTrafo_Mode_Trafo</a></div><div class="ttdeci">void Set_VisTrafo_Mode_Trafo(int mode=c_VIS_TRAFO_LINEAR)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:166</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a0d64ecb43a4f7f279f493292053b1a6c"><div class="ttname"><a href="class_d___viewer.html#a0d64ecb43a4f7f279f493292053b1a6c">D_Viewer::Set_VisTrafo_Mode_Trafo</a></div><div class="ttdeci">void Set_VisTrafo_Mode_Trafo(int mode=c_VIS_TRAFO_LINEAR)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:174</div></div>
 <div class="ttc" id="aclass_d___vis_dat___slice__2_d_html"><div class="ttname"><a href="class_d___vis_dat___slice__2_d.html">D_VisDat_Slice_2D</a></div><div class="ttdoc">The D_VisDat_Slice_2D class Represents a 2D slice through a D_VisDat_Obj.</div><div class="ttdef"><b>Definition:</b> d_visdat_slice_2d.h:18</div></div>
 <div class="ttc" id="aclass_d___image_reward_system_html_a9eeaf91af76a135e335af64b7b724b25"><div class="ttname"><a href="class_d___image_reward_system.html#a9eeaf91af76a135e335af64b7b724b25">D_ImageRewardSystem::get_reward</a></div><div class="ttdeci">bool get_reward()</div><div class="ttdef"><b>Definition:</b> d_imagerewardsystem.cpp:27</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a316010f63115348e60ff61d59cfa3875"><div class="ttname"><a href="class_d___vis_dat___proc.html#a316010f63115348e60ff61d59cfa3875">D_VisDat_Proc::GammaSpread_Quantiles</a></div><div class="ttdeci">static int GammaSpread_Quantiles(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double quantile_low, double quantile_high, double out_min=0, double out_max=255, bool force_8bit=false, bool ignore_zeros=true)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6453</div></div>
 <div class="ttc" id="aclass_d___storage_html_a8d95f67af88d204197f5ae4db412ba8b"><div class="ttname"><a href="class_d___storage.html#a8d95f67af88d204197f5ae4db412ba8b">D_Storage::get_VD</a></div><div class="ttdeci">D_VisDat_Obj get_VD(size_t pos)</div><div class="ttdef"><b>Definition:</b> d_storage.h:55</div></div>
 <div class="ttc" id="ad__popup__listedit_8h_html"><div class="ttname"><a href="d__popup__listedit_8h.html">d_popup_listedit.h</a></div></div>
-<div class="ttc" id="aclass_d___viewer_html_a0a82b73c52432db9a5bf4242ea5466fe"><div class="ttname"><a href="class_d___viewer.html#a0a82b73c52432db9a5bf4242ea5466fe">D_Viewer::set_GV</a></div><div class="ttdeci">void set_GV(QGraphicsView *GV_ui)</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:48</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a0a82b73c52432db9a5bf4242ea5466fe"><div class="ttname"><a href="class_d___viewer.html#a0a82b73c52432db9a5bf4242ea5466fe">D_Viewer::set_GV</a></div><div class="ttdeci">void set_GV(QGraphicsView *GV_ui)</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:49</div></div>
 <div class="ttc" id="aclass_d___image_reward_system_html"><div class="ttname"><a href="class_d___image_reward_system.html">D_ImageRewardSystem</a></div><div class="ttdoc">The D_ImageRewardSystem class shows a random generated image as a reward for the user for perfomring ...</div><div class="ttdef"><b>Definition:</b> d_imagerewardsystem.h:33</div></div>
 <div class="ttc" id="aclass_d___vis_dat___slicing_html"><div class="ttname"><a href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a></div><div class="ttdoc">The D_VisDat_Slicing class Describes how a D_VisDat_Obj shall be sliced.</div><div class="ttdef"><b>Definition:</b> d_visdat_slicing.h:49</div></div>
 <div class="ttc" id="aclass_d___pop_up___range_selector_html"><div class="ttname"><a href="class_d___pop_up___range_selector.html">D_PopUp_RangeSelector</a></div><div class="ttdoc">The D_PopUp_RangeSelector class popup to slect an abstract subvolume in a volume.</div><div class="ttdef"><b>Definition:</b> d_popup_rangeselector.h:42</div></div>
@@ -862,6 +991,7 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242">ER_other</a></div><div class="ttdeci">@ ER_other</div><div class="ttdef"><b>Definition:</b> d_enum.h:103</div></div>
 <div class="ttc" id="ad__enum_8h_html_a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c"><div class="ttname"><a href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a></div><div class="ttdeci">@ c_VIS_TRAFO_ANCHOR_DYNAMIC</div><div class="ttdef"><b>Definition:</b> d_enum.h:439</div></div>
 <div class="ttc" id="ad__popup__rangeselector_8h_html"><div class="ttname"><a href="d__popup__rangeselector_8h.html">d_popup_rangeselector.h</a></div></div>
+<div class="ttc" id="ad__enum_8h_html_a5f1c5cba7965931d700501032cad3230a455abc076daaa6b71f8d20ffb6175ab3"><div class="ttname"><a href="d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a455abc076daaa6b71f8d20ffb6175ab3">c_MARKER_SYMBOL_CROSS</a></div><div class="ttdeci">@ c_MARKER_SYMBOL_CROSS</div><div class="ttdef"><b>Definition:</b> d_enum.h:1742</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_af91385ab7052b922cf93ca803d8b8afd"><div class="ttname"><a href="class_d___vis_dat___proc.html#af91385ab7052b922cf93ca803d8b8afd">D_VisDat_Proc::Math_2img_SubtractionAbsolute</a></div><div class="ttdeci">static int Math_2img_SubtractionAbsolute(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:5537</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a></div><div class="ttdeci">@ c_DIM_P</div><div class="ttdef"><b>Definition:</b> d_enum.h:199</div></div>
 <div class="ttc" id="ad__storage_8h_html"><div class="ttname"><a href="d__storage_8h.html">d_storage.h</a></div></div>
@@ -870,12 +1000,14 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca2d25fb42247d855afa9573f61ad9f063"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2d25fb42247d855afa9573f61ad9f063">c_DIM_NUMBER_OF</a></div><div class="ttdeci">@ c_DIM_NUMBER_OF</div><div class="ttdef"><b>Definition:</b> d_enum.h:200</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_ab4cee8385af854cafa24ee21766d208f"><div class="ttname"><a href="class_d___vis_dat___obj.html#ab4cee8385af854cafa24ee21766d208f">D_VisDat_Obj::pDim</a></div><div class="ttdeci">D_VisDat_Dim * pDim()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:69</div></div>
 <div class="ttc" id="ad__enum_8h_html_ad8b4d5a443efd80591929c579b3bce0da08333d0657f0cce9bc4a32b377e80979"><div class="ttname"><a href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0da08333d0657f0cce9bc4a32b377e80979">c_VIS_TRAFO_CROP_FIXED</a></div><div class="ttdeci">@ c_VIS_TRAFO_CROP_FIXED</div><div class="ttdef"><b>Definition:</b> d_enum.h:418</div></div>
-<div class="ttc" id="aclass_d___img___proc_html_a2fd8862d5f97053f11fc3fc0abb7813b"><div class="ttname"><a href="class_d___img___proc.html#a2fd8862d5f97053f11fc3fc0abb7813b">D_Img_Proc::Contrast_Color</a></div><div class="ttdeci">static QColor Contrast_Color(QColor col_in, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16776</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_a2fd8862d5f97053f11fc3fc0abb7813b"><div class="ttname"><a href="class_d___img___proc.html#a2fd8862d5f97053f11fc3fc0abb7813b">D_Img_Proc::Contrast_Color</a></div><div class="ttdeci">static QColor Contrast_Color(QColor col_in, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:17049</div></div>
 <div class="ttc" id="ad__enum_8h_html_a26806356c41dd786ed8954c4fe976b0e"><div class="ttname"><a href="d__enum_8h.html#a26806356c41dd786ed8954c4fe976b0e">QSL_StatList</a></div><div class="ttdeci">const QStringList QSL_StatList</div><div class="ttdef"><b>Definition:</b> d_enum.h:525</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_afbb439099b53431e6bccb9ba47354e68"><div class="ttname"><a href="class_d___img___proc.html#afbb439099b53431e6bccb9ba47354e68">D_Img_Proc::OverlayImage</a></div><div class="ttdeci">static int OverlayImage(Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *pMA_BaseB, Mat *pMA_OverR, Mat *pMA_OverG, Mat *pMA_OverB, uchar thresh_overlay=0)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:17168</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aef680794ad6d6efe730d5ffea7e1dd3f"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aef680794ad6d6efe730d5ffea7e1dd3f">ER_dim_missmatch</a></div><div class="ttdeci">@ ER_dim_missmatch</div><div class="ttdef"><b>Definition:</b> d_enum.h:117</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
+<div class="ttc" id="ad__enum_8h_html_a5f1c5cba7965931d700501032cad3230ac6954b26ba11d7138df9fbd1fbefc808"><div class="ttname"><a href="d__enum_8h.html#a5f1c5cba7965931d700501032cad3230ac6954b26ba11d7138df9fbd1fbefc808">c_MARKER_SYMBOL_TICK</a></div><div class="ttdeci">@ c_MARKER_SYMBOL_TICK</div><div class="ttdef"><b>Definition:</b> d_enum.h:1745</div></div>
 <div class="ttc" id="ad__enum_8h_html_a58ac28af1b9527477ae6f7d7d66f078aa411a11e90741d717910f9ef1e261425a"><div class="ttname"><a href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa411a11e90741d717910f9ef1e261425a">c_VIS_TRAFO_GAMMA</a></div><div class="ttdeci">@ c_VIS_TRAFO_GAMMA</div><div class="ttdef"><b>Definition:</b> d_enum.h:428</div></div>
-<div class="ttc" id="aclass_d___viewer_html_ac444f86ec7b38cf46330cff20c0ffee8"><div class="ttname"><a href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8">D_Viewer::Save_Image</a></div><div class="ttdeci">QString Save_Image()</div><div class="ttdoc">D_Viewer::Save_Image Saves the image at FI_LastSaved.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2059</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ac444f86ec7b38cf46330cff20c0ffee8"><div class="ttname"><a href="class_d___viewer.html#ac444f86ec7b38cf46330cff20c0ffee8">D_Viewer::Save_Image</a></div><div class="ttdeci">QString Save_Image()</div><div class="ttdoc">D_Viewer::Save_Image Saves the image at FI_LastSaved.</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2149</div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a27273d0cfbe8f99913ed127101c47e91"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a27273d0cfbe8f99913ed127101c47e91">ER_parameter_bad</a></div><div class="ttdeci">@ ER_parameter_bad</div><div class="ttdef"><b>Definition:</b> d_enum.h:111</div></div>
 <div class="ttc" id="ad__enum_8h_html_a1c78d96314db117b21b4922871e0f04d"><div class="ttname"><a href="d__enum_8h.html#a1c78d96314db117b21b4922871e0f04d">QSL_VisTrafo_Range</a></div><div class="ttdeci">const QStringList QSL_VisTrafo_Range</div><div class="ttdef"><b>Definition:</b> d_enum.h:457</div></div>
@@ -885,14 +1017,20 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="aclass_d___storage_html_afedc8d3219f825d26385e44b28bd1ecf"><div class="ttname"><a href="class_d___storage.html#afedc8d3219f825d26385e44b28bd1ecf">D_Storage::dir_M_MegaFoci</a></div><div class="ttdeci">QDir * dir_M_MegaFoci()</div><div class="ttdef"><b>Definition:</b> d_storage.h:88</div></div>
 <div class="ttc" id="aclass_d___storage_html_af94557fe05b23025465e7ec2f1116ab0"><div class="ttname"><a href="class_d___storage.html#af94557fe05b23025465e7ec2f1116ab0">D_Storage::get_Adress</a></div><div class="ttdeci">Mat * get_Adress(size_t pos)</div><div class="ttdef"><b>Definition:</b> d_storage.h:53</div></div>
 <div class="ttc" id="ad__videowriter_8h_html"><div class="ttname"><a href="d__videowriter_8h.html">d_videowriter.h</a></div></div>
-<div class="ttc" id="aclass_d___img___proc_html_a91950905b6e0cac3d6df819ffef2bb49"><div class="ttname"><a href="class_d___img___proc.html#a91950905b6e0cac3d6df819ffef2bb49">D_Img_Proc::Color2Text4StyleSheet</a></div><div class="ttdeci">static QString Color2Text4StyleSheet(QColor col_in)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:16831</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_ad45d460aa6a06338581e71b803363efc"><div class="ttname"><a href="class_d___img___proc.html#ad45d460aa6a06338581e71b803363efc">D_Img_Proc::Duplicate2Channels</a></div><div class="ttdeci">static int Duplicate2Channels(Mat *pMA_Out, Mat *pMA_In, int channels)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:3149</div></div>
+<div class="ttc" id="ad__enum_8h_html_a5f1c5cba7965931d700501032cad3230ace74eacdf0cf2f06c85c5fedd78eb92d"><div class="ttname"><a href="d__enum_8h.html#a5f1c5cba7965931d700501032cad3230ace74eacdf0cf2f06c85c5fedd78eb92d">c_MARKER_SYMBOL_RECT</a></div><div class="ttdeci">@ c_MARKER_SYMBOL_RECT</div><div class="ttdef"><b>Definition:</b> d_enum.h:1739</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_a91950905b6e0cac3d6df819ffef2bb49"><div class="ttname"><a href="class_d___img___proc.html#a91950905b6e0cac3d6df819ffef2bb49">D_Img_Proc::Color2Text4StyleSheet</a></div><div class="ttdeci">static QString Color2Text4StyleSheet(QColor col_in)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:17104</div></div>
 <div class="ttc" id="ad__imagerewardsystem_8h_html"><div class="ttname"><a href="d__imagerewardsystem_8h.html">d_imagerewardsystem.h</a></div></div>
-<div class="ttc" id="ad__enum_8h_html_a955ac3f4fb980fde300ee23f600d05f9"><div class="ttname"><a href="d__enum_8h.html#a955ac3f4fb980fde300ee23f600d05f9">QS_Fun_Sad</a></div><div class="ttdeci">const QString QS_Fun_Sad</div><div class="ttdef"><b>Definition:</b> d_enum.h:2209</div></div>
+<div class="ttc" id="ad__enum_8h_html_a955ac3f4fb980fde300ee23f600d05f9"><div class="ttname"><a href="d__enum_8h.html#a955ac3f4fb980fde300ee23f600d05f9">QS_Fun_Sad</a></div><div class="ttdeci">const QString QS_Fun_Sad</div><div class="ttdef"><b>Definition:</b> d_enum.h:2221</div></div>
+<div class="ttc" id="aclass_d___viewer_html_aa082d90da7bdb460b31de5d4928d1a8c"><div class="ttname"><a href="class_d___viewer.html#aa082d90da7bdb460b31de5d4928d1a8c">D_Viewer::ClickRecord_GetPoints_Circles</a></div><div class="ttdeci">vector&lt; vector&lt; Point &gt; &gt; ClickRecord_GetPoints_Circles(double radius)</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2631</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ae92482a11fe9c0d9fdc9e59b296a7bbc"><div class="ttname"><a href="class_d___viewer.html#ae92482a11fe9c0d9fdc9e59b296a7bbc">D_Viewer::ClickRecord_GetPoints_ConvexHull</a></div><div class="ttdeci">vector&lt; Point &gt; ClickRecord_GetPoints_ConvexHull()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2597</div></div>
+<div class="ttc" id="aclass_d___viewer_html_ada0ad09fc887253709dff43302f3ecd9"><div class="ttname"><a href="class_d___viewer.html#ada0ad09fc887253709dff43302f3ecd9">D_Viewer::Set_VisTrafo_Center</a></div><div class="ttdeci">void Set_VisTrafo_Center(double center=0)</div><div class="ttdef"><b>Definition:</b> d_viewer.h:169</div></div>
 <div class="ttc" id="ad__enum_8h_html_ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d"><div class="ttname"><a href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a></div><div class="ttdeci">@ c_VIS_TRAFO_CROP_DYNAMIC</div><div class="ttdef"><b>Definition:</b> d_enum.h:417</div></div>
 <div class="ttc" id="aclass_d___m_a_k_r_o___mega_foci_html_a3c8b097536e0d33e16f956e75177eead"><div class="ttname"><a href="class_d___m_a_k_r_o___mega_foci.html#a3c8b097536e0d33e16f956e75177eead">D_MAKRO_MegaFoci::D_MAKRO_MegaFoci</a></div><div class="ttdeci">D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> d_makro_megafoci.cpp:12</div></div>
 <div class="ttc" id="aclass_d___img___proc_html_a70c8fbacebdb7fd393eb7360e76835fe"><div class="ttname"><a href="class_d___img___proc.html#a70c8fbacebdb7fd393eb7360e76835fe">D_Img_Proc::Draw_GridSimple</a></div><div class="ttdeci">static int Draw_GridSimple(Mat *pMA_Target, int nx, int ny, Scalar value=255, int thickness=1)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:15866</div></div>
 <div class="ttc" id="ad__visdat__proc_8h_html"><div class="ttname"><a href="d__visdat__proc_8h.html">d_visdat_proc.h</a></div></div>
-<div class="ttc" id="ad__enum_8h_html_a6ef16acef7aca7cfc328c44d953b1547"><div class="ttname"><a href="d__enum_8h.html#a6ef16acef7aca7cfc328c44d953b1547">QS_Fun_TableFlip</a></div><div class="ttdeci">const QString QS_Fun_TableFlip</div><div class="ttdef"><b>Definition:</b> d_enum.h:2206</div></div>
+<div class="ttc" id="aclass_d___viewer_html_a1f41f7c13996358428c312c018e19ac1"><div class="ttname"><a href="class_d___viewer.html#a1f41f7c13996358428c312c018e19ac1">D_Viewer::ClickRecord_RecordedPointsCount</a></div><div class="ttdeci">size_t ClickRecord_RecordedPointsCount()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2693</div></div>
+<div class="ttc" id="ad__enum_8h_html_a6ef16acef7aca7cfc328c44d953b1547"><div class="ttname"><a href="d__enum_8h.html#a6ef16acef7aca7cfc328c44d953b1547">QS_Fun_TableFlip</a></div><div class="ttdeci">const QString QS_Fun_TableFlip</div><div class="ttdef"><b>Definition:</b> d_enum.h:2218</div></div>
 <div class="ttc" id="ad__enum_8h_html_a612550fc8eded5e21d2bca6ac6f7bf57a364daff2c814abfdebdeb9a7157e729e"><div class="ttname"><a href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a364daff2c814abfdebdeb9a7157e729e">c_SLICE_2D_XY</a></div><div class="ttdeci">@ c_SLICE_2D_XY</div><div class="ttdef"><b>Definition:</b> d_enum.h:226</div></div>
 <div class="ttc" id="ad__enum_8h_html_a58ac28af1b9527477ae6f7d7d66f078aa569d61ca3f3ec2d88005db6c8b0d49b1"><div class="ttname"><a href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa569d61ca3f3ec2d88005db6c8b0d49b1">c_VIS_TRAFO_LOG</a></div><div class="ttdeci">@ c_VIS_TRAFO_LOG</div><div class="ttdef"><b>Definition:</b> d_enum.h:429</div></div>
 <div class="ttc" id="ad__bio__nucleusimage_8h_html"><div class="ttname"><a href="d__bio__nucleusimage_8h.html">d_bio_nucleusimage.h</a></div></div>
@@ -900,6 +1038,7 @@ $(document).ready(function(){initNavTree('d__makro__megafoci_8h_source.html','')
 <div class="ttc" id="aclass_d___img___proc_html_a1b6cf17d319a43a934bb36763f984eaa"><div class="ttname"><a href="class_d___img___proc.html#a1b6cf17d319a43a934bb36763f984eaa">D_Img_Proc::Channel_Supression</a></div><div class="ttdeci">static int Channel_Supression(Mat *pMA_Out, Mat *pMA_In, bool use_r=true, bool use_g=true, bool use_b=true, bool force_3ch=false)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:2911</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a26df64805f8c13a997b18a7244ad5cb4"><div class="ttname"><a href="class_d___vis_dat___proc.html#a26df64805f8c13a997b18a7244ad5cb4">D_VisDat_Proc::Feature_Select</a></div><div class="ttdeci">static int Feature_Select(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int feature, double f_min, double f_max, int connectivity)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:6295</div></div>
 <div class="ttc" id="ad__stat_8h_html"><div class="ttname"><a href="d__stat_8h.html">d_stat.h</a></div></div>
+<div class="ttc" id="aclass_d___viewer_html_a1c002b1661a8d912fe1b6d07fd21d224"><div class="ttname"><a href="class_d___viewer.html#a1c002b1661a8d912fe1b6d07fd21d224">D_Viewer::ClickRecord_GetPoints_Ellipse</a></div><div class="ttdeci">vector&lt; Point &gt; ClickRecord_GetPoints_Ellipse()</div><div class="ttdef"><b>Definition:</b> d_viewer.cpp:2535</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

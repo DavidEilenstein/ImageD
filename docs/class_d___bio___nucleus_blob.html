@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
+   &#160;<span id="projectnumber">v1_7_0 (01.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -144,6 +144,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1f182d5ba076abcc8bdec1728a9b02aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00f10f9dcb40abb69eb3271eee98f2f7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a00f10f9dcb40abb69eb3271eee98f2f7">dist2centroid</a> (Point2f point)</td></tr>
 <tr class="separator:a00f10f9dcb40abb69eb3271eee98f2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeb3469c5037474d4e5f7860b856cf20"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#afeb3469c5037474d4e5f7860b856cf20">contains_point</a> (Point P, double margin=0)</td></tr>
+<tr class="separator:afeb3469c5037474d4e5f7860b856cf20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a206337fe7e1b55ab5aa8b77ca6249cb8"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a206337fe7e1b55ab5aa8b77ca6249cb8">centroid</a> ()</td></tr>
 <tr class="separator:a206337fe7e1b55ab5aa8b77ca6249cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab63b5d9e59d3d4937963d56043cbdfc9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ab63b5d9e59d3d4937963d56043cbdfc9">area</a> ()</td></tr>
@@ -160,6 +162,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9bd7f703efcd3638b0c0250e619ac155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8fee59e82c38b57b317f5dc74236740"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aa8fee59e82c38b57b317f5dc74236740">signal_dev2med</a> (size_t channel)</td></tr>
 <tr class="separator:aa8fee59e82c38b57b317f5dc74236740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc60c759b5f1059fb2bf6b70049518f"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a1dc60c759b5f1059fb2bf6b70049518f">info</a> ()</td></tr>
+<tr class="separator:a1dc60c759b5f1059fb2bf6b70049518f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a20b049a1921aeb38338c609184a0db67"></a>
@@ -506,6 +510,42 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afeb3469c5037474d4e5f7860b856cf20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeb3469c5037474d4e5f7860b856cf20">&#9670;&nbsp;</a></span>contains_point()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusBlob::contains_point </td>
+          <td>(</td>
+          <td class="paramtype">Point&#160;</td>
+          <td class="paramname"><em>P</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>margin</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9041253fbef60cec8e6b0af139658bca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9041253fbef60cec8e6b0af139658bca">&#9670;&nbsp;</a></span>contour()</h2>
 
@@ -788,6 +828,23 @@ Public Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1dc60c759b5f1059fb2bf6b70049518f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dc60c759b5f1059fb2bf6b70049518f">&#9670;&nbsp;</a></span>info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString D_Bio_NucleusBlob::info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>

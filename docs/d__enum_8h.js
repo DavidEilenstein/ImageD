@@ -302,6 +302,18 @@ var d__enum_8h =
       [ "c_LOAD_MODE_FILE_VISDAT", "d__enum_8h.html#ac7abb455473ea9941d15ff230b657464ac2167902a94d6da208ca2d1371f76c53", null ],
       [ "c_LOAD_MODE_NUMBER_OF", "d__enum_8h.html#ac7abb455473ea9941d15ff230b657464a6363dc00ed2b199b97036da777046880", null ]
     ] ],
+    [ "D_MARKER_SYMBOL", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230", [
+      [ "c_MARKER_SYMBOL_CIRCLE", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a4550f8b7de41c8e495d4e5d58f92f5f4", null ],
+      [ "c_MARKER_SYMBOL_DOT", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230afc9d4ff9ca92915a2856832056dffdc3", null ],
+      [ "c_MARKER_SYMBOL_RECT", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230ace74eacdf0cf2f06c85c5fedd78eb92d", null ],
+      [ "c_MARKER_SYMBOL_PLUS", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a38cb11aaacc0a270f2da1fd5a10e8ca8", null ],
+      [ "c_MARKER_SYMBOL_MINUS", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230afda7e02c2a5b38502a17560114b2bafa", null ],
+      [ "c_MARKER_SYMBOL_CROSS", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a455abc076daaa6b71f8d20ffb6175ab3", null ],
+      [ "c_MARKER_SYMBOL_3CIRCLES", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230accebc3140028e5d0649ab5defd053bc9", null ],
+      [ "c_MARKER_SYMBOL_3DOTS", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a339c7d5a9276e19ac9c3371f6ac577a5", null ],
+      [ "c_MARKER_SYMBOL_TICK", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230ac6954b26ba11d7138df9fbd1fbefc808", null ],
+      [ "c_MARKER_SYMBOL_NUMBER_OF", "d__enum_8h.html#a5f1c5cba7965931d700501032cad3230a80b7228e80c093c9c12d1ccf0fc7f53c", null ]
+    ] ],
     [ "D_MATH_1D_TO_1D", "d__enum_8h.html#af6a247b6b2f9a67c5e2a9acb5ac4a1c9", [
       [ "c_MATH_1D_TO_1D_X", "d__enum_8h.html#af6a247b6b2f9a67c5e2a9acb5ac4a1c9a5cd9cb1c309e0e56635ecdfd49a2e2f0", null ],
       [ "c_MATH_1D_TO_1D_X_power_2", "d__enum_8h.html#af6a247b6b2f9a67c5e2a9acb5ac4a1c9a1002c4c2a4e3de81d347320e89e5c4da", null ],
@@ -670,6 +682,7 @@ var d__enum_8h =
     [ "PI_0_5", "d__enum_8h.html#a957535f91e349752ce9048708de5ec47", null ],
     [ "PI_2_0", "d__enum_8h.html#ab229d2a78f7bbb34f7945c1e86b40945", null ],
     [ "PI_4_0", "d__enum_8h.html#a0e34bf2dfb0da8f83877ebb4f97a4a3d", null ],
+    [ "QS_Fun_Cat", "d__enum_8h.html#af1f508defab0ed606e466389ed05bcdd", null ],
     [ "QS_Fun_Confused", "d__enum_8h.html#a9926c1245762eb98c63db02e38510629", null ],
     [ "QS_Fun_Happy", "d__enum_8h.html#a0eed087d841065d777a056c26a56931c", null ],
     [ "QS_Fun_IDontKnow", "d__enum_8h.html#a37dec2bea707424919182021c33b2e35", null ],

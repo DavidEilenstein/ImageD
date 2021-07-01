@@ -17,7 +17,7 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_6_8";
+const QString           D_QS_Version  = "v1_7_0";
 const QString           D_QS_Release  = "01.07.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
@@ -2220,6 +2220,7 @@ const QString QS_Fun_Confused = "ಠಿ_ಠ";
 const QString QS_Fun_IDontKnow = "¯\(◉‿◉)/¯";
 const QString QS_Fun_Sad = "( ͡ಠ ʖ̯ ͡ಠ)";
 const QString QS_Fun_Happy = "(✿◠‿◠)";
+const QString QS_Fun_Cat = "(₌♥ᆽ♥₌)";
 
 //Plot
 const int

@@ -4712,7 +4712,7 @@ background-color: rgb(0,0,0);</string>
                   <double>1000.000000000000000</double>
                  </property>
                  <property name="value">
-                  <double>5.000000000000000</double>
+                  <double>20.000000000000000</double>
                  </property>
                 </widget>
                </item>

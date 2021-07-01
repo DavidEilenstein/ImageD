@@ -2299,6 +2299,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Clear()
     //backup and clear
     vv_MS2_NucImg_Out_mosaikXY[ix][iy].remove_nuclei_foci_all();
     MS2_DetOutBackup_Save();
+    StatusSet("Draw: Clear all nuclei and foci");
 
     //change state
     vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
@@ -2322,6 +2323,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Reset()
     //backup and clear
     vv_MS2_NucImg_Out_mosaikXY[ix][iy] = vv_MS2_NucImg_In_mosaikXY[ix][iy];
     MS2_DetOutBackup_Save();
+    StatusSet("Draw: Reset to input initially loaded");
 
     //change state
     vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
@@ -2344,6 +2346,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_SetProcessed()
 
     //save image
     MS2_Draw_Save();
+    StatusSet("Viewport x=" + QString::number(ix) + "/y=" + QString::number(iy) + "finished");
 
     //change state
     vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_PROCESSED;
@@ -2354,7 +2357,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_SetProcessed()
 
     //reward user for finishing another image
     RewardSystem.get_reward();
-
+    StatusSet("Look! The cat likes your work " + QS_Fun_Cat);
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_SetToProcess()
@@ -2407,16 +2410,19 @@ void D_MAKRO_MegaFoci::MS2_Draw_RecordingEnd()
 
 void D_MAKRO_MegaFoci::MS2_Draw_Ellipse()
 {
+    StatusSet("Draw: Ellipse");
     return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Ellipse(1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled));
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_Polygon()
 {
+    StatusSet("Draw: Polygon");
     return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Polygon(1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled));
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_ConvexHull()
 {
+    StatusSet("Draw: Convex hull");
     return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_ConvexHull(1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled));
 }
 
@@ -2455,6 +2461,9 @@ void D_MAKRO_MegaFoci::MS2_Draw_Points()
     case MS2_DRAW_MODE_FOCI_RFP:    vv_MS2_NucImg_Out_mosaikXY[ix][iy].add_foci(FOCI_RFP,  vFoc);   break;
     case MS2_DRAW_MODE_FOCI_BOTH:   vv_MS2_NucImg_Out_mosaikXY[ix][iy].add_foci(FOCI_BOTH, vFoc);   break;
     default:                                                                                        return;}
+
+    //status
+    StatusSet("Draw: Points/Circles");
 
     //backup
     MS2_DetOutBackup_Save();
@@ -2532,6 +2541,9 @@ void D_MAKRO_MegaFoci::MS2_Draw_Remove()
     case MS2_DRAW_MODE_FOCI_RFP:    vv_MS2_NucImg_Out_mosaikXY[ix][iy].remove_foci(  vP, FOCI_RFP,  click_precision_margin);    break;
     case MS2_DRAW_MODE_FOCI_BOTH:   vv_MS2_NucImg_Out_mosaikXY[ix][iy].remove_foci(  vP, FOCI_BOTH, click_precision_margin);    break;
     default:                                                                                                                    return;}
+
+    //status
+    StatusSet("Draw: Remove " + QString(MS2_draw_mode == MS2_DRAW_MODE_NUCLEI ? "nuclei" : "foci"));
 
     //backup
     MS2_DetOutBackup_Save();
@@ -2961,6 +2973,9 @@ void D_MAKRO_MegaFoci::MS2_UpdateViewportPos()
     if(mx >= dataset_dim_mosaic_x || my >= dataset_dim_mosaic_y)
         return;
 
+    //status
+    StatusSet("Move viewport to x=" + QString::number(mx) + "/y=" + QString::number(my));
+
     //relative border pos
     double l = static_cast<double>(mx) / dataset_dim_mosaic_x;
     double r = min(1.0, static_cast<double>(mx + 1 + MS2_MosaikBorderPrz) / dataset_dim_mosaic_x);
@@ -3098,6 +3113,7 @@ void D_MAKRO_MegaFoci::MS2_DrawMode_Set(size_t mode)
         return;
 
     MS2_draw_mode = mode;
+    StatusSet("Changed draw mode to " + QSL_MS2_DrawMode[mode]);
 
     for(size_t m = 0; m < MS2_DRAW_MODE_NUMBER_OF; m++)
         v_MS2_PUB_DrawModi[m]->setStyleSheet(m == mode ? "font-weight: bold" : "");
@@ -3113,7 +3129,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_RecordedClicksChanged(size_t point_count)
     bool draw_points = MS2_draw_mode == MS2_DRAW_MODE_NUCLEI;
 
     ui->pushButton_MS2_Tools_ApplyPoints_Remove->setEnabled             (point_count >= 1                );
-    ui->pushButton_MS2_Tools_ApplyPoints_Ellipse->setEnabled            (point_count >= 4 && draw_points );
+    ui->pushButton_MS2_Tools_ApplyPoints_Ellipse->setEnabled            (point_count >= 5 && draw_points );
     ui->pushButton_MS2_Tools_ApplyPoints_Polygon->setEnabled            (point_count >= 3 && draw_points );
     ui->pushButton_MS2_Tools_ApplyPoints_ConvexHull->setEnabled         (point_count >= 2 && draw_points );
     ui->pushButton_MS2_Tools_ApplyPoints_Points->setEnabled             (point_count >= 1 && !draw_points);
@@ -4300,9 +4316,9 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_NextToCorrect_clicked()
     size_t iy = ui->spinBox_MS2_Viewport_Y->value();
     size_t it = ui->spinBox_MS2_Viewport_T->value();
 
-    for(size_t t = it; t < dataset_dim_t; t++)
-        for(size_t y = iy; y < dataset_dim_mosaic_x; y++)
-            for(size_t x = ix; x < dataset_dim_mosaic_y; x++)
+    for(size_t t = 0; t < dataset_dim_t; t++)
+        for(size_t y = 0; y < dataset_dim_mosaic_x; y++)
+            for(size_t x = 0; x < dataset_dim_mosaic_y; x++)
             {
                 if(x != ix || y != iy || t != it)
                     if(vv_MS2_NucImg_State_Out_mosaikXY[x][y] != MS2_IMG_STATE_PROCESSED)

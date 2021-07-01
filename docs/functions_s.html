@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_6_2 (15.06.21)</span>
+   &#160;<span id="projectnumber">v1_7_0 (01.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>save()
-: <a class="el" href="class_d___bio___nucleus_image.html#a2625bb07fe31445a6a1576151b9e3713">D_Bio_NucleusImage</a>
+: <a class="el" href="class_d___bio___nucleus_image.html#aedcc378b3ccc0d6287a2a10bc3abbe3a">D_Bio_NucleusImage</a>
 </li>
 <li>save_all()
 : <a class="el" href="class_d___component___list.html#aa7f9c692a06ab721f12eb5f240544deb">D_Component_List</a>
@@ -101,6 +101,9 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_d___viewer.html#a499ba76de52c35fe4fc0d106ae96e5cc">D_Viewer</a>
 , <a class="el" href="class_d___viewer___img.html#a2d09251263751648a3ae9fafa284c795">D_Viewer_Img</a>
 </li>
+<li>save_PathExactDir()
+: <a class="el" href="class_d___bio___nucleus_image.html#a4d2f875a75341e0ff8fe1d26e6a2861b">D_Bio_NucleusImage</a>
+</li>
 <li>save_PDF()
 : <a class="el" href="class_d___p_d_f___writer.html#aa5c89c34d642a8eaf6f87ec8385fd502">D_PDF_Writer</a>
 </li>
@@ -111,7 +114,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_d___step_window.html#ab038d58f6effaf9e81f45c6352a3306b">D_StepWindow</a>
 </li>
 <li>Save_Table()
-: <a class="el" href="class_d___table.html#a4db69fe761a3e38fe1a9f45390c7f8fa">D_Table</a>
+: <a class="el" href="class_d___table.html#a42f8be1cfa5856ef990b797fde6cad87">D_Table</a>
 </li>
 <li>Save_Table_Dialog()
 : <a class="el" href="class_d___table.html#ab9e85effc5910127d948da1151bdd642">D_Table</a>
@@ -384,13 +387,24 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>set_Name()
 : <a class="el" href="class_d___component.html#ada81e4d884259e321ad052e60ca43d42">D_Component</a>
 , <a class="el" href="class_d___viewer.html#a4d58ecd31d268ded51dcfa8c53416b78">D_Viewer</a>
-, <a class="el" href="class_d___viewer___img.html#abf32e1ab747098d70eab51041a9261b3">D_Viewer_Img</a>
+</li>
+<li>Set_Name()
+: <a class="el" href="class_d___viewer.html#a084d98f59d88ad5f2bed5d12f3501fa1">D_Viewer</a>
+</li>
+<li>set_Name()
+: <a class="el" href="class_d___viewer___img.html#abf32e1ab747098d70eab51041a9261b3">D_Viewer_Img</a>
 </li>
 <li>set_need_Update()
 : <a class="el" href="class_d___step_window.html#a1709925fb6a1292b70a56d8e55d5f6a4">D_StepWindow</a>
 </li>
 <li>set_Number()
 : <a class="el" href="class_d___component.html#a384357d6056579d61db84de3e50cfc34">D_Component</a>
+</li>
+<li>set_OffsetMosaicGrid()
+: <a class="el" href="class_d___bio___nucleus_image.html#a101dda627f7bf37c1b0853f8d185de38">D_Bio_NucleusImage</a>
+</li>
+<li>set_OffsetPixels()
+: <a class="el" href="class_d___bio___nucleus_image.html#a291b2abe262156287df693a417fedc96">D_Bio_NucleusImage</a>
 </li>
 <li>set_PathOut()
 : <a class="el" href="class_d___video_writer.html#a243e983ff9439e139ebf40915bc3be12">D_VideoWriter</a>
@@ -499,7 +513,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_d___storage.html#af92988515cb3b692b372c9fd17a61d23">D_Storage</a>
 </li>
 <li>set_Size()
-: <a class="el" href="class_d___video_writer.html#af2fbc530002e16fa75838f2f6ea5b1fd">D_VideoWriter</a>
+: <a class="el" href="class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea">D_VideoWriter</a>
 , <a class="el" href="class_d___vis_dat___header.html#a50f6042671fd05f4f306b37f0e67c25a">D_VisDat_Header</a>
 </li>
 <li>set_size_Dim()
@@ -769,10 +783,10 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="class_d___img___proc.html#a6085b1fe01e65067b7f5b5285314bbe3">D_Img_Proc</a>
 </li>
 <li>standard_deviation()
-: <a class="el" href="class_d___geo___point_set__2_d.html#ae6bf37cf7aa33e4fa09e0e35f273ad1e">D_Geo_PointSet_2D</a>
+: <a class="el" href="class_d___geo___point_set__2_d.html#adc55bbc65bf4a473d8696f17bc459b56">D_Geo_PointSet_2D</a>
 </li>
 <li>start()
-: <a class="el" href="class_d___finish_time_prognosis.html#afa17cd9ba65027f413c25f9f2f7639c5">D_FinishTimePrognosis</a>
+: <a class="el" href="class_d___finish_time_prognosis.html#ae0af19a169b2df195fa6fb7d97faa850">D_FinishTimePrognosis</a>
 </li>
 <li>start_working()
 : <a class="el" href="class_d___job___manager.html#aa4770819e73bc052f5e63723a3b0fd6c">D_Job_Manager</a>
