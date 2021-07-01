@@ -13,6 +13,13 @@ D_Bio_NucleusImage::D_Bio_NucleusImage()
 
 }
 
+D_Bio_NucleusImage::D_Bio_NucleusImage(Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time)
+{
+    m_Offset_Grid = P_Offset_mosaicgrid;
+    m_Offset_Coord = P_Offset_coordinates;
+    m_time = time;
+}
+
 D_Bio_NucleusImage::D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time, int neighborhood, bool blockSave_StichBorder_BottomRight, size_t block_x_right, size_t block_y_bottom)
 {
     calc_NucleiDecomposition(pMA_NucleiBinary, pvMA_FociBinary, pvMA_Values, P_Offset_coordinates, P_Offset_mosaicgrid, time, neighborhood, blockSave_StichBorder_BottomRight, block_x_right, block_y_bottom);
@@ -651,12 +658,23 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
 
     //add offset to path
     path += "/Image_T" + QString::number(m_time) + "_Y" + QString::number(P_OffsetNames.y) + "_X" + QString::number(P_OffsetNames.x);
+
+    return save_PathExactDir(path, save_foci_in_nuclei, save_foci_separate, P_OffsetNames.x, P_OffsetNames.y, m_time);
+}
+
+int D_Bio_NucleusImage::save_PathExactDir(QString path, bool save_foci_in_nuclei, bool save_foci_separate, size_t x, size_t y, size_t t)
+{
+    qDebug() << "D_Bio_NucleusImage::save_PathExactDir" << path;
+
     QDir DIR_Image(path);
     if(!DIR_Image.exists())
     {
         QDir().mkdir(DIR_Image.path());
         if(!DIR_Image.exists())
+        {
+            qDebug() << "D_Bio_NucleusImage::save_PathExactDir" << "dir does not exist";
             return ER_file_not_exist;
+        }
     }
 
     //save nuclei
@@ -687,7 +705,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
         }
 
         //TYX coordinate
-        QString QS_Coordinate_TYX = "_T" + QString::number(m_time) + "_Y" + QString::number(static_cast<int>(P_OffsetNames.y)) + "_X" + QString::number(static_cast<int>(P_OffsetNames.x));
+        QString QS_Coordinate_TYX = "_T" + QString::number(t) + "_Y" + QString::number(y) + "_X" + QString::number(x);
         QString QS_PathFoci_Base = path + "/Foci" + QS_Coordinate_TYX;
 
         //loop channels
@@ -795,6 +813,34 @@ QString D_Bio_NucleusImage::info()
     return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
 }
 
+void D_Bio_NucleusImage::add_focus(size_t channel, D_Bio_Focus Foc)
+{
+    if(channel >= vvFoci.size())
+        return;
+
+    vvFoci[channel].push_back(Foc);
+}
+
+void D_Bio_NucleusImage::add_foci(size_t channel, vector<D_Bio_Focus> vFoc)
+{
+    if(channel >= vvFoci.size())
+        return;
+
+    for(size_t i = 0; i < vFoc.size(); i++)
+        add_focus(channel, vFoc[i]);
+}
+
+void D_Bio_NucleusImage::add_nucleus(D_Bio_NucleusBlob Nuc)
+{
+    vNuclei.push_back(Nuc);
+}
+
+void D_Bio_NucleusImage::add_nuclei(vector<D_Bio_NucleusBlob> vNuc)
+{
+    for(size_t i = 0; i < vNuc.size(); i++)
+        add_nucleus(vNuc[i]);
+}
+
 bool D_Bio_NucleusImage::remove_focus(Point P, size_t channel, double margin)
 {
     if(channel >= vvFoci.size())
@@ -859,6 +905,23 @@ void D_Bio_NucleusImage::remove_nuclei(vector<Point> vP, double margin)
 {
     for(size_t p = 0; p < vP.size(); p++)
         remove_nucleus(vP[p], margin);
+}
+
+void D_Bio_NucleusImage::remove_nuclei_foci_all()
+{
+    remove_foci_all();
+    remove_nuclei_all();
+}
+
+void D_Bio_NucleusImage::remove_foci_all()
+{
+    for(size_t ch = 0; ch < vvFoci.size(); ch++)
+        vvFoci[ch].clear();
+}
+
+void D_Bio_NucleusImage::remove_nuclei_all()
+{
+    vNuclei.clear();
 }
 
 bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel)

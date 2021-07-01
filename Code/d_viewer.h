@@ -132,13 +132,15 @@ private:
 private slots:
 
     //zoom (connected with signals of scene while ctrl is pressed)
-    void        Zoom_Pos                (int x, int y);
-    void        Zoom_In                 ();
-    void        Zoom_Out                ();
-    void        Zoom_Reset              ();
-    void        Zoom_Update             ();
+    void                    Zoom_Pos                (int x, int y);
+    void                    Zoom_In                 ();
+    void                    Zoom_Out                ();
+    void                    Zoom_Reset              ();
+    void                    Zoom_Update             ();
 
-    void        ClickRecord_DrawOverlay ();
+    void                    ClickRecord_DrawOverlay ();
+    vector<Point>           ScaleContour            (vector<Point> vContour, double scale, Point scaled_offset);
+    vector<vector<Point>>   ScaleContours           (vector<vector<Point>> vvContours, double scale, Point scaled_offset);
 
 public slots:
 
@@ -187,23 +189,31 @@ public slots:
     void        MouseClicked_Mid        (int x, int y);
 
     //click recording for drawing
-    void            ClickRecord_Start                   ();
-    void            ClickRecord_Start_RecieveOnly       ();
-    bool            ClickRecord_Record                  (Point P);
-    bool            ClickRecord_Record                  (int x, int y);
-    bool            ClickRecord_Record_RecieveOnly      (Point P);
-    bool            ClickRecord_Record_RecieveOnly      (int x, int y);
-    void            ClickRecord_Clear                   ();
-    void            ClickRecord_Clear_RecieveOnly       ();
-    void            ClickRecord_Quit                    ();
-    void            ClickRecord_Quit_RecieveOnly        ();
-    vector<Point>   ClickRecord_GetPoints               ();
-    vector<Point>   ClickRecord_GetPoints_Ellipse       ();
-    vector<Point>   ClickRecord_GetPoints_Polygon       ();
-    vector<Point>   ClickRecord_GetPoints_ConvexHull    ();
-    RotatedRect     ClickRecord_Ellipse                 ();
-    void            ClickRecord_ChangeOverlayColor      (QColor color);
-    void            ClickRecord_ChangeOverlayPointDiameter(int d);
+    void                    ClickRecord_Start                   ();
+    void                    ClickRecord_Start_RecieveOnly       ();
+    bool                    ClickRecord_Record                  (Point P);
+    bool                    ClickRecord_Record                  (int x, int y);
+    bool                    ClickRecord_Record_RecieveOnly      (Point P);
+    bool                    ClickRecord_Record_RecieveOnly      (int x, int y);
+    void                    ClickRecord_Clear                   ();
+    void                    ClickRecord_Clear_RecieveOnly       ();
+    void                    ClickRecord_Quit                    ();
+    void                    ClickRecord_Quit_RecieveOnly        ();
+    vector<Point>           ClickRecord_GetPoints               ();
+    vector<Point>           ClickRecord_GetPoints               (double scale, Point scaled_offset);
+    vector<Point>           ClickRecord_GetPoints_Ellipse       ();
+    vector<Point>           ClickRecord_GetPoints_Ellipse       (double scale, Point scaled_offset);
+    vector<Point>           ClickRecord_GetPoints_Polygon       ();
+    vector<Point>           ClickRecord_GetPoints_Polygon       (double scale, Point scaled_offset);
+    vector<Point>           ClickRecord_GetPoints_ConvexHull    ();
+    vector<Point>           ClickRecord_GetPoints_ConvexHull    (double scale, Point scaled_offset);
+    vector<vector<Point>>   ClickRecord_GetPoints_Circles       (double radius);
+    vector<vector<Point>>   ClickRecord_GetPoints_Circles       (double radius, double scale, Point scaled_offset);
+    RotatedRect             ClickRecord_Ellipse                 ();
+    RotatedRect             ClickRecord_Ellipse                 (double scale, Point scaled_offset);
+    void                    ClickRecord_ChangeOverlayColor      (QColor color);
+    void                    ClickRecord_ChangeOverlayPointDiameter(int d);
+    size_t                  ClickRecord_RecordedPointsCount();
 
 signals:
 
@@ -253,16 +263,17 @@ signals:
     void Image_Saved        (QString path);
 
     //click recording for drawing
-    void ClickRecordSignal_Start               ();
-    void ClickRecordSignal_Record              (int x, int y);
-    void ClickRecordSignal_RecordedPointsCount (size_t count);
-    void ClickRecordSignal_Clear               ();
-    void ClickRecordSignal_Quit                ();
-    void ClickRecordSignal_GetPoints           (vector<Point> vPoints);
-    void ClickRecordSignal_GetPoints_Ellipse   (vector<Point> vPointsEllipse);
-    void ClickRecordSignal_GetPoints_Polygon   (vector<Point> vPointsPolygon);
-    void ClickRecordSignal_GetPoints_ConvexHull(vector<Point> vPointsPolygon);
-    void ClickRecordSignal_Ellipse             (RotatedRect ellipse);
+    void ClickRecordSignal_Start                ();
+    void ClickRecordSignal_Record               (int x, int y);
+    void ClickRecordSignal_RecordedPointsCount  (size_t count);
+    void ClickRecordSignal_Clear                ();
+    void ClickRecordSignal_Quit                 ();
+    void ClickRecordSignal_GetPoints            (vector<Point> vPoints);
+    void ClickRecordSignal_GetPoints_Ellipse    (vector<Point> vPointsEllipse);
+    void ClickRecordSignal_GetPoints_Polygon    (vector<Point> vPointsPolygon);
+    void ClickRecordSignal_GetPoints_ConvexHull (vector<Point> vPointsConvexHull);
+    void ClickRecordSignal_GetPoints_Circles    (vector<vector<Point>> vvPointsCircles);
+    void ClickRecordSignal_Ellipse              (RotatedRect ellipse);
 
 private:    //members
 

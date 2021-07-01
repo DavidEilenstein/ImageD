@@ -569,6 +569,7 @@ private slots:
 
 
     void MS2_DrawMode_Set(size_t mode);
+    void MS2_Draw_RecordedClicks_UpdateAvailiableDrawModi();
     void MS2_Draw_RecordedClicksChanged(size_t point_count);
 
     bool MS2_CalcMosaik_Size();
@@ -613,22 +614,25 @@ private slots:
     void on_pushButton_MS2_Tools_ApplyPoints_Remove_clicked();
 
     void on_spinBox_MS2_ViewerSettings_PointDiameter_1_valueChanged(int arg1);
-
     void on_spinBox_MS2_ViewerSettings_PointDiameter_2_valueChanged(int arg1);
-
     void on_spinBox_MS2_ViewerSettings_PointDiameter_3_valueChanged(int arg1);
-
     void on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChanged(int arg1);
 
     void on_pushButton_MS2_Viewport_NextToCorrect_clicked();
 
     void on_spinBox_MS2_Viewport_X_valueChanged(int arg1);
-
     void on_spinBox_MS2_Viewport_Y_valueChanged(int arg1);
-
     void on_spinBox_MS2_Viewport_T_valueChanged(int arg1);
 
     void on_progressBar_MS2_CorrectionProgress_valueChanged(int value);
+
+    void on_pushButton_MS2_Tools_ApplyPoints_ConvexHull_clicked();
+
+    void on_pushButton_MS2_Tools_ApplyPoints_Points_clicked();
+
+    void on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked();
+
+    void on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked();
 
 private:
     void                        MS2_init_ui();
@@ -703,6 +707,8 @@ private:
     void                                MS2_Draw_RecordingEnd();
     void                                MS2_Draw_Ellipse();
     void                                MS2_Draw_Polygon();
+    void                                MS2_Draw_ConvexHull();
+    void                                MS2_Draw_Points();
     void                                MS2_Draw_Contour(vector<Point> contour);
     void                                MS2_Draw_Remove();
 

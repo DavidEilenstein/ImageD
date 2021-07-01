@@ -390,7 +390,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             //get subsection in this line
             bool subsection_found = false;
             size_t subsection = FILE_SUBSECTION_DEFAULT;
-            for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !subsection_found; i++)
+            for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found; i++)
                 if(QS_LineFirst == QSL_FileSubsections[i])
                 {
                     subsection = i;
@@ -441,7 +441,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                 }
                 else
                 {
-                  //qDebug() << "subsection index" << subsection << "does not match any stat index!";
+                    qDebug() << "subsection index" << subsection << "does not match any stat index!";
                 }
             }
                 break;

@@ -2527,6 +2527,11 @@ vector<Point> D_Viewer::ClickRecord_GetPoints()
     return vClicksRecorded;
 }
 
+vector<Point> D_Viewer::ClickRecord_GetPoints(double scale, Point scaled_offset)
+{
+    return ScaleContour(ClickRecord_GetPoints(), scale, scaled_offset);
+}
+
 vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
 {
     if(vClicksRecorded.empty())
@@ -2554,6 +2559,11 @@ vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
     return vvContours[0];
 }
 
+vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse(double scale, Point scaled_offset)
+{
+    return ScaleContour(ClickRecord_GetPoints_Ellipse(), scale, scaled_offset);
+}
+
 vector<Point> D_Viewer::ClickRecord_GetPoints_Polygon()
 {
     if(vClicksRecorded.empty())
@@ -2577,6 +2587,11 @@ vector<Point> D_Viewer::ClickRecord_GetPoints_Polygon()
     //return polygon contour
     emit ClickRecordSignal_GetPoints_Polygon(vvContours[0]);
     return vvContours[0];
+}
+
+vector<Point> D_Viewer::ClickRecord_GetPoints_Polygon(double scale, Point scaled_offset)
+{
+    return ScaleContour(ClickRecord_GetPoints_Polygon(), scale, scaled_offset);
 }
 
 vector<Point> D_Viewer::ClickRecord_GetPoints_ConvexHull()
@@ -2608,12 +2623,57 @@ vector<Point> D_Viewer::ClickRecord_GetPoints_ConvexHull()
     return CH;
 }
 
+vector<Point> D_Viewer::ClickRecord_GetPoints_ConvexHull(double scale, Point scaled_offset)
+{
+    return ScaleContour(ClickRecord_GetPoints_ConvexHull(), scale, scaled_offset);
+}
+
+vector<vector<Point>> D_Viewer::ClickRecord_GetPoints_Circles(double radius)
+{
+    if(vClicksRecorded.empty())
+        return vector<vector<Point>>(1, vClicksRecorded);
+
+    //draw polygon
+    Mat MA_Draw = Mat::zeros(MA_Data.size(), CV_8UC1);
+    for(size_t i = 0; i < vClicksRecorded.size(); i++)
+        circle(MA_Draw, vClicksRecorded[i], radius, Scalar(255), 1, LINE_8);
+
+    //get contour of polygon
+    vector<vector<Point>> vvContours;
+    vector<Vec4i> hierarchy;
+    findContours(MA_Draw, vvContours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE, Point(0, 0));
+    MA_Draw.release();
+
+    //check contours
+    if(vvContours.empty())
+        return vector<vector<Point>>(1, vClicksRecorded);
+
+    //return polygon contour
+    emit ClickRecordSignal_GetPoints_Circles(vvContours);
+    return vvContours;
+}
+
+vector<vector<Point>> D_Viewer::ClickRecord_GetPoints_Circles(double radius, double scale, Point scaled_offset)
+{
+    return ScaleContours(ClickRecord_GetPoints_Circles(radius), scale, scaled_offset);
+}
+
 RotatedRect D_Viewer::ClickRecord_Ellipse()
 {
     if(vClicksRecorded.empty())
         return RotatedRect(Point2f(0,0), Point2f(0,0), Point2f(0,0));
 
     RotatedRect E = fitEllipse(vClicksRecorded);
+    emit ClickRecordSignal_Ellipse(E);
+    return E;
+}
+
+RotatedRect D_Viewer::ClickRecord_Ellipse(double scale, Point scaled_offset)
+{
+    if(vClicksRecorded.empty())
+        return RotatedRect(Point2f(0,0), Point2f(0,0), Point2f(0,0));
+
+    RotatedRect E = fitEllipse(ScaleContour(vClicksRecorded, scale, scaled_offset));
     emit ClickRecordSignal_Ellipse(E);
     return E;
 }
@@ -2628,6 +2688,11 @@ void D_Viewer::ClickRecord_ChangeOverlayPointDiameter(int d)
 {
     ClickRecord_PointDiameter = d;
     ClickRecord_DrawOverlay();
+}
+
+size_t D_Viewer::ClickRecord_RecordedPointsCount()
+{
+    return vClicksRecorded.size();
 }
 
 void D_Viewer::Zoom_Pos(int x, int y)
@@ -2686,4 +2751,26 @@ void D_Viewer::Zoom_Update()
 void D_Viewer::ClickRecord_DrawOverlay()
 {
     Proc_MA_2_QI();
+}
+
+vector<Point> D_Viewer::ScaleContour(vector<Point> vContour, double scale, Point scaled_offset)
+{
+    size_t n = vContour.size();
+
+    vector<Point> vContourScaled(n);
+    for(size_t i = 0; i < n; i++)
+        vContourScaled[i] = (vContour[i] * scale) + scaled_offset;
+
+    return vContourScaled;
+}
+
+vector<vector<Point> > D_Viewer::ScaleContours(vector<vector<Point> > vvContours, double scale, Point scaled_offset)
+{
+    size_t n = vvContours.size();
+
+    vector<vector<Point>> vvContoursScaled(n);
+    for(size_t i = 0; i < n; i++)
+        vvContoursScaled[i] = ScaleContour(vvContours[i], scale, scaled_offset);
+
+    return vvContoursScaled;
 }

@@ -48,6 +48,7 @@ class D_Bio_NucleusImage
 {
 public:
     D_Bio_NucleusImage();
+    D_Bio_NucleusImage(Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time);
     D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset_coordinates = Point(0, 0), Point P_Offset_mosaicgrid = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
     D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset_coordinates = Point(0, 0), Point P_Offset_mosaicgrid = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
     D_Bio_NucleusImage(vector<D_VisDat_Obj> *pvVD_Images, size_t index_NucleiBinary, vector<size_t> vIndices_FociBinary, vector<size_t> vIndices_Values, Point P_Offset_coordinates = Point(0, 0), Point P_Offset_mosaicgrid = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
@@ -59,6 +60,7 @@ public:
     int load(QString path);
     int load_foci(QFileInfoList FIL_foci);
     int save(QString path, bool save_foci_in_nuclei, bool save_foci_separate, bool save_name_mosaic_not_coordiante);
+    int save_PathExactDir(QString path, bool save_foci_in_nuclei, bool save_foci_separate, size_t x, size_t y, size_t t);
 
     void set_OffsetMosaicGrid(Point OffsetMosaicGrid)   {m_Offset_Grid = OffsetMosaicGrid;}
     void set_OffsetPixels(Point OffsetPixels)           {m_Offset_Coord = OffsetPixels;}
@@ -78,10 +80,18 @@ public:
 
     QString info();
 
-    bool    remove_focus    (Point P,           size_t channel,     double margin = 0);
-    void    remove_foci     (vector<Point> vP,  size_t channel,     double margin = 0);
-    bool    remove_nucleus  (Point P,                               double margin = 0);
-    void    remove_nuclei   (vector<Point> vP,                      double margin = 0);
+    void    add_focus               (size_t channel, D_Bio_Focus Foc);
+    void    add_foci                (size_t channel, vector<D_Bio_Focus> vFoc);
+    void    add_nucleus             (D_Bio_NucleusBlob Nuc);
+    void    add_nuclei              (vector<D_Bio_NucleusBlob> vNuc);
+
+    bool    remove_focus            (Point P,           size_t channel,     double margin = 0);
+    void    remove_foci             (vector<Point> vP,  size_t channel,     double margin = 0);
+    bool    remove_nucleus          (Point P,                               double margin = 0);
+    void    remove_nuclei           (vector<Point> vP,                      double margin = 0);
+    void    remove_nuclei_foci_all  ();
+    void    remove_foci_all         ();
+    void    remove_nuclei_all       ();
 
 private:
 
