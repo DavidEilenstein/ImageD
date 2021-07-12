@@ -475,7 +475,7 @@ private:
         "Color auto detections"
     };
 
-    //major steps managment ----------------------------------------------------------
+    //-------------------------------------------------------------------- MS Management ----------------------------------------------------
 
     //major steps
     enum MODE_MAJOR {
@@ -501,7 +501,7 @@ private:
     size_t mode_major_current = MODE_MAJOR_0_DATASET_DIM;
     void set_ModeMajor_Current(size_t mode);
 
-    //major steps 2 ----------------------------------------------------------
+    //-------------------------------------------------------------------- MS2 ----------------------------------------------------
 
 private slots:
 
@@ -795,6 +795,25 @@ private:
         "RFP",
         "GFP and RFP"
     };
+
+    //-------------------------------------------------------------------- MS3 ----------------------------------------------------
+
+private slots:
+
+    void on_pushButton_MS3_SelecData_clicked();
+    void on_pushButton_MS3_ProcessData_clicked();
+
+private:
+
+    void MS3_UiInit();
+    void MS3_LoadData();
+    void MS3_ProcessStack();
+
+    //states
+    bool state_MS3_data_loaded = false;
+    bool state_MS3_stack_processing = false;
+
+
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

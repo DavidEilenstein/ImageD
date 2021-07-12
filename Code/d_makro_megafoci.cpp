@@ -1957,6 +1957,11 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
     {
         MS2_init_ui();
     }
+
+    if(mode == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    {
+        MS3_UiInit();
+    }
 }
 
 void D_MAKRO_MegaFoci::MS2_SetComboboxColor(QComboBox *CB_R, QComboBox *CB_G, QComboBox *CB_B, bool color_background_not_text)
@@ -2701,6 +2706,46 @@ void D_MAKRO_MegaFoci::MS2_DetOutBackup_UpdateUi()
     size_t cursor = vvv_MS2_DetectionsOut_BackupCursor[ix][iy];
     ui->pushButton_MS2_Tools_History_Undo->setEnabled(cursor > 0);
     ui->pushButton_MS2_Tools_History_Redo->setEnabled(cursor < MS2_DetOutBackup_Count - 1 && cursor < vvv_MS2_DetectionsOut_BackupValidMax[ix][iy]);
+}
+
+void D_MAKRO_MegaFoci::MS3_UiInit()
+{
+    //dataset dims
+    ui->progressBar_MS3_Progress_X->setMaximum(dataset_dim_mosaic_x);
+    ui->progressBar_MS3_Progress_Y->setMaximum(dataset_dim_mosaic_y);
+    ui->progressBar_MS3_Progress_T->setMaximum(dataset_dim_t);
+    ui->progressBar_MS3_Progress_Overall->setMaximum(dataset_dim_mosaic_xy * dataset_dim_t);
+
+
+
+}
+
+void D_MAKRO_MegaFoci::MS3_LoadData()
+{
+    if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        return;
+
+
+
+
+    state_MS3_data_loaded = true;
+    ui->groupBox_MS3_Data->setEnabled(false);
+    ui->groupBox_MS3_Process->setEnabled(true);
+}
+
+void D_MAKRO_MegaFoci::MS3_ProcessStack()
+{
+    if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI || !state_MS3_data_loaded)
+        return;
+
+    ui->groupBox_MS3_Process->setEnabled(false);
+    ui->groupBox_MS3_Progress->setEnabled(true);
+    state_MS3_stack_processing = true;
+
+
+
+    state_MS3_stack_processing = false;
+    ui->groupBox_MS3_Progress->setEnabled(false);
 }
 
 void D_MAKRO_MegaFoci::MS2_ViewerMaximize(int v2max)
@@ -3713,7 +3758,7 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
     QString QS_StyleActive = "font-weight: bold;";
     QString QS_StyleNormal = "font-weight: normal;";
     //pre
-    ui->label_pre_4->setStyleSheet(index == STEP_PRE_STITCH ? QS_StyleActive : QS_StyleNormal);
+    //ui->label_pre_4->setStyleSheet(index == STEP_PRE_STITCH ? QS_StyleActive : QS_StyleNormal);
     ui->label_pre_5->setStyleSheet(index == STEP_PRE_PROJECT_Z ? QS_StyleActive : QS_StyleNormal);
     //vis
     ui->label_vis_1_3->setStyleSheet((index == STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL || index == STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP) ? QS_StyleActive : QS_StyleNormal);
@@ -4355,3 +4400,13 @@ void D_MAKRO_MegaFoci::on_progressBar_MS2_CorrectionProgress_valueChanged(int va
 }
 
 
+
+void D_MAKRO_MegaFoci::on_pushButton_MS3_SelecData_clicked()
+{
+    MS3_LoadData();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS3_ProcessData_clicked()
+{
+    MS3_ProcessStack();
+}
