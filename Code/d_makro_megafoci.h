@@ -87,21 +87,16 @@ private slots:
     void Update_Ui();
     void Update_Views();
     void Update_Images();
-    void Update_Images_Proc_MS1();
-    void Update_Images_Proc_MS3();
+    void Update_Images_Proc();
     void Update_Images_OverviewSmall();
     void Update_Images_OverviewBig();
 
     //image processing
     void Update_ImageProcessing_CurrentImage();
-    void Update_ImageProcessing_CurrentImage_MS1();
-    void Update_ImageProcessing_CurrentImage_MS3();
     void Update_ImageProcessing_StepFrom(size_t step_start);
     void Update_ImageProcessing_StepFrom_MS1(size_t step_start);
-    void Update_ImageProcessing_StepFrom_MS3(size_t step_start);
     void Update_ImageProcessing_StepSingle(size_t step);
     void Update_ImageProcessing_StepSingle_MS1(size_t step);
-    void Update_ImageProcessing_StepSingle_MS3(size_t step);
 
     //image Decomp
     void ImageDecomp_Init();
@@ -812,7 +807,11 @@ private:
 
 private slots:
 
-
+    void on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1);
+    void on_comboBox_MS3_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
 
 private:
 
@@ -820,11 +819,76 @@ private:
     //bool MS3_LoadData();
     //void MS3_ProcessStack();
 
+    void Update_ImageProcessing_StepFrom_MS3(size_t step_start);
+    void Update_ImageProcessing_StepSingle_MS3(size_t step);
+
+
     //states
     bool state_MS3_data_loaded = false;
     bool state_MS3_stack_processing = false;
 
+    //Img Proc Step
+    enum STEPS_MS3 {
+        //Prepare (Load, Stitch, Project)
+        STEP_MS3_PRE_LOAD_MAIN,
+        STEP_MS3_PRE_LOAD_RIGHT,
+        STEP_MS3_PRE_LOAD_BOTTOM,
+        STEP_MS3_PRE_LOAD_BOTTOM_RIGHT,
+        STEP_MS3_PRE_STITCH,
+        STEP_MS3_PRE_PROJECT_Z,
 
+        //Pick Channels
+        STEP_MS3_PCK_OTHER,
+        STEP_MS3_PCK_GFP,
+        STEP_MS3_PCK_RFP,
+
+        //Visualization
+        STEP_MS3_VIS_PAGES_AS_COLOR_GFP_RFP,
+        STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP,
+        STEP_MS3_VIS_PAGES_AS_COLOR_ALL,
+        STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_ALL,
+
+        //draw detections
+        STEP_MS3_VIS_NUCLEI_BOREDERS,
+        STEP_MS3_VIS_NUCLEI_FILLED,
+        STEP_MS3_VIS_FOCI_GFP,
+        STEP_MS3_VIS_FOCI_RFP,
+        STEP_MS3_VIS_FOCI_BOTH,
+
+        //Visualization
+        STEP_MS3_VIS_REGIONS,
+        STEP_MS3_VIS_REGIONS_BACKGROUND,
+        STEP_MS3_VIS_REGIONS_FOCI_COUNT,
+
+        STEP_MS3_NUMBER_OF
+    };
+    const QStringList QSL_Steps_MS3 = {
+        "pre-0 Load main image",
+        "pre-1 Load border image R",
+        "pre-2 Load border image B",
+        "pre-3 Load border image BR",
+        "pre-4 Stitch borders to main image",
+        "pre-5 Z-Projection",
+
+        "pck-0 OTHER pick signal",
+        "pck-1 GFP pick signal",
+        "pck-2 RFP pick Signal",
+
+        "vis-0 Color GFP green RFP blue",
+        "vis-1 Color GFP RFP crop interquantil",
+        "vis-2 Color all channels",
+        "vis-3 Color all crop interquantil",
+
+        "vis-4 Nuclei Borders",
+        "vis-5 Nuclei Filled",
+        "vis-6 Foci GFP",
+        "vis-7 Foci RFP",
+        "vis-8 Foci Both",
+
+        "vis-9 Regions",
+        "vis-10 Regions with background",
+        "vis-11 Regions with foci counts"
+    };
 
 
 

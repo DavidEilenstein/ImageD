@@ -123,8 +123,8 @@ public:
     void            set_ReminderCounter(int countdown);
     void            set_ReminderNextAt(int reminderAt);
     void            set_FeedbackIsSent(bool sent);
-    int             PluginLastUsed_Get();
-    void            PluginLastUsed_Set(int index);
+    size_t          PluginLastUsed_Get();
+    void            PluginLastUsed_Set(size_t index);
 
     //init img
     QFileInfo       *default_img()                                  {return &FI_Image_Init;}

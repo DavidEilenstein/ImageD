@@ -75,7 +75,7 @@ void D_Storage::set_FeedbackIsSent(bool sent)
     SettingsStats_Write();
 }
 
-int D_Storage::PluginLastUsed_Get()
+size_t D_Storage::PluginLastUsed_Get()
 {
     if(SS_PLUGIN_LAST_USED >= QSL_SettingsStats.size())
         return 0;
@@ -86,7 +86,7 @@ int D_Storage::PluginLastUsed_Get()
     return ok ? i : 0;
 }
 
-void D_Storage::PluginLastUsed_Set(int index)
+void D_Storage::PluginLastUsed_Set(size_t index)
 {
     if(SS_PLUGIN_LAST_USED >= QSL_SettingsStats.size())
         return;
