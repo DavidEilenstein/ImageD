@@ -75,6 +75,29 @@ void D_Storage::set_FeedbackIsSent(bool sent)
     SettingsStats_Write();
 }
 
+int D_Storage::PluginLastUsed_Get()
+{
+    if(SS_PLUGIN_LAST_USED >= QSL_SettingsStats.size())
+        return 0;
+
+    bool ok;
+    int i = QSL_SettingsStats[SS_PLUGIN_LAST_USED].toInt(&ok);
+
+    return ok ? i : 0;
+}
+
+void D_Storage::PluginLastUsed_Set(int index)
+{
+    if(SS_PLUGIN_LAST_USED >= QSL_SettingsStats.size())
+        return;
+
+    if(index >= c_PL_NUMBER_OF)
+        return;
+
+    QSL_SettingsStats[SS_PLUGIN_LAST_USED] = QString::number(index);
+    SettingsStats_Write();
+}
+
 unsigned int D_Storage::time(size_t pos, size_t type)
 {
     if(v_times.size() <= pos || type > 4)
@@ -158,6 +181,7 @@ void D_Storage::SettingsStats_Init()
     QSL_SettingsStats[SS_USE_COUNTER] = "0";
     QSL_SettingsStats[SS_REMINDER_COUNTDOWN] = "10";
     QSL_SettingsStats[SS_FEEDBACK_IS_SENT] = "0";
+    QSL_SettingsStats[SS_PLUGIN_LAST_USED] = "0";
 
     //if some real content exists -> read it
     if(FI_SettingsStats.exists())
@@ -225,6 +249,8 @@ void D_Storage::SettingsStats_Write()
             TS_SettingsStats << "\r\n";
         }
     }
+
+    //qDebug() << "SettingsStats_Write" << QSL_SettingsStats;
 }
 
 void D_Storage::Paths_Write()

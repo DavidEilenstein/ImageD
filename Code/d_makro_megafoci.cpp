@@ -199,13 +199,15 @@ void D_MAKRO_MegaFoci::Update_Images()
 {
     Update_Images_OverviewSmall();
 
-    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_IMG_PROC)
-        Update_Images_Proc();
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_IMG_PROC_MS1)
+        Update_Images_Proc_MS1();
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_IMG_PROC_MS3)
+        Update_Images_Proc_MS3();
     else if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG)
         Update_Images_OverviewBig();
 }
 
-void D_MAKRO_MegaFoci::Update_Images_Proc()
+void D_MAKRO_MegaFoci::Update_Images_Proc_MS1()
 {
     //get inidices to show
     int z = ui->spinBox_Viewport_Z->value();
@@ -228,6 +230,11 @@ void D_MAKRO_MegaFoci::Update_Images_Proc()
 
     //display Mat
     Viewer_Main.Update_Image(&MA_Show);
+}
+
+void D_MAKRO_MegaFoci::Update_Images_Proc_MS3()
+{
+
 }
 
 void D_MAKRO_MegaFoci::Update_Images_OverviewSmall()
@@ -387,6 +394,14 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage()
 {
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        return Update_ImageProcessing_CurrentImage_MS1();
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        return Update_ImageProcessing_CurrentImage();
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage_MS1()
+{
     if(!state_dataset_img_list_loaded)
         return;
 
@@ -395,13 +410,26 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage()
     timer_img_proc.start();
 
     //proc all steps
-    Update_ImageProcessing_StepFrom(0);
+    Update_ImageProcessing_StepFrom_MS1(0);
 
     //measure time
     time_LastSingleImgProc = timer_img_proc.elapsed();
 }
 
+void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage_MS3()
+{
+
+}
+
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
+{
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        return Update_ImageProcessing_StepFrom_MS1(step_start);
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        return Update_ImageProcessing_StepFrom_MS3(step_start);
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS1(size_t step_start)
 {
     if(!state_dataset_img_list_loaded)
         return;
@@ -412,7 +440,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
 
     for(size_t s = step_start; s < STEP_NUMBER_OF; s++)
     {
-        Update_ImageProcessing_StepSingle(s);
+        Update_ImageProcessing_StepSingle_MS1(s);
 
         if(state_stack_processing || state_first_proc_on_start)
         {
@@ -421,10 +449,23 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
         }
     }
 
-    Update_Images_Proc();
+    Update_Images_Proc_MS1();
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS3(size_t step_start)
+{
+
 }
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
+{
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        return Update_ImageProcessing_StepSingle_MS1(step);
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        return Update_ImageProcessing_StepSingle_MS3(step);
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 {
     if(!state_dataset_img_list_loaded)
         return;
@@ -1076,6 +1117,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
 }
 
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
+{
+
+}
+
 void D_MAKRO_MegaFoci::ImageDecomp_Init()
 {
     vvvImageDecomp_TYX.clear();
@@ -1191,7 +1237,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     QString QS_SavePath = QFileDialog::getExistingDirectory(
                 this,
                 "Select save directory for results of stack processing",
-                pStore->dir_M_MegaFoci()->path());
+                pStore->dir_M_MegaFoci_Results()->path());
 
     ///check if save location is valid
     if(QS_SavePath.isEmpty())
@@ -1199,7 +1245,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
         StatusSet("Quit because no dir was selected");
         return;
     }
-    //pStore->set_dir_M_MegaFoci(QS_SavePath);
+    pStore->set_dir_M_MegaFoci_Results(QS_SavePath);
 
     ///Create new save dir
     size_t count = 0;
@@ -1286,7 +1332,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
 {
     ///Update image processing
-    Update_ImageProcessing_CurrentImage();
+    Update_ImageProcessing_CurrentImage_MS1();
 
     ///Overwrite and update mosaik
 
@@ -1414,13 +1460,13 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     QStringList QSl_Paths = QFileDialog::getOpenFileNames(
                 this,
                 "Load images (Should be " + QString::number(dataset_dim_xyt) + " .tif files)",
-                pStore->dir_M_MegaFoci()->path(),
+                pStore->dir_M_MegaFoci_Images()->path(),
                 "Image files (*.tif *.TIF *.tiff *.TIFF)");
     if(QSl_Paths.empty())
         return false;
 
     //set default dir
-    pStore->set_dir_M_MegaFoci(QSl_Paths.first());
+    pStore->set_dir_M_MegaFoci_Images(QSl_Paths.first());
 
     //check image count vs definition of data set
     if(static_cast<size_t>(QSl_Paths.size()) != dataset_dim_xyt)
@@ -1501,8 +1547,11 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     state_dataset_img_list_loaded = true;
     StatusSet("Dataset is valid :-)");
 
-    //Init Overview
-    Overview_Init();
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        //Init Overview
+        Overview_Init();
+    }
 
     //init image decomp
     StatusSet("Initializing nuclei imgae decomposition\n(fancy thing that reduces images to relevant nuclei/foci info)");
@@ -1512,10 +1561,13 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     StatusSet("Initializing image buffer");
     ImgBuffer_Init();
 
-    //update proc and image
-    StatusSet("Now updating ImgProc for the 1st time");
-    Update_ImageProcessing_CurrentImage();
-    state_first_proc_on_start = false;
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        //update proc and image
+        StatusSet("Now updating ImgProc for the 1st time");
+        Update_ImageProcessing_CurrentImage_MS1();
+        state_first_proc_on_start = false;
+    }
 
     //return
     return true;
@@ -2711,28 +2763,78 @@ void D_MAKRO_MegaFoci::MS2_DetOutBackup_UpdateUi()
 void D_MAKRO_MegaFoci::MS3_UiInit()
 {
     //dataset dims
-    ui->progressBar_MS3_Progress_X->setMaximum(dataset_dim_mosaic_x);
-    ui->progressBar_MS3_Progress_Y->setMaximum(dataset_dim_mosaic_y);
-    ui->progressBar_MS3_Progress_T->setMaximum(dataset_dim_t);
-    ui->progressBar_MS3_Progress_Overall->setMaximum(dataset_dim_mosaic_xy * dataset_dim_t);
 
 
 
 }
 
-void D_MAKRO_MegaFoci::MS3_LoadData()
+/*
+bool D_MAKRO_MegaFoci::MS3_LoadData()
 {
     if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
-        return;
+        return false;
 
+    //Load images like it is done in step 1
+    if(!Load_Dataset())
+        return false;
 
+    //load detections...............................................................
 
+    //ATTENTION!!! Containers from step 2 are reused
+
+    StatusSet("Please select results directory from step 2.");
+    QString QS_MasterOut = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 2 you want to load (must beginn with 'Results_Step2_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_MasterOut.isEmpty())
+    {
+        StatusSet("Didn't you find your data? A clean file system is a nice thing, right?");
+        return false;
+    }
+
+    //check, if dir is results from step 2
+    if(!QS_MasterOut.contains("Results_Step2"))
+    {
+        StatusSet("You should selct results from step 2...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir out
+    DIR_MS2_Out_Master.setPath(QS_MasterOut);
+    if(!DIR_MS2_Out_Master.exists())
+    {
+        StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //dir out: detections
+    DIR_MS3_In_DetectionsCorrected.setPath(DIR_MS2_In_Master.path() + "/DetectionsCorrected");
+    if(!DIR_MS3_Out_DetectionsCorrected.exists())
+    {
+        StatusSet("Your selected reults folder does not contain a detections folder... That won't work.");
+        return false;
+    }
+
+    //correct input data selected
+    StatusSet("Output valid:\n" + DIR_MS2_Out_Master.path());
+
+    //save output dir
+    QDir DIR_parent(DIR_MS2_Out_Master);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //...............................................................................
 
     state_MS3_data_loaded = true;
     ui->groupBox_MS3_Data->setEnabled(false);
     ui->groupBox_MS3_Process->setEnabled(true);
 }
+*/
 
+/*
 void D_MAKRO_MegaFoci::MS3_ProcessStack()
 {
     if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI || !state_MS3_data_loaded)
@@ -2747,6 +2849,7 @@ void D_MAKRO_MegaFoci::MS3_ProcessStack()
     state_MS3_stack_processing = false;
     ui->groupBox_MS3_Progress->setEnabled(false);
 }
+*/
 
 void D_MAKRO_MegaFoci::MS2_ViewerMaximize(int v2max)
 {
@@ -3262,7 +3365,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsIn()
     QString QS_MasterIn = QFileDialog::getExistingDirectory(
                 this,
                 "Please select results folder of step 1 as input for step 2 (must beginn with 'Results_Step1_').",
-                pStore->dir_M_MegaFoci()->path());
+                pStore->dir_M_MegaFoci_Results()->path());
 
     //check if dir was selected
     if(QS_MasterIn.isEmpty())
@@ -3320,7 +3423,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsIn()
     //save input dir
     QDir DIR_parent(DIR_MS2_In_Master);
     DIR_parent.cdUp();
-    pStore->set_dir_M_MegaFoci(DIR_parent.path());
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
     return true;
 }
@@ -3344,7 +3447,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
         QString QS_MasterOut = QFileDialog::getExistingDirectory(
                     this,
                     "Please select the master results folder where your step 2 results shall be stored.",
-                    pStore->dir_M_MegaFoci()->path());
+                    pStore->dir_M_MegaFoci_Results()->path());
 
         //check if dir was selected
         if(QS_MasterOut.isEmpty())
@@ -3376,7 +3479,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
         //save results dir
         QDir DIR_parent(DIR_MS2_Out_Master);
         DIR_parent.cdUp();
-        pStore->set_dir_M_MegaFoci(DIR_parent.path());
+        pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
         //create corrected detections dir
         DIR_MS2_Out_DetectionsCorrected.setPath(DIR_MS2_Out_Master.path() + "/DetectionsCorrected");
@@ -3395,7 +3498,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
         QString QS_MasterOut = QFileDialog::getExistingDirectory(
                     this,
                     "Please select results folder of step 2 you want to edit (must beginn with 'Results_Step2_').",
-                    pStore->dir_M_MegaFoci()->path());
+                    pStore->dir_M_MegaFoci_Results()->path());
 
         //check if dir was selected
         if(QS_MasterOut.isEmpty())
@@ -3433,7 +3536,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
         //save output dir
         QDir DIR_parent(DIR_MS2_Out_Master);
         DIR_parent.cdUp();
-        pStore->set_dir_M_MegaFoci(DIR_parent.path());
+        pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
     }
     return true;
 
@@ -3752,7 +3855,7 @@ void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int inde
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
 
     ///show image from proc chain
-    Update_Images_Proc();
+    Update_Images_Proc_MS1();
 
     ///highlight settings relevant for this step
     QString QS_StyleActive = "font-weight: bold;";
@@ -3796,10 +3899,18 @@ void D_MAKRO_MegaFoci::on_tabWidget_Control_currentChanged(int index)
 {
     switch (index) {
 
-    case TAB_CONTROL_IMG_PROC:
+    case TAB_CONTROL_IMG_PROC_MS1:
     {
         ui->stackedWidget_View->setCurrentIndex(VIEW_PAGE_IMG_PROC);
-        Update_Images_Proc();
+        Update_Images_Proc_MS1();
+        Update_Views();
+    }
+        break;
+
+    case TAB_CONTROL_IMG_PROC_MS3:
+    {
+        ui->stackedWidget_View->setCurrentIndex(VIEW_PAGE_IMG_PROC);
+        Update_Images_Proc_MS3();
         Update_Views();
     }
         break;
@@ -3819,12 +3930,12 @@ void D_MAKRO_MegaFoci::on_tabWidget_Control_currentChanged(int index)
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
+    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_STITCH);
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index)
 {
-    Update_ImageProcessing_StepFrom(STEP_PRE_PROJECT_Z);
+    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_PROJECT_Z);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1)
@@ -3832,7 +3943,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double 
     if(arg1 > ui->doubleSpinBox_ImgProc_Nuc_AreaMax->value())
         ui->doubleSpinBox_ImgProc_Nuc_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_NUC_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_NUC_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1)
@@ -3840,52 +3951,52 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double 
     if(arg1 < ui->doubleSpinBox_ImgProc_Nuc_AreaMin->value())
         ui->doubleSpinBox_ImgProc_Nuc_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_NUC_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_NUC_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_RoundnesMin_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_SELECT_ROUNDNESS);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_SELECT_ROUNDNESS);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_RFP_SELECT_MEAN);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_RFP_SELECT_MEAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_GFP_EdgeCVSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_EDGE_CV);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_EDGE_CV);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Nuc_ErodeBorder_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_GFP_BINARY_MORPH_ERODE);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_BINARY_MORPH_ERODE);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Nuc_GFP_DistThres_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_DISTANCE);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_DISTANCE);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_ImgProc_Nuc_Watershed_NonSeed_stateChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_WATERSHED);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_WATERSHED);
 }
 
 void D_MAKRO_MegaFoci::on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_NUC_WATERSHED);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_WATERSHED);
 }
 
 
@@ -3894,22 +4005,22 @@ void D_MAKRO_MegaFoci::on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_GFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1)
@@ -3917,7 +4028,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(dou
     if(arg1 > ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value())
         ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_GFP_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1)
@@ -3925,7 +4036,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(dou
     if(arg1 < ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value())
         ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_GFP_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_SELECT_AREA);
 }
 
 
@@ -3934,22 +4045,22 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(dou
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BLUR_MEDIAN);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BLUR_MEDIAN);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_RFP_BINARY_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1)
@@ -3957,7 +4068,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(dou
     if(arg1 > ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value())
         ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_RFP_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1)
@@ -3965,7 +4076,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(dou
     if(arg1 < ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value())
         ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_FOC_RFP_SELECT_AREA);
+        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_SELECT_AREA);
 }
 
 
@@ -3977,12 +4088,12 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_P_exist_valueChanged(int arg1)
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_BOTH_SELECT_AREA);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_BOTH_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_FOC_BOTH_SELECT_AREA);
+    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_BOTH_SELECT_AREA);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1)
@@ -3990,7 +4101,7 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueC
     if(arg1 > ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->value())
         ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
+        Update_ImageProcessing_StepFrom_MS1(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1)
@@ -3998,31 +4109,31 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_value
     if(arg1 < ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->value())
         ui->doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low->setValue(arg1);
     else
-        Update_ImageProcessing_StepFrom(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
+        Update_ImageProcessing_StepFrom_MS1(STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP);
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1)
 {
     ui->spinBox_ImgProc_Stitch_Overlap_x->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_x), 'g', 4) + "%)");
-    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
+    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_STITCH);
     Overview_Init();
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1)
 {
     ui->spinBox_ImgProc_Stitch_Overlap_y->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_y), 'g', 4) + "%)");
-    Update_ImageProcessing_StepFrom(STEP_PRE_STITCH);
+    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_STITCH);
     Overview_Init();
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_VIS_REGIONS_BACKGROUND);
+    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND);
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom(STEP_VIS_REGIONS_BACKGROUND);
+    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_StepMajor_1_clicked()
@@ -4399,14 +4510,8 @@ void D_MAKRO_MegaFoci::on_progressBar_MS2_CorrectionProgress_valueChanged(int va
     ui->pushButton_MS2_Viewport_NextToCorrect->setEnabled(value < ui->progressBar_MS2_CorrectionProgress->maximum());
 }
 
-
-
-void D_MAKRO_MegaFoci::on_pushButton_MS3_SelecData_clicked()
+void D_MAKRO_MegaFoci::on_stackedWidget_StepMajor_currentChanged(int arg1)
 {
-    MS3_LoadData();
-}
-
-void D_MAKRO_MegaFoci::on_pushButton_MS3_ProcessData_clicked()
-{
-    MS3_ProcessStack();
+    if(arg1 == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        ui->stackedWidget_StepMajor->setCurrentIndex(MODE_MAJOR_1_AUTO_DETECTION);
 }

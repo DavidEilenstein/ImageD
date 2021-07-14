@@ -17,10 +17,6 @@ D_MainWindow::D_MainWindow(QWidget *parent) :
 
     //INITILAZE
 
-    //Plugins
-    vPluginActive.resize(c_PL_NUMBER_OF, 0);
-    Populate_CB_Plugins();
-
     //Init Steps vector with one useless pointer to avoid confusion with indicies missmatch (store <-> steps)
     vSW_Steps.resize(1);
 
@@ -91,6 +87,10 @@ D_MainWindow::D_MainWindow(QWidget *parent) :
         D_Popup_FeedbackRequest Pop(&Store);
         Pop.exec();
     }
+
+    //Plugins
+    vPluginActive.resize(c_PL_NUMBER_OF, 0);
+    Populate_CB_Plugins();
 
     //Reference button icons
     QSize RefIconSize(40, 20);
@@ -181,7 +181,7 @@ void D_MainWindow::Populate_CB_Single(QComboBox *CB, QStringList QSL, int index_
 
 void D_MainWindow::Populate_CB_Plugins()
 {
-    Populate_CB_Single(ui->comboBox_PluginList, QSL_Plugins);
+    Populate_CB_Single(ui->comboBox_PluginList, QSL_Plugins, Store.PluginLastUsed_Get());
 }
 
 void D_MainWindow::Connect_TimesSettings_2_UpdateTimes(bool con)
@@ -819,7 +819,11 @@ void D_MainWindow::on_comboBox_PluginList_currentIndexChanged(int index)
 void D_MainWindow::on_pushButton_PluginLaunch_clicked()
 {
     size_t index = ui->comboBox_PluginList->currentIndex();
+
+    if(vPluginActive[index])
+        return;
     vPluginActive[index] = 1;
+
     ui->pushButton_PluginLaunch->setEnabled(false);
 
     switch (index) {
@@ -922,6 +926,8 @@ void D_MainWindow::on_pushButton_PluginLaunch_clicked()
     default:
         break;
     }
+
+    Store.PluginLastUsed_Set(index);
 }
 
 void D_MainWindow::on_pushButton_Ref_Licence_clicked()

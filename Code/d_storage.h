@@ -85,7 +85,8 @@ public:
     QDir            *dir_M_CiliaSphereTracker()                     {return &(vDIR_DefaultPaths[i_M_CILTRACK]);}
     QDir            *dir_M_FourierTransformator()                   {return &(vDIR_DefaultPaths[i_M_FOURIER]);}
     QDir            *dir_M_AirDrag()                                {return &(vDIR_DefaultPaths[i_M_AIRDRAG]);}
-    QDir            *dir_M_MegaFoci()                               {return &(vDIR_DefaultPaths[i_M_MEGAFOCI]);}
+    QDir            *dir_M_MegaFoci_Images()                        {return &(vDIR_DefaultPaths[i_M_MEGAFOCI_IMG]);}
+    QDir            *dir_M_MegaFoci_Results()                       {return &(vDIR_DefaultPaths[i_M_MEGAFOCI_RES]);}
     QDir            *dir_M_Huang()                                  {return &(vDIR_DefaultPaths[i_M_HUANG]);}
     QDir            *dir_M_Softmax()                                {return &(vDIR_DefaultPaths[i_M_SOFTMAX]);}
     void            set_dir_Load(QString path)                      {Path_Set(path, i_LOAD);}
@@ -110,7 +111,8 @@ public:
     void            set_dir_M_CiliaSphereTracker(QString path)      {Path_Set(path, i_M_CILTRACK);}
     void            set_dir_M_FourierTransformator(QString path)    {Path_Set(path, i_M_FOURIER);}
     void            set_dir_M_AirDrag(QString path)                 {Path_Set(path, i_M_AIRDRAG);}
-    void            set_dir_M_MegaFoci(QString path)                {Path_Set(path, i_M_MEGAFOCI);}
+    void            set_dir_M_MegaFoci_Images(QString path)         {Path_Set(path, i_M_MEGAFOCI_IMG);}
+    void            set_dir_M_MegaFoci_Results(QString path)        {Path_Set(path, i_M_MEGAFOCI_RES);}
     void            set_dir_M_Huang(QString path)                   {Path_Set(path, i_M_HUANG);}
     void            set_dir_M_Softmax(QString path)                 {Path_Set(path, i_M_SOFTMAX);}
 
@@ -121,6 +123,8 @@ public:
     void            set_ReminderCounter(int countdown);
     void            set_ReminderNextAt(int reminderAt);
     void            set_FeedbackIsSent(bool sent);
+    int             PluginLastUsed_Get();
+    void            PluginLastUsed_Set(int index);
 
     //init img
     QFileInfo       *default_img()                                  {return &FI_Image_Init;}
@@ -175,6 +179,7 @@ private:
         SS_USE_COUNTER,
         SS_REMINDER_COUNTDOWN,
         SS_FEEDBACK_IS_SENT,
+        SS_PLUGIN_LAST_USED,
         SS_NUMBER_OF
     };
 
@@ -204,9 +209,10 @@ private:
         i_M_CILTRACK,
         i_M_FOURIER,
         i_M_AIRDRAG,
-        i_M_MEGAFOCI,
+        i_M_MEGAFOCI_IMG,
         i_M_HUANG,
         i_M_SOFTMAX,
+        i_M_MEGAFOCI_RES,
         c_COUNT_DIR
     };
 

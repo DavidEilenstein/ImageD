@@ -87,14 +87,21 @@ private slots:
     void Update_Ui();
     void Update_Views();
     void Update_Images();
-    void Update_Images_Proc();
+    void Update_Images_Proc_MS1();
+    void Update_Images_Proc_MS3();
     void Update_Images_OverviewSmall();
     void Update_Images_OverviewBig();
 
     //image processing
     void Update_ImageProcessing_CurrentImage();
+    void Update_ImageProcessing_CurrentImage_MS1();
+    void Update_ImageProcessing_CurrentImage_MS3();
     void Update_ImageProcessing_StepFrom(size_t step_start);
+    void Update_ImageProcessing_StepFrom_MS1(size_t step_start);
+    void Update_ImageProcessing_StepFrom_MS3(size_t step_start);
     void Update_ImageProcessing_StepSingle(size_t step);
+    void Update_ImageProcessing_StepSingle_MS1(size_t step);
+    void Update_ImageProcessing_StepSingle_MS3(size_t step);
 
     //image Decomp
     void ImageDecomp_Init();
@@ -445,7 +452,8 @@ private:
     //Tabs
     enum TABS_CONTROL {
         TAB_CONTROL_VIEWPORT,
-        TAB_CONTROL_IMG_PROC,
+        TAB_CONTROL_IMG_PROC_MS1,
+        TAB_CONTROL_IMG_PROC_MS3,
         TAB_CONTROL_OVERVIEW_BIG,
         TAB_CONTROL_NUMBER_OF
     };
@@ -500,6 +508,10 @@ private:
 
     size_t mode_major_current = MODE_MAJOR_0_DATASET_DIM;
     void set_ModeMajor_Current(size_t mode);
+
+private slots:
+
+    void on_stackedWidget_StepMajor_currentChanged(int arg1);
 
     //-------------------------------------------------------------------- MS2 ----------------------------------------------------
 
@@ -800,18 +812,20 @@ private:
 
 private slots:
 
-    void on_pushButton_MS3_SelecData_clicked();
-    void on_pushButton_MS3_ProcessData_clicked();
+
 
 private:
 
     void MS3_UiInit();
-    void MS3_LoadData();
-    void MS3_ProcessStack();
+    //bool MS3_LoadData();
+    //void MS3_ProcessStack();
 
     //states
     bool state_MS3_data_loaded = false;
     bool state_MS3_stack_processing = false;
+
+
+
 
 
 };
