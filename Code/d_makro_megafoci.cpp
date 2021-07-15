@@ -485,7 +485,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
     int dataset_pos_t = ui->spinBox_Viewport_T->value();
 
     //select step to do
-    StatusSet("ImgProc: " + QSL_Steps[static_cast<int>(step)]);
+    StatusSet("ImgProcMS1: " + QSL_Steps[static_cast<int>(step)]);
     switch (step) {
 
     //Preparation -------------------------------------------------------------------------------------------------------
@@ -1128,6 +1128,113 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
 {
+    if(!state_dataset_img_list_loaded)
+        return;
+
+    //select step to do
+    StatusSet("ImgProcMS3: " + QSL_Steps_MS3[static_cast<int>(step)]);
+
+    //chose method for proc step style
+    if(step <= STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_ALL)
+        return Update_ImageProcessing_StepSingle_MS1(step);
+    else if(step <= STEP_MS3_VIS_FOCI_BOTH)
+        return Update_ImageProcessing_StepSingle_MS3_DrawDetections(step);
+    else
+        return Update_ImageProcessing_StepSingle_MS3_VisualizeResults(step);
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size_t step)
+{
+    if(step < STEP_MS3_VIS_NUCLEI_BOREDERS || step > STEP_MS3_VIS_FOCI_BOTH)
+    {
+        ERR(ER_index_out_of_range,
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "Index " + QSL_Steps_MS3[step] + " does not fit to this function");
+        return;
+    }
+
+    //mosaic coordinates
+    size_t mx = ui->spinBox_MS2_Viewport_X->value();
+    size_t my = ui->spinBox_MS2_Viewport_Y->value();
+
+    //check if coordinates are valid
+    if(mx >= dataset_dim_mosaic_x || my >= dataset_dim_mosaic_y)
+    {
+        return;
+        qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections - mx" << mx << "or my" << my << "out of range";
+    }
+
+    if(vv_MS3_NucImg_InCorrected_States_mosaikXY[mx][my] == MS2_IMG_STATE_NOT_FOUND)
+    {
+        StatusSet("No detections found for grid cell " + QString::number(mx) + "/" + QString::number(my));
+        return;
+    }
+
+    if(step == STEP_MS3_VIS_NUCLEI_FILLED)
+    {
+        ERR(D_VisDat_Proc::Fill_Holes(
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BOREDERS])),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "STEP_MS3_VIS_NUCLEI_FILLED - D_VisDat_Proc::Fill_Holes");
+    }
+    else
+    {
+        //calc offset
+        Point P_Offset(
+                    mx * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
+                    my * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
+
+        //get detections
+        D_Bio_NucleusImage NucImg = vv_MS3_NucImg_InCorrected_mosaikXY[mx][my];
+
+        //init empty background
+        Mat MA_tmp_target = Mat::zeros(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_Y(), vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_X(), CV_8UC1);
+
+        //step switch
+        switch (step) {
+
+        case STEP_MS3_VIS_NUCLEI_BOREDERS:
+        {
+                qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections" << "Draw_Contours";
+                ERR(D_Img_Proc::Draw_Contours(
+                        &MA_tmp_target,
+                        NucImg.get_nuclei_contours(1, P_Offset),
+                        1,
+                        255),
+                    "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                    "STEP_MS3_VIS_NUCLEI_BOREDERS - D_Img_Proc::Draw_Contours");
+        }
+            break;
+
+        default:
+            break;
+        }
+
+        //convert to VD
+        vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
+        ERR(D_VisDat_Proc::Write_2D_Plane(
+                &(vVD_ImgProcSteps[step]),
+                &MA_tmp_target,
+                D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "D_VisDat_Proc::Write_2D_Plane");
+
+        MA_tmp_target.release();
+    }
+}
+
+void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(size_t step)
+{
+    if(step < STEP_MS3_VIS_REGIONS || step > STEP_MS3_VIS_REGIONS_FOCI_COUNT)
+    {
+        ERR(ER_index_out_of_range,
+            "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
+            "Index " + QSL_Steps_MS3[step] + " does not fit to this function");
+        return;
+    }
+
+
 
 }
 
@@ -1567,13 +1674,20 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     StatusSet("Initializing image buffer");
     ImgBuffer_Init();
 
-    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    //if MS3, load detections from step 2
+    if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
     {
-        //update proc and image
-        StatusSet("Now updating ImgProc for the 1st time");
-        Update_ImageProcessing_CurrentImage();
-        state_first_proc_on_start = false;
+        if(!MS3_LoadDirs())
+            return false;
+
+        if(!MS3_LoadDetections(0))
+            return false;
     }
+
+    //update proc and image
+    StatusSet("Now updating ImgProc for the 1st time");
+    Update_ImageProcessing_CurrentImage();
+    state_first_proc_on_start = false;
 
     //return
     return true;
@@ -2783,19 +2897,10 @@ void D_MAKRO_MegaFoci::MS3_UiInit()
 
 }
 
-/*
-bool D_MAKRO_MegaFoci::MS3_LoadData()
+bool D_MAKRO_MegaFoci::MS3_LoadDirs()
 {
     if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
         return false;
-
-    //Load images like it is done in step 1
-    if(!Load_Dataset())
-        return false;
-
-    //load detections...............................................................
-
-    //ATTENTION!!! Containers from step 2 are reused
 
     StatusSet("Please select results directory from step 2.");
     QString QS_MasterOut = QFileDialog::getExistingDirectory(
@@ -2817,37 +2922,47 @@ bool D_MAKRO_MegaFoci::MS3_LoadData()
         return false;
     }
 
-    //master dir out
-    DIR_MS2_Out_Master.setPath(QS_MasterOut);
-    if(!DIR_MS2_Out_Master.exists())
+    //master dir in
+    DIR_MS3_In_Master.setPath(QS_MasterOut);
+    if(!DIR_MS3_In_Master.exists())
     {
         StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
         return false;
     }
 
-    //dir out: detections
-    DIR_MS3_In_DetectionsCorrected.setPath(DIR_MS2_In_Master.path() + "/DetectionsCorrected");
-    if(!DIR_MS3_Out_DetectionsCorrected.exists())
+    //dir in: detections
+    DIR_MS3_In_DetectionsCorrected.setPath(DIR_MS3_In_Master.path() + "/DetectionsCorrected");
+    if(!DIR_MS3_In_DetectionsCorrected.exists())
     {
         StatusSet("Your selected reults folder does not contain a detections folder... That won't work.");
         return false;
     }
 
     //correct input data selected
-    StatusSet("Output valid:\n" + DIR_MS2_Out_Master.path());
+    StatusSet("Input valid:\n" + DIR_MS3_In_Master.path());
 
-    //save output dir
-    QDir DIR_parent(DIR_MS2_Out_Master);
+    //save input dir
+    QDir DIR_parent(DIR_MS3_In_Master);
     DIR_parent.cdUp();
     pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
-    //...............................................................................
-
     state_MS3_data_loaded = true;
-    ui->groupBox_MS3_Data->setEnabled(false);
-    ui->groupBox_MS3_Process->setEnabled(true);
+    return true;
 }
-*/
+
+bool D_MAKRO_MegaFoci::MS3_LoadDetections(size_t t)
+{
+    state_MS3_detections_loaded = MS2_LoadData_Detections(
+                t,
+                false,
+                &vv_MS3_NucImg_InCorrected_mosaikXY,
+                DIR_MS3_In_DetectionsCorrected,
+                &vv_MS3_NucImg_InCorrected_States_mosaikXY,
+                MS2_IMG_STATE_LOADED,
+                MS2_IMG_STATE_NOT_FOUND);
+
+    return state_MS3_detections_loaded;
+}
 
 /*
 void D_MAKRO_MegaFoci::MS3_ProcessStack()
@@ -4615,4 +4730,17 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background_val
 {
     arg1++;//useless opration ro supress warning
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_REGIONS);
+}
+
+void D_MAKRO_MegaFoci::on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index)
+{
+    ///enable/disable viewport plane and page selection
+    ui->spinBox_Viewport_Z->setEnabled(index < STEP_MS3_PRE_PROJECT_Z);
+    ui->spinBox_Viewport_P->setEnabled(index < STEP_MS3_PCK_OTHER);
+
+    ///update data dimension info in statusbar
+    L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
+
+    ///show image from proc chain
+    Update_Images_Proc();
 }

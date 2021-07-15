@@ -58,7 +58,7 @@ public:
     static function<int (Mat *)>                                Generate_byValueFunction            (int width, int height, function<double (double x, double y)> value_function);
     static function<int (Mat *)>                                Generate_byValueFunction_Complex    (int width, int height, function<complex<double> (complex<double> x, complex<double> y)> value_function);
     static function<int (Mat *)>                                Load_From_Path_Raw                  (string path, int width, int height, int out_type);
-
+    static function<int (Mat *)>                                Draw_Contours                       (vector<vector<Point>> vContours, int line_thickness, double value);
 
     //1 Input -> 1 Output
     static function<int (Mat *, Mat *)>                         Convert_Color                   (int cvt_mode);

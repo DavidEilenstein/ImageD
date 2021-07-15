@@ -813,19 +813,32 @@ private slots:
     void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
     void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
 
+    void on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index);
+
 private:
 
     void MS3_UiInit();
-    //bool MS3_LoadData();
+    bool MS3_LoadDirs();
+    bool MS3_LoadDetections(size_t t);
     //void MS3_ProcessStack();
 
     void Update_ImageProcessing_StepFrom_MS3(size_t step_start);
     void Update_ImageProcessing_StepSingle_MS3(size_t step);
+    void Update_ImageProcessing_StepSingle_MS3_ReuseProcChainMS1(size_t step);
+    void Update_ImageProcessing_StepSingle_MS3_DrawDetections(size_t step);
+    void Update_ImageProcessing_StepSingle_MS3_VisualizeResults(size_t step);
 
+    //data
+    QDir DIR_MS3_In_Master;
+    QDir DIR_MS3_In_DetectionsCorrected;
+    QDir DIR_MS3_Out_Master;
+    vector<vector<D_Bio_NucleusImage>> vv_MS3_NucImg_InCorrected_mosaikXY;
+    vector<vector<size_t>> vv_MS3_NucImg_InCorrected_States_mosaikXY;
 
     //states
     bool state_MS3_data_loaded = false;
     bool state_MS3_stack_processing = false;
+    bool state_MS3_detections_loaded = false;
 
     //Img Proc Step
     enum STEPS_MS3 {

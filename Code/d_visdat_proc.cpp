@@ -4397,6 +4397,20 @@ int D_VisDat_Proc::Scale_ToSize(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D
                 pVD_In);
 }
 
+int D_VisDat_Proc::Draw_Contours(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Target, vector<vector<Point> > vContours, int line_thickness, double value)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Draw_Contours(
+                    vContours,
+                    line_thickness,
+                    value),
+                pVD_Target);
+}
+
 int D_VisDat_Proc::Convert_Color(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int cvt_mode)
 {
     //output channels

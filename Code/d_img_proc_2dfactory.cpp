@@ -45,6 +45,19 @@ function<int (Mat *)> D_Img_Proc_2dFactory::Load_From_Path_Raw(string path, int 
     };
 }
 
+function<int (Mat *)> D_Img_Proc_2dFactory::Draw_Contours(vector<vector<Point> > vContours, int line_thickness, double value)
+{
+    return
+            [vContours, line_thickness, value](Mat *pMA_Target)
+    {
+        return D_Img_Proc::Draw_Contours(
+                    pMA_Target,
+                    vContours,
+                    line_thickness,
+                    value);
+    };
+}
+
 
 
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Color(int cvt_mode)

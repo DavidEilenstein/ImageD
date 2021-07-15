@@ -165,6 +165,10 @@ public:
     static int  Scale_Factor            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double scale_dim_0, double scale_dim_1);
     static int  Scale_ToSize            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size_dim_0, int size_dim_1);
 
+
+    //Draw
+    static int  Draw_Contours           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Target, vector<vector<Point>> vContours, int line_thickness, double value);
+
     //Convert
     static int  Convert_Color           (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int cvt_mode);
     static int  Convert_Color2Mono      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int col2mono_code);
