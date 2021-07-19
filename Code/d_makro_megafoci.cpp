@@ -1170,58 +1170,83 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
         return;
     }
 
-    if(step == STEP_MS3_VIS_NUCLEI_FILLED)
+    //calc offset
+    Point P_Offset(
+                mx * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
+                my * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
+
+    //get detections
+    D_Bio_NucleusImage NucImg = vv_MS3_NucImg_InCorrected_mosaikXY[mx][my];
+
+    //init empty background
+    Mat MA_tmp_target = Mat::zeros(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_Y(), vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_X(), CV_8UC1);
+
+    //step switch
+    switch (step) {
+
+    case STEP_MS3_VIS_NUCLEI_BOREDERS:
     {
-        ERR(D_VisDat_Proc::Fill_Holes(
-                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED]),
-                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BOREDERS])),
-            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-            "STEP_MS3_VIS_NUCLEI_FILLED - D_VisDat_Proc::Fill_Holes");
+            ERR(D_Img_Proc::Draw_Contours(
+                    &MA_tmp_target,
+                    NucImg.get_nuclei_contours(1, P_Offset),
+                    2,
+                    255),
+                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                "STEP_MS3_VIS_NUCLEI_BOREDERS - D_Img_Proc::Draw_Contours");
     }
-    else
+        break;
+
+    case STEP_MS3_VIS_NUCLEI_FILLED:
     {
-        //calc offset
-        Point P_Offset(
-                    mx * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
-                    my * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
+            ERR(D_Img_Proc::Draw_Contours(
+                    &MA_tmp_target,
+                    NucImg.get_nuclei_contours(1, P_Offset),
+                    -1,
+                    255),
+                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                "STEP_MS3_VIS_NUCLEI_FILLED - D_Img_Proc::Draw_Contours");
+    }
+        break;
 
-        //get detections
-        D_Bio_NucleusImage NucImg = vv_MS3_NucImg_InCorrected_mosaikXY[mx][my];
-
-        //init empty background
-        Mat MA_tmp_target = Mat::zeros(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_Y(), vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_X(), CV_8UC1);
-
-        //step switch
+    case STEP_MS3_VIS_FOCI_GFP:
+    case STEP_MS3_VIS_FOCI_RFP:
+    case STEP_MS3_VIS_FOCI_BOTH:
+    {
+        size_t i_foci;
         switch (step) {
+        case STEP_MS3_VIS_FOCI_GFP:     i_foci = FOCI_GFP;      break;
+        case STEP_MS3_VIS_FOCI_RFP:     i_foci = FOCI_RFP;      break;
+        case STEP_MS3_VIS_FOCI_BOTH:    i_foci = FOCI_BOTH;     break;
+        default:                        i_foci = 0;             break;}
 
-        case STEP_MS3_VIS_NUCLEI_BOREDERS:
-        {
-                qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections" << "Draw_Contours";
-                ERR(D_Img_Proc::Draw_Contours(
-                        &MA_tmp_target,
-                        NucImg.get_nuclei_contours(1, P_Offset),
-                        1,
-                        255),
-                    "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-                    "STEP_MS3_VIS_NUCLEI_BOREDERS - D_Img_Proc::Draw_Contours");
-        }
-            break;
-
-        default:
-            break;
-        }
-
-        //convert to VD
-        vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
-        ERR(D_VisDat_Proc::Write_2D_Plane(
-                &(vVD_ImgProcSteps[step]),
-                &MA_tmp_target,
-                D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
-            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-            "D_VisDat_Proc::Write_2D_Plane");
-
-        MA_tmp_target.release();
+            ERR(D_Img_Proc::Draw_Dots(
+                    &MA_tmp_target,
+                    NucImg.get_foci_centers(i_foci, 1.0, P_Offset),
+                    NucImg.get_foci_diameters(i_foci, 1.0),
+                    255),
+                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
     }
+        break;
+
+    default:
+        break;
+    }
+
+    //convert to VD
+    vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
+    ERR(D_VisDat_Proc::Write_2D_Plane(
+            &(vVD_ImgProcSteps[step]),
+            &MA_tmp_target,
+            D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
+        "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+        "D_VisDat_Proc::Write_2D_Plane");
+
+    MA_tmp_target.release();
+
+    //update image decomposition when all foci are drawn
+    if(step == STEP_MS3_VIS_FOCI_BOTH)
+        Update_ImageDecomposition();
 }
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(size_t step)
@@ -1234,6 +1259,86 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
         return;
     }
 
+    switch (step) {
+
+    case STEP_MS3_VIS_REGIONS:
+    {
+        //color code:
+        //R: Nuclei Borders
+        //G: GFP Foci
+        //M: RFP Foci
+        //W: GFP Foci + RFP Foci
+
+        //merge to red channel
+        D_VisDat_Obj VD_tmp_red;
+        ERR(D_VisDat_Proc::Math_2img_Maximum(
+                &VD_tmp_red,
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BOREDERS]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_RFP])),
+            "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
+            "STEP_MS3_VIS_NUCLEI_FILLED - Math_2img_Maximum calc red channel");
+
+        //merge to rgb image
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS]),      //out
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_RFP]),     //B
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_GFP]),     //G
+                &VD_tmp_red),                                   //R
+            "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
+            "STEP_MS3_VIS_NUCLEI_FILLED - Channels_Merge Nuclei and foci area as color");
+    }
+        break;
+
+    case STEP_MS3_VIS_REGIONS_BACKGROUND:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS]),
+                ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
+                ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->value() / 100.0),
+            "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
+            "STEP_MS3_VIS_REGIONS_BACKGROUND - OverlayOverwrite");
+    }
+        break;
+
+    case STEP_MS3_VIS_REGIONS_FOCI_COUNT:
+    {
+        if(!state_image_decomposed)
+        {
+            ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
+            return;
+        }
+
+        //get pos in dataset
+        int pos_x = ui->spinBox_Viewport_X->value();
+        int pos_y = ui->spinBox_Viewport_Y->value();
+        int pos_t = ui->spinBox_Viewport_T->value();
+
+        //get foci counts as QStringList
+        QStringList QSL_LabelTexts = QStringList();
+        vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_FociCount_append(&QSL_LabelTexts);
+
+        int ER = D_VisDat_Proc::Draw_Label_Text(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT]),
+                    &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND]),
+                    &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED]),
+                    QSL_LabelTexts,
+                    false,
+                    1.0, 2,
+                    true,
+                    255, 255, 255,
+                    4);
+        ERR(ER, "Update_ImageProcessing_StepSingle_MS3_VisualizeResults", "STEP_MS3_VIS_REGIONS_FOCI_COUNT - put numbers on image");
+        if(ER != ER_okay)
+            return;
+    }
+        break;
+
+    default:
+        return;
+    }
 
 
 }
@@ -1261,14 +1366,33 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
     ///vector of foci segmentation images indices
     vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
-    vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
-    vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
-    vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
+        vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
+        vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
+    }
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    {
+        vIndices_FociBinary[FOCI_GFP]   = STEP_MS3_VIS_FOCI_GFP;
+        vIndices_FociBinary[FOCI_RFP]   = STEP_MS3_VIS_FOCI_RFP;
+        vIndices_FociBinary[FOCI_BOTH]  = STEP_MS3_VIS_FOCI_BOTH;
+    }
+    else
+        return;
 
     ///list of value image indices (GFP and RFP)
     vector<size_t> vIndices_Values(2);
-    vIndices_Values[0] = STEP_PCK_GFP;
-    vIndices_Values[1] = STEP_PCK_RFP;
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        vIndices_Values[0] = STEP_PCK_GFP;
+        vIndices_Values[1] = STEP_PCK_RFP;
+    }
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    {
+        vIndices_Values[0] = STEP_MS3_PCK_GFP;
+        vIndices_Values[1] = STEP_MS3_PCK_RFP;
+    }
 
     ///get position in dataset
     int pos_x = ui->spinBox_Viewport_X->value();
@@ -1281,11 +1405,20 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
                 pos_y * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
     Point MosaikOffset_Grid(pos_x, pos_y);
 
+    ///get index of nuclei segmentation image
+    size_t index_nuclei;
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        index_nuclei = STEP_NUC_RFP_SELECT_MEAN;
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        index_nuclei = STEP_MS3_VIS_NUCLEI_FILLED;
+    else
+        return;
+
     ///calculate image decomposition to bio info format
     StatusSet("Nuclei image decomposition");
     int ER = vvvImageDecomp_TYX[pos_t][pos_y][pos_x].calc_NucleiDecomposition(
                 &vVD_ImgProcSteps,
-                STEP_NUC_RFP_SELECT_MEAN,
+                index_nuclei,
                 vIndices_FociBinary,
                 vIndices_Values,
                 MosaikOffset_Coordinates,
@@ -1295,7 +1428,10 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
                 true,
                 MosaikOffset_Coordinates.x + dataset_dim_img_x,
                 MosaikOffset_Coordinates.y + dataset_dim_img_y);
-    ERR(ER, "Update_ImageDecomposition", "ImageDecomp.calc_NucleiDecomposition");
+    ERR(
+                ER,
+                "Update_ImageDecomposition",
+                "ImageDecomp.calc_NucleiDecomposition");
     if(ER != ER_okay)
         return;
 
@@ -1306,15 +1442,34 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     ///save data in files if stack processing is running
     if(state_stack_processing)
     {
+        //mode
         StatusSet("Save decomposition in files");
-        ERR(
-                vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(
-                        DIR_SaveDetections.path(),  //path to save to
-                        false,                      //don't save foci matched to nuclei
-                        true,                       //save foci as separate file
-                        true),                      //mosaic grid coordinates in names instead of global pixel coordinates
-                "Update_ImageDecomposition",
-                "ImageDecomp.save(DIR_SaveDetections.path())");
+        if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        {
+            ERR(
+                    vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(
+                            DIR_SaveDetections.path(),  //path to save to
+                            false,                      //don't save foci matched to nuclei
+                            true,                       //save foci as separate file
+                            true),                      //mosaic grid coordinates in names instead of global pixel coordinates
+                    "Update_ImageDecomposition",
+                    "MS1 - ImageDecomp.save(DIR_SaveDetections.path())");
+        }
+        else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        {
+            ERR(
+                    vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(
+                            DIR_MS3_Out_DetectionsAssigned.path(),  //path to save to
+                            true,                                   //save foci matched to nuclei
+                            false,                                  //don't save foci as separate file
+                            true),                                  //mosaic grid coordinates in names instead of global pixel coordinates
+                    "Update_ImageDecomposition",
+                    "MS3 - ImageDecomp.save(DIR_MS3_Out_DetectionsAssigned.path())");
+        }
+        else
+        {
+            return;
+        }
     }
 }
 
@@ -1383,8 +1538,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     DIR_SaveMosaik_GFP.setPath(DIR_SaveMosaik_All.path() + "/GFP");                         QDir().mkdir(DIR_SaveMosaik_GFP.path());
     DIR_SaveMosaik_RFP.setPath(DIR_SaveMosaik_All.path() + "/RFP");                         QDir().mkdir(DIR_SaveMosaik_RFP.path());
     DIR_SaveMosaik_AutoDetetctions.setPath(DIR_SaveMosaik_All.path() + "/AutoDetections");  QDir().mkdir(DIR_SaveMosaik_AutoDetetctions.path());
-
-    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");  QDir().mkdir(DIR_SaveDetections.path());
+    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");                      QDir().mkdir(DIR_SaveDetections.path());
 
     //make error handler stream to file instead of showing popups
     StatusSet("Disabling error popups. Error log can be found in:" + DIR_SaveMaster.path() + "/ErrorLog.csv");

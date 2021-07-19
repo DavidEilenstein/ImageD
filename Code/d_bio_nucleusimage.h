@@ -73,10 +73,13 @@ public:
     size_t get_foci_channel_count()                 {return vvFoci.size();}
     size_t get_foci_count(size_t foci_channel)      {return foci_channel < get_foci_channel_count() ? vvFoci[foci_channel].size() : 0;}
 
-    vector<vector<Point>> get_nuclei_contours(double scale = 1, Point scaled_offset = Point(0, 0));
+    vector<vector<Point>>       get_nuclei_contours(double scale = 1, Point scaled_offset = Point(0, 0));
+    vector<Point2f>             get_foci_centers(size_t channel, double scale = 1, Point scaled_offset = Point(0, 0));
+    vector<double>              get_foci_radii(size_t channel, double scale = 1);
+    vector<double>              get_foci_diameters(size_t channel, double scale = 1);
 
-    vector<D_Bio_NucleusBlob> get_nuclei()          {return vNuclei;}
-    D_Bio_Focus get_focus(size_t ch, size_t foc)    {return ch < vvFoci.size() ? (foc < vvFoci[ch].size() ? (vvFoci[ch][foc]) : (D_Bio_Focus())) : (D_Bio_Focus());}
+    vector<D_Bio_NucleusBlob>   get_nuclei()                        {return vNuclei;}
+    D_Bio_Focus                 get_focus(size_t ch, size_t foc)    {return ch < vvFoci.size() ? (foc < vvFoci[ch].size() ? (vvFoci[ch][foc]) : (D_Bio_Focus())) : (D_Bio_Focus());}
 
     QString info();
 

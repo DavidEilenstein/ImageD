@@ -15202,8 +15202,50 @@ int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int d, uchar val)
                 Point(x, y),
                 Point(x, y),
                 Scalar((uchar) val),
-                d,
+                max(1, d),
                 8);
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Dots(Mat *pMA_Target, vector<Point2f> vCenters, vector<double> vDiameters, uchar val)
+{
+    if(vCenters.size() != vDiameters.size())        return ER_size_missmatch;
+
+    size_t n = vCenters.size();
+    for(size_t i = 0; i < n; i++)
+    {
+         int ER = Draw_Dot(
+                    pMA_Target,
+                    vCenters[i].x,
+                    vCenters[i].y,
+                     max(1.0, vDiameters[i]),
+                    val);
+
+         if(ER != ER_okay)
+             return ER;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Dots(Mat *pMA_Target, vector<Point> vCenters, vector<double> vDiameters, uchar val)
+{
+    if(vCenters.size() != vDiameters.size())        return ER_size_missmatch;
+
+    size_t n = vCenters.size();
+    for(size_t i = 0; i < n; i++)
+    {
+         int ER = Draw_Dot(
+                    pMA_Target,
+                    vCenters[i].x,
+                    vCenters[i].y,
+                    max(1.0, vDiameters[i]),
+                    val);
+
+         if(ER != ER_okay)
+             return ER;
+    }
 
     return ER_okay;
 }
@@ -16959,10 +17001,23 @@ int D_Img_Proc::Draw_Label_Numbers_Center(Mat *pMA_Out, Mat *pMA_Label, double s
     return ER_okay;
 }
 
+/*!
+ * \brief D_Img_Proc::Draw_Contours draws a list of constours to an image
+ * \param pMA_Target target image
+ * \param vContours contours to draw
+ * \param line_thickness thickness of countour line or -1 for a filled contour
+ * \param value intensity of contours in image
+ * \return error code
+ */
 int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point> > vContours, int line_thickness, double value)
 {
     ///error checks
     if(pMA_Target->empty())                                         return ER_empty;
+
+    ///make sure variables make sense
+    //-1 means filled contour
+    if(line_thickness < 0)
+        line_thickness = -1;
 
     ///calc draw color with fitting channel count
     Scalar color;
@@ -16985,13 +17040,15 @@ int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point> > vContours,
     */
 
     ///draw contours
-    if(!vContours.empty())
-        drawContours(
-                    *pMA_Target,
-                    vContours,
-                    -1,
-                    color,
-                    line_thickness);
+    if(vContours.empty())
+        return ER_okay;
+
+    drawContours(
+                *pMA_Target,
+                vContours,
+                -1,
+                color,
+                line_thickness);
 
     return ER_okay;
 }

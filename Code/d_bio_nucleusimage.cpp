@@ -808,6 +808,44 @@ vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Poin
     return vvPointsContour;
 }
 
+vector<Point2f> D_Bio_NucleusImage::get_foci_centers(size_t channel, double scale, Point scaled_offset)
+{
+    vector<Point2f> vCenters;
+
+    if(channel >= vvFoci.size())
+        return vCenters;
+
+    for(size_t f = 0; f < vvFoci[channel].size(); f++)
+    {
+            double x = vvFoci[channel][f].centroid().x;
+            double y = vvFoci[channel][f].centroid().y;
+            vCenters.push_back(
+                        Point(
+                            (x * scale) + scaled_offset.x,
+                            (y * scale) + scaled_offset.y));
+    }
+
+    return vCenters;
+}
+
+vector<double> D_Bio_NucleusImage::get_foci_radii(size_t channel, double scale)
+{
+    vector<double> vRadii;
+
+    if(channel >= vvFoci.size())
+        return vRadii;
+
+    for(size_t f = 0; f < vvFoci[channel].size(); f++)
+            vRadii.push_back(vvFoci[channel][f].radius_circle_equivalent() * scale);
+
+    return vRadii;
+}
+
+vector<double> D_Bio_NucleusImage::get_foci_diameters(size_t channel, double scale)
+{
+    return get_foci_radii(channel, scale * 2);
+}
+
 QString D_Bio_NucleusImage::info()
 {
     return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";

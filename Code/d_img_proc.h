@@ -366,7 +366,9 @@ public:
     static int      Floodfill_Delta             (Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_y, uchar val_new, uchar val_delta);
     static bool     Floodfill_Delta_Step        (Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin);
 
-    static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r, uchar val);
+    static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int d, uchar val);
+    static int      Draw_Dots                   (Mat *pMA_Target, vector<Point2f> vCenters, vector<double> vDiameters, uchar val);
+    static int      Draw_Dots                   (Mat *pMA_Target, vector<Point> vCenters, vector<double> vDiameters, uchar val);
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int r, uchar val_r, uchar val_g, uchar val_b);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double value = 255);
     static int      Draw_Line                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness, double val_r, double val_g, double val_b);

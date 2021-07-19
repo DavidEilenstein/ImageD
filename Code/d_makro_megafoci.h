@@ -832,6 +832,7 @@ private:
     QDir DIR_MS3_In_Master;
     QDir DIR_MS3_In_DetectionsCorrected;
     QDir DIR_MS3_Out_Master;
+    QDir DIR_MS3_Out_DetectionsAssigned;
     vector<vector<D_Bio_NucleusImage>> vv_MS3_NucImg_InCorrected_mosaikXY;
     vector<vector<size_t>> vv_MS3_NucImg_InCorrected_States_mosaikXY;
 
