@@ -90,6 +90,12 @@ int D_Bio_NucleusBlob::get_Contours_append(vector<vector<Point> > *pvScaledConto
     return  ER_okay;
 }
 
+int D_Bio_NucleusBlob::get_Contours_append(vector<D_Contour> *pvContours)
+{
+    pvContours->push_back(D_Contour(m_contour));
+    return ER_okay;
+}
+
 int D_Bio_NucleusBlob::get_FociCount_append(QStringList *pQSL_FociCounts)
 {
     QString QS_FociCount;
@@ -611,6 +617,19 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
 
     //calc features based on loaded data
     CalcFeats();
+
+    return true;
+}
+
+bool D_Bio_NucleusBlob::is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs, double rel_overlap_for_duplicate)
+{
+    D_Contour C1(m_contour);
+    for(size_t i = 0; i < v_other_nucs.size(); i++)
+    {
+        D_Contour C2(v_other_nucs[i].contour());
+        if(C1.intersection_area_relative(C2) >= rel_overlap_for_duplicate)
+            return false;
+    }
 
     return true;
 }

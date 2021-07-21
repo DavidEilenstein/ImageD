@@ -812,6 +812,8 @@ private slots:
 
     void on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index);
 
+    void on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChanged(double arg1);
+
 private:
 
     void MS3_UiInit();
@@ -860,7 +862,8 @@ private:
         STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_ALL,
 
         //draw detections
-        STEP_MS3_VIS_NUCLEI_BOREDERS,
+        STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE,
+        STEP_MS3_VIS_NUCLEI_BORDERS,
         STEP_MS3_VIS_NUCLEI_FILLED,
         STEP_MS3_VIS_FOCI_GFP,
         STEP_MS3_VIS_FOCI_RFP,
@@ -890,19 +893,17 @@ private:
         "vis-2 Color all channels",
         "vis-3 Color all crop interquantil",
 
-        "vis-4 Nuclei Borders",
-        "vis-5 Nuclei Filled",
-        "vis-6 Foci GFP",
-        "vis-7 Foci RFP",
-        "vis-8 Foci Both",
+        "vis-4 Nuclei Borders (without remove duplicates)",
+        "vis-5 Nuclei Borders",
+        "vis-6 Nuclei Filled",
+        "vis-7 Foci GFP",
+        "vis-8 Foci RFP",
+        "vis-9 Foci Both",
 
-        "vis-9 Regions",
-        "vis-10 Regions with background",
-        "vis-11 Regions with foci counts"
+        "vis-10 Regions",
+        "vis-11 Regions with background",
+        "vis-12 Regions with foci counts"
     };
-
-
-
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

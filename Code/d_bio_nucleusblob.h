@@ -15,6 +15,7 @@
 #include <d_math.h>
 #include <d_bio_focus.h>
 #include <d_bio_enum.h>
+#include <d_contour.h>
 
 //Qt
 #include <QFileDialog>
@@ -63,6 +64,7 @@ public:
     vector<D_Bio_Focus>             get_Foci(size_t channel)                                    {return channel < vvFoci.size() ? vvFoci[channel] : vector<D_Bio_Focus>{};}
     D_Bio_Focus                     get_Focus(size_t channel, size_t index)                     {return channel < vvFoci.size() ? (index < vvFoci[channel].size() ? vvFoci[channel][index] : D_Bio_Focus()) : D_Bio_Focus();}
     int                             get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
+    int                             get_Contours_append(vector<D_Contour> *pvContours);
     int                             get_FociCount_append(QStringList *pQSL_FociCounts);
 
     //block save
@@ -97,8 +99,7 @@ public:
     double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
     double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
-    bool            is_duplicate(D_Bio_NucleusBlob other_nuc);
-    bool            is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs);
+    bool            is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs, double rel_overlap_for_duplicate = 0.5);
 
     QString         info();
 

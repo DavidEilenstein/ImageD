@@ -1145,7 +1145,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size_t step)
 {
-    if(step < STEP_MS3_VIS_NUCLEI_BOREDERS || step > STEP_MS3_VIS_FOCI_BOTH)
+    if(step < STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE || step > STEP_MS3_VIS_FOCI_BOTH)
     {
         ERR(ER_index_out_of_range,
             "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
@@ -1182,33 +1182,53 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
     D_Bio_NucleusImage NucImg = vv_MS3_NucImg_InCorrected_mosaikXY[mx][my];
     //qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections" << "Found NucImg" << NucImg.info();
 
+    //remove duplicates if needed
+    if(step != STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE)
+    {
+        //valid neighbor images
+        vector<D_Bio_NucleusImage> vNeighborNucImg;
+        if(mx < dataset_dim_mosaic_x - 1)
+            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[mx + 1][my   ]);
+        if(my < dataset_dim_mosaic_y - 1)
+            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[mx    ][my + 1]);
+        if(mx < dataset_dim_mosaic_x - 1 && my < dataset_dim_mosaic_y - 1)
+            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[mx + 1][my + 1]);
+
+        //remove duplicates
+        if(!vNeighborNucImg.empty())
+                NucImg.remove_nuclei_dulicates(vNeighborNucImg, ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->value() / 100.0);
+    }
+
     //init empty background
     Mat MA_tmp_target = Mat::zeros(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_Y(), vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_X(), CV_8UC1);
 
     //step switch
     switch (step) {
 
-    case STEP_MS3_VIS_NUCLEI_BOREDERS:
+    case STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE:
+    case STEP_MS3_VIS_NUCLEI_BORDERS:
     {
-            ERR(D_Img_Proc::Draw_Contours(
-                    &MA_tmp_target,
-                    NucImg.get_nuclei_contours(1, -P_Offset),
-                    2,
-                    255),
-                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-                "STEP_MS3_VIS_NUCLEI_BOREDERS - D_Img_Proc::Draw_Contours");
+        //draw nuclei
+        ERR(D_Img_Proc::Draw_Contours(
+                &MA_tmp_target,
+                NucImg.get_nuclei_contours(1, -P_Offset),
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
     }
         break;
 
     case STEP_MS3_VIS_NUCLEI_FILLED:
     {
-            ERR(D_Img_Proc::Draw_Contours(
-                    &MA_tmp_target,
-                    NucImg.get_nuclei_contours(1, -P_Offset),
-                    -1,
-                    255),
-                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-                "STEP_MS3_VIS_NUCLEI_FILLED - D_Img_Proc::Draw_Contours");
+        //draw nuclei
+        ERR(D_Img_Proc::Draw_Contours(
+                &MA_tmp_target,
+                NucImg.get_nuclei_contours(1, -P_Offset),
+                -1,
+                255),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "STEP_MS3_VIS_NUCLEI_FILLED - D_Img_Proc::Draw_Contours");
     }
         break;
 
@@ -1216,6 +1236,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
     case STEP_MS3_VIS_FOCI_RFP:
     case STEP_MS3_VIS_FOCI_BOTH:
     {
+        //foci index
         size_t i_foci;
         switch (step) {
         case STEP_MS3_VIS_FOCI_GFP:     i_foci = FOCI_GFP;      break;
@@ -1223,13 +1244,14 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
         case STEP_MS3_VIS_FOCI_BOTH:    i_foci = FOCI_BOTH;     break;
         default:                        i_foci = 0;             break;}
 
-            ERR(D_Img_Proc::Draw_Dots(
-                    &MA_tmp_target,
-                    NucImg.get_foci_centers(i_foci, 1.0, -P_Offset),
-                    NucImg.get_foci_diameters(i_foci, 1.0),
-                    255),
-                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-                QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
+        //draw foci
+        ERR(D_Img_Proc::Draw_Dots(
+                &MA_tmp_target,
+                NucImg.get_foci_centers(i_foci, 1.0, -P_Offset),
+                NucImg.get_foci_diameters(i_foci, 1.0),
+                255),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
     }
         break;
 
@@ -1276,7 +1298,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
         D_VisDat_Obj VD_tmp_red;
         ERR(D_VisDat_Proc::Math_2img_Maximum(
                 &VD_tmp_red,
-                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BOREDERS]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BORDERS]),
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_RFP])),
             "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
             "STEP_MS3_VIS_NUCLEI_FILLED - Math_2img_Maximum calc red channel");
@@ -4055,22 +4077,22 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
         QString QS_ImageDirName = QSL_ImageDirs[d];
         QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
 
-        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
-        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "DIR" << DIR_ImageTYX.path();
+      //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
+      //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "DIR" << DIR_ImageTYX.path();
         if(DIR_ImageTYX.exists())
         {
-            qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "dir exists";
+            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "dir exists";
 
             //check if indicatros contained
             if(QS_ImageDirName.contains("_X") && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("Image_T" + QString::number(t)))
             {
-                qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "indicator strings contained" << QS_ImageDirName;
+                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "indicator strings contained" << QS_ImageDirName;
 
                 //blocks in dir name
                 QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
                 if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
                 {
-                    qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "correct block count of name" << QSL_ImageDirBlocks;
+                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "correct block count of name" << QSL_ImageDirBlocks;
 
                     //get x
                     bool ok_x;
@@ -4084,7 +4106,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                     QS_BlockY = QS_BlockY.remove(0, 1);
                     int dir_y = QS_BlockY.toInt(&ok_y);
 
-                    qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
+                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
 
                     //conversion to numbers worked?
                     if(ok_x && ok_y)
@@ -4093,12 +4115,12 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                         size_t ix = dir_x; //floor(((static_cast<double>(dir_x) / (MS2_MosaikImageWidth  / MS2_MosaikImageScale)) * dataset_dim_mosaic_x) + 0.5);
                         size_t iy = dir_y; //floor(((static_cast<double>(dir_y) / (MS2_MosaikImageHeight / MS2_MosaikImageScale)) * dataset_dim_mosaic_y) + 0.5);
 
-                        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
+                        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
 
                         //indices in range?
                         if(ix < dataset_dim_mosaic_x && iy < dataset_dim_mosaic_y)
                         {
-                            qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "mosaix coordinates in range";
+                            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "mosaix coordinates in range";
 
                             //calc rel pos
                             double left_rel = static_cast<double>(ix) / dataset_dim_mosaic_x;
@@ -4142,7 +4164,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                                 img_loaded = true;
 
                                 //test
-                                qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "Loaded x/y" << ix << iy << NucImg.info();
+                                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "Loaded x/y" << ix << iy << NucImg.info();
                             }
                         }
                     }
@@ -4926,4 +4948,10 @@ void D_MAKRO_MegaFoci::on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int 
 
     ///show image from proc chain
     Update_Images_Proc();
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChanged(double arg1)
+{
+    arg1++;//useless opration ro supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_NUCLEI_BORDERS);
 }

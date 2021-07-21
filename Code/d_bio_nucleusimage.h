@@ -19,6 +19,7 @@
 #include <d_visdat_proc.h>
 #include <d_component_list.h>
 #include <d_bio_enum.h>
+#include <d_contour.h>
 
 //Qt
 #include <QFileDialog>
@@ -69,6 +70,9 @@ public:
     int get_FociCount_append(QStringList *pQSL_FociCounts);
     int get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale);
 
+    vector<D_Contour> get_nuclei_contour_objects();
+    void get_nuclei_contour_objects_append(vector<D_Contour> *pvContours);
+
     size_t get_nuclei_count()                       {return vNuclei.size();}
     size_t get_foci_channel_count()                 {return vvFoci.size();}
     size_t get_foci_count(size_t foci_channel)      {return foci_channel < get_foci_channel_count() ? vvFoci[foci_channel].size() : 0;}
@@ -95,6 +99,7 @@ public:
     void    remove_nuclei_foci_all  ();
     void    remove_foci_all         ();
     void    remove_nuclei_all       ();
+    void    remove_nuclei_dulicates (vector<D_Bio_NucleusImage> vNucImgOther, double min_rel_intersection_for_remove = 0.5);
 
 private:
 

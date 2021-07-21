@@ -786,6 +786,23 @@ int D_Bio_NucleusImage::get_Centroids_append(vector<Point2f> *pvScaledCentroids,
     return ER_okay;
 }
 
+vector<D_Contour> D_Bio_NucleusImage::get_nuclei_contour_objects()
+{
+    size_t n = vNuclei.size();
+    vector<D_Contour> vC;
+    for(size_t i = 0; i < n; i++)
+        vNuclei[i].get_Contours_append(&vC);
+
+    return vC;
+}
+
+void D_Bio_NucleusImage::get_nuclei_contour_objects_append(vector<D_Contour> *pvContours)
+{
+    size_t n = vNuclei.size();
+    for(size_t i = 0; i < n; i++)
+        vNuclei[i].get_Contours_append(pvContours);
+}
+
 vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Point scaled_offset)
 {
     //qDebug() << "D_Bio_NucleusImage::get_nuclei_contours" << "scale" << scale << "offset x/y" << scaled_offset.x << scaled_offset.y;
@@ -960,6 +977,49 @@ void D_Bio_NucleusImage::remove_foci_all()
 void D_Bio_NucleusImage::remove_nuclei_all()
 {
     vNuclei.clear();
+}
+
+void D_Bio_NucleusImage::remove_nuclei_dulicates(vector<D_Bio_NucleusImage> vNucImgOther, double min_rel_intersection_for_remove)
+{
+    //contours in this img
+    vector<D_Contour> vC1 = get_nuclei_contour_objects();
+    size_t n_nuclei = vC1.size();
+
+    //contours in other img
+    vector<D_Contour> vC2;
+    for(size_t i = 0; i < vNucImgOther.size(); i++)
+        vNucImgOther[i].get_nuclei_contour_objects_append(&vC2);
+
+
+    //loop nuclei in this img
+    vector<size_t> vDuplicateIndices;
+    for(size_t i1 = 0; i1 < n_nuclei; i1++)
+    {
+        //find duplicate
+        bool duplicate = false;
+        for(size_t i2 = 0; i2 < vC2.size() && !duplicate; i2++)
+        {
+            if(vC1[i1].intersection_area_relative(vC2[i2]) >= min_rel_intersection_for_remove)
+            {
+                duplicate = true;
+                vDuplicateIndices.push_back(i1);
+            }
+        }
+    }
+
+    //remove nuclei with a duplicate in another img
+    size_t n_duplicates = vDuplicateIndices.size();
+    for(size_t i_dup = 0; i_dup < n_duplicates; i_dup++)
+    {
+        //reverse order to keep indices valid on remove
+        size_t i_dup_rev = n_duplicates - 1 - i_dup;
+
+        //nucleus index to be removed
+        size_t i_nuc_rem = vDuplicateIndices[i_dup_rev];
+
+        qDebug() << "remove_nuclei_dulicates - remove" << i_nuc_rem << vNuclei[i_nuc_rem].info();
+        vNuclei.erase(vNuclei.begin() + i_nuc_rem);
+    }
 }
 
 bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel)
