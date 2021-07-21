@@ -1153,15 +1153,18 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
         return;
     }
 
+    //init black background (VD)
+    vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
+
     //mosaic coordinates
-    size_t mx = ui->spinBox_MS2_Viewport_X->value();
-    size_t my = ui->spinBox_MS2_Viewport_Y->value();
+    size_t mx = ui->spinBox_Viewport_X->value();
+    size_t my = ui->spinBox_Viewport_Y->value();
 
     //check if coordinates are valid
     if(mx >= dataset_dim_mosaic_x || my >= dataset_dim_mosaic_y)
     {
-        return;
         qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections - mx" << mx << "or my" << my << "out of range";
+        return;
     }
 
     if(vv_MS3_NucImg_InCorrected_States_mosaikXY[mx][my] == MS2_IMG_STATE_NOT_FOUND)
@@ -1177,6 +1180,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
 
     //get detections
     D_Bio_NucleusImage NucImg = vv_MS3_NucImg_InCorrected_mosaikXY[mx][my];
+    //qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections" << "Found NucImg" << NucImg.info();
 
     //init empty background
     Mat MA_tmp_target = Mat::zeros(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_Y(), vVD_ImgProcSteps[STEP_MS3_PCK_GFP].pDim()->size_X(), CV_8UC1);
@@ -1188,7 +1192,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
     {
             ERR(D_Img_Proc::Draw_Contours(
                     &MA_tmp_target,
-                    NucImg.get_nuclei_contours(1, P_Offset),
+                    NucImg.get_nuclei_contours(1, -P_Offset),
                     2,
                     255),
                 "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
@@ -1200,7 +1204,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
     {
             ERR(D_Img_Proc::Draw_Contours(
                     &MA_tmp_target,
-                    NucImg.get_nuclei_contours(1, P_Offset),
+                    NucImg.get_nuclei_contours(1, -P_Offset),
                     -1,
                     255),
                 "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
@@ -1221,7 +1225,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
 
             ERR(D_Img_Proc::Draw_Dots(
                     &MA_tmp_target,
-                    NucImg.get_foci_centers(i_foci, 1.0, P_Offset),
+                    NucImg.get_foci_centers(i_foci, 1.0, -P_Offset),
                     NucImg.get_foci_diameters(i_foci, 1.0),
                     255),
                 "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
@@ -1241,7 +1245,6 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
             D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
         "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
         "D_VisDat_Proc::Write_2D_Plane");
-
     MA_tmp_target.release();
 
     //update image decomposition when all foci are drawn
@@ -1307,6 +1310,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
         if(!state_image_decomposed)
         {
             ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
+            vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT] = vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND];
             return;
         }
 
@@ -1783,6 +1787,7 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     }
 
     //img size
+    StatusSet("Get base image size");
     Mat MA_tmp_SizeGetter;
     ERR(
                 D_Img_Proc::Load_From_Path(
@@ -2689,6 +2694,9 @@ void D_MAKRO_MegaFoci::MS2_Draw_SetProcessed()
     //reward user for finishing another image
     RewardSystem.get_reward();
     StatusSet("Look! The cat likes your work " + QS_Fun_Cat);
+
+    if(ui->checkBox_MS2_Params_AutoGoToNextOnFinish->isChecked())
+        MS2_MoveToNextViewportToProcess();
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_SetToProcess()
@@ -2806,6 +2814,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Points()
     MS2_DetOutBackup_UpdateUi();
     MS2_UpdateOverlays();
     MS2_UpdateImages_Editing();
+    MS2_Draw_UpdateUi();
 
     //end click recording
     MS2_Draw_RecordingEnd();
@@ -2842,6 +2851,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Contour(vector<Point> contour)
     MS2_DetOutBackup_UpdateUi();
     MS2_UpdateOverlays();
     MS2_UpdateImages_Editing();
+    MS2_Draw_UpdateUi();
 
     //end click recording
     MS2_Draw_RecordingEnd();
@@ -2886,6 +2896,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Remove()
     MS2_DetOutBackup_UpdateUi();
     MS2_UpdateOverlays();
     MS2_UpdateImages_Editing();
+    MS2_Draw_UpdateUi();
 
     //end click recording
     MS2_Draw_RecordingEnd();
@@ -3393,6 +3404,30 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
 
     //show img
     MS2_Viewer_Viewport.Update_Image(&MA_MS2_ViewportShow);
+}
+
+void D_MAKRO_MegaFoci::MS2_MoveToNextViewportToProcess()
+{
+    if(!state_MS2_detections_loaded)
+        return;
+
+    size_t ix = ui->spinBox_MS2_Viewport_X->value();
+    size_t iy = ui->spinBox_MS2_Viewport_Y->value();
+    size_t it = ui->spinBox_MS2_Viewport_T->value();
+
+    for(size_t t = 0; t < dataset_dim_t; t++)
+        for(size_t y = 0; y < dataset_dim_mosaic_x; y++)
+            for(size_t x = 0; x < dataset_dim_mosaic_y; x++)
+            {
+                if(x != ix || y != iy || t != it)
+                    if(vv_MS2_NucImg_State_Out_mosaikXY[x][y] != MS2_IMG_STATE_PROCESSED)
+                    {
+                        ui->spinBox_MS2_Viewport_X->setValue(x);
+                        ui->spinBox_MS2_Viewport_Y->setValue(y);
+                        ui->spinBox_MS2_Viewport_T->setValue(t);
+                        return;
+                    }
+            }
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateViewportPos()
@@ -3989,11 +4024,11 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
         for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
         {
             //relative border pos
-            double l = static_cast<double>(x) / dataset_dim_mosaic_x;
-            double t = static_cast<double>(y) / dataset_dim_mosaic_y;
+            double left_rel = static_cast<double>(x) / dataset_dim_mosaic_x;
+            double top_rel = static_cast<double>(y) / dataset_dim_mosaic_y;
 
             //calc offset
-            Point P_Offset = Point(l * MS2_MosaikImageWidth, t * MS2_MosaikImageHeight) * (1.0 / MS2_MosaikImageScale);
+            Point P_Offset = Point(left_rel * MS2_MosaikImageWidth, top_rel * MS2_MosaikImageHeight) * (1.0 / MS2_MosaikImageScale);
 
             //generate img with correct offsets
             (*vvNucleiTarget)[x][y] = D_Bio_NucleusImage(P_Offset, Point(x, y), t);
@@ -4020,22 +4055,22 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
         QString QS_ImageDirName = QSL_ImageDirs[d];
         QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
 
-        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
-        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "DIR" << DIR_ImageTYX.path();
+        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
+        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "DIR" << DIR_ImageTYX.path();
         if(DIR_ImageTYX.exists())
         {
-            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "dir exists";
+            qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "dir exists";
 
             //check if indicatros contained
             if(QS_ImageDirName.contains("_X") && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("Image_T" + QString::number(t)))
             {
-                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "indicator strings contained" << QS_ImageDirName;
+                qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "indicator strings contained" << QS_ImageDirName;
 
                 //blocks in dir name
                 QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
                 if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
                 {
-                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "correct block count of name" << QSL_ImageDirBlocks;
+                    qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "correct block count of name" << QSL_ImageDirBlocks;
 
                     //get x
                     bool ok_x;
@@ -4049,7 +4084,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                     QS_BlockY = QS_BlockY.remove(0, 1);
                     int dir_y = QS_BlockY.toInt(&ok_y);
 
-                    //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
+                    qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
 
                     //conversion to numbers worked?
                     if(ok_x && ok_y)
@@ -4058,20 +4093,33 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                         size_t ix = dir_x; //floor(((static_cast<double>(dir_x) / (MS2_MosaikImageWidth  / MS2_MosaikImageScale)) * dataset_dim_mosaic_x) + 0.5);
                         size_t iy = dir_y; //floor(((static_cast<double>(dir_y) / (MS2_MosaikImageHeight / MS2_MosaikImageScale)) * dataset_dim_mosaic_y) + 0.5);
 
-                        //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
+                        qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
 
                         //indices in range?
                         if(ix < dataset_dim_mosaic_x && iy < dataset_dim_mosaic_y)
                         {
-                            //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "mosaix coordinates in range";
+                            qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "mosaix coordinates in range";
 
                             //calc rel pos
-                            double l = static_cast<double>(ix) / dataset_dim_mosaic_x;
-                            double t = static_cast<double>(iy) / dataset_dim_mosaic_y;
+                            double left_rel = static_cast<double>(ix) / dataset_dim_mosaic_x;
+                            double top_rel = static_cast<double>(iy) / dataset_dim_mosaic_y;
 
                             //calc offsets
-                            Point P_OffsetScaled = Point(l * MS2_MosaikImageWidth, t * MS2_MosaikImageHeight);
-                            Point P_OffsetNotScaled = P_OffsetScaled * (1.0 / MS2_MosaikImageScale);
+                            Point P_OffsetNotScaled;
+                            if(mode_major_current == MODE_MAJOR_2_MANU_CORRECT_DETECTION)
+                            {
+                                Point P_OffsetScaled = Point(left_rel * MS2_MosaikImageWidth, top_rel * MS2_MosaikImageHeight);
+                                P_OffsetNotScaled = P_OffsetScaled * (1.0 / MS2_MosaikImageScale);
+                            }
+                            else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+                            {
+                                P_OffsetNotScaled = Point(
+                                            ix * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
+                                            iy * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
+                            }
+                            else
+                                return false;
+
 
                             //load nucleus image
                             D_Bio_NucleusImage NucImg;
@@ -4094,7 +4142,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                                 img_loaded = true;
 
                                 //test
-                                //qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "Loaded x/y" << ix << iy << NucImg.info();
+                                qDebug() << "D_MAKRO_MegaFoci::MS2_LoadData_Detections" << "Loaded x/y" << ix << iy << NucImg.info();
                             }
                         }
                     }
@@ -4805,26 +4853,7 @@ void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChange
 
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_NextToCorrect_clicked()
 {
-    if(!state_MS2_detections_loaded)
-        return;
-
-    size_t ix = ui->spinBox_MS2_Viewport_X->value();
-    size_t iy = ui->spinBox_MS2_Viewport_Y->value();
-    size_t it = ui->spinBox_MS2_Viewport_T->value();
-
-    for(size_t t = 0; t < dataset_dim_t; t++)
-        for(size_t y = 0; y < dataset_dim_mosaic_x; y++)
-            for(size_t x = 0; x < dataset_dim_mosaic_y; x++)
-            {
-                if(x != ix || y != iy || t != it)
-                    if(vv_MS2_NucImg_State_Out_mosaikXY[x][y] != MS2_IMG_STATE_PROCESSED)
-                    {
-                        ui->spinBox_MS2_Viewport_X->setValue(x);
-                        ui->spinBox_MS2_Viewport_Y->setValue(y);
-                        ui->spinBox_MS2_Viewport_T->setValue(t);
-                        return;
-                    }
-            }
+    MS2_MoveToNextViewportToProcess();
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_X_valueChanged(int arg1)

@@ -800,8 +800,8 @@ vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Poin
             int y = v_contour[px].y;
             vvPointsContour[nuc].push_back(
                         Point(
-                            (x * scale) + scaled_offset.x,
-                            (y * scale) + scaled_offset.y));
+                            static_cast<int>(x * scale) + scaled_offset.x,
+                            static_cast<int>(y * scale) + scaled_offset.y));
         }
     }
 
@@ -821,8 +821,8 @@ vector<Point2f> D_Bio_NucleusImage::get_foci_centers(size_t channel, double scal
             double y = vvFoci[channel][f].centroid().y;
             vCenters.push_back(
                         Point(
-                            (x * scale) + scaled_offset.x,
-                            (y * scale) + scaled_offset.y));
+                            static_cast<int>(x * scale) + scaled_offset.x,
+                            static_cast<int>(y * scale) + scaled_offset.y));
     }
 
     return vCenters;

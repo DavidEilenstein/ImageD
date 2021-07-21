@@ -796,7 +796,7 @@
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuViewer">
@@ -859,6 +859,8 @@
     <addaction name="actionTest_nD_for_loop"/>
     <addaction name="separator"/>
     <addaction name="actionTest_range_selector"/>
+    <addaction name="separator"/>
+    <addaction name="actionTest_contour_intersection"/>
    </widget>
    <addaction name="menuViewer"/>
    <addaction name="menuWindow"/>
@@ -1093,6 +1095,11 @@
   <action name="actionTest_range_selector">
    <property name="text">
     <string>Test range selector</string>
+   </property>
+  </action>
+  <action name="actionTest_contour_intersection">
+   <property name="text">
+    <string>Test contour intersection</string>
    </property>
   </action>
  </widget>

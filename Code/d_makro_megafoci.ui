@@ -3881,7 +3881,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_33">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPonly">
@@ -3950,7 +3950,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="4" column="0">
                    <layout class="QGridLayout" name="gridLayout_34">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Corrected">
@@ -4016,7 +4016,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="1" column="0">
                    <layout class="QGridLayout" name="gridLayout_30">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_9">
@@ -4065,7 +4065,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="2" column="0">
                    <layout class="QGridLayout" name="gridLayout_31">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Polygon">
@@ -4099,7 +4099,7 @@ background-color: rgb(0,0,0);</string>
                     <item row="1" column="3">
                      <layout class="QGridLayout" name="gridLayout_44">
                       <property name="spacing">
-                       <number>0</number>
+                       <number>1</number>
                       </property>
                       <item row="0" column="0" rowspan="2">
                        <widget class="QSpinBox" name="spinBox_MS2_Tools_AllplyPoints_PointSize">
@@ -4238,7 +4238,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="5" column="0">
                    <layout class="QGridLayout" name="gridLayout_32">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_History_Undo">
@@ -4317,7 +4317,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="1" column="0">
                    <layout class="QGridLayout" name="gridLayout_29">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_14">
@@ -4356,7 +4356,7 @@ background-color: rgb(0,0,0);</string>
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_39">
                     <property name="spacing">
-                     <number>3</number>
+                     <number>1</number>
                     </property>
                     <item row="0" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_1">
@@ -4477,6 +4477,88 @@ background-color: rgb(0,0,0);</string>
                <string>Parameters</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_43">
+               <item row="5" column="0">
+                <spacer name="verticalSpacer_MS2_Params">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>211</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="3" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_ClickPrecisionMargin">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Click precision margin for image editing: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>50.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_FociMinRadius">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Force minumum focus radius: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>1</number>
+                 </property>
+                 <property name="minimum">
+                  <double>0.500000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.500000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>2.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_NucleusBorderThickness">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>Nucleus border width: </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>2.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="0">
                 <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_FociScale">
                  <property name="buttonSymbols">
@@ -4506,84 +4588,12 @@ background-color: rgb(0,0,0);</string>
                 </widget>
                </item>
                <item row="4" column="0">
-                <spacer name="verticalSpacer_MS2_Params">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
+                <widget class="QCheckBox" name="checkBox_MS2_Params_AutoGoToNextOnFinish">
+                 <property name="text">
+                  <string>Automatically go to next pos to be processed on finishing a pos</string>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>211</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="0" column="0">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_NucleusBorderThickness">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>Nucleus border width: </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="minimum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>2.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_FociMinRadius">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>Force minumum focus radius: </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>1</number>
-                 </property>
-                 <property name="minimum">
-                  <double>0.500000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.500000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>2.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_MS2_Params_ClickPrecisionMargin">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>Click precision margin for image editing: </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>1000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>50.000000000000000</double>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -4932,7 +4942,7 @@ background-color: rgb(0,0,0);</string>
      <x>0</x>
      <y>0</y>
      <width>1416</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

@@ -30,6 +30,7 @@
 #include <d_popup_listedit_numbers.h>
 #include <d_popup_plot.h>
 #include <d_multidimloop.h>
+#include <d_contour.h>
 
 //makros
 #include <d_makro_corefoci.h>
@@ -180,6 +181,8 @@ private slots:
     void on_actionTest_nD_for_loop_triggered();
 
     void on_actionTest_range_selector_triggered();
+
+    void on_actionTest_contour_intersection_triggered();
 
 private:
     Ui::D_MainWindow        *ui;

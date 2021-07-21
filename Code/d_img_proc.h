@@ -20,6 +20,7 @@
 #include <d_featureset.h>
 #include <d_geo_point_2d.h>
 #include <d_geo_line_2d.h>
+#include <d_contour.h>
 
 //general
 #include <iostream>

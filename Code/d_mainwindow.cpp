@@ -1222,3 +1222,22 @@ void D_MainWindow::on_actionTest_range_selector_triggered()
                 this);
     pop_range_select.exec();
 }
+
+void D_MainWindow::on_actionTest_contour_intersection_triggered()
+{
+    vector<Point> Pts1 = {Point(10,10), Point(10,11), Point(10,12), Point(11,12), Point(12, 12), Point(12,11), Point(12, 10), Point(11, 10)};
+    vector<Point> Pts2 = {Point(11,11), Point(11,12), Point(11,13), Point(12,13), Point(13, 13), Point(13,12), Point(13, 11), Point(12, 11)};
+    //vector<Point> Pts2 = {Point(111,111), Point(111,112), Point(111,113), Point(112,113), Point(113, 113), Point(113,112), Point(113, 111), Point(112, 111)};
+    D_Contour C1(Pts1);
+    D_Contour C2(Pts2);
+    vector<D_Contour> vCI = C1.intersections(C2);
+    for(size_t i = 0; i < vCI.size(); i++)
+        QMessageBox::information(
+                    this,
+                    "Intersection " + QString::number(i+1) + "/" + QString::number(vCI.size()),
+                    "Intersection of\n" + C1.contour_string() + "\nand\n" + C2.contour_string() + "\nis\n" + vCI[i].contour_string());
+    QMessageBox::information(
+                this,
+                "Intersection overall",
+                "absolute area: " + QString::number(C1.intersection_area(C2)) + "\naverage relative area:" + QString::number(C1.intersection_area_relative(C2)));
+}

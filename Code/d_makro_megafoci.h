@@ -568,6 +568,7 @@ private slots:
     void MS2_UpdateImages_Editing();
 
     void MS2_UpdateImage_Viewport();
+    void MS2_MoveToNextViewportToProcess();
 
     void MS2_UpdateViewportPos();
     void MS2_InitOverlays();
@@ -634,11 +635,8 @@ private slots:
     void on_progressBar_MS2_CorrectionProgress_valueChanged(int value);
 
     void on_pushButton_MS2_Tools_ApplyPoints_ConvexHull_clicked();
-
     void on_pushButton_MS2_Tools_ApplyPoints_Points_clicked();
-
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked();
-
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked();
 
 private:
@@ -718,7 +716,6 @@ private:
     void                                MS2_Draw_Points();
     void                                MS2_Draw_Contour(vector<Point> contour);
     void                                MS2_Draw_Remove();
-
 
     //drawing editing backups
     const size_t                                MS2_DetOutBackup_Count = 20;

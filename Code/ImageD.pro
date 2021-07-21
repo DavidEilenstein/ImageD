@@ -41,6 +41,7 @@ SOURCES += \
     d_bio_nucleusimage.cpp \
     d_bio_nucleuslife.cpp \
     d_bio_nucleuspedigree.cpp \
+    d_contour.cpp \
     d_featureset.cpp \
     d_finishtimeprognosis.cpp \
     d_geo_line_2d.cpp \
@@ -125,6 +126,7 @@ HEADERS += \
     d_bio_nucleusimage.h \
     d_bio_nucleuslife.h \
     d_bio_nucleuspedigree.h \
+    d_contour.h \
     d_featureset.h \
     d_finishtimeprognosis.h \
     d_geo_line_2d.h \

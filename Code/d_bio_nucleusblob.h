@@ -97,6 +97,9 @@ public:
     double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
     double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
+    bool            is_duplicate(D_Bio_NucleusBlob other_nuc);
+    bool            is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs);
+
     QString         info();
 
 
