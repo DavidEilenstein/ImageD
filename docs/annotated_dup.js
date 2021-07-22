@@ -10,6 +10,7 @@ var annotated_dup =
     [ "D_Component_Analysis", "class_d___component___analysis.html", "class_d___component___analysis" ],
     [ "D_Component_List", "class_d___component___list.html", "class_d___component___list" ],
     [ "D_Component_List_Context", "class_d___component___list___context.html", "class_d___component___list___context" ],
+    [ "D_Contour", "class_d___contour.html", "class_d___contour" ],
     [ "D_Error_Handler", "class_d___error___handler.html", "class_d___error___handler" ],
     [ "D_FeatureSet", "class_d___feature_set.html", "class_d___feature_set" ],
     [ "D_FinishTimePrognosis", "class_d___finish_time_prognosis.html", "class_d___finish_time_prognosis" ],
