@@ -66,6 +66,8 @@ public:
     int                             get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
     int                             get_Contours_append(vector<D_Contour> *pvContours);
     int                             get_FociCount_append(QStringList *pQSL_FociCounts);
+    int                             get_ShapeInfo_append(QStringList *pQSL_ShapeInfo);
+    int                             get_ChannelStat_append(QStringList *pQSL_Stat, size_t stat_index_bio_enum);
 
     //block save
     void                            block_save_StitchingBorder_BottomRight(size_t x, size_t y)  {block_stitching_border = true; block_stitching_border_x = x; block_stitching_border_y = y;}

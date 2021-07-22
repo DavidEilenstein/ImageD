@@ -341,9 +341,9 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
 
     ///extract needed channels
     //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "select channels";
-    bool use_b = (overview_type == OVERVIEW_TYPE_RFP) || (overview_type == OVERVIEW_TYPE_COLOR) || (overview_type == OVERVIEW_TYPE_AUTODETECT);
-    bool use_g = (overview_type == OVERVIEW_TYPE_GFP) || (overview_type == OVERVIEW_TYPE_COLOR) || (overview_type == OVERVIEW_TYPE_AUTODETECT);
-    bool use_r = (overview_type == OVERVIEW_TYPE_DIC);
+    bool use_b = (overview_type == OVERVIEW_TYPE_RFP) || (overview_type == OVERVIEW_TYPE_COLOR)     || (overview_type >= OVERVIEW_TYPE_INFO_FOCI);
+    bool use_g = (overview_type == OVERVIEW_TYPE_GFP) || (overview_type == OVERVIEW_TYPE_COLOR)     || (overview_type >= OVERVIEW_TYPE_INFO_FOCI);
+    bool use_r = (overview_type == OVERVIEW_TYPE_DIC)                                               || (overview_type >= OVERVIEW_TYPE_INFO_VALUE_MEAN);
     ERR(D_Img_Proc::Channel_Supression(
                 &MA_OverviewBig_Show,
                 &MA_tmp_plane,
@@ -357,26 +357,62 @@ void D_MAKRO_MegaFoci::Update_Images_OverviewBig()
 
     ///if results shall be shown, create contour/text overlay in image
     //qDebug() << "D_MAKRO_MegaFoci::Update_Images_OverviewBig" << "add overlay";
-    if(overview_type == OVERVIEW_TYPE_AUTODETECT)
+    if(overview_type >= OVERVIEW_TYPE_INFO_FOCI)
     {
         ///create containers for info describing detected nuclei and foci
-        QStringList QSl_FociCounts;
+        QStringList QSl_Info;
         vector<vector<Point>> vContoursScaled;
         vector<Point2f> vCentroids;
         for(size_t y = 0; y < dataset_dim_mosaic_y; y++)
+        {
             for(size_t x = 0; x < dataset_dim_mosaic_x; x++)
+            {
                 if(vvvImageDecompCalced_TYX[t][y][x])
                 {
-                    vvvImageDecomp_TYX[t][y][x].get_Contours_append(&vContoursScaled, overview_scale);
-                    vvvImageDecomp_TYX[t][y][x].get_FociCount_append(&QSl_FociCounts);
-                    vvvImageDecomp_TYX[t][y][x].get_Centroids_append(&vCentroids, overview_scale);
+                    //extract needed nucleus image
+                    D_Bio_NucleusImage NucImg = vvvImageDecomp_TYX[t][y][x];
+
+                    //remove duplicates if needed
+                    if(mode_major_current != MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+                    {
+                        //valid neighbor images
+                        vector<D_Bio_NucleusImage> vNeighborNucImg;
+                        if(x < dataset_dim_mosaic_x - 1)
+                            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[x + 1][y   ]);
+                        if(y < dataset_dim_mosaic_y - 1)
+                            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[x    ][y + 1]);
+                        if(x < dataset_dim_mosaic_x - 1 && y < dataset_dim_mosaic_y - 1)
+                            vNeighborNucImg.push_back(vv_MS3_NucImg_InCorrected_mosaikXY[x + 1][y + 1]);
+
+                        //remove duplicates
+                        if(!vNeighborNucImg.empty())
+                                NucImg.remove_nuclei_dulicates(vNeighborNucImg, ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->value() / 100.0);
+                    }
+
+                    ///Nucleus position and contour info
+                    NucImg.get_Contours_append(&vContoursScaled, overview_scale);
+                    NucImg.get_Centroids_append(&vCentroids, overview_scale);
+
+                    ///additional info to be displayed as text on image
+                    switch (overview_type) {
+                    case OVERVIEW_TYPE_INFO_FOCI:           NucImg.get_FociCount_append(&QSl_Info);                                 break;
+                    case OVERVIEW_TYPE_INFO_SHAPE:          NucImg.get_ShapeInfo_append(&QSl_Info);                                 break;
+                    case OVERVIEW_TYPE_INFO_VALUE_MEAN:     NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_MEAN);                break;
+                    case OVERVIEW_TYPE_INFO_VALUE_STD:      NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_STD);                 break;
+                    case OVERVIEW_TYPE_INFO_VALUE_SKEWNESS: NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_SKEW);                break;
+                    case OVERVIEW_TYPE_INFO_VALUE_KURTOSIS: NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_KURTOSIS);            break;
+                    case OVERVIEW_TYPE_INFO_VALUE_MEDIAN:   NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_MEDIAN);              break;
+                    case OVERVIEW_TYPE_INFO_VALUE_MED_DEV:  NucImg.get_ChannelStat_append(&QSl_Info, VAL_STAT_MEDIAN_DEVIATION);    break;
+                    default:                                                                                                        return;}
                 }
+            }
+        }
 
         ///draw info on image to display
         ERR(D_Img_Proc::Draw_ContourText(
                     &MA_OverviewBig_Show,
                     vContoursScaled,
-                    QSl_FociCounts,
+                    QSl_Info,
                     vCentroids,
                     1,
                     1,
@@ -1408,16 +1444,18 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
         return;
 
     ///list of value image indices (GFP and RFP)
-    vector<size_t> vIndices_Values(2);
+    vector<size_t> vIndices_Values(3);
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
     {
-        vIndices_Values[0] = STEP_PCK_GFP;
-        vIndices_Values[1] = STEP_PCK_RFP;
+        vIndices_Values[0] = STEP_PCK_OTHER;
+        vIndices_Values[1] = STEP_PCK_GFP;
+        vIndices_Values[2] = STEP_PCK_RFP;
     }
     else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
     {
-        vIndices_Values[0] = STEP_MS3_PCK_GFP;
-        vIndices_Values[1] = STEP_MS3_PCK_RFP;
+        vIndices_Values[0] = STEP_MS3_PCK_OTHER;
+        vIndices_Values[1] = STEP_MS3_PCK_GFP;
+        vIndices_Values[2] = STEP_MS3_PCK_RFP;
     }
 
     ///get position in dataset
@@ -1485,7 +1523,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
         {
             ERR(
                     vvvImageDecomp_TYX[pos_t][pos_y][pos_x].save(
-                            DIR_MS3_Out_DetectionsAssigned.path(),  //path to save to
+                            DIR_SaveDetections.path(),              //path to save to
                             true,                                   //save foci matched to nuclei
                             false,                                  //don't save foci as separate file
                             true),                                  //mosaic grid coordinates in names instead of global pixel coordinates
@@ -1544,27 +1582,54 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     }
     pStore->set_dir_M_MegaFoci_Results(QS_SavePath);
 
+    ///current mode to string
+    QString QS_ModeString;
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+        QS_ModeString = "Step1";
+    else if (mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+        QS_ModeString = "Step3";
+    else
+        return;
+
     ///Create new save dir
     size_t count = 0;
-    QString QS_Folder_Out_Sub = QS_SavePath + "/Results_Step1_0";
+    QString QS_Folder_Out_Sub = QS_SavePath + "/Results_" + QS_ModeString + "_0";
     while(QDir(QS_Folder_Out_Sub).exists())
     {
         count++;
-        QS_Folder_Out_Sub = QS_SavePath + "/Results_Step1_" + QString::number(count);
+        QS_Folder_Out_Sub = QS_SavePath + "/Results_" + QS_ModeString + "_" + QString::number(count);
     }
 
-    //masterfolder
+    ///masterfolder
     DIR_SaveMaster.setPath(QS_Folder_Out_Sub);
     QDir().mkdir(DIR_SaveMaster.path());
 
-    //Save subfolders
-    DIR_SaveMosaik_All.setPath(DIR_SaveMaster.path() + "/Mosaik");                          QDir().mkdir(DIR_SaveMosaik_All.path());
-    DIR_SaveMosaik_Color.setPath(DIR_SaveMosaik_All.path() + "/Color");                     QDir().mkdir(DIR_SaveMosaik_Color.path());
-    DIR_SaveMosaik_DIC.setPath(DIR_SaveMosaik_All.path() + "/DIC");                         QDir().mkdir(DIR_SaveMosaik_DIC.path());
-    DIR_SaveMosaik_GFP.setPath(DIR_SaveMosaik_All.path() + "/GFP");                         QDir().mkdir(DIR_SaveMosaik_GFP.path());
-    DIR_SaveMosaik_RFP.setPath(DIR_SaveMosaik_All.path() + "/RFP");                         QDir().mkdir(DIR_SaveMosaik_RFP.path());
-    DIR_SaveMosaik_AutoDetetctions.setPath(DIR_SaveMosaik_All.path() + "/AutoDetections");  QDir().mkdir(DIR_SaveMosaik_AutoDetetctions.path());
-    DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");                      QDir().mkdir(DIR_SaveDetections.path());
+    ///Save subfolders
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        DIR_SaveMosaik_All.setPath(DIR_SaveMaster.path() + "/Mosaik");                      QDir().mkdir(DIR_SaveMosaik_All.path());
+        DIR_SaveMosaik_Color.setPath(DIR_SaveMosaik_All.path() + "/Color");                 QDir().mkdir(DIR_SaveMosaik_Color.path());
+        DIR_SaveMosaik_DIC.setPath(DIR_SaveMosaik_All.path() + "/DIC");                     QDir().mkdir(DIR_SaveMosaik_DIC.path());
+        DIR_SaveMosaik_GFP.setPath(DIR_SaveMosaik_All.path() + "/GFP");                     QDir().mkdir(DIR_SaveMosaik_GFP.path());
+        DIR_SaveMosaik_RFP.setPath(DIR_SaveMosaik_All.path() + "/RFP");                     QDir().mkdir(DIR_SaveMosaik_RFP.path());
+        DIR_SaveMosaik_Info_Foci.setPath(DIR_SaveMosaik_All.path() + "/AutoDetections");    QDir().mkdir(DIR_SaveMosaik_Info_Foci.path());
+        DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/Detections");                  QDir().mkdir(DIR_SaveDetections.path());
+    }
+    else if (mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    {
+        DIR_SaveMosaik_All.setPath(DIR_SaveMaster.path() + "/Mosaik");                                              QDir().mkdir(DIR_SaveMosaik_All.path());
+        DIR_SaveMosaik_Info_Foci.setPath(DIR_SaveMosaik_All.path() + "/AssignedFoci");                              QDir().mkdir(DIR_SaveMosaik_Info_Foci.path());
+        DIR_SaveMosaik_Info_Shape.setPath(DIR_SaveMosaik_All.path() + "/NucleiShape");                              QDir().mkdir(DIR_SaveMosaik_Info_Shape.path());
+        DIR_SaveMosaik_Info_Value_Mean.setPath(DIR_SaveMosaik_All.path() + "/Value_Mean");                          QDir().mkdir(DIR_SaveMosaik_Info_Value_Mean.path());
+        DIR_SaveMosaik_Info_Value_STD.setPath(DIR_SaveMosaik_All.path() + "/Value_STD");                            QDir().mkdir(DIR_SaveMosaik_Info_Value_STD.path());
+        DIR_SaveMosaik_Info_Value_Skewness.setPath(DIR_SaveMosaik_All.path() + "/Value_Skewness");                  QDir().mkdir(DIR_SaveMosaik_Info_Value_Skewness.path());
+        DIR_SaveMosaik_Info_Value_Kurtosis.setPath(DIR_SaveMosaik_All.path() + "/Value_Kurtosis");                  QDir().mkdir(DIR_SaveMosaik_Info_Value_Kurtosis.path());
+        DIR_SaveMosaik_Info_Value_Median.setPath(DIR_SaveMosaik_All.path() + "/Value_Median");                      QDir().mkdir(DIR_SaveMosaik_Info_Value_Median.path());
+        DIR_SaveMosaik_Info_Value_MedianDeviation.setPath(DIR_SaveMosaik_All.path() + "/Value_MedianDeviation");    QDir().mkdir(DIR_SaveMosaik_Info_Value_MedianDeviation.path());
+        DIR_SaveDetections.setPath(DIR_SaveMaster.path() + "/DetectionsAssigned");                                  QDir().mkdir(DIR_SaveDetections.path());
+    }
+    else
+        return;
 
     //make error handler stream to file instead of showing popups
     StatusSet("Disabling error popups. Error log can be found in:" + DIR_SaveMaster.path() + "/ErrorLog.csv");
@@ -1576,7 +1641,7 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
     //start the stack processing :-)
     StatusSet("Start to loop all viewports");
-    StatusSet("Time to get a cofee");
+    StatusSet("Time to get a (lot of) cofee.");
     state_stack_processing = true;
     this->setEnabled(false);
 
@@ -1590,7 +1655,19 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
     //loop viewports
     TimePrognosis.start();
     for(int t = proc_range_start[c_DIM_T]; t <= proc_range_end[c_DIM_T]; t++)
+    {
+        if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+            if(!MS3_LoadDetections(t))
+            {
+                StatusSet("MS3_LoadDetections(" + QString::number(t) + ") failed " + QS_Fun_Sad);
+                ERR(
+                            ER_file_not_exist,
+                            "Stack_Process_All",
+                            "MS3_LoadDetections(" + QString::number(t) + ") failed to load detections");
+            }
+
         for(int y = proc_range_start[c_DIM_Y]; y <= proc_range_end[c_DIM_Y]; y++)
+        {
             for(int x = proc_range_start[c_DIM_X]; x <= proc_range_end[c_DIM_X]; x++)
             {                
                 StatusSet("STACK PROC T" + QString::number(t) + " Y" + QString::number(y) + " X" + QString::number(x));
@@ -1613,6 +1690,8 @@ void D_MAKRO_MegaFoci::Stack_Process_All()
 
                 TimePrognosis.step();
             }
+        }
+    }
 
     TimePrognosis.end();
     StatusSet("STACK PROC FINISHED :-)");
@@ -1631,33 +1710,80 @@ void D_MAKRO_MegaFoci::Stack_Porcess_Single_XYT_Viewport()
     Update_ImageProcessing_CurrentImage();
 
     ///Overwrite and update mosaik
-
     ui->comboBox_OverviewBig_Type->blockSignals(true);
 
-    ///Mosaik dic
-    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_DIC);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_DIC.path() + "/Mosaik_DIC_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
+    {
+        ///Mosaik dic
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_DIC);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_DIC.path() + "/Mosaik_DIC_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
 
-    ///Mosaik gfp
-    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_GFP);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_GFP.path() + "/Mosaik_GFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+        ///Mosaik gfp
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_GFP);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_GFP.path() + "/Mosaik_GFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
 
-    ///Mosaik rfp
-    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_RFP);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_RFP.path() + "/Mosaik_RFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+        ///Mosaik rfp
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_RFP);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_RFP.path() + "/Mosaik_RFP_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
 
-    ///Mosaik color
-    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_COLOR);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Color.path() + "/Mosaik_Color_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+        ///Mosaik color
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_COLOR);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Color.path() + "/Mosaik_Color_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
 
-    ///Mosaik with results
-    ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_AUTODETECT);
-    Update_Images_OverviewBig();
-    Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_AutoDetetctions.path() + "/Mosaik_AutoDetections_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+        ///Mosaik foci
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_FOCI);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Foci.path() + "/Mosaik_AutoDetections_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+    }
+    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    {
+        ///Mosaik foci
+        ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_FOCI);
+        Update_Images_OverviewBig();
+        Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Foci.path() + "/Mosaik_Foci_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+        if(ui->checkBox_MS3_StackProc_SaveAdditionalMosaics->isChecked())
+        {
+            ///Mosaik shape
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_SHAPE);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Shape.path() + "/Mosaik_Shape_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value mean
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_MEAN);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_Mean.path() + "/Mosaik_Value_Mean_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value std
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_STD);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_STD.path() + "/Mosaik_Value_STD_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value skewness
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_SKEWNESS);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_Skewness.path() + "/Mosaik_Value_Skewness_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value kurtosis
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_KURTOSIS);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_Kurtosis.path() + "/Mosaik_Value_Kurtosis_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value median
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_MEDIAN);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_Median.path() + "/Mosaik_Value_Median_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+
+            ///Mosaik value median deviation
+            ui->comboBox_OverviewBig_Type->setCurrentIndex(OVERVIEW_TYPE_INFO_VALUE_MED_DEV);
+            Update_Images_OverviewBig();
+            Viewer_OverviewBig.Save_Image(DIR_SaveMosaik_Info_Value_MedianDeviation.path() + "/Mosaik_Value_MedianDeviation_T" + QString::number(ui->spinBox_Viewport_T->value()) + ".png");
+        }
+    }
 
     ui->comboBox_OverviewBig_Type->blockSignals(false);
 }
@@ -1945,7 +2071,7 @@ void D_MAKRO_MegaFoci::Overview_Update()
         "<br>VD_tmp_CurrentColorScaled " + VD_tmp_CurrentColorScaled.info());
 
     Update_Images_OverviewSmall();
-    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && ui->comboBox_OverviewBig_Type->currentIndex() != OVERVIEW_TYPE_AUTODETECT)
+    if(ui->tabWidget_Control->currentIndex() == TAB_CONTROL_OVERVIEW_BIG && ui->comboBox_OverviewBig_Type->currentIndex() < OVERVIEW_TYPE_INFO_FOCI)
         Update_Images_OverviewBig();
 }
 
@@ -3080,7 +3206,9 @@ void D_MAKRO_MegaFoci::MS3_UiInit()
     for(int s = 0; s < STEP_MS3_NUMBER_OF; s++)
         vVD_ImgProcSteps[s] = pStore->get_VD(0);
 
-
+    //additional mosaics on stack proc
+    ui->checkBox_MS3_StackProc_SaveAdditionalMosaics->setEnabled(true);
+    ui->checkBox_MS3_StackProc_SaveAdditionalMosaics->setChecked(true);
 
 }
 

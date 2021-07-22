@@ -111,6 +111,36 @@ int D_Bio_NucleusBlob::get_FociCount_append(QStringList *pQSL_FociCounts)
     return ER_okay;
 }
 
+int D_Bio_NucleusBlob::get_ShapeInfo_append(QStringList *pQSL_ShapeInfo)
+{
+    QString QS_ShapeInfo;
+    QS_ShapeInfo.append(QString::number(static_cast<int>(area())));
+    QS_ShapeInfo.append("/" + QString::number(convexity(), 'g', 2));
+    QS_ShapeInfo.append("/" + QString::number(compactness(), 'g', 2));
+
+    pQSL_ShapeInfo->push_back(QS_ShapeInfo);
+
+    return ER_okay;
+}
+
+int D_Bio_NucleusBlob::get_ChannelStat_append(QStringList *pQSL_Stat, size_t stat_index_bio_enum)
+{
+    if(stat_index_bio_enum >= VAL_STAT_NUMBER_OF)
+        return ER_index_out_of_range;
+
+    QString QS_ChannelStats;
+    for(size_t c = 0; c < channels(); c++)
+    {
+        if(c != 0)
+            QS_ChannelStats.append("/");
+        QS_ChannelStats.append(QString::number(signal_stat(c, stat_index_bio_enum), 'g', 3));
+    }
+
+    pQSL_Stat->push_back(QS_ChannelStats);
+
+    return ER_okay;
+}
+
 /*
 int D_Bio_NucleusBlob::save(QString path, bool simple)
 {

@@ -235,7 +235,14 @@ private:
     QDir                                DIR_SaveMosaik_GFP;
     QDir                                DIR_SaveMosaik_RFP;
     QDir                                DIR_SaveMosaik_DIC;
-    QDir                                DIR_SaveMosaik_AutoDetetctions;
+    QDir                                DIR_SaveMosaik_Info_Foci;
+    QDir                                DIR_SaveMosaik_Info_Shape;
+    QDir                                DIR_SaveMosaik_Info_Value_Mean;
+    QDir                                DIR_SaveMosaik_Info_Value_STD;
+    QDir                                DIR_SaveMosaik_Info_Value_Skewness;
+    QDir                                DIR_SaveMosaik_Info_Value_Kurtosis;
+    QDir                                DIR_SaveMosaik_Info_Value_Median;
+    QDir                                DIR_SaveMosaik_Info_Value_MedianDeviation;
     QDir                                DIR_SaveDetections;
 
     //dataset dimension
@@ -467,7 +474,14 @@ private:
         OVERVIEW_TYPE_GFP,
         OVERVIEW_TYPE_RFP,
         OVERVIEW_TYPE_COLOR,
-        OVERVIEW_TYPE_AUTODETECT,
+        OVERVIEW_TYPE_INFO_FOCI,
+        OVERVIEW_TYPE_INFO_SHAPE,
+        OVERVIEW_TYPE_INFO_VALUE_MEAN,
+        OVERVIEW_TYPE_INFO_VALUE_STD,
+        OVERVIEW_TYPE_INFO_VALUE_SKEWNESS,
+        OVERVIEW_TYPE_INFO_VALUE_KURTOSIS,
+        OVERVIEW_TYPE_INFO_VALUE_MEDIAN,
+        OVERVIEW_TYPE_INFO_VALUE_MED_DEV,
         OVERVIEW_TYPE_NUMBER_OF
     };
     const QStringList QSL_OverviewTypes = {
@@ -475,7 +489,14 @@ private:
         "Gray GFP",
         "Gray RFP",
         "Color GFP and RFP",
-        "Color auto detections"
+        "Foci",
+        "Shape",
+        "Values: Medians",
+        "Values: Deviation from median",
+        "Values: Mean",
+        "Values: Standard deviation",
+        "Values: Skewness",
+        "Values: Kurtosis"
     };
 
     //-------------------------------------------------------------------- MS Management ----------------------------------------------------
@@ -830,8 +851,6 @@ private:
     //data
     QDir DIR_MS3_In_Master;
     QDir DIR_MS3_In_DetectionsCorrected;
-    QDir DIR_MS3_Out_Master;
-    QDir DIR_MS3_Out_DetectionsAssigned;
     vector<vector<D_Bio_NucleusImage>> vv_MS3_NucImg_InCorrected_mosaikXY;
     vector<vector<size_t>> vv_MS3_NucImg_InCorrected_States_mosaikXY;
 

@@ -777,6 +777,25 @@ int D_Bio_NucleusImage::get_FociCount_append(QStringList *pQSL_FociCounts)
     return ER_okay;
 }
 
+int D_Bio_NucleusImage::get_ShapeInfo_append(QStringList *pQSL_ShapeInfo)
+{
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].get_ShapeInfo_append(pQSL_ShapeInfo);
+
+    return ER_okay;
+}
+
+int D_Bio_NucleusImage::get_ChannelStat_append(QStringList *pQSL_Stat, size_t stat_index_bio_enum)
+{
+    if(stat_index_bio_enum >= VAL_STAT_NUMBER_OF)
+        return ER_index_out_of_range;
+
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].get_ChannelStat_append(pQSL_Stat, stat_index_bio_enum);
+
+    return ER_okay;
+}
+
 int D_Bio_NucleusImage::get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale)
 {
     size_t n = vNuclei.size();
