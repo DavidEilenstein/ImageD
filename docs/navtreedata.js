@@ -39,6 +39,9 @@ var NAVTREE =
         [ "Developer", "index.html#other_sec_dev", null ]
       ] ]
     ] ],
+    [ "documentation - mega foci tracker", "docu_megafocitracker_main.html", [
+      [ "abstract", "docu_megafocitracker_main.html#sec_abstract", null ]
+    ] ],
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ]
@@ -74,10 +77,10 @@ var NAVTREEINDEX =
 "class_d___viewer.html#a084d98f59d88ad5f2bed5d12f3501fa1",
 "class_d___vis_dat___dim.html#ab06c6312191e35339561f1a547049f5a",
 "classm__makro__foci.html#a601c840d4080912475e0989f21a975f3",
-"d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dca55c37be7979656678f96d10c7bca309f",
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60a39fb42d851eacbd42fbbc149ab03a22d",
-"d__enum_8h.html#af8fedc76be0370a26d9d9ed77ee1c050aa1633ca63e3507a22bc63635b8974090",
-"functions_func_h.html"
+"d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dc",
+"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60a2f8f058d49b551929ca30819a3eac9bc",
+"d__enum_8h.html#af8fedc76be0370a26d9d9ed77ee1c050a905059ee95295891628b7eeec4738e34",
+"functions_func_b.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -9,6 +9,9 @@
 #ifndef D_MAINWINDOW_H
 #define D_MAINWINDOW_H
 
+//documentation
+#include <d_docu_mainpage.h>
+
 //own
 #include <d_enum.h>
 #include <d_stepwindow.h>

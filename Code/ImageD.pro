@@ -127,6 +127,8 @@ HEADERS += \
     d_bio_nucleuslife.h \
     d_bio_nucleuspedigree.h \
     d_contour.h \
+    d_docu_mainpage.h \
+    d_docu_plugin_megafocitracker.h \
     d_featureset.h \
     d_finishtimeprognosis.h \
     d_geo_line_2d.h \
