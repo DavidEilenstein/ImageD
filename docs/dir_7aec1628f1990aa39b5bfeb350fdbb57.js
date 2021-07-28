@@ -200,6 +200,7 @@ var dir_7aec1628f1990aa39b5bfeb350fdbb57 =
     [ "d_multidimloop.h", "d__multidimloop_8h.html", [
       [ "D_MultiDimLoop", "class_d___multi_dim_loop.html", "class_d___multi_dim_loop" ]
     ] ],
+    [ "d_opencv_typedefs.h", "d__opencv__typedefs_8h.html", "d__opencv__typedefs_8h" ],
     [ "d_pdf_writer.cpp", "d__pdf__writer_8cpp.html", null ],
     [ "d_pdf_writer.h", "d__pdf__writer_8h.html", [
       [ "D_PDF_Writer", "class_d___p_d_f___writer.html", "class_d___p_d_f___writer" ]
@@ -271,6 +272,10 @@ var dir_7aec1628f1990aa39b5bfeb350fdbb57 =
     [ "d_viewer.cpp", "d__viewer_8cpp.html", null ],
     [ "d_viewer.h", "d__viewer_8h.html", [
       [ "D_Viewer", "class_d___viewer.html", "class_d___viewer" ]
+    ] ],
+    [ "d_viewer_3d.cpp", "d__viewer__3d_8cpp.html", null ],
+    [ "d_viewer_3d.h", "d__viewer__3d_8h.html", [
+      [ "D_Viewer_3D", "class_d___viewer__3_d.html", "class_d___viewer__3_d" ]
     ] ],
     [ "d_viewer_img.cpp", "d__viewer__img_8cpp.html", null ],
     [ "d_viewer_img.h", "d__viewer__img_8h.html", [

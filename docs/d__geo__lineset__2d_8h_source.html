@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -123,59 +123,61 @@ $(document).ready(function(){initNavTree('d__geo__lineset__2d_8h_source.html',''
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//namespaces</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_d___geo___line_set__2_d.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">//constructors</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>(vector&lt;D_Geo_Line_2D&gt; lines);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">//add lines</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> add_line(<a class="code" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a> line);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> add_line_point_point(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P1, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P2);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> add_line_point_direction(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P_support, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> direction);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> add_line_point_angle(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P_support, <span class="keywordtype">double</span> angle_rad);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//getter</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>    subset_random(<span class="keywordtype">double</span> rel_size);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a>       line(<span class="keywordtype">size_t</span> i);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">size_t</span>              size();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">//intersections</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//pairwise intersections</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_pairwise();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">//center of intersections</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection(<span class="keywordtype">double</span> *deviation);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection(<span class="keywordtype">double</span> *deviation, vector&lt;double&gt; *v_residuals);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <span class="keywordtype">double</span> lines_needed_for_modell_rel, <span class="keywordtype">double</span> p_good_guess, <span class="keywordtype">double</span> p_outliers, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> *IntersectionsUsed, vector&lt;double&gt; *v_residuals, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//k-means clustering of pairwise intersections</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_clustered_kmeans(<span class="keywordtype">double</span> *deviation, <span class="keywordtype">size_t</span> k, <span class="keywordtype">size_t</span> iterations);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_clustered_kmeans_ransac(<span class="keywordtype">double</span> *deviation, <span class="keywordtype">size_t</span> clustering_k, <span class="keywordtype">size_t</span> clustering_iterations, <span class="keywordtype">double</span> ransac_subset_size_rel, <span class="keywordtype">size_t</span> ransac_iterations);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    vector&lt;D_Geo_Line_2D&gt; v_lines;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">//threaded ransac</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> intersection_ransac_thread(<a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a> *line_set, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *center_best, <span class="keywordtype">double</span> *least_deviation, <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> *IntersectionsUsed, vector&lt;double&gt; *v_residuals, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_GEO_LINESET_2D_H</span></div>
-<div class="ttc" id="aclass_d___geo___line__2_d_html"><div class="ttname"><a href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a></div><div class="ttdoc">The D_Geo_Line_2D class represents a 2D line and offers usefulls methods for standard tasks for 2D po...</div><div class="ttdef"><b>Definition:</b> d_geo_line_2d.h:42</div></div>
-<div class="ttc" id="aclass_d___geo___line_set__2_d_html"><div class="ttname"><a href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a></div><div class="ttdef"><b>Definition:</b> d_geo_lineset_2d.h:39</div></div>
-<div class="ttc" id="aclass_d___geo___point__2_d_html"><div class="ttname"><a href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a></div><div class="ttdoc">The D_Geo_Point_2D class represents a 2D point and offers usefulls methods for standard tasks for 2D ...</div><div class="ttdef"><b>Definition:</b> d_geo_point_2d.h:42</div></div>
-<div class="ttc" id="aclass_d___geo___point_set__2_d_html"><div class="ttname"><a href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a></div><div class="ttdef"><b>Definition:</b> d_geo_pointset_2d.h:37</div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_d___geo___line_set__2_d.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//constructors</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>(vector&lt;D_Geo_Line_2D&gt; lines);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//add lines</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> add_line(<a class="code" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a> line);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> add_line_point_point(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P1, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P2);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> add_line_point_direction(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P_support, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> direction);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> add_line_point_angle(<a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> P_support, <span class="keywordtype">double</span> angle_rad);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//getter</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a>    subset_random(<span class="keywordtype">double</span> rel_size);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a>       line(<span class="keywordtype">size_t</span> i);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">size_t</span>              size();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">//intersections</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">//pairwise intersections</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_pairwise();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">//center of intersections</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection(<span class="keywordtype">double</span> *deviation);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection(<span class="keywordtype">double</span> *deviation, vector&lt;double&gt; *v_residuals);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <span class="keywordtype">double</span> lines_needed_for_modell_rel, <span class="keywordtype">double</span> p_good_guess, <span class="keywordtype">double</span> p_outliers, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> intersection_ransac(<span class="keywordtype">double</span> *least_deviation, <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> *IntersectionsUsed, vector&lt;double&gt; *v_residuals, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//k-means clustering of pairwise intersections</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_clustered_kmeans(<span class="keywordtype">double</span> *deviation, <span class="keywordtype">size_t</span> k, <span class="keywordtype">size_t</span> iterations);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> intersections_clustered_kmeans_ransac(<span class="keywordtype">double</span> *deviation, <span class="keywordtype">size_t</span> clustering_k, <span class="keywordtype">size_t</span> clustering_iterations, <span class="keywordtype">double</span> ransac_subset_size_rel, <span class="keywordtype">size_t</span> ransac_iterations);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    vector&lt;D_Geo_Line_2D&gt; v_lines;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//threaded ransac</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> intersection_ransac_thread(<a class="code" href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a> *line_set, <a class="code" href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a> *center_best, <span class="keywordtype">double</span> *least_deviation, <a class="code" href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a> *IntersectionsUsed, vector&lt;double&gt; *v_residuals, <span class="keywordtype">double</span> subset_size_rel, <span class="keywordtype">size_t</span> iterations, <span class="keywordtype">bool</span> subset_of_points_not_lines);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_GEO_LINESET_2D_H</span></div>
+<div class="ttc" id="aclass_d___geo___line__2_d_html"><div class="ttname"><a href="class_d___geo___line__2_d.html">D_Geo_Line_2D</a></div><div class="ttdoc">The D_Geo_Line_2D class represents a 2D line and offers usefulls methods for standard tasks for 2D po...</div><div class="ttdef"><b>Definition:</b> d_geo_line_2d.h:43</div></div>
+<div class="ttc" id="aclass_d___geo___line_set__2_d_html"><div class="ttname"><a href="class_d___geo___line_set__2_d.html">D_Geo_LineSet_2D</a></div><div class="ttdef"><b>Definition:</b> d_geo_lineset_2d.h:40</div></div>
+<div class="ttc" id="aclass_d___geo___point__2_d_html"><div class="ttname"><a href="class_d___geo___point__2_d.html">D_Geo_Point_2D</a></div><div class="ttdoc">The D_Geo_Point_2D class represents a 2D point and offers usefulls methods for standard tasks for 2D ...</div><div class="ttdef"><b>Definition:</b> d_geo_point_2d.h:43</div></div>
+<div class="ttc" id="aclass_d___geo___point_set__2_d_html"><div class="ttname"><a href="class_d___geo___point_set__2_d.html">D_Geo_PointSet_2D</a></div><div class="ttdef"><b>Definition:</b> d_geo_pointset_2d.h:38</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__geo__line__2d_8h_html"><div class="ttname"><a href="d__geo__line__2d_8h.html">d_geo_line_2d.h</a></div></div>
 <div class="ttc" id="ad__geo__point__2d_8h_html"><div class="ttname"><a href="d__geo__point__2d_8h.html">d_geo_point_2d.h</a></div></div>
 <div class="ttc" id="ad__geo__pointset__2d_8h_html"><div class="ttname"><a href="d__geo__pointset__2d_8h.html">d_geo_pointset_2d.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -52,7 +52,7 @@ Mat D_VisDat_Obj::MA_SubMat(D_VisDat_Range RG)
 {
     //return new submat with range RG safe in Dim of this object
     //if a range outranges, full availiable range is used instead
-    //the returned mat uses the same memory as this object
+    //the returned Mat uses the same memory as this object
     //returned memory has same number of dimensions as this object
 
     return MA_Data(RG.Ranges(VD_Dim));

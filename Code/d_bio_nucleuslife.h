@@ -38,7 +38,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 class D_Bio_NucleusLife
 {

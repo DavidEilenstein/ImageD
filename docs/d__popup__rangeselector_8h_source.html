@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -131,10 +131,10 @@ $(document).ready(function(){initNavTree('d__popup__rangeselector_8h_source.html
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___pop_up___range_selector.html">D_PopUp_RangeSelector</a>(</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            Vec&lt;int, c_DIM_NUMBER_OF&gt; *selected_start,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            Vec&lt;int, c_DIM_NUMBER_OF&gt; *selected_end,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            Vec&lt;int, c_DIM_NUMBER_OF&gt; limit_min,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            Vec&lt;int, c_DIM_NUMBER_OF&gt; limit_max,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a> *selected_start,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a> *selected_end,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a> limit_min,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a> limit_max,</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            QString title,</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordtype">bool</span> select_x = <span class="keyword">false</span>, <span class="keywordtype">bool</span> select_y = <span class="keyword">false</span>, <span class="keywordtype">bool</span> select_z = <span class="keyword">false</span>, <span class="keywordtype">bool</span> select_t = <span class="keyword">false</span>, <span class="keywordtype">bool</span> select_s = <span class="keyword">false</span>, <span class="keywordtype">bool</span> select_p = <span class="keyword">false</span>,</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            QWidget *parent = <span class="keyword">nullptr</span>);</div>
@@ -159,8 +159,8 @@ $(document).ready(function(){initNavTree('d__popup__rangeselector_8h_source.html
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Ui::D_PopUp_RangeSelector *ui;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    Vec&lt;int, c_DIM_NUMBER_OF&gt;* v_from_ext;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Vec&lt;int, c_DIM_NUMBER_OF&gt;* v_to_ext;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>* v_from_ext;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>* v_to_ext;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    vector&lt;QSpinBox*&gt;   v_SpinFrom;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    vector&lt;QSpinBox*&gt;   v_SpinTo;</div>
@@ -184,9 +184,10 @@ $(document).ready(function(){initNavTree('d__popup__rangeselector_8h_source.html
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_POPUP_RANGESELECTOR_H</span></div>
 <div class="ttc" id="aclass_d___pop_up___range_selector_html"><div class="ttname"><a href="class_d___pop_up___range_selector.html">D_PopUp_RangeSelector</a></div><div class="ttdoc">The D_PopUp_RangeSelector class popup to slect an abstract subvolume in a volume.</div><div class="ttdef"><b>Definition:</b> d_popup_rangeselector.h:42</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html_a0939b87817f9b97e22e69319d1ca651e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec</a></div><div class="ttdeci">cv::Vec&lt; T, N &gt; Vec</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:43</div></div>
 <div class="ttc" id="ad__visdat__dim_8h_html"><div class="ttname"><a href="d__visdat__dim_8h.html">d_visdat_dim.h</a></div></div>
 <div class="ttc" id="ad__visdat__range_8h_html"><div class="ttname"><a href="d__visdat__range_8h.html">d_visdat_range.h</a></div></div>
-<div class="ttc" id="anamespace_ui_html"><div class="ttname"><a href="namespace_ui.html">Ui</a></div><div class="ttdef"><b>Definition:</b> d_analysiswindow.h:57</div></div>
+<div class="ttc" id="anamespace_ui_html"><div class="ttname"><a href="namespace_ui.html">Ui</a></div><div class="ttdef"><b>Definition:</b> d_analysiswindow.h:58</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

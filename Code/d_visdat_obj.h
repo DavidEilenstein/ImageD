@@ -38,12 +38,13 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_VisDat_Obj class Represents a 6D image.
  * \details A D_VisDat_Dim defines a 6D volume and D_VisDat_Obj is exactly that but with content (memory with pixel values).
- * The basic image format used is <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a>.
+ * The basic image format used is <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">Mat</a>.
  * D_VisDat_Obj adds some nice to use methods for handling more than two dimensions.
  */
 class D_VisDat_Obj

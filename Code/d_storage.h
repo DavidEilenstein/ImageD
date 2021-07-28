@@ -38,7 +38,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Storage class Used for storing data. There is only one instance in D_MainWindow .

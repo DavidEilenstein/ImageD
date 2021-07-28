@@ -52,7 +52,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 
 #include <QMainWindow>
@@ -419,7 +420,7 @@ private:
     c_ST_N_TEMP,
     c_ST_N_Otsu_threshold,
     c_ST_N_Convex_hull,
-    c_ST_N_Contour_nuclei,
+    c_ST_N_Contour_nuclei
 };
 
     //vMA_Average step

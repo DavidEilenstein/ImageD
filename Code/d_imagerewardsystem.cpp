@@ -30,7 +30,7 @@ bool D_ImageRewardSystem::get_reward()
         return false;
 
     //get url and request
-    QUrl url(QSl_WebUrls[mode_img]);
+    QUrl url(QSl_WebUrls[static_cast<int>(mode_img)]);
     QNetworkRequest request(url);
 
     //get reply (proecessed async when reply has finished)

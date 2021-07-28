@@ -591,7 +591,7 @@ void D_MainWindow::on_action_Test_D_VisDat_triggered()
     imshow("test", MA_tmp_show);
 
     //wait & clean
-    waitKey();
+    cv::waitKey();
     MA_tmp_show.release();
 
     /*
@@ -627,7 +627,7 @@ void D_MainWindow::on_action_Test_D_VisDat_triggered()
     };
 
     //size def
-    Mat MA_tmp_size_def = imread(QSL_TestLoad.first().toStdString(), IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
+    Mat MA_tmp_size_def = cv::imread(QSL_TestLoad.first().toStdString(), IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
 
     qDebug() << "test dim";
     D_VisDat_Dim Dim_test(
@@ -668,7 +668,7 @@ void D_MainWindow::on_action_Test_D_VisDat_triggered()
             "Read_2D_Plane");;
 
         //copy & show
-        cv::resize(MA_tmp_read, vMA_tmp_in[i], Size(), 100, 100, cv::INTER_NEAREST);
+        resize(MA_tmp_read, vMA_tmp_in[i], Size(), 100, 100, INTER_NEAREST);
         //ERR(D_Img_Proc::Duplicate(&(vMA_tmp_in[i]), &MA_tmp_read), "on_action_Test_D_VisDat_triggered", "Duplicate");
         imshow(QString("Out: " + QSL_DimNames[DIM_INDEX_S] + QString::number(i)).toStdString(), vMA_tmp_in[i]);
 
@@ -699,14 +699,14 @@ void D_MainWindow::on_action_Test_D_VisDat_triggered()
             "Read_2D_Plane");;
 
         //copy & show
-        cv::resize(MA_tmp_read, vMA_tmp_out[i], Size(), 100, 100, cv::INTER_NEAREST);
+        resize(MA_tmp_read, vMA_tmp_out[i], Size(), 100, 100, INTER_NEAREST);
         //ERR(D_Img_Proc::Duplicate(&(vMA_tmp_in[i]), &MA_tmp_read), "on_action_Test_D_VisDat_triggered", "Duplicate");
         imshow(QString("Out: " + QSL_DimNames[scan_index] + QString::number(i)).toStdString(), vMA_tmp_out[i]);
 
         //free memory
         MA_tmp_read.release();
     }
-    waitKey();
+    cv::waitKey();
 
     vMA_tmp_in.clear();
     vMA_tmp_out.clear();
@@ -721,7 +721,7 @@ void D_MainWindow::on_action_Test_D_VisDat_triggered()
     Mat MA_tmp_reshaped;
     Mat MA_tmp_target;
 
-    MA_tmp_input = imread("D:/David_Eilenstein/ImageD/Images/motiv_chrysanthemum.jpg", cv::IMREAD_ANYDEPTH|cv::IMREAD_ANYCOLOR);
+    MA_tmp_input = cv::imread("D:/David_Eilenstein/ImageD/Images/motiv_chrysanthemum.jpg", IMREAD_ANYDEPTH|IMREAD_ANYCOLOR);
     imshow("MA_tmp_input", MA_tmp_input);
     qDebug() << "Adress of Data of MA_tmp_input" << MA_tmp_input.ptr();
 
@@ -765,11 +765,11 @@ void D_MainWindow::on_actionTest_ND_Mat_load_and_display_triggered()
 
     //2D input mats (from files, each 1024x768 color)
     Mat MA_2Da_inp[3];
-    MA_2Da_inp[0] = imread("D:/David_Eilenstein/ImageD/Images/motiv_chrysanthemum.jpg");
-    MA_2Da_inp[1] = imread("D:/David_Eilenstein/ImageD/Images/motiv_desert.jpg");
-    MA_2Da_inp[2] = imread("D:/David_Eilenstein/ImageD/Images/motiv_hydrangeas.jpg");
+    MA_2Da_inp[0] = cv::imread("D:/David_Eilenstein/ImageD/Images/motiv_chrysanthemum.jpg");
+    MA_2Da_inp[1] = cv::imread("D:/David_Eilenstein/ImageD/Images/motiv_desert.jpg");
+    MA_2Da_inp[2] = cv::imread("D:/David_Eilenstein/ImageD/Images/motiv_hydrangeas.jpg");
 
-    //Put input-2D mats into 3D-main mat using target mat
+    //Put input-2D mats into 3D-main Mat using target mat
     for(int z = 0; z < 3; z++)
     {
         vector<Range> vRG_trgt = {Range(z, z+1), Range::all(), Range::all()};
@@ -781,7 +781,7 @@ void D_MainWindow::on_actionTest_ND_Mat_load_and_display_triggered()
     vector<Range> vRG_extr = {Range(0, 1), Range::all(), Range::all()};
     Mat MA_3D_extr = MA_3D_main(vRG_extr);
 
-    //3D-extr mat reinterpreted as 2D
+    //3D-extr Mat reinterpreted as 2D
     int size_2D_show[] = {768, 1024};
     Mat MA_2D_show(2, size_2D_show, CV_8UC3, MA_3D_extr.ptr());
 

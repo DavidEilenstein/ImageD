@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -124,85 +124,87 @@ $(document).ready(function(){initNavTree('d__makro__eilenstein_8h_source.html','
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//namespaces</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_ui.html">Ui</a> {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">class </span><a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_d___m_a_k_r_o___eilenstein.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a> : <span class="keyword">public</span> QMainWindow</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>(<a class="code" href="class_d___storage.html">D_Storage</a> *pStorage, QWidget *parent = 0);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ~<a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> closeEvent(QCloseEvent *event);</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">   52</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">set_ClosingPossible</a>(<span class="keywordtype">bool</span> closeable)     {ClosingPossible = closeable;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> Update_Stack_Count();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> Update_Image();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> Update_Ui();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Img_Add_clicked();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> on_pushButton_img_Clear_clicked();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> on_comboBox_Img_currentIndexChanged(<span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Out_Select_clicked();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Out_Open_clicked();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Run_clicked();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Min_valueChanged(<span class="keywordtype">int</span> arg1);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Max_valueChanged(<span class="keywordtype">int</span> arg1);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Step_valueChanged(<span class="keywordtype">int</span> arg1);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Min_valueChanged(<span class="keywordtype">double</span> arg1);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Max_valueChanged(<span class="keywordtype">double</span> arg1);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Step_valueChanged(<span class="keywordtype">double</span> arg1);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    Ui::D_MAKRO_Eilenstein *ui;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span>                    ClosingPossible = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="class_d___storage.html">D_Storage</a>   *pStore;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>    Viewer;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    vector&lt;Mat&gt; v_MA_Img;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    QStringList QSL_Img;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    QString     QS_Out_Path = 0;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">int</span>         size_min    = 3;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">int</span>         size_max    = 15;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">int</span>         size_step   = 2;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">double</span>      off_min     = -16;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">double</span>      off_max     = 16;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">double</span>      off_step    = 4;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_MAKRO_EILENSTEIN_H</span></div>
-<div class="ttc" id="aclass_d___m_a_k_r_o___eilenstein_html"><div class="ttname"><a href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a></div><div class="ttdef"><b>Definition:</b> d_makro_eilenstein.h:44</div></div>
-<div class="ttc" id="aclass_d___m_a_k_r_o___eilenstein_html_a6ee5a88d77f60a3f7836696f70429559"><div class="ttname"><a href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">D_MAKRO_Eilenstein::set_ClosingPossible</a></div><div class="ttdeci">void set_ClosingPossible(bool closeable)</div><div class="ttdef"><b>Definition:</b> d_makro_eilenstein.h:52</div></div>
-<div class="ttc" id="aclass_d___storage_html"><div class="ttname"><a href="class_d___storage.html">D_Storage</a></div><div class="ttdoc">The D_Storage class Used for storing data. There is only one instance in D_MainWindow .</div><div class="ttdef"><b>Definition:</b> d_storage.h:48</div></div>
-<div class="ttc" id="aclass_d___viewer_html"><div class="ttname"><a href="class_d___viewer.html">D_Viewer</a></div><div class="ttdoc">The D_Viewer class Display images (cv::Mat) in QGraphicsView in the user interface.</div><div class="ttdef"><b>Definition:</b> d_viewer.h:57</div></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_ui.html">Ui</a> {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">class </span><a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_d___m_a_k_r_o___eilenstein.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a> : <span class="keyword">public</span> QMainWindow</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>(<a class="code" href="class_d___storage.html">D_Storage</a> *pStorage, QWidget *parent = 0);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    ~<a class="code" href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a>();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> closeEvent(QCloseEvent *event);</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">   53</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">set_ClosingPossible</a>(<span class="keywordtype">bool</span> closeable)     {ClosingPossible = closeable;}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> Update_Stack_Count();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> Update_Image();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> Update_Ui();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Img_Add_clicked();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> on_pushButton_img_Clear_clicked();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> on_comboBox_Img_currentIndexChanged(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Out_Select_clicked();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Out_Open_clicked();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> on_pushButton_Run_clicked();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Min_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Max_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> on_spinBox_Step_valueChanged(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Min_valueChanged(<span class="keywordtype">double</span> arg1);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Max_valueChanged(<span class="keywordtype">double</span> arg1);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> on_doubleSpinBox_Off_Step_valueChanged(<span class="keywordtype">double</span> arg1);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Ui::D_MAKRO_Eilenstein *ui;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span>                    ClosingPossible = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="class_d___storage.html">D_Storage</a>   *pStore;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>    Viewer;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    vector&lt;Mat&gt; v_MA_Img;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    QStringList QSL_Img;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    QString     QS_Out_Path = 0;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">int</span>         size_min    = 3;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">int</span>         size_max    = 15;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">int</span>         size_step   = 2;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">double</span>      off_min     = -16;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">double</span>      off_max     = 16;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">double</span>      off_step    = 4;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;};</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_MAKRO_EILENSTEIN_H</span></div>
+<div class="ttc" id="aclass_d___m_a_k_r_o___eilenstein_html"><div class="ttname"><a href="class_d___m_a_k_r_o___eilenstein.html">D_MAKRO_Eilenstein</a></div><div class="ttdef"><b>Definition:</b> d_makro_eilenstein.h:45</div></div>
+<div class="ttc" id="aclass_d___m_a_k_r_o___eilenstein_html_a6ee5a88d77f60a3f7836696f70429559"><div class="ttname"><a href="class_d___m_a_k_r_o___eilenstein.html#a6ee5a88d77f60a3f7836696f70429559">D_MAKRO_Eilenstein::set_ClosingPossible</a></div><div class="ttdeci">void set_ClosingPossible(bool closeable)</div><div class="ttdef"><b>Definition:</b> d_makro_eilenstein.h:53</div></div>
+<div class="ttc" id="aclass_d___storage_html"><div class="ttname"><a href="class_d___storage.html">D_Storage</a></div><div class="ttdoc">The D_Storage class Used for storing data. There is only one instance in D_MainWindow .</div><div class="ttdef"><b>Definition:</b> d_storage.h:49</div></div>
+<div class="ttc" id="aclass_d___viewer_html"><div class="ttname"><a href="class_d___viewer.html">D_Viewer</a></div><div class="ttdoc">The D_Viewer class Display images (Mat) in QGraphicsView in the user interface.</div><div class="ttdef"><b>Definition:</b> d_viewer.h:58</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
 <div class="ttc" id="ad__img__proc_8h_html"><div class="ttname"><a href="d__img__proc_8h.html">d_img_proc.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
 <div class="ttc" id="ad__storage_8h_html"><div class="ttname"><a href="d__storage_8h.html">d_storage.h</a></div></div>
 <div class="ttc" id="ad__viewer_8h_html"><div class="ttname"><a href="d__viewer_8h.html">d_viewer.h</a></div></div>
-<div class="ttc" id="anamespace_ui_html"><div class="ttname"><a href="namespace_ui.html">Ui</a></div><div class="ttdef"><b>Definition:</b> d_analysiswindow.h:57</div></div>
+<div class="ttc" id="anamespace_ui_html"><div class="ttname"><a href="namespace_ui.html">Ui</a></div><div class="ttdef"><b>Definition:</b> d_analysiswindow.h:58</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

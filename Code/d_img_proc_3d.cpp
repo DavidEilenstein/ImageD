@@ -694,7 +694,7 @@ int D_Img_Proc_3D::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, fun
                     F3_Combine,
                     F4_f3center,
                     border_type,
-                    getNumberOfCPUs(),
+                    cv::getNumberOfCPUs(),
                     DoNonZeroMaskOnly);
         if(ER != ER_okay)   return ER;
     }
@@ -730,7 +730,7 @@ int D_Img_Proc_3D::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, fun
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -780,7 +780,7 @@ int D_Img_Proc_3D::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, fun
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -830,7 +830,7 @@ int D_Img_Proc_3D::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, fun
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -1130,7 +1130,7 @@ int D_Img_Proc_3D::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
                     F3_Combine,
                     F4_f3center,
                     border_type,
-                    getNumberOfCPUs(),
+                    cv::getNumberOfCPUs(),
                     DoNonZeroMaskOnly);
         if(ER != ER_okay)   return ER;
     }
@@ -1166,7 +1166,7 @@ int D_Img_Proc_3D::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -1216,7 +1216,7 @@ int D_Img_Proc_3D::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -1266,7 +1266,7 @@ int D_Img_Proc_3D::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }

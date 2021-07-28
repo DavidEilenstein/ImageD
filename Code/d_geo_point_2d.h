@@ -29,7 +29,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 //predeclaration, because points are needed for lines and vice versa
 class D_Geo_Line_2D;

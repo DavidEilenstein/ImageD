@@ -43,12 +43,13 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Img_Proc_3D class static 3D image processing functions.
- * \details Most methods take pointers to input and/or ouput <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a> plus additional parameters.
- * Basic 3D funcionality comes from <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a> but most of the logic is selfmade.
+ * \details Most methods take pointers to input and/or ouput <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">Mat</a> plus additional parameters.
+ * Basic 3D funcionality comes from <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">Mat</a> but most of the logic is selfmade.
  */
 class D_Img_Proc_3D
 {

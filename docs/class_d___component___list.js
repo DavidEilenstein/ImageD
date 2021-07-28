@@ -11,7 +11,7 @@ var class_d___component___list =
     [ "get_Centroid", "class_d___component___list.html#a3f65b83dac537d2f35e2328f4d201436", null ],
     [ "get_CentroidVector", "class_d___component___list.html#a7f78b6d76aa3a491319fbd9f30b9d758", null ],
     [ "get_CentroidVector_BG", "class_d___component___list.html#a1ccd899ad2504da5be4ca359619336e0", null ],
-    [ "get_Component", "class_d___component___list.html#a3b4a2ca95e800d37848edb76c18dc9cc", null ],
+    [ "get_Component", "class_d___component___list.html#abf78f9d68dc3aba6d85fbef9f19b9763", null ],
     [ "get_ComponentVector", "class_d___component___list.html#a7c1ab7ebe72d402decd4c819c9eea92d", null ],
     [ "get_ContourVector", "class_d___component___list.html#a541be355088e7cdfd90a372e2416bfa4", null ],
     [ "get_ContourVector_BG", "class_d___component___list.html#a25811a0ec12da85db7fc724a62bebe6a", null ],
@@ -33,5 +33,5 @@ var class_d___component___list =
     [ "get_size", "class_d___component___list.html#a9f21006670845cb773a144eaba61f83f", null ],
     [ "save_all", "class_d___component___list.html#aa7f9c692a06ab721f12eb5f240544deb", null ],
     [ "set_Mat", "class_d___component___list.html#ae6c31cc0df881423def2950e72306c29", null ],
-    [ "size", "class_d___component___list.html#a39d1b2ce304399503e229f83e3f4e6f4", null ]
+    [ "size", "class_d___component___list.html#aa295be74770af67b7852dbfaae29fc71", null ]
 ];

@@ -38,7 +38,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Component_List_Context class inherits D_Component_List and calculates features of the blobs depending on the relation to other blobs in the same represented 2D binary image.

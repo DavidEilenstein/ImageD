@@ -303,7 +303,7 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
     {
         //qDebug() << stat;
         //qDebug() << QSL_ValueStat_Subsection[stat];
-        OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[stat].toStdString();
+        OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[static_cast<int>(stat)].toStdString();
         for(size_t ch = 0; ch < vvSignalStats_StatChannel[stat].size(); ch++)
             OS_NucleusFile << ";" << vvSignalStats_StatChannel[stat][ch];
     }
@@ -336,7 +336,7 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
 
                 for(size_t stat = 0; stat < VAL_STAT_NUMBER_OF; stat++)
                 {
-                    OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[stat].toStdString();
+                    OS_NucleusFile << "\n" << QSL_ValueStat_Subsection[static_cast<int>(stat)].toStdString();
                     for(size_t ch = 0; ch < focus.channels(); ch++)
                         OS_NucleusFile << ";" << focus.signal_stat(ch, stat);
                 }
@@ -399,7 +399,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
         //check for new section
         bool new_section = false;
         for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !new_section; i++)
-            if(QS_LineFirst == QSL_FileSections[i])
+            if(QS_LineFirst == QSL_FileSections[static_cast<int>(i)])
             {
                 section = i;
                 new_section = true;
@@ -427,7 +427,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             bool subsection_found = false;
             size_t subsection = FILE_SUBSECTION_DEFAULT;
             for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found; i++)
-                if(QS_LineFirst == QSL_FileSubsections[i])
+                if(QS_LineFirst == QSL_FileSubsections[static_cast<int>(i)])
                 {
                     subsection = i;
                     subsection_found = true;
@@ -533,7 +533,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                             bool subsection_found_focus = false;
                             size_t subsection_focus = FILE_SUBSECTION_DEFAULT;
                             for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !subsection_found_focus; i++)
-                                if(QS_LineFirst_focus == QSL_FileSubsections[i])
+                                if(QS_LineFirst_focus == QSL_FileSubsections[static_cast<int>(i)])
                                 {
                                     subsection_focus = i;
                                     subsection_found_focus = true;

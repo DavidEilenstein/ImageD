@@ -8,6 +8,7 @@ QT       += core gui
 QT       += charts
 QT       += multimedia
 QT       += multimediawidgets
+QT       += datavisualization
 #QT       += winextras
 
 #CONFIG+= static
@@ -67,6 +68,7 @@ SOURCES += \
     d_popup_rangeselector.cpp \
     d_videoslicer.cpp \
     d_videowriter.cpp \
+    d_viewer_3d.cpp \
     d_visdat_header.cpp \
         main.cpp \
         d_mainwindow.cpp \
@@ -148,6 +150,7 @@ HEADERS += \
     d_makro_megafoci.h \
     d_makro_softmaxvisualization.h \
     d_multidimloop.h \
+    d_opencv_typedefs.h \
     d_pdf_writer.h \
     d_physics.h \
     d_popup_feedbackrequest.h \
@@ -156,6 +159,7 @@ HEADERS += \
     d_stepwindow.h \
     d_videoslicer.h \
     d_videowriter.h \
+    d_viewer_3d.h \
     d_visdat_header.h \
     scenemousetrack.h \
     d_storage.h \

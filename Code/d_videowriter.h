@@ -43,7 +43,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_VideoWriter class Creates a video from a sequence of images and saves it as a file.

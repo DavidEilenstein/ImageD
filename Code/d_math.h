@@ -32,7 +32,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Math class Mathematic functionalities.
@@ -50,14 +51,12 @@ public:
     static function<complex<double> (complex<double> x, complex<double> y)> Function_2D_to_1D_Complex   (int type, double sx, double ox, double sy, double oy, double a = 1, double b = 0, double c = 1, double d = 0, double e = 0, double f = 0, double nan_val = 0, double inf_val = 0);
     static function<bool   (double x, double y)>                            Condition_2D                (int type, double a = 1, double b = 0, double c = 1, double d = 0, double e = 0, double f = 0, double g = 0, double h = 0);
 
-    static function<double (double x, double y, double z, double t, double s, double p)> Function_6D_to_1D(int type, double sx, double ox, double sy, double oy, double sz, double oz, double st, double ot, double ss, double os, double sp, double op, double a = 1, double b = 0, double c = 1, double d = 0, double e = 0, double f = 0, double nan_val = 0, double inf_val = 0);
-
+    static function<double (double x, double y, double z, double t, double s, double p)>            Function_6D_to_1D(int type, double sx, double ox, double sy, double oy, double sz, double oz, double st, double ot, double ss, double os, double sp, double op, double a = 1, double b = 0, double c = 1, double d = 0, double e = 0, double f = 0, double nan_val = 0, double inf_val = 0);
+    static function<double (double x, double a, double b, double c, double d, double e, double f)>  Curve_Array(int prototype);
 
     static int                                      Distance_Transformation_1D  (vector<double> *v_edt, vector<double> v_line, double spacing = 1);
 
-    static function<double (double x, double a, double b, double c, double d, double e, double f)> Curve_Array(int prototype);
-
-    //static double                                   RandomNumberDistribution(int type, double min, double max, double a, double b, double c, double d, double e, double f);
+  //static double                                   RandomNumberDistribution(int type, double min, double max, double a, double b, double c, double d, double e, double f);
 
     static double                                   Binomial_Coefficient        (double n, double k);
     static double                                   Distance                    (Point   pt1, Point   pt2);

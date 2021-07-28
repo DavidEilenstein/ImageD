@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -123,29 +123,33 @@ $(document).ready(function(){initNavTree('d__physics_8h_source.html',''); initRe
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//namespaces</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_d___physics.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___physics.html">D_Physics</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_d___physics.html">D_Physics</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//interference</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   FieldStrength           (Mat Position, Mat Source, <span class="keywordtype">double</span> fieldstrength, <span class="keywordtype">double</span> phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   FieldStrength           (Point3d Position, Point3d Source, <span class="keywordtype">double</span> fieldstrength, <span class="keywordtype">double</span> phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Interference            (Mat     Position, vector&lt;Mat&gt;     v_Source, vector&lt;double&gt; v_fieldstrength, vector&lt;double&gt; v_phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Interference            (Point3d Position, vector&lt;Point3d&gt; v_Source, vector&lt;double&gt; v_fieldstrength, vector&lt;double&gt; v_phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//scalar forces</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> <span class="keyword">function</span>&lt;double (<span class="keywordtype">double</span> v)&gt;              Force_Drag              (<span class="keywordtype">double</span> rho, <span class="keywordtype">double</span> A, <span class="keywordtype">double</span> cw);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Force_Gravity           (<span class="keywordtype">double</span> m);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Force_Upthrust          (<span class="keywordtype">double</span> V, <span class="keywordtype">double</span> rho);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_PHYSICS_H</span></div>
-<div class="ttc" id="aclass_d___physics_html"><div class="ttname"><a href="class_d___physics.html">D_Physics</a></div><div class="ttdoc">The D_Physics class Basic physics formulas.</div><div class="ttdef"><b>Definition:</b> d_physics.h:42</div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_d___physics.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___physics.html">D_Physics</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_d___physics.html">D_Physics</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//interference</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   FieldStrength           (<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> Position, <a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> Source, <span class="keywordtype">double</span> fieldstrength, <span class="keywordtype">double</span> phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   FieldStrength           (<a class="code" href="d__opencv__typedefs_8h.html#a6daa43b0b2ae6f129e26eca5023e7666">Point3d</a> Position, <a class="code" href="d__opencv__typedefs_8h.html#a6daa43b0b2ae6f129e26eca5023e7666">Point3d</a> Source, <span class="keywordtype">double</span> fieldstrength, <span class="keywordtype">double</span> phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Interference            (<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a>     Position, vector&lt;Mat&gt;     v_Source, vector&lt;double&gt; v_fieldstrength, vector&lt;double&gt; v_phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Interference            (<a class="code" href="d__opencv__typedefs_8h.html#a6daa43b0b2ae6f129e26eca5023e7666">Point3d</a> Position, vector&lt;Point3d&gt; v_Source, vector&lt;double&gt; v_fieldstrength, vector&lt;double&gt; v_phaseoffset_rad, <span class="keywordtype">double</span> wavelength_m);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//scalar forces</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">static</span> <span class="keyword">function</span>&lt;double (<span class="keywordtype">double</span> v)&gt;              Force_Drag              (<span class="keywordtype">double</span> rho, <span class="keywordtype">double</span> A, <span class="keywordtype">double</span> cw);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Force_Gravity           (<span class="keywordtype">double</span> m);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span>                                   Force_Upthrust          (<span class="keywordtype">double</span> V, <span class="keywordtype">double</span> rho);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_PHYSICS_H</span></div>
+<div class="ttc" id="aclass_d___physics_html"><div class="ttname"><a href="class_d___physics.html">D_Physics</a></div><div class="ttdoc">The D_Physics class Basic physics formulas.</div><div class="ttdef"><b>Definition:</b> d_physics.h:43</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__math_8h_html"><div class="ttname"><a href="d__math_8h.html">d_math.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html_a1f8633c25b831b9a16e5ee792f985a6e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a></div><div class="ttdeci">cv::Mat Mat</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:28</div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html_a6daa43b0b2ae6f129e26eca5023e7666"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a6daa43b0b2ae6f129e26eca5023e7666">Point3d</a></div><div class="ttdeci">cv::Point3f Point3d</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -850,7 +850,7 @@ void m_makro_foci::step_load()
 //        vMA_Load.reserve(Size_image_in_time);                                                             //get enough memory
         imreadmulti(path_img.toStdString(),
                     vMA_Load,
-                    cv::IMREAD_ANYDEPTH|cv::IMREAD_ANYCOLOR); //read image pages
+                    IMREAD_ANYDEPTH|IMREAD_ANYCOLOR); //read image pages
 
         for(int i=0;i<Size_image_in_time;i++){
             if(i+1> vMA_Load.size()){
@@ -1086,7 +1086,7 @@ int m_makro_foci::draw_circle(Mat *pMA_Out,Mat *pMA_Out2, Mat *pMA_In,Mat *pMA_l
             {
                 //   D_Img_Proc::Draw_Circle(pMA_Out,Xi*2, Yi*2,radius, color, thickness);
 
-                cv::circle(
+                circle(
                             *pMA_Out,
                             Point(Xi*2,Yi*2),
                             radius,
@@ -1097,7 +1097,7 @@ int m_makro_foci::draw_circle(Mat *pMA_Out,Mat *pMA_Out2, Mat *pMA_In,Mat *pMA_l
 
                    //   D_Img_Proc::Draw_Text(pMA_Out,QString::number(pMA_label->at<uchar>(Yi,Xi)), Xi*2, Yi*2, thickness, ui->doubleSpinBox_size_font->value(), 200);
 
-                cv::circle(
+                circle(
                             *pMA_Out2,
                             Point(Xi*2,Yi*2),
                             radius,
@@ -1143,7 +1143,7 @@ int m_makro_foci::draw_circle_2(Mat *pMA_Out,Mat *pMA_Out2, Mat *pMA_In,Mat *pMA
         Xi = vvvFeatureFoci[label][t][c_sT_Feature_Foci_coordX];
         Yi = vvvFeatureFoci[label][t][c_sT_Feature_Foci_coordY];
 
-        cv::circle(
+        circle(
                     *pMA_Out,
                     Point(Xi*2,Yi*2),
                     radius,
@@ -1152,7 +1152,7 @@ int m_makro_foci::draw_circle_2(Mat *pMA_Out,Mat *pMA_Out2, Mat *pMA_In,Mat *pMA
                     LINE_8,
                     0);
 
-        cv::circle(
+        circle(
                     *pMA_Out2,
                     Point(Xi*2,Yi*2),
                     radius,
@@ -2247,7 +2247,7 @@ void m_makro_foci::Derivativ()
                 BORDER_DEFAULT);                   
 
 
-/*    cv::spatialGradient(
+/*    spatialGradient(
             M_foci_intensity_filtered,
             M_foci_intensity_filter_1st_deriv,
             0,
@@ -3322,7 +3322,7 @@ void m_makro_foci::Init_add_focus_user()
 {
     qDebug()<<"Init_add_focus_user() 1";
     MA_Max_proj_add_focus = vMA_Average[c_sT_Max_Proj_T_positives].clone();
-    cv::cvtColor(MA_Max_proj_add_focus,MA_Max_proj_add_focus,CV_GRAY2BGR); // source, dest
+    cvtColor(MA_Max_proj_add_focus,MA_Max_proj_add_focus,CV_GRAY2BGR); // source, dest
 
     int label_selected;
     for (int label=1;label<FeatureFoci_nb_label_selected;label++){
@@ -3335,7 +3335,7 @@ void m_makro_foci::Init_add_focus_user()
                                 1));
  */
 
-        cv::circle(
+        circle(
                     MA_Max_proj_add_focus,
                     Point(vvvFeatureFoci[label_selected][Size_image_in_time-1][c_sT_Feature_Foci_coordX]
                     ,vvvFeatureFoci[label_selected][Size_image_in_time-1][c_sT_Feature_Foci_coordY]),
@@ -3353,7 +3353,7 @@ void m_makro_foci::Init_add_focus_user()
                                 Foci_added_by_user[label][2],
                                 127,
                                 1));
-*/        cv::circle(
+*/        circle(
                     MA_Max_proj_add_focus,
                     Point(Foci_added_by_user[label][0]
                     ,Foci_added_by_user[label][1]),
@@ -3391,7 +3391,7 @@ void m_makro_foci::Delete_added_foci_user()
     Circled_selected_centroid();
 
     MA_Max_proj_add_focus = vMA_Average[c_sT_Max_Proj_T_positives].clone();
-    cv::cvtColor(MA_Max_proj_add_focus,MA_Max_proj_add_focus,CV_GRAY2BGR); // source, dest
+    cvtColor(MA_Max_proj_add_focus,MA_Max_proj_add_focus,CV_GRAY2BGR); // source, dest
     int label_selected;
     for (int label=1;label<FeatureFoci_nb_label_selected;label++){
         label_selected=LabelFociSelected_To_LabelFoci[label];
@@ -3402,7 +3402,7 @@ void m_makro_foci::Delete_added_foci_user()
                                 255,
                                 1));
 */
-        cv::circle(
+        circle(
                     MA_Max_proj_add_focus,
                     Point(vvvFeatureFoci[label_selected][Size_image_in_time-1][c_sT_Feature_Foci_coordX]
                     ,vvvFeatureFoci[label_selected][Size_image_in_time-1][c_sT_Feature_Foci_coordY]),
@@ -3439,7 +3439,7 @@ void m_makro_foci::Add_focus_user(int x, int y)
     thickness;
     qDebug()<<"nb_Foci_added_by_user="<<nb_Foci_added_by_user;
 //     D_Img_Proc::Draw_Circle(&MA_Max_proj_add_focus,Foci_added_by_user[nb_Foci_added_by_user-1][0],y,r,color_circle,thickness);
-    cv::circle(
+    circle(
                 MA_Max_proj_add_focus,
                 Point(x,y),
                 ui->spinBox_radius_circle_intensity->value(),

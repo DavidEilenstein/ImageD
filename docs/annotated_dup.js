@@ -67,6 +67,7 @@ var annotated_dup =
     [ "D_VideoSlicer", "class_d___video_slicer.html", "class_d___video_slicer" ],
     [ "D_VideoWriter", "class_d___video_writer.html", "class_d___video_writer" ],
     [ "D_Viewer", "class_d___viewer.html", "class_d___viewer" ],
+    [ "D_Viewer_3D", "class_d___viewer__3_d.html", "class_d___viewer__3_d" ],
     [ "D_Viewer_Img", "class_d___viewer___img.html", "class_d___viewer___img" ],
     [ "D_Viewer_Plot", "class_d___viewer___plot.html", "class_d___viewer___plot" ],
     [ "D_VisDat_Dim", "class_d___vis_dat___dim.html", "class_d___vis_dat___dim" ],

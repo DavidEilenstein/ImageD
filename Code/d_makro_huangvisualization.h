@@ -52,7 +52,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 namespace Ui {
 class D_MAKRO_HuangVisualization;
@@ -192,8 +193,8 @@ private:
     Mat MA_MaskShow_In_Gray;
     Mat MA_MaskShow_Out;
     //image sizes
-    size_t img_in_sy;
-    size_t img_in_sx;
+    int img_in_sy;
+    int img_in_sx;
 
 
     //parameters and variables for algorithm -------------------------
@@ -224,8 +225,8 @@ private:
 
     //looping parameters
     bool at_end = false;
-    size_t pos_x;
-    size_t pos_y;
+    int pos_x;
+    int pos_y;
     int direction = c_DIR2D_R;
 
     //masses

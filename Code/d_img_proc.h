@@ -50,11 +50,12 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Img_Proc class static 2D image processing functions.
- * \details Most methods take pointers to input and/or ouput <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">cv::Mat</a> plus additional parameters.
+ * \details Most methods take pointers to input and/or ouput <a href="https://docs.opencv.org/master/d3/d63/classcv_1_1Mat.html">Mat</a> plus additional parameters.
  * This class is where you find most of the image processing functions in ImageD.
  * Some are just wrapped from <a href="https://docs.opencv.org/master/index.html">OpenCV</a> others are selfmade.
  */
@@ -92,7 +93,7 @@ public:
 
     static int      MinMax_of_Mat               (Mat *pMA_In, double *min_ext, double *max_ext);
     static int      MinMax_of_Mat_1C            (Mat *pMA_In, double *min_ext, double *max_ext);
-    static int      ValAtPix                    (vector<double> *v_value, Mat *pMA_In, unsigned int x_pos, unsigned int y_pos);
+    static int      ValAtPix                    (vector<double> *v_value, Mat *pMA_In, size_t x_pos, size_t y_pos);
     static int      ValAtPix                    (QString *QS_value, Mat *pMA_In, unsigned int x_pos, unsigned int y_pos);
 
     static int      Duplicate                   (Mat *pMA_Out, Mat *pMA_In);

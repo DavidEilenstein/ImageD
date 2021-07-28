@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -107,7 +107,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a53f1803a17837ab66de3b7ce9235ba23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a156285efad03e82efd03044ab11d8e0e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a156285efad03e82efd03044ab11d8e0e">set_PathOut</a> (QFileInfo FI_OutPath)</td></tr>
 <tr class="separator:a156285efad03e82efd03044ab11d8e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2511445777941ca65079c4f74068e3ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea">set_Size</a> (Size size_out)</td></tr>
+<tr class="memitem:a2511445777941ca65079c4f74068e3ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea">set_Size</a> (<a class="el" href="d__opencv__typedefs_8h.html#ab8f79abb38aab32a8a140c6e6afbb57f">Size</a> size_out)</td></tr>
 <tr class="separator:a2511445777941ca65079c4f74068e3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2fbc530002e16fa75838f2f6ea5b1fd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#af2fbc530002e16fa75838f2f6ea5b1fd">set_Size</a> (int width, int height)</td></tr>
 <tr class="separator:af2fbc530002e16fa75838f2f6ea5b1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,9 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5e7c8e5195e44f3485bd95ed65d73b25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf72ae7b7ddc481a4c305c29328f5d4a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#abf72ae7b7ddc481a4c305c29328f5d4a">is_Init</a> ()</td></tr>
 <tr class="separator:abf72ae7b7ddc481a4c305c29328f5d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a013a568b0d0898efb7980ea5cecf463e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e">AddFrame</a> (Mat frame2add)</td></tr>
+<tr class="memitem:a013a568b0d0898efb7980ea5cecf463e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e">AddFrame</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> frame2add)</td></tr>
 <tr class="separator:a013a568b0d0898efb7980ea5cecf463e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af685530f186d6c40f762b63790bf2a89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#af685530f186d6c40f762b63790bf2a89">AddFrame</a> (Mat *frame2add)</td></tr>
+<tr class="memitem:af685530f186d6c40f762b63790bf2a89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#af685530f186d6c40f762b63790bf2a89">AddFrame</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *frame2add)</td></tr>
 <tr class="separator:af685530f186d6c40f762b63790bf2a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29e8610e03ee3d6d3241486f291d3da5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___video_writer.html#a29e8610e03ee3d6d3241486f291d3da5">EndVideoWriting</a> ()</td></tr>
 <tr class="separator:a29e8610e03ee3d6d3241486f291d3da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +156,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">int D_VideoWriter::AddFrame </td>
           <td>(</td>
-          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
           <td class="paramname"><em>frame2add</em></td><td>)</td>
           <td></td>
         </tr>
@@ -174,7 +174,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">int D_VideoWriter::AddFrame </td>
           <td>(</td>
-          <td class="paramtype">Mat&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a>&#160;</td>
           <td class="paramname"><em>frame2add</em></td><td>)</td>
           <td></td>
         </tr>
@@ -361,7 +361,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">int D_VideoWriter::set_Size </td>
           <td>(</td>
-          <td class="paramtype">Size&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#ab8f79abb38aab32a8a140c6e6afbb57f">Size</a>&#160;</td>
           <td class="paramname"><em>size_out</em></td><td>)</td>
           <td></td>
         </tr>

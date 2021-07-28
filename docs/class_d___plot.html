@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -109,7 +109,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a682175dfee9f267ed24c754bf8b5d024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1615986e1d3f6edd1b37009f9951c2a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#aa1615986e1d3f6edd1b37009f9951c2a">Plot_AnyReal</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vvX, vector&lt; vector&lt; double &gt;&gt; *vvY, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, int plot_mode=<a class="el" href="d__enum_8h.html#a3b1e6e462a8664f5eb351e81fe318eb4a9097dd4baac6ed7529d0936d4ca27b63">c_PLOT_SIMPLE_LINE</a>, int mode_crop_y=<a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>, double in_min_y=0, double in_max_y=255, int mode_trafo_y=<a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>, double gamma_y=1, double center_y=0, double divisor_y=1, int mode_crop_x=<a class="el" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>, double in_min_x=0, double in_max_x=255, int mode_trafo_x=<a class="el" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>, double gamma_x=1, double center_x=0, double divisor_x=1)</td></tr>
 <tr class="separator:aa1615986e1d3f6edd1b37009f9951c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac88ad368e4965243e4e10bc7f517e857"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac88ad368e4965243e4e10bc7f517e857">Plot_Hist</a> (QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool uniform, bool accum, double *max_occured)</td></tr>
+<tr class="memitem:ac88ad368e4965243e4e10bc7f517e857"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac88ad368e4965243e4e10bc7f517e857">Plot_Hist</a> (QChartView *pChartView, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, bool plot_ch[4], bool uniform, bool accum, double *max_occured)</td></tr>
 <tr class="separator:ac88ad368e4965243e4e10bc7f517e857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a204f933730151c09901d50f9bf9ccfe6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a204f933730151c09901d50f9bf9ccfe6">Plot_Hist_WithStats</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni=true, bool acc=false, size_t axe_tick_count=<a class="el" href="d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2">AXE_TICK_COUNT_DEFAULT</a>)</td></tr>
 <tr class="separator:a204f933730151c09901d50f9bf9ccfe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,9 +123,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aa66c38f3ada51ad2254e1ad4a190a7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5f48800ad4c09a903102bb41dd3697b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#ac5f48800ad4c09a903102bb41dd3697b">Plot_Hist_Multi_Classes</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vv_hist, double min_x, double max_x, double max_y, double step, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool ignore_first)</td></tr>
 <tr class="separator:ac5f48800ad4c09a903102bb41dd3697b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b12990610df41fff8cf5617d429ae03"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a2b12990610df41fff8cf5617d429ae03">Plot_Hist_Any</a> (QChartView *pChartView, Mat *pMA_In, int classes, QString name_title=&quot;histogram&quot;, QString qs_name_series=&quot;channel_&quot;, QString name_x=&quot;pixel value&quot;, QString name_y=&quot;amount of pixels&quot;, bool uniform=true, bool accum=true, bool ignore_first=false)</td></tr>
+<tr class="memitem:a2b12990610df41fff8cf5617d429ae03"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a2b12990610df41fff8cf5617d429ae03">Plot_Hist_Any</a> (QChartView *pChartView, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int classes, QString name_title=&quot;histogram&quot;, QString qs_name_series=&quot;channel_&quot;, QString name_x=&quot;pixel value&quot;, QString name_y=&quot;amount of pixels&quot;, bool uniform=true, bool accum=true, bool ignore_first=false)</td></tr>
 <tr class="separator:a2b12990610df41fff8cf5617d429ae03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9232a9827324e5554a72bde6d9926fe9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a9232a9827324e5554a72bde6d9926fe9">Plot_Hist_Any</a> (QChartView *pChartView, Mat *pMA_In, int classes, QString name_title, QStringList qsl_name_series, QString name_x=&quot;pixel value&quot;, QString name_y=&quot;amount of pixels&quot;, bool uniform=true, bool accum=true, bool ignore_first=false)</td></tr>
+<tr class="memitem:a9232a9827324e5554a72bde6d9926fe9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a9232a9827324e5554a72bde6d9926fe9">Plot_Hist_Any</a> (QChartView *pChartView, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int classes, QString name_title, QStringList qsl_name_series, QString name_x=&quot;pixel value&quot;, QString name_y=&quot;amount of pixels&quot;, bool uniform=true, bool accum=true, bool ignore_first=false)</td></tr>
 <tr class="separator:a9232a9827324e5554a72bde6d9926fe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c426814f569118191dcf1b602392e5c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a0c426814f569118191dcf1b602392e5c">Plot_Hist_Any</a> (QChartView *pChartView, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int classes, QString name_title=&quot;histogram&quot;, QString qs_name_series=&quot;channel_&quot;, QString name_x=&quot;pixel value&quot;, QString name_y=&quot;amount of pixels&quot;, bool uniform=true, bool accum=true, bool ignore_first=false)</td></tr>
 <tr class="separator:a0c426814f569118191dcf1b602392e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -640,7 +640,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
           <td class="paramname"><em>pMA_In</em>, </td>
         </tr>
         <tr>
@@ -868,7 +868,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
           <td class="paramname"><em>pMA_In</em>, </td>
         </tr>
         <tr>
@@ -952,7 +952,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat *&#160;</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
           <td class="paramname"><em>pMA_In</em>, </td>
         </tr>
         <tr>

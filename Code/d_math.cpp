@@ -462,7 +462,7 @@ function<double (double x, double y)> D_Math::Function_2D_to_1D(int type, double
         if(n<0)
             return Function_2D_to_1D(c_MATH_2D_TO_1D_const_E);
 
-        //force m to fot definition or return 0
+        //force m to fit definition or return 0
         int m = static_cast<int>(c);
         if((m<-n) || (m>n) || ((n%2) && !(abs(m)%2)) || (!(n%2) && (abs(m)%2)))
             return Function_2D_to_1D(c_MATH_2D_TO_1D_const_E);

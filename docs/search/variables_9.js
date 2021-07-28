@@ -1,10 +1,16 @@
 var searchData=
 [
-  ['sigma1_5fprob_3867',['SIGMA1_PROB',['../d__enum_8h.html#a11397ee01b9b7896ef181bc65cbd340c',1,'d_enum.h']]],
-  ['sigma2_5fprob_3868',['SIGMA2_PROB',['../d__enum_8h.html#a31a7a8ac96380a31616b8c7d0023dc13',1,'d_enum.h']]],
-  ['sigma3_5fprob_3869',['SIGMA3_PROB',['../d__enum_8h.html#a6b1e6510c994b5d4bfa6910f1bc3af46',1,'d_enum.h']]],
-  ['sigma4_5fprob_3870',['SIGMA4_PROB',['../d__enum_8h.html#a2838d02cdfb29dc5d58def002d30d759',1,'d_enum.h']]],
-  ['sigma5_5fprob_3871',['SIGMA5_PROB',['../d__enum_8h.html#a9cf12568261cfcdbf0de245bf0771874',1,'d_enum.h']]],
-  ['sigma6_5fprob_3872',['SIGMA6_PROB',['../d__enum_8h.html#ab894d8b45ac5376c0977fe0cb416530c',1,'d_enum.h']]],
-  ['sigma7_5fprob_3873',['SIGMA7_PROB',['../d__enum_8h.html#ad70196ce706dc3135dd66858e8ac8307',1,'d_enum.h']]]
+  ['ma_5fdata_3958',['MA_Data',['../class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a',1,'D_VisDat_Obj']]],
+  ['ma_5ftype_3959',['MA_Type',['../class_d___vis_dat___obj.html#af8f4773348dd02fd7c78e0fc28323d72',1,'D_VisDat_Obj']]],
+  ['morph_5fblackhat_3960',['MORPH_BLACKHAT',['../d__opencv__typedefs_8h.html#a725f4d985dae6d489a1f40a41ec13d93',1,'d_opencv_typedefs.h']]],
+  ['morph_5fclose_3961',['MORPH_CLOSE',['../d__opencv__typedefs_8h.html#a22c9a52a6dcf98f5c12cbd259a167970',1,'d_opencv_typedefs.h']]],
+  ['morph_5fcross_3962',['MORPH_CROSS',['../d__opencv__typedefs_8h.html#a328880f710d2a2a6edb3d5e9777e4f07',1,'d_opencv_typedefs.h']]],
+  ['morph_5fdilate_3963',['MORPH_DILATE',['../d__opencv__typedefs_8h.html#a5ec39bb43a3799441f0382a0b1af0236',1,'d_opencv_typedefs.h']]],
+  ['morph_5fellipse_3964',['MORPH_ELLIPSE',['../d__opencv__typedefs_8h.html#a57937e41e668a4f75cd67700af22f139',1,'d_opencv_typedefs.h']]],
+  ['morph_5ferode_3965',['MORPH_ERODE',['../d__opencv__typedefs_8h.html#ae9c8912f088b92ce5a2d2be84910636d',1,'d_opencv_typedefs.h']]],
+  ['morph_5fgradient_3966',['MORPH_GRADIENT',['../d__opencv__typedefs_8h.html#a93c6dda2b9980e2016edf515cda1795b',1,'d_opencv_typedefs.h']]],
+  ['morph_5fhitmiss_3967',['MORPH_HITMISS',['../d__opencv__typedefs_8h.html#a9b5ba7434cf7389e89ed8820348f6940',1,'d_opencv_typedefs.h']]],
+  ['morph_5fopen_3968',['MORPH_OPEN',['../d__opencv__typedefs_8h.html#a589de9e2c3ac954a6d4304086edd86cf',1,'d_opencv_typedefs.h']]],
+  ['morph_5frect_3969',['MORPH_RECT',['../d__opencv__typedefs_8h.html#a87cbeeee6c7ca4f6e05aa6d55603e9da',1,'d_opencv_typedefs.h']]],
+  ['morph_5ftophat_3970',['MORPH_TOPHAT',['../d__opencv__typedefs_8h.html#afcc7db6dad06d24a6d27cf0c94782939',1,'d_opencv_typedefs.h']]]
 ];

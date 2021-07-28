@@ -1310,7 +1310,7 @@ int D_VisDat_Proc::Create_VD_SinglePaged(D_VisDat_Obj *pVD_New, QFileInfo FI_Pat
     bool bER = imreadmulti(
                 FI_Path.absoluteFilePath().toStdString(),
                 vMA_tmp_Load,
-                cv::IMREAD_ANYCOLOR | cv::IMREAD_ANYDEPTH);
+                IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
     if(!bER)
     {
         vMA_tmp_Load.clear();
@@ -1469,7 +1469,7 @@ int D_VisDat_Proc::Create_VD_ListPaged(D_VisDat_Obj *pVD_New, QFileInfoList FIL_
     bool bER = imreadmulti(
                 FIL_InPaths.first().absoluteFilePath().toStdString(),
                 vMA_tmp_DimDef,
-                cv::IMREAD_ANYCOLOR | cv::IMREAD_ANYDEPTH);
+                IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
     if(!bER)
     {
         //qDebug() << "Create_VD_List" << "dim def img error";
@@ -1499,7 +1499,7 @@ int D_VisDat_Proc::Create_VD_ListPaged(D_VisDat_Obj *pVD_New, QFileInfoList FIL_
             bER = imreadmulti(
                         FIL_InPaths[f].absoluteFilePath().toStdString(),
                         vMA_tmp_InBuffer,
-                        cv::IMREAD_ANYCOLOR | cv::IMREAD_ANYDEPTH);
+                        IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
             if(bER == false)
             {
                 //qDebug() << "Create_VD_List" << "dim def img error";
@@ -1902,7 +1902,7 @@ int D_VisDat_Proc::Create_VD_PageVector(D_VisDat_Obj *pVD_New, QFileInfo FI_Path
     bool bER = imreadmulti(
                 FI_Path.absoluteFilePath().toStdString(),
                 vMA_tmp_Load,
-                cv::IMREAD_ANYCOLOR | cv::IMREAD_ANYDEPTH);
+                IMREAD_ANYCOLOR | IMREAD_ANYDEPTH);
     if(!bER || vMA_tmp_Load.empty())
     {
         vMA_tmp_Load.clear();
@@ -4354,10 +4354,10 @@ int D_VisDat_Proc::Scale_Factor(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D
 
     //croped size
     D_VisDat_Dim DimNew = pVD_In->Dim();
-    int proc_dim_0 = slice.ProcDim(0);
-    int proc_dim_1 = slice.ProcDim(1);
-    DimNew.set_size_Dim(proc_dim_0, static_cast<int>(pVD_In->Dim().size_Dim(proc_dim_0) * scale_dim_0));
-    DimNew.set_size_Dim(proc_dim_1, static_cast<int>(pVD_In->Dim().size_Dim(proc_dim_1) * scale_dim_1));
+    int d0 = slice.ProcDim(0);
+    int d1 = slice.ProcDim(1);
+    DimNew.set_size_Dim(d0, static_cast<int>(pVD_In->Dim().size_Dim(d0) * scale_dim_0));
+    DimNew.set_size_Dim(d1, static_cast<int>(pVD_In->Dim().size_Dim(d1) * scale_dim_1));
 
     *pVD_Out = D_VisDat_Obj(
                 DimNew,

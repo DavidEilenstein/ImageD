@@ -436,7 +436,7 @@ void D_MAKRO_DnaFiber::Update_ImgProc_Step(int step)
                             1),
                         vVD_ProcSteps[c_ST_LOAD].type());
 
-            //roi as mat (255 all px -> full img is roi)
+            //roi as Mat (255 all px -> full img is roi)
             Mat MA_tmp_roi_all =
                     Mat(
                         vVD_ProcSteps[c_ST_ROI_LOAD].Dim().size_Y(),

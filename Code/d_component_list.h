@@ -35,7 +35,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Component_List class is a list of D_Component representing the blobs in a binary image.
@@ -52,7 +53,7 @@ public:
     int                     set_Mat(Mat *pMA_BinaryOrLabel, int connectivity = 8);
 
     //get
-    D_Component             get_Component(int index)            {return (index >= 0 && index < m_Components.size()) ? m_Components[index] : m_Components[0];}
+    D_Component             get_Component(size_t index)         {return (index < m_Components.size()) ? m_Components[index] : m_Components[0];}
     size_t                  get_size()                          {return m_Components.size();}
     vector<D_Component>     get_ComponentVector()               {return m_Components;}
 
@@ -90,7 +91,7 @@ public:
 
     //basics
     void                    Components_Updated();
-    int                     size()                              {return static_cast<int>(m_Components.size());}
+    size_t                  size()                              {return m_Components.size();}
     void                    clear()                             {m_Components.clear();}
 
     //save

@@ -52,7 +52,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 namespace Ui {
 class D_AnalysisWindow;
@@ -179,10 +180,10 @@ private:
 
     //Images & basic containers
     int                                 connectivity = 8;
-    Mat                                 MA_Label;
-    Mat                                 MA_Binary;
-    vector<Mat>                         vMA_Images;
-    vector<Mat>                         vMA_Images_8bit;
+    Mat                             MA_Label;
+    Mat                             MA_Binary;
+    vector<Mat>                     vMA_Images;
+    vector<Mat>                     vMA_Images_8bit;
     vector<D_Value_Distribution_List>   v_ValDistList;
     QStringList                         QSL_ImageNames;
     QStringList                         QSL_ImageNames_noBinary;
@@ -190,8 +191,8 @@ private:
 
 
     //result images
-    Mat                                 MA_Features;
-    Mat                                 MA_Stats;
+    Mat                             MA_Features;
+    Mat                             MA_Stats;
 
     //checks
     bool                                b_LabelLoaded = false;

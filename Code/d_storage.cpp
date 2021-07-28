@@ -229,7 +229,7 @@ void D_Storage::SettingsStats_Read()
         {
             QTextStream TS_SettingsStats(&F_SettingsStats);
 
-            for(size_t i = 0; i < SS_NUMBER_OF && !TS_SettingsStats.atEnd(); i++)
+            for(int i = 0; i < SS_NUMBER_OF && !TS_SettingsStats.atEnd(); i++)
                 QSL_SettingsStats[i] = TS_SettingsStats.readLine();
 
            F_SettingsStats.close();
@@ -245,7 +245,7 @@ void D_Storage::SettingsStats_Write()
         QTextStream TS_SettingsStats(&F_SettingsStats);
         for(size_t i = 0; i < SS_NUMBER_OF && i < static_cast<size_t>(QSL_SettingsStats.size()); i++)
         {
-            TS_SettingsStats << QSL_SettingsStats[i];
+            TS_SettingsStats << QSL_SettingsStats[static_cast<int>(i)];
             TS_SettingsStats << "\r\n";
         }
     }

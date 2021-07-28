@@ -35,7 +35,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_VisDat_Range class Describes the intersect of two D_VisDat_Dim , so it is a 6D subvolume.

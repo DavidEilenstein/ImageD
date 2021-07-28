@@ -27,9 +27,9 @@ int D_Img_Proc::Load_From_Path(Mat *pMA_Out, QFileInfo FI_path)
     }
     else
     {
-        *pMA_Out = imread(
+        *pMA_Out = cv::imread(
                     FI_path.absoluteFilePath().toStdString(),
-                    cv::IMREAD_ANYDEPTH|cv::IMREAD_ANYCOLOR);
+                    IMREAD_ANYDEPTH|IMREAD_ANYCOLOR);
         return ER_okay;
     }
 }
@@ -62,9 +62,9 @@ int D_Img_Proc::Load_From_Path_Gray(Mat *pMA_Out, QFileInfo FI_path)
     }
     else
     {
-        *pMA_Out = imread(
+        *pMA_Out = cv::imread(
                     FI_path.absoluteFilePath().toStdString(),
-                    cv::IMREAD_ANYDEPTH|cv::IMREAD_GRAYSCALE);
+                    IMREAD_ANYDEPTH|IMREAD_GRAYSCALE);
         return ER_okay;
     }
 }
@@ -89,10 +89,10 @@ int D_Img_Proc::Load_From_Path_Text(Mat *pMA_Out, string path)
     ifstream        IS_File;
     string          ST_Line;
     stringstream    SS_Line;
-    unsigned int    rows        = 0;
-    unsigned int    cols        = 0;
-    unsigned int    y           = 0;
-    unsigned int    x           = 0;
+    int             rows        = 0;
+    int             cols        = 0;
+    int             y           = 0;
+    int             x           = 0;
     float           F_Value;
 
     //Get Size
@@ -138,68 +138,68 @@ int D_Img_Proc::Load_From_Path_Raw(Mat *pMA_Out, string path, int width, int hei
 {
     //Buffer img
     Mat MA_tmp = Mat(height, width, out_type);
-    int pixel_count = width * height;
+    size_t pixel_count = static_cast<size_t>(width * height);
 
     //error checks
     if(pMA_Out->channels() != 1)                            return ER_channel_bad;
     if(!QFileInfo(QString::fromStdString(path)).exists())   return ER_file_not_exist;
 
     //input file
-    FILE *p_file = fopen(path.c_str(), "rb");;
+    FILE *p_file = fopen(path.c_str(), "rb");
 
     //Supported Types
     switch (out_type) {
 
     case CV_8UC1:
     {
-        uchar *p_buffer = (uchar*) malloc (sizeof(uchar) * pixel_count);    //allocate memory for buffer
-        fread(p_buffer, sizeof(uchar), pixel_count, p_file);                //read file from file to buffer
-        memcpy(MA_tmp.data, p_buffer, pixel_count);                         //copy data from buffer to mat
-        free(p_buffer);                                                     //free buffer
-        cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                        //convert
+        uchar *p_buffer = static_cast<uchar*>(malloc(sizeof(uchar) * pixel_count));     //allocate memory for buffer
+        fread(p_buffer, sizeof(uchar), pixel_count, p_file);                            //read file from file to buffer
+        memcpy(MA_tmp.data, p_buffer, pixel_count);                                     //copy data from buffer to mat
+        free(p_buffer);                                                                 //free buffer
+        cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                                    //convert
     }
         break;
 
     case CV_8SC1:
     {
-        char *p_buffer = (char*) malloc (sizeof(char) * pixel_count);       //allocate memory for buffer
-        fread(p_buffer, sizeof(char), pixel_count, p_file);                 //read file from file to buffer
-        memcpy(MA_tmp.data, p_buffer, pixel_count);                         //copy data from buffer to mat
-        free(p_buffer);                                                     //free buffer
-        *pMA_Out = MA_tmp.clone();                                          //clone (convert not supported)
-        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                      //convert
+        char *p_buffer = static_cast<char*>(malloc(sizeof(char) * pixel_count));        //allocate memory for buffer
+        fread(p_buffer, sizeof(char), pixel_count, p_file);                             //read file from file to buffer
+        memcpy(MA_tmp.data, p_buffer, pixel_count);                                     //copy data from buffer to mat
+        free(p_buffer);                                                                 //free buffer
+        *pMA_Out = MA_tmp.clone();                                                      //clone (convert not supported)
+        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                                  //convert
     }
         break;
 
     case CV_16UC1:
     {
-        ushort *p_buffer = (ushort*) malloc (sizeof(ushort) * pixel_count); //allocate memory for buffer
-        fread(p_buffer, sizeof(ushort), pixel_count, p_file);               //read file from file to buffer
-        memcpy(MA_tmp.data, p_buffer, pixel_count);                         //copy data from buffer to mat
-        free(p_buffer);                                                     //free buffer
-        cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                        //convert
+        ushort *p_buffer = static_cast<ushort*>(malloc(sizeof(ushort) * pixel_count));  //allocate memory for buffer
+        fread(p_buffer, sizeof(ushort), pixel_count, p_file);                           //read file from file to buffer
+        memcpy(MA_tmp.data, p_buffer, pixel_count);                                     //copy data from buffer to mat
+        free(p_buffer);                                                                 //free buffer
+        cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                                    //convert
     }
         break;
 
     case CV_16SC1:
     {
-        short *p_buffer = (short*) malloc (sizeof(short) * pixel_count);    //allocate memory for buffer
-        fread(p_buffer, sizeof(short), pixel_count, p_file);                //read file from file to buffer
-        memcpy(MA_tmp.data, p_buffer, pixel_count);                         //copy data from buffer to mat
-        free(p_buffer);                                                     //free buffer
-        *pMA_Out = MA_tmp.clone();                                          //clone (convert not supported)
-        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                      //convert
+        short *p_buffer = static_cast<short*>(malloc(sizeof(short) * pixel_count));     //allocate memory for buffer
+        fread(p_buffer, sizeof(short), pixel_count, p_file);                            //read file from file to buffer
+        memcpy(MA_tmp.data, p_buffer, pixel_count);                                     //copy data from buffer to mat
+        free(p_buffer);                                                                 //free buffer
+        *pMA_Out = MA_tmp.clone();                                                      //clone (convert not supported)
+        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                                  //convert
     }
         break;
 
     case CV_32SC1:
     {
-        int *p_buffer = (int*) malloc (sizeof(int) * pixel_count);          //allocate memory for buffer
-        fread(p_buffer, sizeof(int), pixel_count, p_file);                  //read file from file to buffer
-        memcpy(MA_tmp.data, p_buffer, pixel_count);                         //copy data from buffer to mat
-        free(p_buffer);                                                     //free buffer
-        *pMA_Out = MA_tmp.clone();                                          //clone (convert not supported)
-        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                      //convert
+        int *p_buffer = static_cast<int*>(malloc(sizeof(int) * pixel_count));           //allocate memory for buffer
+        fread(p_buffer, sizeof(int), pixel_count, p_file);                              //read file from file to buffer
+        memcpy(MA_tmp.data, p_buffer, pixel_count);                                     //copy data from buffer to mat
+        free(p_buffer);                                                                 //free buffer
+        *pMA_Out = MA_tmp.clone();                                                      //clone (convert not supported)
+        //cvtColor(MA_tmp, *pMA_Out, CV_BayerBG2GRAY);                                  //convert
     }
         break;
 
@@ -318,7 +318,7 @@ int D_Img_Proc::Load_From_Path_Multi(Mat *pMA_Out, QString path, unsigned int pa
     imreadmulti(
                 path.toStdString(),
                 vMA_Load,
-                cv::IMREAD_ANYDEPTH|cv::IMREAD_ANYCOLOR);
+                IMREAD_ANYDEPTH|IMREAD_ANYCOLOR);
 
     //qDebug() << "Load_From_Path_Multi - try load" << page << "of" << vMA_Load.size();
     if(page > vMA_Load.size())
@@ -365,35 +365,35 @@ QString D_Img_Proc::Type_of_Mat(Mat *pMA_In)
     if(pMA_In->empty())     return "Empty";
 
     switch (pMA_In->type()) {
-    case CV_8UC1:   return "CV_8UC1";   break;
-    case CV_8UC2:   return "CV_8UC2";   break;
-    case CV_8UC3:   return "CV_8UC3";   break;
-    case CV_8UC4:   return "CV_8UC4";   break;
-    case CV_8SC1:   return "CV_8SC1";   break;
-    case CV_8SC2:   return "CV_8SC2";   break;
-    case CV_8SC3:   return "CV_8SC3";   break;
-    case CV_8SC4:   return "CV_8SC4";   break;
-    case CV_16UC1:  return "CV_16UC1";  break;
-    case CV_16UC2:  return "CV_16UC2";  break;
-    case CV_16UC3:  return "CV_16UC3";  break;
-    case CV_16UC4:  return "CV_16UC4";  break;
-    case CV_16SC1:  return "CV_16SC1";  break;
-    case CV_16SC2:  return "CV_16SC2";  break;
-    case CV_16SC3:  return "CV_16SC3";  break;
-    case CV_16SC4:  return "CV_16SC4";  break;
-    case CV_32SC1:  return "CV_32SC1";  break;
-    case CV_32SC2:  return "CV_32SC2";  break;
-    case CV_32SC3:  return "CV_32SC3";  break;
-    case CV_32SC4:  return "CV_32SC4";  break;
-    case CV_32FC1:  return "CV_32FC1";  break;
-    case CV_32FC2:  return "CV_32FC2";  break;
-    case CV_32FC3:  return "CV_32FC3";  break;
-    case CV_32FC4:  return "CV_32FC4";  break;
-    case CV_64FC1:  return "CV_64FC1";  break;
-    case CV_64FC2:  return "CV_64FC2";  break;
-    case CV_64FC3:  return "CV_64FC3";  break;
-    case CV_64FC4:  return "CV_64FC4";  break;
-    default:        return "Unknown";   break;
+    case CV_8UC1:   return "CV_8UC1";
+    case CV_8UC2:   return "CV_8UC2";
+    case CV_8UC3:   return "CV_8UC3";
+    case CV_8UC4:   return "CV_8UC4";
+    case CV_8SC1:   return "CV_8SC1";
+    case CV_8SC2:   return "CV_8SC2";
+    case CV_8SC3:   return "CV_8SC3";
+    case CV_8SC4:   return "CV_8SC4";
+    case CV_16UC1:  return "CV_16UC1";
+    case CV_16UC2:  return "CV_16UC2";
+    case CV_16UC3:  return "CV_16UC3";
+    case CV_16UC4:  return "CV_16UC4";
+    case CV_16SC1:  return "CV_16SC1";
+    case CV_16SC2:  return "CV_16SC2";
+    case CV_16SC3:  return "CV_16SC3";
+    case CV_16SC4:  return "CV_16SC4";
+    case CV_32SC1:  return "CV_32SC1";
+    case CV_32SC2:  return "CV_32SC2";
+    case CV_32SC3:  return "CV_32SC3";
+    case CV_32SC4:  return "CV_32SC4";
+    case CV_32FC1:  return "CV_32FC1";
+    case CV_32FC2:  return "CV_32FC2";
+    case CV_32FC3:  return "CV_32FC3";
+    case CV_32FC4:  return "CV_32FC4";
+    case CV_64FC1:  return "CV_64FC1";
+    case CV_64FC2:  return "CV_64FC2";
+    case CV_64FC3:  return "CV_64FC3";
+    case CV_64FC4:  return "CV_64FC4";
+    default:        return "Unknown";
     }
 }
 
@@ -413,7 +413,6 @@ QString D_Img_Proc::Type_of_Mat(int channels, int depth)
         case CV_64F:    return "CV_64FC1";
         default:        return "Depth Error (1 channels)";}
     }
-        break;
 
     case 2:
     {
@@ -427,7 +426,6 @@ QString D_Img_Proc::Type_of_Mat(int channels, int depth)
         case CV_64F:    return "CV_64FC2";
         default:        return "Depth Error (2 channels)";}
     }
-        break;
 
     case 3:
     {
@@ -441,7 +439,6 @@ QString D_Img_Proc::Type_of_Mat(int channels, int depth)
         case CV_64F:    return "CV_64FC3";
         default:        return "Depth Error (3 channels)";}
     }
-        break;
 
     case 4:
     {
@@ -455,7 +452,6 @@ QString D_Img_Proc::Type_of_Mat(int channels, int depth)
         case CV_64F:    return "CV_64FC4";
         default:        return "Depth Error (4 channels)";}
     }
-        break;
 
     default:
         return "Channel Error";
@@ -465,31 +461,35 @@ QString D_Img_Proc::Type_of_Mat(int channels, int depth)
 QString D_Img_Proc::Type_of_QImage(QImage *pQI_In)
 {     
     switch (pQI_In->format()) {
-    case QImage::Format_Invalid:                return "Invalid";           break;
-    case QImage::Format_Mono:                   return "Mono";              break;
-    case QImage::Format_MonoLSB:                return "MonoLSB";           break;
-    case QImage::Format_Indexed8:               return "Indexed8";          break;
-    case QImage::Format_ARGB32:                 return "ARGB32";            break;
-    case QImage::Format_ARGB32_Premultiplied:   return "ARGB32_Prem.";      break;
-    case QImage::Format_RGB16:                  return "RGB16";             break;
-    case QImage::Format_ARGB8565_Premultiplied: return "ARGB8565_Prem.";    break;
-    case QImage::Format_RGB666:                 return "RGB666";            break;
-    case QImage::Format_ARGB6666_Premultiplied: return "ARGB6666_Prem.";    break;
-    case QImage::Format_RGB555:                 return "RGB555";            break;
-    case QImage::Format_ARGB8555_Premultiplied: return "ARGB8555_Prem.";    break;
-    case QImage::Format_RGB888:                 return "RGB888";            break;
-    case QImage::Format_RGB444:                 return "RGB444";            break;
-    case QImage::Format_ARGB4444_Premultiplied: return "ARGB4444_Prem.";    break;
-    case QImage::Format_RGBX8888:               return "RGBX8888";          break;
-    case QImage::Format_RGBA8888:               return "RGBA8888";          break;
-    case QImage::Format_RGBA8888_Premultiplied: return "RGBA8888_Prem.";    break;
-    case QImage::Format_BGR30:                  return "BGR30";             break;
-    case QImage::Format_A2BGR30_Premultiplied:  return "A2BGR30_Prem.";     break;
-    case QImage::Format_RGB30:                  return "RGB30";             break;
-    case QImage::Format_A2RGB30_Premultiplied:  return "A2RGB30_Prem.";     break;
-    case QImage::Format_Alpha8:                 return "Alpha8";            break;
-    case QImage::Format_Grayscale8:             return "Grayscale8";        break;
-    default:                                    return "Unknown";           break;
+    case QImage::Format_Invalid:                return "Invalid";
+    case QImage::Format_Mono:                   return "Mono";
+    case QImage::Format_MonoLSB:                return "MonoLSB";
+    case QImage::Format_Indexed8:               return "Indexed8";
+    case QImage::Format_ARGB32:                 return "ARGB32";
+    case QImage::Format_ARGB32_Premultiplied:   return "ARGB32_Prem.";
+    case QImage::Format_RGB16:                  return "RGB16";
+    case QImage::Format_ARGB8565_Premultiplied: return "ARGB8565_Prem.";
+    case QImage::Format_RGB666:                 return "RGB666";
+    case QImage::Format_ARGB6666_Premultiplied: return "ARGB6666_Prem.";
+    case QImage::Format_RGB555:                 return "RGB555";
+    case QImage::Format_ARGB8555_Premultiplied: return "ARGB8555_Prem.";
+    case QImage::Format_RGB888:                 return "RGB888";
+    case QImage::Format_RGB444:                 return "RGB444";
+    case QImage::Format_ARGB4444_Premultiplied: return "ARGB4444_Prem.";
+    case QImage::Format_RGBX8888:               return "RGBX8888";
+    case QImage::Format_RGBA8888:               return "RGBA8888";
+    case QImage::Format_RGBA8888_Premultiplied: return "RGBA8888_Prem.";
+    case QImage::Format_BGR30:                  return "BGR30";
+    case QImage::Format_A2BGR30_Premultiplied:  return "A2BGR30_Prem.";
+    case QImage::Format_RGB30:                  return "RGB30";
+    case QImage::Format_A2RGB30_Premultiplied:  return "A2RGB30_Prem.";
+    case QImage::Format_Alpha8:                 return "Alpha8";
+    case QImage::Format_Grayscale8:             return "Grayscale8";
+    case QImage::Format_RGB32:                  return "RGB32";
+    case QImage::Format_RGBX64:                 return "RGBX64";
+    case QImage::Format_RGBA64:                 return "RGBA64";
+    case QImage::Format_RGBA64_Premultiplied:   return "RGBA64_Prem.";
+    default:                                    return "Unknown";
     }
 }
 
@@ -509,7 +509,6 @@ int D_Img_Proc::TypeIndex_of_Mat(int channels, int depth)
         case CV_64F:    return CV_64FC1;
         default:        return CV_8UC1;}
     }
-        break;
 
     case 2:
     {
@@ -523,7 +522,6 @@ int D_Img_Proc::TypeIndex_of_Mat(int channels, int depth)
         case CV_64F:    return CV_64FC2;
         default:        return CV_8UC2;}
     }
-        break;
 
     case 3:
     {
@@ -537,7 +535,6 @@ int D_Img_Proc::TypeIndex_of_Mat(int channels, int depth)
         case CV_64F:    return CV_64FC3;
         default:        return CV_8UC3;}
     }
-        break;
 
     case 4:
     {
@@ -551,7 +548,6 @@ int D_Img_Proc::TypeIndex_of_Mat(int channels, int depth)
         case CV_64F:    return CV_64FC4;
         default:        return CV_8UC4;}
     }
-        break;
 
     default:
         return CV_8UC1;
@@ -618,7 +614,7 @@ int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ig
     if(pMA_In->channels() != 1)         return ER_channel_bad;
 
     //area
-    size_t area = pMA_In->rows * pMA_In->cols;
+    size_t area = static_cast<size_t>(pMA_In->rows * pMA_In->cols);
     //qDebug() << "area:" << area;
 
     //read values
@@ -677,7 +673,7 @@ int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ig
     {
         float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
-            if(*ptr_in != 0 || !ignore_zeros)
+            if(*ptr_in != 0.f || !ignore_zeros)
                 vValues.push_back(static_cast<double>(*ptr_in));
     }
         break;
@@ -686,7 +682,7 @@ int D_Img_Proc::Stat_ofPixelvalues(double *value, Mat *pMA_In, int stat, bool ig
     {
         double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
-            if(*ptr_in != 0 || !ignore_zeros)
+            if(*ptr_in != 0.0 || !ignore_zeros)
                 vValues.push_back(static_cast<double>(*ptr_in));
     }
         break;
@@ -734,11 +730,11 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
     if(low_rel >= high_rel)                                     return ER_parameter_missmatch;
 
     //area
-    size_t area = pMA_In->rows * pMA_In->cols;
+    size_t area = static_cast<size_t>(pMA_In->rows * pMA_In->cols);
     //qDebug() << "area:" << area;
 
     //read values
-    vector<vector<double>> vvValues(pMA_In->channels());
+    vector<vector<double>> vvValues(static_cast<size_t>(pMA_In->channels()));
 
     //type switch
     //qDebug() << "Type switch:" << Type_of_Mat(pMA_In);
@@ -793,7 +789,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
     {
         float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
-            if(*ptr_in != 0 || !ignore_zeros)
+            if(*ptr_in != 0.f || !ignore_zeros)
                 vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
@@ -802,7 +798,7 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
     {
         double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
-            if(*ptr_in != 0 || !ignore_zeros)
+            if(*ptr_in != 0.0 || !ignore_zeros)
                 vvValues[0].push_back(static_cast<double>(*ptr_in));
     }
         break;
@@ -812,10 +808,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = (*ptr_in)[static_cast<int>(c)];
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -827,10 +823,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3w* ptr_in = reinterpret_cast<Vec3w*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = (*ptr_in)[static_cast<int>(c)];
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -842,10 +838,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3s* ptr_in = reinterpret_cast<Vec3s*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = (*ptr_in)[static_cast<int>(c)];
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -857,10 +853,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3i* ptr_in = reinterpret_cast<Vec3i*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = (*ptr_in)[static_cast<int>(c)];
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -872,10 +868,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3f* ptr_in = reinterpret_cast<Vec3f*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = static_cast<double>((*ptr_in)[static_cast<int>(c)]);
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -887,10 +883,10 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
         Vec3d* ptr_in = reinterpret_cast<Vec3d*>(pMA_In->data);
         for(size_t px = 0; px < area; px++, ptr_in++)
         {
-            for(int c = 0; c < pMA_In->channels(); c++)
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
             {
-                double val = (*ptr_in)[c];
-                if(val != 0 || !ignore_zeros)
+                double val = (*ptr_in)[static_cast<int>(c)];
+                if(val != 0.0 || !ignore_zeros)
                     vvValues[c].push_back(val);
             }
         }
@@ -903,9 +899,9 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
 
     //calc quantiles
     //qDebug() << "sort";
-    v_q_low->resize(pMA_In->channels(), 0);
-    v_q_high->resize(pMA_In->channels(), 0);
-    for(int c = 0; c < pMA_In->channels(); c++)
+    v_q_low->resize(static_cast<size_t>(pMA_In->channels()), 0);
+    v_q_high->resize(static_cast<size_t>(pMA_In->channels()), 0);
+    for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
     {
         sort(vvValues[c].begin(), vvValues[c].end());
         if(vvValues[c].size() > 0)
@@ -1407,23 +1403,23 @@ int D_Img_Proc::MinMax_of_Mat_1C(Mat *pMA_In, double *min_ext, double *max_ext)
     return ER_okay;
 }
 
-int D_Img_Proc::ValAtPix(vector<double> *v_value, Mat *pMA_In, unsigned int x_pos, unsigned int y_pos)
+int D_Img_Proc::ValAtPix(vector<double> *v_value, Mat *pMA_In, size_t x_pos, size_t y_pos)
 {
-    if(pMA_In->empty())                                             return ER_empty;
-    if(((int)x_pos >= pMA_In->cols) || (int)y_pos >= pMA_In->rows)  return ER_index_out_of_range;
+    if(pMA_In->empty())                                                                             return ER_empty;
+    if((x_pos >= static_cast<size_t>(pMA_In->cols)) || y_pos >= static_cast<size_t>(pMA_In->rows))  return ER_index_out_of_range;
 
     v_value->clear();
-    v_value->resize(pMA_In->channels(), 0.0);
+    v_value->resize(static_cast<size_t>(pMA_In->channels()), 0.0);
 
     if(pMA_In->channels() == 1)
     {
         switch (pMA_In->type()) {
-        case CV_8UC1:   (*v_value)[0] = pMA_In->at<uchar>(y_pos, x_pos);    break;
-        case CV_16UC1:  (*v_value)[0] = pMA_In->at<ushort>(y_pos, x_pos);   break;
-        case CV_32SC1:  (*v_value)[0] = pMA_In->at<int>(y_pos, x_pos);      break;
-        case CV_32FC1:  (*v_value)[0] = pMA_In->at<float>(y_pos, x_pos);    break;
-        case CV_64FC1:  (*v_value)[0] = pMA_In->at<double>(y_pos, x_pos);   break;
-        default:        return ER_type_bad;                                 break;}
+        case CV_8UC1:   (*v_value)[0] = pMA_In->at<uchar>(static_cast<int>(y_pos), static_cast<int>(x_pos));                            break;
+        case CV_16UC1:  (*v_value)[0] = pMA_In->at<ushort>(static_cast<int>(y_pos), static_cast<int>(x_pos));                           break;
+        case CV_32SC1:  (*v_value)[0] = pMA_In->at<int>(static_cast<int>(y_pos), static_cast<int>(x_pos));                              break;
+        case CV_32FC1:  (*v_value)[0] = static_cast<double>(pMA_In->at<float>(  static_cast<int>(y_pos), static_cast<int>(x_pos)));     break;
+        case CV_64FC1:  (*v_value)[0] = pMA_In->at<double>(static_cast<int>(y_pos), static_cast<int>(x_pos));                           break;
+        default:                                                                                                                        return ER_type_bad;}
     }
     else
     {
@@ -1431,151 +1427,150 @@ int D_Img_Proc::ValAtPix(vector<double> *v_value, Mat *pMA_In, unsigned int x_po
 
         case CV_8UC2:
         {
-            Vec2b val = pMA_In->at<Vec2b>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2b val = pMA_In->at<Vec2b>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_8UC3:
         {
-            Vec3b val = pMA_In->at<Vec3b>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3b val = pMA_In->at<Vec3b>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_8UC4:
         {
-            Vec4b val = pMA_In->at<Vec4b>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4b val = pMA_In->at<Vec4b>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16UC2:
         {
-            Vec2w val = pMA_In->at<Vec2w>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2w val = pMA_In->at<Vec2w>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16UC3:
         {
-            Vec3w val = pMA_In->at<Vec3w>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3w val = pMA_In->at<Vec3w>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16UC4:
         {
-            Vec4w val = pMA_In->at<Vec4w>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4w val = pMA_In->at<Vec4w>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16SC2:
         {
-            Vec2s val = pMA_In->at<Vec2s>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2s val = pMA_In->at<Vec2s>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16SC3:
         {
-            Vec3s val = pMA_In->at<Vec3s>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3s val = pMA_In->at<Vec3s>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_16SC4:
         {
-            Vec4s val = pMA_In->at<Vec4s>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4s val = pMA_In->at<Vec4s>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_32SC2:
         {
-            Vec2i val = pMA_In->at<Vec2i>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2i val = pMA_In->at<Vec2i>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_32SC3:
         {
-            Vec3i val = pMA_In->at<Vec3i>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3i val = pMA_In->at<Vec3i>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_32SC4:
         {
-            Vec4i val = pMA_In->at<Vec4i>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4i val = pMA_In->at<Vec4i>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_32FC2:
         {
-            Vec2f val = pMA_In->at<Vec2f>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2f val = pMA_In->at<Vec2f>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = static_cast<double>(val[static_cast<int>(c)]);
         }
             break;
 
         case CV_32FC3:
         {
-            Vec3f val = pMA_In->at<Vec3f>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3f val = pMA_In->at<Vec3f>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = static_cast<double>(val[static_cast<int>(c)]);
         }
             break;
 
         case CV_32FC4:
         {
-            Vec4f val = pMA_In->at<Vec4f>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4f val = pMA_In->at<Vec4f>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = static_cast<double>(val[static_cast<int>(c)]);
         }
             break;
 
         case CV_64FC2:
         {
-            Vec2d val = pMA_In->at<Vec2d>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec2d val = pMA_In->at<Vec2d>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_64FC3:
         {
-            Vec3d val = pMA_In->at<Vec3d>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec3d val = pMA_In->at<Vec3d>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         case CV_64FC4:
         {
-            Vec4d val = pMA_In->at<Vec4d>(y_pos, x_pos);
-            for(int c = 0; c < pMA_In->channels(); c++)
-                (*v_value)[c] = val[c];
+            Vec4d val = pMA_In->at<Vec4d>(static_cast<int>(y_pos), static_cast<int>(x_pos));
+            for(size_t c = 0; c < static_cast<size_t>(pMA_In->channels()); c++)
+                (*v_value)[c] = val[static_cast<int>(c)];
         }
             break;
 
         default:
             return ER_type_bad;
-            break;
         }
     }
 
@@ -1850,9 +1845,9 @@ int D_Img_Proc::Convert_Color_RGBA(Mat *pMA_Out, Mat *pMA_In, double r, double g
         float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
         for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
         {
-            (*ptr_out)[0] = static_cast<float>(*ptr_in * b_scale);
-            (*ptr_out)[1] = static_cast<float>(*ptr_in * g_scale);
-            (*ptr_out)[2] = static_cast<float>(*ptr_in * r_scale);
+            (*ptr_out)[0] = *ptr_in * static_cast<float>(b_scale);
+            (*ptr_out)[1] = *ptr_in * static_cast<float>(g_scale);
+            (*ptr_out)[2] = *ptr_in * static_cast<float>(r_scale);
         }
     }
         break;
@@ -2103,7 +2098,7 @@ int D_Img_Proc::Convert_Double(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_double,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -2132,7 +2127,7 @@ int D_Img_Proc::Convert_Double(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_double,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -2161,7 +2156,7 @@ int D_Img_Proc::Convert_Double(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_double,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -2289,7 +2284,7 @@ int D_Img_Proc::Convert_UChar(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_uchar,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -2318,7 +2313,7 @@ int D_Img_Proc::Convert_UChar(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_uchar,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -2347,7 +2342,7 @@ int D_Img_Proc::Convert_UChar(Mat *pMA_Out, Mat *pMA_In)
 
         merge(
                     MA_tmp_uchar,
-                    pMA_In->channels(),
+                    static_cast<size_t>(pMA_In->channels()),
                     *pMA_Out);
 
         for(int c = 0; c < pMA_In->channels(); c++)
@@ -4716,7 +4711,7 @@ int D_Img_Proc::Stitch_Border_abs(Mat *pMA_Out, Mat *pMA_In_Main, Mat *pMA_In_R,
     Mat MA_tmp_out;
 
     //Here the magic happens: OpenCV Stitcher
-    Ptr<Stitcher> stitcher = Stitcher::create(mode);
+    cv::Ptr<Stitcher> stitcher = Stitcher::create(mode);
     Stitcher::Status status = stitcher->stitch(vMA_Cut, MA_tmp_out);
     //qDebug() << "D_Img_Proc::Stitch_Border_abs" << "stitcher done";
 
@@ -4732,7 +4727,7 @@ int D_Img_Proc::Stitch_Border_abs(Mat *pMA_Out, Mat *pMA_In_Main, Mat *pMA_In_R,
                     &MA_tmp_out,
                     pMA_In_Main->cols + border_R,
                     pMA_In_Main->rows + border_B,
-                    cv::BORDER_CONSTANT);
+                    BORDER_CONSTANT);
         MA_tmp_out.release();
         //qDebug() << "D_Img_Proc::Stitch_Border_abs" << "size forced(y/x):" << pMA_Out->rows << pMA_Out->cols;
         if(ER == ER_okay)
@@ -4964,26 +4959,23 @@ int D_Img_Proc::Scale_Factor(Mat *pMA_Out, Mat *pMA_In, double scale_x, double s
 {
     if(pMA_In->empty())             return ER_empty;
 
-    resize(
-                *pMA_In,
-                *pMA_Out,
-                cv::Size(),
-                scale_x,
-                scale_y);
-
-    return ER_okay;
+    return Scale_ToSize(
+                pMA_Out,
+                pMA_In,
+                static_cast<int>(pMA_In->cols * scale_x),
+                static_cast<int>(pMA_In->rows * scale_y));
 }
 
 int D_Img_Proc::Scale_ToSize(Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y)
 {
     if(pMA_In->empty())             return ER_empty;
-    if(size_x < 0)                  return ER_parameter_bad;
-    if(size_y < 0)                  return ER_parameter_bad;
+    if(size_x < 1)                  return ER_parameter_bad;
+    if(size_y < 1)                  return ER_parameter_bad;
 
         resize(
                     *pMA_In,
                     *pMA_Out,
-                    cv::Size(
+                    Size(
                         size_x,
                         size_y));
 
@@ -7520,8 +7512,8 @@ int D_Img_Proc::Transformation_Fourier_1C(Mat *pMA_Out, Mat *pMA_In_Re, Mat *pMA
     Mat MA_tmp_OptSize_Im;
     if(force_fft)
     {
-        int opt_rows = getOptimalDFTSize(pMA_In_Re->rows);
-        int opt_cols = getOptimalDFTSize(pMA_In_Re->rows);
+        int opt_rows = cv::getOptimalDFTSize(pMA_In_Re->rows);
+        int opt_cols = cv::getOptimalDFTSize(pMA_In_Re->rows);
         qDebug() << "D_Img_Proc::Transformation_Fourier_1C Padding 2 force FFT:";
         copyMakeBorder(
                     *pMA_In_Re,
@@ -8170,7 +8162,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
     //======================================================================    thread & synch
 
     //threads
-    size_t thread_count = getNumberOfCPUs();
+    size_t thread_count = cv::getNumberOfCPUs();
     vector<thread> v_threads(thread_count);
     vector<int> v_ER(thread_count);
 
@@ -8680,13 +8672,21 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
 
     //pad input image
     Mat MA_tmp_InPadded;
+    int border_r = mask_offset_x + n_makropixels_x * mask_size_x - n_in_x;
+    int border_l = mask_offset_x;
+    int border_t = mask_offset_y;
+    int border_b = mask_offset_y + n_makropixels_y * mask_size_y - n_in_y;
+    if(border_r < 0)
+        border_r = - border_r;
+    if(border_b < 0)
+        border_b = - border_b;
     ER = Padding(
                 &MA_tmp_InPadded,
                 pMA_In,
-                abs(mask_offset_x + n_makropixels_x * mask_size_x - n_in_x),
-                abs(mask_offset_x),
-                abs(mask_offset_y),
-                abs(mask_offset_y + n_makropixels_y * mask_size_y - n_in_y),
+                border_r,
+                border_l,
+                border_t,
+                border_b,
                 BORDER_REPLICATE);
     if(ER != ER_okay)
     {
@@ -8707,7 +8707,7 @@ int D_Img_Proc::Filter_Maximum_1C(Mat *pMA_Out, Mat *pMA_In, size_t mask_size_x,
     //======================================================================    thread & synch
 
     //thread count
-    size_t thread_count = getNumberOfCPUs();
+    size_t thread_count = cv::getNumberOfCPUs();
 
     //------------------------------------------------------- filtering in x
 
@@ -10071,7 +10071,7 @@ int D_Img_Proc::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, functi
                     F3_Combine,
                     F4_f3center,
                     border_type,
-                    getNumberOfCPUs(),
+                    cv::getNumberOfCPUs(),
                     DoNonZeroMaskOnly);
         if(ER != ER_okay)   return ER;
     }
@@ -10106,7 +10106,7 @@ int D_Img_Proc::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, functi
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -10155,7 +10155,7 @@ int D_Img_Proc::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, functi
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -10204,7 +10204,7 @@ int D_Img_Proc::Filter_Function(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, functi
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -10445,7 +10445,7 @@ int D_Img_Proc::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
                     F3_Combine,
                     F4_f3center,
                     border_type,
-                    getNumberOfCPUs(),
+                    cv::getNumberOfCPUs(),
                     DoNonZeroMaskOnly);
         if(ER != ER_okay)   return ER;
     }
@@ -10480,7 +10480,7 @@ int D_Img_Proc::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -10529,7 +10529,7 @@ int D_Img_Proc::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -10578,7 +10578,7 @@ int D_Img_Proc::Filter_Function_8bit(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, f
                         F3_Combine,
                         F4_f3center,
                         border_type,
-                        getNumberOfCPUs(),
+                        cv::getNumberOfCPUs(),
                         DoNonZeroMaskOnly);
             if(ER != ER_okay)   return ER;
         }
@@ -12317,7 +12317,7 @@ int D_Img_Proc::Math_ImgStack_StatCombine(Mat *pMA_Out, vector<Mat> *pvMA_In0, v
     //======================================================================    thread & synch
 
     //threads
-    int                 thread_number = getNumberOfCPUs();
+    int                 thread_number = cv::getNumberOfCPUs();
     vector<thread>      v_threads;
     v_threads.resize(thread_number);
 
@@ -18609,7 +18609,7 @@ int D_Img_Proc::RadiometricStereo(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat 
     if(S.rows != 3)                         return ER_size_bad;
     if(out_mode < 0)                        return ER_parameter_bad;
     if(out_mode >= c_STEREO_NUMBER_OF)      return ER_parameter_bad;
-    if(determinant(S) == 0)                 return ER_MatrixNotInvertable;
+    if(determinant(S) == 0.0)               return ER_MatrixNotInvertable;
 
     //invert S
     Mat S_inv = S.inv();

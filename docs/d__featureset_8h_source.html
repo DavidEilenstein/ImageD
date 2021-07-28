@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_1 (26.07.21)</span>
+   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -120,32 +120,35 @@ $(document).ready(function(){initNavTree('d__featureset_8h_source.html',''); ini
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//namespaces</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_d___feature_set.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___feature_set.html">D_FeatureSet</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="class_d___feature_set.html">D_FeatureSet</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span>         detect_Harris(Mat *pMA_In, <span class="keywordtype">int</span> blockSize, <span class="keywordtype">int</span> sobelAperture, <span class="keywordtype">double</span> harrisParam, <span class="keywordtype">double</span> thres);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span>         detect_ShiTomasi(Mat *pMA_In, <span class="keywordtype">int</span> maxCorners, <span class="keywordtype">double</span> qualityLevel, <span class="keywordtype">double</span> minDist, <span class="keywordtype">int</span> blockSize, <span class="keywordtype">int</span> sobelAperture, <span class="keywordtype">double</span> harrisParam, <span class="keywordtype">double</span> thres);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_d___feature_set.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___feature_set.html">D_FeatureSet</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="class_d___feature_set.html">D_FeatureSet</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span>         detect_Harris(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, <span class="keywordtype">int</span> blockSize, <span class="keywordtype">int</span> sobelAperture, <span class="keywordtype">double</span> harrisParam, <span class="keywordtype">double</span> thres);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span>         detect_ShiTomasi(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, <span class="keywordtype">int</span> maxCorners, <span class="keywordtype">double</span> qualityLevel, <span class="keywordtype">double</span> minDist, <span class="keywordtype">int</span> blockSize, <span class="keywordtype">int</span> sobelAperture, <span class="keywordtype">double</span> harrisParam, <span class="keywordtype">double</span> thres);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span>                state_size_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span>                state_points_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span>                state_descriptors_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span>                 img_width = 1;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span>                 img_heigts = 1;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    vector&lt;Point&gt;       vPoints;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_FEATURESET_H</span></div>
-<div class="ttc" id="aclass_d___feature_set_html"><div class="ttname"><a href="class_d___feature_set.html">D_FeatureSet</a></div><div class="ttdef"><b>Definition:</b> d_featureset.h:36</div></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span>                state_size_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span>                state_points_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span>                state_descriptors_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span>                 img_width = 1;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span>                 img_heigts = 1;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    vector&lt;Point&gt;       vPoints;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_FEATURESET_H</span></div>
+<div class="ttc" id="aclass_d___feature_set_html"><div class="ttname"><a href="class_d___feature_set.html">D_FeatureSet</a></div><div class="ttdef"><b>Definition:</b> d_featureset.h:37</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__math_8h_html"><div class="ttname"><a href="d__math_8h.html">d_math.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html_a1f8633c25b831b9a16e5ee792f985a6e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a></div><div class="ttdeci">cv::Mat Mat</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:28</div></div>
 <div class="ttc" id="ad__stat_8h_html"><div class="ttname"><a href="d__stat_8h.html">d_stat.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

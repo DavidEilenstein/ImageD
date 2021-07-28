@@ -156,7 +156,7 @@ D_Geo_Point_2D D_Geo_LineSet_2D::intersection_ransac(double *least_deviation, D_
     *IntersectionsUsed = D_Geo_PointSet_2D();
 
     ///get number of cpus
-    size_t n_cpu = getNumberOfCPUs();
+    size_t n_cpu = cv::getNumberOfCPUs();
 
     ///init random gen
     srand(time(NULL));

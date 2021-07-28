@@ -56,7 +56,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_VisDat_Proc class 6D image processing and efficeint loops of image processing performed on stacks of 2D or 3D images.

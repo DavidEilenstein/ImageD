@@ -147,9 +147,9 @@ void D_MAKRO_HuangVisualization::Update_Image_In()
                 if(MA_MaskBinary.at<uchar>(y, x) > 0)
                 {
                     Vec3b val_3ch = MA_ImgIn_Show.at<Vec3b>(pos_y + y, pos_x + x);
-                    val_3ch[0] = 0;                     //b
-                    val_3ch[1] = 50 + val_3ch[1] * 0.67;//g
-                    val_3ch[2] = 0;                     //r
+                    val_3ch[0] = 0;                                             //b
+                    val_3ch[1] = static_cast<uchar>(50 + val_3ch[1] * 0.67);    //g
+                    val_3ch[2] = 0;                                             //r
                     MA_ImgIn_Show.at<Vec3b>(pos_y + y, pos_x + x) = val_3ch;
                 }
 
@@ -247,7 +247,7 @@ void D_MAKRO_HuangVisualization::Update_Plot_Hist()
         return;
 
     //init
-    MA_Hist = Mat::zeros(mask_relevant_px_count, 256, CV_8UC3);
+    MA_Hist = Mat::zeros(static_cast<int>(mask_relevant_px_count), 256, CV_8UC3);
 
     //quantil value
     size_t q = static_cast<size_t>(quantil_val);
@@ -255,17 +255,17 @@ void D_MAKRO_HuangVisualization::Update_Plot_Hist()
     //smaller
     for(size_t i = 0; i < q; i++)
         for(size_t j = 0; j < hist[i]; j++)
-            MA_Hist.at<Vec3b>(mask_relevant_px_count - 1 - j, i) = Vec3b(255, 0, 255);
+            MA_Hist.at<Vec3b>(static_cast<int>(mask_relevant_px_count - 1 - j), static_cast<int>(i)) = Vec3b(255, 0, 255);
 
     //quantil
     for(size_t j = 0; j < hist[q]; j++)
-        MA_Hist.at<Vec3b>(mask_relevant_px_count - 1 - j, q) = Vec3b(0, 255, 255);
+        MA_Hist.at<Vec3b>(static_cast<int>(mask_relevant_px_count - 1 - j), static_cast<int>(q)) = Vec3b(0, 255, 255);
 
     //greater
     if(q + 1 < 256)
         for(size_t i = q + 1; i < 256; i++)
             for(size_t j = 0; j < hist[i]; j++)
-                MA_Hist.at<Vec3b>(mask_relevant_px_count - 1 - j, i) = Vec3b(255, 255, 0);
+                MA_Hist.at<Vec3b>(static_cast<int>(mask_relevant_px_count - 1 - j), static_cast<int>(i)) = Vec3b(255, 255, 0);
 
     //show
     Viewer_Hist.Update_Image(&MA_Hist);
@@ -277,38 +277,38 @@ void D_MAKRO_HuangVisualization::Update_Plot_Mass()
         return;
 
     //init
-    size_t sx = 4 * mask_relevant_px_count; //x2 to match thresh resolution, x2 to be safe for mass addition
-    size_t sy = 8;
+    int sx = static_cast<int>(4 * mask_relevant_px_count); //x2 to match thresh resolution, x2 to be safe for mass addition
+    int sy = 8;
     MA_Mass = Mat::zeros(sy, sx, CV_8UC3);
 
     //thresh: smaller or quantil
-    for(size_t y = 0; y < 4; y++)
-        for(size_t x = 0; x < 2 * mass_smaller_or_equal_needed; x++)
+    for(int y = 0; y < 4; y++)
+        for(int x = 0; x < 2 * mass_smaller_or_equal_needed; x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(64, 0, 64);
 
     //thresh: greater or quantil
-    for(size_t y = 4; y < 8; y++)
-        for(size_t x = 0; x < 2 * mass_greater_or_equal_needed; x++)
+    for(int y = 4; y < 8; y++)
+        for(int x = 0; x < 2 * mass_greater_or_equal_needed; x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(64, 64, 0);
 
     //mass: smaller
-    for(size_t y = 1; y < 3; y++)
-        for(size_t x = 0; x < 2 * mass_smaller; x++)
+    for(int y = 1; y < 3; y++)
+        for(int x = 0; x < static_cast<int>(2 * mass_smaller); x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(255, 0, 255);
 
     //mass: quantil (append to smaller)
-    for(size_t y = 1; y < 3; y++)
-        for(size_t x = 2 * mass_smaller; x < 2 * (mass_smaller + mass_quantil); x++)
+    for(int y = 1; y < 3; y++)
+        for(int x = static_cast<int>(2 * mass_smaller); x < static_cast<int>(2 * (mass_smaller + mass_quantil)); x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(0, 255, 255);
 
     //mass: greater
-    for(size_t y = 5; y < 7; y++)
-        for(size_t x = 0; x < 2 * mass_greater; x++)
+    for(int y = 5; y < 7; y++)
+        for(int x = 0; x < static_cast<int>(2 * mass_greater); x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(255, 255, 0);
 
     //mass: quantil (append to greater)
-    for(size_t y = 5; y < 7; y++)
-        for(size_t x = 2 * mass_greater; x < 2 * (mass_greater + mass_quantil); x++)
+    for(int y = 5; y < 7; y++)
+        for(int x = static_cast<int>(2 * mass_greater); x < static_cast<int>(2 * (mass_greater + mass_quantil)); x++)
             MA_Mass.at<Vec3b>(y, x) = Vec3b(0, 255, 255);
 
     //show
@@ -411,7 +411,7 @@ void D_MAKRO_HuangVisualization::Get_Mask()
     mask_c2t = 0 - mask_cy;
     mask_c2b = mask_sy - mask_cy - 1;
     //area non zero
-    mask_relevant_px_count = countNonZero(MA_MaskBinary);
+    mask_relevant_px_count = static_cast<size_t>(countNonZero(MA_MaskBinary));
 
     //init and show
     MA_MaskShow_Binary = MA_MaskBinary_3C.clone();
@@ -813,7 +813,7 @@ void D_MAKRO_HuangVisualization::Init_Quantile()
 
     //init quantil value
     sort(values_init.begin(), values_init.end());
-    quantil_val = values_init[(values_init.size() - 1) * quantil_relPos];
+    quantil_val = values_init[static_cast<size_t>((values_init.size() - 1) * quantil_relPos)];
 
     //write to image
     MA_ImgOut_Gray.at<uchar>(0 + mask_cy, 0 + mask_cx) = static_cast<uchar>(quantil_val);
@@ -885,13 +885,13 @@ void D_MAKRO_HuangVisualization::Init_Masses()
     mass_greater_or_equal_needed = (1.0 - quantil_relPos) * static_cast<double>(mask_relevant_px_count);
 
     //quantil == min
-    if(quantil_relPos == 0)
+    if(quantil_relPos == 0.0)
     {
         mass_smaller_or_equal_needed = 0.5;
         mass_greater_or_equal_needed = mask_relevant_px_count - 0.5;
     }
     //quantil == max
-    if(quantil_relPos == 1)
+    if(quantil_relPos == 1.0)
     {
         mass_smaller_or_equal_needed = mask_relevant_px_count - 0.5;
         mass_greater_or_equal_needed = 0.5;
@@ -1000,8 +1000,8 @@ void D_MAKRO_HuangVisualization::Init_HistLegend()
     MA_Hist_Legend = Mat(1, 256, CV_8UC1);
 
     //axis
-    for(int v = 0; v < 256; v++)
-        MA_Hist_Legend.at<uchar>(0, v) = v;
+    for(size_t v = 0; v < 256; v++)
+        MA_Hist_Legend.at<uchar>(0, static_cast<int>(v)) = static_cast<uchar>(v);
 
     //show
     Viewer_Hist_Legend.Update_Image(&MA_Hist_Legend);
@@ -1378,7 +1378,7 @@ void D_MAKRO_HuangVisualization::Step_Pixel_WriteOut()
         return;
 
     //write quantil value to output image
-    MA_ImgOut_Gray.at<uchar>(pos_y + mask_cy, pos_x + mask_cx) = quantil_val;
+    MA_ImgOut_Gray.at<uchar>(pos_y + mask_cy, pos_x + mask_cx) = static_cast<uchar>(quantil_val);
 
     //copy out data under mask to zoomed view
     for(int y = 0; y < MA_MaskShow_Out.rows; y++)

@@ -420,7 +420,7 @@ void D_StepWindow::Update_Image()
         }
     }
 
-    //Crop 2D Plane from VD and put it to mat vector in storage
+    //Crop 2D Plane from VD and put it to cv::Mat vector in storage
     D_VisDat_Slice_2D Slice2d(vPos);
     //qDebug() << "Crop " + Slice2d.info() + " from " + pStore->get_pVD(pos_Dest)->Info_Dims();
     ERR(D_VisDat_Proc::Read_2D_Plane(
@@ -430,7 +430,7 @@ void D_StepWindow::Update_Image()
         "Update_Image",
         "Crop " + Slice2d.info() + " from " + pStore->get_pVD(pos_Dest)->info());
 
-    //display Mat from storage
+    //display cv::Mat from storage
     Viewer.Update_Image(pStore->get_Adress(pos_Dest));
     Update_Type_Descriptions();
 
@@ -895,6 +895,31 @@ void D_StepWindow::Update_Img_Proc()
                     border_type),
                 "Update_Img_Proc",
                 "ForceSize");
+        }
+            break;
+
+        case c_sT_ED_SCALE:  //-------------------------------------------------------------------   Force Size
+        {
+            int type_index = ui->comboBox_01_Scale_Type->currentIndex();
+
+            if(type_index == c_SCALE_TYPE_FACTOR)
+                ERR(D_VisDat_Proc::Scale_Factor(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->doubleSpinBox_01_Scale_Factor_X->value(),
+                        ui->doubleSpinBox_01_Scale_Factor_Y->value()),
+                    "Update_Img_Proc",
+                    "Scale_Factor");
+            else if(type_index == c_SCALE_TYPE_TARGET_SIZE)
+                ERR(D_VisDat_Proc::Scale_ToSize(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->spinBox_01_Scale_Size_X->value(),
+                        ui->spinBox_01_Scale_Size_Y->value()),
+                    "Update_Img_Proc",
+                    "Scale_ToSize");
         }
             break;
 
@@ -2308,13 +2333,13 @@ void D_StepWindow::Update_Img_Proc()
             case 4:     metric = DIST_FAIR;             break;
             case 5:     metric = DIST_WELSCH;           break;
             case 6:     metric = DIST_HUBER;            break;
-            default:                                    break;}
+            default:                                    return;}
 
             switch (ui->comboBox_07_Dist_Precision->currentIndex()) {
             case 0:     precision = DIST_MASK_PRECISE;  break;
             case 1:     precision = DIST_MASK_3;        break;
             case 2:     precision = DIST_MASK_5;        break;
-            default:                                    break;}
+            default:                                    return;}
 
             ERR(D_VisDat_Proc::Transformation_Distance(
                     SlicingFromUi(),
@@ -4328,6 +4353,13 @@ void D_StepWindow::ProcDimCountAdaptUi()
         }
     }
 
+    //Scale
+    if(n == 2)
+    {
+        ui->label_01_Scale_Size->setText("Size " + QSL_ProcDims[0] + "/" + QSL_ProcDims[1]);
+        ui->label_01_Scale_Factor->setText("Factor " + QSL_ProcDims[0] + "/" + QSL_ProcDims[1]);
+    }
+
     //Filter Blur
     if(n == 2)
     {
@@ -4884,7 +4916,7 @@ void D_StepWindow::Save_Analysis()
     vector<vector<double>> vvFeatsAll(vFeatList.size());
 
     //Loop------------------------------------------------------------------------------------------------------
-    Mat MA_tmp;
+    cv::Mat MA_tmp;
     Slicing.loop_Init(pStore->get_pVD(pos_Dest)->Dim());
     do
     {
@@ -5215,7 +5247,6 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->doubleSpinBox_01_Floodfill_Delta_Delta, SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_Floodfill_Delta_SeedX,       SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_Floodfill_Delta_SeedY,       SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
-
         //Padding
         connect(ui->spinBox_01_Padding_Width_X,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_Padding_Width_Y,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -5226,6 +5257,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->comboBox_01_ForceSize_Border,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_ForceSize_Width,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_01_ForceSize_Height,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Scale
+        connect(ui->comboBox_01_Scale_Type,                 SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_01_Scale_Factor_X,        SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_01_Scale_Factor_Y,        SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_01_Scale_Size_X,                SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_01_Scale_Size_Y,                SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //CONVERT
         //Color 2 Mono
         connect(ui->comboBox_02_Color2Mono_Reduction,       SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -5812,6 +5849,12 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->comboBox_01_ForceSize_Border,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_01_ForceSize_Width,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_01_ForceSize_Height,            SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Scale
+        disconnect(ui->comboBox_01_Scale_Type,                 SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_01_Scale_Factor_X,        SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_01_Scale_Factor_Y,        SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_01_Scale_Size_X,                SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_01_Scale_Size_Y,                SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //CONVERT
         //Color 2 Mono
         disconnect(ui->comboBox_02_Color2Mono_Reduction,       SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -7036,7 +7079,7 @@ void D_StepWindow::Measure_LineDistance()
     int y1 = Measure_P1.y;
     int y2 = Measure_P2.y;
 
-    Mat MA_tmp_WithLine;
+    cv::Mat MA_tmp_WithLine;
     ERR(D_Img_Proc::Normalize(
             &MA_tmp_WithLine,
             pStore->get_Adress(pos_Dest),
@@ -7959,4 +8002,15 @@ void D_StepWindow::on_doubleSpinBox_09_Michelson_Scale_um_valueChanged(double ar
     ui->label_09_Michelson_SceneSize_X->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_X->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
     ui->label_09_Michelson_SceneSize_Y->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Y->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
     ui->label_09_Michelson_SceneSize_Z->setText(QString::number(ui->spinBox_09_Michelson_Scene_Size_Z->value() * (arg1 / ui->spinBox_09_Michelson_Scale_px->value())) + "μm");
+}
+
+void D_StepWindow::on_comboBox_01_Scale_Type_currentIndexChanged(int index)
+{
+    ui->label_01_Scale_Factor->setEnabled(index == c_SCALE_TYPE_FACTOR);
+    ui->doubleSpinBox_01_Scale_Factor_X->setEnabled(index == c_SCALE_TYPE_FACTOR);
+    ui->doubleSpinBox_01_Scale_Factor_Y->setEnabled(index == c_SCALE_TYPE_FACTOR);
+
+    ui->label_01_Scale_Size->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
+    ui->spinBox_01_Scale_Size_X->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
+    ui->spinBox_01_Scale_Size_Y->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
 }

@@ -12,6 +12,7 @@
 //own
 #include <d_enum.h>
 #include <d_viewer.h>
+//#include <d_viewer_3d.h>
 #include <scenemousetrack.h>
 #include <d_img_proc.h>
 #include <d_storage.h>
@@ -78,7 +79,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 QT_CHARTS_USE_NAMESPACE
 
 
@@ -334,6 +336,8 @@ private slots:
 
     void on_doubleSpinBox_09_Michelson_Scale_um_valueChanged(double arg1);
 
+    void on_comboBox_01_Scale_Type_currentIndexChanged(int index);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -453,7 +457,8 @@ private:
         c_sT_ED_CROP,
         c_sT_ED_FLOODFILL,
         c_sT_ED_PADDING,
-        c_sT_ED_FORCE_SIZE
+        c_sT_ED_FORCE_SIZE,
+        c_sT_ED_SCALE
     };
 
     //Subtypes: Convert
@@ -581,6 +586,12 @@ private:
         "Circle",
         "Rectangle",
         "Custom Source"
+    };
+
+    enum c_SCALE_TYPE {
+        c_SCALE_TYPE_FACTOR,
+        c_SCALE_TYPE_TARGET_SIZE,
+        c_SCALE_TYPE_NUMBER_OF
     };
 
 };

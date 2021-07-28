@@ -39,7 +39,8 @@
 
 //namespaces
 using namespace std;
-using namespace cv;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_VisDat_Slicing class Describes how a D_VisDat_Obj shall be sliced.

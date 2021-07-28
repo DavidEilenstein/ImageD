@@ -62,6 +62,7 @@ var NAVTREE =
         [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", "globals_eval" ]
       ] ]
@@ -75,12 +76,12 @@ var NAVTREEINDEX =
 "class_d___geo___line__2_d.html#aa1a7a329ef0f060a42352dfa75681464",
 "class_d___main_window.html#aa1b88f5f6aa9be316ef29d315d1cc53b",
 "class_d___viewer.html#a084d98f59d88ad5f2bed5d12f3501fa1",
-"class_d___vis_dat___dim.html#ab06c6312191e35339561f1a547049f5a",
-"classm__makro__foci.html#a601c840d4080912475e0989f21a975f3",
-"d__enum_8h.html#a3a0cbf2168b972efbe640c5292e781dc",
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60a2f8f058d49b551929ca30819a3eac9bc",
-"d__enum_8h.html#af8fedc76be0370a26d9d9ed77ee1c050a905059ee95295891628b7eeec4738e34",
-"functions_func_b.html"
+"class_d___vis_dat___dim.html#aad12efbb3c415ae0eac64b0479252e71",
+"classm__makro__foci.html#a572729ade95da42febe843621df0b5fa",
+"d__enum_8h.html#a39090dab763f6b34a5c265834a6f8301ab57bd7d716f8a2753e9fd292235873cf",
+"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60a29c68d267af11a82e95a3b7fae5de22b",
+"d__enum_8h.html#af8fedc76be0370a26d9d9ed77ee1c050a7b81e575309a85aa93d89e969205ba2b",
+"d__pdf__writer_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

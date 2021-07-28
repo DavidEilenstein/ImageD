@@ -24,14 +24,8 @@
 #include <QDebug>
 #include <QStringList>
 
-//openCV
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-
 //namespaces
 using namespace std;
-using namespace cv;
 
 /*!
  * \brief The D_Stat class Calculate statistical quantities of vectors of values.
