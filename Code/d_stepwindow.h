@@ -12,7 +12,7 @@
 //own
 #include <d_enum.h>
 #include <d_viewer.h>
-//#include <d_viewer_3d.h>
+#include <d_viewer_3d.h>
 #include <scenemousetrack.h>
 #include <d_img_proc.h>
 #include <d_storage.h>
@@ -63,6 +63,7 @@
 #include <QInputDialog>
 #include <QDateTime>
 #include <QDoubleSpinBox>
+#include <QtDataVisualization>
 
 //Qt-Charts
 #include <QChartView>
@@ -158,6 +159,8 @@ private slots:
     void Update_Times();
     void Update_Time_Img_Cvt(unsigned int t);
     void Update_Time_View_Update(unsigned int t);
+
+    void Update_3DView();
 
     void Dim_GetFromVD();
     int  ProcDimCountFromUi();
@@ -338,6 +341,13 @@ private slots:
 
     void on_comboBox_01_Scale_Type_currentIndexChanged(int index);
 
+    void on_pushButton_Test_3D_clicked();
+
+    void on_actionUpdate_3D_triggered();
+
+
+    void on_action_Autoupdate_3D_View_triggered(bool checked);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -376,6 +386,7 @@ private:
     //Stuff to show images
     D_Viewer        Viewer;
     QChartView      *pCV_Viewer;
+    D_Viewer_3D     Viewer_3D;
   //Mat             MA_Show2d;
 
     //Dimension of Dataset
@@ -424,6 +435,17 @@ private:
     Point Measure_P2;
 
     //CONSTANTS
+
+    //output types
+    enum c_Output {
+        c_Out_Image,
+        c_Out_Hist,
+        c_Out_Time,
+        c_Out_Chain,
+        c_Out_Plot,
+        c_Out_3D,
+        c_Out_Number_of
+    };
 
     //Types
     enum c_Type {

@@ -33,7 +33,6 @@ var hierarchy =
     [ "D_Value_Distribution_List", "class_d___value___distribution___list.html", null ],
     [ "D_VideoSlicer", "class_d___video_slicer.html", null ],
     [ "D_VideoWriter", "class_d___video_writer.html", null ],
-    [ "D_Viewer_3D", "class_d___viewer__3_d.html", null ],
     [ "D_VisDat_Dim", "class_d___vis_dat___dim.html", null ],
     [ "D_VisDat_Header", "class_d___vis_dat___header.html", null ],
     [ "D_VisDat_Obj", "class_d___vis_dat___obj.html", null ],
@@ -96,6 +95,7 @@ var hierarchy =
     [ "QWidget", null, [
       [ "D_Table", "class_d___table.html", null ],
       [ "D_Viewer", "class_d___viewer.html", null ],
+      [ "D_Viewer_3D", "class_d___viewer__3_d.html", null ],
       [ "D_Viewer_Plot", "class_d___viewer___plot.html", null ]
     ] ]
 ];

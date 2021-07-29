@@ -18,12 +18,15 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
 
     //VIEWER
     Viewer.set_GV(ui->graphicsView_Viewer);
-    Viewer.set_Name("Stepwindow");
+    Viewer.set_Name("Stepwindow_" + QString::number(pos_Dest));
     Viewer.Set_Transformation_Mode(vDefaults[c_SD_VIEWER_TRANSFORMATION_SMOOTH]);
     Viewer.Set_Aspect_Mode(vDefaults[c_SD_VIEWER_ASPECT_KEEP]);
     pCV_Viewer = new QChartView(this);
     ui->gridLayout_FunctionView->addWidget(pCV_Viewer);
     Viewer.set_CV(pCV_Viewer);
+
+    //3D Viewer
+    Viewer_3D.init(ui->gridLayout_Output_3D);
 
     //HIST
     //Init chart and chartview
@@ -221,14 +224,22 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->action_Zoom_Out,                        SIGNAL(triggered(bool)),                    &Viewer,        SLOT(Zoom_Out()));
     connect(ui->action_Zoom_Reset,                      SIGNAL(triggered(bool)),                    &Viewer,        SLOT(Zoom_Reset()));
     //ProcDims
-    connect(ui->checkBox_ProcDims_X_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
-    connect(ui->checkBox_ProcDims_Y_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
-    connect(ui->checkBox_ProcDims_Z_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
-    connect(ui->checkBox_ProcDims_T_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
-    connect(ui->checkBox_ProcDims_S_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
-    connect(ui->checkBox_ProcDims_P_Proc,               SIGNAL(clicked(bool)),                      this,   SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_X_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_Y_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_Z_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_T_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_S_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
+    connect(ui->checkBox_ProcDims_P_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
     //Tests
-    connect(ui->action_Features_Visualisation,          SIGNAL(triggered(bool)),                    this,   SLOT(Test_Feature_Visualize()));
+    connect(ui->action_Features_Visualisation,          SIGNAL(triggered(bool)),                    this,           SLOT(Test_Feature_Visualize()));
+    //3D
+    connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
 
     //Default Options from Mainwindow
     ui->action_Autoupdate_ImgProc_on_Settings->setChecked(vDefaults[c_SD_AUTOUPDATE_ON_SETTINGS]);
@@ -273,6 +284,8 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     ui->doubleSpinBox_View_Divisor->setVisible(false);
     ui->doubleSpinBox_View_Anchor->setVisible(false);
     ui->doubleSpinBox_View_Range->setVisible(false);
+    //tab widget
+    ui->tabWidget_Output->setCurrentIndex(c_Out_Image);
 
     //Updates to init stuff
     Dim_GetFromVD();
@@ -2953,11 +2966,14 @@ void D_StepWindow::Update_Img_Proc()
     Update_ParameterList();
     ui->label_Chain_Updated_Val->setText(QDateTime::currentDateTime().toString());
 
-    if(ui->action_Autoupdate_Hist_on_Step->isChecked() || ui->tabWidget_Output->currentIndex() == 1)
+    if(ui->action_Autoupdate_Hist_on_Step->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_Hist)
         Update_Hist();
 
-    if(ui->action_Autoupdate_Times_on_Step->isChecked() || ui->tabWidget_Output->currentIndex() == 2)
+    if(ui->action_Autoupdate_Times_on_Step->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_Time)
         Update_Times();
+
+    if(ui->action_Autoupdate_3D_View->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_3D)
+        Update_3DView();
 
     //check, if complex
     ui->comboBox_View_Complex->setEnabled(pStore->get_Adress(pos_Dest)->channels() == 2);
@@ -4277,6 +4293,21 @@ void D_StepWindow::Update_Time_Img_Cvt(unsigned int t)
 void D_StepWindow::Update_Time_View_Update(unsigned int t)
 {
     pStore->set_times(pos_Dest, c_TIME_IMG_SHOW, t);
+}
+
+void D_StepWindow::Update_3DView()
+{
+    ERR(Viewer_3D.plot_VD_custom(
+            pStore->get_pVD(pos_Dest),
+            ui->comboBox_3D_Mode->currentIndex(),
+            ui->comboBox_3D_Condition->currentIndex(),
+            ui->comboBox_3D_ColorHandling->currentIndex(),
+            ui->comboBox_3D_Axis_X->currentIndex(),
+            ui->comboBox_3D_Axis_Y->currentIndex(),
+            ui->comboBox_3D_Axis_Z->currentIndex(),
+            ui->comboBox_3D_Axis_V->currentIndex()),
+        "Update_3DView",
+        "Viewer_3D.plot_VD_custom");
 }
 
 void D_StepWindow::Dim_GetFromVD()
@@ -7281,17 +7312,14 @@ void D_StepWindow::on_spinBox_04_Edge_dY_valueChanged(int arg1)
 
 void D_StepWindow::on_tabWidget_Output_currentChanged(int index)
 {
-    if(index == 0)
-        Viewer.Set_ViewerMode(c_VIEWER_MODE_IMG);
-
-    if(index == 1)
-        Update_Hist();
-
-    if(index == 2)
-        Update_Times();
-
-    if(index == 4)
-        Viewer.Set_ViewerMode(c_VIEWER_MODE_PLOT);
+    switch (index) {
+    case c_Out_Image:       Viewer.Set_ViewerMode(c_VIEWER_MODE_IMG);   break;
+    case c_Out_Hist:        Update_Hist();                              break;
+    case c_Out_Time:        Update_Times();                             break;
+    case c_Out_Chain:                                                   break;
+    case c_Out_Plot:        Viewer.Set_ViewerMode(c_VIEWER_MODE_PLOT);  break;
+    case c_Out_3D:          Update_3DView();                            break;
+    default:                                                            return;}
 }
 
 void D_StepWindow::on_pushButton_00_Load_Image_clicked()
@@ -8013,4 +8041,52 @@ void D_StepWindow::on_comboBox_01_Scale_Type_currentIndexChanged(int index)
     ui->label_01_Scale_Size->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
     ui->spinBox_01_Scale_Size_X->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
     ui->spinBox_01_Scale_Size_Y->setEnabled(index == c_SCALE_TYPE_TARGET_SIZE);
+}
+
+void D_StepWindow::on_pushButton_Test_3D_clicked()
+{
+    Mat MA_gray_tmp;
+    ERR(D_VisDat_Proc::Read_2D_Plane(
+            &MA_gray_tmp,
+            pStore->get_pVD(pos_Dest),
+            D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
+        "D_StepWindow::on_pushButton_Test_3D_clicked",
+        "D_VisDat_Proc::Read_2D_Plane");
+
+    ERR(Viewer_3D.plot_img2D_gray(&MA_gray_tmp),
+        "D_StepWindow::on_pushButton_Test_3D_clicked",
+        "Viewer_3D.plot_img2D_gray(&MA_gray_tmp)");
+
+    MA_gray_tmp.release();
+
+    //Viewer_3D.plot_test();
+}
+
+void D_StepWindow::on_actionUpdate_3D_triggered()
+{
+    Update_3DView();
+}
+
+void D_StepWindow::on_action_Autoupdate_3D_View_triggered(bool checked)
+{
+    if(checked)
+    {
+        connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    }
+    else
+    {
+        disconnect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
+    }
 }

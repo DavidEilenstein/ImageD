@@ -25840,6 +25840,207 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_Output_3D">
+       <attribute name="title">
+        <string>3D</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_144">
+        <item row="1" column="0" colspan="2">
+         <layout class="QGridLayout" name="gridLayout_Output_3D">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+         </layout>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <layout class="QGridLayout" name="gridLayout_Output_3D_Param">
+          <item row="1" column="4">
+           <widget class="QComboBox" name="comboBox_3D_Axis_Z">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[z]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label_3D_Axis_Z">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Graph Z</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_3D_Condition">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Condition</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QComboBox" name="comboBox_3D_Axis_X">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[x]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_3D_Axis_Y">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Graph Y</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_3D_Condition">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[rule]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QComboBox" name="comboBox_3D_Axis_V">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[channel]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_3D_Axis_X">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Graph X</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3D_Mode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QComboBox" name="comboBox_3D_Axis_Y">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[y]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QComboBox" name="comboBox_3D_Mode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[mode]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QComboBox" name="comboBox_3D_ColorHandling">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>[col mode]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="5" colspan="2">
+           <widget class="QLabel" name="label_3D_Color">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Color</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -25887,6 +26088,7 @@
     <addaction name="action_Update_Step"/>
     <addaction name="action_Update_Hist"/>
     <addaction name="action_Update_Times"/>
+    <addaction name="actionUpdate_3D"/>
     <addaction name="separator"/>
     <addaction name="action_Autoupdate_ImgProc_on_Settings"/>
     <addaction name="separator"/>
@@ -25915,7 +26117,7 @@
    </widget>
    <widget class="QMenu" name="menuHistogram">
     <property name="title">
-     <string>Histogram</string>
+     <string>Hist</string>
     </property>
     <addaction name="action_Autoupdate_Hist_on_Step"/>
     <addaction name="action_Autoupdate_Hist_on_HistSettings"/>
@@ -25941,11 +26143,18 @@
     <addaction name="action_Save_Analysis"/>
     <addaction name="action_Measure_Line_Distance"/>
    </widget>
+   <widget class="QMenu" name="menu3D">
+    <property name="title">
+     <string>3D</string>
+    </property>
+    <addaction name="action_Autoupdate_3D_View"/>
+   </widget>
    <addaction name="menuData"/>
    <addaction name="menuMeasure"/>
    <addaction name="menuUpdate"/>
    <addaction name="menuHistogram"/>
    <addaction name="menuTimes"/>
+   <addaction name="menu3D"/>
    <addaction name="menuViewer"/>
    <addaction name="menuWindow"/>
    <addaction name="menuLayout"/>
@@ -26252,6 +26461,19 @@
   <action name="action_Save_asBinary">
    <property name="text">
     <string>Save Full 6D Image as Binary File</string>
+   </property>
+  </action>
+  <action name="action_Autoupdate_3D_View">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Autoupdate 3D View</string>
+   </property>
+  </action>
+  <action name="actionUpdate_3D">
+   <property name="text">
+    <string>Update 3D</string>
    </property>
   </action>
  </widget>

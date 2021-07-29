@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_8_3";
-const QString           D_QS_Release  = "28.07.2021";
+const QString           D_QS_Version  = "v1_8_5";
+const QString           D_QS_Release  = "29.07.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -281,6 +281,7 @@ const QStringList QSL_Planes {
     "SP",
 };
 
+
 enum D_VIEWER_MODE {
     c_VIEWER_MODE_IMG,
     c_VIEWER_MODE_PLOT,
@@ -306,6 +307,73 @@ const QStringList QSL_PLOT_SIMPLE = {
     "Splines",
     "Splines and Points"
 };
+
+
+enum D_VIEWER_3D_MODE {
+    c_VIEWER_3D_MODE_SCATTER,
+    c_VIEWER_3D_MODE_BAR,
+    c_VIEWER_3D_MODE_HEIGHTMAP,
+    c_VIEWER_3D_MODE_MESH,
+    c_VIEWER_3D_MODE_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_Mode = {
+    "Scatter",
+    "Bar",
+    "Heightmap",
+    "Mesh"
+};
+
+enum D_VIEWER_3D_CONDITION {
+    c_VIEWER_3D_CONDITION_ALL,
+    c_VIEWER_3D_CONDITION_NOT_ZERO,
+    c_VIEWER_3D_CONDITION_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_Condition = {
+    "All",
+    "!=0"
+};
+
+enum D_VIEWER_3D_VALUE_HANDLING {
+    c_VIEWER_3D_VALUE_HANDLING_MONO,
+    c_VIEWER_3D_VALUE_HANDLING_GRAY,
+    c_VIEWER_3D_VALUE_HANDLING_HUE,
+    c_VIEWER_3D_VALUE_HANDLING_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_ValueHandling = {
+    "Mono",
+    "Gray",
+    "Color"
+};
+
+enum D_VIEWER_3D_AXIS {
+    c_D_VIEWER_3D_AXIS_IMG_X,
+    c_D_VIEWER_3D_AXIS_IMG_Y,
+    c_D_VIEWER_3D_AXIS_IMG_Z,
+    c_D_VIEWER_3D_AXIS_IMG_T,
+    c_D_VIEWER_3D_AXIS_IMG_S,
+    c_D_VIEWER_3D_AXIS_IMG_P,
+    c_D_VIEWER_3D_AXIS_CHANNEL_0,
+    c_D_VIEWER_3D_AXIS_CHANNEL_1,
+    c_D_VIEWER_3D_AXIS_CHANNEL_2,
+    c_D_VIEWER_3D_AXIS_CHANNEL_3,
+    c_D_VIEWER_3D_AXIS_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_Axis = {
+    "-",
+    "X",
+    "Y",
+    "Z",
+    "T",
+    "S",
+    "P",
+    "Ch0",
+    "Ch1",
+    "Ch2",
+    "Ch3"
+};
+
+
+
 
 enum D_LOAD_MODE {
     c_LOAD_MODE_FILE_IMAGE,

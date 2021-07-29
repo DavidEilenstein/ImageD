@@ -182,6 +182,10 @@ double D_Viewer::img_val_range()
     return max - min;
 }
 
+/*!
+ * \brief D_Viewer::Init intializes the viewrs ui
+ * \param GV_ui viewer in the ui
+ */
 void D_Viewer::Init(QGraphicsView *GV_ui)
 {
     //connector list

@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     cout << "ImageD - Main - Stared ================================================" << endl;
 
     QApplication a(argc, argv);
-    D_MainWindow w;
-    w.show();
+    D_MainWindow the_window_to_rule_them_all;
+    the_window_to_rule_them_all.show();
 
     cout << "ImageD - Main - Ended ================================================" << endl;
     return a.exec();
