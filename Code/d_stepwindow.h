@@ -209,6 +209,7 @@ private slots:
     void Populate_CB_Color2Mono();
     void Populate_CB_CompDist();
     void Populate_CB_VisTrafo();
+    void Populate_CB_3DViewer();
     void Populate_CB_Other();
     void Test_Feature_Visualize();
 
@@ -316,36 +317,24 @@ private slots:
     void on_comboBox_04_Statistic_MaskType_currentIndexChanged(int index);
 
     void on_doubleSpinBox_04_RankOrder_Quantil_valueChanged(double arg1);
-
     void on_horizontalSlider_04_RankOrder_Quantil_valueChanged(int value);
-
     void on_comboBox_04_RankOrder_MaskType_currentIndexChanged(int index);
 
     void on_comboBox_07_WatershedCustom_Flood_currentIndexChanged(int index);
-
     void on_comboBox_07_WatershedCustom_Marker_currentIndexChanged(int index);
-
     void on_comboBox_07_WatershedCustom_Mask_currentIndexChanged(int index);
-
     void on_checkBox_07_WatershedCustom_DrawWatershed_stateChanged(int arg1);
 
     void on_spinBox_09_Michelson_Scene_Size_X_valueChanged(int arg1);
-
     void on_spinBox_09_Michelson_Scene_Size_Y_valueChanged(int arg1);
-
     void on_spinBox_09_Michelson_Scene_Size_Z_valueChanged(int arg1);
-
     void on_spinBox_09_Michelson_Scale_px_valueChanged(int arg1);
-
     void on_doubleSpinBox_09_Michelson_Scale_um_valueChanged(double arg1);
 
     void on_comboBox_01_Scale_Type_currentIndexChanged(int index);
 
-    void on_pushButton_Test_3D_clicked();
-
+    //void on_pushButton_Test_3D_clicked();
     void on_actionUpdate_3D_triggered();
-
-
     void on_action_Autoupdate_3D_View_triggered(bool checked);
 
 private:

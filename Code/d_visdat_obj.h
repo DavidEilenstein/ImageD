@@ -62,6 +62,9 @@ public:
     Mat             MA_2dMat        (D_VisDat_Slice_2D Slice_2d);
     Mat             MA_SubMat       (D_VisDat_Range RG);
 
+    vector<double>  at              (int x, int y, int z, int t, int s, int p);
+    vector<double>  at              (Vec<int, c_DIM_NUMBER_OF> pos);
+
     int             size_PixelCount ();
     int             size_BitPerPixel();
     int             size_Bit        ();
@@ -70,6 +73,7 @@ public:
     D_VisDat_Dim*   pDim            ()                              {return &VD_Dim;}
 
     int             type            ()                              {return MA_Type;}
+    int             channels        ()                              {return MA_Channels;}
 
     QString         info            ();
     QString         info_short      ();
@@ -80,6 +84,7 @@ public:
     D_VisDat_Dim    VD_Dim;
     Mat             MA_Data;            //6D + Channels
     int             MA_Type = CV_8UC1;
+    int             MA_Channels = 1;
 
     QString         QS_Name = "VD_obj";
 

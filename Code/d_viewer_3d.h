@@ -35,6 +35,7 @@
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
 #include <QtWidgets/QComboBox>
+#include <QLabel>
 
 //Qt-Datavisualization
 #include <QtDataVisualization>
@@ -68,36 +69,73 @@ public:
     ~D_Viewer_3D();
 
     //init basic stuff and ui
-    void init(QGridLayout *target_layout);
+    int init(QGridLayout *target_layout);
 
     //clear
-    void    clear();
-    void    plot_test();
+
+    //plot boring
+    int     plot_empty();
+    int     plot_test();
     int     plot_img2D_gray(Mat *pMA_img);
 
-    int     plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v);
-    int     plot_ScatterData_4D(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle);
+    //plot cool
+    int     plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, int marker, int shadow, bool background, bool grid, bool smooth);
+    int     plot_ScatterData_4D(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, int marker, int shadow, bool background, bool grid, bool smooth, bool called_internally = false);
+
+signals:
+
 
 private:
+    void    clear_layout();
+    bool    PutGraphInLayout(Q3DScatter *graph);
+    void    PutContainerInLayout(QWidget *container_widget);
 
     //error handler
     D_Error_Handler ER;
     void ERR(int err, QString func, QString detail);
 
     //ui
-    QWidget *container_widget;
+    QGridLayout *layout_in_ui;
+    //QWidget *container_widget;
 
     //data
-    Q3DScatter *scatter_graph;
-
-    //cosmetic stuff
-    int                             style_font_size = 40;
-    Q3DTheme::Theme                 style_theme = Q3DTheme::ThemeEbony;
-    QAbstract3DGraph::ShadowQuality style_shadow_quality = QAbstract3DGraph::ShadowQualityNone;
-    bool                            style_smooth = false;
+    //Q3DScatter *scatter_graph;
 
     //states
     bool state_ui_init = false;
+    bool state_container_widget_exists = false;
+    bool state_plot_active = false;
+    bool state_plotting = false;
+};
+
+enum MARKER_3D {
+    MARKER_3D_POINT,
+    MARKER_3D_MINIMAL,
+    MARKER_3D_PYRAMID,
+    MARKER_3D_CUBE,
+    MARKER_3D_CYLINDER,
+    MARKER_3D_SPHERE,
+    MARKER_3D_ARROW,
+    MARKER_3D_NUMBER_OF
+};
+const QStringList QSL_Marker_3D = {
+    "Point",
+    "Minimal",
+    "Pyramid",
+    "Cube",
+    "Cylinder",
+    "Sphere",
+    "Arrow"
+};
+
+const QStringList QSL_ShadowQuality_3D = {
+    "None",
+    "Low",
+    "Medium",
+    "High",
+    "Soft Low",
+    "Soft Medium",
+    "Soft High"
 };
 
 #endif // D_VIEWER_3D_H

@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_8_5";
-const QString           D_QS_Release  = "29.07.2021";
+const QString           D_QS_Version  = "v1_8_6";
+const QString           D_QS_Release  = "04.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -140,6 +140,10 @@ enum D_ERROR_ENUM {
     ER_DescriptorsUnkown,
     ER_StreamNotOpen,
     ER_NumericProblem,
+    ER_UiAllreadyInit,
+    ER_UiNotInit,
+    ER_UiPutInFail,
+    ER_ThreadIssue,
     ER_number_of
 };
 const QStringList QSL_Errors = {
@@ -185,7 +189,11 @@ const QStringList QSL_Errors = {
     "Keypoints unknwon",
     "Descriptors unknown",
     "Stream not open",
-    "Numerical problem (+/-inf or nan)"
+    "Numerical problem (+/-inf or nan)",
+    "Ui is allready initialized",
+    "Ui is not initialized",
+    "Failed to put element in ui",
+    "Thread issue"
 };
 
 enum D_DIM_INDICES {
@@ -227,6 +235,7 @@ enum D_SLICE {
     c_SLICE_3D_XYZ,
     c_SLICE_3D_XYT,
     c_SLICE_4D_XYZT,
+    c_SLICE_6D_ALL,
     c_SLICE_NUMBER_OF
 };
 const QStringList QSL_Slicing = {
@@ -241,7 +250,8 @@ const QStringList QSL_Slicing = {
     "2D YZ",
     "3D XYZ",
     "3D XYT",
-    "4D XYZT"
+    "4D XYZT",
+    "6D All"
 };
 
 enum D_PLANES {
@@ -346,6 +356,7 @@ const QStringList QSL_Viewer3D_ValueHandling = {
 };
 
 enum D_VIEWER_3D_AXIS {
+    c_D_VIEWER_3D_AXIS_EMPTY,
     c_D_VIEWER_3D_AXIS_IMG_X,
     c_D_VIEWER_3D_AXIS_IMG_Y,
     c_D_VIEWER_3D_AXIS_IMG_Z,

@@ -77,6 +77,15 @@ D_VisDat_Slicing::D_VisDat_Slicing(int SlicingPrototype)
         v_ProcDims[c_DIM_T] = 1;
         break;
 
+    case c_SLICE_6D_ALL:
+        v_ProcDims[c_DIM_X] = 1;
+        v_ProcDims[c_DIM_Y] = 1;
+        v_ProcDims[c_DIM_Z] = 1;
+        v_ProcDims[c_DIM_T] = 1;
+        v_ProcDims[c_DIM_S] = 1;
+        v_ProcDims[c_DIM_P] = 1;
+        break;
+
     default:
         break;
     }

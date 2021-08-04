@@ -25399,7 +25399,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -25845,14 +25845,93 @@
         <string>3D</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_144">
-        <item row="1" column="0" colspan="2">
-         <layout class="QGridLayout" name="gridLayout_Output_3D">
-          <property name="spacing">
-           <number>0</number>
-          </property>
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>6</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="2" column="0">
+         <layout class="QGridLayout" name="gridLayout_Output_3D_Style">
+          <item row="0" column="3">
+           <widget class="QCheckBox" name="checkBox_3D_Grid">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Grid</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_3D_ShadowQuality">
+            <item>
+             <property name="text">
+              <string>[shadow]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="checkBox_3D_Background">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QCheckBox" name="checkBox_3D_Smooth">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Smooth Dots</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QComboBox" name="comboBox_3D_Marker">
+            <item>
+             <property name="text">
+              <string>[marker]</string>
+             </property>
+            </item>
+           </widget>
+          </item>
          </layout>
         </item>
-        <item row="0" column="0" colspan="2">
+        <item row="1" column="0">
+         <widget class="Line" name="line_3D_1">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_Output_3D_Param">
           <item row="1" column="4">
            <widget class="QComboBox" name="comboBox_3D_Axis_Z">
@@ -25996,6 +26075,9 @@
           </item>
           <item row="1" column="0">
            <widget class="QComboBox" name="comboBox_3D_Mode">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
               <horstretch>0</horstretch>
@@ -26037,6 +26119,13 @@
             </property>
            </widget>
           </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <layout class="QGridLayout" name="gridLayout_Output_3D">
+          <property name="spacing">
+           <number>0</number>
+          </property>
          </layout>
         </item>
        </layout>

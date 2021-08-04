@@ -127,6 +127,7 @@ public:
     bool                        loop_Next               ();
     Vec<int, c_DIM_NUMBER_OF>   loop_PosCurrent         ()                                  {return v_LoopCurPos;}
     Vec<int, c_DIM_NUMBER_OF>   loop_PosCurrent_Offset  ();
+
 private:
     Vec<int, c_DIM_NUMBER_OF>   v_LoopCurPos = {0, 0, 0, 0, 0, 0};
     Vec<int, c_DIM_NUMBER_OF>   v_LoopOffset = {0, 0, 0, 0, 0, 0};

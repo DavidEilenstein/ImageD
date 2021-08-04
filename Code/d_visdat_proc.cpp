@@ -3571,8 +3571,8 @@ int D_VisDat_Proc::Dim_Project(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int 
     vector<int> sz_out = Dim_out.size_DimsVec();
 
     //pos
-    Vec<int, 6> pos_in      = {0, 0, 0, 0, 0, 0};
-    Vec<int, 6> pos_out     = {0, 0, 0, 0, 0, 0};
+    Vec<int, c_DIM_NUMBER_OF> pos_in    = {0, 0, 0, 0, 0, 0};
+    Vec<int, c_DIM_NUMBER_OF> pos_out   = {0, 0, 0, 0, 0, 0};
 
     //projection
     int sz_project = pVD_In->pDim()->size_Dim(dim_project);

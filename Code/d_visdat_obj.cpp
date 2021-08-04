@@ -58,6 +58,49 @@ Mat D_VisDat_Obj::MA_SubMat(D_VisDat_Range RG)
     return MA_Data(RG.Ranges(VD_Dim));
 }
 
+vector<double> D_VisDat_Obj::at(int x, int y, int z, int t, int s, int p)
+{
+    Vec<int, c_DIM_NUMBER_OF> pos = {x, y, z, t, s, p};
+    return at(pos);
+}
+
+vector<double> D_VisDat_Obj::at(Vec<int, c_DIM_NUMBER_OF> pos)
+{
+    switch (MA_Data.type())
+    {
+    case CV_8UC1:   return vector<double>{static_cast<double>(MA_Data.at<uchar>(pos))};
+    case CV_8SC1:   return vector<double>{static_cast<double>(MA_Data.at<char>(pos))};
+    case CV_16UC1:  return vector<double>{static_cast<double>(MA_Data.at<ushort>(pos))};
+    case CV_16SC1:  return vector<double>{static_cast<double>(MA_Data.at<short>(pos))};
+    case CV_32SC1:  return vector<double>{static_cast<double>(MA_Data.at<int>(pos))};
+    case CV_32FC1:  return vector<double>{static_cast<double>(MA_Data.at<float>(pos))};
+    case CV_64FC1:  return vector<double>{MA_Data.at<double>(pos)};
+
+    case CV_8UC2:   return vector<double>{static_cast<double>(MA_Data.at<Vec2b>(pos)[0]),   static_cast<double>(MA_Data.at<Vec2b>(pos)[1])};
+    case CV_16UC2:  return vector<double>{static_cast<double>(MA_Data.at<Vec2w>(pos)[0]),   static_cast<double>(MA_Data.at<Vec2w>(pos)[1])};
+    case CV_16SC2:  return vector<double>{static_cast<double>(MA_Data.at<Vec2s>(pos)[0]),   static_cast<double>(MA_Data.at<Vec2s>(pos)[1])};
+    case CV_32SC2:  return vector<double>{static_cast<double>(MA_Data.at<Vec2i>(pos)[0]),   static_cast<double>(MA_Data.at<Vec2i>(pos)[1])};
+    case CV_32FC2:  return vector<double>{static_cast<double>(MA_Data.at<Vec2f>(pos)[0]),   static_cast<double>(MA_Data.at<Vec2f>(pos)[1])};
+    case CV_64FC2:  return vector<double>{MA_Data.at<Vec2d>(pos)[0],                        MA_Data.at<Vec2d>(pos)[1]};
+
+    case CV_8UC3:   return vector<double>{static_cast<double>(MA_Data.at<Vec3b>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3b>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3b>(pos)[2])};
+    case CV_16UC3:  return vector<double>{static_cast<double>(MA_Data.at<Vec3w>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3w>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3w>(pos)[2])};
+    case CV_16SC3:  return vector<double>{static_cast<double>(MA_Data.at<Vec3s>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3s>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3s>(pos)[2])};
+    case CV_32SC3:  return vector<double>{static_cast<double>(MA_Data.at<Vec3i>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3i>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3i>(pos)[2])};
+    case CV_32FC3:  return vector<double>{static_cast<double>(MA_Data.at<Vec3f>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3f>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3f>(pos)[2])};
+    case CV_64FC3:  return vector<double>{MA_Data.at<Vec3d>(pos)[0],                        MA_Data.at<Vec3d>(pos)[1],                          MA_Data.at<Vec3d>(pos)[2]};
+
+    case CV_8UC4:   return vector<double>{static_cast<double>(MA_Data.at<Vec3b>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3b>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3b>(pos)[2]),     static_cast<double>(MA_Data.at<Vec3b>(pos)[3])};
+    case CV_16UC4:  return vector<double>{static_cast<double>(MA_Data.at<Vec3w>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3w>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3w>(pos)[2]),     static_cast<double>(MA_Data.at<Vec3w>(pos)[3])};
+    case CV_16SC4:  return vector<double>{static_cast<double>(MA_Data.at<Vec3s>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3s>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3s>(pos)[2]),     static_cast<double>(MA_Data.at<Vec3s>(pos)[3])};
+    case CV_32SC4:  return vector<double>{static_cast<double>(MA_Data.at<Vec3i>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3i>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3i>(pos)[2]),     static_cast<double>(MA_Data.at<Vec3i>(pos)[3])};
+    case CV_32FC4:  return vector<double>{static_cast<double>(MA_Data.at<Vec3f>(pos)[0]),   static_cast<double>(MA_Data.at<Vec3f>(pos)[1]),     static_cast<double>(MA_Data.at<Vec3f>(pos)[2]),     static_cast<double>(MA_Data.at<Vec3f>(pos)[3])};
+    case CV_64FC4:  return vector<double>{MA_Data.at<Vec3d>(pos)[0],                        MA_Data.at<Vec3d>(pos)[1],                          MA_Data.at<Vec3d>(pos)[2],                          MA_Data.at<Vec3d>(pos)[3]};
+
+    default:        return vector<double>{};
+    }
+}
+
 int D_VisDat_Obj::size_PixelCount()
 {
     return VD_Dim.size_PixelCount();
@@ -338,6 +381,7 @@ void D_VisDat_Obj::Init(double val)
     case CV_32SC1:
     case CV_32FC1:
     case CV_64FC1:
+        MA_Channels = 1;
         init_scalar = Scalar(val);
         break;
 
@@ -348,6 +392,7 @@ void D_VisDat_Obj::Init(double val)
     case CV_32SC2:
     case CV_32FC2:
     case CV_64FC2:
+        MA_Channels = 2;
         init_scalar = Scalar(val, val);
         break;
 
@@ -358,6 +403,7 @@ void D_VisDat_Obj::Init(double val)
     case CV_32SC3:
     case CV_32FC3:
     case CV_64FC3:
+        MA_Channels = 3;
         init_scalar = Scalar(val, val, val);
         break;
 
@@ -368,6 +414,7 @@ void D_VisDat_Obj::Init(double val)
     case CV_32SC4:
     case CV_32FC4:
     case CV_64FC4:
+        MA_Channels = 4;
         init_scalar = Scalar(val, val, val, val);
         break;
 
