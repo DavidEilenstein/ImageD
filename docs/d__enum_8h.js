@@ -145,6 +145,10 @@ var d__enum_8h =
       [ "ER_DescriptorsUnkown", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20", null ],
       [ "ER_StreamNotOpen", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7", null ],
       [ "ER_NumericProblem", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e", null ],
+      [ "ER_UiAllreadyInit", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a48ab8542d59ed3a21e00f7c4bfafee4d", null ],
+      [ "ER_UiNotInit", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a98dd0abe73fad23272d2db7268b296a2", null ],
+      [ "ER_UiPutInFail", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a93172b50bc21a6c6de34fcc8a54acf68", null ],
+      [ "ER_ThreadIssue", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a77836f8d9fdc703d8db70a5b2adfb526", null ],
       [ "ER_number_of", "d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845", null ]
     ] ],
     [ "D_FEATURE_ENUM", "d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60", [
@@ -486,6 +490,7 @@ var d__enum_8h =
       [ "c_SLICE_3D_XYZ", "d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a018e5c80d2a0f35e40fed9cd21ed4f48", null ],
       [ "c_SLICE_3D_XYT", "d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a0989ee53413dc06b7e7abb3fa11b4562", null ],
       [ "c_SLICE_4D_XYZT", "d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a6996e8fec2cf00c811af4fd872b11bdb", null ],
+      [ "c_SLICE_6D_ALL", "d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a460ad3d8499a03f9cf17890f9b7a6c3d", null ],
       [ "c_SLICE_NUMBER_OF", "d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a6b5d408fbe071a21c97680b270c74612", null ]
     ] ],
     [ "D_STATISTIC_2D_ENUM", "d__enum_8h.html#a482f795401a84caeab4d3ebc46f885ab", [
@@ -615,6 +620,38 @@ var d__enum_8h =
       [ "c_TIME_HIST", "d__enum_8h.html#aa1473cb5264ee9ea7889f89a50ceb4ddac98c0936c406df965f7723810d13d9cd", null ],
       [ "c_TIME_SOURCE_VIEW", "d__enum_8h.html#aa1473cb5264ee9ea7889f89a50ceb4ddac420b1212ce6bb254c3ab340155e41a9", null ]
     ] ],
+    [ "D_VIEWER_3D_AXIS", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19d", [
+      [ "c_D_VIEWER_3D_AXIS_EMPTY", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dad842feba45682dd0449924254b47c1a8", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_X", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da8a0d8b616a1f637618b8b26e26ab3deb", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_Y", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da3d9e2c28baec2afec1570df1786168c3", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_Z", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da4846a3283b63ab9de2bca01db47cd262", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_T", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dab23afceb9f34fce7df39396b77704896", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_S", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dad8ebfe7cf09b2e42c157149ef8ad24b0", null ],
+      [ "c_D_VIEWER_3D_AXIS_IMG_P", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dafcc06dc6d83e7902de887ddaa66a37c2", null ],
+      [ "c_D_VIEWER_3D_AXIS_CHANNEL_0", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da36d1017e1c2b84f6ee8ae6ac1f973d39", null ],
+      [ "c_D_VIEWER_3D_AXIS_CHANNEL_1", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da3bb89a6061b5df5479edd0408867e3e8", null ],
+      [ "c_D_VIEWER_3D_AXIS_CHANNEL_2", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da5334e325e5709dc5d6af5c8aafbea307", null ],
+      [ "c_D_VIEWER_3D_AXIS_CHANNEL_3", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19daa1c4c8e2225b8c0099a0e20552eddab9", null ],
+      [ "c_D_VIEWER_3D_AXIS_NUMBER_OF", "d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da0f685447369437220f29c1e85f819e80", null ]
+    ] ],
+    [ "D_VIEWER_3D_CONDITION", "d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5a", [
+      [ "c_VIEWER_3D_CONDITION_ALL", "d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aaf7bf709a537fce171bc3c13f2ab37b2a", null ],
+      [ "c_VIEWER_3D_CONDITION_NOT_ZERO", "d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aa57849f7ad2ee486591a72d0e0a97e78f", null ],
+      [ "c_VIEWER_3D_CONDITION_NUMBER_OF", "d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aaa4c2bbbdbac6fcd7c4dea4c5245c176f", null ]
+    ] ],
+    [ "D_VIEWER_3D_MODE", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18", [
+      [ "c_VIEWER_3D_MODE_SCATTER", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18af3a6d011b44691ae6909f4eee3cd43b5", null ],
+      [ "c_VIEWER_3D_MODE_BAR", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18af0fa59afe01b1c00bac370cccd02da0e", null ],
+      [ "c_VIEWER_3D_MODE_HEIGHTMAP", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18ad2d8a52698a19e665be949cd0db2b232", null ],
+      [ "c_VIEWER_3D_MODE_MESH", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18a3ff5b91e2ca3b9fd776da2ca4ba3cf65", null ],
+      [ "c_VIEWER_3D_MODE_NUMBER_OF", "d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18ab50ac8d0b56627cc8b27d4b812526417", null ]
+    ] ],
+    [ "D_VIEWER_3D_VALUE_HANDLING", "d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bd", [
+      [ "c_VIEWER_3D_VALUE_HANDLING_MONO", "d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bdac6139ea83b151a3bef5af8caa3a56a36", null ],
+      [ "c_VIEWER_3D_VALUE_HANDLING_GRAY", "d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda3a34e91d06b0d6b7f4118dfe0f23d6d1", null ],
+      [ "c_VIEWER_3D_VALUE_HANDLING_HUE", "d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda38dee3ae47419d9c4c6a3283486684eb", null ],
+      [ "c_VIEWER_3D_VALUE_HANDLING_NUMBER_OF", "d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda562311b18fbbe3f22fbd2b68080fdda3", null ]
+    ] ],
     [ "D_VIEWER_MODE", "d__enum_8h.html#a493d7a8b036cf0f92e95cde0c5379734", [
       [ "c_VIEWER_MODE_IMG", "d__enum_8h.html#a493d7a8b036cf0f92e95cde0c5379734ad63880ebd9a4053d0b0fe8afa7245cc4", null ],
       [ "c_VIEWER_MODE_PLOT", "d__enum_8h.html#a493d7a8b036cf0f92e95cde0c5379734a91528e05ea7b0d0130625972dc2e4df9", null ],
@@ -728,6 +765,10 @@ var d__enum_8h =
     [ "QSL_StatList2D", "d__enum_8h.html#ad6321d33597fd33671de780f70ba5d62", null ],
     [ "QSL_StatListCirc", "d__enum_8h.html#a15fe81442d9707e5739f6068cfd00e91", null ],
     [ "QSL_StereoOutput", "d__enum_8h.html#a4e3e483801d2f2687396a484d5aa8e01", null ],
+    [ "QSL_Viewer3D_Axis", "d__enum_8h.html#a9b3f9878c532f268e46561fa201de41a", null ],
+    [ "QSL_Viewer3D_Condition", "d__enum_8h.html#a655e6d5c7a1b169165494aebbc97ca28", null ],
+    [ "QSL_Viewer3D_Mode", "d__enum_8h.html#a5e6db3b3e0dd55e218af81bcd72038c8", null ],
+    [ "QSL_Viewer3D_ValueHandling", "d__enum_8h.html#a081ba432d9e95144277ebefb0caae5a4", null ],
     [ "QSL_ViewerMode", "d__enum_8h.html#ab210a1bf418f2744fd8c96eb3ca64cfc", null ],
     [ "QSL_VisTrafo", "d__enum_8h.html#a453ce8ebef6aee2d2586c65bace847a1", null ],
     [ "QSL_VisTrafo_Anchor", "d__enum_8h.html#afddf8d0eab13c007de50c56d0fd9b863", null ],

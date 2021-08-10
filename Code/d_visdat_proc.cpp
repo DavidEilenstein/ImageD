@@ -13,6 +13,50 @@ D_VisDat_Proc::D_VisDat_Proc()
     //never call it (wrapper class - all methods static)
 }
 
+int D_VisDat_Proc::PlaneDim_1st(size_t plane_index)
+{
+    switch (plane_index) {
+    case c_PLANE_XY:    return c_DIM_X;
+    case c_PLANE_XZ:    return c_DIM_X;
+    case c_PLANE_XT:    return c_DIM_X;
+    case c_PLANE_XS:    return c_DIM_X;
+    case c_PLANE_XP:    return c_DIM_X;
+    case c_PLANE_YZ:    return c_DIM_Y;
+    case c_PLANE_YT:    return c_DIM_Y;
+    case c_PLANE_YS:    return c_DIM_Y;
+    case c_PLANE_YP:    return c_DIM_Y;
+    case c_PLANE_ZT:    return c_DIM_Z;
+    case c_PLANE_ZS:    return c_DIM_Z;
+    case c_PLANE_ZP:    return c_DIM_Z;
+    case c_PLANE_TS:    return c_DIM_T;
+    case c_PLANE_TP:    return c_DIM_T;
+    case c_PLANE_SP:    return c_DIM_S;
+    default:            return -1;
+    }
+}
+
+int D_VisDat_Proc::PlaneDim_2nd(size_t plane_index)
+{
+    switch (plane_index) {
+    case c_PLANE_XY:    return c_DIM_Y;
+    case c_PLANE_XZ:    return c_DIM_Z;
+    case c_PLANE_XT:    return c_DIM_T;
+    case c_PLANE_XS:    return c_DIM_S;
+    case c_PLANE_XP:    return c_DIM_P;
+    case c_PLANE_YZ:    return c_DIM_Z;
+    case c_PLANE_YT:    return c_DIM_T;
+    case c_PLANE_YS:    return c_DIM_S;
+    case c_PLANE_YP:    return c_DIM_P;
+    case c_PLANE_ZT:    return c_DIM_T;
+    case c_PLANE_ZS:    return c_DIM_S;
+    case c_PLANE_ZP:    return c_DIM_P;
+    case c_PLANE_TS:    return c_DIM_S;
+    case c_PLANE_TP:    return c_DIM_P;
+    case c_PLANE_SP:    return c_DIM_P;
+    default:            return -1;
+    }
+}
+
 int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *)> img_proc, D_VisDat_Obj *pVD_Out)
 {
     //Slicing

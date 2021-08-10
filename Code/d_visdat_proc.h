@@ -74,16 +74,20 @@ class D_VisDat_Proc
 public:
     D_VisDat_Proc();
 
+    //index definitions and stuff
+    static int  PlaneDim_1st            (size_t plane_index);
+    static int  PlaneDim_2nd            (size_t plane_index);
+
     //Wrapper for img proc function to be executed with VDs
-    static int  Wrap_VD              (D_VisDat_Slicing slice, function<int (Mat *pMA_Out)> img_proc,                                                         D_VisDat_Obj *pVD_Out);
-    static int  Wrap_VD              (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In)> img_proc,                                            D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
-    static int  Wrap_VD              (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)> img_proc,                             D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
-    static int  Wrap_VD              (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)> img_proc,               D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
-    static int  Wrap_VD              (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4)> img_proc, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, D_VisDat_Obj *pVD_In4);
-    static int  Wrap_VD_SameSizeType (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In)> img_proc,                                            D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
-    static int  Wrap_VD_SameSizeType (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)> img_proc,                             D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
-    static int  Wrap_VD_SameSizeType (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)> img_proc,               D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
-    static int  Wrap_VD_SameSizeType (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4)> img_proc, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, D_VisDat_Obj *pVD_In4);
+    static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out)> img_proc,                                                         D_VisDat_Obj *pVD_Out);
+    static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In)> img_proc,                                            D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
+    static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)> img_proc,                             D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
+    static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)> img_proc,               D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
+    static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4)> img_proc, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, D_VisDat_Obj *pVD_In4);
+    static int  Wrap_VD_SameSizeType    (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In)> img_proc,                                            D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
+    static int  Wrap_VD_SameSizeType    (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)> img_proc,                             D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
+    static int  Wrap_VD_SameSizeType    (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)> img_proc,               D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
+    static int  Wrap_VD_SameSizeType    (D_VisDat_Slicing slice, function<int (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4)> img_proc, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, D_VisDat_Obj *pVD_In4);
 
 
     //Wrapper from D_Img_Proc to be used in threads

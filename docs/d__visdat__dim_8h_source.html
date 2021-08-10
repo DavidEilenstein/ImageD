@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
+   &#160;<span id="projectnumber">v1_9_0 (04.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -209,19 +209,20 @@ $(document).ready(function(){initNavTree('d__visdat__dim_8h_source.html',''); in
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">bool</span>                        loop_Next               ();</div>
 <div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="class_d___vis_dat___dim.html#a15988e7b99cb810e4bf31889822477e3">  128</a></span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   <a class="code" href="class_d___vis_dat___dim.html#a15988e7b99cb810e4bf31889822477e3">loop_PosCurrent</a>         ()                                  {<span class="keywordflow">return</span> v_LoopCurPos;}</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   loop_PosCurrent_Offset  ();</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   v_LoopCurPos = {0, 0, 0, 0, 0, 0};</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   v_LoopOffset = {0, 0, 0, 0, 0, 0};</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    vector&lt;int&gt;     vSizes = {1, 1, 1, 1, 1, 1};</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    vector&lt;double&gt;  vSteps = {1, 1, 1, 1, 1, 1};</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    QStringList     QSL_Units = {<span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;f&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;};</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VISDAT_DIM_H</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   v_LoopCurPos = {0, 0, 0, 0, 0, 0};</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec&lt;int, c_DIM_NUMBER_OF&gt;</a>   v_LoopOffset = {0, 0, 0, 0, 0, 0};</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    vector&lt;int&gt;     vSizes = {1, 1, 1, 1, 1, 1};</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    vector&lt;double&gt;  vSteps = {1, 1, 1, 1, 1, 1};</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    QStringList     QSL_Units = {<span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;px&quot;</span>, <span class="stringliteral">&quot;f&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;};</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VISDAT_DIM_H</span></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html"><div class="ttname"><a href="class_d___vis_dat___dim.html">D_VisDat_Dim</a></div><div class="ttdoc">The D_VisDat_Dim class Represents a 6D volume.</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:49</div></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html_a0976a2ee5dd572a84049189556b51c7e"><div class="ttname"><a href="class_d___vis_dat___dim.html#a0976a2ee5dd572a84049189556b51c7e">D_VisDat_Dim::unit_T</a></div><div class="ttdeci">QString unit_T()</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:75</div></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html_a14526145450e56c9b481d33ed7ba063f"><div class="ttname"><a href="class_d___vis_dat___dim.html#a14526145450e56c9b481d33ed7ba063f">D_VisDat_Dim::set_size_Dims</a></div><div class="ttdeci">void set_size_Dims(vector&lt; int &gt; sizes)</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:97</div></div>
@@ -279,12 +280,12 @@ $(document).ready(function(){initNavTree('d__visdat__dim_8h_source.html',''); in
 <div class="ttc" id="aclass_d___vis_dat___dim_html_aff8bad1367d1fec5ee3d8f4709729c8d"><div class="ttname"><a href="class_d___vis_dat___dim.html#aff8bad1367d1fec5ee3d8f4709729c8d">D_VisDat_Dim::set_size_T</a></div><div class="ttdeci">void set_size_T(int T)</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:93</div></div>
 <div class="ttc" id="aclass_d___vis_dat___header_html"><div class="ttname"><a href="class_d___vis_dat___header.html">D_VisDat_Header</a></div><div class="ttdoc">The D_VisDat_Header class Contains the meta data of a D_VisDat_Obj.</div><div class="ttdef"><b>Definition:</b> d_visdat_header.h:37</div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a></div><div class="ttdeci">@ c_DIM_X</div><div class="ttdef"><b>Definition:</b> d_enum.h:192</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a></div><div class="ttdeci">@ c_DIM_Z</div><div class="ttdef"><b>Definition:</b> d_enum.h:194</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a></div><div class="ttdeci">@ c_DIM_P</div><div class="ttdef"><b>Definition:</b> d_enum.h:197</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a></div><div class="ttdeci">@ c_DIM_S</div><div class="ttdef"><b>Definition:</b> d_enum.h:196</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a></div><div class="ttdeci">@ c_DIM_T</div><div class="ttdef"><b>Definition:</b> d_enum.h:195</div></div>
-<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a></div><div class="ttdeci">@ c_DIM_Y</div><div class="ttdef"><b>Definition:</b> d_enum.h:193</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a></div><div class="ttdeci">@ c_DIM_X</div><div class="ttdef"><b>Definition:</b> d_enum.h:200</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a></div><div class="ttdeci">@ c_DIM_Z</div><div class="ttdef"><b>Definition:</b> d_enum.h:202</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a></div><div class="ttdeci">@ c_DIM_P</div><div class="ttdef"><b>Definition:</b> d_enum.h:205</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a></div><div class="ttdeci">@ c_DIM_S</div><div class="ttdef"><b>Definition:</b> d_enum.h:204</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a></div><div class="ttdeci">@ c_DIM_T</div><div class="ttdef"><b>Definition:</b> d_enum.h:203</div></div>
+<div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a></div><div class="ttdeci">@ c_DIM_Y</div><div class="ttdef"><b>Definition:</b> d_enum.h:201</div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
 <div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
 <div class="ttc" id="ad__opencv__typedefs_8h_html_a0939b87817f9b97e22e69319d1ca651e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec</a></div><div class="ttdeci">cv::Vec&lt; T, N &gt; Vec</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:43</div></div>

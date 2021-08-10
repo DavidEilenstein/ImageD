@@ -90,6 +90,8 @@ public:
 
     static int      Convert_Mat_to_QImage       (QImage *pQI_Out, Mat *pMA_In);
     static int      Convert_QImage_to_Mat       (Mat *pMA_Out, QImage *pQI_In);
+    static int      Convert_toMat4Ch            (Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color);
+    static int      Convert_toQImage4Ch         (QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color);
 
     static int      MinMax_of_Mat               (Mat *pMA_In, double *min_ext, double *max_ext);
     static int      MinMax_of_Mat_1C            (Mat *pMA_In, double *min_ext, double *max_ext);

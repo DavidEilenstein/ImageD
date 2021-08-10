@@ -336,6 +336,10 @@ private slots:
     //void on_pushButton_Test_3D_clicked();
     void on_actionUpdate_3D_triggered();
     void on_action_Autoupdate_3D_View_triggered(bool checked);
+    void on_comboBox_3D_ColorHandling_currentIndexChanged(int index);
+    void on_comboBox_3D_TextureMode_Heightmap_currentIndexChanged(int index);
+    void on_comboBox_3D_SurfaceMode_currentIndexChanged(int index);
+
 
 private:
     Ui::D_StepWindow *ui;

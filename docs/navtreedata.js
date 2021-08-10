@@ -76,12 +76,13 @@ var NAVTREEINDEX =
 "class_d___geo___line__2_d.html#aa1a7a329ef0f060a42352dfa75681464",
 "class_d___main_window.html#aa1b88f5f6aa9be316ef29d315d1cc53b",
 "class_d___viewer.html#a084d98f59d88ad5f2bed5d12f3501fa1",
-"class_d___vis_dat___dim.html#a8eebbe2578c7de443ece204c533c5712",
-"classes.html",
-"d__enum_8h.html#a39090dab763f6b34a5c265834a6f8301a5039ca30a510339bdfeb58cceb19b865",
-"d__enum_8h.html#aaa77dc81b3310b843dff9085a67c1d60a21e00df17da88b109c3b47f95b075594",
-"d__enum_8h.html#af8fedc76be0370a26d9d9ed77ee1c050a6c14a642568b6d0765472f5cd7565dc4",
-"d__opencv__typedefs_8h.html#af4ce3100c141c8b3983fb95afe86e8f7"
+"class_d___vis_dat___dim.html#a8fa7caa3b5d1de10201d4b693fee0b72",
+"class_scene_mouse_track.html#aee44a9a64354f938e4aad2bf9b798981",
+"d__enum_8h.html#a39090dab763f6b34a5c265834a6f8301a0a17aef987e3d7bb436b70698ba134ae",
+"d__enum_8h.html#aa69b5fd10b354dd6290d1482c86bbe98abdb79f9747087a6d13596507205419e1",
+"d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a596597280aeeca6cf3c5887258894511",
+"d__opencv__typedefs_8h.html#a87cbeeee6c7ca4f6e05aa6d55603e9da",
+"index.html#links_sec"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

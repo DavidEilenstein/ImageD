@@ -34,6 +34,7 @@ var searchData=
   ['angle_31',['angle',['../class_d___geo___line__2_d.html#a8a3f83e74d88a6c5b26bfa1c5ea2c476',1,'D_Geo_Line_2D::angle()'],['../class_d___geo___line__2_d.html#a87ee75b55ea7ce7daa72ce21239b11f3',1,'D_Geo_Line_2D::angle(D_Geo_Line_2D L)'],['../class_d___geo___point__2_d.html#a77fae25092881d5539dda92d186a5210',1,'D_Geo_Point_2D::angle()'],['../class_d___geo___point__2_d.html#a6df72e70bd5d4d0e87c96f717a3f05c2',1,'D_Geo_Point_2D::angle(D_Geo_Point_2D P)']]],
   ['anglerad_32',['AngleRad',['../class_d___math.html#ae83364dc6aa6c5954199d8f1181a334e',1,'D_Math']]],
   ['area_33',['area',['../class_d___bio___focus.html#a9d809d123c4c58a56f6460a4a1930bb9',1,'D_Bio_Focus::area()'],['../class_d___bio___nucleus_blob.html#ab63b5d9e59d3d4937963d56043cbdfc9',1,'D_Bio_NucleusBlob::area()'],['../class_d___contour.html#a6d4cc0855bb30a03198ea16bdcc20454',1,'D_Contour::area()']]],
-  ['axe_5ftick_5fcount_5fdefault_34',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
-  ['axetrans_35',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
+  ['at_34',['at',['../class_d___vis_dat___obj.html#a909543760727bd1ba147a6e4ed9190b6',1,'D_VisDat_Obj::at(int x, int y, int z, int t, int s, int p)'],['../class_d___vis_dat___obj.html#aa72318d0e7ebce3a5da1d39a86cbc399',1,'D_VisDat_Obj::at(Vec&lt; int, c_DIM_NUMBER_OF &gt; pos)']]],
+  ['axe_5ftick_5fcount_5fdefault_35',['AXE_TICK_COUNT_DEFAULT',['../d__enum_8h.html#a6c6ac27819f93ec7815783e42e086bc2',1,'d_enum.h']]],
+  ['axetrans_36',['AxeTrans',['../class_d___stat.html#ab07e341e99bdd9802b4277696154c4c4',1,'D_Stat']]]
 ];

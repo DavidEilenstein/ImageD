@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_8_6";
-const QString           D_QS_Release  = "04.08.2021";
+const QString           D_QS_Version  = "v1_9_1";
+const QString           D_QS_Release  = "10.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -272,7 +272,6 @@ enum D_PLANES {
     c_PLANE_SP,
     c_PLANE_NUMBER_OF
 };
-
 const QStringList QSL_Planes {
     "XY",
     "XZ",
@@ -321,16 +320,16 @@ const QStringList QSL_PLOT_SIMPLE = {
 
 enum D_VIEWER_3D_MODE {
     c_VIEWER_3D_MODE_SCATTER,
-    c_VIEWER_3D_MODE_BAR,
     c_VIEWER_3D_MODE_HEIGHTMAP,
-    c_VIEWER_3D_MODE_MESH,
+    //c_VIEWER_3D_MODE_BAR,
+    //c_VIEWER_3D_MODE_MESH,
     c_VIEWER_3D_MODE_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Mode = {
     "Scatter",
-    "Bar",
-    "Heightmap",
-    "Mesh"
+    "Heightmap"//,
+    //"Bar",
+    //"Mesh"
 };
 
 enum D_VIEWER_3D_CONDITION {
@@ -352,7 +351,7 @@ enum D_VIEWER_3D_VALUE_HANDLING {
 const QStringList QSL_Viewer3D_ValueHandling = {
     "Mono",
     "Gray",
-    "Color"
+    "Heat"
 };
 
 enum D_VIEWER_3D_AXIS {
@@ -367,6 +366,14 @@ enum D_VIEWER_3D_AXIS {
     c_D_VIEWER_3D_AXIS_CHANNEL_1,
     c_D_VIEWER_3D_AXIS_CHANNEL_2,
     c_D_VIEWER_3D_AXIS_CHANNEL_3,
+    c_D_VIEWER_3D_AXIS_COLOR_GRAY,
+    c_D_VIEWER_3D_AXIS_COLOR_BLUE,
+    c_D_VIEWER_3D_AXIS_COLOR_GREEN,
+    c_D_VIEWER_3D_AXIS_COLOR_RED,
+    c_D_VIEWER_3D_AXIS_COLOR_HUE,
+    c_D_VIEWER_3D_AXIS_COLOR_SATURATION,
+    c_D_VIEWER_3D_AXIS_COLOR_VALUE,
+    c_D_VIEWER_3D_AXIS_INDEX,
     c_D_VIEWER_3D_AXIS_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Axis = {
@@ -380,11 +387,40 @@ const QStringList QSL_Viewer3D_Axis = {
     "Ch0",
     "Ch1",
     "Ch2",
-    "Ch3"
+    "Ch3",
+    "Gray",
+    "Blue",
+    "Green",
+    "Red",
+    "Hue",
+    "Saturation",
+    "Value",
+    "Index"
 };
 
+enum D_VIEWER_3D_TEXTURE {
+    c_VIEWER_3D_TEXTURE_IMAGE,
+    c_VIEWER_3D_TEXTURE_GRAY,
+    c_VIEWER_3D_TEXTURE_HUE,
+    c_VIEWER_3D_TEXTURE_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_Texture = {
+    "Image",
+    "Gray",
+    "Heat"
+};
 
-
+enum D_VIEWER_3D_SURFACE_MODE {
+    c_VIEWER_3D_SURFACE_MODE_SINGLE,
+    c_VIEWER_3D_SURFACE_MODE_CHANNELS,
+    c_VIEWER_3D_SURFACE_MODE_DIMENSION,
+    c_VIEWER_3D_SURFACE_MODE_NUMBER_OF
+};
+const QStringList QSL_Viewer_3D_SurfaceMode = {
+    "Single",
+    "Channels",
+    "Dimension"
+};
 
 enum D_LOAD_MODE {
     c_LOAD_MODE_FILE_IMAGE,
@@ -1976,7 +2012,7 @@ const QStringList QSL_AxeTrans_Suffix = {
 
 enum D_PLOT_X1D_Y1D {
     c_PLOT_X1D_Y1D_LINE,
-    c_PLOT_X1D_Y1D_SCATTER,
+    c_PLOT_X1D_Y1D_SCATTER
 };
 const QStringList QSL_Plot_X1D_Y1D = {
     "Line",

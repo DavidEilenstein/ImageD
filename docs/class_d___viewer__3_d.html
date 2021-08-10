@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
+   &#160;<span id="projectnumber">v1_9_0 (04.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -108,14 +108,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a285a25ccaca1ba811055405a62f4c878"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a158a152c963b13e644a4fe9e3caf1863"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a158a152c963b13e644a4fe9e3caf1863">~D_Viewer_3D</a> ()</td></tr>
 <tr class="separator:a158a152c963b13e644a4fe9e3caf1863"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b0a7506f087af9b0bb4afde9ddaa8df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a2b0a7506f087af9b0bb4afde9ddaa8df">init</a> (QGridLayout *target_layout)</td></tr>
-<tr class="separator:a2b0a7506f087af9b0bb4afde9ddaa8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4432fb8a33c0d79da449ea1bccede9a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a4432fb8a33c0d79da449ea1bccede9a1">clear</a> ()</td></tr>
-<tr class="separator:a4432fb8a33c0d79da449ea1bccede9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01f53d01abf8c5da132b58dd5e4ced07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a01f53d01abf8c5da132b58dd5e4ced07">plot_test</a> ()</td></tr>
-<tr class="separator:a01f53d01abf8c5da132b58dd5e4ced07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a12a29fd021e3d63f2f6e7fedcd8e02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a5a12a29fd021e3d63f2f6e7fedcd8e02">plot_img2D</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_img)</td></tr>
-<tr class="separator:a5a12a29fd021e3d63f2f6e7fedcd8e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0baa3414eb7fd2d649afc2cd6314ae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a7c0baa3414eb7fd2d649afc2cd6314ae">init</a> (QGridLayout *target_layout)</td></tr>
+<tr class="separator:a7c0baa3414eb7fd2d649afc2cd6314ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e88c78a58c77aa22fc6390f27142a7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#af0e88c78a58c77aa22fc6390f27142a7">plot_VD_custom</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, int marker, int shadow, bool background, bool grid, bool smooth)</td></tr>
+<tr class="separator:af0e88c78a58c77aa22fc6390f27142a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b09c1391a72d352f108ccbc9d98bafb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html#a1b09c1391a72d352f108ccbc9d98bafb">plot_ScatterData_4D</a> (vector&lt; double &gt; vX, vector&lt; double &gt; vY, vector&lt; double &gt; vZ, vector&lt; double &gt; vV, size_t color_handle, int marker, int shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally=false)</td></tr>
+<tr class="separator:a1b09c1391a72d352f108ccbc9d98bafb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7795296bb1c0c73247484aab31a0a712"></a>
@@ -171,31 +169,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4432fb8a33c0d79da449ea1bccede9a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4432fb8a33c0d79da449ea1bccede9a1">&#9670;&nbsp;</a></span>clear()</h2>
+<a id="a7c0baa3414eb7fd2d649afc2cd6314ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c0baa3414eb7fd2d649afc2cd6314ae">&#9670;&nbsp;</a></span>init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void D_Viewer_3D::clear </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2b0a7506f087af9b0bb4afde9ddaa8df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b0a7506f087af9b0bb4afde9ddaa8df">&#9670;&nbsp;</a></span>init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void D_Viewer_3D::init </td>
+          <td class="memname">int D_Viewer_3D::init </td>
           <td>(</td>
           <td class="paramtype">QGridLayout *&#160;</td>
           <td class="paramname"><em>target_layout</em></td><td>)</td>
@@ -206,35 +187,200 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5a12a29fd021e3d63f2f6e7fedcd8e02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a12a29fd021e3d63f2f6e7fedcd8e02">&#9670;&nbsp;</a></span>plot_img2D()</h2>
+<a id="a1b09c1391a72d352f108ccbc9d98bafb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b09c1391a72d352f108ccbc9d98bafb">&#9670;&nbsp;</a></span>plot_ScatterData_4D()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void D_Viewer_3D::plot_img2D </td>
+          <td class="memname">int D_Viewer_3D::plot_ScatterData_4D </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
-          <td class="paramname"><em>pMA_img</em></td><td>)</td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vZ</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vV</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>color_handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>marker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>shadow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>background</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>grid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>smooth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>called_internally</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a01f53d01abf8c5da132b58dd5e4ced07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01f53d01abf8c5da132b58dd5e4ced07">&#9670;&nbsp;</a></span>plot_test()</h2>
+<a id="af0e88c78a58c77aa22fc6390f27142a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0e88c78a58c77aa22fc6390f27142a7">&#9670;&nbsp;</a></span>plot_VD_custom()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void D_Viewer_3D::plot_test </td>
+          <td class="memname">int D_Viewer_3D::plot_VD_custom </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>cond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>val_handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>axis_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>axis_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>axis_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>axis_v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>marker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>shadow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>background</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>grid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>smooth</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

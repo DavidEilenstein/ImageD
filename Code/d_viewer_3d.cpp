@@ -10,11 +10,12 @@
 
 D_Viewer_3D::D_Viewer_3D()
 {
-
+    //qDebug() << "D_Viewer_3D::D_Viewer_3D()";
 }
 
 D_Viewer_3D::D_Viewer_3D(QGridLayout *target_layout)
 {
+    //qDebug() << "D_Viewer_3D::D_Viewer_3D(QGridLayout *target_layout)";
     init(target_layout);
 }
 
@@ -25,237 +26,112 @@ D_Viewer_3D::~D_Viewer_3D()
 
 int D_Viewer_3D::init(QGridLayout *target_layout)
 {
+    //qDebug() << "init" << "start";
+
     if(state_ui_init)
     {
+        //qDebug() << "init" << "state_ui_init allready";
         ERR(ER_other, "init_ui", "Graph was put in ui before");
         return ER_UiAllreadyInit;
     }
 
     //save pointer to ui layout
+    //qDebug() << "init" << "save layout pointer";
     layout_in_ui = target_layout;
-    state_ui_init = true;
 
-    //init with empty plot
-    plot_empty();
-    return ER_okay;
-}
+    //init scatter plot
+    //qDebug() << "init" << "scatter";
+    graph_scatter = new Q3DScatter();
+    container_widget_scatter = createWindowContainer(graph_scatter);
+    //container_widget_scatter->setVisible(true);
+    layout_in_ui->addWidget(container_widget_scatter, c_VIEWER_3D_MODE_SCATTER, 0);
+    graph_scatter->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFrontHigh);
 
-int D_Viewer_3D::plot_empty()
-{
-    //avoid thread issues
-    if(state_plotting)
-        return ER_ThreadIssue;
-    state_plotting = true;
-
-    //new plot
-    Q3DScatter *graph = new Q3DScatter();
-
-    //put in ui
-    PutGraphInLayout(graph);
+    //init heightmap plot
+    //qDebug() << "init" << "heightmap";
+    graph_heightmap = new Q3DSurface();
+    container_widget_heightmap = createWindowContainer(graph_heightmap);
+    //container_widget_heightmap->setVisible(false);
+    layout_in_ui->addWidget(container_widget_heightmap, c_VIEWER_3D_MODE_HEIGHTMAP, 0);
+    graph_heightmap->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFrontHigh);
 
     //finish
-    state_plotting = false;
+    //qDebug() << "init" << "finish";
+    state_ui_init = true;
     return ER_okay;
 }
 
-int D_Viewer_3D::plot_test()
+int D_Viewer_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t axis_a, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe)
 {
-    //avoid thread issues
-    if(state_plotting)
-        return ER_ThreadIssue;
-    state_plotting = true;
+    /*
+    qDebug() << "D_Viewer_3D::plot_VD_custom" << "params:";
+    qDebug() << "mode" << mode << QSL_Viewer3D_Mode[mode];
+    qDebug() << "cond" << cond << QSL_Viewer3D_Condition[cond];
+    qDebug() << "val_handle" << val_handle << QSL_Viewer3D_ValueHandling[val_handle];
+    qDebug() << "axis_x" << axis_x << QSL_Viewer3D_Axis[axis_x];
+    qDebug() << "axis_y" << axis_y << QSL_Viewer3D_Axis[axis_y];
+    qDebug() << "axis_z" << axis_z << QSL_Viewer3D_Axis[axis_z];
+    qDebug() << "axis_v" << axis_v << QSL_Viewer3D_Axis[axis_v];
+    qDebug() << "axis_a" << axis_a << QSL_Viewer3D_Axis[axis_a];
+    qDebug() << "plane_index_xy" << plane_index_xy << QSL_Planes[plane_index_xy];
+    qDebug() << "dim_index_surfaces" << dim_index_surfaces << QSL_DimIndices[dim_index_surfaces];
+    qDebug() << "surface_mode" << surface_mode << QSL_Viewer_3D_SurfaceMode[surface_mode];
+    qDebug() << "texture_mode" << texture_mode << QSL_Viewer3D_Texture[texture_mode];
+    qDebug() << "marker" << marker << QSL_Marker_3D[marker];
+    qDebug() << "shadow" << shadow << QSL_ShadowQuality_3D[shadow];
+    qDebug() << "background" << background;
+    qDebug() << "grid" << grid;
+    qDebug() << "smooth" << smooth;
+    */
 
-    //new plot
-    qDebug() << "D_Viewer_3D::plot_test" << "new plot" << "=====================================================================";
-    Q3DScatter *graph = new Q3DScatter();
-    if(!PutGraphInLayout(graph))
-    {
-        state_plotting = false;
-        return ER_UiPutInFail;
-    }
-
-    //data model
-    qDebug() << "D_Viewer_3D::plot_test" << "data model";
-    QScatterDataProxy *proxy = new QScatterDataProxy;
-    QScatter3DSeries *series = new QScatter3DSeries(proxy);
-    series->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
-    series->setMeshSmooth(false);
-    graph->addSeries(series);
-
-    //axis
-    qDebug() << "D_Viewer_3D::plot_test" << "axis";
-    graph->axisX()->setTitle("X");
-    graph->axisY()->setTitle("Y");
-    graph->axisZ()->setTitle("Z");
-
-    //data handler
-    qDebug() << "D_Viewer_3D::plot_test" << "data handler";
-    QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(2);
-
-    //create data 2 example points
-    qDebug() << "D_Viewer_3D::plot_test" << "loop and create data";
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
-    ptrToDataArray->setPosition(QVector3D(42, 69, 666));
-    ptrToDataArray++;
-    ptrToDataArray->setPosition(QVector3D(1, static_cast<float>(c_E), static_cast<float>(PI)));
-
-    //add data handler to graph
-    qDebug() << "D_Viewer_3D::plot_test" << "add data to graph";
-    graph->seriesList().at(0)->dataProxy()->resetArray(dataArray);
-
-    //style
-    qDebug() << "D_Viewer_3D::plot_test" << "theme";
-    graph->activeTheme()->setType(Q3DTheme::ThemeQt);
-
-    qDebug() << "D_Viewer_3D::plot_test" << "finish";
-    state_plot_active = true;
-    state_plotting = false;
-    return ER_okay;
-}
-
-int D_Viewer_3D::plot_img2D_gray(Mat *pMA_img)
-{
-    if(pMA_img->empty())            return ER_empty;
-    if(pMA_img->channels() != 1)    return ER_channel_bad;
-
-    //avoid thread issues
-    if(state_plotting)
-        return ER_ThreadIssue;
-    state_plotting = true;
-
-    //new plot
-    Q3DScatter *graph = new Q3DScatter();
-    if(!PutGraphInLayout(graph))
-    {
-        state_plotting = false;
-        return ER_UiPutInFail;
-    }
-
-    //params
-    int nx = pMA_img->cols;
-    int ny = pMA_img->rows;
-    int nxy = nx * ny;
-
-    //data model
-    QScatterDataProxy *proxy = new QScatterDataProxy;
-    QScatter3DSeries *series = new QScatter3DSeries(proxy);
-    series->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
-    series->setMeshSmooth(false);
-    graph->addSeries(series);
-
-    //axis
-    graph->axisX()->setTitle("X");
-    graph->axisY()->setTitle("Y");
-    graph->axisZ()->setTitle("Z");
-
-    //data handler
-    QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(nxy);
-
-    //loop and create data
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
-    switch (pMA_img->type())
+    switch (mode)
     {
 
-    case CV_8UC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<uchar>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
+    case c_VIEWER_3D_MODE_SCATTER:
+        return plot_VD_Scatter(
+                    pVD,
+                    cond,
+                    val_handle,
+                    axis_x,
+                    axis_y,
+                    axis_z,
+                    axis_v,
+                    marker,
+                    shadow,
+                    background,
+                    grid,
+                    smooth,
+                    true);
 
-    case CV_8SC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<char>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
-
-    case CV_16UC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<ushort>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
-
-    case CV_16SC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<short>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
-
-    case CV_32SC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<int>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
-
-    case CV_32FC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, pMA_img->at<float>(y, x), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
-
-    case CV_64FC1:
-    {
-        for(int x = 0; x < nx; x++)
-            for(int y = 0; y < ny; y++)
-            {
-                ptrToDataArray->setPosition(QVector3D(x, static_cast<float>(pMA_img->at<double>(y, x)), y));
-                ptrToDataArray++;
-            }
-    }
-        break;
+    case c_VIEWER_3D_MODE_HEIGHTMAP:
+        return plot_VD_Heightmap(
+                    pVD,
+                    plane_index_xy,
+                    dim_index_surfaces,
+                    axis_z,
+                    axis_v,
+                    axis_a,
+                    surface_mode,
+                    texture_mode,
+                    shadow,
+                    background,
+                    grid,
+                    draw_surface,
+                    draw_wireframe,
+                    true);
 
     default:
-        state_plotting = false;
-        return ER_type_bad;
+        return ER_parameter_bad;
     }
-
-
-    //add data handler to graph
-    graph->seriesList().at(0)->dataProxy()->resetArray(dataArray);
-
-    state_plot_active = true;
-    state_plotting = false;
-    return ER_okay;
 }
 
-int D_Viewer_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, int marker, int shadow, bool background, bool grid, bool smooth)
+int D_Viewer_3D::plot_VD_Scatter(D_VisDat_Obj *pVD, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool called_internally)
 {
     //empty?
     if(pVD->pMA_full()->empty())            return ER_empty;
 
     //avoid thread issues
-    if(state_plotting)
+    if(state_plotting && !called_internally)
         return ER_ThreadIssue;
     state_plotting = true;
 
@@ -334,17 +210,244 @@ int D_Viewer_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, siz
                 default:                            state_plotting = false;                 return ER_parameter_bad;}
     }
 
-    //modi
-    switch (mode) {
-    case c_VIEWER_3D_MODE_SCATTER:      return plot_ScatterData_4D(vvData[0], vvData[1], vvData[2], vvData[3], val_handle, marker, shadow, background, grid, smooth, true);
-    default:                            qDebug() << "D_Viewer_3D::plot_VD_custom" << "mode invalid"; state_plotting = false; return ER_parameter_bad;}
+    //plot
+    return plot_ScatterData_4D(
+            vvData[0],
+            vvData[1],
+            vvData[2],
+            vvData[3],
+            val_handle,
+            marker,
+            shadow,
+            background,
+            grid,
+            smooth,
+            QSL_Viewer3D_Axis[static_cast<int>(axis_x)],
+            QSL_Viewer3D_Axis[static_cast<int>(axis_y)],
+            QSL_Viewer3D_Axis[static_cast<int>(axis_z)],
+            QSL_Viewer3D_Axis[static_cast<int>(axis_v)],
+            true);
 }
 
-int D_Viewer_3D::plot_ScatterData_4D(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, int marker, int shadow, bool background, bool grid, bool smooth, bool called_internally)
+int D_Viewer_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t axis_a, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally)
+{
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "start";
+
+    //errors 1
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "errors 1";
+    if(plane_index_xy >= c_PLANE_NUMBER_OF)                                                                 return ER_parameter_bad;
+    if(surface_mode == c_VIEWER_3D_SURFACE_MODE_CHANNELS && pVD->channels() > 1)                            return ER_channel_bad;
+
+    //plane dims
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "plane dims";
+    size_t dim_index_x = D_VisDat_Proc::PlaneDim_1st(plane_index_xy);
+    size_t dim_index_y = D_VisDat_Proc::PlaneDim_2nd(plane_index_xy);
+
+    //errors 2
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "errors 2";
+    if(surface_mode == c_VIEWER_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_x))           return ER_dim_missmatch;
+    if(surface_mode == c_VIEWER_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_y))           return ER_dim_missmatch;
+
+
+    //avoid thread issues
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "thread check";
+    if(state_plotting && !called_internally)
+        return ER_ThreadIssue;
+    state_plotting = true;
+
+    //series count
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "image count";
+    size_t n;
+    switch(surface_mode) {
+    case c_VIEWER_3D_SURFACE_MODE_SINGLE:           n = 1;                                          break;
+    case c_VIEWER_3D_SURFACE_MODE_CHANNELS:         n = pVD->channels();                            break;
+    case c_VIEWER_3D_SURFACE_MODE_DIMENSION:        n = pVD->pDim()->size_Dim(dim_index_surfaces);  break;
+    default:                                        state_plotting = false;                         return ER_parameter_bad;}
+
+    //heightmats & texture images
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "img containers";
+    vector<Mat> vMA_Heights(n);
+    vector<QImage> vQI_Textures(n);
+
+    //surface modi
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "surface mode switch";
+    switch (surface_mode)
+    {
+
+    case c_VIEWER_3D_SURFACE_MODE_SINGLE:
+    {
+        //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "c_VIEWER_3D_SURFACE_MODE_SINGLE";
+
+        //pos
+        Vec<int, c_DIM_NUMBER_OF> slice_pos = {0, 0, 0, 0, 0, 0};
+        slice_pos[dim_index_x] = -1;
+        slice_pos[dim_index_y] = -1;
+
+        //get slice
+        Mat MA_tmp_slice2D;
+        int err = D_VisDat_Proc::Read_2D_Plane(
+                    &MA_tmp_slice2D,
+                    pVD,
+                    D_VisDat_Slice_2D(slice_pos));
+        if(err != ER_okay)
+        {
+            MA_tmp_slice2D.release();
+            state_plotting = false;
+            return err;
+        }
+
+        //calc heights
+        err = ValueAxisMat(
+                &(vMA_Heights[0]),
+                &MA_tmp_slice2D,
+                axis_z,
+                slice_pos,
+                0);
+        if(err != ER_okay)
+        {
+            MA_tmp_slice2D.release();
+            state_plotting = false;
+            return err;
+        }
+
+
+        //calc texture
+        err = SurfaceTextureImage(
+                &(vQI_Textures[0]),
+                &MA_tmp_slice2D,
+                texture_mode,
+                axis_v,
+                axis_a,
+                slice_pos,
+                0);
+        MA_tmp_slice2D.release();
+        if(err != ER_okay)
+        {
+            state_plotting = false;
+            return err;
+        }
+    }
+        break;
+
+    case c_VIEWER_3D_SURFACE_MODE_CHANNELS:
+    {
+        //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "c_VIEWER_3D_SURFACE_MODE_CHANNELS";
+
+        //pos
+        Vec<int, c_DIM_NUMBER_OF> slice_pos = {0, 0, 0, 0, 0, 0};
+        slice_pos[dim_index_x] = -1;
+        slice_pos[dim_index_y] = -1;
+
+        //get slice
+        Mat MA_tmp_slice2D;
+        int err = D_VisDat_Proc::Read_2D_Plane(
+                    &MA_tmp_slice2D,
+                    pVD,
+                    D_VisDat_Slice_2D(slice_pos));
+        if(err != ER_okay)
+        {
+            MA_tmp_slice2D.release();
+            state_plotting = false;
+            return err;
+        }
+
+        //loop channels
+        for(int ch = 0; ch < MA_tmp_slice2D.channels(); ch++)
+        {
+            //height
+            err = D_Img_Proc::Split(
+                        &(vMA_Heights[ch]),
+                        &MA_tmp_slice2D,
+                        ch);
+            if(err != ER_okay)
+            {
+                MA_tmp_slice2D.release();
+                state_plotting = false;
+                return err;
+            }
+
+            //texture
+            vQI_Textures[ch] = QImage(MA_tmp_slice2D.cols, MA_tmp_slice2D.rows, QImage::Format_RGBA8888);
+            switch (ch) {
+            case 0:     vQI_Textures[ch].fill(Qt::blue);    break;
+            case 1:     vQI_Textures[ch].fill(Qt::green);   break;
+            case 2:     vQI_Textures[ch].fill(Qt::red);     break;
+            case 3:     vQI_Textures[ch].fill(Qt::gray);    break;
+            default:    vQI_Textures[ch].fill(Qt::black);   break;}
+        }
+    }
+        break;
+
+    case c_VIEWER_3D_SURFACE_MODE_DIMENSION:
+    {
+        //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "c_VIEWER_3D_SURFACE_MODE_DIMENSION";
+
+        /*
+        //dim to loop
+        D_VisDat_Dim dim = pVD->Dim();
+        for(int d = 0; d < c_DIM_NUMBER_OF; d++)        //check all dims:
+        {
+            if(!slicing.is_proc_Dim(d))                 //non proc dim
+            {
+                if(surface_mode == c_VIEWER_3D_SURFACE_MODE_DIMENSION)
+                {
+                    if(d != dim_index_surfaces)         //non slice dim
+                    {
+                        dim.set_size_Dim(d, 1);         //are ignored while loop
+                    }
+                }
+                else
+                {
+                    dim.set_size_Dim(d, 1);             //are ignored while loop
+                }
+            }
+        }
+
+        //loop slices
+        slicing.loop_Init(dim);
+        for(size_t i = 0; i < n; i++)
+        {
+
+
+
+            //next slice
+            if(!slicing.loop_Next())
+                if(i < n-1)
+                {
+                    state_plotting = false;
+                    return ER_size_missmatch;
+                }
+        }
+        */
+
+    }
+        break;
+
+    default:
+        //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "surface mode parameter unknon error";
+        state_ui_init = false;
+        return ER_parameter_bad;
+    }
+
+    //plot
+    //qDebug() << "D_Viewer_3D::plot_VD_Heightmap" << "plot";
+    return plot_Heightmap(
+                &vMA_Heights,
+                &vQI_Textures,
+                shadow,
+                background,
+                grid,
+                QSL_DimIndices[dim_index_x],
+                QSL_DimIndices[dim_index_y],
+                QSL_Viewer3D_Axis[axis_z],
+                draw_surface,
+                draw_wireframe,
+                true);
+}
+
+int D_Viewer_3D::plot_ScatterData_4D(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally)
 {
     if(!state_ui_init)                                          return ER_UiNotInit;
-
-    qDebug() << "plot_ScatterData_4D" << "start";
     if(vX.empty())                                              return ER_empty;
     if(vX.size() != vY.size())                                  return ER_size_missmatch;
     if(vX.size() != vZ.size())                                  return ER_size_missmatch;
@@ -356,137 +459,259 @@ int D_Viewer_3D::plot_ScatterData_4D(vector<double> vX, vector<double> vY, vecto
         return ER_ThreadIssue;
     state_plotting = true;
 
-    //new plot
-    Q3DScatter *graph = new Q3DScatter();
-    QWidget *container_widget = QWidget::createWindowContainer(graph);
-    PutContainerInLayout(container_widget);
+    //clear old content
+    clear_graph_all();
+
+    //show correct graph
+    show_graph_type(c_VIEWER_3D_MODE_SCATTER);
 
     //sizes
-    qDebug() << "plot_ScatterData_4D" << "sizes";
     size_t n_all = vX.size();
-    size_t n_series;
-    switch (color_handle) {
-    case c_VIEWER_3D_VALUE_HANDLING_MONO:   n_series = 1;               break;
-    case c_VIEWER_3D_VALUE_HANDLING_GRAY:   n_series = 256;             break;
-    case c_VIEWER_3D_VALUE_HANDLING_HUE:    n_series = 240;             break;
-    default:                                state_plotting = false;     return ER_parameter_bad;}
+    size_t n_series = series_count_from_color_handle_id(color_handle);
+    if(n_series == 0)
+    {
+        state_plotting = false;
+        return ER_parameter_bad;
+    }
 
-    //data range for groups
-    qDebug() << "plot_ScatterData_4D" << "data range";
+    //data range for grouping into different series
     double min_v = +INFINITY;
     double max_v = -INFINITY;
-    for(size_t i = 0; i < n_all; i++)
+    double range_v = 0.0;
+    if(n_series > 1)
     {
-        double v = vV[i];
-        min_v = min(min_v, v);
-        max_v = max(max_v, v);
-    }
-    double range_v = max_v - min_v;
-
-    //group data
-    qDebug() << "plot_ScatterData_4D" << "group data";
-    vector<vector<double>> vvX(n_series);
-    vector<vector<double>> vvY(n_series);
-    vector<vector<double>> vvZ(n_series);
-    vector<vector<double>> vvV(n_series);
-    for(size_t i = 0; i < n_all; i++)
-    {
-        //calc group
-        double i_rel = (vV[i] - min_v) / range_v;
-        size_t i_group = static_cast<size_t>(i_rel * (n_series - 1));
-        //push to group
-        vvX[i_group].push_back(vX[i]);
-        vvY[i_group].push_back(vY[i]);
-        vvZ[i_group].push_back(vZ[i]);
-        vvV[i_group].push_back(vV[i]);
+        for(size_t i = 0; i < n_all; i++)
+        {
+            double v = vV[i];
+            min_v = min(min_v, v);
+            max_v = max(max_v, v);
+        }
+        range_v = max_v - min_v;
     }
 
-    //marker style
-    QAbstract3DSeries::Mesh marker_mesh;
-    switch (marker) {
-    case MARKER_3D_POINT:       marker_mesh = QAbstract3DSeries::Mesh::MeshPoint;       break;
-    case MARKER_3D_MINIMAL:     marker_mesh = QAbstract3DSeries::Mesh::MeshMinimal;     break;
-    case MARKER_3D_PYRAMID:     marker_mesh = QAbstract3DSeries::Mesh::MeshPyramid;     break;
-    case MARKER_3D_CUBE:        marker_mesh = QAbstract3DSeries::Mesh::MeshCube;        break;
-    case MARKER_3D_CYLINDER:    marker_mesh = QAbstract3DSeries::Mesh::MeshCylinder;    break;
-    case MARKER_3D_SPHERE:      marker_mesh = QAbstract3DSeries::Mesh::MeshSphere;      break;
-    case MARKER_3D_ARROW:       marker_mesh = QAbstract3DSeries::Mesh::MeshArrow;       break;
-    default:                    state_plotting = false;                                 return ER_parameter_bad;}
-
-    //data models
-    qDebug() << "plot_ScatterData_4D" << "data models";
-    vector<QScatterDataProxy *> vProxys(n_series);
+    //series
     vector<QScatter3DSeries *>  vSeries(n_series);
     for(size_t i = 0; i < n_series; i++)
     {
-        //proxy
-        vProxys[i] = new QScatterDataProxy();
-
         //create series
-        vSeries[i] = new QScatter3DSeries(vProxys[i]);
+        vSeries[i] = new QScatter3DSeries;
 
         //style
         vSeries[i]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
         vSeries[i]->setMeshSmooth(smooth);
-        vSeries[i]->setMesh(marker_mesh);
-
-        //color
-        QColor color;
-        switch (color_handle) {
-        case c_VIEWER_3D_VALUE_HANDLING_MONO:       color.setRgb(128, 128, 128);                break;
-        case c_VIEWER_3D_VALUE_HANDLING_GRAY:       color.setRgb(i, i, i);                      break;
-        case c_VIEWER_3D_VALUE_HANDLING_HUE:        color.setHsv(n_series - 1 - i, 255, 255);   break;
-        default:                                    state_plotting = false;                     return ER_parameter_bad;}
-        vSeries[i]->setBaseColor(color);
+        vSeries[i]->setMesh(marker_from_id(marker));
+        vSeries[i]->setBaseColor(series_color(n_series, i, color_handle));
 
         //series to graph
-        graph->addSeries(vSeries[i]);
+        graph_scatter->addSeries(vSeries[i]);
     }
 
     //axis
-    qDebug() << "plot_ScatterData_4D" << "axis";
-    graph->axisX()->setTitle("X");
-    graph->axisY()->setTitle("Y");
-    graph->axisZ()->setTitle("Z");
+    graph_scatter->axisX()->setTitle(axis_x);   //default x axis
+    graph_scatter->axisY()->setTitle(axis_z);   //graph z axis is img y axis
+    graph_scatter->axisZ()->setTitle(axis_y);   //graph y axis is img z axis
+    graph_scatter->axisZ()->setReversed(true);  //graph z / img y axis is reversed (0,0 is in the top left of an img)
 
     //style
-    graph->activeTheme()->setGridEnabled(grid);
-    graph->activeTheme()->setBackgroundEnabled(background);
-    graph->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
+    graph_scatter->activeTheme()->setGridEnabled(grid);
+    graph_scatter->activeTheme()->setBackgroundEnabled(background);
+    graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
 
-    //data handler
-    qDebug() << "plot_ScatterData_4D" << "data handler";
-    vector<QScatterDataArray *> vDataArray(n_series);
-    for(size_t i = 0; i < n_series; i++)
+    //data to arrays
+    vector<QScatterDataArray> vDataArray(n_series);
+    for(size_t i = 0; i < n_all; i++)
     {
-        vDataArray[i] = new QScatterDataArray;
-        vDataArray[i]->resize(vvX[i].size());
+        //calc group
+        double i_rel = range_v == 0.0 ? 0 : (vV[i] - min_v) / range_v;
+        size_t i_group = static_cast<size_t>(i_rel * (n_series - 1));
+
+        //push to group
+        vDataArray[i_group].append(
+                    QVector3D(
+                        static_cast<float>(vX[i]),
+                        static_cast<float>(vY[i]),
+                        static_cast<float>(vZ[i])));
     }
 
-    //loop series
-    qDebug() << "plot_ScatterData_4D" << "loop series and add data";
+    //add data to series
     for(size_t s = 0; s < n_series; s++)
-    {
-        //add data
-        QScatterDataItem *ptrToDataArray = &(vDataArray[s])->first();
-        for(size_t i = 0; i < vvX[s].size(); i++)
-        {
-            ptrToDataArray->setPosition(
-                        QVector3D(
-                            static_cast<float>(vvX[s][i]),
-                            static_cast<float>(vvZ[s][i]),
-                            static_cast<float>(vvY[s][i])));
-            ptrToDataArray++;
-        }
+        vSeries[s]->dataProxy()->addItems(vDataArray[s]);
 
-        //add data handler to series in graph
-        graph->seriesList().at(s)->dataProxy()->resetArray(vDataArray[s]);
-    }
-
-    qDebug() << "plot_ScatterData_4D" << "finish";
+    //finish
     state_plot_active = true;
     state_plotting = false;
     return ER_okay;
+}
+
+int D_Viewer_3D::plot_Heightmap(vector<Mat> *pvMA_Height, vector<QImage> *pvQI_Texture, size_t shadow, bool background, bool grid, QString axis_x, QString axis_y, QString axis_z, bool draw_surface, bool draw_wireframe, bool called_internally)
+{
+    //error checks
+    if(!state_ui_init)                                              {qDebug() << "D_Viewer_3D::plot_Heightmap" << "ui not init";                                return ER_UiNotInit;}
+    if(!draw_surface && !draw_wireframe)                            {qDebug() << "D_Viewer_3D::plot_Heightmap" << "draw modi disabled";                         return ER_parameter_missmatch;}
+    if(pvMA_Height->empty())                                        {qDebug() << "D_Viewer_3D::plot_Heightmap" << "heightmat empty";                            return ER_empty;}
+    if(pvMA_Height->size() != pvQI_Texture->size())                 {qDebug() << "D_Viewer_3D::plot_Heightmap" << "height and texture count mismatch";          return ER_size_missmatch;}
+    for(size_t i = 0; i < pvMA_Height->size(); i++)
+    {
+        if((*pvMA_Height)[i].channels() != 1)                       {qDebug() << "D_Viewer_3D::plot_Heightmap" << "heightmat not ch1";                          return ER_channel_bad;}
+        if((*pvMA_Height)[i].size() != (*pvMA_Height)[0].size())    {qDebug() << "D_Viewer_3D::plot_Heightmap" << "heightmat size differs 0 to" << i;           return ER_size_missmatch;}
+        if((*pvMA_Height)[i].cols != (*pvQI_Texture)[i].width())    {qDebug() << "D_Viewer_3D::plot_Heightmap" << "heightmat and texture width differ" << i;    return ER_size_missmatch;}
+        if((*pvMA_Height)[i].rows != (*pvQI_Texture)[i].height())   {qDebug() << "D_Viewer_3D::plot_Heightmap" << "heightmat and texture height differ" << i;   return ER_size_missmatch;}
+    }
+
+    //avoid thread issues
+    if(state_plotting && !called_internally)
+        return ER_ThreadIssue;
+    state_plotting = true;
+
+    //clear old content
+    clear_graph_all();
+
+    //show correct graph
+    show_graph_type(c_VIEWER_3D_MODE_HEIGHTMAP);
+
+    //sizes
+    size_t n = pvMA_Height->size();
+    int w = (*pvMA_Height)[0].cols;
+    int h = (*pvMA_Height)[0].rows;
+
+    //series
+    vector<QSurface3DSeries *> vSeries(n);
+
+    //loop images
+    for(size_t i = 0; i < n; i++)
+    {
+        //create series based on texture
+        vSeries[i] = new QSurface3DSeries();//(texture_proxy);
+
+        //loop rows
+        for(int y = 0; y < h; y++)
+        {
+            //new row
+            QSurfaceDataRow *Row = new QSurfaceDataRow(w);
+
+            //loop cols in row
+            for(int x = 0; x < w; x++)
+            {
+                //get value
+                float val;
+                switch ((*pvMA_Height)[i].type()) {
+                case CV_8UC1:   val = (*pvMA_Height)[i].at<uchar>(y, x);            break;
+                case CV_8SC1:   val = (*pvMA_Height)[i].at<char>(y, x);             break;
+                case CV_16UC1:  val = (*pvMA_Height)[i].at<ushort>(y, x);           break;
+                case CV_16SC1:  val = (*pvMA_Height)[i].at<short>(y, x);            break;
+                case CV_32SC1:  val = (*pvMA_Height)[i].at<int>(y, x);              break;
+                case CV_32FC1:  val = (*pvMA_Height)[i].at<float>(y, x);            break;
+                case CV_64FC1:  val = float((*pvMA_Height)[i].at<double>(y, x));    break;
+                default:        state_plotting = false;                             return ER_type_bad;}
+
+                //set point in row
+                //qDebug() << "D_Viewer_3D::plot_Heightmap" << "add point x/y/val" << x << y << val;
+                (*Row)[x].setPosition(QVector3D(x, val, y));
+            }
+
+            //add row to array
+            vSeries[i]->dataProxy()->addRow(Row);
+        }
+
+        //set texture
+        vSeries[i]->setTexture((*pvQI_Texture)[i]);
+
+        //draw mode
+        if(draw_surface && draw_wireframe)
+            vSeries[i]->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
+        else if(draw_surface)
+            vSeries[i]->setDrawMode(QSurface3DSeries::DrawSurface);
+        else if(draw_wireframe)
+            vSeries[i]->setDrawMode(QSurface3DSeries::DrawWireframe);
+        //else: default draw mode
+
+        //add series to graph
+        graph_heightmap->addSeries(vSeries[i]);
+    }
+
+    //axis
+    graph_heightmap->axisX()->setTitle(axis_x);   //default x axis
+    graph_heightmap->axisY()->setTitle(axis_z);   //graph z axis is img y axis
+    graph_heightmap->axisZ()->setTitle(axis_y);   //graph y axis is img z axis
+    graph_heightmap->axisZ()->setReversed(true);  //graph z / img y axis is reversed (0,0 is in the top left of an img)
+
+    //style
+    graph_heightmap->activeTheme()->setGridEnabled(grid);
+    graph_heightmap->activeTheme()->setBackgroundEnabled(background);
+    graph_heightmap->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
+
+    //finish
+    state_plot_active = true;
+    state_plotting = false;
+    return ER_okay;
+}
+
+QAbstract3DSeries::Mesh D_Viewer_3D::marker_from_id(int marker_id)
+{
+    switch (marker_id) {
+    case MARKER_3D_POINT:       return QAbstract3DSeries::Mesh::MeshPoint;
+    case MARKER_3D_MINIMAL:     return QAbstract3DSeries::Mesh::MeshMinimal;
+    case MARKER_3D_PYRAMID:     return QAbstract3DSeries::Mesh::MeshPyramid;
+    case MARKER_3D_CUBE:        return QAbstract3DSeries::Mesh::MeshCube;
+    case MARKER_3D_CYLINDER:    return QAbstract3DSeries::Mesh::MeshCylinder;
+    case MARKER_3D_SPHERE:      return QAbstract3DSeries::Mesh::MeshSphere;
+    case MARKER_3D_ARROW:       return QAbstract3DSeries::Mesh::MeshArrow;
+    default:                    return QAbstract3DSeries::Mesh::MeshPoint;}
+}
+
+size_t D_Viewer_3D::series_count_from_color_handle_id(size_t color_handle_id)
+{
+    switch (color_handle_id) {
+    case c_VIEWER_3D_VALUE_HANDLING_MONO:   return 1;
+    case c_VIEWER_3D_VALUE_HANDLING_GRAY:   return 256;
+    case c_VIEWER_3D_VALUE_HANDLING_HUE:    return 240;
+    default:                                return 0;}
+}
+
+QColor D_Viewer_3D::series_color(size_t series_count, size_t series_index, size_t color_handle)
+{
+    QColor color;
+    switch (color_handle) {
+    case c_VIEWER_3D_VALUE_HANDLING_MONO:       color.setRgb(128, 128, 128);                                break;
+    case c_VIEWER_3D_VALUE_HANDLING_GRAY:       color.setRgb(series_index, series_index, series_index);     break;
+    case c_VIEWER_3D_VALUE_HANDLING_HUE:        color.setHsv(series_count - 1 - series_index, 255, 255);    break;
+    default:                                    color.setRgb(0, 0, 0);                                      break;}
+
+    return color;
+}
+
+void D_Viewer_3D::clear_graph_all()
+{
+    clear_graph_scatter();
+    clear_graph_heightmap();
+}
+
+void D_Viewer_3D::clear_graph_scatter()
+{
+    while(!graph_scatter->seriesList().isEmpty())
+    {
+        QScatter3DSeries *series = graph_scatter->seriesList().at(0);
+        graph_scatter->removeSeries(series);
+        series->dataProxy()->deleteLater();
+        series->deleteLater();
+    }
+}
+
+void D_Viewer_3D::clear_graph_heightmap()
+{
+    while(!graph_heightmap->seriesList().isEmpty())
+    {
+        QSurface3DSeries *series = graph_heightmap->seriesList().at(0);
+        graph_heightmap->removeSeries(series);
+        series->dataProxy()->deleteLater();
+        series->deleteLater();
+    }
+}
+
+void D_Viewer_3D::show_graph_type(size_t graph_type_id)
+{
+    container_widget_scatter->setVisible(graph_type_id == c_VIEWER_3D_MODE_SCATTER);
+    container_widget_heightmap->setVisible(graph_type_id == c_VIEWER_3D_MODE_HEIGHTMAP);
 }
 
 void D_Viewer_3D::clear_layout()
@@ -521,53 +746,164 @@ void D_Viewer_3D::clear_layout()
     state_container_widget_exists = false;
 }
 
-bool D_Viewer_3D::PutGraphInLayout(Q3DScatter *graph)
+int D_Viewer_3D::dimIndex_FromAxisIndex(size_t axis_index)
 {
-    //delete old content
-    //clear_layout();
+    switch (axis_index) {
 
-    //create container widget
-    QWidget *container_widget = QWidget::createWindowContainer(graph);
-    state_container_widget_exists = true;
-    if(!graph->hasContext())
-    {
-        ERR(ER_other, "init_ui", "Failed to put graph in ui");
-        container_widget->close();
-        state_container_widget_exists = false;
-        return false;
-    }
-
-    //put the container widget to the ui
-    layout_in_ui->addWidget(container_widget);
-
-    //delete older graph containing widgets
-    while (layout_in_ui->rowCount() > 1)
-    {
-        QLayoutItem* item = layout_in_ui->layout()->takeAt(0);
-        delete item->widget();
-        delete item;
-    }
-
-    //set camera position
-    graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetDirectlyAbove);
-
-    //finish
-    return true;
+    case c_D_VIEWER_3D_AXIS_IMG_X:  return c_DIM_X;
+    case c_D_VIEWER_3D_AXIS_IMG_Y:  return c_DIM_Y;
+    case c_D_VIEWER_3D_AXIS_IMG_Z:  return c_DIM_Z;
+    case c_D_VIEWER_3D_AXIS_IMG_T:  return c_DIM_T;
+    case c_D_VIEWER_3D_AXIS_IMG_S:  return c_DIM_S;
+    case c_D_VIEWER_3D_AXIS_IMG_P:  return c_DIM_P;
+    default:                        return -1;}
 }
 
-void D_Viewer_3D::PutContainerInLayout(QWidget *container_widget)
+int D_Viewer_3D::ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
 {
-    if(!state_ui_init)
-        return;
+    switch (axis_index) {
 
-    //empty layout
-    clear_layout();
+    case c_D_VIEWER_3D_AXIS_IMG_X:
+    case c_D_VIEWER_3D_AXIS_IMG_Y:
+    case c_D_VIEWER_3D_AXIS_IMG_Z:
+    case c_D_VIEWER_3D_AXIS_IMG_T:
+    case c_D_VIEWER_3D_AXIS_IMG_S:
+    case c_D_VIEWER_3D_AXIS_IMG_P:
+    {
+        //get dim index
+        int dim_axis = dimIndex_FromAxisIndex(axis_index);
+        if(dim_axis < 0)
+        {
+            *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
+            return ER_parameter_bad;
+        }
 
-    //QGridLayout dummy_layout
-    QLabel *label = new QLabel("test text bla bla");
-    layout_in_ui->addWidget(label);
+        //check if dim is constant
+        if(slice_pos[dim_axis] >= 0)
+        {
+            //constant dim
+            //--> constant Mat
+            *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(slice_pos[dim_axis]));
+            return ER_okay;
+        }
+        else
+        {
+            //non constant dim
+            //--> gradient Mat
 
-    layout_in_ui->layout()->addWidget(container_widget);
+            //check, if axis is 1st or 2nd extended dim
+            size_t ext_dims_count = 0;
+            for(int d = 0; d <= dim_axis; d++)
+                if(slice_pos[d] < 0)
+                    ext_dims_count++;
+
+            //axis is 1st extended dim --> x gradient
+            if(ext_dims_count == 1)
+                return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_X));
+            else if(ext_dims_count == 2)
+                return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_X));
+            else
+            {
+                *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
+                return ER_parameter_bad;
+            }
+        }
+    }
+
+    case c_D_VIEWER_3D_AXIS_CHANNEL_0:
+        return D_Img_Proc::Split(pMA_Out, pMA_In, 0);
+
+    case c_D_VIEWER_3D_AXIS_CHANNEL_1:
+        return D_Img_Proc::Split(pMA_Out, pMA_In, 1);
+
+    case c_D_VIEWER_3D_AXIS_CHANNEL_2:
+        return D_Img_Proc::Split(pMA_Out, pMA_In, 2);
+
+    case c_D_VIEWER_3D_AXIS_CHANNEL_3:
+        return D_Img_Proc::Split(pMA_Out, pMA_In, 3);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_GRAY:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GRAY);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_BLUE:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_BLUE);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_GREEN:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GREEN);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_RED:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_RED);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_HUE:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_HUE);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_SATURATION:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_SATURATION);
+
+    case c_D_VIEWER_3D_AXIS_COLOR_VALUE:
+        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_VALUE);
+
+    case c_D_VIEWER_3D_AXIS_EMPTY:
+    default:
+        *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
+        return ER_okay;
+    }
+}
+
+int D_Viewer_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, size_t axis_index_alpha, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
+{
+    //img size
+    int w = pMA_In->cols;
+    int h = pMA_In->rows;
+
+    //alpha
+    Mat MA_tmp_alpha;
+    int err = ValueAxisMat(
+                &MA_tmp_alpha,
+                pMA_In,
+                axis_index_alpha,
+                slice_pos,
+                255);
+    if(err != ER_okay)
+    {
+        MA_tmp_alpha.release();
+        *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
+        pQI_Out->fill(Qt::red);
+        return err;
+    }
+
+    //value
+    Mat MA_tmp_value;
+    err = ValueAxisMat(
+                &MA_tmp_value,
+                pMA_In,
+                axis_index_value,
+                slice_pos,
+                0);
+    if(err != ER_okay)
+    {
+        MA_tmp_alpha.release();
+        MA_tmp_value.release();
+        *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
+        pQI_Out->fill(Qt::red);
+        return err;
+    }
+
+    //calc texture img
+    err = D_Img_Proc::Convert_toQImage4Ch(
+                pQI_Out,
+                texture_mode == c_VIEWER_3D_TEXTURE_IMAGE ? pMA_In : &MA_tmp_value,
+                &MA_tmp_alpha,
+                texture_mode == c_VIEWER_3D_TEXTURE_HUE);
+    MA_tmp_alpha.release();
+    MA_tmp_value.release();
+    if(err != ER_okay)
+    {
+        *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
+        pQI_Out->fill(Qt::red);
+    }
+
+    return err;
 }
 
 void D_Viewer_3D::ERR(int err, QString func, QString detail)

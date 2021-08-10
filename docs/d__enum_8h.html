@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_8_3 (28.07.21)</span>
+   &#160;<span id="projectnumber">v1_9_0 (04.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -209,6 +209,11 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20">ER_DescriptorsUnkown</a>
 , <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7">ER_StreamNotOpen</a>
 , <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e">ER_NumericProblem</a>
+, <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a48ab8542d59ed3a21e00f7c4bfafee4d">ER_UiAllreadyInit</a>
+, <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a98dd0abe73fad23272d2db7268b296a2">ER_UiNotInit</a>
+, <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a93172b50bc21a6c6de34fcc8a54acf68">ER_UiPutInFail</a>
+, <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a77836f8d9fdc703d8db70a5b2adfb526">ER_ThreadIssue</a>
 , <a class="el" href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845">ER_number_of</a>
 <br />
  }</td></tr>
@@ -241,7 +246,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a0989ee53413dc06b7e7abb3fa11b4562">c_SLICE_3D_XYT</a>
 , <a class="el" href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a6996e8fec2cf00c811af4fd872b11bdb">c_SLICE_4D_XYZT</a>
 , <br />
-&#160;&#160;<a class="el" href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a6b5d408fbe071a21c97680b270c74612">c_SLICE_NUMBER_OF</a>
+&#160;&#160;<a class="el" href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a460ad3d8499a03f9cf17890f9b7a6c3d">c_SLICE_6D_ALL</a>
+, <a class="el" href="d__enum_8h.html#a612550fc8eded5e21d2bca6ac6f7bf57a6b5d408fbe071a21c97680b270c74612">c_SLICE_NUMBER_OF</a>
 <br />
  }</td></tr>
 <tr class="separator:a612550fc8eded5e21d2bca6ac6f7bf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -284,6 +290,45 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:a3b1e6e462a8664f5eb351e81fe318eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a823ce90790f9e40a3a010c03c9ee18"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18">D_VIEWER_3D_MODE</a> { <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18af3a6d011b44691ae6909f4eee3cd43b5">c_VIEWER_3D_MODE_SCATTER</a>
+, <a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18af0fa59afe01b1c00bac370cccd02da0e">c_VIEWER_3D_MODE_BAR</a>
+, <a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18ad2d8a52698a19e665be949cd0db2b232">c_VIEWER_3D_MODE_HEIGHTMAP</a>
+, <a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18a3ff5b91e2ca3b9fd776da2ca4ba3cf65">c_VIEWER_3D_MODE_MESH</a>
+, <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18ab50ac8d0b56627cc8b27d4b812526417">c_VIEWER_3D_MODE_NUMBER_OF</a>
+<br />
+ }</td></tr>
+<tr class="separator:a3a823ce90790f9e40a3a010c03c9ee18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79152282caf6ee920b7a904ea3264b5a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5a">D_VIEWER_3D_CONDITION</a> { <a class="el" href="d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aaf7bf709a537fce171bc3c13f2ab37b2a">c_VIEWER_3D_CONDITION_ALL</a>
+, <a class="el" href="d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aa57849f7ad2ee486591a72d0e0a97e78f">c_VIEWER_3D_CONDITION_NOT_ZERO</a>
+, <a class="el" href="d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5aaa4c2bbbdbac6fcd7c4dea4c5245c176f">c_VIEWER_3D_CONDITION_NUMBER_OF</a>
+ }</td></tr>
+<tr class="separator:a79152282caf6ee920b7a904ea3264b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71ef3c979ada7d8d2bf5b9a1068911bd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bd">D_VIEWER_3D_VALUE_HANDLING</a> { <a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bdac6139ea83b151a3bef5af8caa3a56a36">c_VIEWER_3D_VALUE_HANDLING_MONO</a>
+, <a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda3a34e91d06b0d6b7f4118dfe0f23d6d1">c_VIEWER_3D_VALUE_HANDLING_GRAY</a>
+, <a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda38dee3ae47419d9c4c6a3283486684eb">c_VIEWER_3D_VALUE_HANDLING_HUE</a>
+, <a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bda562311b18fbbe3f22fbd2b68080fdda3">c_VIEWER_3D_VALUE_HANDLING_NUMBER_OF</a>
+ }</td></tr>
+<tr class="separator:a71ef3c979ada7d8d2bf5b9a1068911bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac001c66c30002ac36c8327db937bc19d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19d">D_VIEWER_3D_AXIS</a> { <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dad842feba45682dd0449924254b47c1a8">c_D_VIEWER_3D_AXIS_EMPTY</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da8a0d8b616a1f637618b8b26e26ab3deb">c_D_VIEWER_3D_AXIS_IMG_X</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da3d9e2c28baec2afec1570df1786168c3">c_D_VIEWER_3D_AXIS_IMG_Y</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da4846a3283b63ab9de2bca01db47cd262">c_D_VIEWER_3D_AXIS_IMG_Z</a>
+, <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dab23afceb9f34fce7df39396b77704896">c_D_VIEWER_3D_AXIS_IMG_T</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dad8ebfe7cf09b2e42c157149ef8ad24b0">c_D_VIEWER_3D_AXIS_IMG_S</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19dafcc06dc6d83e7902de887ddaa66a37c2">c_D_VIEWER_3D_AXIS_IMG_P</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da36d1017e1c2b84f6ee8ae6ac1f973d39">c_D_VIEWER_3D_AXIS_CHANNEL_0</a>
+, <br />
+&#160;&#160;<a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da3bb89a6061b5df5479edd0408867e3e8">c_D_VIEWER_3D_AXIS_CHANNEL_1</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da5334e325e5709dc5d6af5c8aafbea307">c_D_VIEWER_3D_AXIS_CHANNEL_2</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19daa1c4c8e2225b8c0099a0e20552eddab9">c_D_VIEWER_3D_AXIS_CHANNEL_3</a>
+, <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19da0f685447369437220f29c1e85f819e80">c_D_VIEWER_3D_AXIS_NUMBER_OF</a>
+<br />
+ }</td></tr>
+<tr class="separator:ac001c66c30002ac36c8327db937bc19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7abb455473ea9941d15ff230b657464"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#ac7abb455473ea9941d15ff230b657464">D_LOAD_MODE</a> { <br />
 &#160;&#160;<a class="el" href="d__enum_8h.html#ac7abb455473ea9941d15ff230b657464aa6a729f948a725946a9c1ca96ddd451e">c_LOAD_MODE_FILE_IMAGE</a>
 , <a class="el" href="d__enum_8h.html#ac7abb455473ea9941d15ff230b657464abdb1726a8940091f8d8ed92e3ca682e4">c_LOAD_MODE_FILE_IMAGE_PAGED</a>
@@ -958,9 +1003,9 @@ Enumerations</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a5a1d9a41437b3b9b0802b600e5372105"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a5a1d9a41437b3b9b0802b600e5372105">D_QS_State</a> = &quot;release&quot;</td></tr>
 <tr class="separator:a5a1d9a41437b3b9b0802b600e5372105"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a0bdc141a4d5850cea8a5c4759b369b55">D_QS_Version</a> = &quot;v1_8_3&quot;</td></tr>
+<tr class="memitem:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a0bdc141a4d5850cea8a5c4759b369b55">D_QS_Version</a> = &quot;v1_9_0&quot;</td></tr>
 <tr class="separator:a0bdc141a4d5850cea8a5c4759b369b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af01daf45b193fc7a686fd6787297328b"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#af01daf45b193fc7a686fd6787297328b">D_QS_Release</a> = &quot;28.07.2021&quot;</td></tr>
+<tr class="memitem:af01daf45b193fc7a686fd6787297328b"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#af01daf45b193fc7a686fd6787297328b">D_QS_Release</a> = &quot;04.08.2021&quot;</td></tr>
 <tr class="separator:af01daf45b193fc7a686fd6787297328b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcebdcfefab1f1af33333268daf70607"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#afcebdcfefab1f1af33333268daf70607">D_QS_Author</a> = &quot;David Eilenstein&quot;</td></tr>
 <tr class="separator:afcebdcfefab1f1af33333268daf70607"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -984,6 +1029,14 @@ Variables</h2></td></tr>
 <tr class="separator:ab210a1bf418f2744fd8c96eb3ca64cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7b83b8f64812f3f890d8930b97d5b0e"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#aa7b83b8f64812f3f890d8930b97d5b0e">QSL_PLOT_SIMPLE</a></td></tr>
 <tr class="separator:aa7b83b8f64812f3f890d8930b97d5b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e6db3b3e0dd55e218af81bcd72038c8"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a5e6db3b3e0dd55e218af81bcd72038c8">QSL_Viewer3D_Mode</a></td></tr>
+<tr class="separator:a5e6db3b3e0dd55e218af81bcd72038c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655e6d5c7a1b169165494aebbc97ca28"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a655e6d5c7a1b169165494aebbc97ca28">QSL_Viewer3D_Condition</a></td></tr>
+<tr class="separator:a655e6d5c7a1b169165494aebbc97ca28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081ba432d9e95144277ebefb0caae5a4"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a081ba432d9e95144277ebefb0caae5a4">QSL_Viewer3D_ValueHandling</a></td></tr>
+<tr class="separator:a081ba432d9e95144277ebefb0caae5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3f9878c532f268e46561fa201de41a"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a9b3f9878c532f268e46561fa201de41a">QSL_Viewer3D_Axis</a></td></tr>
+<tr class="separator:a9b3f9878c532f268e46561fa201de41a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ba7e2c05e08d1a3c2fdcf0d9dce65c0"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a8ba7e2c05e08d1a3c2fdcf0d9dce65c0">QSL_LoadMode</a></td></tr>
 <tr class="separator:a8ba7e2c05e08d1a3c2fdcf0d9dce65c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cf05a63bbbf312c69e29cec13db1add"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__enum_8h.html#a4cf05a63bbbf312c69e29cec13db1add">QSL_WatershedFill</a></td></tr>
@@ -1406,6 +1459,10 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a7bfc8fb20e49c6be7eedcef142a0ba20"></a>ER_DescriptorsUnkown&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a67dd6235c46e40bcce066092eb06e6c7"></a>ER_StreamNotOpen&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a53114b624d0f5b169c1b98b74f1f522e"></a>ER_NumericProblem&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a48ab8542d59ed3a21e00f7c4bfafee4d"></a>ER_UiAllreadyInit&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a98dd0abe73fad23272d2db7268b296a2"></a>ER_UiNotInit&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a93172b50bc21a6c6de34fcc8a54acf68"></a>ER_UiPutInFail&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a77836f8d9fdc703d8db70a5b2adfb526"></a>ER_ThreadIssue&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="af7b8b602b1f7e03c477deb92963e3561a117041f67170530c5d409e745dcd2845"></a>ER_number_of&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -1999,6 +2056,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a612550fc8eded5e21d2bca6ac6f7bf57a018e5c80d2a0f35e40fed9cd21ed4f48"></a>c_SLICE_3D_XYZ&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a612550fc8eded5e21d2bca6ac6f7bf57a0989ee53413dc06b7e7abb3fa11b4562"></a>c_SLICE_3D_XYT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a612550fc8eded5e21d2bca6ac6f7bf57a6996e8fec2cf00c811af4fd872b11bdb"></a>c_SLICE_4D_XYZT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a612550fc8eded5e21d2bca6ac6f7bf57a460ad3d8499a03f9cf17890f9b7a6c3d"></a>c_SLICE_6D_ALL&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a612550fc8eded5e21d2bca6ac6f7bf57a6b5d408fbe071a21c97680b270c74612"></a>c_SLICE_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -2211,6 +2269,94 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aa1473cb5264ee9ea7889f89a50ceb4dda9e654f2eeb0ddfddabda4892953296ee"></a>c_TIME_IMG_SHOW&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa1473cb5264ee9ea7889f89a50ceb4ddac98c0936c406df965f7723810d13d9cd"></a>c_TIME_HIST&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa1473cb5264ee9ea7889f89a50ceb4ddac420b1212ce6bb254c3ab340155e41a9"></a>c_TIME_SOURCE_VIEW&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ac001c66c30002ac36c8327db937bc19d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac001c66c30002ac36c8327db937bc19d">&#9670;&nbsp;</a></span>D_VIEWER_3D_AXIS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#ac001c66c30002ac36c8327db937bc19d">D_VIEWER_3D_AXIS</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19dad842feba45682dd0449924254b47c1a8"></a>c_D_VIEWER_3D_AXIS_EMPTY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da8a0d8b616a1f637618b8b26e26ab3deb"></a>c_D_VIEWER_3D_AXIS_IMG_X&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da3d9e2c28baec2afec1570df1786168c3"></a>c_D_VIEWER_3D_AXIS_IMG_Y&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da4846a3283b63ab9de2bca01db47cd262"></a>c_D_VIEWER_3D_AXIS_IMG_Z&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19dab23afceb9f34fce7df39396b77704896"></a>c_D_VIEWER_3D_AXIS_IMG_T&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19dad8ebfe7cf09b2e42c157149ef8ad24b0"></a>c_D_VIEWER_3D_AXIS_IMG_S&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19dafcc06dc6d83e7902de887ddaa66a37c2"></a>c_D_VIEWER_3D_AXIS_IMG_P&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da36d1017e1c2b84f6ee8ae6ac1f973d39"></a>c_D_VIEWER_3D_AXIS_CHANNEL_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da3bb89a6061b5df5479edd0408867e3e8"></a>c_D_VIEWER_3D_AXIS_CHANNEL_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da5334e325e5709dc5d6af5c8aafbea307"></a>c_D_VIEWER_3D_AXIS_CHANNEL_2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19daa1c4c8e2225b8c0099a0e20552eddab9"></a>c_D_VIEWER_3D_AXIS_CHANNEL_3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac001c66c30002ac36c8327db937bc19da0f685447369437220f29c1e85f819e80"></a>c_D_VIEWER_3D_AXIS_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a79152282caf6ee920b7a904ea3264b5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79152282caf6ee920b7a904ea3264b5a">&#9670;&nbsp;</a></span>D_VIEWER_3D_CONDITION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#a79152282caf6ee920b7a904ea3264b5a">D_VIEWER_3D_CONDITION</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a79152282caf6ee920b7a904ea3264b5aaf7bf709a537fce171bc3c13f2ab37b2a"></a>c_VIEWER_3D_CONDITION_ALL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79152282caf6ee920b7a904ea3264b5aa57849f7ad2ee486591a72d0e0a97e78f"></a>c_VIEWER_3D_CONDITION_NOT_ZERO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79152282caf6ee920b7a904ea3264b5aaa4c2bbbdbac6fcd7c4dea4c5245c176f"></a>c_VIEWER_3D_CONDITION_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3a823ce90790f9e40a3a010c03c9ee18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a823ce90790f9e40a3a010c03c9ee18">&#9670;&nbsp;</a></span>D_VIEWER_3D_MODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#a3a823ce90790f9e40a3a010c03c9ee18">D_VIEWER_3D_MODE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3a823ce90790f9e40a3a010c03c9ee18af3a6d011b44691ae6909f4eee3cd43b5"></a>c_VIEWER_3D_MODE_SCATTER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a823ce90790f9e40a3a010c03c9ee18af0fa59afe01b1c00bac370cccd02da0e"></a>c_VIEWER_3D_MODE_BAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a823ce90790f9e40a3a010c03c9ee18ad2d8a52698a19e665be949cd0db2b232"></a>c_VIEWER_3D_MODE_HEIGHTMAP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a823ce90790f9e40a3a010c03c9ee18a3ff5b91e2ca3b9fd776da2ca4ba3cf65"></a>c_VIEWER_3D_MODE_MESH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a823ce90790f9e40a3a010c03c9ee18ab50ac8d0b56627cc8b27d4b812526417"></a>c_VIEWER_3D_MODE_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a71ef3c979ada7d8d2bf5b9a1068911bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71ef3c979ada7d8d2bf5b9a1068911bd">&#9670;&nbsp;</a></span>D_VIEWER_3D_VALUE_HANDLING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="d__enum_8h.html#a71ef3c979ada7d8d2bf5b9a1068911bd">D_VIEWER_3D_VALUE_HANDLING</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a71ef3c979ada7d8d2bf5b9a1068911bdac6139ea83b151a3bef5af8caa3a56a36"></a>c_VIEWER_3D_VALUE_HANDLING_MONO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a71ef3c979ada7d8d2bf5b9a1068911bda3a34e91d06b0d6b7f4118dfe0f23d6d1"></a>c_VIEWER_3D_VALUE_HANDLING_GRAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a71ef3c979ada7d8d2bf5b9a1068911bda38dee3ae47419d9c4c6a3283486684eb"></a>c_VIEWER_3D_VALUE_HANDLING_HUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a71ef3c979ada7d8d2bf5b9a1068911bda562311b18fbbe3f22fbd2b68080fdda3"></a>c_VIEWER_3D_VALUE_HANDLING_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2444,7 +2590,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const QString D_QS_Release = &quot;28.07.2021&quot;</td>
+          <td class="memname">const QString D_QS_Release = &quot;04.08.2021&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2472,7 +2618,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const QString D_QS_Version = &quot;v1_8_3&quot;</td>
+          <td class="memname">const QString D_QS_Version = &quot;v1_9_0&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3496,7 +3642,8 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;2D YZ&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;3D XYZ&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;3D XYT&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;4D XYZT&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;4D XYZT&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;6D All&quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
 </div>
@@ -3603,6 +3750,90 @@ Variables</h2></td></tr>
 <div class="line">{</div>
 <div class="line">    <span class="stringliteral">&quot;Albedo&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;Normal Vector&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9b3f9878c532f268e46561fa201de41a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3f9878c532f268e46561fa201de41a">&#9670;&nbsp;</a></span>QSL_Viewer3D_Axis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_Viewer3D_Axis</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;-&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;X&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Y&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Z&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;T&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;S&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;P&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Ch0&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Ch1&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Ch2&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Ch3&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a655e6d5c7a1b169165494aebbc97ca28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a655e6d5c7a1b169165494aebbc97ca28">&#9670;&nbsp;</a></span>QSL_Viewer3D_Condition</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_Viewer3D_Condition</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;All&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;!=0&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a5e6db3b3e0dd55e218af81bcd72038c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e6db3b3e0dd55e218af81bcd72038c8">&#9670;&nbsp;</a></span>QSL_Viewer3D_Mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_Viewer3D_Mode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;Scatter&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Bar&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Heightmap&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Mesh&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a081ba432d9e95144277ebefb0caae5a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a081ba432d9e95144277ebefb0caae5a4">&#9670;&nbsp;</a></span>QSL_Viewer3D_ValueHandling</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QStringList QSL_Viewer3D_ValueHandling</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;Mono&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Gray&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Color&quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
 </div>

@@ -274,9 +274,7 @@ var dir_7aec1628f1990aa39b5bfeb350fdbb57 =
       [ "D_Viewer", "class_d___viewer.html", "class_d___viewer" ]
     ] ],
     [ "d_viewer_3d.cpp", "d__viewer__3d_8cpp.html", null ],
-    [ "d_viewer_3d.h", "d__viewer__3d_8h.html", [
-      [ "D_Viewer_3D", "class_d___viewer__3_d.html", "class_d___viewer__3_d" ]
-    ] ],
+    [ "d_viewer_3d.h", "d__viewer__3d_8h.html", "d__viewer__3d_8h" ],
     [ "d_viewer_img.cpp", "d__viewer__img_8cpp.html", null ],
     [ "d_viewer_img.h", "d__viewer__img_8h.html", [
       [ "D_Viewer_Img", "class_d___viewer___img.html", "class_d___viewer___img" ]
