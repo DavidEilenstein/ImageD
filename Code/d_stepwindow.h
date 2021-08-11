@@ -12,7 +12,7 @@
 //own
 #include <d_enum.h>
 #include <d_viewer.h>
-#include <d_viewer_3d.h>
+#include <d_viewer_plot_3d.h>
 #include <scenemousetrack.h>
 #include <d_img_proc.h>
 #include <d_storage.h>
@@ -160,7 +160,8 @@ private slots:
     void Update_Time_Img_Cvt(unsigned int t);
     void Update_Time_View_Update(unsigned int t);
 
-    void Update_3DView();
+    void Update_3DPlot();
+    void Update_3DImage();
 
     void Dim_GetFromVD();
     int  ProcDimCountFromUi();
@@ -377,10 +378,11 @@ private:
     QFileInfo       FI_RawFile;
 
     //Stuff to show images
-    D_Viewer        Viewer;
-    QChartView      *pCV_Viewer;
-    D_Viewer_3D     Viewer_3D;
-  //Mat             MA_Show2d;
+    D_Viewer            Viewer;
+    QChartView          *pCV_Viewer;
+
+    //show 3d plots
+    D_Viewer_Plot_3D    ViewerPlot_3D;
 
     //Dimension of Dataset
     vector<QDoubleSpinBox*>     vDSB_Dims;
@@ -431,12 +433,13 @@ private:
 
     //output types
     enum c_Output {
-        c_Out_Image,
+        c_Out_Image_2D,
+        c_Out_Image_3D,
         c_Out_Hist,
         c_Out_Time,
         c_Out_Chain,
-        c_Out_Plot,
-        c_Out_3D,
+        c_Out_Plot_2D,
+        c_Out_Plot_3D,
         c_Out_Number_of
     };
 

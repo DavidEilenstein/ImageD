@@ -69,6 +69,7 @@ SOURCES += \
     d_videoslicer.cpp \
     d_videowriter.cpp \
     d_viewer_3d.cpp \
+    d_viewer_plot_3d.cpp \
     d_visdat_header.cpp \
         main.cpp \
         d_mainwindow.cpp \
@@ -160,6 +161,7 @@ HEADERS += \
     d_videoslicer.h \
     d_videowriter.h \
     d_viewer_3d.h \
+    d_viewer_plot_3d.h \
     d_visdat_header.h \
     scenemousetrack.h \
     d_storage.h \

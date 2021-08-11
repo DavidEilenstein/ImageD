@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_9_1";
-const QString           D_QS_Release  = "10.08.2021";
+const QString           D_QS_Version  = "v1_9_2";
+const QString           D_QS_Release  = "11.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -290,6 +290,51 @@ const QStringList QSL_Planes {
     "SP",
 };
 
+enum D_VOLUMES {
+    c_VOLUME_XYZ,
+    c_VOLUME_XYT,
+    c_VOLUME_XYS,
+    c_VOLUME_XYP,
+    c_VOLUME_XZT,
+    c_VOLUME_XZS,
+    c_VOLUME_XZP,
+    c_VOLUME_XTS,
+    c_VOLUME_XTP,
+    c_VOLUME_XSP,
+    c_VOLUME_YZT,
+    c_VOLUME_YZS,
+    c_VOLUME_YZP,
+    c_VOLUME_YTS,
+    c_VOLUME_YTP,
+    c_VOLUME_YSP,
+    c_VOLUME_ZTS,
+    c_VOLUME_ZTP,
+    c_VOLUME_ZSP,
+    c_VOLUME_TSP,
+    c_VOLUME_NUMBER_OF
+};
+const QStringList QSL_Volumes = {
+    "XYZ",
+    "XYT",
+    "XYS",
+    "XYP",
+    "XZT",
+    "XZS",
+    "XZP",
+    "XTS",
+    "XTP",
+    "XSP",
+    "YZT",
+    "YZS",
+    "YZP",
+    "YTS",
+    "YTP",
+    "YSP",
+    "ZTS",
+    "ZTP",
+    "ZSP",
+    "TSP"
+};
 
 enum D_VIEWER_MODE {
     c_VIEWER_MODE_IMG,
@@ -318,12 +363,12 @@ const QStringList QSL_PLOT_SIMPLE = {
 };
 
 
-enum D_VIEWER_3D_MODE {
-    c_VIEWER_3D_MODE_SCATTER,
-    c_VIEWER_3D_MODE_HEIGHTMAP,
-    //c_VIEWER_3D_MODE_BAR,
-    //c_VIEWER_3D_MODE_MESH,
-    c_VIEWER_3D_MODE_NUMBER_OF
+enum D_VIEWER_PLOT_3D_MODE {
+    c_VIEWER_PLOT_3D_MODE_SCATTER,
+    c_VIEWER_PLOT_3D_MODE_HEIGHTMAP,
+    //c_VIEWER_PLOT_3D_MODE_BAR,
+    //c_VIEWER_PLOT_3D_MODE_MESH,
+    c_VIEWER_PLOT_3D_MODE_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Mode = {
     "Scatter",
@@ -332,21 +377,21 @@ const QStringList QSL_Viewer3D_Mode = {
     //"Mesh"
 };
 
-enum D_VIEWER_3D_CONDITION {
-    c_VIEWER_3D_CONDITION_ALL,
-    c_VIEWER_3D_CONDITION_NOT_ZERO,
-    c_VIEWER_3D_CONDITION_NUMBER_OF
+enum D_VIEWER_PLOT_3D_CONDITION {
+    c_VIEWER_PLOT_3D_CONDITION_ALL,
+    c_VIEWER_PLOT_3D_CONDITION_NOT_ZERO,
+    c_VIEWER_PLOT_3D_CONDITION_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Condition = {
     "All",
     "!=0"
 };
 
-enum D_VIEWER_3D_VALUE_HANDLING {
-    c_VIEWER_3D_VALUE_HANDLING_MONO,
-    c_VIEWER_3D_VALUE_HANDLING_GRAY,
-    c_VIEWER_3D_VALUE_HANDLING_HUE,
-    c_VIEWER_3D_VALUE_HANDLING_NUMBER_OF
+enum D_VIEWER_PLOT_3D_VALUE_HANDLING {
+    c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO,
+    c_VIEWER_PLOT_3D_VALUE_HANDLING_GRAY,
+    c_VIEWER_PLOT_3D_VALUE_HANDLING_HUE,
+    c_VIEWER_PLOT_3D_VALUE_HANDLING_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_ValueHandling = {
     "Mono",
@@ -354,27 +399,27 @@ const QStringList QSL_Viewer3D_ValueHandling = {
     "Heat"
 };
 
-enum D_VIEWER_3D_AXIS {
-    c_D_VIEWER_3D_AXIS_EMPTY,
-    c_D_VIEWER_3D_AXIS_IMG_X,
-    c_D_VIEWER_3D_AXIS_IMG_Y,
-    c_D_VIEWER_3D_AXIS_IMG_Z,
-    c_D_VIEWER_3D_AXIS_IMG_T,
-    c_D_VIEWER_3D_AXIS_IMG_S,
-    c_D_VIEWER_3D_AXIS_IMG_P,
-    c_D_VIEWER_3D_AXIS_CHANNEL_0,
-    c_D_VIEWER_3D_AXIS_CHANNEL_1,
-    c_D_VIEWER_3D_AXIS_CHANNEL_2,
-    c_D_VIEWER_3D_AXIS_CHANNEL_3,
-    c_D_VIEWER_3D_AXIS_COLOR_GRAY,
-    c_D_VIEWER_3D_AXIS_COLOR_BLUE,
-    c_D_VIEWER_3D_AXIS_COLOR_GREEN,
-    c_D_VIEWER_3D_AXIS_COLOR_RED,
-    c_D_VIEWER_3D_AXIS_COLOR_HUE,
-    c_D_VIEWER_3D_AXIS_COLOR_SATURATION,
-    c_D_VIEWER_3D_AXIS_COLOR_VALUE,
-    c_D_VIEWER_3D_AXIS_INDEX,
-    c_D_VIEWER_3D_AXIS_NUMBER_OF
+enum D_VIEWER_PLOT_3D_AXIS {
+    c_VIEWER_PLOT_3D_AXIS_EMPTY,
+    c_VIEWER_PLOT_3D_AXIS_IMG_X,
+    c_VIEWER_PLOT_3D_AXIS_IMG_Y,
+    c_VIEWER_PLOT_3D_AXIS_IMG_Z,
+    c_VIEWER_PLOT_3D_AXIS_IMG_T,
+    c_VIEWER_PLOT_3D_AXIS_IMG_S,
+    c_VIEWER_PLOT_3D_AXIS_IMG_P,
+    c_VIEWER_PLOT_3D_AXIS_CHANNEL_0,
+    c_VIEWER_PLOT_3D_AXIS_CHANNEL_1,
+    c_VIEWER_PLOT_3D_AXIS_CHANNEL_2,
+    c_VIEWER_PLOT_3D_AXIS_CHANNEL_3,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_GRAY,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_BLUE,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_GREEN,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_RED,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_HUE,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_SATURATION,
+    c_VIEWER_PLOT_3D_AXIS_COLOR_VALUE,
+    c_VIEWER_PLOT_3D_AXIS_INDEX,
+    c_VIEWER_PLOT_3D_AXIS_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Axis = {
     "-",
@@ -398,11 +443,11 @@ const QStringList QSL_Viewer3D_Axis = {
     "Index"
 };
 
-enum D_VIEWER_3D_TEXTURE {
-    c_VIEWER_3D_TEXTURE_IMAGE,
-    c_VIEWER_3D_TEXTURE_GRAY,
-    c_VIEWER_3D_TEXTURE_HUE,
-    c_VIEWER_3D_TEXTURE_NUMBER_OF
+enum D_VIEWER_PLOT_3D_TEXTURE {
+    c_VIEWER_PLOT_3D_TEXTURE_IMAGE,
+    c_VIEWER_PLOT_3D_TEXTURE_GRAY,
+    c_VIEWER_PLOT_3D_TEXTURE_HUE,
+    c_VIEWER_PLOT_3D_TEXTURE_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Texture = {
     "Image",
@@ -410,16 +455,56 @@ const QStringList QSL_Viewer3D_Texture = {
     "Heat"
 };
 
-enum D_VIEWER_3D_SURFACE_MODE {
-    c_VIEWER_3D_SURFACE_MODE_SINGLE,
-    c_VIEWER_3D_SURFACE_MODE_CHANNELS,
-    c_VIEWER_3D_SURFACE_MODE_DIMENSION,
-    c_VIEWER_3D_SURFACE_MODE_NUMBER_OF
+enum D_VIEWER_PLOT_3D_SURFACE_MODE {
+    c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE,
+    c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS,
+    c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION,
+    c_VIEWER_PLOT_3D_SURFACE_MODE_NUMBER_OF
 };
 const QStringList QSL_Viewer_3D_SurfaceMode = {
     "Single",
     "Channels",
     "Dimension"
+};
+
+enum D_VIEWER_PLOT_3D_MARKER_3D {
+    c_VIEWER_PLOT_3D_MARKER_POINT,
+    c_VIEWER_PLOT_3D_MARKER_MINIMAL,
+    c_VIEWER_PLOT_3D_MARKER_PYRAMID,
+    c_VIEWER_PLOT_3D_MARKER_CUBE,
+    c_VIEWER_PLOT_3D_MARKER_CYLINDER,
+    c_VIEWER_PLOT_3D_MARKER_SPHERE,
+    c_VIEWER_PLOT_3D_MARKER_ARROW,
+    c_VIEWER_PLOT_3D_MARKER_NUMBER_OF
+};
+const QStringList QSL_Marker_3D = {
+    "Point",
+    "Minimal",
+    "Pyramid",
+    "Cube",
+    "Cylinder",
+    "Sphere",
+    "Arrow"
+};
+
+enum D_VIEWER_PLOT_3D_SHADOW_3D {
+    c_VIEWER_PLOT_3D_SHADOW_NONE,
+    c_VIEWER_PLOT_3D_SHADOW_LOW,
+    c_VIEWER_PLOT_3D_SHADOW_MEDIUM,
+    c_VIEWER_PLOT_3D_SHADOW_HIGH,
+    c_VIEWER_PLOT_3D_SHADOW_SOFT_LOW,
+    c_VIEWER_PLOT_3D_SHADOW_SOFT_MEDIUM,
+    c_VIEWER_PLOT_3D_SHADOW_SOFT_HIGH,
+    c_VIEWER_PLOT_3D_SHADOW_NUMBER_OF
+};
+const QStringList QSL_ShadowQuality_3D = {
+    "None",
+    "Low",
+    "Medium",
+    "High",
+    "Soft Low",
+    "Soft Medium",
+    "Soft High"
 };
 
 enum D_LOAD_MODE {

@@ -1,5 +1,5 @@
 /************************************
- *   added:     27.07.2021          *
+ *   added:     11.08.2021          *
  *   author:    David Eilenstein    *
  *   contact:   D.Eilenstein@gsi.de *
  *   project:   ImageD              *
@@ -31,6 +31,9 @@
 #include <QElapsedTimer>
 #include <QScrollBar>
 #include <QGridLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
 #include <QWidget>
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
@@ -51,6 +54,7 @@
 #include <QtDataVisualization/Q3DSurface>
 #include <QtDataVisualization/QSurfaceDataProxy>
 #include <QtDataVisualization/QSurfaceDataArray>
+#include <QtDataVisualization/QCustom3DVolume>
 
 //openCV
 #include <opencv2/core/core.hpp>
@@ -72,93 +76,45 @@ public:
     D_Viewer_3D(QGridLayout *target_layout);
     ~D_Viewer_3D();
 
-    //init basic stuff and ui
-    int init(QGridLayout *target_layout);
-
-    //clear
-
-    //plot boring
-    //int     plot_test();
-    //int     plot_img2D_gray(Mat *pMA_img);
-
-    //plot cool
-    int     plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t axis_a, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe);
-    int     plot_VD_Scatter(D_VisDat_Obj *pVD, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool called_internally = false);
-    int     plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t axis_a, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally = false);
-
-    int     plot_ScatterData_4D(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally = false);
-    int     plot_Heightmap(vector<Mat> *pvMA_Height, vector<QImage> *pvQI_Texture, size_t shadow, bool background, bool grid, QString axis_x = "X", QString axis_y = "Y", QString axis_z = "Z", bool draw_surface = true, bool draw_wireframe = false, bool called_internally = false);
+    //init
+    void init(QGridLayout *target_layout);
 
 signals:
 
 
 private:
 
-    QAbstract3DSeries::Mesh     marker_from_id(int marker_id);
-    size_t                      series_count_from_color_handle_id(size_t color_handle_id);
-    QColor                      series_color(size_t series_count, size_t series_index, size_t color_handle);
-
-    void    clear_graph_all();
-    void    clear_graph_scatter();
-    void    clear_graph_heightmap();
-
-    void    show_graph_type(size_t graph_type_id);
-
-    void    clear_layout();
-
-    int     dimIndex_FromAxisIndex(size_t axis_index);
-
-    int     ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value = 0);
-    int     SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, size_t axis_index_alpha, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value = 0);
-
-    //error handler
+   //error handler
     D_Error_Handler ER;
     void ERR(int err, QString func, QString detail);
 
-    //ui
-    QGridLayout *layout_in_ui;
-    QWidget     *container_widget_scatter;
-    QWidget     *container_widget_heightmap;
+    //ui elements
+    //layouts
+    QGridLayout     *ui_layout_target;
+    QHBoxLayout     *ui_layoutH_main;
+    QGroupBox       *ui_GroupBox_3D_graph;
+    QGroupBox       *ui_GroupBox_2D_slices;
+    QGroupBox       *ui_GroupBox_Settings;
+    QGroupBox       *ui_GroupBox_Settings_Volume;
+    QGroupBox       *ui_GroupBox_Settings_DrawCondition;
+    QGroupBox       *ui_GroupBox_Settings_Alpha;
+    QGroupBox       *ui_GroupBox_Settings_Graphics;
 
-    //data
-    Q3DScatter  *graph_scatter;
-    Q3DSurface  *graph_heightmap;
+
+
+
+    //graph elements
+    Q3DScatter      *graph_scatter;
+    QWidget         *container_widget_scatter;
+
+    //VD to be displayed
+    D_VisDat_Obj    *pVD_Data;
 
     //states
-    bool state_ui_init = false;
-    bool state_container_widget_exists = false;
-    bool state_plot_active = false;
-    bool state_plotting = false;
+    bool            state_ui_init = false;
+    bool            state_VD_set = false;
 };
 
-enum MARKER_3D {
-    MARKER_3D_POINT,
-    MARKER_3D_MINIMAL,
-    MARKER_3D_PYRAMID,
-    MARKER_3D_CUBE,
-    MARKER_3D_CYLINDER,
-    MARKER_3D_SPHERE,
-    MARKER_3D_ARROW,
-    MARKER_3D_NUMBER_OF
-};
-const QStringList QSL_Marker_3D = {
-    "Point",
-    "Minimal",
-    "Pyramid",
-    "Cube",
-    "Cylinder",
-    "Sphere",
-    "Arrow"
-};
 
-const QStringList QSL_ShadowQuality_3D = {
-    "None",
-    "Low",
-    "Medium",
-    "High",
-    "Soft Low",
-    "Soft Medium",
-    "Soft High"
-};
 
 #endif // D_VIEWER_3D_H

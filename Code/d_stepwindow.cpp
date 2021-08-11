@@ -26,7 +26,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     Viewer.set_CV(pCV_Viewer);
 
     //3D Viewer
-    Viewer_3D.init(ui->gridLayout_Output_3D);
+    ViewerPlot_3D.init(ui->gridLayout_Output_3D);
 
     //HIST
     //Init chart and chartview
@@ -233,25 +233,25 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     //Tests
     connect(ui->action_Features_Visualisation,          SIGNAL(triggered(bool)),                    this,           SLOT(Test_Feature_Visualize()));
     //3D
-    connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->comboBox_3D_SurfaceDimension,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-    connect(ui->checkBox_3D_Grid,                       SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-    connect(ui->checkBox_3D_Background,                 SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-    connect(ui->checkBox_3D_Smooth,                     SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-    connect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-    connect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
+    connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->comboBox_3D_SurfaceDimension,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+    connect(ui->checkBox_3D_Grid,                       SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+    connect(ui->checkBox_3D_Background,                 SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+    connect(ui->checkBox_3D_Smooth,                     SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+    connect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+    connect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
 
 
     //Default Options from Mainwindow
@@ -298,7 +298,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     ui->doubleSpinBox_View_Anchor->setVisible(false);
     ui->doubleSpinBox_View_Range->setVisible(false);
     //tab widget
-    ui->tabWidget_Output->setCurrentIndex(c_Out_Image);
+    ui->tabWidget_Output->setCurrentIndex(c_Out_Image_2D);
 
     //Updates to init stuff
     Dim_GetFromVD();
@@ -2985,8 +2985,11 @@ void D_StepWindow::Update_Img_Proc()
     if(ui->action_Autoupdate_Times_on_Step->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_Time)
         Update_Times();
 
-    if(ui->action_Autoupdate_3D_View->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_3D)
-        Update_3DView();
+    if(ui->action_Autoupdate_3D_View->isChecked() || ui->tabWidget_Output->currentIndex() == c_Out_Plot_3D)
+        Update_3DPlot();
+
+    if(ui->tabWidget_Output->currentIndex() == c_Out_Image_3D)
+        Update_3DImage();
 
     //check, if complex
     ui->comboBox_View_Complex->setEnabled(pStore->get_Adress(pos_Dest)->channels() == 2);
@@ -4308,9 +4311,9 @@ void D_StepWindow::Update_Time_View_Update(unsigned int t)
     pStore->set_times(pos_Dest, c_TIME_IMG_SHOW, t);
 }
 
-void D_StepWindow::Update_3DView()
+void D_StepWindow::Update_3DPlot()
 {
-    ERR(Viewer_3D.plot_VD_custom(
+    ERR(ViewerPlot_3D.plot_VD_custom(
             pStore->get_pVD(pos_Dest),
             ui->comboBox_3D_Mode->currentIndex(),
             ui->comboBox_3D_Condition->currentIndex(),
@@ -4331,8 +4334,13 @@ void D_StepWindow::Update_3DView()
             ui->checkBox_3D_Smooth->isChecked(),
             ui->checkBox_3D_Surface->isChecked(),
             ui->checkBox_3D_Wireframe->isChecked()),
-        "Update_3DView",
+        "Update_3DPlot",
         "Viewer_3D.plot_VD_custom");
+}
+
+void D_StepWindow::Update_3DImage()
+{
+
 }
 
 void D_StepWindow::Dim_GetFromVD()
@@ -7082,25 +7090,25 @@ void D_StepWindow::Populate_CB_VisTrafo()
 
 void D_StepWindow::Populate_CB_3DViewer()
 {
-    Populate_CB_Single(ui->comboBox_3D_Axis_X,                      QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_IMG_X);
-    Populate_CB_Single(ui->comboBox_3D_Axis_Y,                      QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_IMG_Y);
-    Populate_CB_Single(ui->comboBox_3D_Axis_Z,                      QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_IMG_Z);
-    Populate_CB_Single(ui->comboBox_3D_Axis_Z_Heightmap,            QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_IMG_Z);
-    Populate_CB_Single(ui->comboBox_3D_Axis_V,                      QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_CHANNEL_0);
-    Populate_CB_Single(ui->comboBox_3D_Axis_V_Heightmap,            QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_CHANNEL_0);
-    Populate_CB_Single(ui->comboBox_3D_Axis_A,                      QSL_Viewer3D_Axis,          c_D_VIEWER_3D_AXIS_EMPTY);
+    Populate_CB_Single(ui->comboBox_3D_Axis_X,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_X);
+    Populate_CB_Single(ui->comboBox_3D_Axis_Y,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Y);
+    Populate_CB_Single(ui->comboBox_3D_Axis_Z,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Z);
+    Populate_CB_Single(ui->comboBox_3D_Axis_Z_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Z);
+    Populate_CB_Single(ui->comboBox_3D_Axis_V,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
+    Populate_CB_Single(ui->comboBox_3D_Axis_V_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
+    Populate_CB_Single(ui->comboBox_3D_Axis_A,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_EMPTY);
 
-    Populate_CB_Single(ui->comboBox_3D_Mode,                        QSL_Viewer3D_Mode,          c_VIEWER_3D_MODE_HEIGHTMAP);
-    Populate_CB_Single(ui->comboBox_3D_Condition,                   QSL_Viewer3D_Condition,     c_VIEWER_3D_CONDITION_NOT_ZERO);
-    Populate_CB_Single(ui->comboBox_3D_ColorHandling,               QSL_Viewer3D_ValueHandling, c_VIEWER_3D_VALUE_HANDLING_MONO);
+    Populate_CB_Single(ui->comboBox_3D_Mode,                        QSL_Viewer3D_Mode,          c_VIEWER_PLOT_3D_MODE_HEIGHTMAP);
+    Populate_CB_Single(ui->comboBox_3D_Condition,                   QSL_Viewer3D_Condition,     c_VIEWER_PLOT_3D_CONDITION_NOT_ZERO);
+    Populate_CB_Single(ui->comboBox_3D_ColorHandling,               QSL_Viewer3D_ValueHandling, c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO);
 
-    Populate_CB_Single(ui->comboBox_3D_TextureMode_Heightmap,       QSL_Viewer3D_Texture,       c_VIEWER_3D_TEXTURE_IMAGE);
+    Populate_CB_Single(ui->comboBox_3D_TextureMode_Heightmap,       QSL_Viewer3D_Texture,       c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
     Populate_CB_Single(ui->comboBox_3D_2dPlane_Heightmap,           QSL_Planes,                 c_PLANE_XY);
-    Populate_CB_Single(ui->comboBox_3D_SurfaceMode,                 QSL_Viewer_3D_SurfaceMode,  c_VIEWER_3D_SURFACE_MODE_SINGLE);
+    Populate_CB_Single(ui->comboBox_3D_SurfaceMode,                 QSL_Viewer_3D_SurfaceMode,  c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE);
     Populate_CB_Single(ui->comboBox_3D_SurfaceDimension,            QSL_DimIndices,             c_DIM_S);
 
-    Populate_CB_Single(ui->comboBox_3D_Marker,                      QSL_Marker_3D,              MARKER_3D_POINT);
-    Populate_CB_Single(ui->comboBox_3D_ShadowQuality,               QSL_ShadowQuality_3D,       0);
+    Populate_CB_Single(ui->comboBox_3D_Marker,                      QSL_Marker_3D,              c_VIEWER_PLOT_3D_MARKER_POINT);
+    Populate_CB_Single(ui->comboBox_3D_ShadowQuality,               QSL_ShadowQuality_3D,       c_VIEWER_PLOT_3D_SHADOW_LOW);
 }
 
 void D_StepWindow::Populate_CB_Other()
@@ -7362,16 +7370,18 @@ void D_StepWindow::on_spinBox_04_Edge_dY_valueChanged(int arg1)
 void D_StepWindow::on_tabWidget_Output_currentChanged(int index)
 {
     switch (index) {
-    case c_Out_Image:       Viewer.Set_ViewerMode(c_VIEWER_MODE_IMG);   break;
+    case c_Out_Image_2D:    Viewer.Set_ViewerMode(c_VIEWER_MODE_IMG);   break;
+    case c_Out_Image_3D:    Update_3DImage();                           break;
     case c_Out_Hist:        Update_Hist();                              break;
     case c_Out_Time:        Update_Times();                             break;
     case c_Out_Chain:                                                   break;
-    case c_Out_Plot:        Viewer.Set_ViewerMode(c_VIEWER_MODE_PLOT);  break;
-    case c_Out_3D:          Update_3DView();                            break;
+    case c_Out_Plot_2D:     Viewer.Set_ViewerMode(c_VIEWER_MODE_PLOT);  break;
+    case c_Out_Plot_3D:     Update_3DPlot();                            break;
     default:                                                            return;}
 
-    ui->groupBox_View_Plane->setEnabled(index != c_Out_3D);
-    ui->groupBox_View_Contrast->setEnabled(index != c_Out_3D);
+    ui->groupBox_View_Plane->setEnabled(index != c_Out_Image_3D);
+    ui->groupBox_View_Plane->setVisible(index != c_Out_Plot_3D);
+    ui->groupBox_View_Contrast->setVisible(index != c_Out_Plot_3D);
 }
 
 void D_StepWindow::on_pushButton_00_Load_Image_clicked()
@@ -8118,71 +8128,71 @@ void D_StepWindow::on_pushButton_Test_3D_clicked()
 
 void D_StepWindow::on_actionUpdate_3D_triggered()
 {
-    Update_3DView();
+    Update_3DPlot();
 }
 
 void D_StepWindow::on_action_Autoupdate_3D_View_triggered(bool checked)
 {
     if(checked)
     {
-        connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->comboBox_3D_SurfaceDimension,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        connect(ui->checkBox_3D_Grid,                       SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        connect(ui->checkBox_3D_Background,                 SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        connect(ui->checkBox_3D_Smooth,                     SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        connect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        connect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
+        connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Axis_X,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Axis_Y,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Axis_Z,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->comboBox_3D_SurfaceDimension,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        connect(ui->checkBox_3D_Grid,                       SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        connect(ui->checkBox_3D_Background,                 SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        connect(ui->checkBox_3D_Smooth,                     SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        connect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        connect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
     }
     else
     {
-        disconnect(ui->comboBox_3D_Mode,                    SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Condition,               SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_ColorHandling,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Axis_X,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Axis_Y,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Axis_Z,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Axis_V,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Marker,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_ShadowQuality,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_Axis_A,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_TextureMode_Heightmap,   SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_2dPlane_Heightmap,       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_SurfaceMode,             SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->comboBox_3D_SurfaceDimension,        SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DView()));
-        disconnect(ui->checkBox_3D_Grid,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        disconnect(ui->checkBox_3D_Background,              SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        disconnect(ui->checkBox_3D_Smooth,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        disconnect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
-        disconnect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DView()));
+        disconnect(ui->comboBox_3D_Mode,                    SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Condition,               SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_ColorHandling,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Axis_X,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Axis_Y,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Axis_Z,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Axis_V,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Marker,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_ShadowQuality,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_Axis_A,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_TextureMode_Heightmap,   SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_2dPlane_Heightmap,       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_SurfaceMode,             SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->comboBox_3D_SurfaceDimension,        SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
+        disconnect(ui->checkBox_3D_Grid,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        disconnect(ui->checkBox_3D_Background,              SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        disconnect(ui->checkBox_3D_Smooth,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        disconnect(ui->checkBox_3D_Surface,                 SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
+        disconnect(ui->checkBox_3D_Wireframe,               SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
     }
 }
 
 void D_StepWindow::on_comboBox_3D_ColorHandling_currentIndexChanged(int index)
 {
-    ui->comboBox_3D_Axis_V->setEnabled(index != c_VIEWER_3D_VALUE_HANDLING_MONO);
+    ui->comboBox_3D_Axis_V->setEnabled(index != c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO);
 }
 
 void D_StepWindow::on_comboBox_3D_TextureMode_Heightmap_currentIndexChanged(int index)
 {
-    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_3D_TEXTURE_IMAGE);
+    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
 }
 
 void D_StepWindow::on_comboBox_3D_SurfaceMode_currentIndexChanged(int index)
 {
-    ui->comboBox_3D_SurfaceDimension->setEnabled(index == c_VIEWER_3D_SURFACE_MODE_DIMENSION);
-    ui->comboBox_3D_Axis_Z_Heightmap->setEnabled(index != c_VIEWER_3D_SURFACE_MODE_CHANNELS);
-    ui->comboBox_3D_TextureMode_Heightmap->setEnabled(index != c_VIEWER_3D_SURFACE_MODE_CHANNELS);
-    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_3D_SURFACE_MODE_CHANNELS && ui->comboBox_3D_TextureMode_Heightmap->currentIndex() != c_VIEWER_3D_TEXTURE_IMAGE);
+    ui->comboBox_3D_SurfaceDimension->setEnabled(index == c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION);
+    ui->comboBox_3D_Axis_Z_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS);
+    ui->comboBox_3D_TextureMode_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS);
+    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS && ui->comboBox_3D_TextureMode_Heightmap->currentIndex() != c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
 }
