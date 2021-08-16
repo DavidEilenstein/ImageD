@@ -12,6 +12,7 @@
 //own
 #include <d_enum.h>
 #include <d_viewer.h>
+#include <d_viewer_3d.h>
 #include <d_viewer_plot_3d.h>
 #include <scenemousetrack.h>
 #include <d_img_proc.h>
@@ -379,6 +380,7 @@ private:
 
     //Stuff to show images
     D_Viewer            Viewer;
+    D_Viewer_3D         Viewer_3D;
     QChartView          *pCV_Viewer;
 
     //show 3d plots

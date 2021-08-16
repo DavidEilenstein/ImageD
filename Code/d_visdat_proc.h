@@ -75,8 +75,14 @@ public:
     D_VisDat_Proc();
 
     //index definitions and stuff
-    static int  PlaneDim_1st            (size_t plane_index);
-    static int  PlaneDim_2nd            (size_t plane_index);
+    static int          PlaneDim_1st            (int plane_index);
+    static int          PlaneDim_2nd            (int plane_index);
+    static vector<int>  PlaneDims               (int plane_index);
+    static int          VolumeDim_1st           (int volume_index);
+    static int          VolumeDim_2nd           (int volume_index);
+    static int          VolumeDim_3rd           (int volume_index);
+    static vector<int>  VolumeDims              (int volume_index);
+    static int          PlaneFromDims           (int d1, int d2);
 
     //Wrapper for img proc function to be executed with VDs
     static int  Wrap_VD                 (D_VisDat_Slicing slice, function<int (Mat *pMA_Out)> img_proc,                                                         D_VisDat_Obj *pVD_Out);

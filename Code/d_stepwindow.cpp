@@ -26,6 +26,9 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     Viewer.set_CV(pCV_Viewer);
 
     //3D Viewer
+    Viewer_3D.init(ui->gridLayout_Viewer3D_TargetLayout);
+
+    //3D Viewer plot
     ViewerPlot_3D.init(ui->gridLayout_Output_3D);
 
     //HIST
@@ -232,7 +235,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->checkBox_ProcDims_P_Proc,               SIGNAL(clicked(bool)),                      this,           SLOT(ProcDimCountAdaptUi()));
     //Tests
     connect(ui->action_Features_Visualisation,          SIGNAL(triggered(bool)),                    this,           SLOT(Test_Feature_Visualize()));
-    //3D
+    //3D plot
     connect(ui->comboBox_3D_Mode,                       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_Condition,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_ColorHandling,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
@@ -252,7 +255,20 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->checkBox_3D_Smooth,                     SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
     connect(ui->checkBox_3D_Surface,                    SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
     connect(ui->checkBox_3D_Wireframe,                  SIGNAL(clicked(bool)),                      this,           SLOT(Update_3DPlot()));
-
+    //3D viewer
+    connect(ui->checkBox_View_VisTrafo,                 SIGNAL(stateChanged(int)),                  &Viewer_3D,     SLOT(Set_VisTrafo_ActiveInt(int)));
+    connect(ui->doubleSpinBox_View_Min,                 SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_SpreadInMin(double)));
+    connect(ui->doubleSpinBox_View_Max,                 SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_SpreadInMax(double)));
+    connect(ui->doubleSpinBox_View_Gamma,               SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_Gamma(double)));
+    connect(ui->doubleSpinBox_View_Center,              SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_Center(double)));
+    connect(ui->doubleSpinBox_View_Divisor,             SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_Divisor(double)));
+    connect(ui->doubleSpinBox_View_Anchor,              SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_Anchor(double)));
+    connect(ui->doubleSpinBox_View_Range,               SIGNAL(valueChanged(double)),               &Viewer_3D,     SLOT(Set_VisTrafo_Range(double)));
+    connect(ui->comboBox_View_Complex,                  SIGNAL(currentIndexChanged(int)),           &Viewer_3D,     SLOT(Set_VisTrafo_Mode_Complex(int)));
+    connect(ui->comboBox_View_Crop,                     SIGNAL(currentIndexChanged(int)),           &Viewer_3D,     SLOT(Set_VisTrafo_Mode_Crop(int)));
+    connect(ui->comboBox_View_Transform,                SIGNAL(currentIndexChanged(int)),           &Viewer_3D,     SLOT(Set_VisTrafo_Mode_Trafo(int)));
+    connect(ui->comboBox_View_Anchor,                   SIGNAL(currentIndexChanged(int)),           &Viewer_3D,     SLOT(Set_VisTrafo_Mode_Anchor(int)));
+    connect(ui->comboBox_View_Range,                    SIGNAL(currentIndexChanged(int)),           &Viewer_3D,     SLOT(Set_VisTrafo_Mode_Range(int)));
 
     //Default Options from Mainwindow
     ui->action_Autoupdate_ImgProc_on_Settings->setChecked(vDefaults[c_SD_AUTOUPDATE_ON_SETTINGS]);
@@ -4340,7 +4356,7 @@ void D_StepWindow::Update_3DPlot()
 
 void D_StepWindow::Update_3DImage()
 {
-
+    Viewer_3D.set_VisDat(pStore->get_pVD(pos_Dest));
 }
 
 void D_StepWindow::Dim_GetFromVD()

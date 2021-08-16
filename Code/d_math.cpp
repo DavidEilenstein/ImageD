@@ -1218,13 +1218,42 @@ function<double (double x, double y, double z, double t, double s, double p)> D_
             return val.imag();
         };
 
+    case c_MATH_6D_TO_1D_TEST_3D_CHESS:
+        return [sx, ox, sy, oy, sz, oz, st, ot, ss, os, sp, op](double x, double y, double z, double t, double s, double p)
+        {
+            x = sx * x + ox;
+            y = sy * y + oy;
+            z = sz * z + oz;
+            t = st * t + ot;
+            s = ss * s + os;
+            p = sp * p + op;
+
+            x = abs(x);
+            y = abs(y);
+            z = abs(z);
+
+            return ((int(x) % 2) + (int(y) % 2) + (int(z) % 2)) % 2;
+        };
+
+    case c_MATH_6D_TO_1D_TEST_3D_Z_LAYERS:
+        return [sx, ox, sy, oy, sz, oz, st, ot, ss, os, sp, op](double x, double y, double z, double t, double s, double p)
+        {
+            x = sx * x + ox;
+            y = sy * y + oy;
+            z = sz * z + oz;
+            t = st * t + ot;
+            s = ss * s + os;
+            p = sp * p + op;
+
+            return z;
+        };
+
     default:
         return [nan_val](double x, double y, double z, double t, double s, double p)
         {
             x;y;z;t;s;p;//independent dims
             return nan_val;
         };
-        break;
     }
 }
 

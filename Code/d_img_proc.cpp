@@ -1274,30 +1274,69 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
     //img size
     int w = pMA_In_Value->cols;
     int h = pMA_In_Value->rows;
-    int a = w * h;
 
     //output img
     *pMA_Out = Mat(h, w, CV_8UC4);
 
-    //values img to double to make access easier
+    //values img to 8bit
     Mat MA_tmp_value_8bit;
-    int ER = Normalize(&MA_tmp_value_8bit, pMA_In_Value, NORM_MINMAX, CV_8U, 0, 255);
+    int ER = Normalize(
+                &MA_tmp_value_8bit,
+                pMA_In_Value,
+                NORM_MINMAX,
+                CV_8U,
+                0,
+                255);
     if(ER != ER_okay)
     {
         MA_tmp_value_8bit.release();
         return ER;
     }
 
+    ER = Convert_toMat4Ch_8bit(
+                pMA_Out,
+                &MA_tmp_value_8bit,
+                pMA_In_Alpha,
+                heat_color);
+
+    MA_tmp_value_8bit.release();
+    return ER;
+}
+
+int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color)
+{
+    //errors
+    if(pMA_In_Value->empty())                                       return ER_empty;
+    if(pMA_In_Value->depth() != CV_8U)                              return ER_bitdepth_bad;
+    if(pMA_In_Value->channels() != 1 && heat_color)                 return ER_parameter_missmatch;
+    if(pMA_In_Value->channels() != 4)
+    {
+        if(pMA_In_Alpha->empty())                                   return ER_empty;
+        if(pMA_In_Value->size != pMA_In_Alpha->size)                return ER_size_missmatch;
+        if(pMA_In_Alpha->channels() != 1)                           return ER_channel_bad;
+        if(pMA_In_Alpha->depth() != CV_8U)                          return ER_bitdepth_bad;
+    }
+
+    //img size
+    int w = pMA_In_Value->cols;
+    int h = pMA_In_Value->rows;
+    int a = w * h;
+
+    //output img
+    *pMA_Out = Mat(h, w, CV_8UC4);
+
     //alpha range
     double alpha_min, alpha_max;
-    ER = MinMax_of_Mat(pMA_In_Alpha, &alpha_min, &alpha_max);
+    int ER = MinMax_of_Mat(pMA_In_Alpha, &alpha_min, &alpha_max);
+    if(ER != ER_okay)
+        return ER;
     double alpha_range = alpha_max - alpha_min;
 
     //check channels
     if(heat_color)
     {
         double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
-        uchar* ptr_value = reinterpret_cast<uchar*>(MA_tmp_value_8bit.data);
+        uchar* ptr_value = reinterpret_cast<uchar*>(pMA_In_Value->data);
         Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
         for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
         {
@@ -1324,12 +1363,12 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
     }
     else
     {
-        switch (MA_tmp_value_8bit.type()) {
+        switch (pMA_In_Value->type()) {
 
         case CV_8UC1:
         {
             double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
-            uchar* ptr_value = reinterpret_cast<uchar*>(MA_tmp_value_8bit.data);
+            uchar* ptr_value = reinterpret_cast<uchar*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
             for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
@@ -1343,7 +1382,7 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
         case CV_8UC2:
         {
             double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
-            Vec2b* ptr_value = reinterpret_cast<Vec2b*>(MA_tmp_value_8bit.data);
+            Vec2b* ptr_value = reinterpret_cast<Vec2b*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
             for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
@@ -1360,7 +1399,7 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
         case CV_8UC3:
         {
             double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
-            Vec3b* ptr_value = reinterpret_cast<Vec3b*>(MA_tmp_value_8bit.data);
+            Vec3b* ptr_value = reinterpret_cast<Vec3b*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
             for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
@@ -1376,29 +1415,15 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
 
         case CV_8UC4:
         {
-            double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
-            Vec4b* ptr_value = reinterpret_cast<Vec4b*>(MA_tmp_value_8bit.data);
-            Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
-            for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
-            {
-                Vec4b color = *ptr_value;
-                uchar b = color[0];
-                uchar g = color[1];
-                uchar r = color[2];
-              //uchar a = color[3];
-                uchar alpha = alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255);
-                *ptr_out = Vec4b(b, g, r, alpha);
-            }
+            *pMA_Out = pMA_In_Value->clone();
         }
             break;
 
         default:
-            MA_tmp_value_8bit.release();
             return ER_type_bad;
         }
     }
 
-    MA_tmp_value_8bit.release();
     return ER_okay;
 }
 
@@ -1407,6 +1432,29 @@ int D_Img_Proc::Convert_toQImage4Ch(QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA
     //calc Mat version
     Mat MA_tmp;
     int ER = Convert_toMat4Ch(
+                &MA_tmp,
+                pMA_In_Value,
+                pMA_In_Alpha,
+                heat_color);
+    if(ER != ER_okay)
+    {
+        MA_tmp.release();
+        return ER;
+    }
+
+    //convert to QImage
+    ER = Convert_Mat_to_QImage(
+                pQI_Out,
+                &MA_tmp);
+    MA_tmp.release();
+    return ER;
+}
+
+int D_Img_Proc::Convert_toQImage4Ch_8bit(QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color)
+{
+    //calc Mat version
+    Mat MA_tmp;
+    int ER = Convert_toMat4Ch_8bit(
                 &MA_tmp,
                 pMA_In_Value,
                 pMA_In_Alpha,

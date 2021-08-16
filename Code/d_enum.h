@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_9_2";
-const QString           D_QS_Release  = "11.08.2021";
+const QString           D_QS_Version  = "v1_9_3";
+const QString           D_QS_Release  = "12.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -1066,6 +1066,8 @@ enum D_MATH_6D_TO_1D
     c_MATH_6D_TO_1D_CYLINDER_3D,
     c_MATH_6D_TO_1D_ASM_REAL,
     c_MATH_6D_TO_1D_ASM_IMAG,
+    c_MATH_6D_TO_1D_TEST_3D_CHESS,
+    c_MATH_6D_TO_1D_TEST_3D_Z_LAYERS,
     c_MATH_6D_TO_1D_NUMBER_OF
 };
 const QStringList QSL_Math_6D_to_1D =
@@ -1076,6 +1078,8 @@ const QStringList QSL_Math_6D_to_1D =
     "Ellipic Cylinder 3D a=value, b=rx, c=ry, d=h, e=rot_z, f=rot_y",
     "ASM, Phase Factor, REAL, a=k, b=lambda, e=rot_z, f=rot_y",
     "ASM, Phase Factor, IMAG, a=k, b=lambda, e=rot_z, f=rot_y",
+    "Testing 3D chess board",
+    "Testing 3D z layers"
 };
 
 enum D_MATH_ND_TO_1D

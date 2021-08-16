@@ -302,14 +302,14 @@ private:
 
     enum c_Presets
     {
-        c_PRESET_MAIK,
-        c_PRESET_NICOLE,
+        c_PRESET_NIKON,
+        c_PRESET_LEICA,
         c_PRESET_NUMBER_OF
     };
     QStringList QSL_PresetNames =
     {
-        "Maik - Nikon",     //Nikon X
-        "Nicole - Leica"    //Leica
+        "Nikon",
+        "Leica"
     };
 
     enum c_Parameters

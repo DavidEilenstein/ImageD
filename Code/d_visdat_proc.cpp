@@ -13,7 +13,7 @@ D_VisDat_Proc::D_VisDat_Proc()
     //never call it (wrapper class - all methods static)
 }
 
-int D_VisDat_Proc::PlaneDim_1st(size_t plane_index)
+int D_VisDat_Proc::PlaneDim_1st(int plane_index)
 {
     switch (plane_index) {
     case c_PLANE_XY:    return c_DIM_X;
@@ -31,11 +31,10 @@ int D_VisDat_Proc::PlaneDim_1st(size_t plane_index)
     case c_PLANE_TS:    return c_DIM_T;
     case c_PLANE_TP:    return c_DIM_T;
     case c_PLANE_SP:    return c_DIM_S;
-    default:            return -1;
-    }
+    default:            return -1;}
 }
 
-int D_VisDat_Proc::PlaneDim_2nd(size_t plane_index)
+int D_VisDat_Proc::PlaneDim_2nd(int plane_index)
 {
     switch (plane_index) {
     case c_PLANE_XY:    return c_DIM_Y;
@@ -53,7 +52,163 @@ int D_VisDat_Proc::PlaneDim_2nd(size_t plane_index)
     case c_PLANE_TS:    return c_DIM_S;
     case c_PLANE_TP:    return c_DIM_P;
     case c_PLANE_SP:    return c_DIM_P;
-    default:            return -1;
+    default:            return -1;}
+}
+
+vector<int> D_VisDat_Proc::PlaneDims(int plane_index)
+{
+    return vector<int>{PlaneDim_1st(plane_index), PlaneDim_2nd(plane_index)};
+}
+
+int D_VisDat_Proc::VolumeDim_1st(int volume_index)
+{
+    switch (volume_index) {
+    case c_VOLUME_XYZ:      return c_DIM_X;
+    case c_VOLUME_XYT:      return c_DIM_X;
+    case c_VOLUME_XYS:      return c_DIM_X;
+    case c_VOLUME_XYP:      return c_DIM_X;
+    case c_VOLUME_XZT:      return c_DIM_X;
+    case c_VOLUME_XZS:      return c_DIM_X;
+    case c_VOLUME_XZP:      return c_DIM_X;
+    case c_VOLUME_XTS:      return c_DIM_X;
+    case c_VOLUME_XTP:      return c_DIM_X;
+    case c_VOLUME_XSP:      return c_DIM_X;
+    case c_VOLUME_YZT:      return c_DIM_Y;
+    case c_VOLUME_YZS:      return c_DIM_Y;
+    case c_VOLUME_YZP:      return c_DIM_Y;
+    case c_VOLUME_YTS:      return c_DIM_Y;
+    case c_VOLUME_YTP:      return c_DIM_Y;
+    case c_VOLUME_YSP:      return c_DIM_Y;
+    case c_VOLUME_ZTS:      return c_DIM_Z;
+    case c_VOLUME_ZTP:      return c_DIM_Z;
+    case c_VOLUME_ZSP:      return c_DIM_Z;
+    case c_VOLUME_TSP:      return c_DIM_T;
+    default:                return -1;}
+}
+
+int D_VisDat_Proc::VolumeDim_2nd(int volume_index)
+{
+    switch (volume_index) {
+    case c_VOLUME_XYZ:      return c_DIM_Y;
+    case c_VOLUME_XYT:      return c_DIM_Y;
+    case c_VOLUME_XYS:      return c_DIM_Y;
+    case c_VOLUME_XYP:      return c_DIM_Y;
+    case c_VOLUME_XZT:      return c_DIM_Z;
+    case c_VOLUME_XZS:      return c_DIM_Z;
+    case c_VOLUME_XZP:      return c_DIM_Z;
+    case c_VOLUME_XTS:      return c_DIM_T;
+    case c_VOLUME_XTP:      return c_DIM_T;
+    case c_VOLUME_XSP:      return c_DIM_S;
+    case c_VOLUME_YZT:      return c_DIM_Z;
+    case c_VOLUME_YZS:      return c_DIM_Z;
+    case c_VOLUME_YZP:      return c_DIM_Z;
+    case c_VOLUME_YTS:      return c_DIM_T;
+    case c_VOLUME_YTP:      return c_DIM_T;
+    case c_VOLUME_YSP:      return c_DIM_S;
+    case c_VOLUME_ZTS:      return c_DIM_T;
+    case c_VOLUME_ZTP:      return c_DIM_T;
+    case c_VOLUME_ZSP:      return c_DIM_S;
+    case c_VOLUME_TSP:      return c_DIM_S;
+    default:                return -1;}
+}
+
+int D_VisDat_Proc::VolumeDim_3rd(int volume_index)
+{
+    switch (volume_index) {
+    case c_VOLUME_XYZ:      return c_DIM_Z;
+    case c_VOLUME_XYT:      return c_DIM_T;
+    case c_VOLUME_XYS:      return c_DIM_S;
+    case c_VOLUME_XYP:      return c_DIM_P;
+    case c_VOLUME_XZT:      return c_DIM_T;
+    case c_VOLUME_XZS:      return c_DIM_S;
+    case c_VOLUME_XZP:      return c_DIM_P;
+    case c_VOLUME_XTS:      return c_DIM_S;
+    case c_VOLUME_XTP:      return c_DIM_P;
+    case c_VOLUME_XSP:      return c_DIM_P;
+    case c_VOLUME_YZT:      return c_DIM_T;
+    case c_VOLUME_YZS:      return c_DIM_S;
+    case c_VOLUME_YZP:      return c_DIM_P;
+    case c_VOLUME_YTS:      return c_DIM_S;
+    case c_VOLUME_YTP:      return c_DIM_P;
+    case c_VOLUME_YSP:      return c_DIM_P;
+    case c_VOLUME_ZTS:      return c_DIM_S;
+    case c_VOLUME_ZTP:      return c_DIM_P;
+    case c_VOLUME_ZSP:      return c_DIM_P;
+    case c_VOLUME_TSP:      return c_DIM_P;
+    default:                return -1;}
+}
+
+vector<int> D_VisDat_Proc::VolumeDims(int volume_index)
+{
+    return vector<int>{VolumeDim_1st(volume_index), VolumeDim_2nd(volume_index), VolumeDim_3rd(volume_index)};
+}
+
+int D_VisDat_Proc::PlaneFromDims(int d1, int d2)
+{
+    switch (d1) {
+
+    case c_DIM_X:
+        switch (d2) {
+        case c_DIM_X:   return -1;
+        case c_DIM_Y:   return c_PLANE_XY;
+        case c_DIM_Z:   return c_PLANE_XZ;
+        case c_DIM_T:   return c_PLANE_XT;
+        case c_DIM_S:   return c_PLANE_XS;
+        case c_DIM_P:   return c_PLANE_XP;
+        default:        return -1;}
+
+    case c_DIM_Y:
+        switch (d2) {
+        case c_DIM_X:   return c_PLANE_XY;
+        case c_DIM_Y:   return -1;
+        case c_DIM_Z:   return c_PLANE_YZ;
+        case c_DIM_T:   return c_PLANE_YT;
+        case c_DIM_S:   return c_PLANE_YS;
+        case c_DIM_P:   return c_PLANE_YP;
+        default:        return -1;}
+
+    case c_DIM_Z:
+        switch (d2) {
+        case c_DIM_X:   return c_PLANE_XZ;
+        case c_DIM_Y:   return c_PLANE_YZ;
+        case c_DIM_Z:   return -1;
+        case c_DIM_T:   return c_PLANE_ZT;
+        case c_DIM_S:   return c_PLANE_ZS;
+        case c_DIM_P:   return c_PLANE_ZP;
+        default:        return -1;}
+
+    case c_DIM_T:
+        switch (d2) {
+        case c_DIM_X:   return c_PLANE_XT;
+        case c_DIM_Y:   return c_PLANE_YT;
+        case c_DIM_Z:   return c_PLANE_ZT;
+        case c_DIM_T:   return -1;
+        case c_DIM_S:   return c_PLANE_ZS;
+        case c_DIM_P:   return c_PLANE_ZP;
+        default:        return -1;}
+
+    case c_DIM_S:
+        switch (d2) {
+        case c_DIM_X:   return c_PLANE_XS;
+        case c_DIM_Y:   return c_PLANE_YS;
+        case c_DIM_Z:   return c_PLANE_ZS;
+        case c_DIM_T:   return c_PLANE_TS;
+        case c_DIM_S:   return -1;
+        case c_DIM_P:   return c_PLANE_SP;
+        default:        return -1;}
+
+    case c_DIM_P:
+        switch (d2) {
+        case c_DIM_X:   return c_PLANE_XP;
+        case c_DIM_Y:   return c_PLANE_YP;
+        case c_DIM_Z:   return c_PLANE_ZP;
+        case c_DIM_T:   return c_PLANE_TP;
+        case c_DIM_S:   return c_PLANE_SP;
+        case c_DIM_P:   return -1;
+        default:        return -1;}
+
+    default:
+        return -1;
     }
 }
 
@@ -107,7 +262,6 @@ int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *)> img_pro
 
     default:
         return ER_dim_missmatch;
-        break;
     }
 
     //synch threads
@@ -176,7 +330,6 @@ int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *, Mat *)> 
 
     default:
         return ER_dim_missmatch;
-        break;
     }
 
 
@@ -249,7 +402,6 @@ int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *, Mat *, M
 
     default:
         return ER_dim_missmatch;
-        break;
     }
 
 
@@ -325,7 +477,6 @@ int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *, Mat *, M
 
     default:
         return ER_dim_missmatch;
-        break;
     }
 
 
@@ -404,7 +555,6 @@ int D_VisDat_Proc::Wrap_VD(D_VisDat_Slicing slice, function<int (Mat *, Mat *, M
 
     default:
         return ER_dim_missmatch;
-        break;
     }
 
 

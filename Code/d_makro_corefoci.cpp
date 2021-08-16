@@ -1701,85 +1701,85 @@ void D_MAKRO_CoreFoci::Parameters_Init()
     vvd_ParameterPresets_SetPar.clear();
     vvd_ParameterPresets_SetPar.resize(c_PRESET_NUMBER_OF);
 
-    //MAIK
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK].clear();
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK].resize(c_PAR_NUMBER_OF);
+    //NIKON
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON].clear();
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON].resize(c_PAR_NUMBER_OF);
 
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_BLUR_SIZE]             = 33.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_BLUR_SIGMA]            = 26.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_THRES_SIZE]            = 401.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_THRES_OFFSET]          = -2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_AREA_FILL]             = 450000.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_EILENSTEIN_SIZE]       = 25.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_EILENSTEIN_OFFSET]     = 0.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_LOCMAX_THRES]          = 208.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_REMOVE_SMALL]          = 5.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_CONNECT_NEAR]          = 29.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_EXCULDE_BORDER]        = 0.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_AREA_DIST_MIN]         = 1;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_AREA_DIST_MAX]         = 2;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_AREA_MAX_SMALL]        = 2500;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_NUC_AREA_MIN_BIG]          = 4000;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIZE]             = 33.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIGMA]            = 26.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_SIZE]            = 401.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_OFFSET]          = -2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_FILL]             = 450000.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_EILENSTEIN_SIZE]       = 25.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_EILENSTEIN_OFFSET]     = 0.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_LOCMAX_THRES]          = 208.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_REMOVE_SMALL]          = 5.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_CONNECT_NEAR]          = 29.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_EXCULDE_BORDER]        = 0.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_DIST_MIN]         = 1;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_DIST_MAX]         = 2;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_MAX_SMALL]        = 2500;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_MIN_BIG]          = 4000;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CYT_BLUR_SIZE]             = 15.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CYT_BLUR_SIGMA]            = 7.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CTT_THRES_SIZE]            = 31;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CYT_THRES_SIGMA]           = -2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CYT_CLOSE_HOLES]           = 105.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_CYT_MARGIN]                = 27.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_BLUR_SIZE]             = 15.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_BLUR_SIGMA]            = 7.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CTT_THRES_SIZE]            = 31;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_THRES_SIGMA]           = -2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_CLOSE_HOLES]           = 105.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_MARGIN]                = 27.0;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_FOCI_BLUR_SIZE]            = 13.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_FOCI_BLUR_SIGMA]           = 6.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][c_PAR_FOCI_THRES_SIZE]           = 51.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_THRES_SIGMA]          = 0.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_MARGIN]               = 25.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_CONNECT_NEAR]         = 3.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_AREA_MIN]             = 5.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_AREA_MAX]             = 1000.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_EXCLUDE_BORDER]       = 1.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_FOCI_BLUR_SIZE]            = 13.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_FOCI_BLUR_SIGMA]           = 6.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_FOCI_THRES_SIZE]           = 51.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_THRES_SIGMA]          = 0.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_MARGIN]               = 25.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_CONNECT_NEAR]         = 3.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_AREA_MIN]             = 5.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_AREA_MAX]             = 1000.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_EXCLUDE_BORDER]       = 1.0;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_MAIK][C_PAR_FOCI_RES_MAX_EXPECTED]     = 15000.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_RES_MAX_EXPECTED]     = 15000.0;
 
 
 
-    //NICOLE
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE].clear();
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE].resize(c_PAR_NUMBER_OF);
+    //LEICA
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA].clear();
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA].resize(c_PAR_NUMBER_OF);
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_BLUR_SIZE]           = 3.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_BLUR_SIGMA]          = 18.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_THRES_SIZE]          = 201.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_THRES_OFFSET]        = -2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_AREA_FILL]           = 100000.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_EILENSTEIN_SIZE]     = 25.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_EILENSTEIN_OFFSET]   = 0.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_LOCMAX_THRES]        = 208.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_REMOVE_SMALL]        = 5.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_CONNECT_NEAR]        = 5.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_EXCULDE_BORDER]      = 0.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_AREA_DIST_MIN]       = 1;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_AREA_DIST_MAX]       = 2;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_AREA_MAX_SMALL]      = 250;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_NUC_AREA_MIN_BIG]        = 500;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_BLUR_SIZE]           = 3.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_BLUR_SIGMA]          = 18.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_THRES_SIZE]          = 201.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_THRES_OFFSET]        = -2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_AREA_FILL]           = 100000.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_EILENSTEIN_SIZE]     = 25.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_EILENSTEIN_OFFSET]   = 0.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_LOCMAX_THRES]        = 208.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_REMOVE_SMALL]        = 5.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_CONNECT_NEAR]        = 5.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_EXCULDE_BORDER]      = 0.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_AREA_DIST_MIN]       = 1;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_AREA_DIST_MAX]       = 2;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_AREA_MAX_SMALL]      = 250;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_NUC_AREA_MIN_BIG]        = 500;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CYT_BLUR_SIZE]           = 7.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CYT_BLUR_SIGMA]          = 7.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CTT_THRES_SIZE]          = 15.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CYT_THRES_SIGMA]         = -2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CYT_CLOSE_HOLES]         = 43.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_CYT_MARGIN]              = 15.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CYT_BLUR_SIZE]           = 7.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CYT_BLUR_SIGMA]          = 7.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CTT_THRES_SIZE]          = 15.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CYT_THRES_SIGMA]         = -2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CYT_CLOSE_HOLES]         = 43.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_CYT_MARGIN]              = 15.0;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_FOCI_BLUR_SIZE]          = 7.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_FOCI_BLUR_SIGMA]         = 6.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][c_PAR_FOCI_THRES_SIZE]         = 31.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_THRES_SIGMA]        = -13.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_MARGIN]             = 11.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_CONNECT_NEAR]       = 3.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_AREA_MIN]           = 2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_AREA_MAX]           = 250.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_EXCLUDE_BORDER]     = 1.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_FOCI_BLUR_SIZE]          = 7.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_FOCI_BLUR_SIGMA]         = 6.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][c_PAR_FOCI_THRES_SIZE]         = 31.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_THRES_SIGMA]        = -13.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_MARGIN]             = 11.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_CONNECT_NEAR]       = 3.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_AREA_MIN]           = 2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_AREA_MAX]           = 250.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_EXCLUDE_BORDER]     = 1.0;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NICOLE][C_PAR_FOCI_RES_MAX_EXPECTED]   = 255.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_RES_MAX_EXPECTED]   = 255.0;
 }
 
 void D_MAKRO_CoreFoci::Parameters_ActivatePreset()
