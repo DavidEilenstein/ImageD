@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_9_3";
-const QString           D_QS_Release  = "12.08.2021";
+const QString           D_QS_Version  = "v1_9_4";
+const QString           D_QS_Release  = "17.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -144,6 +144,7 @@ enum D_ERROR_ENUM {
     ER_UiNotInit,
     ER_UiPutInFail,
     ER_ThreadIssue,
+    ER_MemSizeToBig,
     ER_number_of
 };
 const QStringList QSL_Errors = {
@@ -193,7 +194,8 @@ const QStringList QSL_Errors = {
     "Ui is allready initialized",
     "Ui is not initialized",
     "Failed to put element in ui",
-    "Thread issue"
+    "Thread issue",
+    "Too much memory needed for object"
 };
 
 enum D_DIM_INDICES {
@@ -441,6 +443,30 @@ const QStringList QSL_Viewer3D_Axis = {
     "Saturation",
     "Value",
     "Index"
+};
+
+enum D_VIEWER_3D_ALPHA {
+    c_VIEWER_3D_ALPHA_MAX,
+    c_VIEWER_3D_ALPHA_CHANNEL_0,
+    c_VIEWER_3D_ALPHA_CHANNEL_1,
+    c_VIEWER_3D_ALPHA_CHANNEL_2,
+    c_VIEWER_3D_ALPHA_CHANNEL_3,
+    c_VIEWER_3D_ALPHA_CHANNEL_MIN,
+    c_VIEWER_3D_ALPHA_CHANNEL_MAX,
+    c_VIEWER_3D_ALPHA_CHANNEL_MEAN,
+    c_VIEWER_3D_ALPHA_CHANNEL_SQUARE_MEAN,
+    c_VIEWER_3D_ALPHA_NUMBER_OF
+};
+const QStringList QSL_Viewer3D_Alpha = {
+    "Opac",
+    "Channel 0",
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel Min",
+    "Channel Max",
+    "Channel Mean",
+    "Ch. Square Mean"
 };
 
 enum D_VIEWER_PLOT_3D_TEXTURE {

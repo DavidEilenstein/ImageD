@@ -26,6 +26,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QColorDialog>
 #include <QFileInfo>
 #include <QDir>
 #include <QElapsedTimer>
@@ -33,11 +34,13 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QPushButton>
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
 #include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QSpacerItem>
 #include <QWidget>
 #include <QtCore/qmath.h>
@@ -89,6 +92,10 @@ public slots:
     //clear
     void        clear_graph();
 
+    //update
+    int         Update_Graph();
+    int         Update_Slices();
+
     //set VD
     int         set_VisDat(D_VisDat_Obj *pVD_toShow);
 
@@ -113,10 +120,12 @@ public slots:
     int         Dim_extended1()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[1] : -1;}
     int         Dim_extended2()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[2] : -1;}
     vector<int> Dims_extended()                                                     {return v_dims_extended;}
+    bool        Dim_is_extended(int d)                                              {return (d == Dim_extended0()) || (d == Dim_extended1()) || (d == Dim_extended2());}
     int         Dim_fix0()                                                          {return v_dims_fix.size() == 3 ? v_dims_fix[0] : -1;}
     int         Dim_fix1()                                                          {return v_dims_fix.size() == 3 ? v_dims_fix[1] : -1;}
     int         Dim_fix2()                                                          {return v_dims_fix.size() == 3 ? v_dims_fix[2] : -1;}
     vector<int> Dims_fix()                                                          {return v_dims_fix;}
+    int         Dim_is_fix(int d)                                                   {return !Dim_is_extended(d);}
     int         Plane_SliceXY()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended0(), Dim_extended1());}
     int         Plane_SliceXZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended0(), Dim_extended2());}
     int         Plane_SliceYZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended1(), Dim_extended2());}
@@ -126,15 +135,26 @@ private slots:
 
     void            on_VolumeCurrent_Changed(int vol);
 
-    int             Update_Graph();
-
     //texture
     int             TextureData_CalcNew();
-    int             Slice_2D_Mat_from_VD(Mat *pMA_SliceOut, D_VisDat_Slice_2D slice);
-    int             Slice_2D_QImage_from_VD(QImage *pQI_SliceOut, D_VisDat_Slice_2D slice);
+    int             Slice_2D_Mat_from_VD(Mat *pMA_SliceOut, D_VisDat_Slice_2D slice, double min_global, double max_global);
     int             TextureData_AppendSlice(Mat *pMA_toAppend, size_t slice_number);
-    int             TextureData_AppendSlice(QImage *pQI_toAppend);
     int             Show_Texture();
+
+    void            set_VolumeScalingAndPosition();
+    void            set_TextureSize();
+
+    void            set_HD_shader(bool hd);
+    void            set_preserve_opacity(bool preserve);
+    void            set_draw_slices(bool draw);
+    void            set_alpha_multiplier(double factor);
+
+    void            change_graph_background_color();
+
+    void            check_volume_changes_and_trigger_slots();
+
+    void            adapt_alpha_multiplier_step(double value);
+    void            adapt_depth_scale_step(double value);
 
 signals:
 
@@ -149,27 +169,41 @@ private:
     void Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index = 0);
 
     //ui elements
+
     //layouts
     QGridLayout             *ui_layout_target;
     QGroupBox               *ui_GroupBox_3D_graph;
     QGroupBox               *ui_GroupBox_2D_slices;
     QGroupBox               *ui_GroupBox_Settings;
     QGroupBox               *ui_GroupBox_Settings_Volume;
-    QGroupBox               *ui_GroupBox_Settings_DrawCondition;
+  //QGroupBox               *ui_GroupBox_Settings_DrawCondition;
     QGroupBox               *ui_GroupBox_Settings_Alpha;
-    QGroupBox               *ui_GroupBox_Settings_Graphics_Slices;
-    QGroupBox               *ui_GroupBox_Settings_Graphics_Appearance;
+    QGroupBox               *ui_GroupBox_Settings_Graphics;
+
     //volume and slicing
     QComboBox               *ui_ComboBox_Volume;
     vector<QSpinBox*>       vui_SpinBox_DimIndices;
+
+    //slices
+    QLabel                  *ui_Label_2dSlice_XY;
+    QLabel                  *ui_Label_2dSlice_XZ;
+    QLabel                  *ui_Label_2dSlice_YZ;
+    vector<QLabel*>         vui_Label_2dSlices;
+
     //settings
+
     //draw conditions
+
     //alpha
+    QComboBox               *ui_ComboBox_AlphaMode;
+    QDoubleSpinBox          *ui_DoubleSpinBox_AlphaMultiplier;
+
     //graphics
-    QCheckBox               *ui_CheckBox_Slices_ShowFrames;
-    QCheckBox               *ui_CheckBox_Slices_SliceX;
-    QCheckBox               *ui_CheckBox_Slices_SliceY;
-    QCheckBox               *ui_CheckBox_Slices_SliceZ;
+    QPushButton             *ui_PushButton_BackgroundColor;
+    QDoubleSpinBox          *ui_DoubleSpinBox_ScaleDepth;
+    QCheckBox               *ui_CheckBox_HeatColor;
+    QCheckBox               *ui_CheckBox_Slices_Show;
+    QCheckBox               *ui_CheckBox_Slices_SliceVolume;
     QCheckBox               *ui_CheckBox_Shader_HD;
     QCheckBox               *ui_CheckBox_OpacityPreserve;
     QSpacerItem             *ui_spacer_Settings;
@@ -179,6 +213,7 @@ private:
 
     //selected volume
     int                     volume_index_current = c_VOLUME_XYZ;
+    vector<int>             v_dim_indeces_last = {0, 0, 0, 0, 0, 0};
     vector<int>             v_dims_extended = {c_DIM_X, c_DIM_Y, c_DIM_Z};
     vector<int>             v_dims_fix = {c_DIM_T, c_DIM_S, c_DIM_P};
 

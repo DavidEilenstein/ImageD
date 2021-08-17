@@ -335,6 +335,7 @@ void D_StepWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     Update_View();
+    Viewer_3D.Update_Slices();
 }
 
 void D_StepWindow::closeEvent(QCloseEvent *event)

@@ -91,9 +91,12 @@ public:
     static int      Convert_Mat_to_QImage       (QImage *pQI_Out, Mat *pMA_In);
     static int      Convert_QImage_to_Mat       (Mat *pMA_Out, QImage *pQI_In);
     static int      Convert_toMat4Ch            (Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color);
-    static int      Convert_toMat4Ch_8bit       (Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color = false);
+    static int      Convert_toMat4Ch_8bit       (Mat *pMA_Out, Mat *pMA_In, int alpha_mode, bool heat_color = false, bool norm_alpha = true);
+    static int      Convert_toMat4Ch_8bit       (Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color = false, bool norm_alpha = true);
     static int      Convert_toQImage4Ch         (QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color);
     static int      Convert_toQImage4Ch_8bit    (QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color = false);
+
+
 
     static int      MinMax_of_Mat               (Mat *pMA_In, double *min_ext, double *max_ext);
     static int      MinMax_of_Mat_1C            (Mat *pMA_In, double *min_ext, double *max_ext);

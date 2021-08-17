@@ -1303,7 +1303,328 @@ int D_Img_Proc::Convert_toMat4Ch(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Al
     return ER;
 }
 
-int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color)
+int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In, int alpha_mode, bool heat_color, bool norm_alpha)
+{
+    if(pMA_In->empty())                                             return ER_empty;
+    if(pMA_In->depth() != CV_8U)                                    return ER_bitdepth_bad;
+    if(pMA_In->channels() != 1 && heat_color)                       return ER_parameter_missmatch;
+
+    //img size
+    int w = pMA_In->cols;
+    int h = pMA_In->rows;
+    int area = w * h;
+
+    //alpha image
+    Mat MA_tmp_alpha;
+
+    //mode switch
+    switch (alpha_mode)
+    {
+
+    case c_VIEWER_3D_ALPHA_MAX://-------------------------------------------------------------------------------------------------
+        MA_tmp_alpha = Mat(h, w, CV_8UC1, Scalar(255));
+        break;
+
+    case c_VIEWER_3D_ALPHA_CHANNEL_0://-------------------------------------------------------------------------------------------
+    case c_VIEWER_3D_ALPHA_CHANNEL_1:
+    case c_VIEWER_3D_ALPHA_CHANNEL_2:
+    case c_VIEWER_3D_ALPHA_CHANNEL_3:
+    {
+        //get channels count
+        int ch_pick = 0;
+        switch (alpha_mode) {
+        case c_VIEWER_3D_ALPHA_CHANNEL_0:   ch_pick = 0;    break;
+        case c_VIEWER_3D_ALPHA_CHANNEL_1:   ch_pick = 1;    break;
+        case c_VIEWER_3D_ALPHA_CHANNEL_2:   ch_pick = 2;    break;
+        case c_VIEWER_3D_ALPHA_CHANNEL_3:   ch_pick = 3;    break;}
+
+        //check, if channels are compatible
+        if(ch_pick >= pMA_In->channels())
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+            break;
+        }
+
+        //init out
+        MA_tmp_alpha = Mat(h, w, CV_8UC1);
+        uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+        //channel switch
+        switch (pMA_In->channels())
+        {
+
+        case 1:
+        {
+            MA_tmp_alpha = pMA_In->clone();
+        }
+            break;
+
+        case 2:
+        {
+            Vec2b* ptr_in = reinterpret_cast<Vec2b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = (*ptr_in)[ch_pick];
+        }
+            break;
+
+        case 3:
+        {
+            Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = (*ptr_in)[ch_pick];
+        }
+            break;
+
+        case 4:
+        {
+            Vec4b* ptr_in = reinterpret_cast<Vec4b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = (*ptr_in)[ch_pick];
+        }
+            break;
+
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+
+    }
+        break;
+
+    case c_VIEWER_3D_ALPHA_CHANNEL_MIN://-------------------------------------------------------------------------------------------------
+    {
+        //init out
+        MA_tmp_alpha = Mat(h, w, CV_8UC1);
+        uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+        //channel switch
+        switch (pMA_In->channels())
+        {
+
+        case 1:
+        {
+            MA_tmp_alpha = pMA_In->clone();
+        }
+            break;
+
+        case 2:
+        {
+            Vec2b* ptr_in = reinterpret_cast<Vec2b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = min((*ptr_in)[0], (*ptr_in)[1]);
+        }
+            break;
+
+        case 3:
+        {
+            Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = min((*ptr_in)[0], min((*ptr_in)[1], (*ptr_in)[2]));
+        }
+            break;
+
+        case 4:
+        {
+            Vec4b* ptr_in = reinterpret_cast<Vec4b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = min((*ptr_in)[0], min((*ptr_in)[1], min((*ptr_in)[2], (*ptr_in)[3])));
+        }
+            break;
+
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+    }
+        break;
+
+    case c_VIEWER_3D_ALPHA_CHANNEL_MAX://-------------------------------------------------------------------------------------------------
+    {
+        //init out
+        MA_tmp_alpha = Mat(h, w, CV_8UC1);
+        uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+        //channel switch
+        switch (pMA_In->channels())
+        {
+
+        case 1:
+        {
+            MA_tmp_alpha = pMA_In->clone();
+        }
+            break;
+
+        case 2:
+        {
+            Vec2b* ptr_in = reinterpret_cast<Vec2b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = max((*ptr_in)[0], (*ptr_in)[1]);
+        }
+            break;
+
+        case 3:
+        {
+            Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = max((*ptr_in)[0], max((*ptr_in)[1], (*ptr_in)[2]));
+        }
+            break;
+
+        case 4:
+        {
+            Vec4b* ptr_in = reinterpret_cast<Vec4b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = max((*ptr_in)[0], max((*ptr_in)[1], max((*ptr_in)[2], (*ptr_in)[3])));
+        }
+            break;
+
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+    }
+        break;
+
+    case c_VIEWER_3D_ALPHA_CHANNEL_MEAN://-------------------------------------------------------------------------------------------------
+    {
+        //init out
+        MA_tmp_alpha = Mat(h, w, CV_8UC1);
+        uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+        //channel switch
+        switch (pMA_In->channels())
+        {
+
+        case 1:
+        {
+            MA_tmp_alpha = pMA_In->clone();
+        }
+            break;
+
+        case 2:
+        {
+            Vec2b* ptr_in = reinterpret_cast<Vec2b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = ((*ptr_in)[0] + (*ptr_in)[1]) / 2;
+        }
+            break;
+
+        case 3:
+        {
+            Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = ((*ptr_in)[0] + (*ptr_in)[1] + (*ptr_in)[2]) / 3;
+        }
+            break;
+
+        case 4:
+        {
+            Vec4b* ptr_in = reinterpret_cast<Vec4b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = ((*ptr_in)[0] + (*ptr_in)[1] + (*ptr_in)[2] + (*ptr_in)[3]) / 4;
+        }
+            break;
+
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+    }
+        break;
+
+    case c_VIEWER_3D_ALPHA_CHANNEL_SQUARE_MEAN://-------------------------------------------------------------------------------------------------
+    {
+        //init out
+        MA_tmp_alpha = Mat(h, w, CV_8UC1);
+        uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+        //channel switch
+        switch (pMA_In->channels())
+        {
+
+        case 1:
+        {
+            MA_tmp_alpha = pMA_In->clone();
+        }
+            break;
+
+        case 2:
+        {
+            Vec2b* ptr_in = reinterpret_cast<Vec2b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                uchar r = (*ptr_in)[0];
+                uchar g = (*ptr_in)[1];
+                *ptr_out = uchar(sqrt((r^2 + g^2) / 2));
+            }
+        }
+            break;
+
+        case 3:
+        {
+            Vec3b* ptr_in = reinterpret_cast<Vec3b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                uchar r = (*ptr_in)[0];
+                uchar g = (*ptr_in)[1];
+                uchar b = (*ptr_in)[2];
+                *ptr_out = uchar(sqrt((r^2 + g^2 + b^2) / 3));
+            }
+        }
+            break;
+
+        case 4:
+        {
+            Vec4b* ptr_in = reinterpret_cast<Vec4b*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                uchar r = (*ptr_in)[0];
+                uchar g = (*ptr_in)[1];
+                uchar b = (*ptr_in)[2];
+                uchar a = (*ptr_in)[3];
+                *ptr_out = uchar(sqrt((r^2 + g^2 + b^2 + a^2) / 4));
+            }
+        }
+            break;
+
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+    }
+        break;
+
+    default://-------------------------------------------------------------------------------------------------
+    {
+        MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+    }
+        break;
+    }
+
+    //merge to image with alpha channel
+    int ER = Convert_toMat4Ch_8bit(
+                pMA_Out,
+                pMA_In,
+                &MA_tmp_alpha,
+                heat_color,
+                norm_alpha);
+
+    //finish
+    MA_tmp_alpha.release();
+    return ER;
+}
+
+int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color, bool norm_alpha)
 {
     //errors
     if(pMA_In_Value->empty())                                       return ER_empty;
@@ -1320,28 +1641,32 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_
     //img size
     int w = pMA_In_Value->cols;
     int h = pMA_In_Value->rows;
-    int a = w * h;
+    int area = w * h;
 
     //output img
     *pMA_Out = Mat(h, w, CV_8UC4);
 
     //alpha range
-    double alpha_min, alpha_max;
-    int ER = MinMax_of_Mat(pMA_In_Alpha, &alpha_min, &alpha_max);
-    if(ER != ER_okay)
-        return ER;
+    double alpha_min = 0;
+    double alpha_max = 255;
+    if(norm_alpha)
+    {
+        int ER = MinMax_of_Mat(pMA_In_Alpha, &alpha_min, &alpha_max);
+        if(ER != ER_okay)
+            return ER;
+    }
     double alpha_range = alpha_max - alpha_min;
 
     //check channels
     if(heat_color)
     {
-        double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
+        uchar* ptr_alpha = reinterpret_cast<uchar*>(pMA_In_Alpha->data);
         uchar* ptr_value = reinterpret_cast<uchar*>(pMA_In_Value->data);
         Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
-        for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
+        for(int px = 0; px < area; px++, ptr_value++, ptr_alpha++, ptr_out++)
         {
             //calc alpha
-            uchar alpha = alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255);
+            uchar alpha = norm_alpha ? (alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255)) : (*ptr_alpha);
 
             //calc color
             uchar value = *ptr_value;
@@ -1367,30 +1692,30 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_
 
         case CV_8UC1:
         {
-            double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
+            uchar* ptr_alpha = reinterpret_cast<uchar*>(pMA_In_Alpha->data);
             uchar* ptr_value = reinterpret_cast<uchar*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
-            for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
+            for(int px = 0; px < area; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
-                uchar value = *ptr_value;
-                uchar alpha = alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255);
-                *ptr_out = Vec4b(value, value, value, alpha);
+                uchar v = *ptr_value;
+                uchar alpha = norm_alpha ? (alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255)) : (*ptr_alpha);
+                *ptr_out = Vec4b(v, v, v, alpha);
             }
         }
             break;
 
         case CV_8UC2:
         {
-            double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
+            uchar* ptr_alpha = reinterpret_cast<uchar*>(pMA_In_Alpha->data);
             Vec2b* ptr_value = reinterpret_cast<Vec2b*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
-            for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
+            for(int px = 0; px < area; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
                 Vec2b color = *ptr_value;
                 uchar b = color[0];
                 uchar g = color[1];
                 uchar r = 0;
-                uchar alpha = alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255);
+                uchar alpha = norm_alpha ? (alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255)) : (*ptr_alpha);
                 *ptr_out = Vec4b(b, g, r, alpha);
             }
         }
@@ -1398,16 +1723,16 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_
 
         case CV_8UC3:
         {
-            double* ptr_alpha = reinterpret_cast<double*>(pMA_In_Alpha->data);
+            uchar* ptr_alpha = reinterpret_cast<uchar*>(pMA_In_Alpha->data);
             Vec3b* ptr_value = reinterpret_cast<Vec3b*>(pMA_In_Value->data);
             Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
-            for(int px = 0; px < a; px++, ptr_value++, ptr_alpha++, ptr_out++)
+            for(int px = 0; px < area; px++, ptr_value++, ptr_alpha++, ptr_out++)
             {
                 Vec3b color = *ptr_value;
                 uchar b = color[0];
                 uchar g = color[1];
                 uchar r = color[2];
-                uchar alpha = alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255);
+                uchar alpha = norm_alpha ? (alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255)) : (*ptr_alpha);
                 *ptr_out = Vec4b(b, g, r, alpha);
             }
         }
@@ -1415,7 +1740,19 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_
 
         case CV_8UC4:
         {
-            *pMA_Out = pMA_In_Value->clone();
+            uchar* ptr_alpha = reinterpret_cast<uchar*>(pMA_In_Alpha->data);
+            Vec4b* ptr_value = reinterpret_cast<Vec4b*>(pMA_In_Value->data);
+            Vec4b* ptr_out = reinterpret_cast<Vec4b*>(pMA_Out->data);
+            for(int px = 0; px < area; px++, ptr_value++, ptr_alpha++, ptr_out++)
+            {
+                Vec4b color = *ptr_value;
+                uchar b = color[0];
+                uchar g = color[1];
+                uchar r = color[2];
+              //uchar a = color[3]; //not needeed here. if this channel is used, it comes from the alpha channel image
+                uchar alpha = norm_alpha ? (alpha_range == 0.0 ? 255 : uchar((((*ptr_alpha) - alpha_min) / alpha_range) * 255)) : (*ptr_alpha);
+                *ptr_out = Vec4b(b, g, r, alpha);
+            }
         }
             break;
 

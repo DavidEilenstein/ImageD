@@ -1561,7 +1561,7 @@ function<uchar (double val_in)> D_Math::Spread_2_8bit(double min, double max, fu
     return [F, div_8bit, offset](double val_in)
         {
         double val_res = F(val_in);
-        double val_scaled = (val_res - offset) / div_8bit;
+        double val_scaled = (div_8bit != 0.0) ? ((val_res - offset) / div_8bit) : (0);
         if(val_scaled < 0)
             return static_cast<uchar>(0);
         else if(val_scaled > 255)
@@ -1582,7 +1582,7 @@ function<double (double val_in)> D_Math::GammaCorrect_to01(double min, double ma
         {
             double val_arg = F_Limit(val_in);
             return pow(
-                        (val_arg - offset) / range,
+                        (range != 0.0) ? ((val_arg - offset) / range) : (0),
                         gamma);
     };
 }
@@ -1591,7 +1591,7 @@ function<double (double val_in)> D_Math::Log_Centered(double center, double divi
 {
     return [center, divisor](double val_in)
         {
-            double val_arg = (val_in - center) / divisor;
+            double val_arg = (divisor != 0.0) ? ((val_in - center) / divisor) : (0);
             if(val_arg < 0)
                 return -log(-val_arg + 1);
             else if(val_arg > 0)
@@ -1607,7 +1607,7 @@ function<double (double val_in)> D_Math::Log_Centered(double min, double max, do
 
     return [center, divisor, F_Limit](double val_in)
         {
-            double val_arg = (F_Limit(val_in) - center) / divisor;
+            double val_arg = (divisor != 0.0) ? ((F_Limit(val_in) - center) / divisor) : (0);
             if(val_arg < 0)
                 return -log(-val_arg + 1);
             else if(val_arg > 0)
