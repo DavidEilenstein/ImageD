@@ -14,6 +14,7 @@
 #include <d_error_handler.h>
 #include <d_visdat_obj.h>
 #include <d_visdat_proc.h>
+#include <d_viewer.h>
 
 //general
 #include <iostream>
@@ -38,6 +39,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QGraphicsView>
 #include <QLabel>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
@@ -101,19 +103,19 @@ public slots:
 
     //vis trafo
     void        Set_VisTrafo_ActiveInt  (int active = 1)                            {Set_VisTrafo_ActiveBool(active);}
-    void        Set_VisTrafo_ActiveBool (bool active = true)                        {vis_trafo_active = active;                 Update_Graph();}
-    void        Set_VisTrafo_Gamma      (double gamma = 1)                          {vis_trafo_gamma = gamma;                   Update_Graph();}
-    void        Set_VisTrafo_SpreadInMin(double spread_min = 0)                     {vis_trafo_in_min = spread_min;             Update_Graph();}
-    void        Set_VisTrafo_SpreadInMax(double spread_max = 255)                   {vis_trafo_in_max = spread_max;             Update_Graph();}
-    void        Set_VisTrafo_Center     (double center = 0)                         {vis_trafo_center = center;                 Update_Graph();}
-    void        Set_VisTrafo_Divisor    (double divisor = 0)                        {vis_trafo_divisor = divisor;               Update_Graph();}
-    void        Set_VisTrafo_Anchor     (double anchor = 127.5)                     {vis_trafo_anchor = anchor;                 Update_Graph();}
-    void        Set_VisTrafo_Range      (double range = 127.5)                      {vis_trafo_range = range;                   Update_Graph();}
-    void        Set_VisTrafo_Mode_Crop  (int mode = c_VIS_TRAFO_CROP_DYNAMIC)       {vis_trafo_mode_crop = mode;                Update_Graph();}
-    void        Set_VisTrafo_Mode_Trafo (int mode = c_VIS_TRAFO_LINEAR)             {vis_trafo_mode_trafo = mode;               Update_Graph();}
-    void        Set_VisTrafo_Mode_Anchor(int mode = c_VIS_TRAFO_ANCHOR_DYNAMIC)     {vis_trafo_mode_anchor = mode;              Update_Graph();}
-    void        Set_VisTrafo_Mode_Range (int mode = c_VIS_TRAFO_RANGE_DYNAMIC)      {vis_trafo_mode_range = mode;               Update_Graph();}
-    void        Set_VisTrafo_Mode_Complex(int mode = c_COMPLEX2REAL_RE_IM)          {vis_trafo_mode_complex = mode;             Update_Graph();}
+    void        Set_VisTrafo_ActiveBool (bool active = true)                        {vis_trafo_active = active;         for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_ActiveBool(active);       Update_Graph();}
+    void        Set_VisTrafo_Gamma      (double gamma = 1)                          {vis_trafo_gamma = gamma;           for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Gamma(gamma);             Update_Graph();}
+    void        Set_VisTrafo_SpreadInMin(double spread_min = 0)                     {vis_trafo_in_min = spread_min;     for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_SpreadInMin(spread_min);  Update_Graph();}
+    void        Set_VisTrafo_SpreadInMax(double spread_max = 255)                   {vis_trafo_in_max = spread_max;     for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_SpreadInMax(spread_max);  Update_Graph();}
+    void        Set_VisTrafo_Center     (double center = 0)                         {vis_trafo_center = center;         for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Center(center);           Update_Graph();}
+    void        Set_VisTrafo_Divisor    (double divisor = 0)                        {vis_trafo_divisor = divisor;       for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Divisor(divisor);         Update_Graph();}
+    void        Set_VisTrafo_Anchor     (double anchor = 127.5)                     {vis_trafo_anchor = anchor;         for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Anchor(anchor);           Update_Graph();}
+    void        Set_VisTrafo_Range      (double range = 127.5)                      {vis_trafo_range = range;           for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Range(range);             Update_Graph();}
+    void        Set_VisTrafo_Mode_Crop  (int mode = c_VIS_TRAFO_CROP_DYNAMIC)       {vis_trafo_mode_crop = mode;        for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Crop(mode);          Update_Graph();}
+    void        Set_VisTrafo_Mode_Trafo (int mode = c_VIS_TRAFO_LINEAR)             {vis_trafo_mode_trafo = mode;       for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Trafo(mode);         Update_Graph();}
+    void        Set_VisTrafo_Mode_Anchor(int mode = c_VIS_TRAFO_ANCHOR_DYNAMIC)     {vis_trafo_mode_anchor = mode;      for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Anchor(mode);        Update_Graph();}
+    void        Set_VisTrafo_Mode_Range (int mode = c_VIS_TRAFO_RANGE_DYNAMIC)      {vis_trafo_mode_range = mode;       for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Range(mode);         Update_Graph();}
+    void        Set_VisTrafo_Mode_Complex(int mode = c_COMPLEX2REAL_RE_IM)          {vis_trafo_mode_complex = mode;     for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Complex(mode);       Update_Graph();}
 
     int         Volume()                                                            {return volume_index_current;}
     int         Dim_extended0()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[0] : -1;}
@@ -185,10 +187,24 @@ private:
     vector<QSpinBox*>       vui_SpinBox_DimIndices;
 
     //slices
+    /*
     QLabel                  *ui_Label_2dSlice_XY;
     QLabel                  *ui_Label_2dSlice_XZ;
     QLabel                  *ui_Label_2dSlice_YZ;
     vector<QLabel*>         vui_Label_2dSlices;
+    */
+    vector<QGraphicsView*>  vui_GraphicsView_Slices2D;
+    D_Viewer                Viewer_Slice2D_X;
+    D_Viewer                Viewer_Slice2D_Y;
+    D_Viewer                Viewer_Slice2D_Z;
+    vector<D_Viewer*>       vViewer_Slices2D;
+    enum SLICE_2D {
+        SLICE_2D_X,
+        SLICE_2D_Y,
+        SLICE_2D_Z,
+        SLICE_2D_NUMBER_OF
+    };
+
 
     //settings
 
@@ -247,6 +263,7 @@ private:
     bool            state_VD_set = false;
     bool            state_texture_set = false;
     bool            state_graph_up2date = false;
+    bool            state_graph_updating = false;
 };
 
 

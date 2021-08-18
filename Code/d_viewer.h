@@ -62,6 +62,7 @@ public:
 
     //constructors
     D_Viewer();
+    //D_Viewer(D_Viewer &copy_viewer);
     D_Viewer(QGraphicsView *GV_ui);
     D_Viewer(QGraphicsView *GV_ui, QString viewer_name);
     D_Viewer(QGraphicsView *GV_ui, QDir default_dir);

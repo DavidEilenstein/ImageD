@@ -127,6 +127,20 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     }
 
     //Slices
+    vui_GraphicsView_Slices2D.reserve(SLICE_2D_NUMBER_OF);
+    vViewer_Slices2D = {&Viewer_Slice2D_X, &Viewer_Slice2D_Y, &Viewer_Slice2D_Z};
+    for(int i = 0; i < SLICE_2D_NUMBER_OF; i++)
+    {
+        vui_GraphicsView_Slices2D[i] = new QGraphicsView(this);
+        ui_GroupBox_2D_slices->layout()->addWidget(vui_GraphicsView_Slices2D[i]);
+        vViewer_Slices2D[i]->set_GV(vui_GraphicsView_Slices2D[i]);
+        vui_GraphicsView_Slices2D[i]->setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
+        vui_GraphicsView_Slices2D[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(Qt::darkGreen) + ";");
+        vui_GraphicsView_Slices2D[i]->setMouseTracking(true);
+    }
+
+    //Slices
+    /*
     ui_Label_2dSlice_XY = new QLabel(this);
     ui_Label_2dSlice_XZ = new QLabel(this);
     ui_Label_2dSlice_YZ = new QLabel(this);
@@ -136,7 +150,7 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
         ui_GroupBox_2D_slices->layout()->addWidget(vui_Label_2dSlices[i]);
         vui_Label_2dSlices[i]->setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
         vui_Label_2dSlices[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(Qt::darkGreen) + ";");
-    }
+    }*/
 
     //settings
 
@@ -344,36 +358,45 @@ void D_Viewer_3D::on_VolumeCurrent_Changed(int vol)
 
 int D_Viewer_3D::Update_Graph()
 {
-    qDebug() << "D_Viewer_3D::Update_Graph" << "start";
+    qDebug() << "D_Viewer_3D::Update_Graph" << "start-----------------------------------";
 
     //errors
+    //if(state_graph_updating)    return ER_ThreadIssue;
     if(!state_ui_init)          return ER_UiNotInit;
     if(!state_VD_set)           return ER_empty;
-    int err = ER_okay;
+    qDebug() << "D_Viewer_3D::Update_Graph" << "error checks passed";
 
     //update states
+    state_graph_updating = true;
     state_texture_set = false;
     state_graph_up2date = false;
 
     //clear old
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "clear graph";
     clear_graph();
 
     //update the texture
-    err = TextureData_CalcNew();
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "calc texture";
+    int err = TextureData_CalcNew();
     if(err != ER_okay)
     {
-        return err;
         ERR(err, "Update_Graph", "TextureData_CalcNew");
+        state_graph_updating = false;
+        return err;
     }
 
     //show texture in graph
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "show texture";
     Show_Texture();
 
     //update slices
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "slice";
     Update_Slices();
 
     //update states and finish
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "finish";
     state_graph_up2date = true;
+    state_graph_updating = false;
     return ER_okay;
 }
 
@@ -390,15 +413,54 @@ int D_Viewer_3D::Update_Slices()
     int slice_index_y = vui_SpinBox_DimIndices[Dim_extended1()]->value();
     int slice_index_z = vui_SpinBox_DimIndices[Dim_extended2()]->value();
 
+    slice_index_x = max(0, min(slice_index_x, volume_item->textureWidth() - 1));
+    slice_index_y = max(0, min(slice_index_y, volume_item->textureHeight() - 1));
+    slice_index_z = max(0, min(slice_index_z, volume_item->textureDepth() - 1));
+
     volume_item->setDrawSlices(true);
 
     volume_item->setSliceIndexX(slice_vol ? slice_index_x : -1);
     volume_item->setSliceIndexY(slice_vol ? slice_index_y : -1);
     volume_item->setSliceIndexZ(slice_vol ? slice_index_z : -1);
 
-    ui_Label_2dSlice_YZ->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::XAxis, slice_index_x)).scaled(ui_Label_2dSlice_YZ->width() - 2, ui_Label_2dSlice_YZ->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
-    ui_Label_2dSlice_XZ->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::YAxis, slice_index_y)).scaled(ui_Label_2dSlice_XZ->width() - 2, ui_Label_2dSlice_XZ->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
-    ui_Label_2dSlice_XY->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::ZAxis, slice_index_z)).scaled(ui_Label_2dSlice_XY->width() - 2, ui_Label_2dSlice_XY->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
+    //loop 2D slices
+    for(int i = 0; i < SLICE_2D_NUMBER_OF; i++)
+    {
+        //get dim indices of slice plane dims
+        int plane_dim_0, plane_dim_1;
+        switch (i) {
+        case SLICE_2D_X:    plane_dim_0 = Dim_extended1();  plane_dim_1 = Dim_extended2();  break;
+        case SLICE_2D_Y:    plane_dim_0 = Dim_extended0();  plane_dim_1 = Dim_extended2();  break;
+        case SLICE_2D_Z:    plane_dim_0 = Dim_extended0();  plane_dim_1 = Dim_extended1();  break;
+        default:                                                                            return ER_parameter_bad;}
+
+        //loop dims to set slice indices
+        Vec<int, c_DIM_NUMBER_OF> slice_pos;
+        for(int d = 0; d < c_DIM_NUMBER_OF; d++)
+            slice_pos[d] = (d == plane_dim_0 || d == plane_dim_1) ? (-1) : (vui_SpinBox_DimIndices[d]->value());
+
+        //get 2D slice
+        Mat MA_tmp_slice_2D;
+        int err = D_VisDat_Proc::Read_2D_Plane(
+                    &MA_tmp_slice_2D,
+                    pVD_Data,
+                    D_VisDat_Slice_2D(slice_pos));
+        if(err != ER_okay)
+        {
+            MA_tmp_slice_2D.release();
+            return err;
+        }
+
+        //show 2D slice
+        vViewer_Slices2D[i]->Update_Image(&MA_tmp_slice_2D);
+
+        //free img
+        MA_tmp_slice_2D.release();
+    }
+
+    //ui_Label_2dSlice_YZ->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::XAxis, slice_index_x)).scaled(ui_Label_2dSlice_YZ->width() - 2, ui_Label_2dSlice_YZ->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
+    //ui_Label_2dSlice_XZ->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::YAxis, slice_index_y)).scaled(ui_Label_2dSlice_XZ->width() - 2, ui_Label_2dSlice_XZ->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
+    //ui_Label_2dSlice_XY->setPixmap(QPixmap::fromImage(volume_item->renderSlice(Qt::ZAxis, slice_index_z)).scaled(ui_Label_2dSlice_XY->width() - 2, ui_Label_2dSlice_XY->height() - 2, Qt::KeepAspectRatio, Qt::FastTransformation));
 
     return ER_okay;
 }
@@ -514,24 +576,24 @@ int D_Viewer_3D::Slice_2D_Mat_from_VD(Mat *pMA_SliceOut, D_VisDat_Slice_2D slice
     err = D_Img_Proc::Visualize_to8bit(
                 &MA_tmp_slice_vistrafo,
                 &MA_tmp_slice,
-                vis_trafo_mode_crop,
-                vis_trafo_mode_trafo,
-                vis_trafo_mode_anchor,
-                vis_trafo_mode_range,
-                vis_trafo_anchor,
-                vis_trafo_range,
-                vis_trafo_mode_crop == c_VIS_TRAFO_CROP_FIXED ? vis_trafo_in_min : min_global,
-                vis_trafo_mode_crop == c_VIS_TRAFO_CROP_FIXED ? vis_trafo_in_max : max_global,
-                vis_trafo_gamma,
-                vis_trafo_center,
-                vis_trafo_divisor,
+                vis_trafo_active ? vis_trafo_mode_crop : c_VIS_TRAFO_CROP_FIXED,
+                vis_trafo_active ? vis_trafo_mode_trafo : c_VIS_TRAFO_LINEAR,
+                vis_trafo_active ? vis_trafo_mode_anchor : c_VIS_TRAFO_ANCHOR_DYNAMIC,
+                vis_trafo_active ? vis_trafo_mode_range : c_VIS_TRAFO_RANGE_DYNAMIC,
+                vis_trafo_active ? vis_trafo_anchor : 0.0,
+                vis_trafo_active ? vis_trafo_range : 1.0,
+                vis_trafo_active ? (vis_trafo_mode_crop == c_VIS_TRAFO_CROP_FIXED ? vis_trafo_in_min : min_global) : min_global,
+                vis_trafo_active ? (vis_trafo_mode_crop == c_VIS_TRAFO_CROP_FIXED ? vis_trafo_in_max : max_global) : max_global,
+                vis_trafo_active ? vis_trafo_gamma : 1.0,
+                vis_trafo_active ? vis_trafo_center : 0.0,
+                vis_trafo_active ? vis_trafo_divisor : 1.0,
                 true,
-                vis_trafo_mode_complex);
+                vis_trafo_active ? vis_trafo_mode_complex : c_COMPLEX2REAL_RE_IM);
     if(err != ER_okay)
     {
         MA_tmp_slice.release();
         MA_tmp_slice_vistrafo.release();
-        ERR(err, "Slice_2D_Mat_from_VD", "D_Img_Proc::Visualize_to8bit");
+        ERR(err, "Slice_2D_Mat_from_VD", "D_Img_Proc::Visualize_to8bit/Normalize or clone");
         return err;
     }
 
@@ -708,9 +770,14 @@ void D_Viewer_3D::change_graph_background_color()
 
     ui_PushButton_BackgroundColor->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";\ncolor: " + D_Img_Proc::Color2Text4StyleSheet(D_Img_Proc::Contrast_Color(color)) + ";");
 
+    for(int i = 0; i < SLICE_2D_NUMBER_OF; i++)
+        vui_GraphicsView_Slices2D[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
+
+    /*
     ui_Label_2dSlice_XY->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
     ui_Label_2dSlice_XZ->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
     ui_Label_2dSlice_YZ->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
+    */
 }
 
 void D_Viewer_3D::check_volume_changes_and_trigger_slots()
