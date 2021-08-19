@@ -407,6 +407,7 @@ private:
 
     //Statusbar
     QLabel          *L_SB_SizeType;
+    QLabel          *L_SB_Memory;
     QLabel          *L_SB_Zoom;
     QLabel          *L_SB_Range;
     QLabel          *L_SB_Pos;

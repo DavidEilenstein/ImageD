@@ -354,6 +354,45 @@ QString D_VisDat_Obj::Info_Type(bool more_detail)
     return QS_type;
 }
 
+QString D_VisDat_Obj::Info_Memory()
+{
+    double mem_size = size_Byte();
+
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "B");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "KB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "MB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "GB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "TB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "PB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "EB");
+
+    mem_size /= 1000;
+    if(mem_size < 1000)
+        return QString(QString::number(mem_size, 'g', 4) + "ZB");
+
+    mem_size /= 1000;
+    return QString(QString::number(mem_size, 'g', 4) + "YB");
+}
+
 void D_VisDat_Obj::Init(double val)
 {
     //Dim in Mat needed format

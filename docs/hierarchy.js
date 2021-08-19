@@ -96,6 +96,7 @@ var hierarchy =
       [ "D_Table", "class_d___table.html", null ],
       [ "D_Viewer", "class_d___viewer.html", null ],
       [ "D_Viewer_3D", "class_d___viewer__3_d.html", null ],
-      [ "D_Viewer_Plot", "class_d___viewer___plot.html", null ]
+      [ "D_Viewer_Plot", "class_d___viewer___plot.html", null ],
+      [ "D_Viewer_Plot_3D", "class_d___viewer___plot__3_d.html", null ]
     ] ]
 ];

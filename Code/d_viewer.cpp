@@ -595,9 +595,13 @@ void D_Viewer::Proc_PX_Scale()
                 QString::number(scale_x, 'g', 2) + "/" +
                 QString::number(scale_y, 'g', 2));
 
-    emit Scaled_Factor_Prz(
-                QString::number(static_cast<int>(scale_x * 100.0)) + "%/" +
-                QString::number(static_cast<int>(scale_y * 100.0)) + "%");
+    if(AspectMode == Qt::KeepAspectRatio)
+        emit Scaled_Factor_Prz(
+                    QString::number(static_cast<int>(scale_x * 100.0)) + "%");
+    else
+        emit Scaled_Factor_Prz(
+                    QString::number(static_cast<int>(scale_x * 100.0)) + "%/" +
+                    QString::number(static_cast<int>(scale_y * 100.0)) + "%");
 }
 
 /*!

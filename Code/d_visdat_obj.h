@@ -80,6 +80,7 @@ public:
     QString         Info_Dims       ();
     QString         Info_Type       (bool more_detail = false);
     QString         Info_TypeDetail ();
+    QString         Info_Memory     ();
 
     D_VisDat_Dim    VD_Dim;
     Mat             MA_Data;            //6D + Channels

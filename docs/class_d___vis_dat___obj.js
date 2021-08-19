@@ -11,6 +11,7 @@ var class_d___vis_dat___obj =
     [ "Dim", "class_d___vis_dat___obj.html#a9b255993f402cca1b61ca82beae51b20", null ],
     [ "info", "class_d___vis_dat___obj.html#a01a4349772351925aee3695ef511883b", null ],
     [ "Info_Dims", "class_d___vis_dat___obj.html#a76fea770c39013d5a48328cfbdbe9363", null ],
+    [ "Info_Memory", "class_d___vis_dat___obj.html#a457682b9ecf9378c5dc0aecce40da449", null ],
     [ "info_short", "class_d___vis_dat___obj.html#a4650228abe90579d750ee3056c79a281", null ],
     [ "Info_Type", "class_d___vis_dat___obj.html#a470c4a8ea26b436c680a6d6f7762f6cc", null ],
     [ "Info_TypeDetail", "class_d___vis_dat___obj.html#a28b8afb2129b804b611af26fe2e970d0", null ],

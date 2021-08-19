@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_9_0 (04.08.21)</span>
+   &#160;<span id="projectnumber">v1_2_0 (19.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -164,29 +164,30 @@ $(document).ready(function(){initNavTree('d__visdat__obj_8h_source.html',''); in
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    QString         Info_Dims       ();</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    QString         Info_Type       (<span class="keywordtype">bool</span> more_detail = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a28b8afb2129b804b611af26fe2e970d0">   82</a></span>&#160;    QString         <a class="code" href="class_d___vis_dat___obj.html#a28b8afb2129b804b611af26fe2e970d0">Info_TypeDetail</a> ();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">   84</a></span>&#160;    <a class="code" href="class_d___vis_dat___dim.html">D_VisDat_Dim</a>    <a class="code" href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">VD_Dim</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">   85</a></span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a>             <a class="code" href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">MA_Data</a>;            <span class="comment">//6D + Channels</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#af8f4773348dd02fd7c78e0fc28323d72">   86</a></span>&#160;    <span class="keywordtype">int</span>             MA_Type = CV_8UC1;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a42beaf715687ea836d966b3fa6957e42">   87</a></span>&#160;    <span class="keywordtype">int</span>             MA_Channels = 1;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a5504e0b9f0baf1756cfa2eb38a664375">   89</a></span>&#160;    QString         QS_Name = <span class="stringliteral">&quot;VD_obj&quot;</span>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span>            Init(<span class="keywordtype">double</span> val = 200);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    QString         Info_Memory     ();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">   85</a></span>&#160;    <a class="code" href="class_d___vis_dat___dim.html">D_VisDat_Dim</a>    <a class="code" href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">VD_Dim</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">   86</a></span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a>             <a class="code" href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">MA_Data</a>;            <span class="comment">//6D + Channels</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#af8f4773348dd02fd7c78e0fc28323d72">   87</a></span>&#160;    <span class="keywordtype">int</span>             MA_Type = CV_8UC1;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a42beaf715687ea836d966b3fa6957e42">   88</a></span>&#160;    <span class="keywordtype">int</span>             MA_Channels = 1;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="class_d___vis_dat___obj.html#a5504e0b9f0baf1756cfa2eb38a664375">   90</a></span>&#160;    QString         QS_Name = <span class="stringliteral">&quot;VD_obj&quot;</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span>            Init(<span class="keywordtype">double</span> val = 200);</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VISDAT_OBJ_H</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VISDAT_OBJ_H</span></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html"><div class="ttname"><a href="class_d___vis_dat___dim.html">D_VisDat_Dim</a></div><div class="ttdoc">The D_VisDat_Dim class Represents a 6D volume.</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.h:49</div></div>
 <div class="ttc" id="aclass_d___vis_dat___header_html"><div class="ttname"><a href="class_d___vis_dat___header.html">D_VisDat_Header</a></div><div class="ttdoc">The D_VisDat_Header class Contains the meta data of a D_VisDat_Obj.</div><div class="ttdef"><b>Definition:</b> d_visdat_header.h:37</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html"><div class="ttname"><a href="class_d___vis_dat___obj.html">D_VisDat_Obj</a></div><div class="ttdoc">The D_VisDat_Obj class Represents a 6D image.</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:51</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_a1b759f59f5c13875d94961642bdd943e"><div class="ttname"><a href="class_d___vis_dat___obj.html#a1b759f59f5c13875d94961642bdd943e">D_VisDat_Obj::pMA_full</a></div><div class="ttdeci">Mat * pMA_full()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:61</div></div>
-<div class="ttc" id="aclass_d___vis_dat___obj_html_a1ef2265e9071139f9a29bbdc3b7eec7a"><div class="ttname"><a href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">D_VisDat_Obj::MA_Data</a></div><div class="ttdeci">Mat MA_Data</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:85</div></div>
+<div class="ttc" id="aclass_d___vis_dat___obj_html_a1ef2265e9071139f9a29bbdc3b7eec7a"><div class="ttname"><a href="class_d___vis_dat___obj.html#a1ef2265e9071139f9a29bbdc3b7eec7a">D_VisDat_Obj::MA_Data</a></div><div class="ttdeci">Mat MA_Data</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:86</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_a28b8afb2129b804b611af26fe2e970d0"><div class="ttname"><a href="class_d___vis_dat___obj.html#a28b8afb2129b804b611af26fe2e970d0">D_VisDat_Obj::Info_TypeDetail</a></div><div class="ttdeci">QString Info_TypeDetail()</div></div>
-<div class="ttc" id="aclass_d___vis_dat___obj_html_a4dc4d9efe15da7f52e01edd4e32da918"><div class="ttname"><a href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">D_VisDat_Obj::VD_Dim</a></div><div class="ttdeci">D_VisDat_Dim VD_Dim</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:84</div></div>
+<div class="ttc" id="aclass_d___vis_dat___obj_html_a4dc4d9efe15da7f52e01edd4e32da918"><div class="ttname"><a href="class_d___vis_dat___obj.html#a4dc4d9efe15da7f52e01edd4e32da918">D_VisDat_Obj::VD_Dim</a></div><div class="ttdeci">D_VisDat_Dim VD_Dim</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:85</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_a9b255993f402cca1b61ca82beae51b20"><div class="ttname"><a href="class_d___vis_dat___obj.html#a9b255993f402cca1b61ca82beae51b20">D_VisDat_Obj::Dim</a></div><div class="ttdeci">D_VisDat_Dim Dim()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:72</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_ab4cee8385af854cafa24ee21766d208f"><div class="ttname"><a href="class_d___vis_dat___obj.html#ab4cee8385af854cafa24ee21766d208f">D_VisDat_Obj::pDim</a></div><div class="ttdeci">D_VisDat_Dim * pDim()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:73</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_ac50ec3795b8c8991792705c47af6f1bb"><div class="ttname"><a href="class_d___vis_dat___obj.html#ac50ec3795b8c8991792705c47af6f1bb">D_VisDat_Obj::channels</a></div><div class="ttdeci">int channels()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:76</div></div>

@@ -70,6 +70,7 @@ var annotated_dup =
     [ "D_Viewer_3D", "class_d___viewer__3_d.html", "class_d___viewer__3_d" ],
     [ "D_Viewer_Img", "class_d___viewer___img.html", "class_d___viewer___img" ],
     [ "D_Viewer_Plot", "class_d___viewer___plot.html", "class_d___viewer___plot" ],
+    [ "D_Viewer_Plot_3D", "class_d___viewer___plot__3_d.html", "class_d___viewer___plot__3_d" ],
     [ "D_VisDat_Dim", "class_d___vis_dat___dim.html", "class_d___vis_dat___dim" ],
     [ "D_VisDat_Header", "class_d___vis_dat___header.html", "class_d___vis_dat___header" ],
     [ "D_VisDat_Obj", "class_d___vis_dat___obj.html", "class_d___vis_dat___obj" ],

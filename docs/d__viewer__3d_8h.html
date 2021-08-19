@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_9_0 (04.08.21)</span>
+   &#160;<span id="projectnumber">v1_2_0 (19.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -85,9 +85,7 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h.html',''); initResiza
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">d_viewer_3d.h File Reference</div>  </div>
 </div><!--header-->
@@ -96,6 +94,7 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h.html',''); initResiza
 <code>#include &lt;<a class="el" href="d__error__handler_8h_source.html">d_error_handler.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="d__visdat__obj_8h_source.html">d_visdat_obj.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="d__visdat__proc_8h_source.html">d_visdat_proc.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="d__viewer_8h_source.html">d_viewer.h</a>&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;QWidget&gt;</code><br />
@@ -104,15 +103,26 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h.html',''); initResiza
 <code>#include &lt;QDebug&gt;</code><br />
 <code>#include &lt;QMessageBox&gt;</code><br />
 <code>#include &lt;QFileDialog&gt;</code><br />
+<code>#include &lt;QColorDialog&gt;</code><br />
 <code>#include &lt;QFileInfo&gt;</code><br />
 <code>#include &lt;QDir&gt;</code><br />
 <code>#include &lt;QElapsedTimer&gt;</code><br />
 <code>#include &lt;QScrollBar&gt;</code><br />
 <code>#include &lt;QGridLayout&gt;</code><br />
+<code>#include &lt;QVBoxLayout&gt;</code><br />
+<code>#include &lt;QHBoxLayout&gt;</code><br />
+<code>#include &lt;QPushButton&gt;</code><br />
+<code>#include &lt;QGroupBox&gt;</code><br />
+<code>#include &lt;QCheckBox&gt;</code><br />
+<code>#include &lt;QComboBox&gt;</code><br />
+<code>#include &lt;QGraphicsView&gt;</code><br />
+<code>#include &lt;QLabel&gt;</code><br />
+<code>#include &lt;QSpinBox&gt;</code><br />
+<code>#include &lt;QDoubleSpinBox&gt;</code><br />
+<code>#include &lt;QSpacerItem&gt;</code><br />
 <code>#include &lt;QtCore/qmath.h&gt;</code><br />
 <code>#include &lt;QtCore/qrandom.h&gt;</code><br />
 <code>#include &lt;QtWidgets/QComboBox&gt;</code><br />
-<code>#include &lt;QLabel&gt;</code><br />
 <code>#include &lt;QtDataVisualization&gt;</code><br />
 <code>#include &lt;QtDataVisualization/q3dscatter.h&gt;</code><br />
 <code>#include &lt;QtDataVisualization/qabstract3dseries.h&gt;</code><br />
@@ -122,6 +132,11 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h.html',''); initResiza
 <code>#include &lt;QtDataVisualization/q3dcamera.h&gt;</code><br />
 <code>#include &lt;QtDataVisualization/qscatter3dseries.h&gt;</code><br />
 <code>#include &lt;QtDataVisualization/q3dtheme.h&gt;</code><br />
+<code>#include &lt;QtDataVisualization/QSurface3DSeries&gt;</code><br />
+<code>#include &lt;QtDataVisualization/Q3DSurface&gt;</code><br />
+<code>#include &lt;QtDataVisualization/QSurfaceDataProxy&gt;</code><br />
+<code>#include &lt;QtDataVisualization/QSurfaceDataArray&gt;</code><br />
+<code>#include &lt;QtDataVisualization/QCustom3DVolume&gt;</code><br />
 <code>#include &lt;opencv2/core/core.hpp&gt;</code><br />
 <code>#include &lt;opencv2/highgui/highgui.hpp&gt;</code><br />
 <code>#include &lt;opencv2/imgproc/imgproc.hpp&gt;</code><br />
@@ -133,124 +148,7 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h.html',''); initResiza
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer__3_d.html">D_Viewer_3D</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ae67dace75b414d92804fff7e3b0158d8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__viewer__3d_8h.html#ae67dace75b414d92804fff7e3b0158d8">GRAPH_TYPES</a> { <a class="el" href="d__viewer__3d_8h.html#ae67dace75b414d92804fff7e3b0158d8a09be2d20a724e1153c86b69fa52c0107">GRAPH_SCATTER</a>
-, <a class="el" href="d__viewer__3d_8h.html#ae67dace75b414d92804fff7e3b0158d8a73a10aa115065cf970fb15fc83629325">GRAPH_NUMBER_OF</a>
- }</td></tr>
-<tr class="separator:ae67dace75b414d92804fff7e3b0158d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6304e14682c5c440f420f2044d2ecf6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6">MARKER_3D</a> { <br />
-&#160;&#160;<a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a9a4f4e1b818b45e432338bada7194e49">MARKER_3D_POINT</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a53187746d93e9fe27a9b9c5a652cd776">MARKER_3D_MINIMAL</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6aee1dd6ab29a0c08d9ce1ed0f1d9c9ef1">MARKER_3D_PYRAMID</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6abbeb52433b90284c43d9a14b0f3a6b02">MARKER_3D_CUBE</a>
-, <br />
-&#160;&#160;<a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a2723ae73e4bf44425d8dde937673c6cc">MARKER_3D_CYLINDER</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6aa497c632e79187243bc2a78f7e94b69f">MARKER_3D_SPHERE</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6abf531388fb66bae315c9097b07e3eaf1">MARKER_3D_ARROW</a>
-, <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6ad31c448a0f98e62da3a6a7592811235e">MARKER_3D_NUMBER_OF</a>
-<br />
- }</td></tr>
-<tr class="separator:ac6304e14682c5c440f420f2044d2ecf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2b90063bb2f75c37aa48521ac4c98700"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__viewer__3d_8h.html#a2b90063bb2f75c37aa48521ac4c98700">QSL_Marker_3D</a></td></tr>
-<tr class="separator:a2b90063bb2f75c37aa48521ac4c98700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c7fbbdf2c694dc66c14c94578e23bd9"><td class="memItemLeft" align="right" valign="top">const QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d__viewer__3d_8h.html#a6c7fbbdf2c694dc66c14c94578e23bd9">QSL_ShadowQuality_3D</a></td></tr>
-<tr class="separator:a6c7fbbdf2c694dc66c14c94578e23bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ae67dace75b414d92804fff7e3b0158d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae67dace75b414d92804fff7e3b0158d8">&#9670;&nbsp;</a></span>GRAPH_TYPES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="d__viewer__3d_8h.html#ae67dace75b414d92804fff7e3b0158d8">GRAPH_TYPES</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae67dace75b414d92804fff7e3b0158d8a09be2d20a724e1153c86b69fa52c0107"></a>GRAPH_SCATTER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ae67dace75b414d92804fff7e3b0158d8a73a10aa115065cf970fb15fc83629325"></a>GRAPH_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="ac6304e14682c5c440f420f2044d2ecf6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6304e14682c5c440f420f2044d2ecf6">&#9670;&nbsp;</a></span>MARKER_3D</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6">MARKER_3D</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6a9a4f4e1b818b45e432338bada7194e49"></a>MARKER_3D_POINT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6a53187746d93e9fe27a9b9c5a652cd776"></a>MARKER_3D_MINIMAL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6aee1dd6ab29a0c08d9ce1ed0f1d9c9ef1"></a>MARKER_3D_PYRAMID&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6abbeb52433b90284c43d9a14b0f3a6b02"></a>MARKER_3D_CUBE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6a2723ae73e4bf44425d8dde937673c6cc"></a>MARKER_3D_CYLINDER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6aa497c632e79187243bc2a78f7e94b69f"></a>MARKER_3D_SPHERE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6abf531388fb66bae315c9097b07e3eaf1"></a>MARKER_3D_ARROW&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac6304e14682c5c440f420f2044d2ecf6ad31c448a0f98e62da3a6a7592811235e"></a>MARKER_3D_NUMBER_OF&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a2b90063bb2f75c37aa48521ac4c98700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b90063bb2f75c37aa48521ac4c98700">&#9670;&nbsp;</a></span>QSL_Marker_3D</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const QStringList QSL_Marker_3D</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    <span class="stringliteral">&quot;Point&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Minimal&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Pyramid&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Cube&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Cylinder&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Sphere&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Arrow&quot;</span></div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a6c7fbbdf2c694dc66c14c94578e23bd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c7fbbdf2c694dc66c14c94578e23bd9">&#9670;&nbsp;</a></span>QSL_ShadowQuality_3D</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const QStringList QSL_ShadowQuality_3D</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    <span class="stringliteral">&quot;None&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Low&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Medium&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;High&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Soft Low&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Soft Medium&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Soft High&quot;</span></div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

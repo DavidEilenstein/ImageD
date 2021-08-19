@@ -54,30 +54,36 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
 
 
     //STATUSBAR
-    unsigned int LabelWidth = 75;
+    int LabelWidth = 25;
+    int LabelHeight = 15;
 
     L_SB_ValAtPos = new QLabel(this);
-    L_SB_ValAtPos->setFixedWidth(LabelWidth * 2);
+    L_SB_ValAtPos->setMinimumSize(QSize(LabelWidth * 4, LabelHeight));
     L_SB_ValAtPos->setToolTip("Pixelvalue (Mouse hovered).");
     ui->statusbar->addPermanentWidget(L_SB_ValAtPos);
 
     L_SB_Pos = new QLabel(this);
-    L_SB_Pos->setFixedWidth(LabelWidth);
+    L_SB_Pos->setMinimumSize(QSize(LabelWidth * 4, LabelHeight));
     L_SB_Pos->setToolTip("Mouse hovered at pixel position.");
     ui->statusbar->addPermanentWidget(L_SB_Pos);
 
     L_SB_Range = new QLabel(this);
-    L_SB_Range->setFixedWidth(LabelWidth * 1.5);
+    L_SB_Range->setMinimumSize(QSize(LabelWidth * 4, LabelHeight));
     L_SB_Range->setToolTip("Range of image data.");
     ui->statusbar->addPermanentWidget(L_SB_Range);
 
     L_SB_Zoom = new QLabel(this);
-    L_SB_Zoom->setFixedWidth(LabelWidth);
+    L_SB_Zoom->setMinimumSize(QSize(LabelWidth * 2, LabelHeight));
     L_SB_Zoom->setToolTip("How much the image is scaled to fit in the viewer (width x height or both).");
     ui->statusbar->addPermanentWidget(L_SB_Zoom);
 
+    L_SB_Memory = new QLabel(this);
+    L_SB_Memory->setMinimumSize(QSize(LabelWidth * 2, LabelHeight));
+    L_SB_Memory->setToolTip("Memory of the image data (full 6D, not only shown)");
+    ui->statusbar->addPermanentWidget(L_SB_Memory);
+
     L_SB_SizeType = new QLabel(this);
-    L_SB_SizeType->setFixedWidth(LabelWidth * 2);
+    L_SB_SizeType->setMinimumSize(QSize(LabelWidth * 5, LabelHeight));
     L_SB_SizeType->setToolTip("Size of the image (Bitdepth, signed/unsigned/float, C=Channels, X, Y, Z, T, S, P).");
     ui->statusbar->addPermanentWidget(L_SB_SizeType);
 
@@ -245,7 +251,6 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
-    connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
     connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
@@ -4302,6 +4307,7 @@ void D_StepWindow::Update_Range_Info()
 void D_StepWindow::Update_Size_Info()
 {
     L_SB_SizeType->setText(pStore->get_pVD(pos_Dest)->info_short());
+    L_SB_Memory->setText(pStore->get_pVD(pos_Dest)->Info_Memory());
 }
 
 void D_StepWindow::Update_Times()
@@ -4330,6 +4336,7 @@ void D_StepWindow::Update_Time_View_Update(unsigned int t)
 
 void D_StepWindow::Update_3DPlot()
 {
+    this->setEnabled(false);
     ERR(ViewerPlot_3D.plot_VD_custom(
             pStore->get_pVD(pos_Dest),
             ui->comboBox_3D_Mode->currentIndex(),
@@ -4339,7 +4346,6 @@ void D_StepWindow::Update_3DPlot()
             ui->comboBox_3D_Axis_Y->currentIndex(),
             ui->comboBox_3D_Axis_Z->currentIndex(),
             ui->comboBox_3D_Axis_V->currentIndex(),
-            ui->comboBox_3D_Axis_A->currentIndex(),
             ui->comboBox_3D_2dPlane_Heightmap->currentIndex(),
             ui->comboBox_3D_SurfaceDimension->currentIndex(),
             ui->comboBox_3D_SurfaceMode->currentIndex(),
@@ -4353,6 +4359,7 @@ void D_StepWindow::Update_3DPlot()
             ui->checkBox_3D_Wireframe->isChecked()),
         "Update_3DPlot",
         "Viewer_3D.plot_VD_custom");
+    this->setEnabled(true);
 }
 
 void D_StepWindow::Update_3DImage()
@@ -7113,7 +7120,6 @@ void D_StepWindow::Populate_CB_3DViewer()
     Populate_CB_Single(ui->comboBox_3D_Axis_Z_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Z);
     Populate_CB_Single(ui->comboBox_3D_Axis_V,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
     Populate_CB_Single(ui->comboBox_3D_Axis_V_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
-    Populate_CB_Single(ui->comboBox_3D_Axis_A,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_EMPTY);
 
     Populate_CB_Single(ui->comboBox_3D_Mode,                        QSL_Viewer3D_Mode,          c_VIEWER_PLOT_3D_MODE_HEIGHTMAP);
     Populate_CB_Single(ui->comboBox_3D_Condition,                   QSL_Viewer3D_Condition,     c_VIEWER_PLOT_3D_CONDITION_NOT_ZERO);
@@ -8161,7 +8167,6 @@ void D_StepWindow::on_action_Autoupdate_3D_View_triggered(bool checked)
         connect(ui->comboBox_3D_Axis_V,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         connect(ui->comboBox_3D_Marker,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         connect(ui->comboBox_3D_ShadowQuality,              SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
-        connect(ui->comboBox_3D_Axis_A,                     SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         connect(ui->comboBox_3D_TextureMode_Heightmap,      SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         connect(ui->comboBox_3D_2dPlane_Heightmap,          SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         connect(ui->comboBox_3D_SurfaceMode,                SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
@@ -8183,7 +8188,6 @@ void D_StepWindow::on_action_Autoupdate_3D_View_triggered(bool checked)
         disconnect(ui->comboBox_3D_Axis_V,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         disconnect(ui->comboBox_3D_Marker,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         disconnect(ui->comboBox_3D_ShadowQuality,           SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
-        disconnect(ui->comboBox_3D_Axis_A,                  SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         disconnect(ui->comboBox_3D_TextureMode_Heightmap,   SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         disconnect(ui->comboBox_3D_2dPlane_Heightmap,       SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));
         disconnect(ui->comboBox_3D_SurfaceMode,             SIGNAL(currentIndexChanged(int)),           this,           SLOT(Update_3DPlot()));

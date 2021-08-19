@@ -82,6 +82,8 @@ public:
     static QString  Type_of_Mat                 (int channels, int depth);
     static int      TypeIndex_of_Mat            (int channels, int depth);
     static int      Channels_of_MatType         (int type);
+    static int      BitDepth_of_MatType         (int type);
+    static int      BitsPerPixel_of_MatType     (int type);
     static Scalar   Scalar_EqualInAllChannels   (int channels = 1, double value = 0);
 
     static int      Stat_ofPixelvalues          (double *value, Mat *pMA_In, int stat, bool ignore_zeros);

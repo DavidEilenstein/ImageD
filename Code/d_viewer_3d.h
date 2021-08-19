@@ -150,6 +150,7 @@ private slots:
     void            set_preserve_opacity(bool preserve);
     void            set_draw_slices(bool draw);
     void            set_alpha_multiplier(double factor);
+    void            set_shadow_quality(int shadow_quality_id);
 
     void            change_graph_background_color();
 
@@ -222,6 +223,7 @@ private:
     QCheckBox               *ui_CheckBox_Slices_SliceVolume;
     QCheckBox               *ui_CheckBox_Shader_HD;
     QCheckBox               *ui_CheckBox_OpacityPreserve;
+    QComboBox               *ui_ComboBox_ShadowQuality;
     QSpacerItem             *ui_spacer_Settings;
 
     //VD to be displayed

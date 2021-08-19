@@ -80,7 +80,7 @@ void D_Viewer_Plot_3D::clear_graph_heightmap()
     }
 }
 
-int D_Viewer_Plot_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t axis_a, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe)
+int D_Viewer_Plot_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe)
 {
     /*
     qDebug() << "D_Viewer_Plot_3D::plot_VD_custom" << "params:";
@@ -91,7 +91,6 @@ int D_Viewer_Plot_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond
     qDebug() << "axis_y" << axis_y << QSL_Viewer3D_Axis[axis_y];
     qDebug() << "axis_z" << axis_z << QSL_Viewer3D_Axis[axis_z];
     qDebug() << "axis_v" << axis_v << QSL_Viewer3D_Axis[axis_v];
-    qDebug() << "axis_a" << axis_a << QSL_Viewer3D_Axis[axis_a];
     qDebug() << "plane_index_xy" << plane_index_xy << QSL_Planes[plane_index_xy];
     qDebug() << "dim_index_surfaces" << dim_index_surfaces << QSL_DimIndices[dim_index_surfaces];
     qDebug() << "surface_mode" << surface_mode << QSL_Viewer_3D_SurfaceMode[surface_mode];
@@ -129,7 +128,6 @@ int D_Viewer_Plot_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond
                     dim_index_surfaces,
                     axis_z,
                     axis_v,
-                    axis_a,
                     surface_mode,
                     texture_mode,
                     shadow,
@@ -248,7 +246,7 @@ int D_Viewer_Plot_3D::plot_VD_Scatter(D_VisDat_Obj *pVD, size_t cond, size_t val
             true);
 }
 
-int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t axis_a, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally)
+int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally)
 {
     //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "start";
 
@@ -263,8 +261,8 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
 
     //errors 2
     //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "errors 2";
-    if(surface_mode == c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_x))           return ER_dim_missmatch;
-    if(surface_mode == c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_y))           return ER_dim_missmatch;
+    if(surface_mode == c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_x))      return ER_dim_missmatch;
+    if(surface_mode == c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION && (dim_index_surfaces == dim_index_y))      return ER_dim_missmatch;
 
 
     //avoid thread issues
@@ -277,10 +275,10 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
     //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "image count";
     size_t n;
     switch(surface_mode) {
-    case c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE:           n = 1;                                          break;
-    case c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS:         n = pVD->channels();                            break;
-    case c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION:        n = pVD->pDim()->size_Dim(dim_index_surfaces);  break;
-    default:                                        state_plotting = false;                         return ER_parameter_bad;}
+    case c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE:          n = 1;                                          break;
+    case c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS:        n = pVD->channels();                            break;
+    case c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION:       n = pVD->pDim()->size_Dim(dim_index_surfaces);  break;
+    default:                                            state_plotting = false;                         return ER_parameter_bad;}
 
     //heightmats & texture images
     //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "img containers";
@@ -309,6 +307,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                     D_VisDat_Slice_2D(slice_pos));
         if(err != ER_okay)
         {
+            qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE" << "D_VisDat_Proc::Read_2D_Plane";
             MA_tmp_slice2D.release();
             state_plotting = false;
             return err;
@@ -323,6 +322,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 0);
         if(err != ER_okay)
         {
+            qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE" << "ValueAxisMat";
             MA_tmp_slice2D.release();
             state_plotting = false;
             return err;
@@ -335,12 +335,12 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 &MA_tmp_slice2D,
                 texture_mode,
                 axis_v,
-                axis_a,
                 slice_pos,
                 0);
         MA_tmp_slice2D.release();
         if(err != ER_okay)
         {
+            qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE" << "SurfaceTextureImage";
             state_plotting = false;
             return err;
         }
@@ -364,6 +364,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                     D_VisDat_Slice_2D(slice_pos));
         if(err != ER_okay)
         {
+            qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS" << "D_VisDat_Proc::Read_2D_Plane";
             MA_tmp_slice2D.release();
             state_plotting = false;
             return err;
@@ -379,6 +380,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                         ch);
             if(err != ER_okay)
             {
+                qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS" << "D_Img_Proc::Split";
                 MA_tmp_slice2D.release();
                 state_plotting = false;
                 return err;
@@ -420,6 +422,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                         D_VisDat_Slice_2D(slice_pos));
             if(err != ER_okay)
             {
+                qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION" << "D_VisDat_Proc::Read_2D_Plane";
                 MA_tmp_slice2D.release();
                 state_plotting = false;
                 return err;
@@ -434,6 +437,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                     0);
             if(err != ER_okay)
             {
+                qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION" << "ValueAxisMat";
                 MA_tmp_slice2D.release();
                 state_plotting = false;
                 return err;
@@ -446,12 +450,12 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                     &MA_tmp_slice2D,
                     texture_mode,
                     axis_v,
-                    axis_a,
                     slice_pos,
                     0);
             MA_tmp_slice2D.release();
             if(err != ER_okay)
             {
+                qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION" << "SurfaceTextureImage";
                 state_plotting = false;
                 return err;
             }
@@ -460,7 +464,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
         break;
 
     default:
-        //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "surface mode parameter unknon error";
+        qDebug() << "plot_VD_Heightmap" << "surface mode not supported";
         state_ui_init = false;
         return ER_parameter_bad;
     }
@@ -685,33 +689,33 @@ int D_Viewer_Plot_3D::plot_Heightmap(vector<Mat> *pvMA_Height, vector<QImage> *p
 QAbstract3DSeries::Mesh D_Viewer_Plot_3D::marker_from_id(int marker_id)
 {
     switch (marker_id) {
-    case c_VIEWER_PLOT_3D_MARKER_POINT:      return QAbstract3DSeries::Mesh::MeshPoint;
-    case c_VIEWER_PLOT_3D_MARKER_MINIMAL:    return QAbstract3DSeries::Mesh::MeshMinimal;
-    case c_VIEWER_PLOT_3D_MARKER_PYRAMID:    return QAbstract3DSeries::Mesh::MeshPyramid;
-    case c_VIEWER_PLOT_3D_MARKER_CUBE:       return QAbstract3DSeries::Mesh::MeshCube;
-    case c_VIEWER_PLOT_3D_MARKER_CYLINDER:   return QAbstract3DSeries::Mesh::MeshCylinder;
-    case c_VIEWER_PLOT_3D_MARKER_SPHERE:     return QAbstract3DSeries::Mesh::MeshSphere;
-    case c_VIEWER_PLOT_3D_MARKER_ARROW:      return QAbstract3DSeries::Mesh::MeshArrow;
-    default:                            return QAbstract3DSeries::Mesh::MeshPoint;}
+    case c_VIEWER_PLOT_3D_MARKER_POINT:         return QAbstract3DSeries::Mesh::MeshPoint;
+    case c_VIEWER_PLOT_3D_MARKER_MINIMAL:       return QAbstract3DSeries::Mesh::MeshMinimal;
+    case c_VIEWER_PLOT_3D_MARKER_PYRAMID:       return QAbstract3DSeries::Mesh::MeshPyramid;
+    case c_VIEWER_PLOT_3D_MARKER_CUBE:          return QAbstract3DSeries::Mesh::MeshCube;
+    case c_VIEWER_PLOT_3D_MARKER_CYLINDER:      return QAbstract3DSeries::Mesh::MeshCylinder;
+    case c_VIEWER_PLOT_3D_MARKER_SPHERE:        return QAbstract3DSeries::Mesh::MeshSphere;
+    case c_VIEWER_PLOT_3D_MARKER_ARROW:         return QAbstract3DSeries::Mesh::MeshArrow;
+    default:                                    return QAbstract3DSeries::Mesh::MeshPoint;}
 }
 
 size_t D_Viewer_Plot_3D::series_count_from_color_handle_id(size_t color_handle_id)
 {
     switch (color_handle_id) {
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO:   return 1;
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_GRAY:   return 256;
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_HUE:    return 240;
-    default:                                return 0;}
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO:  return 1;
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_GRAY:  return 256;
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_HUE:   return 240;
+    default:                                    return 0;}
 }
 
 QColor D_Viewer_Plot_3D::series_color(size_t series_count, size_t series_index, size_t color_handle)
 {
     QColor color;
     switch (color_handle) {
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO:       color.setRgb(128, 128, 128);                                break;
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_GRAY:       color.setRgb(series_index, series_index, series_index);     break;
-    case c_VIEWER_PLOT_3D_VALUE_HANDLING_HUE:        color.setHsv(series_count - 1 - series_index, 255, 255);    break;
-    default:                                    color.setRgb(0, 0, 0);                                      break;}
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO:      color.setRgb(128, 128, 128);                                break;
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_GRAY:      color.setRgb(series_index, series_index, series_index);     break;
+    case c_VIEWER_PLOT_3D_VALUE_HANDLING_HUE:       color.setHsv(series_count - 1 - series_index, 255, 255);    break;
+    default:                                        color.setRgb(0, 0, 0);                                      break;}
 
     return color;
 }
@@ -767,146 +771,167 @@ int D_Viewer_Plot_3D::dimIndex_FromAxisIndex(size_t axis_index)
     default:                        return -1;}
 }
 
-int D_Viewer_Plot_3D::ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
+int D_Viewer_Plot_3D::ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value, bool force_double)
 {
-    switch (axis_index) {
-
-    case c_VIEWER_PLOT_3D_AXIS_IMG_X:
-    case c_VIEWER_PLOT_3D_AXIS_IMG_Y:
-    case c_VIEWER_PLOT_3D_AXIS_IMG_Z:
-    case c_VIEWER_PLOT_3D_AXIS_IMG_T:
-    case c_VIEWER_PLOT_3D_AXIS_IMG_S:
-    case c_VIEWER_PLOT_3D_AXIS_IMG_P:
+    if(force_double)
     {
-        //get dim index
-        int dim_axis = dimIndex_FromAxisIndex(axis_index);
-        if(dim_axis < 0)
+        Mat MA_tmp_out_non_force_double;
+        int err = ValueAxisMat(
+                    &MA_tmp_out_non_force_double,
+                    pMA_In,
+                    axis_index,
+                    slice_pos,
+                    default_value,
+                    false);
+        if(err != ER_okay)
         {
+            MA_tmp_out_non_force_double.release();
             *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
-            return ER_parameter_bad;
+            return err;
         }
 
-        //check if dim is constant
-        if(slice_pos[dim_axis] >= 0)
+        if(MA_tmp_out_non_force_double.depth() == CV_64F)
         {
-            //constant dim
-            //--> constant Mat
-            *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(slice_pos[dim_axis]));
+            *pMA_Out = MA_tmp_out_non_force_double.clone();
             return ER_okay;
         }
         else
         {
-            //non constant dim
-            //--> gradient Mat
+            err = D_Img_Proc::Convert_Double(
+                        pMA_Out,
+                        &MA_tmp_out_non_force_double);
+            MA_tmp_out_non_force_double.release();
+            if(err != ER_okay)
+                *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
 
-            //check, if axis is 1st or 2nd extended dim
-            size_t ext_dims_count = 0;
-            for(int d = 0; d <= dim_axis; d++)
-                if(slice_pos[d] < 0)
-                    ext_dims_count++;
+            return err;
+        }
+    }
+    else
+    {
+        switch (axis_index) {
 
-            //axis is 1st extended dim --> x gradient
-            if(ext_dims_count == 1)
-                return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_X));
-            else if(ext_dims_count == 2)
-                return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_X));
-            else
+        case c_VIEWER_PLOT_3D_AXIS_IMG_X:
+        case c_VIEWER_PLOT_3D_AXIS_IMG_Y:
+        case c_VIEWER_PLOT_3D_AXIS_IMG_Z:
+        case c_VIEWER_PLOT_3D_AXIS_IMG_T:
+        case c_VIEWER_PLOT_3D_AXIS_IMG_S:
+        case c_VIEWER_PLOT_3D_AXIS_IMG_P:
+        {
+            //get dim index
+            int dim_axis = dimIndex_FromAxisIndex(axis_index);
+            if(dim_axis < 0)
             {
                 *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
                 return ER_parameter_bad;
             }
+
+            //check if dim is constant
+            if(slice_pos[dim_axis] >= 0)
+            {
+                //constant dim
+                //--> constant Mat
+                *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(slice_pos[dim_axis]));
+                return ER_okay;
+            }
+            else
+            {
+                //non constant dim
+                //--> gradient Mat
+
+                //check, if axis is 1st or 2nd extended dim
+                size_t ext_dims_count = 0;
+                for(int d = 0; d <= dim_axis; d++)
+                    if(slice_pos[d] < 0)
+                        ext_dims_count++;
+
+                //axis is 1st extended dim --> x gradient
+                if(ext_dims_count == 1)
+                    return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_X));
+                else if(ext_dims_count == 2)
+                    return D_Img_Proc::Generate_byValueFunction(pMA_Out, pMA_In->cols, pMA_In->rows, D_Math::Function_2D_to_1D(c_MATH_2D_TO_1D_Y));
+                else
+                {
+                    *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
+                    return ER_parameter_bad;
+                }
+            }
         }
-    }
 
-    case c_VIEWER_PLOT_3D_AXIS_CHANNEL_0:
-        return D_Img_Proc::Split(pMA_Out, pMA_In, 0);
+        case c_VIEWER_PLOT_3D_AXIS_CHANNEL_0:
+            return D_Img_Proc::Split(pMA_Out, pMA_In, 0);
 
-    case c_VIEWER_PLOT_3D_AXIS_CHANNEL_1:
-        return D_Img_Proc::Split(pMA_Out, pMA_In, 1);
+        case c_VIEWER_PLOT_3D_AXIS_CHANNEL_1:
+            return D_Img_Proc::Split(pMA_Out, pMA_In, 1);
 
-    case c_VIEWER_PLOT_3D_AXIS_CHANNEL_2:
-        return D_Img_Proc::Split(pMA_Out, pMA_In, 2);
+        case c_VIEWER_PLOT_3D_AXIS_CHANNEL_2:
+            return D_Img_Proc::Split(pMA_Out, pMA_In, 2);
 
-    case c_VIEWER_PLOT_3D_AXIS_CHANNEL_3:
-        return D_Img_Proc::Split(pMA_Out, pMA_In, 3);
+        case c_VIEWER_PLOT_3D_AXIS_CHANNEL_3:
+            return D_Img_Proc::Split(pMA_Out, pMA_In, 3);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_GRAY:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GRAY);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_GRAY:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GRAY);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_BLUE:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_BLUE);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_BLUE:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_BLUE);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_GREEN:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GREEN);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_GREEN:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_GREEN);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_RED:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_RED);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_RED:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_RED);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_HUE:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_HUE);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_HUE:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_HUE);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_SATURATION:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_SATURATION);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_SATURATION:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_SATURATION);
 
-    case c_VIEWER_PLOT_3D_AXIS_COLOR_VALUE:
-        return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_VALUE);
+        case c_VIEWER_PLOT_3D_AXIS_COLOR_VALUE:
+            return D_Img_Proc::Convert_Color2Mono(pMA_Out, pMA_In, c_COL2MONO_VALUE);
 
-    case c_VIEWER_PLOT_3D_AXIS_EMPTY:
-    default:
-        *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
-        return ER_okay;
+        case c_VIEWER_PLOT_3D_AXIS_EMPTY:
+        default:
+            *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));
+            return ER_okay;
+        }
     }
 }
 
-int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, size_t axis_index_alpha, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
+int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
 {
     //img size
     int w = pMA_In->cols;
     int h = pMA_In->rows;
 
-    //alpha
-    Mat MA_tmp_alpha;
-    int err = ValueAxisMat(
-                &MA_tmp_alpha,
-                pMA_In,
-                axis_index_alpha,
-                slice_pos,
-                255);
-    if(err != ER_okay)
-    {
-        MA_tmp_alpha.release();
-        *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
-        pQI_Out->fill(Qt::red);
-        return err;
-    }
-
     //value
     Mat MA_tmp_value;
-    err = ValueAxisMat(
+    int err = ValueAxisMat(
                 &MA_tmp_value,
                 pMA_In,
                 axis_index_value,
                 slice_pos,
-                0);
+                default_value);
     if(err != ER_okay)
     {
-        MA_tmp_alpha.release();
+        qDebug() << "D_Viewer_Plot_3D::SurfaceTextureImage" << "ValueAxisMat value";
         MA_tmp_value.release();
         *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
         pQI_Out->fill(Qt::red);
         return err;
     }
 
+
+
     //calc texture img
-    err = D_Img_Proc::Convert_toQImage4Ch(
+    err = D_Img_Proc::Convert_Mat_to_QImage(
                 pQI_Out,
-                texture_mode == c_VIEWER_PLOT_3D_TEXTURE_IMAGE ? pMA_In : &MA_tmp_value,
-                &MA_tmp_alpha,
-                texture_mode == c_VIEWER_PLOT_3D_TEXTURE_HUE);
-    MA_tmp_alpha.release();
+                texture_mode == c_VIEWER_PLOT_3D_TEXTURE_IMAGE ? pMA_In : &MA_tmp_value);
     MA_tmp_value.release();
     if(err != ER_okay)
     {
+        qDebug() << "D_Viewer_Plot_3D::SurfaceTextureImage" << "D_Img_Proc::Convert_toQImage4Ch";
         *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
         pQI_Out->fill(Qt::red);
     }

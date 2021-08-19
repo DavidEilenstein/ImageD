@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v1_9_4";
-const QString           D_QS_Release  = "17.08.2021";
+const QString           D_QS_Version  = "v2_0_0";
+const QString           D_QS_Release  = "19.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -531,6 +531,15 @@ const QStringList QSL_ShadowQuality_3D = {
     "Soft Low",
     "Soft Medium",
     "Soft High"
+};
+const QStringList QSL_ShadowQuality_3D_ShadowInName = {
+    "Shaodw None",
+    "Shaodw Low",
+    "Shaodw Medium",
+    "Shaodw High",
+    "Shaodw Soft Low",
+    "Shaodw Soft Medium",
+    "Shaodw Soft High"
 };
 
 enum D_LOAD_MODE {

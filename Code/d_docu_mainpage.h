@@ -19,7 +19,7 @@
  *
  * ImageD is an image processing software.
  *
- * What ImageD is intended to do:
+ * What ImageD is intended to do/be:
  *      - Graphical user interface
  *      - Easy to handle for beginner users
  *      - Lots of parametric functions for advanced users
@@ -27,9 +27,10 @@
  *      - Rapid prototyping
  *      - Dynamic image processing chains
  *      - Interactive image analysis
+ *      - Volumetric rendering of 3D data
  *      - Lots of plugins for biophysics applications at GSI Darmstadt
  *
- * What ImageD is not intended to do:
+ * What ImageD is not intended to do/be:
  *      - Industrial applications like quality control
  *      - High speed optimization
  *

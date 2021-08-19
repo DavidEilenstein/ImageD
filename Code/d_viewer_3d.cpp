@@ -194,6 +194,12 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     connect(ui_DoubleSpinBox_ScaleDepth, SIGNAL(valueChanged(double)), this, SLOT(adapt_depth_scale_step(double)));
     connect(ui_DoubleSpinBox_ScaleDepth, SIGNAL(valueChanged(double)), this, SLOT(set_VolumeScalingAndPosition()));
 
+    //shadow quality
+    ui_ComboBox_ShadowQuality = new QComboBox(this);
+    ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_ComboBox_ShadowQuality);
+    Populate_CB_Single(ui_ComboBox_ShadowQuality, QSL_ShadowQuality_3D_ShadowInName, c_VIEWER_PLOT_3D_SHADOW_MEDIUM);
+    connect(ui_ComboBox_ShadowQuality, SIGNAL(currentIndexChanged(int)), this, SLOT(set_shadow_quality(int)));
+
     //heat color
     ui_CheckBox_HeatColor = new QCheckBox("Heat Color", this);
     ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_CheckBox_HeatColor);
@@ -208,6 +214,9 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     ui_CheckBox_OpacityPreserve = new QCheckBox("Preserve Opacity", this);
     //ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_CheckBox_OpacityPreserve);
     connect(ui_CheckBox_OpacityPreserve, SIGNAL(toggled(bool)), this, SLOT(set_preserve_opacity(bool)));
+
+
+
 
     //slices
 
@@ -241,7 +250,7 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
 
     //graph
     graph_scatter->setOrthoProjection(true);
-    graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQualityLow);
+    graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQualityMedium);
     graph_scatter->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRightHigh);
     //graph_scatter->scene()->activeCamera()->setMaxZoomLevel(200.0f);
     graph_scatter->activeTheme()->setType(Q3DTheme::ThemeEbony);
@@ -358,13 +367,13 @@ void D_Viewer_3D::on_VolumeCurrent_Changed(int vol)
 
 int D_Viewer_3D::Update_Graph()
 {
-    qDebug() << "D_Viewer_3D::Update_Graph" << "start-----------------------------------";
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "start-----------------------------------";
 
     //errors
     //if(state_graph_updating)    return ER_ThreadIssue;
     if(!state_ui_init)          return ER_UiNotInit;
     if(!state_VD_set)           return ER_empty;
-    qDebug() << "D_Viewer_3D::Update_Graph" << "error checks passed";
+    //qDebug() << "D_Viewer_3D::Update_Graph" << "error checks passed";
 
     //update states
     state_graph_updating = true;
@@ -593,10 +602,9 @@ int D_Viewer_3D::Slice_2D_Mat_from_VD(Mat *pMA_SliceOut, D_VisDat_Slice_2D slice
     {
         MA_tmp_slice.release();
         MA_tmp_slice_vistrafo.release();
-        ERR(err, "Slice_2D_Mat_from_VD", "D_Img_Proc::Visualize_to8bit/Normalize or clone");
+        ERR(err, "Slice_2D_Mat_from_VD", "D_Img_Proc::Visualize_to8bit");
         return err;
     }
-
 
     //convert to 4ch
     err = D_Img_Proc::Convert_toMat4Ch_8bit(
@@ -672,9 +680,11 @@ int D_Viewer_3D::Show_Texture()
     graph_scatter->axisY()->setReversed(true);
 
     //sacling to fit axis range
+    //qDebug() << "D_Viewer_3D::Show_Texture" << "scale and pos";
     set_VolumeScalingAndPosition();
 
     //texture size
+    //qDebug() << "D_Viewer_3D::Show_Texture" << "texture size";
     set_TextureSize();
 
     //set texture data
@@ -719,7 +729,7 @@ void D_Viewer_3D::set_TextureSize()
     //texture size
     volume_item->setTextureWidth (pVD_Data->pDim()->size_Dim(Dim_extended0()));
     volume_item->setTextureHeight(pVD_Data->pDim()->size_Dim(Dim_extended1()));
-    volume_item->setTextureDepth (int(pVD_Data->pDim()->size_Dim(Dim_extended2()) * ui_DoubleSpinBox_ScaleDepth->value()));
+    volume_item->setTextureDepth (pVD_Data->pDim()->size_Dim(Dim_extended2()));
 }
 
 void D_Viewer_3D::set_HD_shader(bool hd)
@@ -753,6 +763,15 @@ void D_Viewer_3D::set_alpha_multiplier(double factor)
 
     volume_item->setAlphaMultiplier(float(factor));
     Update_Slices();
+}
+
+void D_Viewer_3D::set_shadow_quality(int shadow_quality_id)
+{
+    if(!graph_scatter)
+        return;
+
+    graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow_quality_id));
+    qDebug() << "set shadow quali";
 }
 
 void D_Viewer_3D::change_graph_background_color()
