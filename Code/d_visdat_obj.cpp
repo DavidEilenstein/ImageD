@@ -101,14 +101,14 @@ vector<double> D_VisDat_Obj::at(Vec<int, c_DIM_NUMBER_OF> pos)
     }
 }
 
-int D_VisDat_Obj::size_PixelCount()
+size_t D_VisDat_Obj::size_PixelCount()
 {
     return VD_Dim.size_PixelCount();
 }
 
-int D_VisDat_Obj::size_BitPerPixel()
+size_t D_VisDat_Obj::size_BitPerPixel()
 {
-    int bit_p_px = 0;
+    size_t bit_p_px = 0;
 
     switch (MA_Type) {
     case CV_8UC1:   bit_p_px = 8;   break;
@@ -144,12 +144,12 @@ int D_VisDat_Obj::size_BitPerPixel()
     return bit_p_px;
 }
 
-int D_VisDat_Obj::size_Bit()
+size_t D_VisDat_Obj::size_Bit()
 {
     return size_PixelCount() * size_BitPerPixel();
 }
 
-int D_VisDat_Obj::size_Byte()
+size_t D_VisDat_Obj::size_Byte()
 {
     return size_Bit() / 8;
 }
@@ -357,6 +357,7 @@ QString D_VisDat_Obj::Info_Type(bool more_detail)
 QString D_VisDat_Obj::Info_Memory()
 {
     double mem_size = size_Byte();
+    //qDebug() << mem_size << "B";
 
     if(mem_size < 1000)
         return QString(QString::number(mem_size, 'g', 4) + "B");

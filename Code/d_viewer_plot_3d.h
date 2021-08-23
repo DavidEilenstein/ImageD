@@ -104,7 +104,7 @@ private:
     int     dimIndex_FromAxisIndex(size_t axis_index);
 
     int     ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value = 0, bool force_double = false);
-    int     SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value = 0);
+    int     SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value = 0, bool use_fix_crop_range = false, double in_min = 0, double in_max = 1);
 
     //error handler
     D_Error_Handler ER;

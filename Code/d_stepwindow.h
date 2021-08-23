@@ -487,6 +487,7 @@ private:
         c_sT_CO_COLOR2MONO,
         c_sT_CO_COLOR,
         c_sT_CO_DOUBLE,
+        c_sT_CO_USHORT,
         c_sT_CO_DEPTH,
         c_sT_CO_MERGE,
         c_sT_CO_SPLIT,

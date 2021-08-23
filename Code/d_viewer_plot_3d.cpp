@@ -283,6 +283,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
     //heightmats & texture images
     //qDebug() << "D_Viewer_Plot_3D::plot_VD_Heightmap" << "img containers";
     vector<Mat> vMA_Heights(n);
+    //vector<Mat> vMA_Textures(n);
     vector<QImage> vQI_Textures(n);
 
     //surface modi
@@ -443,21 +444,45 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 return err;
             }
 
+            //check if, texture is an image wide constant value because it is a dim index or if needs to be calced pixelwise
+            bool texture_easy_because_fix_dim = false;
+            if(texture_mode == c_VIEWER_PLOT_3D_TEXTURE_GRAY || texture_mode == c_VIEWER_PLOT_3D_TEXTURE_HUE)
+                if(slice_pos[dimIndex_FromAxisIndex(axis_v)] >= 0)
+                    texture_easy_because_fix_dim = true;
 
             //calc texture
-            err = SurfaceTextureImage(
-                    &(vQI_Textures[i]),
-                    &MA_tmp_slice2D,
-                    texture_mode,
-                    axis_v,
-                    slice_pos,
-                    0);
-            MA_tmp_slice2D.release();
-            if(err != ER_okay)
+            if(texture_easy_because_fix_dim)
             {
-                qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION" << "SurfaceTextureImage";
-                state_plotting = false;
-                return err;
+                //init img
+                vQI_Textures[i] = QImage(MA_tmp_slice2D.cols, MA_tmp_slice2D.rows, QImage::Format_RGBA8888);
+
+                //dim index relative
+                double dim_index_rel = (n <= 1) ? (0) : (double(i) / (n-1));
+
+                //check texture mode and calc color
+                QColor color;
+                if(texture_mode == c_VIEWER_PLOT_3D_TEXTURE_GRAY)
+                    color.setRgb(uchar(dim_index_rel * 255), uchar(dim_index_rel * 255), uchar(dim_index_rel * 255));
+                else
+                    color.setHsv(uchar(dim_index_rel * 240), 255, 255);
+                vQI_Textures[i].fill(color);
+            }
+            else
+            {
+                err = SurfaceTextureImage(
+                        &(vQI_Textures[i]),
+                        &MA_tmp_slice2D,
+                        texture_mode,
+                        axis_v,
+                        slice_pos,
+                        0);
+                MA_tmp_slice2D.release();
+                if(err != ER_okay)
+                {
+                    qDebug() << "plot_VD_Heightmap" << "c_VIEWER_PLOT_3D_SURFACE_MODE_DIMENSION" << "SurfaceTextureImage";
+                    state_plotting = false;
+                    return err;
+                }
             }
         }
     }
@@ -899,7 +924,7 @@ int D_Viewer_Plot_3D::ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index,
     }
 }
 
-int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value)
+int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t texture_mode, size_t axis_index_value, Vec<int, c_DIM_NUMBER_OF> slice_pos, double default_value, bool use_fix_crop_range, double in_min, double in_max)
 {
     //img size
     int w = pMA_In->cols;
@@ -912,7 +937,8 @@ int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t t
                 pMA_In,
                 axis_index_value,
                 slice_pos,
-                default_value);
+                default_value,
+                false);
     if(err != ER_okay)
     {
         qDebug() << "D_Viewer_Plot_3D::SurfaceTextureImage" << "ValueAxisMat value";
@@ -925,9 +951,50 @@ int D_Viewer_Plot_3D::SurfaceTextureImage(QImage *pQI_Out, Mat *pMA_In, size_t t
 
 
     //calc texture img
-    err = D_Img_Proc::Convert_Mat_to_QImage(
-                pQI_Out,
-                texture_mode == c_VIEWER_PLOT_3D_TEXTURE_IMAGE ? pMA_In : &MA_tmp_value);
+    switch (texture_mode) {
+
+    case c_VIEWER_PLOT_3D_TEXTURE_MONO:
+        *pQI_Out = QImage(w, h, QImage::Format_RGBA8888);
+        pQI_Out->fill(Qt::red);
+        break;
+
+    case c_VIEWER_PLOT_3D_TEXTURE_IMAGE:
+        err = D_Img_Proc::Convert_Mat_to_QImage(
+                    pQI_Out,
+                    pMA_In,
+                    use_fix_crop_range,
+                    in_min,
+                    in_max);
+        break;
+
+    case c_VIEWER_PLOT_3D_TEXTURE_GRAY:
+        err = D_Img_Proc::Convert_Mat_to_QImage(
+                    pQI_Out,
+                    &MA_tmp_value,
+                    use_fix_crop_range,
+                    in_min,
+                    in_max);
+        break;
+
+    case c_VIEWER_PLOT_3D_TEXTURE_HUE:
+    {
+        Mat MA_tmp_useless_alpha_img = Mat::zeros(MA_tmp_value.size(), CV_8UC1);
+        err = D_Img_Proc::Convert_toQImage4Ch(
+                    pQI_Out,
+                    &MA_tmp_value,
+                    &MA_tmp_useless_alpha_img,
+                    true);
+        MA_tmp_useless_alpha_img.release();
+    }
+        break;
+
+    default:
+        err = D_Img_Proc::Convert_Mat_to_QImage(
+                    pQI_Out,
+                    &MA_tmp_value);
+        break;
+    }
+
     MA_tmp_value.release();
     if(err != ER_okay)
     {

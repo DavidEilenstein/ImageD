@@ -15,7 +15,7 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_0_0";
+const QString           D_QS_Version  = "v2_0_1";
 const QString           D_QS_Release  = "19.08.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
@@ -470,12 +470,14 @@ const QStringList QSL_Viewer3D_Alpha = {
 };
 
 enum D_VIEWER_PLOT_3D_TEXTURE {
+    c_VIEWER_PLOT_3D_TEXTURE_MONO,
     c_VIEWER_PLOT_3D_TEXTURE_IMAGE,
     c_VIEWER_PLOT_3D_TEXTURE_GRAY,
     c_VIEWER_PLOT_3D_TEXTURE_HUE,
     c_VIEWER_PLOT_3D_TEXTURE_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Texture = {
+    "Mono",
     "Image",
     "Gray",
     "Heat"

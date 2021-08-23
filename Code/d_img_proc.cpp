@@ -970,29 +970,14 @@ int D_Img_Proc::Quantiles_ofPixelvalues(vector<double> *v_q_low, vector<double> 
 }
 
 
-int D_Img_Proc::Convert_Mat_to_QImage(QImage *pQI_Out, Mat *pMA_In)
+int D_Img_Proc::Convert_Mat_to_QImage(QImage *pQI_Out, Mat *pMA_In, bool use_custom_range_for_spread_non_8bit, double in_min, double in_max)
 {
-    if(pMA_In->empty())     return ER_empty;
+    if(pMA_In->empty())                                             return ER_empty;
+    if(use_custom_range_for_spread_non_8bit && in_min >= in_max)    return ER_parameter_missmatch;
+
 
     //Error handler
     int ER;
-
-    /*
-    //get output QI_format
-    QImage::Format  QI_format;
-    switch (pMA_In->channels()) {
-    case 1:         QI_format = QImage::Format_Grayscale8;      break;
-    //case 2:         QI_format = QImage::Format_RGB888;          break;
-    case 3:         QI_format = QImage::Format_RGB888;          break;
-    case 4:         QI_format = QImage::Format_RGBA8888;        break;
-    default:                                                    return ER_channel_bad;}
-
-    //allocate output QI
-    *pQI_Out = QImage(
-                pMA_In->cols,
-                pMA_In->rows,
-                QI_format);
-*/
 
     //Normalize to 8bit / copy
     Mat MA_tmp_8bit;
@@ -1005,13 +990,35 @@ int D_Img_Proc::Convert_Mat_to_QImage(QImage *pQI_Out, Mat *pMA_In)
     }
     else
     {
-        ER = Normalize(
-                    &MA_tmp_8bit,
-                    pMA_In,
-                    CV_MINMAX,
-                    CV_8U,
-                    0,
-                    255);
+        if(use_custom_range_for_spread_non_8bit)
+        {
+            ER = Visualize_to8bit(
+                        &MA_tmp_8bit,
+                        pMA_In,
+                        c_VIS_TRAFO_CROP_FIXED,
+                        c_VIS_TRAFO_LINEAR,
+                        c_VIS_TRAFO_ANCHOR_DYNAMIC,
+                        c_VIS_TRAFO_RANGE_DYNAMIC,
+                        0,
+                        1,
+                        in_min,
+                        in_max,
+                        1,
+                        0,
+                        1,
+                        true,
+                        c_COMPLEX2REAL_RE_IM);
+        }
+        else
+        {
+            ER = Normalize(
+                        &MA_tmp_8bit,
+                        pMA_In,
+                        CV_MINMAX,
+                        CV_8U,
+                        0,
+                        255);
+        }
         if(ER != ER_okay)   return ER;
     }
 
@@ -2872,6 +2879,192 @@ int D_Img_Proc::Convert_Double(Mat *pMA_Out, Mat *pMA_In)
         {
             MA_tmp_in[c].release();
             MA_tmp_double[c].release();
+        }
+    }
+        break;
+
+    default:
+        break;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Convert_UShort_1C(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->channels() != 1)                                              return ER_channel_bad;
+
+    //size
+    int area = pMA_In->rows * pMA_In->cols;
+
+    //out img
+    *pMA_Out = Mat::zeros(pMA_In->size(), CV_16UC1);
+    ushort* ptr_out = reinterpret_cast<ushort*>(pMA_Out->data);
+
+    //in img
+    switch (pMA_In->type()) {
+
+    case CV_8UC1:
+    {
+        uchar* ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_8SC1:
+    {
+        char* ptr_in = reinterpret_cast<char*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        ushort* ptr_in = reinterpret_cast<ushort*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_16SC1:
+    {
+        short* ptr_in = reinterpret_cast<short*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_32SC1:
+    {
+        int* ptr_in = reinterpret_cast<int*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_32FC1:
+    {
+        float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
+        for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+            *ptr_out = static_cast<ushort>(*ptr_in);
+    }
+        break;
+
+    default:
+        return ER_bitdepth_bad;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Convert_UShort(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->empty()) return ER_empty;
+
+    switch (pMA_In->channels()) {
+
+    case 1:
+    {
+        int ER = Convert_UShort_1C(
+                    pMA_Out,
+                    pMA_In);
+        if(ER != ER_okay)   return ER;
+    }
+        break;
+
+    case 2:
+    {
+        Mat MA_tmp_in[2];
+        split(
+                    *pMA_In,
+                    MA_tmp_in);
+
+        Mat MA_tmp_UShort[2];
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            int ER = Convert_UShort_1C(
+                        &(MA_tmp_UShort[c]),
+                        &(MA_tmp_in[c]));
+            if(ER != ER_okay)   return ER;
+        }
+
+        merge(
+                    MA_tmp_UShort,
+                    static_cast<size_t>(pMA_In->channels()),
+                    *pMA_Out);
+
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            MA_tmp_in[c].release();
+            MA_tmp_UShort[c].release();
+        }
+    }
+        break;
+
+    case 3:
+    {
+        Mat MA_tmp_in[3];
+        split(
+                    *pMA_In,
+                    MA_tmp_in);
+
+        Mat MA_tmp_UShort[3];
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            int ER = Convert_UShort_1C(
+                        &(MA_tmp_UShort[c]),
+                        &(MA_tmp_in[c]));
+            if(ER != ER_okay)   return ER;
+        }
+
+        merge(
+                    MA_tmp_UShort,
+                    static_cast<size_t>(pMA_In->channels()),
+                    *pMA_Out);
+
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            MA_tmp_in[c].release();
+            MA_tmp_UShort[c].release();
+        }
+    }
+        break;
+
+    case 4:
+    {
+        Mat MA_tmp_in[4];
+        split(
+                    *pMA_In,
+                    MA_tmp_in);
+
+        Mat MA_tmp_UShort[4];
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            int ER = Convert_UShort_1C(
+                        &(MA_tmp_UShort[c]),
+                        &(MA_tmp_in[c]));
+            if(ER != ER_okay)   return ER;
+        }
+
+        merge(
+                    MA_tmp_UShort,
+                    static_cast<size_t>(pMA_In->channels()),
+                    *pMA_Out);
+
+        for(int c = 0; c < pMA_In->channels(); c++)
+        {
+            MA_tmp_in[c].release();
+            MA_tmp_UShort[c].release();
         }
     }
         break;

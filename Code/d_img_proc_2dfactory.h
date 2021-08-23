@@ -66,6 +66,7 @@ public:
     static function<int (Mat *, Mat *)>                         Convert_Color2Mono              (int col2mono_code);
     static function<int (Mat *, Mat *)>                         Normalize                       (int norm, int type, double min, double max);
     static function<int (Mat *, Mat *)>                         Convert_Double                  ();
+    static function<int (Mat *, Mat *)>                         Convert_UShort                  ();
     static function<int (Mat *, Mat *)>                         Channel_Split                   (int channel);
     static function<int (Mat *, Mat *)>                         Channel_Supression              (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static function<int (Mat *, Mat *)>                         Convert_8UC1_binary             ();

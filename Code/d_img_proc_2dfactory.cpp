@@ -110,6 +110,17 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Double()
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_UShort()
+{
+    return
+            [](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Convert_UShort(
+                    pMA_Out,
+                    pMA_In);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Channel_Split(int channel)
 {
     return

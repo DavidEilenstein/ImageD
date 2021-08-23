@@ -4679,6 +4679,21 @@ int D_VisDat_Proc::Convert_Double(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
                 pVD_In);
 }
 
+int D_VisDat_Proc::Convert_UShort(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
+{
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                D_Img_Proc::TypeIndex_of_Mat(
+                    pVD_In->pMA_full()->channels(),
+                    CV_16U));
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Convert_UShort(),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Channels_Merge(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[])
 {
     *pVD_Out = D_VisDat_Obj(

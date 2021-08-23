@@ -540,7 +540,7 @@ void D_MainWindow::on_pushButton_Steps_Save_clicked()
     QDir DIR_Screenshots(QS_Folder_Out_Sub + "/Screenshots");
     QDir().mkdir(DIR_Screenshots.path());
     for(unsigned int s = 1; s < vSW_Steps.size(); s++)
-        vSW_Steps[s]->grab().save(DIR_Screenshots.path() + "/" + vSW_Steps[s]->get_Title() + ".jpg");
+        vSW_Steps[s]->grab().save(DIR_Screenshots.path() + "/" + vSW_Steps[s]->get_Title() + ".png");
  }
 
 void D_MainWindow::stream_init()

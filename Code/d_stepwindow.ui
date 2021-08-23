@@ -50,7 +50,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>6</number>
+         <number>0</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideNone</enum>
@@ -954,7 +954,7 @@
               <item row="0" column="6" rowspan="3">
                <spacer name="horizontalSpacer_3D_2">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -2489,6 +2489,11 @@
                <item>
                 <property name="text">
                  <string>Double</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>UShort</string>
                 </property>
                </item>
                <item>
@@ -9344,6 +9349,50 @@
                     <size>
                      <width>20</width>
                      <height>180</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_02_UShort">
+                <layout class="QGridLayout" name="gridLayout_148">
+                 <item row="0" column="0" rowspan="2">
+                  <widget class="Line" name="line_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_02_UShort_Description">
+                   <property name="text">
+                    <string>Converts the format to u16 aka ushort (No scaling).</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2" rowspan="2">
+                  <spacer name="horizontalSpacer_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>167</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="1">
+                  <spacer name="verticalSpacer_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>191</height>
                     </size>
                    </property>
                   </spacer>

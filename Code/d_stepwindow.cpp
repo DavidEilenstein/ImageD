@@ -1056,6 +1056,16 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_CO_USHORT:    //-------------------------------------------------------------------   UShort
+        {
+            ERR(D_VisDat_Proc::Convert_UShort(
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1)),
+                "Update_Img_Proc",
+                "Convert_UShort");
+        }
+            break;
+
         case c_sT_CO_DEPTH:     //-------------------------------------------------------------------   Depth
         {
             unsigned int type;
@@ -4667,7 +4677,7 @@ void D_StepWindow::Save_Image_Step()
 
     QString save_name = Viewer.Save_Image_Dialog(name_default);
 
-    if(save_name != 0)
+    if(!save_name.isEmpty())
         pStore->set_dir_Save(save_name);
 }
 
@@ -4751,25 +4761,31 @@ void D_StepWindow::Save_VisDat()
 void D_StepWindow::Save_Screenshot_Step()
 {
     QString name_default =
-            pStore->dir_Save()->path() + "/Screenshot " +
-            this->windowTitle();
+            pStore->dir_Save()->path() +
+            "/Screenshot " + this->windowTitle();
 
-    QFileInfo FI_save(name_default + ".jpg");
+    QFileInfo FI_save(name_default + ".png");
     int count = 1;
     while(FI_save.exists())
-        FI_save.setFile(name_default + "_" + QString::number(count) + ".jpg");
+        FI_save.setFile(name_default + "_" + QString::number(count) + ".png");
 
+    //qDebug() << FI_save;
     QString save_name = QFileDialog::getSaveFileName(
                         this,
                         tr("Save Screenshot"),
                         FI_save.absoluteFilePath(),
-                        tr("Images (*.png *.jpg *.bmp *.tif)"));
+                        tr("Images (*.png *.bmp *.tif)"));
 
-    if(save_name != 0)
-    {
-        this->grab().save(save_name);
-        pStore->set_dir_Save(save_name);
-    }
+    //qDebug() << save_name;
+    if(save_name.isEmpty())
+        return;
+
+    //no idea why this is needed, but there must ne an existing image to overwrite...
+    //Viewer.Save_Image(save_name);
+
+    //now save real screenshot
+    this->grab().save(save_name);
+    pStore->set_dir_Save(save_name);
 }
 
 void D_StepWindow::Save_Feature_List()
@@ -7116,8 +7132,8 @@ void D_StepWindow::Populate_CB_3DViewer()
 {
     Populate_CB_Single(ui->comboBox_3D_Axis_X,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_X);
     Populate_CB_Single(ui->comboBox_3D_Axis_Y,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Y);
-    Populate_CB_Single(ui->comboBox_3D_Axis_Z,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Z);
-    Populate_CB_Single(ui->comboBox_3D_Axis_Z_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_IMG_Z);
+    Populate_CB_Single(ui->comboBox_3D_Axis_Z,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
+    Populate_CB_Single(ui->comboBox_3D_Axis_Z_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
     Populate_CB_Single(ui->comboBox_3D_Axis_V,                      QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
     Populate_CB_Single(ui->comboBox_3D_Axis_V_Heightmap,            QSL_Viewer3D_Axis,          c_VIEWER_PLOT_3D_AXIS_CHANNEL_0);
 
@@ -7125,7 +7141,7 @@ void D_StepWindow::Populate_CB_3DViewer()
     Populate_CB_Single(ui->comboBox_3D_Condition,                   QSL_Viewer3D_Condition,     c_VIEWER_PLOT_3D_CONDITION_NOT_ZERO);
     Populate_CB_Single(ui->comboBox_3D_ColorHandling,               QSL_Viewer3D_ValueHandling, c_VIEWER_PLOT_3D_VALUE_HANDLING_MONO);
 
-    Populate_CB_Single(ui->comboBox_3D_TextureMode_Heightmap,       QSL_Viewer3D_Texture,       c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
+    Populate_CB_Single(ui->comboBox_3D_TextureMode_Heightmap,       QSL_Viewer3D_Texture,       c_VIEWER_PLOT_3D_TEXTURE_HUE);
     Populate_CB_Single(ui->comboBox_3D_2dPlane_Heightmap,           QSL_Planes,                 c_PLANE_XY);
     Populate_CB_Single(ui->comboBox_3D_SurfaceMode,                 QSL_Viewer_3D_SurfaceMode,  c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE);
     Populate_CB_Single(ui->comboBox_3D_SurfaceDimension,            QSL_DimIndices,             c_DIM_S);

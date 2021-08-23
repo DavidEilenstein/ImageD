@@ -90,7 +90,7 @@ public:
     static int      Quantiles_ofPixelvalues     (double *q_low, double *q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros);
     static int      Quantiles_ofPixelvalues     (vector<double> *v_q_low, vector<double> *v_q_high, Mat *pMA_In, double low_rel, double high_rel, bool ignore_zeros);
 
-    static int      Convert_Mat_to_QImage       (QImage *pQI_Out, Mat *pMA_In);
+    static int      Convert_Mat_to_QImage       (QImage *pQI_Out, Mat *pMA_In, bool use_custom_range_for_spread_non_8bit = false, double in_min = 0, double in_max = 1);
     static int      Convert_QImage_to_Mat       (Mat *pMA_Out, QImage *pQI_In);
     static int      Convert_toMat4Ch            (Mat *pMA_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color);
     static int      Convert_toMat4Ch_8bit       (Mat *pMA_Out, Mat *pMA_In, int alpha_mode, bool heat_color = false, bool norm_alpha = true);
@@ -116,6 +116,8 @@ public:
     static int      Convert_Color2Mono          (Mat *pMA_Out, Mat *pMA_In, int col2mono_code);
     static int      Convert_Double_1C           (Mat *pMA_Out, Mat *pMA_In);
     static int      Convert_Double              (Mat *pMA_Out, Mat *pMA_In);
+    static int      Convert_UShort_1C           (Mat *pMA_Out, Mat *pMA_In);
+    static int      Convert_UShort              (Mat *pMA_Out, Mat *pMA_In);
     static int      Convert_UChar_1C            (Mat *pMA_Out, Mat *pMA_In);
     static int      Convert_UChar               (Mat *pMA_Out, Mat *pMA_In);
     static int      Convert_8UC1                (Mat *pMA_Out, Mat *pMA_In);

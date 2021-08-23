@@ -771,7 +771,6 @@ void D_Viewer_3D::set_shadow_quality(int shadow_quality_id)
         return;
 
     graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow_quality_id));
-    qDebug() << "set shadow quali";
 }
 
 void D_Viewer_3D::change_graph_background_color()

@@ -185,6 +185,7 @@ public:
     static int  Convert_Color2Mono      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int col2mono_code);
     static int  Normalize               (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int norm, int type, double min, double max);
     static int  Convert_Double          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
+    static int  Convert_UShort          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4]);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
     static int  Channels_Split          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel);

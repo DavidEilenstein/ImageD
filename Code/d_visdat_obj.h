@@ -65,10 +65,10 @@ public:
     vector<double>  at              (int x, int y, int z, int t, int s, int p);
     vector<double>  at              (Vec<int, c_DIM_NUMBER_OF> pos);
 
-    int             size_PixelCount ();
-    int             size_BitPerPixel();
-    int             size_Bit        ();
-    int             size_Byte       ();
+    size_t          size_PixelCount();
+    size_t          size_BitPerPixel();
+    size_t          size_Bit();
+    size_t          size_Byte();
     D_VisDat_Dim    Dim             ()                              {return VD_Dim;}
     D_VisDat_Dim*   pDim            ()                              {return &VD_Dim;}
 
