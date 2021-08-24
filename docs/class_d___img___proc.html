@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v1_2_0 (19.08.21)</span>
+   &#160;<span id="projectnumber">v2_0_1 (23.08.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -149,8 +149,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2bf435d074863515f187cc4cbeeaad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ece2649c593fc1b5e30043ed74a1209"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a1ece2649c593fc1b5e30043ed74a1209">Quantiles_ofPixelvalues</a> (vector&lt; double &gt; *v_q_low, vector&lt; double &gt; *v_q_high, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, double low_rel, double high_rel, bool ignore_zeros)</td></tr>
 <tr class="separator:a1ece2649c593fc1b5e30043ed74a1209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade384a94caf4fcebb2f8e5654824a030"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ade384a94caf4fcebb2f8e5654824a030">Convert_Mat_to_QImage</a> (QImage *pQI_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
-<tr class="separator:ade384a94caf4fcebb2f8e5654824a030"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85a68fdcd2401fe62112ac8e4dc94414"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a85a68fdcd2401fe62112ac8e4dc94414">Convert_Mat_to_QImage</a> (QImage *pQI_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, bool use_custom_range_for_spread_non_8bit=false, double in_min=0, double in_max=1)</td></tr>
+<tr class="separator:a85a68fdcd2401fe62112ac8e4dc94414"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c24dccbe0aa390afdfdd9ec6082a236"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0c24dccbe0aa390afdfdd9ec6082a236">Convert_QImage_to_Mat</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, QImage *pQI_In)</td></tr>
 <tr class="separator:a0c24dccbe0aa390afdfdd9ec6082a236"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55fd0c204d0c8f999b63598a2740f952"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a55fd0c204d0c8f999b63598a2740f952">Convert_toMat4Ch</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In_Value, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In_Alpha, bool heat_color)</td></tr>
@@ -189,6 +189,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a93d59306a4eb6cdd9eae2b1ea10f4cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b5ab7e8eef3ccccfc105f02f0e1ed7e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a7b5ab7e8eef3ccccfc105f02f0e1ed7e">Convert_Double</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
 <tr class="separator:a7b5ab7e8eef3ccccfc105f02f0e1ed7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a52efffca6d9cb877e61d2ac4aba49b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6a52efffca6d9cb877e61d2ac4aba49b">Convert_UShort_1C</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
+<tr class="separator:a6a52efffca6d9cb877e61d2ac4aba49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4391a0f961e6c1262d081e0eb8dc35e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aa4391a0f961e6c1262d081e0eb8dc35e">Convert_UShort</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
+<tr class="separator:aa4391a0f961e6c1262d081e0eb8dc35e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ac0c5e84db9b9820474d4335aba1e4f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a8ac0c5e84db9b9820474d4335aba1e4f">Convert_UChar_1C</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
 <tr class="separator:a8ac0c5e84db9b9820474d4335aba1e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a643b05c270e91413182a626d9fdd8596"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a643b05c270e91413182a626d9fdd8596">Convert_UChar</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In)</td></tr>
@@ -1934,8 +1938,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ade384a94caf4fcebb2f8e5654824a030"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade384a94caf4fcebb2f8e5654824a030">&#9670;&nbsp;</a></span>Convert_Mat_to_QImage()</h2>
+<a id="a85a68fdcd2401fe62112ac8e4dc94414"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85a68fdcd2401fe62112ac8e4dc94414">&#9670;&nbsp;</a></span>Convert_Mat_to_QImage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1953,7 +1957,25 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
-          <td class="paramname"><em>pMA_In</em>&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_custom_range_for_spread_non_8bit</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>in_max</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2305,6 +2327,78 @@ Static Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int D_Img_Proc::Convert_UChar_1C </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4391a0f961e6c1262d081e0eb8dc35e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4391a0f961e6c1262d081e0eb8dc35e">&#9670;&nbsp;</a></span>Convert_UShort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Convert_UShort </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a52efffca6d9cb877e61d2ac4aba49b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a52efffca6d9cb877e61d2ac4aba49b">&#9670;&nbsp;</a></span>Convert_UShort_1C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Convert_UShort_1C </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
           <td class="paramname"><em>pMA_Out</em>, </td>

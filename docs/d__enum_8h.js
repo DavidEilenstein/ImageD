@@ -699,6 +699,7 @@ var d__enum_8h =
       [ "c_VIEWER_PLOT_3D_SURFACE_MODE_NUMBER_OF", "d__enum_8h.html#a0eef8395a6894cd807198ed13f6b089faebf896c7fa06bff47ea04a2f572c3bdb", null ]
     ] ],
     [ "D_VIEWER_PLOT_3D_TEXTURE", "d__enum_8h.html#ac25e2d8c45affa5da6ff055cd7d86980", [
+      [ "c_VIEWER_PLOT_3D_TEXTURE_MONO", "d__enum_8h.html#ac25e2d8c45affa5da6ff055cd7d86980af9b7f9a5fe725df2d99cea78b5617553", null ],
       [ "c_VIEWER_PLOT_3D_TEXTURE_IMAGE", "d__enum_8h.html#ac25e2d8c45affa5da6ff055cd7d86980acf123334222dfed6b75dd5a536752240", null ],
       [ "c_VIEWER_PLOT_3D_TEXTURE_GRAY", "d__enum_8h.html#ac25e2d8c45affa5da6ff055cd7d86980ab0c3db4ebea4e7c263be00290fff595a", null ],
       [ "c_VIEWER_PLOT_3D_TEXTURE_HUE", "d__enum_8h.html#ac25e2d8c45affa5da6ff055cd7d86980a1f8ab466a321121084f1fb6220e9d007", null ],
