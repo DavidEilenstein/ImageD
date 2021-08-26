@@ -968,11 +968,12 @@ void D_MAKRO_Visualization::ImgProc_Load()
             "ImgProc_Load",
             "Load_From_Path_Multi");
 
-        ERR(D_Img_Proc::Convert_Double_1C(
+        ERR(D_Img_Proc::Convert_Depth_NoScaling(
                 &(vMA_Image_Pages_In[page]),
-                &MA_tmp_in),
+                &MA_tmp_in,
+                CV_64F),
             "ImgProc_Load",
-            "Convert_Double_1C");
+            "Convert_Depth_NoScaling");
 
         MA_tmp_in.release();
     }
@@ -1116,11 +1117,12 @@ void D_MAKRO_Visualization::ImgProc_PageProc(int page)
         }
 
         //Double
-        ERR(D_Img_Proc::Convert_Double_1C(
+        ERR(D_Img_Proc::Convert_Depth_NoScaling(
                 &(vMA_Image_Pages_Out_Gray[page]),
-                &MA_tmp_paint),
+                &MA_tmp_paint,
+                CV_64F),
             "ImgProc_PageProc",
-            "c_PROC_BINARY - Convert_Double_1C");
+            "c_PROC_BINARY - Convert_Depth_NoScaling");
 
         MA_tmp_blur.release();
         MA_tmp_thres.release();

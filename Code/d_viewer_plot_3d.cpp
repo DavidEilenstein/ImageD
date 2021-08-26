@@ -822,9 +822,10 @@ int D_Viewer_Plot_3D::ValueAxisMat(Mat *pMA_Out, Mat *pMA_In, size_t axis_index,
         }
         else
         {
-            err = D_Img_Proc::Convert_Double(
+            err = D_Img_Proc::Convert_Depth_NoScaling(
                         pMA_Out,
-                        &MA_tmp_out_non_force_double);
+                        &MA_tmp_out_non_force_double,
+                        CV_64F);
             MA_tmp_out_non_force_double.release();
             if(err != ER_okay)
                 *pMA_Out = Mat(pMA_In->size(), CV_64FC1, Scalar(default_value));

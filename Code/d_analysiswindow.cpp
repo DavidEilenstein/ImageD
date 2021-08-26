@@ -416,9 +416,10 @@ void D_AnalysisWindow::Image_Value_Add(Mat *pMA_add, QString name)
 
     //convert to double
     Mat MA_tmp_double;
-    ER = D_Img_Proc::Convert_Double_1C(
+    ER = D_Img_Proc::Convert_Depth_NoScaling(
                 &MA_tmp_double,
-                pMA_add);
+                pMA_add,
+                CV_64F);
     ERR(
                 ER,
                 "Image_Value_Add",

@@ -4664,32 +4664,18 @@ int D_VisDat_Proc::Normalize(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int no
                 pVD_In);
 }
 
-int D_VisDat_Proc::Convert_Double(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
+int D_VisDat_Proc::Convert_Depth_NoScaling(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int depth)
 {
     *pVD_Out = D_VisDat_Obj(
                 pVD_In->Dim(),
                 D_Img_Proc::TypeIndex_of_Mat(
                     pVD_In->pMA_full()->channels(),
-                    CV_64F));
+                    depth));
 
     return Wrap_VD(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                D_Img_Proc_2dFactory::Convert_Double(),
-                pVD_Out,
-                pVD_In);
-}
-
-int D_VisDat_Proc::Convert_UShort(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
-{
-    *pVD_Out = D_VisDat_Obj(
-                pVD_In->Dim(),
-                D_Img_Proc::TypeIndex_of_Mat(
-                    pVD_In->pMA_full()->channels(),
-                    CV_16U));
-
-    return Wrap_VD(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                D_Img_Proc_2dFactory::Convert_UShort(),
+                D_Img_Proc_2dFactory::Convert_Depth_NoScaling(
+                    depth),
                 pVD_Out,
                 pVD_In);
 }
@@ -4987,10 +4973,10 @@ int D_VisDat_Proc::Labeling(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int con
                 pVD_In);
 }
 
-int D_VisDat_Proc::Fill_Holes(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
+int D_VisDat_Proc::Fill_Holes(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
 {
     return Wrap_VD_SameSizeType(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
+                slice,
                 D_Img_Proc_2dFactory::Fill_Holes(),
                 pVD_Out,
                 pVD_In);
@@ -5596,6 +5582,62 @@ int D_VisDat_Proc::Morphology_Erosion(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_
                     elem_size_Z),
                 pVD_Out,
                 pVD_In);
+}
+
+int D_VisDat_Proc::MorphSimple_Circ_Dialtion(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size)
+{
+    return Morphology_Elemental(
+                slice,
+                pVD_Out,
+                pVD_In,
+                MORPH_DILATE,
+                MORPH_ELLIPSE,
+                size,
+                size,
+                BORDER_DEFAULT,
+                1);
+}
+
+int D_VisDat_Proc::MorphSimple_Circ_Erosion(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size)
+{
+    return Morphology_Elemental(
+                slice,
+                pVD_Out,
+                pVD_In,
+                MORPH_ERODE,
+                MORPH_ELLIPSE,
+                size,
+                size,
+                BORDER_DEFAULT,
+                1);
+}
+
+int D_VisDat_Proc::MorphSimple_Circ_Opening(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size)
+{
+    return Morphology_Elemental(
+                slice,
+                pVD_Out,
+                pVD_In,
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                size,
+                size,
+                BORDER_DEFAULT,
+                1);
+}
+
+int D_VisDat_Proc::MorphSimple_Circ_Closing(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size)
+{
+    return Morphology_Elemental(
+                slice,
+                pVD_Out,
+                pVD_In,
+                MORPH_CLOSE,
+                MORPH_ELLIPSE,
+                size,
+                size,
+                BORDER_DEFAULT,
+                1);
 }
 
 int D_VisDat_Proc::Morphology_LocMax_Rect(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y)
@@ -6606,6 +6648,46 @@ int D_VisDat_Proc::Feature_Connect(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out
                 pVD_In);
 }
 
+int D_VisDat_Proc::ValueStat(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InLabel, D_VisDat_Obj *pVD_InValue, int stat, int connectivity)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_InLabel->Dim(),
+                CV_64FC1);
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::ValueStat(
+                    stat,
+                    connectivity),
+                pVD_Out,
+                pVD_InLabel,
+                pVD_InValue);
+}
+
+int D_VisDat_Proc::ValueStat_Select(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InLabel, D_VisDat_Obj *pVD_InValue, int stat, double thresh_min, double thresh_max, int connectivity)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_InLabel->Dim(),
+                CV_8UC1);
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::ValueStat_Select(
+                    stat,
+                    thresh_min,
+                    thresh_max,
+                    connectivity),
+                pVD_Out,
+                pVD_InLabel,
+                pVD_InValue);
+}
+
 int D_VisDat_Proc::Geometric_Reduce(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int geometric, int connectivity, int thickness, uchar value)
 {
     if(!slice.is_2D())
@@ -6642,10 +6724,8 @@ int D_VisDat_Proc::Histogram_Equalize(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_
                 pVD_In);
 }
 
-int D_VisDat_Proc::GammaSpread(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit)
+int D_VisDat_Proc::GammaSpread(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit)
 {
-    if(!slice.is_2D())
-        return ER_dim_2D_only;
 
     if(force_8bit)
         *pVD_Out = D_VisDat_Obj(
@@ -6661,7 +6741,7 @@ int D_VisDat_Proc::GammaSpread(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_
                         CV_64F));
 
     return Wrap_VD(
-                slice,
+                D_VisDat_Slicing(c_SLICE_2D_XY),
                 D_Img_Proc_2dFactory::GammaSpread(
                     gamma,
                     in_min,

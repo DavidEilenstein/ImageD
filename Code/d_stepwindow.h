@@ -343,6 +343,8 @@ private slots:
     void on_comboBox_3D_SurfaceMode_currentIndexChanged(int index);
 
 
+    void on_comboBox_02_Depth_Norm_currentIndexChanged(int index);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -486,8 +488,6 @@ private:
     enum c_Convert {
         c_sT_CO_COLOR2MONO,
         c_sT_CO_COLOR,
-        c_sT_CO_DOUBLE,
-        c_sT_CO_USHORT,
         c_sT_CO_DEPTH,
         c_sT_CO_MERGE,
         c_sT_CO_SPLIT,
@@ -559,7 +559,9 @@ private:
         c_sT_FE_CONTEXT_SELECT,
         c_sT_FE_CONNECT,
         c_sT_FE_REDUCE,
-        c_sT_FE_VISUALIZE
+        c_sT_FE_VISUALIZE,
+        c_sT_FE_VALUESTAT,
+        c_sT_FE_VALUESTAT_SELECT
     };
 
     //Subtypes: Other

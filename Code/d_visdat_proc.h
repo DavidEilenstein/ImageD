@@ -184,7 +184,7 @@ public:
     static int  Convert_Color           (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int cvt_mode);
     static int  Convert_Color2Mono      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int col2mono_code);
     static int  Normalize               (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int norm, int type, double min, double max);
-    static int  Convert_Double          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
+    static int  Convert_Depth_NoScaling (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int depth);
     static int  Convert_UShort          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4]);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
@@ -211,7 +211,7 @@ public:
     static int  Labeling                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int connecivity, int out_depth);
 
     //Fill Holes
-    static int  Fill_Holes              (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
+    static int  Fill_Holes              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
 
     //Shading
     static int  Shading_Correct         (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Ref);
@@ -246,6 +246,10 @@ public:
     static int  Morphology_Skeleton             (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In,                 int elem_type, int elem_size_X, int elem_size_Y, int border_type);
     static int  Morphology_Dilation             (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y, int elem_size_Z);
     static int  Morphology_Erosion              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X, int elem_size_Y, int elem_size_Z);
+    static int  MorphSimple_Circ_Dialtion       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size);
+    static int  MorphSimple_Circ_Erosion        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size);
+    static int  MorphSimple_Circ_Opening        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size);
+    static int  MorphSimple_Circ_Closing        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size);
     static int  Morphology_LocMax_Rect          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X = 3, int elem_size_Y = 3);
     static int  Morphology_Reconstruction       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Seed, D_VisDat_Obj *pVD_Limit, D_VisDat_Obj *pVD_Mask, double quantil = 1);
     static int  Filter_Maximum_1C               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y);
@@ -305,13 +309,15 @@ public:
     static int  FeatureContext_Select           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat, int stat, double t_min, double t_max, int connectivity = 4);
     static int  Feature_Visualize               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int feature,                              int connectivity, int thickness, double scale);
     static int  Feature_Connect                 (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function<bool(double, double)> comp, int connect_mode = c_CONNECT_CLOSEST, int connectivity = 4, int thickness = 2);
+    static int  ValueStat                       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InLabel, D_VisDat_Obj *pVD_InValue, int stat, int connectivity = 8);
+    static int  ValueStat_Select                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InLabel, D_VisDat_Obj *pVD_InValue, int stat, double thresh_min, double thresh_max, int connectivity = 8);
 
     //Geometric
     static int  Geometric_Reduce                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int geometric,                            int connectivity, int thickness, uchar value);
 
     //Comsmetic
     static int  Histogram_Equalize              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
-    static int  GammaSpread                     (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit);
+    static int  GammaSpread                     (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit);
     static int  GammaSpread_Quantiles           (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static int  Draw_Label_Numbers              (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, double scale, double thickness, bool center);
     static int  Draw_Label_Numbers_LUT          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);

@@ -1045,52 +1045,44 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
-
-        case c_sT_CO_DOUBLE:    //-------------------------------------------------------------------   Double
-        {
-            ERR(D_VisDat_Proc::Convert_Double(
-                    pStore->get_pVD(pos_Dest),
-                    pStore->get_pVD(pos_Source1)),
-                "Update_Img_Proc",
-                "Convert_Double");
-        }
-            break;
-
-        case c_sT_CO_USHORT:    //-------------------------------------------------------------------   UShort
-        {
-            ERR(D_VisDat_Proc::Convert_UShort(
-                    pStore->get_pVD(pos_Dest),
-                    pStore->get_pVD(pos_Source1)),
-                "Update_Img_Proc",
-                "Convert_UShort");
-        }
-            break;
-
         case c_sT_CO_DEPTH:     //-------------------------------------------------------------------   Depth
         {
             unsigned int type;
 
             switch (ui->comboBox_02_Depth_Type->currentIndex()) {
             case 0:     type = CV_8U;   break;
-            //case 1:     type = CV_8S;   break;
-            case 1:     type = CV_16U;  break;
-            //case 3:     type = CV_16S;  break;
-            case 2:     type = CV_32S;  break;
-            case 3:     type = CV_32F;  break;
-            //case 6:     type = CV_64F;  break;
-            default:                    break;
-            }
+            case 1:     type = CV_8S;   break;
+            case 2:     type = CV_16U;  break;
+            case 3:     type = CV_16S;  break;
+            case 4:     type = CV_32S;  break;
+            case 5:     type = CV_32F;  break;
+            case 6:     type = CV_64F;  break;
+            default:                    return;}
 
-            ERR(D_VisDat_Proc::Normalize(
-                    pStore->get_pVD(pos_Dest),
-                    pStore->get_pVD(pos_Source1),
-                    NORM_MINMAX,
-                    type,
-                    ui->doubleSpinBox_02_Depth_Minimum->value(),
-                    ui->doubleSpinBox_02_Depth_Maximum->value()),
-                "Update_Img_Proc",
-                "Normalize"
-                );
+            if(ui->comboBox_02_Depth_Norm->currentIndex() == 0)
+            {
+                ERR(D_VisDat_Proc::Convert_Depth_NoScaling(
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        type),
+                    "Update_Img_Proc",
+                    "Convert_Depth_NoScaling");
+            }
+            else
+            {
+                //CV_8S, CV_16S and CV_32S may cause problems
+                //QMessage::b
+
+                ERR(D_VisDat_Proc::Normalize(
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        NORM_MINMAX,
+                        type,
+                        ui->doubleSpinBox_02_Depth_Minimum->value(),
+                        ui->doubleSpinBox_02_Depth_Maximum->value()),
+                    "Update_Img_Proc",
+                    "Normalize");
+            }
         }
             break;
 
@@ -1308,6 +1300,7 @@ void D_StepWindow::Update_Img_Proc()
         case c_sT_EL_FILLHOLES:     //-----------------------------------------------------------   fill holes
         {
             ERR(D_VisDat_Proc::Fill_Holes(
+                    SlicingFromUi(),
                     pStore->get_pVD(pos_Dest),
                     pStore->get_pVD(pos_Source1)),
                 "Update_Img_Proc",
@@ -2648,7 +2641,7 @@ void D_StepWindow::Update_Img_Proc()
             switch (ui->comboBox_08_Visualize_Connectivity->currentIndex()) {
             case 0:     connectivity = 8;           break;
             case 1:     connectivity = 4;           break;
-            default:                                break;}
+            default:                                return;}
 
             ERR(D_VisDat_Proc::Feature_Visualize(
                     SlicingFromUi(),
@@ -2660,6 +2653,48 @@ void D_StepWindow::Update_Img_Proc()
                     ui->doubleSpinBox_08_Visualize_Scale->value()),
                 "Update_Img_Proc",
                 "Feature_Visualize");
+        }
+            break;
+
+        case c_sT_FE_VALUESTAT: //---------------------------------------------------------------   value statistic
+        {
+            int connectivity;
+            switch (ui->comboBox_08_ValueStat_Connectivity->currentIndex()) {
+            case 0:     connectivity = 8;           break;
+            case 1:     connectivity = 4;           break;
+            default:                                return;}
+
+            ERR(D_VisDat_Proc::ValueStat(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    pStore->get_pVD(pos_Source2),
+                    ui->comboBox_08_ValueStat_Stat->currentIndex(),
+                    connectivity),
+                "Update_Img_Proc",
+                "ValueStat");
+        }
+            break;
+
+        case c_sT_FE_VALUESTAT_SELECT: //---------------------------------------------------------------   value statistic
+        {
+            int connectivity;
+            switch (ui->comboBox_08_ValueStatSelect_Connectivity->currentIndex()) {
+            case 0:     connectivity = 8;           break;
+            case 1:     connectivity = 4;           break;
+            default:                                return;}
+
+            ERR(D_VisDat_Proc::ValueStat_Select(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    pStore->get_pVD(pos_Source2),
+                    ui->comboBox_08_ValueStatSelect_Stat->currentIndex(),
+                    ui->doubleSpinBox_08_ValueStatSelect_Min->value(),
+                    ui->doubleSpinBox_08_ValueStatSelect_Max->value(),
+                    connectivity),
+                "Update_Img_Proc",
+                "ValueStat_Select");
         }
             break;
 
@@ -2688,7 +2723,6 @@ void D_StepWindow::Update_Img_Proc()
         case c_sT_OT_GAMMA_SPREAD:    //-----------------------------------------------------------   Gamma Spread
 
             ERR(D_VisDat_Proc::GammaSpread(
-                    SlicingFromUi(),
                     pStore->get_pVD(pos_Dest),
                     pStore->get_pVD(pos_Source1),
                     ui->doubleSpinBox_09_GammaSpread_Gamma->value(),
@@ -3221,12 +3255,6 @@ void D_StepWindow::Update_ParameterList()
         }
             break;
 
-        case c_sT_CO_DOUBLE:    //-------------------------------------------------------------------   Double
-        {
-            QS_Subtype = "Double";
-        }
-            break;
-
         case c_sT_CO_DEPTH:     //-------------------------------------------------------------------   Depth
         {
             QS_Subtype = "Depth";
@@ -3234,12 +3262,12 @@ void D_StepWindow::Update_ParameterList()
 
             switch (ui->comboBox_02_Depth_Type->currentIndex()) {
             case 0:     QSL_Parameters.append("8U");    break;
-            //case 1:   type = CV_8S;                   break;
-            case 1:     QSL_Parameters.append("16U");   break;
-            //case 3:   type = CV_16S;                  break;
-            case 2:     QSL_Parameters.append("32S");   break;
-            case 3:     QSL_Parameters.append("32F");   break;
-            //case 6:   type = CV_64F;                  break;
+            case 1:     QSL_Parameters.append("8S");    break;
+            case 2:     QSL_Parameters.append("16U");   break;
+            case 3:     QSL_Parameters.append("16S");   break;
+            case 4:     QSL_Parameters.append("32S");   break;
+            case 5:     QSL_Parameters.append("32F");   break;
+            case 6:     QSL_Parameters.append("64F");   break;
             default:                                    break;
             }
         }
@@ -5688,6 +5716,14 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->comboBox_08_Visualize_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_08_Visualize_Scale,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_08_Visualize_Thickness,         SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //value stat
+        connect(ui->comboBox_08_ValueStat_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_08_ValueStat_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        //value stat select
+        connect(ui->comboBox_08_ValueStatSelect_Connectivity,   SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->comboBox_08_ValueStatSelect_Stat,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_08_ValueStatSelect_Min,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_08_ValueStatSelect_Max,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //OTHER
         //gamma spread
         connect(ui->doubleSpinBox_09_GammaSpread_Gamma,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
@@ -6279,6 +6315,14 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->comboBox_08_Visualize_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_08_Visualize_Scale,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_08_Visualize_Thickness,         SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Value Stat
+        disconnect(ui->comboBox_08_ValueStat_Connectivity,     SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_08_ValueStat_Stat,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        //value stat select
+        disconnect(ui->comboBox_08_ValueStatSelect_Connectivity,   SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->comboBox_08_ValueStatSelect_Stat,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_08_ValueStatSelect_Min,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_08_ValueStatSelect_Max,       SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //OTHER
         //gamma spread
         disconnect(ui->doubleSpinBox_09_GammaSpread_Gamma,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
@@ -6917,6 +6961,9 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
     case c_T_FEATURE:    //-------------------------------------------------------
     {
         proc_dim = true;
+
+        if(ui->comboBox_Type_08_Feature->currentIndex() == c_sT_FE_VALUESTAT || ui->comboBox_Type_08_Feature->currentIndex() == c_sT_FE_VALUESTAT_SELECT)
+            source_2 = true;
     }
         break;
 
@@ -7031,6 +7078,9 @@ void D_StepWindow::Populate_CB_Statistics()
 
     Populate_CB_Single(ui->comboBox_09_RelationStat_StatDistance,   QSL_StatList,       c_STAT_MEAN_ARITMETIC);
     Populate_CB_Single(ui->comboBox_09_RelationStat_StatAngle,      QSL_StatListCirc,   c_STAT_CIRC_MEAN_ANG);
+
+    Populate_CB_Single(ui->comboBox_08_ValueStat_Stat,              QSL_StatList,       c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_08_ValueStatSelect_Stat,        QSL_StatList,       c_STAT_MEAN_ARITMETIC);
 }
 
 void D_StepWindow::Populate_CB_Features()
@@ -7359,15 +7409,14 @@ void D_StepWindow::on_comboBox_02_Depth_Type_currentIndexChanged(int index)
     ui->doubleSpinBox_02_Depth_Maximum->blockSignals(true);
 
     switch (index) {
-    case 0:     CO_Depth_Set_Range(0,   0.0,            255.0);         break;
-    //case 1:   CO_Depth_Set_Range(0,   -128.0,         127.0);         break;
-    case 1:     CO_Depth_Set_Range(0,   0.0,            65535.0);       break;
-    //case 3:   CO_Depth_Set_Range(0,   -32768.0,       32767.0);       break;
-    case 2:     CO_Depth_Set_Range(0,   -2147483648.0,  2147483647.0);  break;
-    case 3:     CO_Depth_Set_Range(7,   -2147483648.0,  2147483647.0);  break;
-    //case 6:   CO_Depth_Set_Range(15,  -2147483648.0,  2147483647.0);  break;
-    default:                                                            break;
-    }
+    case 0:   CO_Depth_Set_Range(0,   0,            255);           break;
+    case 1:   CO_Depth_Set_Range(0,   -128,         127);           break;
+    case 2:   CO_Depth_Set_Range(0,   0,            65535);         break;
+    case 3:   CO_Depth_Set_Range(0,   -32768,       32767);         break;
+    case 4:   CO_Depth_Set_Range(0,   -2147483648,  2147483647);    break;
+    case 5:   CO_Depth_Set_Range(7,   0.0,          1.0);           break;
+    case 6:   CO_Depth_Set_Range(15,  0.0,          1.0);           break;
+    default:                                                        return;}
 
     ui->doubleSpinBox_02_Depth_Minimum->blockSignals(false);
     ui->doubleSpinBox_02_Depth_Maximum->blockSignals(false);
@@ -8232,4 +8281,10 @@ void D_StepWindow::on_comboBox_3D_SurfaceMode_currentIndexChanged(int index)
     ui->comboBox_3D_Axis_Z_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS);
     ui->comboBox_3D_TextureMode_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS);
     ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_SURFACE_MODE_CHANNELS && ui->comboBox_3D_TextureMode_Heightmap->currentIndex() != c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
+}
+
+void D_StepWindow::on_comboBox_02_Depth_Norm_currentIndexChanged(int index)
+{
+    ui->doubleSpinBox_02_Depth_Minimum->setEnabled(index == 1);
+    ui->doubleSpinBox_02_Depth_Maximum->setEnabled(index == 1);
 }

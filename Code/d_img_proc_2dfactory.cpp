@@ -99,25 +99,15 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Normalize(int norm, int type,
     };
 }
 
-function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Double()
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Depth_NoScaling(int depth)
 {
     return
-            [](Mat *pMA_Out, Mat *pMA_In)
+            [depth](Mat *pMA_Out, Mat *pMA_In)
     {
-        return D_Img_Proc::Convert_Double(
+        return D_Img_Proc::Convert_Depth_NoScaling(
                     pMA_Out,
-                    pMA_In);
-    };
-}
-
-function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_UShort()
-{
-    return
-            [](Mat *pMA_Out, Mat *pMA_In)
-    {
-        return D_Img_Proc::Convert_UShort(
-                    pMA_Out,
-                    pMA_In);
+                    pMA_In,
+                    depth);
     };
 }
 
@@ -1466,6 +1456,36 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(doubl
                     pMA_Overlay,
                     intensity_overlay,
                     intensity_backgr);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::ValueStat(int stat, int connectivity)
+{
+    return
+            [stat, connectivity](Mat *pMA_Out, Mat *pMA_Label, Mat *pMA_Value)
+    {
+        return D_Img_Proc::ValueStat(
+                    pMA_Out,
+                    pMA_Label,
+                    pMA_Value,
+                    stat,
+                    connectivity);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::ValueStat_Select(int stat, double thresh_min, double thresh_max, int connectivity)
+{
+    return
+            [stat, thresh_min, thresh_max, connectivity](Mat *pMA_Out, Mat *pMA_Label, Mat *pMA_Value)
+    {
+        return D_Img_Proc::ValueStat_Select(
+                    pMA_Out,
+                    pMA_Label,
+                    pMA_Value,
+                    stat,
+                    thresh_min,
+                    thresh_max,
+                    connectivity);
     };
 }
 

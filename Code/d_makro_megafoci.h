@@ -145,20 +145,34 @@ private slots:
 
     //img proc prepare
     void on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Pre_Blur_Size_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Pre_Blur_Sigma_valueChanged(double arg1);
     void on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
 
+    //visualize
+    void on_spinBox_ImgProc_Vis_Other_Min_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Vis_Other_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Vis_Other_Gamma_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Vis_GFP_Min_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Vis_GFP_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Vis_GFP_Gamma_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Vis_RFP_Min_valueChanged(int arg1);
+    void on_spinBox_ImgProc_Vis_RFP_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1);
+
     //img proc nuclei
-    void on_doubleSpinBox_ImgProc_Nuc_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_AreaMax_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_RFP_SignalMeanMin_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Nuc_GFP_BlurMedianSize_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Nuc_GFP_EdgeCVSize_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_GFP_ThresEdges_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Nuc_ErodeBorder_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_GFP_DistThres_valueChanged(double arg1);
-    void on_checkBox_ImgProc_Nuc_Watershed_NonSeed_stateChanged(int arg1);
-    void on_checkBox_ImgProc_Nuc_Watershed_ExBordered_stateChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Nuc_RoundnesMin_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_RankOrder_Size_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_RankOrder_Quantil_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_Thresh_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Seg0_ClosingSize_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg1_DistThresh_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Seg1_OpenSeeds_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Seg2_DistThresh_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Seg2_OpenSeeds_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Seg2_Area_Min_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg2_Area_Max_valueChanged(double arg1);
 
     //img proc foci gfp
     void on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1);
@@ -177,9 +191,6 @@ private slots:
     void on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1);
 
     void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
-
-    void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1);
 
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1);
@@ -344,6 +355,7 @@ private:
         STEP_PRE_LOAD_BOTTOM,
         STEP_PRE_LOAD_BOTTOM_RIGHT,
         STEP_PRE_STITCH,
+        STEP_PRE_BLUR_GAUSS,
         STEP_PRE_PROJECT_Z,
 
         //Pick Channels
@@ -352,23 +364,35 @@ private:
         STEP_PCK_RFP,
 
         //Visualization
+        STEP_VIS_OTHER,
+        STEP_VIS_GFP,
+        STEP_VIS_RFP,
         STEP_VIS_PAGES_AS_COLOR_GFP_RFP,
-        STEP_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP,
         STEP_VIS_PAGES_AS_COLOR_ALL,
-        STEP_VIS_PAGES_AS_COLOR_QUANTILS_ALL,
 
         //Find Nuclei
-        STEP_NUC_GFP_BLUR_MEDIAN,
-        STEP_NUC_GFP_EDGE_CV,
-        STEP_NUC_GFP_BINARY_THRES,
-        STEP_NUC_GFP_BINARY_FILL_HOLES,
-        STEP_NUC_GFP_BINARY_MORPH_ERODE,
-        STEP_NUC_DISTANCE,
-        STEP_NUC_SEEDS,
-        STEP_NUC_WATERSHED,
-        STEP_NUC_SELECT_AREA,
-        STEP_NUC_SELECT_ROUNDNESS,
-        STEP_NUC_RFP_SELECT_MEAN,
+        STEP_NUC_GFP_RANK_ORDER,
+        //segmentation level 0
+        STEP_NUC_GFP_SEG0_THRES,
+        STEP_NUC_GFP_SEG0_MORPH_OPENING,
+        STEP_NUC_GFP_SEG0_FILL_HOLES,
+        STEP_NUC_GFP_SEG0_SELECT_AREA,
+        //segmentation level 1
+        STEP_NUC_GFP_SEG1_DISTANCE,
+        STEP_NUC_GFP_SEG1_SEEDS,
+        STEP_NUC_GFP_SEG1_SEEDS_CLEAR,
+        STEP_NUC_GFP_SEG1_WATERSHED,
+        STEP_NUC_GFP_SEG1_BINARY_SEGMENTS,
+        //segmentation level 2
+        STEP_NUC_GFP_SEG2_DISTANCE,
+        STEP_NUC_GFP_SEG2_SEEDS,
+        STEP_NUC_GFP_SEG2_SEEDS_CLEAR,
+        STEP_NUC_GFP_SEG2_WATERSHED,
+        STEP_NUC_GFP_SEG2_SELECT_AREA,
+        //segmentation level 3
+        STEP_NUC_GFP_SEG3_CONVEX_HULL,
+        STEP_NUC_GFP_SEG3_WATERSHED_SEGMENTS,
+        STEP_NUC_GFP_SEG3_BINARY_SEGMENTS,
 
         //Visualization
         STEP_VIS_NUC_BORDERS,
@@ -406,30 +430,43 @@ private:
         "pre-2 Load border image B",
         "pre-3 Load border image BR",
         "pre-4 Stitch borders to main image",
-        "pre-5 Z-Projection",
+        "pre-5 blur input images in XY",
+        "pre-6 Z-Projection",
 
         "pck-0 OTHER pick signal",
         "pck-1 GFP pick signal",
         "pck-2 RFP pick Signal",
 
-        "vis-0 Color GFP green RFP blue",
-        "vis-1 Color GFP RFP crop interquantil",
-        "vis-2 Color all channels",
-        "vis-3 Color all crop interquantil",
+        "vis-0 Visualize OTHER",
+        "vis-1 Visualize GFP",
+        "vis-2 Visualize RFP",
+        "vis-3 Color GFP green RFP blue",
+        "vis-4 Color all channels",
 
-        "nuc-0 GFP circular median blur",
-        "nuc-1 GFP circular CV edges",
-        "nuc-2 GFP binarize edge image",
-        "nuc-3 fill holes in edge image",
-        "nuc-4 erode border",
-        "nuc-5 distance transformation",
-        "nuc-6 nuclei segmentation seeds",
-        "nuc-7 watershed segmentation",
-        "nuc-8 Select by Area",
-        "nuc-9 Select by Roundness",
-        "nuc-10 Select by Mean RFP Signal",
+        "nuc-0 GFP circular rank order filter",
+        //segmentation level 0..........................................
+        "nuc-1 GFP seg0 base threshold",
+        "nuc-2 GFP seg0 remove small foreground noise",
+        "nuc-3 GFP seg0 fill holes",
+        "nuc-4 GFP seg0 select by area",
+        //segmentation level 1..........................................
+        "nuc-5 GFP seg1 distance transformation",
+        "nuc-6 GFP seg1 get seeds",
+        "nuc-7 GFP seg1 clear seeds",
+        "nuc-8 GFP seg1 watershed segmentation",
+        "nuc-9 GFP seg1 binary segments",
+        //segmentation level 2..........................................
+        "nuc-10 GFP seg2 distance transformation",
+        "nuc-11 GFP seg2 get seeds",
+        "nuc-12 GFP seg2 clear seeds",
+        "nuc-13 GFP seg2 watershed segmentation",
+        "nuc-14 GFP seg2 select by area",
+        //segmentation level 3..........................................
+        "nuc-15 GFP seg3 convex hull",
+        "nuc-16 GFP seg3 watershed transformation seed from seg2",
+        "nuc-17 GFP seg3 binary segments",
 
-        "vis-4 Nuclei segemntation borders",
+        "vis-5 Nuclei segemntation borders",
 
         "foc-gfp-0 circular median blur",
         "foc-gfp-1 binarize by threshold",
@@ -447,9 +484,9 @@ private:
         "cla-2 Foci in GFP only",
         "cla-3 Foci in RFP only",
 
-        "vis-5 Regions",
-        "vis-6 Regions with background",
-        "vis-7 Regions with foci counts"
+        "vis-6 Regions",
+        "vis-7 Regions with background",
+        "vis-8 Regions with foci counts"
     };
 
     //Tabs

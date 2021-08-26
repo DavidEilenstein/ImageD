@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>617</width>
+    <width>650</width>
     <height>764</height>
    </rect>
   </property>
@@ -954,7 +954,7 @@
               <item row="0" column="6" rowspan="3">
                <spacer name="horizontalSpacer_3D_2">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -2488,16 +2488,6 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Double</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>UShort</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
                  <string>Depth</string>
                 </property>
                </item>
@@ -2826,7 +2816,12 @@
                </item>
                <item>
                 <property name="text">
-                 <string/>
+                 <string>Value Stat</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Value Stat Select</string>
                 </property>
                </item>
               </widget>
@@ -9311,94 +9306,6 @@
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="page_02_Double">
-                <layout class="QGridLayout" name="gridLayout_59">
-                 <item row="0" column="0" rowspan="2">
-                  <widget class="Line" name="line_02_Double">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLabel" name="label_02_Double_Description">
-                   <property name="text">
-                    <string>Converts the format to double (No scaling).</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2" rowspan="2">
-                  <spacer name="horizontalSpacer_02_Double">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>176</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="1" column="1">
-                  <spacer name="verticalSpacer_02_Double">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>180</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="page_02_UShort">
-                <layout class="QGridLayout" name="gridLayout_148">
-                 <item row="0" column="0" rowspan="2">
-                  <widget class="Line" name="line_02_UShort">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLabel" name="label_02_UShort_Description">
-                   <property name="text">
-                    <string>Converts the format to u16 aka ushort (No scaling).</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2" rowspan="2">
-                  <spacer name="horizontalSpacer_02_UShort">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>167</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="1" column="1">
-                  <spacer name="verticalSpacer_02_UShort">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>191</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
                <widget class="QWidget" name="page_02_Depth">
                 <layout class="QGridLayout" name="gridLayout_29">
                  <item row="3" column="1">
@@ -9506,7 +9413,17 @@
                    </item>
                    <item>
                     <property name="text">
+                     <string>CV_8S</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
                      <string>CV_16U</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CV_16S</string>
                     </property>
                    </item>
                    <item>
@@ -9517,6 +9434,11 @@
                    <item>
                     <property name="text">
                      <string>CV_32F</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CV_64F</string>
                     </property>
                    </item>
                   </widget>
@@ -9542,6 +9464,9 @@
                  </item>
                  <item row="2" column="2">
                   <widget class="QDoubleSpinBox" name="doubleSpinBox_02_Depth_Minimum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>100</width>
@@ -9558,6 +9483,9 @@
                  </item>
                  <item row="3" column="2">
                   <widget class="QDoubleSpinBox" name="doubleSpinBox_02_Depth_Maximum">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>100</width>
@@ -9592,6 +9520,11 @@
                      <height>16777215</height>
                     </size>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>No Scaling</string>
+                    </property>
+                   </item>
                    <item>
                     <property name="text">
                      <string>Min Max</string>
@@ -10018,6 +9951,94 @@
                     </property>
                    </item>
                   </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_02_Double">
+                <layout class="QGridLayout" name="gridLayout_59">
+                 <item row="0" column="0" rowspan="2">
+                  <widget class="Line" name="line_02_Double">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_02_Double_Description">
+                   <property name="text">
+                    <string>Converts the format to double (No scaling).</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2" rowspan="2">
+                  <spacer name="horizontalSpacer_02_Double">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>176</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="1">
+                  <spacer name="verticalSpacer_02_Double">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>180</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_02_UShort">
+                <layout class="QGridLayout" name="gridLayout_148">
+                 <item row="0" column="0" rowspan="2">
+                  <widget class="Line" name="line_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_02_UShort_Description">
+                   <property name="text">
+                    <string>Converts the format to u16 aka ushort (No scaling).</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2" rowspan="2">
+                  <spacer name="horizontalSpacer_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>167</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="1">
+                  <spacer name="verticalSpacer_02_UShort">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>191</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </widget>
@@ -21718,6 +21739,324 @@
                  </item>
                 </layout>
                </widget>
+               <widget class="QWidget" name="page_08_ValueStat">
+                <layout class="QGridLayout" name="gridLayout_150">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_08_ValueStat_Connectivity">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Connectivity</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="comboBox_08_ValueStat_Stat">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>[stat]</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QLabel" name="label_08_ValueStat_Connectivity_Explanation">
+                   <property name="text">
+                    <string>(used for labling, if source1 is no label img)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <spacer name="verticalSpacer_08_ValueStat">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>136</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_08_ValueStat_Stat">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Stat</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_08_ValueStat_Connectivity">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>8</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>4</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="2" column="3">
+                  <spacer name="horizontalSpacer_08_ValueStat">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>13</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_08_ValueStat_Source">
+                   <property name="text">
+                    <string>Sources</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1" colspan="2">
+                  <widget class="QLabel" name="label_08_ValueStat_Source_Description">
+                   <property name="text">
+                    <string>1: Label or binary; 2: Value img (single channel)</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_08_ValueStatSelect">
+                <layout class="QGridLayout" name="gridLayout_151">
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Stat">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Stat</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="3">
+                  <spacer name="horizontalSpacer_08_ValueStatSelect">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>13</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Connectivity">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Connectivity</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Min">
+                   <property name="text">
+                    <string>Thresh Min</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1" colspan="2">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Source_Description">
+                   <property name="text">
+                    <string>1: Label or binary; 2: Value img (single channel)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Connectivity_Explanation">
+                   <property name="text">
+                    <string>(used for labling, if source1 is no label img)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="comboBox_08_ValueStatSelect_Stat">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>[stat]</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_08_ValueStatSelect_Connectivity">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>8</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>4</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <spacer name="verticalSpacer_08_ValueStat_2">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>84</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Source">
+                   <property name="text">
+                    <string>Sources</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_08_ValueStatSelect_Max">
+                   <property name="text">
+                    <string>Thresh Max</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_08_ValueStatSelect_Min">
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-999999999.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>999999999.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_08_ValueStatSelect_Max">
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-999999999.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>999999999.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
                <widget class="QWidget" name="page_08_Extract">
                 <layout class="QGridLayout" name="gridLayout_111">
                  <item row="2" column="0">
@@ -26916,7 +27255,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>617</width>
+     <width>650</width>
      <height>22</height>
     </rect>
    </property>

@@ -65,8 +65,7 @@ public:
     static function<int (Mat *, Mat *)>                         Convert_Color                   (int cvt_mode);
     static function<int (Mat *, Mat *)>                         Convert_Color2Mono              (int col2mono_code);
     static function<int (Mat *, Mat *)>                         Normalize                       (int norm, int type, double min, double max);
-    static function<int (Mat *, Mat *)>                         Convert_Double                  ();
-    static function<int (Mat *, Mat *)>                         Convert_UShort                  ();
+    static function<int (Mat *, Mat *)>                         Convert_Depth_NoScaling         (int depth);
     static function<int (Mat *, Mat *)>                         Channel_Split                   (int channel);
     static function<int (Mat *, Mat *)>                         Channel_Supression              (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static function<int (Mat *, Mat *)>                         Convert_8UC1_binary             ();
@@ -137,7 +136,6 @@ public:
     static function<int (Mat *, Mat *)>                         Feature_Visualize               (int feature,                              int connectivity, int thickness, double scale);
     static function<int (Mat *, Mat *)>                         Feature_Connect                 (int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function<bool(double, double)> comp, int connect_mode = c_CONNECT_CLOSEST, int connectivity = 4, int thickness = 2);
 
-
     static function<int (Mat *, Mat *)>                         Geometric_Reduce                (int geometric,                            int connectivity, int thickness, uchar value);
 
     static function<int (Mat *, Mat *)>                         Histogram_Equalize              ();
@@ -182,6 +180,9 @@ public:
     static function<int (Mat *, Mat *, Mat *)>                  ClassBorder_kNN                 (int n);
 
     static function<int (Mat *, Mat *, Mat *)>                  OverlayOverwrite                (double intensity_overlay = 1.0, double intensity_backgr = 1.0);
+
+    static function<int (Mat *, Mat *, Mat *)>                  ValueStat                       (int stat, int connectivity = 8);
+    static function<int (Mat *, Mat *, Mat *)>                  ValueStat_Select                (int stat, double thresh_min, double thresh_max, int connectivity = 8);
 
 
     //3 Input -> 1 Output

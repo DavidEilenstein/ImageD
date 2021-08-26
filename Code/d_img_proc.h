@@ -114,12 +114,8 @@ public:
     static int      Convert_Color               (Mat *pMA_Out, Mat *pMA_In, int cvt_mode);
     static int      Convert_Color_RGBA          (Mat *pMA_Out, Mat *pMA_In, double r, double g, double b, double a, double range_rgba = 255.0);
     static int      Convert_Color2Mono          (Mat *pMA_Out, Mat *pMA_In, int col2mono_code);
-    static int      Convert_Double_1C           (Mat *pMA_Out, Mat *pMA_In);
-    static int      Convert_Double              (Mat *pMA_Out, Mat *pMA_In);
-    static int      Convert_UShort_1C           (Mat *pMA_Out, Mat *pMA_In);
-    static int      Convert_UShort              (Mat *pMA_Out, Mat *pMA_In);
-    static int      Convert_UChar_1C            (Mat *pMA_Out, Mat *pMA_In);
-    static int      Convert_UChar               (Mat *pMA_Out, Mat *pMA_In);
+    static int      Convert_Depth_NoScaling     (Mat *pMA_Out, Mat *pMA_In, int depth);
+    static int      Convert_Depth_NoScaling_1C  (Mat *pMA_Out, Mat *pMA_In, int depth);
     static int      Convert_8UC1                (Mat *pMA_Out, Mat *pMA_In);
     static int      Convert_Complex2Real_1C     (Mat *pMA_Out, Mat *pMA_InRe, Mat *pMA_InIm, int mode);
     static int      Convert_Complex2Real_1C     (Mat *pMA_Out, Mat *pMA_InComplexChannels, int mode);
@@ -350,7 +346,8 @@ public:
     static int      Split_ObjectAreas           (vector<double> *v_objects, vector<double> *v_areas, Mat *pMA_Label, Mat *pMA_Objects, int connectivity);
 
     static int      LUT_Apply_to_Label_Int      (Mat *pMA_Out, Mat *pMA_Label, vector<int> vLUT);
-    static int      LUT_Apply_to_Label_Double   (Mat *pMA_Out, Mat *pMA_Label, vector<double> vLUT);
+    static int      LUT_Apply_to_Label_Double   (Mat *pMA_Out, Mat *pMA_Label, vector<double> vLUT, bool LUT_has_BG_label = true);
+    static int      LUT_Apply_to_Label_Uchar    (Mat *pMA_Out, Mat *pMA_Label, vector<uchar> vLUT, bool LUT_has_BG_label = true);
     static int      LUT_Apply_to_Label_Binary   (Mat *pMA_Out, Mat *pMA_Label, vector<int> vLUT, bool ignore_BG = true);
     static int      LUT_Apply_to_Label_TrueFalse(Mat *pMA_Out_true, Mat *pMA_Out_false, Mat *pMA_Label, vector<int> vLUT, bool edges = true, bool ignore_BG = true);
     static int      LUT_Apply_to_Label_Color    (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<int> vLUT, int channel_true, int channel_false, bool edges = true, bool ignore_BG = true);
@@ -361,6 +358,9 @@ public:
     static int      FeatureContext_Select       (Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat, int stat, double t_min, double t_max, int connectivity = 4);
     static int      Feature_Visualize           (Mat *pMA_Out, Mat *pMA_In, int feature, int connectivity = 4, int thickness = 1, double scale = 1);
     static int      Feature_Connect             (Mat *pMA_Out, Mat *pMA_In, int pt_type1, int pt_type2, double dist_min, double dist_max, int feat1, int feat2, function<bool(double, double)> comp, int connect_mode = c_CONNECT_CLOSEST, int connectivity = 4, int thickness = 2);
+
+    static int      ValueStat                   (Mat *pMA_Out, Mat *pMA_InLabel, Mat *pMA_InValue, int stat, int connectivity = 8);
+    static int      ValueStat_Select            (Mat *pMA_Out, Mat *pMA_InLabel, Mat *pMA_InValue, int stat, double thresh_min, double thresh_max, int connectivity = 8);
 
     static int      Detect_CornerHarris         (Mat *pMA_Out, Mat *pMA_In, int blockSize, int sobelAperture, double harrisParam, double thres);
 
