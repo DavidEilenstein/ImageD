@@ -549,7 +549,7 @@ void D_MAKRO_CurveFitting::FittingLoop()
                         pChartView->chart()->axisY()->setMax(a_display_min_max);
 
                         if(save)
-                            pChartView->grab().save(DIR_Save.path() + "/Fit - Score_" + QString::number(score_cur, 'f', 6) + ".jpg");
+                            pChartView->grab().save(DIR_Save.path() + "/Fit - Score_" + QString::number(score_cur, 'f', 6) + ".png");
                     }
 
                     //Update Ui

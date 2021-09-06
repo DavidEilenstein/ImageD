@@ -1569,7 +1569,7 @@ void D_MAKRO_DnaFiber::Save_Plot_DiaHist()
                     this,
                     "Save Diameter Histogram",
                     DIR_SaveSingle.path(),
-                    "Plot as image (*.png *.jpg *.bmp *.tif)");
+                    "Plot as image (*.png *.bmp *.tif)");
     if(path == 0)
         return;
 
@@ -1583,7 +1583,7 @@ void D_MAKRO_DnaFiber::Save_Plot_InputHist()
                     this,
                     "Save Input Gray Value Histogram",
                     DIR_SaveSingle.path(),
-                    "Plot as image (*.png *.jpg *.bmp *.tif)");
+                    "Plot as image (*.png *.bmp *.tif)");
     if(path == 0)
         return;
 

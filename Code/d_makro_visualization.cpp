@@ -254,14 +254,14 @@ void D_MAKRO_Visualization::Save_Single()
 
     pStore->set_dir_M_Visualization(
                 View_Output.Save_Image(
-                    DIR_SaveCurrentImage.path() + "/Result - " + QSL_Images_FileNames[current_image] + ".jpg"));
+                    DIR_SaveCurrentImage.path() + "/Result - " + QSL_Images_FileNames[current_image] + ".png"));
 
     ui->comboBox_ViewImgType->setCurrentIndex(c_IMG_OUT_COLOR);
     for(int page = 0; page < pages_number; page++)
     {
         ui->comboBox_Page->setCurrentIndex(page);
         View_Page.Save_Image(
-                    DIR_SaveCurrentImage.path() + "/" + QSL_Pages[page] + " - " + QSL_Images_FileNames[current_image] + ".jpg");
+                    DIR_SaveCurrentImage.path() + "/" + QSL_Pages[page] + " - " + QSL_Images_FileNames[current_image] + ".png");
     }
 }
 
@@ -307,7 +307,7 @@ void D_MAKRO_Visualization::Save_Stack()
         ui->comboBox_Image->setCurrentIndex(img);
         Save_Single();
 
-        View_Output.Save_Image(DIR_SaveStack.path() + "/Result - " + QSL_Images_FileNames[current_image] + ".jpg");
+        View_Output.Save_Image(DIR_SaveStack.path() + "/Result - " + QSL_Images_FileNames[current_image] + ".png");
     }
 
     this->setEnabled(true);

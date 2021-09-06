@@ -411,18 +411,18 @@ void D_MAKRO_CellColonies::Save_Analysis()
         ui->tabWidget_Res->setCurrentIndex(0);
         ui->comboBox_ResImg_Color->setCurrentIndex(c_ST_C_RGB);
         ui->comboBox_ResImg_Binary->setCurrentIndex(c_ST_B_EDGES_NUMBERS - 7);
-        Save_Image(&Viewer_Results, QS_Base_SavePath + "Image_Labeling.jpg");
+        Save_Image(&Viewer_Results, QS_Base_SavePath + "Image_Labeling.png");
         if(stack_proc_active)
-            Save_Image(&Viewer_Results, DIR_Stream_Stack_Labeling.path() + "/Image_Labeling - " + QS_BaseName_Current + ".jpg");
+            Save_Image(&Viewer_Results, DIR_Stream_Stack_Labeling.path() + "/Image_Labeling - " + QS_BaseName_Current + ".png");
     }
 
     //Surrival
     if(ui->checkBox_Output_Surrival->isChecked())
     {
         ui->tabWidget_Res->setCurrentIndex(3);
-        Save_Image(&Viewer_Surrival, QS_Base_SavePath + "Image_Surrival.jpg");
+        Save_Image(&Viewer_Surrival, QS_Base_SavePath + "Image_Surrival.png");
         if(stack_proc_active)
-            Save_Image(&Viewer_Surrival, DIR_Stream_Stack_Surrival.path() + "/Image_Surrival - " + QS_BaseName_Current + ".jpg");
+            Save_Image(&Viewer_Surrival, DIR_Stream_Stack_Surrival.path() + "/Image_Surrival - " + QS_BaseName_Current + ".png");
     }
 
     //Segmentation
@@ -441,7 +441,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
         ui->comboBox_ResAtt_Attribute->setCurrentIndex(c_ATT_SIZE_AREA);
         Save_Image(&Viewer_Attribute, QS_Base_SavePath + "Image_AreaInPx.png");
         if(stack_proc_active)
-            Save_Image(&Viewer_Attribute, DIR_Stream_Stack_Attribute.path() + "/Image_AreaInPx - " + QS_BaseName_Current + ".jpg");
+            Save_Image(&Viewer_Attribute, DIR_Stream_Stack_Attribute.path() + "/Image_AreaInPx - " + QS_BaseName_Current + ".png");
     }
 
     //Cell Cont
@@ -451,7 +451,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
         ui->comboBox_ResAtt_Attribute->setCurrentIndex(c_ATT_CELL_DENSITY_SUM);
         Save_Image(&Viewer_Attribute, QS_Base_SavePath + "Image_CellCountApprox.png");
         if(stack_proc_active)
-            Save_Image(&Viewer_Attribute, DIR_Stream_Stack_Attribute.path() + "/Image_CellCountApprox - " + QS_BaseName_Current + ".jpg");
+            Save_Image(&Viewer_Attribute, DIR_Stream_Stack_Attribute.path() + "/Image_CellCountApprox - " + QS_BaseName_Current + ".png");
     }
 
     //--------------------------------------------------    Plots
@@ -465,11 +465,11 @@ void D_MAKRO_CellColonies::Save_Analysis()
     {
         Save_Plot(
                     pChartView_Surrival,
-                    QS_Base_SavePath + "Plot_Surrival - Pie.jpg");
+                    QS_Base_SavePath + "Plot_Surrival - Pie.png");
         if(stack_proc_active)
             Save_Plot(
                         pChartView_Surrival,
-                        DIR_Stream_Stack_Surrival.path() + "/Plot_Surrival - " + QS_BaseName_Current + ".jpg");
+                        DIR_Stream_Stack_Surrival.path() + "/Plot_Surrival - " + QS_BaseName_Current + ".png");
     }
 
 
@@ -492,7 +492,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
             ui->comboBox_ResPlo_HisImg_Attribute->setCurrentIndex(a);
             Save_Plot(
                         pChartView_Image,
-                        QS_Base_SavePath + "Plot_Image - Histogram - " + ui->comboBox_ResPlo_HisImg_Attribute->currentText() + ".jpg");
+                        QS_Base_SavePath + "Plot_Image - Histogram - " + ui->comboBox_ResPlo_HisImg_Attribute->currentText() + ".png");
         }
     }
 
@@ -506,7 +506,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
             ui->comboBox_ResPlo_StatComp_Img_Y_Attribute->setCurrentIndex(a);
             Save_Plot(
                         pChartView_Image,
-                        QS_Base_SavePath + "Plot_Image - Scatter - " + ui->comboBox_ResPlo_StatComp_Img_X_Attribute->currentText() + " - " + ui->comboBox_ResPlo_StatComp_Img_Y_Attribute->currentText() + ".jpg");
+                        QS_Base_SavePath + "Plot_Image - Scatter - " + ui->comboBox_ResPlo_StatComp_Img_X_Attribute->currentText() + " - " + ui->comboBox_ResPlo_StatComp_Img_Y_Attribute->currentText() + ".png");
         }
     }
 
@@ -533,7 +533,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 ui->checkBox_ResPlo_HisCol_Accumulate->setChecked(true);
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Histogram - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Histogram - " + QSL_Types[t] + ".png");
             }
 
             //Mean/SD/Median/ADM
@@ -550,7 +550,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - Mean - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - Mean - " + QSL_Types[t] + ".png");
             }
 
             //SD
@@ -563,7 +563,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - SD - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - SD - " + QSL_Types[t] + ".png");
             }
 
             //Median
@@ -576,7 +576,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - Median - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - Median - " + QSL_Types[t] + ".png");
             }
 
             //ADM
@@ -589,7 +589,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - ADM - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - ADM - " + QSL_Types[t] + ".png");
             }
 
             //CSK
@@ -605,7 +605,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - CV - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - CV - " + QSL_Types[t] + ".png");
             }
 
             //Skewness
@@ -617,7 +617,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - Skewness - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - Skewness - " + QSL_Types[t] + ".png");
             }
 
             //Kurtosis
@@ -629,7 +629,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 Update_Results();
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Bar - Kurtosis - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Bar - Kurtosis - " + QSL_Types[t] + ".png");
             }
 
             //Quantiles
@@ -641,7 +641,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
                 ui->comboBox_ResPlo_Quant_Steps->setCurrentIndex(3);
                 Save_Plot(
                             pChartView_Colony,
-                            QS_Base_SavePath + "Plot_Colony - Stacked_Bar - Quantiles - " + QSL_Types[t] + ".jpg");
+                            QS_Base_SavePath + "Plot_Colony - Stacked_Bar - Quantiles - " + QSL_Types[t] + ".png");
             }
         }
 
@@ -652,7 +652,7 @@ void D_MAKRO_CellColonies::Save_Analysis()
         ui->comboBox_Res_PlotType->setCurrentIndex(5);
         Save_Plot(
                     pChartView_Colony,
-                    QS_Base_SavePath + "Plot_Colony - XY - Radial_Transmission.jpg");
+                    QS_Base_SavePath + "Plot_Colony - XY - Radial_Transmission.png");
     }
 
     ui->groupBox_ProcView->setVisible(true);
@@ -673,7 +673,7 @@ void D_MAKRO_CellColonies::Save_Processing_Chain()
     for(int s = 0; s < vMA_Cells.size(); s++)
     {
         ui->comboBox_ProcView_Step->setCurrentIndex(s);
-        Save_Image(&Viewer_Cells, DIR_Stream_Processing.path() + "/" + ui->comboBox_ProcView_Step->currentText() + ".jpg");
+        Save_Image(&Viewer_Cells, DIR_Stream_Processing.path() + "/" + ui->comboBox_ProcView_Step->currentText() + ".png");
     }
 }
 
@@ -720,7 +720,7 @@ void D_MAKRO_CellColonies::Save_Plot(QChartView *pCV_Save, QString name_default)
         name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save plot as image"),
                                                  name_default,
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -774,7 +774,7 @@ void D_MAKRO_CellColonies::Save_Parameters()
 
     ui->tabWidget_Control->setCurrentIndex(0);//show settings
     this->setEnabled(true);
-    ui->tabWidget_Control->grab().save(DIR_Stream.path() + "/Parameters_Used.jpg");
+    ui->tabWidget_Control->grab().save(DIR_Stream.path() + "/Parameters_Used.png");
     this->setEnabled(false);
 }
 

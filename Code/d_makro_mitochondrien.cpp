@@ -1475,7 +1475,7 @@ void D_MAKRO_Mitochondrien::Save_Image_Photons()
             DIR_Stream.absolutePath() + "/" +
             QS_Image_BaseName + " - " +
             ui->comboBox_PhoVie_Step->currentText() +
-            ".jpg";
+            ".png";
 
     Save_Image(&Viewer_Photons, name_default);
 }
@@ -1485,7 +1485,7 @@ void D_MAKRO_Mitochondrien::Save_Image_Parameters()
     QString name_default =
             QS_Image_BasePath.left(QS_Image_BasePath.lastIndexOf('_')) + " - " +
             ui->comboBox_ParVie_Parameter->currentText() +
-            ".jpg";
+            ".png";
 
     Save_Image(&Viewer_Parameters, name_default);
 }
@@ -1500,14 +1500,14 @@ void D_MAKRO_Mitochondrien::Save_Image_Results()
                     " - R " + ui->comboBox_Gra_R->currentText() +
                     " - G " + ui->comboBox_Gra_G->currentText() +
                     " - B " + ui->comboBox_Gra_B->currentText() +
-                    ".jpg";
+                    ".png";
     else
         name_default =
                     QS_Image_BasePath.left(QS_Image_BasePath.lastIndexOf('_')) + " - " +
                     ui->comboBox_Math_Par_1->currentText() + " " +
                     ui->comboBox_Math_Operator->currentText() + " " +
                     ui->comboBox_Math_Par_2->currentText() +
-                    ".jpg";
+                    ".png";
 
     Save_Image(&Viewer_Results, name_default);
 }
@@ -1522,7 +1522,7 @@ void D_MAKRO_Mitochondrien::Save_Image(QImage *QI_Save, QString name_default)
         name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save image"),
                                                  name_default,
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -1543,7 +1543,7 @@ void D_MAKRO_Mitochondrien::Save_Image(D_Viewer *ViewerSave, QString name_defaul
         name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save image"),
                                                  name_default,
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -1564,19 +1564,19 @@ void D_MAKRO_Mitochondrien::Save_Plot()
 
     case c_RT_PLOT_HIST_IMG:
         name_default.append(
-                    ui->comboBox_His_Image->currentText() + ".jpg");
+                    ui->comboBox_His_Image->currentText() + ".png");
         break;
 
     case c_RT_PLOT_HIST_CELL:
         name_default.append(
-                    ui->comboBox_ParAll_Parameter->currentText() + ".jpg");
+                    ui->comboBox_ParAll_Parameter->currentText() + ".png");
         break;
 
     case c_RT_PLOT_PAR_PIXEL:
         name_default.append(
                     ui->comboBox_Par_Nucleus->currentText() + " - " +
                     ui->comboBox_Par_Y_Parameter->currentText() + " vs " +
-                    ui->comboBox_Par_X_Parameter->currentText() + ".jpg");
+                    ui->comboBox_Par_X_Parameter->currentText() + ".png");
         break;
 
     case c_RT_PLOT_PAR_CELL:
@@ -1585,17 +1585,17 @@ void D_MAKRO_Mitochondrien::Save_Plot()
 
     case c_RT_PLOT_STAT_MM:
         name_default.append(
-                    ui->comboBox_Stat_MM_Parameter->currentText() + ".jpg");
+                    ui->comboBox_Stat_MM_Parameter->currentText() + ".png");
         break;
 
     case c_RT_PLOT_STAT_CSK:
         name_default.append(
-                    ui->comboBox_Stat_CSK_Parameter->currentText() + ".jpg");
+                    ui->comboBox_Stat_CSK_Parameter->currentText() + ".png");
         break;
 
     case c_RT_PLOT_STAT_QUANT:
         name_default.append(
-                    ui->comboBox_Stat_Quantiles_Parameter->currentText() + ".jpg");
+                    ui->comboBox_Stat_Quantiles_Parameter->currentText() + ".png");
         break;
     default:
         break;
@@ -1614,7 +1614,7 @@ void D_MAKRO_Mitochondrien::Save_Plot(QChartView *pCV_Save, QString name_default
         name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save plot as image"),
                                                  name_default,
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -2810,12 +2810,12 @@ void D_MAKRO_Mitochondrien::Stream_ImagesPlots()
         ui->checkBox_His_Accumulate->setChecked(true);
         ui->spinBox_His_ClassCount->setValue(1000);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_All - Cumulated.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_All - Cumulated.png");
 
         ui->checkBox_His_Accumulate->setChecked(false);
         ui->spinBox_His_ClassCount->setValue(100);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_All.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_All.png");
 
         //Histo cells
         ui->comboBox_ResPlo_Type->setCurrentIndex(c_RT_PLOT_HIST_CELL);
@@ -2825,12 +2825,12 @@ void D_MAKRO_Mitochondrien::Stream_ImagesPlots()
         ui->checkBox_ParAll_Accumulate->setChecked(true);
         ui->spinBox_ParAll_ClassCount->setValue(1000);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_Cells - Cumulated.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_Cells - Cumulated.png");
 
         ui->checkBox_ParAll_Accumulate->setChecked(false);
         ui->spinBox_ParAll_ClassCount->setValue(100);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_Cells.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Histogram_Cells.png");
 
         //Mean/Median
         ui->comboBox_ResPlo_Type->setCurrentIndex(c_RT_PLOT_STAT_MM);
@@ -2841,21 +2841,21 @@ void D_MAKRO_Mitochondrien::Stream_ImagesPlots()
         ui->checkBox_Stat_MM_Median->setChecked(false);
         ui->checkBox_Stat_MM_ADM->setChecked(false);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Mean_SD.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Mean_SD.png");
 
         ui->checkBox_Stat_MM_Mean->setChecked(false);
         ui->checkBox_Stat_MM_SD->setChecked(false);
         ui->checkBox_Stat_MM_Median->setChecked(true);
         ui->checkBox_Stat_MM_ADM->setChecked(true);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Median_AbsDevMed.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Median_AbsDevMed.png");
 
         ui->checkBox_Stat_MM_Mean->setChecked(true);
         ui->checkBox_Stat_MM_SD->setChecked(false);
         ui->checkBox_Stat_MM_Median->setChecked(true);
         ui->checkBox_Stat_MM_ADM->setChecked(false);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Mean_Median.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Mean_Median.png");
 
         //CV/Skewness/Kurtosis
         ui->comboBox_ResPlo_Type->setCurrentIndex(c_RT_PLOT_STAT_CSK);
@@ -2865,20 +2865,20 @@ void D_MAKRO_Mitochondrien::Stream_ImagesPlots()
         ui->checkBox_Stat_CSK_Skewness->setChecked(false);
         ui->checkBox_Stat_CSK_Kurtosis->setChecked(false);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - CoefficientOfVariance.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - CoefficientOfVariance.png");
 
         ui->checkBox_Stat_CSK_CV->setChecked(false);
         ui->checkBox_Stat_CSK_Skewness->setChecked(true);
         ui->checkBox_Stat_CSK_Kurtosis->setChecked(true);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Skewness_Kurtosis.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Skewness_Kurtosis.png");
 
         //Quantiles
         ui->comboBox_ResPlo_Type->setCurrentIndex(c_RT_PLOT_STAT_QUANT);
         ui->comboBox_Stat_Quantiles_Parameter->setCurrentIndex(p);
         ui->comboBox_Stat_Quantiles_Step->setCurrentIndex(3);
         Update_Results_Proc_Force();
-        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Quantiles.jpg");
+        Save_Plot(ChartView_Plot, QS_ResParImg_SaveName_Begin + "Cells - Quantiles.png");
     }
 
     ui->groupBox_Photons_View->setVisible(true);
@@ -2890,8 +2890,8 @@ void D_MAKRO_Mitochondrien::Stream_ImagesPlots()
     this->setEnabled(true);
 
     //Settings
-    ui->groupBox_Photons_Controls->grab().save(QS_Folder_Out_Sub_Img + "/" + QS_Image_BaseName + " - SettingsPhotons.jpg", 0, -1);
-    ui->groupBox_Parameters_Controls->grab().save(QS_Folder_Out_Sub_Img + "/" + QS_Image_BaseName + " - SettingsParameters.jpg", 0, -1);
+    ui->groupBox_Photons_Controls->grab().save(QS_Folder_Out_Sub_Img + "/" + QS_Image_BaseName + " - SettingsPhotons.png", 0, -1);
+    ui->groupBox_Parameters_Controls->grab().save(QS_Folder_Out_Sub_Img + "/" + QS_Image_BaseName + " - SettingsParameters.png", 0, -1);
 
     Auto_SaveName = Auto_SaveName_Before;
     Auto_ResultsProc_blocked = false;

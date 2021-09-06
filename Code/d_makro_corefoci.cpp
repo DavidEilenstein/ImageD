@@ -80,6 +80,7 @@ D_MAKRO_CoreFoci::D_MAKRO_CoreFoci(D_Storage *pStorage, QWidget *parent) :
     //CONNECTS
     connect(ui->action_Load_Images,                 SIGNAL(triggered(bool)),            this,   SLOT(Load_Images()));
     connect(ui->action_Update_All,                  SIGNAL(triggered(bool)),            this,   SLOT(Update_ImgProc_All()));
+    connect(ui->pushButton_UpdateImgProc,           SIGNAL(clicked(bool)),              this,   SLOT(Update_ImgProc_All()));
     connect(ui->action_Update_View,                 SIGNAL(triggered(bool)),            this,   SLOT(Update_Views()));
     connect(ui->action_Process_Stack,               SIGNAL(triggered(bool)),            this,   SLOT(Stack_Attributes_Process()));
   //connect(ui->pushButton_Stack_Next,              SIGNAL(clicked(bool)),              this,   SLOT(Next_Image()));
@@ -165,7 +166,8 @@ D_MAKRO_CoreFoci::D_MAKRO_CoreFoci(D_Storage *pStorage, QWidget *parent) :
 
     //icon & title
     setWindowIcon(QIcon(":/logo/ImageD_Logo.png"));
-    setWindowTitle("ImageD - Foci-Cytoplasm-Nuclei Detector");
+    setWindowTitle("ImageD - Foci-Cytoplasm-Nuclei Detector (" + D_QS_Version + ", " + D_QS_Release + ")");
+    ui->label_VersionNumber->setText(D_QS_Version);
 
     //init indicies
     View_BlockSignals(true);
@@ -273,7 +275,6 @@ void D_MAKRO_CoreFoci::Update_Ui()
     this->repaint();
     qApp->processEvents();
 }
-
 
 void D_MAKRO_CoreFoci::Update_ImgProc_All()
 {
@@ -1449,16 +1450,14 @@ void D_MAKRO_CoreFoci::Plot_Cells_Attribute()
     for(size_t nuc = 0; nuc < vvd_AttCel_cel[ui->comboBox_ResPlo_Cells_Att_Att->currentIndex()].size(); nuc++)
         QSL_NucNames.append(QString::number(nuc));
 
-    ERR(D_Plot::Plot_BarCore_Single(
+    D_Plot::Plot_BarCore_Single(
                 ChartView_Cells,
                 vvd_AttCel_cel[ui->comboBox_ResPlo_Cells_Att_Att->currentIndex()],
                 "Attributes of Cells",
                 "Cells",
                 QSL_NucNames,
                 "Cells",
-                ui->comboBox_ResPlo_Cells_Att_Att->currentText()),
-            "Plot_Cells_Attribute",
-            "Plot_BarCore_Single");
+                ui->comboBox_ResPlo_Cells_Att_Att->currentText());
 }
 
 void D_MAKRO_CoreFoci::Plot_Cells_Attribute_Hist()
@@ -1705,10 +1704,10 @@ void D_MAKRO_CoreFoci::Parameters_Init()
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON].clear();
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON].resize(c_PAR_NUMBER_OF);
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIZE]             = 33.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIGMA]            = 26.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_SIZE]            = 401.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_OFFSET]          = -2.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIZE]             = 85.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_BLUR_SIGMA]            = 30.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_SIZE]            = 501.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_THRES_OFFSET]          = -1.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_FILL]             = 450000.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_EILENSTEIN_SIZE]       = 25.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_EILENSTEIN_OFFSET]     = 0.0;
@@ -1721,12 +1720,12 @@ void D_MAKRO_CoreFoci::Parameters_Init()
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_MAX_SMALL]        = 2500;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_NUC_AREA_MIN_BIG]          = 4000;
 
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_BLUR_SIZE]             = 15.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_BLUR_SIZE]             = 25.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_BLUR_SIGMA]            = 7.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CTT_THRES_SIZE]            = 31;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_THRES_SIGMA]           = -2.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_CLOSE_HOLES]           = 105.0;
-    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_MARGIN]                = 27.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_THRES_SIGMA]           = -3.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_CLOSE_HOLES]           = 155.0;
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_CYT_MARGIN]                = 19.0;
 
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_FOCI_BLUR_SIZE]            = 13.0;
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][c_PAR_FOCI_BLUR_SIGMA]           = 6.0;
@@ -1789,46 +1788,52 @@ void D_MAKRO_CoreFoci::Parameters_ActivatePreset()
     if(preset_index >= c_PRESET_NUMBER_OF)
         return;
 
+    Parameters_ParamSetToUi(vvd_ParameterPresets_SetPar[preset_index]);
+}
+
+void D_MAKRO_CoreFoci::Parameters_ParamSetToUi(vector<double> vParams)
+{
+    qDebug() << "Parameters_ParamSetToUi" << vParams;
     Proc_BlocSignals(true);
 
     //Nuclei
-    ui->spinBox_SetCore_02_Gauss_Size->setValue(                static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_BLUR_SIZE]));
-    ui->doubleSpinBox_SetCore_02_Gauss_Sigma->setValue(         static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_BLUR_SIGMA]));
-    ui->spinBox_SetCore_04_Thres_Size->setValue(                static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_THRES_SIZE]));
-    ui->doubleSpinBox_SetCore_04_Thres_Offset->setValue(        static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_THRES_OFFSET]));
-    ui->spinBox_SetCore_05_Fill_Area->setValue(                 static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_AREA_FILL]));
-    ui->spinBox_SetCore_09_Eilenstein_Size->setValue(           static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_EILENSTEIN_SIZE]));
-    ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->setValue(  static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_EILENSTEIN_OFFSET]));
-    ui->spinBox_SetCore_11_Thresh_Thres->setValue(              static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_LOCMAX_THRES]));
-    ui->spinBox_SetCore_12_Open_Area->setValue(                 static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_REMOVE_SMALL]));
-    ui->spinBox_SetCore_13_Dilation_Size->setValue(             static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_CONNECT_NEAR]));
-    ui->checkBox_SetCore_13_ExcludeBordered->setChecked(        static_cast<bool>(  vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_EXCULDE_BORDER]));
-    ui->spinBox_SetCore_14_AreaDistMin->setValue(               static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_AREA_DIST_MIN]));
-    ui->spinBox_SetCore_14_AreaDistMax->setValue(               static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_AREA_DIST_MAX]));
-    ui->spinBox_SetCore_14_AreaMaxOfSmall->setValue(            static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_AREA_MAX_SMALL]));
-    ui->spinBox_SetCore_14_AreaMinOfBig->setValue(              static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_NUC_AREA_MIN_BIG]));
+    ui->spinBox_SetCore_02_Gauss_Size->setValue(                static_cast<int>(   vParams[c_PAR_NUC_BLUR_SIZE]));
+    ui->doubleSpinBox_SetCore_02_Gauss_Sigma->setValue(         static_cast<double>(vParams[c_PAR_NUC_BLUR_SIGMA]));
+    ui->spinBox_SetCore_04_Thres_Size->setValue(                static_cast<int>(   vParams[c_PAR_NUC_THRES_SIZE]));
+    ui->doubleSpinBox_SetCore_04_Thres_Offset->setValue(        static_cast<double>(vParams[c_PAR_NUC_THRES_OFFSET]));
+    ui->spinBox_SetCore_05_Fill_Area->setValue(                 static_cast<int>(   vParams[c_PAR_NUC_AREA_FILL]));
+    ui->spinBox_SetCore_09_Eilenstein_Size->setValue(           static_cast<int>(   vParams[c_PAR_NUC_EILENSTEIN_SIZE]));
+    ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->setValue(  static_cast<double>(vParams[c_PAR_NUC_EILENSTEIN_OFFSET]));
+    ui->spinBox_SetCore_11_Thresh_Thres->setValue(              static_cast<int>(   vParams[c_PAR_NUC_LOCMAX_THRES]));
+    ui->spinBox_SetCore_12_Open_Area->setValue(                 static_cast<int>(   vParams[c_PAR_NUC_REMOVE_SMALL]));
+    ui->spinBox_SetCore_13_Dilation_Size->setValue(             static_cast<int>(   vParams[c_PAR_NUC_CONNECT_NEAR]));
+    ui->checkBox_SetCore_13_ExcludeBordered->setChecked(        static_cast<bool>(  vParams[c_PAR_NUC_EXCULDE_BORDER]));
+    ui->spinBox_SetCore_14_AreaDistMin->setValue(               static_cast<int>(   vParams[c_PAR_NUC_AREA_DIST_MIN]));
+    ui->spinBox_SetCore_14_AreaDistMax->setValue(               static_cast<int>(   vParams[c_PAR_NUC_AREA_DIST_MAX]));
+    ui->spinBox_SetCore_14_AreaMaxOfSmall->setValue(            static_cast<int>(   vParams[c_PAR_NUC_AREA_MAX_SMALL]));
+    ui->spinBox_SetCore_14_AreaMinOfBig->setValue(              static_cast<int>(   vParams[c_PAR_NUC_AREA_MIN_BIG]));
 
     //Cytoplasm
-    ui->spinBox_SetCyto_Gauss_Size->setValue(                   static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_CYT_BLUR_SIZE]));
-    ui->doubleSpinBox_SetCyto_Gauss_Sigma->setValue(            static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_CYT_BLUR_SIGMA]));
-    ui->spinBox_SetCyto_Thresh_Size->setValue(                  static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_CTT_THRES_SIZE]));
-    ui->doubleSpinBox_SetCyto_Thresh_Offset->setValue(          static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_CYT_THRES_SIGMA]));
-    ui->spinBox_SetCyto_Closing_Size->setValue(                 static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_CYT_CLOSE_HOLES]));
-    ui->spinBox_SetCyto_Dilation_Size->setValue(                static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_CYT_MARGIN]));
+    ui->spinBox_SetCyto_Gauss_Size->setValue(                   static_cast<int>(   vParams[c_PAR_CYT_BLUR_SIZE]));
+    ui->doubleSpinBox_SetCyto_Gauss_Sigma->setValue(            static_cast<double>(vParams[c_PAR_CYT_BLUR_SIGMA]));
+    ui->spinBox_SetCyto_Thresh_Size->setValue(                  static_cast<int>(   vParams[c_PAR_CTT_THRES_SIZE]));
+    ui->doubleSpinBox_SetCyto_Thresh_Offset->setValue(          static_cast<double>(vParams[c_PAR_CYT_THRES_SIGMA]));
+    ui->spinBox_SetCyto_Closing_Size->setValue(                 static_cast<int>(   vParams[c_PAR_CYT_CLOSE_HOLES]));
+    ui->spinBox_SetCyto_Dilation_Size->setValue(                static_cast<int>(   vParams[c_PAR_CYT_MARGIN]));
 
     //Foci
-    ui->spinBox_SetFoci_02_Size->setValue(                      static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_FOCI_BLUR_SIZE]));
-    ui->doubleSpinBox_SetFoci_02_Sigma->setValue(               static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][c_PAR_FOCI_BLUR_SIGMA]));
-    ui->spinBox_SetFoci_03_Size->setValue(                      static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][c_PAR_FOCI_THRES_SIZE]));
-    ui->doubleSpinBox_SetFoci_03_Offset->setValue(              static_cast<double>(vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_THRES_SIGMA]));
-    ui->spinBox_SetFoci_04_Size->setValue(                      static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_MARGIN]));
-    ui->spinBox_SetFoci_05_Size->setValue(                      static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_CONNECT_NEAR]));
-    ui->spinBox_SetFoci_06_Size_Min->setValue(                  static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_AREA_MIN]));
-    ui->spinBox_SetFoci_06_Size_Max->setValue(                  static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_AREA_MAX]));
-    ui->checkBox_SetFoci_13_ExcludeBordered->setChecked(        static_cast<bool>(  vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_EXCLUDE_BORDER]));
+    ui->spinBox_SetFoci_02_Size->setValue(                      static_cast<int>(   vParams[c_PAR_FOCI_BLUR_SIZE]));
+    ui->doubleSpinBox_SetFoci_02_Sigma->setValue(               static_cast<double>(vParams[c_PAR_FOCI_BLUR_SIGMA]));
+    ui->spinBox_SetFoci_03_Size->setValue(                      static_cast<int>(   vParams[c_PAR_FOCI_THRES_SIZE]));
+    ui->doubleSpinBox_SetFoci_03_Offset->setValue(              static_cast<double>(vParams[C_PAR_FOCI_THRES_SIGMA]));
+    ui->spinBox_SetFoci_04_Size->setValue(                      static_cast<int>(   vParams[C_PAR_FOCI_MARGIN]));
+    ui->spinBox_SetFoci_05_Size->setValue(                      static_cast<int>(   vParams[C_PAR_FOCI_CONNECT_NEAR]));
+    ui->spinBox_SetFoci_06_Size_Min->setValue(                  static_cast<int>(   vParams[C_PAR_FOCI_AREA_MIN]));
+    ui->spinBox_SetFoci_06_Size_Max->setValue(                  static_cast<int>(   vParams[C_PAR_FOCI_AREA_MAX]));
+    ui->checkBox_SetFoci_13_ExcludeBordered->setChecked(        static_cast<bool>(  vParams[C_PAR_FOCI_EXCLUDE_BORDER]));
 
     //Results
-    ui->spinBox_Results_SpreadMax->setValue(                    static_cast<int>(   vvd_ParameterPresets_SetPar[preset_index][C_PAR_FOCI_RES_MAX_EXPECTED]));
+    ui->spinBox_Results_SpreadMax->setValue(                    static_cast<int>(   vParams[C_PAR_FOCI_RES_MAX_EXPECTED]));
 
     Proc_BlocSignals(false);
 }
@@ -1957,12 +1962,10 @@ void D_MAKRO_CoreFoci::Calc_Cells_Stats()
     vvd_AttSta_cel.resize(vvd_AttCel_cel.size());
 
     for(size_t att = 0; att < vvd_AttSta_cel.size(); att++)
-        ERR(D_Stat::Calc_Stats(
+        D_Stat::Calc_Stats(
                 &(vvd_AttSta_cel[att]),
                 vvd_AttCel_cel[att],
-                true),
-            "Calc_Cells_Stats",
-            "Calc_Stats");
+                true);
 
     calced_AttSta_cel = true;
 }
@@ -2271,47 +2274,51 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Parameters()
     if(dont_stream)
         return;
 
+    QString QS_FileName = DIR_Stream_Other.path() + "/Parameters.csv";
     ofstream OS_Parameters;
-    OS_Parameters.open(DIR_Stream_Other.path().toStdString() + "/Parameters.csv");
+    OS_Parameters.open(QS_FileName.toStdString());
 
     OS_Parameters
-            << "File,"          << "Parameters.csv" << "\n"
-            << "DateTime,"      << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "File,"                  << "Parameters.csv" << "\n"
+            << "Path,"                  << QS_FileName.toStdString() << "\n"
+            << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "Version"                << D_QS_Version.toStdString() << "\n"
+            << "Release Date"           << D_QS_Release.toStdString() << "\n"
             << "\n"
-            << "NUCLEI" << "\n"
+            << "NUCLEI"                 << "\n"
             << "\n"
-            << "03,"    << "Size/Sigma,"    << ui->spinBox_SetCore_02_Gauss_Size->value()           << "," << ui->doubleSpinBox_SetCore_02_Gauss_Sigma->value() << "\n"
-            << "04,"    << "Size/Offset,"   << ui->spinBox_SetCore_04_Thres_Size->value()           << "," << ui->doubleSpinBox_SetCore_04_Thres_Offset->value() << "\n"
-            << "05,"    << "Area,"          << ui->spinBox_SetCore_05_Fill_Area->value()            << "\n"
-            << "08,"    << "Size/Offset,"   << ui->spinBox_SetCore_09_Eilenstein_Size->value()      << "," << ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->value() << "\n"
-            << "10,"    << "Threshold,"     << ui->spinBox_SetCore_11_Thresh_Thres->value()         << "\n"
-            << "11,"    << "Size,"          << ui->spinBox_SetCore_12_Open_Area->value()            << "\n"
-            << "12,"    << "Size,"          << ui->spinBox_SetCore_13_Dilation_Size->value()        << "\n"
-            << "13,"    << "Options,"       << static_cast<int>(ui->checkBox_SetCore_13_ExcludeBordered->isChecked())   << "\n"
+            << "03,"                    << "Size/Sigma,"    << ui->spinBox_SetCore_02_Gauss_Size->value()           << "," << ui->doubleSpinBox_SetCore_02_Gauss_Sigma->value() << "\n"
+            << "04,"                    << "Size/Offset,"   << ui->spinBox_SetCore_04_Thres_Size->value()           << "," << ui->doubleSpinBox_SetCore_04_Thres_Offset->value() << "\n"
+            << "05,"                    << "Area,"          << ui->spinBox_SetCore_05_Fill_Area->value()            << "\n"
+            << "08,"                    << "Size/Offset,"   << ui->spinBox_SetCore_09_Eilenstein_Size->value()      << "," << ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->value() << "\n"
+            << "10,"                    << "Threshold,"     << ui->spinBox_SetCore_11_Thresh_Thres->value()         << "\n"
+            << "11,"                    << "Size,"          << ui->spinBox_SetCore_12_Open_Area->value()            << "\n"
+            << "12,"                    << "Size,"          << ui->spinBox_SetCore_13_Dilation_Size->value()        << "\n"
+            << "13,"                    << "Options,"       << static_cast<int>(ui->checkBox_SetCore_13_ExcludeBordered->isChecked())   << "\n"
             << "\n"
-            << "CYTOPLASMA" << "\n"
+            << "CYTOPLASMA"             << "\n"
             << "\n"
-            << "03,"    << "Size/Sigma,"    << ui->spinBox_SetCyto_Gauss_Size->value()              << "," << ui->doubleSpinBox_SetCyto_Gauss_Sigma->value() << "\n"
-            << "04,"    << "Size/Offset,"   << ui->spinBox_SetCyto_Thresh_Size->value()             << "," << ui->doubleSpinBox_SetCyto_Thresh_Offset->value() << "\n"
-            << "05,"    << "Size,"          << ui->spinBox_SetCyto_Closing_Size->value()            << "\n"
-            << "06,"    << "Size,"          << ui->spinBox_SetCyto_Dilation_Size->value()           << "\n"
+            << "03,"                    << "Size/Sigma,"    << ui->spinBox_SetCyto_Gauss_Size->value()              << "," << ui->doubleSpinBox_SetCyto_Gauss_Sigma->value() << "\n"
+            << "04,"                    << "Size/Offset,"   << ui->spinBox_SetCyto_Thresh_Size->value()             << "," << ui->doubleSpinBox_SetCyto_Thresh_Offset->value() << "\n"
+            << "05,"                    << "Size,"          << ui->spinBox_SetCyto_Closing_Size->value()            << "\n"
+            << "06,"                    << "Size,"          << ui->spinBox_SetCyto_Dilation_Size->value()           << "\n"
             << "\n"
-            << "FOCI" << "\n"
+            << "FOCI"                   << "\n"
             << "\n"
-            << "03,"    << "Size/Sigma,"    << ui->spinBox_SetFoci_02_Size->value()                 << "," << ui->doubleSpinBox_SetFoci_02_Sigma->value() << "\n"
-            << "04,"    << "Size/Offset,"   << ui->spinBox_SetFoci_03_Size->value()                 << "," << ui->doubleSpinBox_SetFoci_03_Offset->value() << "\n"
-            << "05,"    << "Size,"          << ui->spinBox_SetFoci_04_Size->value()                 << "\n"
-            << "09,"    << "Size,"          << ui->spinBox_SetFoci_05_Size->value()                 << "\n"
-            << "10,"    << "Area Min/Max,"  << ui->spinBox_SetFoci_06_Size_Min->value()             << "," << ui->spinBox_SetFoci_06_Size_Max->value() << "\n"
-            << "12,"    << "Options,"       << static_cast<int>(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked())   << "\n"
+            << "03,"                    << "Size/Sigma,"    << ui->spinBox_SetFoci_02_Size->value()                 << "," << ui->doubleSpinBox_SetFoci_02_Sigma->value() << "\n"
+            << "04,"                    << "Size/Offset,"   << ui->spinBox_SetFoci_03_Size->value()                 << "," << ui->doubleSpinBox_SetFoci_03_Offset->value() << "\n"
+            << "05,"                    << "Size,"          << ui->spinBox_SetFoci_04_Size->value()                 << "\n"
+            << "09,"                    << "Size,"          << ui->spinBox_SetFoci_05_Size->value()                 << "\n"
+            << "10,"                    << "Area Min/Max,"  << ui->spinBox_SetFoci_06_Size_Min->value()             << "," << ui->spinBox_SetFoci_06_Size_Max->value() << "\n"
+            << "12,"                    << "Options,"       << static_cast<int>(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked())   << "\n"
             << "\n"
-            << "RESULTS" << "\n"
+            << "RESULTS"                << "\n"
             << "\n"
-            << "Col,"   << "Max Expected,"  << ui->spinBox_Results_SpreadMax->value()               << "\n";
+            << "Col,"                   << "Max Expected,"  << ui->spinBox_Results_SpreadMax->value()               << "\n";
 
     ui->tabWidget->setCurrentIndex(1); //show settings
     this->setEnabled(true);
-    ui->tabWidget->grab().save(DIR_Stream_Other.path() + "/Parameters.jpg", 0, -1);
+    ui->tabWidget->grab().save(DIR_Stream_Other.path() + "/Parameters.png", 0, -1);
     this->setEnabled(false);
 
     OS_Parameters.close();
@@ -2346,13 +2353,13 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Images()
         if(v_StreamImage_Images[i])
         {
             Update_Combi_Results_Preset(static_cast<int>(i));
-            V_Results.Save_Image(QS_BaseSavePath_img + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + ".jpg");
+            V_Results.Save_Image(QS_BaseSavePath_img + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + ".png");
         }
 
         if(v_StreamStack_Images[i])
         {
             Update_Combi_Results_Preset(static_cast<int>(i));
-            V_Results.Save_Image(DIR_Stream_Stack_Images.path() + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + " - " + QSL_FileNames[stack_img_curent] + ".jpg");
+            V_Results.Save_Image(DIR_Stream_Stack_Images.path() + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + "/" + QSL_ResColor_Presets[static_cast<int>(i)] + " - " + QSL_FileNames[stack_img_curent] + ".png");
         }
     }
 
@@ -2369,7 +2376,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Images()
         for(int i = 0; i < c_ST_C_NUMBER_OF; i++)
         {
             ui->comboBox_View_Cores->setCurrentIndex(i);
-            V_Nuclei.Save_Image(QS_BaseSavePath_proc_steps_nuclei + "/" + ui->comboBox_View_Cores->currentText() + ".jpg");
+            V_Nuclei.Save_Image(QS_BaseSavePath_proc_steps_nuclei + "/" + ui->comboBox_View_Cores->currentText() + ".png");
         }
 
         //cytoplasma
@@ -2378,7 +2385,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Images()
         for(int i = 0; i < c_ST_P_NUMBER_OF; i++)
         {
             ui->comboBox_View_Cyto->setCurrentIndex(i);
-            V_Plasma.Save_Image(QS_BaseSavePath_proc_steps_cyto + "/" + ui->comboBox_View_Cyto->currentText() + ".jpg");
+            V_Plasma.Save_Image(QS_BaseSavePath_proc_steps_cyto + "/" + ui->comboBox_View_Cyto->currentText() + ".png");
         }
 
         //nuclei
@@ -2387,7 +2394,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Images()
         for(int i = 0; i < c_ST_F_NUMBER_OF; i++)
         {
             ui->comboBox_View_Foci->setCurrentIndex(i);
-            V_Foci.Save_Image(QS_BaseSavePath_proc_steps_foci + "/" + ui->comboBox_View_Foci->currentText() + ".jpg");
+            V_Foci.Save_Image(QS_BaseSavePath_proc_steps_foci + "/" + ui->comboBox_View_Foci->currentText() + ".png");
         }
     }
 }
@@ -2443,7 +2450,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Plots()
                 ui->comboBox_ResPlo_Cells_Att_Att->setCurrentIndex(static_cast<int>(att));
                 Save_Plot(
                             ChartView_Cells,
-                            QS_BaseSavePath_plot_bar + "/Barplot - " + QSL_AttCel[static_cast<int>(att)] + ".jpg");
+                            QS_BaseSavePath_plot_bar + "/Barplot - " + QSL_AttCel[static_cast<int>(att)] + ".png");
             }
     }
 
@@ -2460,7 +2467,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Plots()
                 ui->comboBox_ResPlo_Cells_Att_Hist_Att->setCurrentIndex(static_cast<int>(att));
                 Save_Plot(
                             ChartView_Cells,
-                            QS_BaseSavePath_plot_hist + "/Histogram - " + QSL_AttCel[static_cast<int>(att)] + ".jpg");
+                            QS_BaseSavePath_plot_hist + "/Histogram - " + QSL_AttCel[static_cast<int>(att)] + ".png");
             }
     }
 
@@ -2481,7 +2488,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Cells_Plots()
                             ui->comboBox_ResPlo_Cells_Att_Scatter_Att_Y->setCurrentIndex(static_cast<int>(att_y));
                             Save_Plot(
                                         ChartView_Cells,
-                                        QS_BaseSavePath_plot_scatter + "/Scatter - " + QSL_AttCel[static_cast<int>(att_y)] + " vs " + QSL_AttCel[static_cast<int>(att_x)] + ".jpg");
+                                        QS_BaseSavePath_plot_scatter + "/Scatter - " + QSL_AttCel[static_cast<int>(att_y)] + " vs " + QSL_AttCel[static_cast<int>(att_x)] + ".png");
                         }
     }
 
@@ -2553,7 +2560,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Images_Plots()
                 ui->comboBox_ResPlo_Img_Att_Att->setCurrentIndex(static_cast<int>(att));
                 Save_Plot(
                             ChartView_Image,
-                            QS_BaseSavePath_plot_bar + "/Barplot - " + QSL_AttCel[static_cast<int>(att)] + " - stack.jpg");
+                            QS_BaseSavePath_plot_bar + "/Barplot - " + QSL_AttCel[static_cast<int>(att)] + " - stack.png");
             }
     }
 
@@ -2570,7 +2577,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Images_Plots()
                 ui->comboBox_ResPlo_Img_Att_Hist_Att->setCurrentIndex(static_cast<int>(att));
                 Save_Plot(
                             ChartView_Image,
-                            QS_BaseSavePath_plot_hist + "/Histogram - " + QSL_AttCel[static_cast<int>(att)] + " - stack.jpg");
+                            QS_BaseSavePath_plot_hist + "/Histogram - " + QSL_AttCel[static_cast<int>(att)] + " - stack.png");
             }
     }
 
@@ -2591,7 +2598,7 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Images_Plots()
                             ui->comboBox_ResPlo_Img_Att_Scatter_Att_Y->setCurrentIndex(static_cast<int>(att_y));
                             Save_Plot(
                                         ChartView_Image,
-                                        QS_BaseSavePath_plot_scatter + "/Scatter - " + QSL_AttCel[static_cast<int>(att_y)] + " vs " + QSL_AttCel[static_cast<int>(att_x)] + " - stack.jpg");
+                                        QS_BaseSavePath_plot_scatter + "/Scatter - " + QSL_AttCel[static_cast<int>(att_y)] + " vs " + QSL_AttCel[static_cast<int>(att_x)] + " - stack.png");
                         }
     }
 
@@ -2611,7 +2618,7 @@ void D_MAKRO_CoreFoci::Save_Image_Cores()
             pStore->dir_M_dsDNA()->absolutePath() + "/" +
             QS_FileName_Current + " - " +
             ui->comboBox_View_Cores->currentText() +
-            ".jpg";
+            ".png";
 
     if(B_Stream_Out)
         V_Nuclei.Save_Image();
@@ -2632,7 +2639,7 @@ void D_MAKRO_CoreFoci::Save_Image_Plasma()
             pStore->dir_M_dsDNA()->absolutePath() + "/" +
             QS_FileName_Current + " - " +
             ui->comboBox_View_Cyto->currentText() +
-            ".jpg";
+            ".png";
 
     if(B_Stream_Out)
         V_Plasma.Save_Image();
@@ -2653,7 +2660,7 @@ void D_MAKRO_CoreFoci::Save_Image_Foci()
             pStore->dir_M_dsDNA()->absolutePath() + "/" +
             QS_FileName_Current + " - " +
             ui->comboBox_View_Foci->currentText() +
-            ".jpg";
+            ".png";
 
     if(B_Stream_Out)
         V_Foci.Save_Image();
@@ -2676,7 +2683,7 @@ void D_MAKRO_CoreFoci::Save_Image_Results()
             " - R " + ui->comboBox_View_Result_R->currentText() +
             " - G " + ui->comboBox_View_Result_G->currentText() +
             " - B " + ui->comboBox_View_Result_B->currentText() +
-            ".jpg";
+            ".png";
 
     if(B_Stream_Out)
         V_Results.Save_Image();
@@ -2692,8 +2699,8 @@ void D_MAKRO_CoreFoci::Save_Plot_Cells()
 {
     QString name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save plot as image"),
-                                                 pStore->dir_M_dsDNA()->path() + "/plot_cells.jpg",
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 pStore->dir_M_dsDNA()->path() + "/plot_cells.png",
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -2705,8 +2712,8 @@ void D_MAKRO_CoreFoci::Save_Plot_Image()
 {
     QString name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save plot as image"),
-                                                 pStore->dir_M_dsDNA()->path() + "/plot_cells.jpg",
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 pStore->dir_M_dsDNA()->path() + "/plot_cells.png",
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save == 0)
         return;
 
@@ -2817,161 +2824,188 @@ void D_MAKRO_CoreFoci::ERR(int err, QString func, QString detail)
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_02_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetFoci_02_Sigma_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_03_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetFoci_03_Offset_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_04_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_ROI_NUC_MARGIN);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_ROI_NUC_MARGIN);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_05_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_OUT_CORES_CLOSE);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_OUT_CORES_CLOSE);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_06_Size_Min_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_OUT_CORES_AREA);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_OUT_CORES_AREA);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetFoci_06_Size_Max_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Foci(c_ST_F_OUT_CORES_AREA);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_OUT_CORES_AREA);
 }
 
 void D_MAKRO_CoreFoci::on_checkBox_SetFoci_13_ExcludeBordered_clicked()
 {
-    Update_ImgProc_Foci(c_ST_F_REGIONS_CELLS_APPROX);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Foci(c_ST_F_REGIONS_CELLS_APPROX);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_02_Gauss_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetCore_02_Gauss_Sigma_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_04_Thres_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetCore_04_Thres_Offset_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_05_Fill_Area_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_BIN_AREA);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_BIN_AREA);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_09_Eilenstein_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_RANK_EILENSTEIN);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_RANK_EILENSTEIN);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_Set_Core_09_Eilenstein_Offset_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_RANK_EILENSTEIN);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_RANK_EILENSTEIN);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_11_Thresh_Thres_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_LMAX_BIN);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_LMAX_BIN);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_12_Open_Area_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_LMAX_OPEN);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_LMAX_OPEN);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_13_Dilation_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Cores(c_ST_C_LMAX_DILATION);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_LMAX_DILATION);
 }
 
 void D_MAKRO_CoreFoci::on_checkBox_SetCore_13_ExcludeBordered_clicked()
 {
-    Update_ImgProc_Cores(c_ST_C_SEGM_WATERSHADE);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Cores(c_ST_C_SEGM_WATERSHADE);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetCyto_Gauss_Sigma_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCyto_Gauss_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_INPUT_BLUR);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_INPUT_BLUR);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCyto_Thresh_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_doubleSpinBox_SetCyto_Thresh_Offset_valueChanged(double arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_BIN_THRES);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_BIN_THRES);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCyto_Closing_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_MORPH_CLOSE);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_MORPH_CLOSE);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCyto_Dilation_Size_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Plasma(c_ST_P_MORPH_DILATE);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Plasma(c_ST_P_MORPH_DILATE);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_Results_SpreadMax_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Results(c_ST_R_C_INPUT);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Results(c_ST_R_C_INPUT);
 }
 
 void D_MAKRO_CoreFoci::on_pushButton_ResCol_Preset_ContrastAll_clicked()
@@ -3014,29 +3048,143 @@ void D_MAKRO_CoreFoci::on_comboBox_FileName_currentIndexChanged(int index)
 void D_MAKRO_CoreFoci::on_pushButton_PresetActivate_clicked()
 {
     Parameters_ActivatePreset();
-    Update_ImgProc_All();
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_All();
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_14_AreaDistMin_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_14_AreaDistMax_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_14_AreaMaxOfSmall_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
 }
 
 void D_MAKRO_CoreFoci::on_spinBox_SetCore_14_AreaMinOfBig_valueChanged(int arg1)
 {
     arg1;
-    Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
+    if(ui->checkBox_AutoupdateOnParamChange->isChecked())
+        Update_ImgProc_Results(c_ST_C_SEGM_AREA_CONNECT);
+}
+
+void D_MAKRO_CoreFoci::on_pushButton_ParamsLoad_clicked()
+{
+    QString QS_LoadPath = QFileDialog::getOpenFileName(this,
+                                                       tr("Load param file"),
+                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_blablabla.csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_LoadPath.isEmpty())
+        return;
+    pStore->dir_M_dsDNA()->setPath(QS_LoadPath);
+
+    ifstream is_param;
+    is_param.open(QS_LoadPath.toStdString());
+
+    string st_line;
+
+    vector<double> v_params(c_PAR_NUMBER_OF, 0);
+    while(getline(is_param, st_line))
+    {
+        QString QS_Line = QString::fromStdString(st_line);
+        //qDebug() << QS_Line << "---------------------------------";
+        QStringList QSL_Blocks = QS_Line.split(",");
+        if(QSL_Blocks.size() == 2)
+        {
+            //qDebug() << "2 blocks";
+            bool ok;
+            int param_index = QSL_Blocks[0].toInt(&ok);
+            if(ok)
+            {
+                //qDebug() << "param index read" << param_index;
+                if(param_index >= 0 && param_index < c_PAR_NUMBER_OF)
+                {
+                    //qDebug() << "param index valid";
+                    int param_value = QSL_Blocks[1].toDouble(&ok);
+                    if(ok)
+                    {
+                        //qDebug() << "param value valid" << param_value;
+                        v_params[param_index] = param_value;
+                        //qDebug() << "param value saved :-)";
+                    }
+                }
+            }
+        }
+    }
+
+    is_param.close();
+
+    Parameters_ParamSetToUi(v_params);
+}
+
+void D_MAKRO_CoreFoci::on_pushButton_ParamsSave_clicked()
+{
+    QString QS_SavePath = QFileDialog::getSaveFileName(this,
+                                                       tr("Save param file"),
+                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_" + QDateTime::currentDateTime().toString().replace(":", "x") + ".csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_SavePath.isEmpty())
+        return;
+    pStore->dir_M_dsDNA()->setPath(QS_SavePath);
+
+    ofstream os_param;
+    os_param.open(QS_SavePath.toStdString());
+
+    //header
+    os_param
+            << "Path,"                  << QS_SavePath.toStdString() << "\n"
+            << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "Version"                << D_QS_Version.toStdString() << "\n"
+            << "Release Date"           << D_QS_Release.toStdString() << "\n";
+
+    //Params
+    os_param
+            << c_PAR_NUC_BLUR_SIZE          << "," << ui->spinBox_SetCore_02_Gauss_Size->value() << "\n"
+            << c_PAR_NUC_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCore_02_Gauss_Sigma->value() << "\n"
+            << c_PAR_NUC_THRES_SIZE         << "," << ui->spinBox_SetCore_04_Thres_Size->value() << "\n"
+            << c_PAR_NUC_THRES_OFFSET       << "," << ui->doubleSpinBox_SetCore_04_Thres_Offset->value() << "\n"
+            << c_PAR_NUC_AREA_FILL          << "," << ui->spinBox_SetCore_05_Fill_Area->value() << "\n"
+            << c_PAR_NUC_EILENSTEIN_SIZE    << "," << ui->spinBox_SetCore_09_Eilenstein_Size->value() << "\n"
+            << c_PAR_NUC_EILENSTEIN_OFFSET  << "," << ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->value() << "\n"
+            << c_PAR_NUC_LOCMAX_THRES       << "," << ui->spinBox_SetCore_11_Thresh_Thres->value() << "\n"
+            << c_PAR_NUC_REMOVE_SMALL       << "," << ui->spinBox_SetCore_12_Open_Area->value() << "\n"
+            << c_PAR_NUC_CONNECT_NEAR       << "," << ui->spinBox_SetCore_13_Dilation_Size->value() << "\n"
+            << c_PAR_NUC_EXCULDE_BORDER     << "," << static_cast<double>(ui->checkBox_SetCore_13_ExcludeBordered->isChecked()) << "\n"
+            << c_PAR_NUC_AREA_DIST_MIN      << "," << ui->spinBox_SetCore_14_AreaDistMin->value() << "\n"
+            << c_PAR_NUC_AREA_DIST_MAX      << "," << ui->spinBox_SetCore_14_AreaDistMax->value() << "\n"
+            << c_PAR_NUC_AREA_MAX_SMALL     << "," << ui->spinBox_SetCore_14_AreaMaxOfSmall->value() << "\n"
+            << c_PAR_NUC_AREA_MIN_BIG       << "," << ui->spinBox_SetCore_14_AreaMinOfBig->value() << "\n"
+
+            << c_PAR_CYT_BLUR_SIZE          << "," << ui->spinBox_SetCyto_Gauss_Size->value() << "\n"
+            << c_PAR_CYT_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCyto_Gauss_Sigma->value() << "\n"
+            << c_PAR_CTT_THRES_SIZE         << "," << ui->spinBox_SetCyto_Thresh_Size->value() << "\n"
+            << c_PAR_CYT_THRES_SIGMA        << "," << ui->doubleSpinBox_SetCyto_Thresh_Offset->value() << "\n"
+            << c_PAR_CYT_CLOSE_HOLES        << "," << ui->spinBox_SetCyto_Closing_Size->value() << "\n"
+            << c_PAR_CYT_MARGIN             << "," << ui->spinBox_SetCyto_Dilation_Size->value() << "\n"
+
+            << c_PAR_FOCI_BLUR_SIZE         << "," << ui->spinBox_SetFoci_02_Size->value() << "\n"
+            << c_PAR_FOCI_BLUR_SIGMA        << "," << ui->doubleSpinBox_SetFoci_02_Sigma->value() << "\n"
+            << c_PAR_FOCI_THRES_SIZE        << "," << ui->spinBox_SetFoci_03_Size->value() << "\n"
+            << C_PAR_FOCI_THRES_SIGMA       << "," << ui->doubleSpinBox_SetFoci_03_Offset->value() << "\n"
+            << C_PAR_FOCI_MARGIN            << "," << ui->spinBox_SetFoci_04_Size->value() << "\n"
+            << C_PAR_FOCI_CONNECT_NEAR      << "," << ui->spinBox_SetFoci_05_Size->value() << "\n"
+            << C_PAR_FOCI_AREA_MIN          << "," << ui->spinBox_SetFoci_06_Size_Min->value() << "\n"
+            << C_PAR_FOCI_AREA_MAX          << "," << ui->spinBox_SetFoci_06_Size_Max->value() << "\n"
+            << C_PAR_FOCI_EXCLUDE_BORDER    << "," << static_cast<double>(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked()) << "\n"
+
+            << C_PAR_FOCI_RES_MAX_EXPECTED  << "," << ui->spinBox_Results_SpreadMax->value() << "\n";
+
+    os_param.close();
 }

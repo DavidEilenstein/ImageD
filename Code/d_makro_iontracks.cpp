@@ -1666,7 +1666,7 @@ void D_MAKRO_IonTracks::Save_Analysis()
             ui->spinBox_ProcSet_SafetyDist_MinRadius->setValue(r);
 
             //Parameters
-            ui->groupBox_ProcSet->grab().save(DIR_SaveRadius.path() + "/Settings.jpg", 0, -1);
+            ui->groupBox_ProcSet->grab().save(DIR_SaveRadius.path() + "/Settings.png", 0, -1);
 
             //Images
 
@@ -1684,7 +1684,7 @@ void D_MAKRO_IonTracks::Save_Analysis()
                 for(int d = 0; d < Dim_ZDep_Dim; d++)
                 {
                     ui->comboBox_ResImg_Depth->setCurrentIndex(d);
-                    View_Results.Save_Image(DIR_SaveImages.path() + "/" + ui->comboBox_ResImg_Lateral->currentText() + " - " + ui->comboBox_ResImg_Depth->currentText() + ".jpg");
+                    View_Results.Save_Image(DIR_SaveImages.path() + "/" + ui->comboBox_ResImg_Lateral->currentText() + " - " + ui->comboBox_ResImg_Depth->currentText() + ".png");
                 }
             }
 
@@ -1741,16 +1741,16 @@ void D_MAKRO_IonTracks::Save_Analysis()
                 }
 
                 ui->comboBox_ResPlo_Type->setCurrentIndex(c_PLO_STAT_AT_RADIUS);
-                Save_Plot(DIR_SavePlot.path() + "/" + ui->comboBox_ResPlo_SaR_StatTracks->currentText() + " - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".jpg");
+                Save_Plot(DIR_SavePlot.path() + "/" + ui->comboBox_ResPlo_SaR_StatTracks->currentText() + " - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".png");
 
                 ui->comboBox_ResPlo_Type->setCurrentIndex(c_PLO_MEAN_SD);
-                Save_Plot(DIR_SavePlot.path() + "/Mean_SD - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".jpg");
+                Save_Plot(DIR_SavePlot.path() + "/Mean_SD - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".png");
 
                 ui->comboBox_ResPlo_Type->setCurrentIndex(c_PLO_MEDIAN_ADM);
-                Save_Plot(DIR_SavePlot.path() + "/Median_ADM - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".jpg");
+                Save_Plot(DIR_SavePlot.path() + "/Median_ADM - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".png");
 
                 ui->comboBox_ResPlo_Type->setCurrentIndex(c_PLO_QUANTILES);
-                Save_Plot(DIR_SavePlot.path() + "/Quantiles_20Prz - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".jpg");
+                Save_Plot(DIR_SavePlot.path() + "/Quantiles_20Prz - (of " + ui->comboBox_ResTab_StatSingle->currentText() + ") - " + QS_AxeMode + ".png");
             }
         }
     }
@@ -1778,7 +1778,7 @@ void D_MAKRO_IonTracks::Save_Plot()
                 this,
                 "Save Plot as Image",
                 DIR_Input.path(),
-                tr("Images (*.png *.jpg *.bmp *.tif)"));
+                tr("Images (*.png *.bmp *.tif)"));
     if(QS_SavePath == 0)
         return;
 

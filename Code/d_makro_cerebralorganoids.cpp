@@ -485,7 +485,7 @@ void D_MAKRO_CerebralOrganoids::UpdateProc_Stack()
                 //save single visualization
                 Save_Image(
                             &ViewRes,
-                            DIR_Save_Images.path() + "/LabelNumbers_" + vvvFI_Flask[time][dose][flask].baseName() + ".jpg");
+                            DIR_Save_Images.path() + "/LabelNumbers_" + vvvFI_Flask[time][dose][flask].baseName() + ".png");
             }
         }
     }
@@ -1409,7 +1409,7 @@ void D_MAKRO_CerebralOrganoids::Save_Plot(QChartView *pCV_Save, QString name_def
         name_save = QFileDialog::getSaveFileName(this,
                                                  tr("Save plot as image"),
                                                  name_default,
-                                                 tr("Images (*.png *.jpg *.bmp *.tif)"));
+                                                 tr("Images (*.png *.bmp *.tif)"));
     if(name_save.isEmpty())
         return;
 
@@ -1494,7 +1494,7 @@ void D_MAKRO_CerebralOrganoids::Save_Analysis()
     state_stack_processing = true;
 
     //Parameters:::::::::::::::::::::::::::::::::::::::
-    ui->groupBox_ProcSet->grab().save(DIR_Save_Main.path() + "/Parameters.jpg", 0, -1);
+    ui->groupBox_ProcSet->grab().save(DIR_Save_Main.path() + "/Parameters.png", 0, -1);
 
     //Plots:::::::::::::::::::::::::::::::::::::::
     qDebug() << "Save_Analysis" << "Save Plots ::::::::::::::::::::::::::";
@@ -1528,7 +1528,7 @@ void D_MAKRO_CerebralOrganoids::Save_Analysis()
                             "_" + QSL_FeatAll[vFeatsOfInterest[feat]] +
                             "_" + QSL_StatList[vStatsOfInterest_Line[stat_val]] +
                             "_" + QSL_StatList[vStatsOfInterest_Errors[stat_err]] +
-                            ".jpg");
+                            ".png");
             }
         }
     }

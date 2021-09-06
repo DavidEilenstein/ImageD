@@ -17,7 +17,7 @@ var searchData=
   ['load_5ffrom_5fpath_5fraw_1629',['Load_From_Path_Raw',['../class_d___img___proc.html#a7601b16371535164b9860bb190a23967',1,'D_Img_Proc::Load_From_Path_Raw()'],['../class_d___img___proc__2d_factory.html#a37e7b79aa010a116e4529a8d9eb8c33b',1,'D_Img_Proc_2dFactory::Load_From_Path_Raw()']]],
   ['load_5ffrom_5fpath_5ftext_1630',['Load_From_Path_Text',['../class_d___img___proc.html#aa06604fb0e60acc00b34d089425dea62',1,'D_Img_Proc']]],
   ['load_5fsimple_1631',['load_simple',['../class_d___bio___nucleus_blob.html#a5fb15023dcfe69d472b4bf88a9fc87bf',1,'D_Bio_NucleusBlob']]],
-  ['log_5fcentered_1632',['Log_Centered',['../class_d___math.html#ad0c435d2b6171f6f9f5e48211fd029ee',1,'D_Math::Log_Centered(double min, double max, double center, double divisor)'],['../class_d___math.html#a9373d7a2d954d63efc90f1e1a4739a76',1,'D_Math::Log_Centered(double center, double divisor)']]],
+  ['log_5fcentered_1632',['Log_Centered',['../class_d___math.html#a9373d7a2d954d63efc90f1e1a4739a76',1,'D_Math::Log_Centered(double center, double divisor)'],['../class_d___math.html#ad0c435d2b6171f6f9f5e48211fd029ee',1,'D_Math::Log_Centered(double min, double max, double center, double divisor)']]],
   ['loop1d_5fslicebyindex_1633',['loop1D_SliceByIndex',['../class_d___vis_dat___slicing.html#a2a3328ffd0456dea9c466fb64fa1a061',1,'D_VisDat_Slicing']]],
   ['loop1d_5fslicecurrent_1634',['loop1D_SliceCurrent',['../class_d___vis_dat___slicing.html#ab0b144ad2692c5db43f4e4b9581da5a7',1,'D_VisDat_Slicing']]],
   ['loop2d_5fslicebyindex_1635',['loop2D_SliceByIndex',['../class_d___vis_dat___slicing.html#acb8661157d604e16b264423981a197c5',1,'D_VisDat_Slicing']]],
@@ -33,7 +33,8 @@ var searchData=
   ['loop_5fslicecount_1645',['loop_SliceCount',['../class_d___vis_dat___slicing.html#ab796f7dd75a5d3e8b00527679f38c09f',1,'D_VisDat_Slicing']]],
   ['lut_5fapply_5fto_5flabel_5fbinary_1646',['LUT_Apply_to_Label_Binary',['../class_d___img___proc.html#aa04ebfcb4c2eb7f90098e2b2781618a8',1,'D_Img_Proc']]],
   ['lut_5fapply_5fto_5flabel_5fcolor_1647',['LUT_Apply_to_Label_Color',['../class_d___img___proc.html#a9ec2af1c5d784b64e875c52684bfed3b',1,'D_Img_Proc']]],
-  ['lut_5fapply_5fto_5flabel_5fdouble_1648',['LUT_Apply_to_Label_Double',['../class_d___img___proc.html#adbf510da2ab684963c9a25f2f4ef8b38',1,'D_Img_Proc']]],
+  ['lut_5fapply_5fto_5flabel_5fdouble_1648',['LUT_Apply_to_Label_Double',['../class_d___img___proc.html#a0957af3866efcd102fd53a8ceb4951c8',1,'D_Img_Proc']]],
   ['lut_5fapply_5fto_5flabel_5fint_1649',['LUT_Apply_to_Label_Int',['../class_d___img___proc.html#addd8a1ec024f0bf0599229ebc11a831d',1,'D_Img_Proc']]],
-  ['lut_5fapply_5fto_5flabel_5ftruefalse_1650',['LUT_Apply_to_Label_TrueFalse',['../class_d___img___proc.html#a40aeb117e516f46d400890af6154caf4',1,'D_Img_Proc']]]
+  ['lut_5fapply_5fto_5flabel_5ftruefalse_1650',['LUT_Apply_to_Label_TrueFalse',['../class_d___img___proc.html#a40aeb117e516f46d400890af6154caf4',1,'D_Img_Proc']]],
+  ['lut_5fapply_5fto_5flabel_5fuchar_1651',['LUT_Apply_to_Label_Uchar',['../class_d___img___proc.html#ade9f608033b3e7f7c6e205e62d0a13c3',1,'D_Img_Proc']]]
 ];

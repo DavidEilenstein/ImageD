@@ -121,6 +121,7 @@ private slots:
 
     void Parameters_Init();
     void Parameters_ActivatePreset();
+    void Parameters_ParamSetToUi(vector<double> vParams);
 
     void Calc_All();
     void Calc_Cells_Attrib();
@@ -217,6 +218,10 @@ private slots:
     void on_spinBox_SetCore_14_AreaMaxOfSmall_valueChanged(int arg1);
 
     void on_spinBox_SetCore_14_AreaMinOfBig_valueChanged(int arg1);
+
+    void on_pushButton_ParamsLoad_clicked();
+
+    void on_pushButton_ParamsSave_clicked();
 
 private:
     Ui::D_MAKRO_CoreFoci *ui;

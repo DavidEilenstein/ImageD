@@ -767,16 +767,16 @@ void D_MAKRO_AirDragTrack::on_action_Save_Screenshot_Full_Window_triggered()
             pStore->dir_Save()->path() + "/Screenshot " +
             this->windowTitle();
 
-    QFileInfo FI_save(name_default + ".jpg");
+    QFileInfo FI_save(name_default + ".png");
     int count = 1;
     while(FI_save.exists())
-        FI_save.setFile(name_default + "_" + QString::number(count) + ".jpg");
+        FI_save.setFile(name_default + "_" + QString::number(count) + ".png");
 
     QString save_name = QFileDialog::getSaveFileName(
                         this,
                         tr("Save Screenshot"),
                         FI_save.absoluteFilePath(),
-                        tr("Images (*.png *.jpg *.bmp *.tif)"));
+                        tr("Images (*.png *.bmp *.tif)"));
 
     if(save_name != 0)
     {
