@@ -195,14 +195,15 @@ public:
     static int  Convert_Angle2Color_Rad (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_InAngleRad, uchar Saturation = 255, uchar Value = 255);
 
     //Threshold
-    static int  Threshold_Auto          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int auto_type);
-    static int  Threshold_Auto_Otsu     (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max);
-    static int  Threshold_Absolute_8U   (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int thresh);
-    static int  Threshold_Absolute      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh);
-    static int  Threshold_Relative_8U   (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh_rel);
-    static int  Threshold_Relative      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double base, double thresh_rel);
-    static int  Threshold_Adaptive      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int mask_type, int mask_size, double offset);
-    static int  Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset, double scale = 1);
+    static int  Threshold_Auto                      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int auto_type);
+    static int  Threshold_Auto_Otsu                 (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max);
+    static int  Threshold_Absolute_8U               (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int thresh);
+    static int  Threshold_Absolute                  (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh);
+    static int  Threshold_Relative_8U               (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double thresh_rel);
+    static int  Threshold_Relative                  (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double base, double thresh_rel);
+    static int  Threshold_Adaptive                  (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int mode, int max, int mask_type, int mask_size, double offset);
+    static int  Threshold_Adaptive_Gauss            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int size, double sigma, double offset, double scale = 1);
+    static int  Threshold_RankOrderOffsetHysteresis (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling = false);
 
     //Grab Color
     static int  Color_Grab              (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);
@@ -253,6 +254,7 @@ public:
     static int  Morphology_LocMax_Rect          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int elem_size_X = 3, int elem_size_Y = 3);
     static int  Morphology_Reconstruction       (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Seed, D_VisDat_Obj *pVD_Limit, D_VisDat_Obj *pVD_Mask, double quantil = 1);
     static int  Filter_Maximum_1C               (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, size_t mask_size_x, size_t mask_size_y);
+    static int  Hysteresis                      (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In_Indicator, D_VisDat_Obj *pVD_In_Hysteresis, bool labeling = false);
 
     //Math
     static int  Math_1img_Inversion                 (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);

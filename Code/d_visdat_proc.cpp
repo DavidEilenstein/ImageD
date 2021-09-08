@@ -4935,6 +4935,29 @@ int D_VisDat_Proc::Threshold_Adaptive_Gauss(D_VisDat_Slicing slice, D_VisDat_Obj
                 pVD_In);
 }
 
+int D_VisDat_Proc::Threshold_RankOrderOffsetHysteresis(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                D_Img_Proc::TypeIndex_of_Mat(
+                    pVD_In->pMA_full()->channels(),
+                    labeling ? CV_32S : CV_8U));
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Threshold_RankOrderOffsetHysteresis(
+                    radius,
+                    quantile,
+                    thresh_offset_indicator,
+                    thresh_offset_hysteresis,
+                    labeling),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Color_Grab(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max)
 {
     int out_type = CV_8UC1;
@@ -5687,6 +5710,17 @@ int D_VisDat_Proc::Filter_Maximum_1C(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_O
                     mask_size_y),
                 pVD_Out,
                 pVD_In);
+}
+
+int D_VisDat_Proc::Hysteresis(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In_Indicator, D_VisDat_Obj *pVD_In_Hysteresis, bool labeling)
+{
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Hysteresis(
+                    labeling),
+                pVD_Out,
+                pVD_In_Indicator,
+                pVD_In_Hysteresis);
 }
 
 int D_VisDat_Proc::Math_1img_Inversion(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)

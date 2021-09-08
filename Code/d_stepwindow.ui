@@ -10543,19 +10543,207 @@
                      </item>
                     </layout>
                    </widget>
+                   <widget class="QWidget" name="page_03_Thres_RankHysteresis">
+                    <layout class="QGridLayout" name="gridLayout_152">
+                     <item row="1" column="3">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_Radius_Descriprtion">
+                       <property name="text">
+                        <string>Radius of filtering</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_Quantil_Description">
+                       <property name="text">
+                        <string>Quantil % for local filter reference</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1" colspan="2">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_03_Thres_RankHysteresis_Quantil">
+                       <property name="minimumSize">
+                        <size>
+                         <width>100</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="suffix">
+                        <string>%</string>
+                       </property>
+                       <property name="decimals">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <double>100.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>50.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1" colspan="2">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_03_Thres_RankHysteresis_Radius">
+                       <property name="minimumSize">
+                        <size>
+                         <width>100</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="minimum">
+                        <double>1.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>9999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1.500000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <spacer name="verticalSpacer_03_Thres_RankHysteresis">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_Radius">
+                       <property name="text">
+                        <string>Radius</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="3">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_ThreshOffsetIndicator_Description">
+                       <property name="text">
+                        <string>indicator thres for hysteresis binarization</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_Qauntil">
+                       <property name="text">
+                        <string>Quantil</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_03_Thres_RankHysteresis_ThresIndicator">
+                       <property name="minimumSize">
+                        <size>
+                         <width>100</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="decimals">
+                        <number>1</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>-2.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_03_Thres_RankHysteresis_ThresHysteresis">
+                       <property name="minimumSize">
+                        <size>
+                         <width>100</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="decimals">
+                        <number>1</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>-1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="3">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_ThreshOffsetHysteresis_Description">
+                       <property name="text">
+                        <string>testing thres for hysteresis binarization</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="4" rowspan="4">
+                      <spacer name="horizontalSpacer_03_Thres_RankHysteresis">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item row="2" column="0" rowspan="2">
+                      <widget class="QLabel" name="label_03_Thres_RankHysteresis_ThreshOffsets">
+                       <property name="text">
+                        <string>Thres Offsets</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                  <item row="2" column="2">
                   <widget class="QComboBox" name="comboBox_03_Thres_Type">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>200</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>100</width>
+                     <width>200</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -10579,6 +10767,11 @@
                      <string>Local Adaptive</string>
                     </property>
                    </item>
+                   <item>
+                    <property name="text">
+                     <string>Local Adaptive Rank Order Hysteresis</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item row="0" column="0" rowspan="8">
@@ -10599,13 +10792,13 @@
                   <widget class="QComboBox" name="comboBox_03_Thres_Output_Mode">
                    <property name="minimumSize">
                     <size>
-                     <width>100</width>
+                     <width>200</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>100</width>
+                     <width>200</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -10666,13 +10859,13 @@
                   <widget class="QDoubleSpinBox" name="doubleSpinBox_03_Thres_Max_Value_Out">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>200</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>100</width>
+                     <width>200</width>
                      <height>16777215</height>
                     </size>
                    </property>

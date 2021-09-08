@@ -6554,6 +6554,91 @@ int D_Img_Proc::Threshold_Adaptive_Gauss_1C(Mat *pMA_Out, Mat *pMA_In, int size,
     return ER_okay;
 }
 
+int D_Img_Proc::Threshold_RankOrderOffsetHysteresis(Mat *pMA_Out, Mat *pMA_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling)
+{
+    //errors
+    if(pMA_In->empty())                                             return ER_empty;
+    if(pMA_In->channels() != 1)                                     return ER_channel_bad;
+    if(pMA_In->depth() != CV_8UC1 && pMA_In->depth() != CV_16UC1)   return ER_bitdepth_bad;
+    int ER = ER_okay;
+
+    //blur
+    Mat MA_tmp_filtered;
+    ER = Filter_RankOrder_Circular(
+                &MA_tmp_filtered,
+                pMA_In,
+                quantile,
+                radius);
+    if(ER != ER_okay)
+    {
+        MA_tmp_filtered.release();
+        return ER;
+    }
+
+    //type identity check (should never happen)
+    if(pMA_In->type() != MA_tmp_filtered.type())
+    {
+        MA_tmp_filtered.release();
+        return ER_type_missmatch;
+    }
+
+    //img size
+    size_t area = pMA_In->cols * pMA_In->rows;
+
+    //threshold imgs
+    Mat MA_tmp_thres_indicator(pMA_In->size(), CV_8UC1);
+    Mat MA_tmp_thres_hysteresis(pMA_In->size(), CV_8UC1);
+    uchar* ptr_out_ind = reinterpret_cast<uchar*>(MA_tmp_thres_indicator.data);
+    uchar* ptr_out_hys = reinterpret_cast<uchar*>(MA_tmp_thres_hysteresis.data);
+
+    //type switch
+    switch (MA_tmp_filtered.type()) {
+
+    case CV_8UC1:
+    {
+        uchar* ptr_fil = reinterpret_cast<uchar*>(MA_tmp_filtered.data);
+        uchar* ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_out_ind++, ptr_out_hys++, ptr_fil++, ptr_in++)
+        {
+            double val_dif = double(*ptr_fil) - double(*ptr_in);
+            *ptr_out_ind = val_dif < thresh_offset_indicator ? 255 : 0;
+            *ptr_out_hys = val_dif < thresh_offset_hysteresis ? 255 : 0;
+        }
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        ushort* ptr_fil = reinterpret_cast<ushort*>(MA_tmp_filtered.data);
+        ushort* ptr_in = reinterpret_cast<ushort*>(pMA_In->data);
+        for(size_t px = 0; px < area; px++, ptr_out_ind++, ptr_out_hys++, ptr_fil++, ptr_in++)
+        {
+            double val_dif = double(*ptr_fil) - double(*ptr_in);
+            *ptr_out_ind = val_dif < thresh_offset_indicator ? 255 : 0;
+            *ptr_out_hys = val_dif < thresh_offset_hysteresis ? 255 : 0;
+        }
+    }
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    MA_tmp_filtered.release();
+
+    //apply hysteresis
+    ER = Hysteresis(
+                pMA_Out,
+                &MA_tmp_thres_indicator,
+                &MA_tmp_thres_hysteresis,
+                labeling);
+
+    MA_tmp_thres_indicator.release();
+    MA_tmp_thres_hysteresis.release();
+
+    return ER;
+}
+
 int D_Img_Proc::Threshold_BlurThres(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres)
 {
     int ER;
@@ -7528,6 +7613,26 @@ int D_Img_Proc::Transformation_Watershed_Auto(Mat *pMA_Out, Mat *pMA_In, int siz
     return ER_okay;
 }
 
+/*!
+ * \brief D_Img_Proc::Transformation_Watershed_Custom WIP, don't use!
+ * \param pMA_Out
+ * \param pMA_In2Fill
+ * \param pMA_InMarker
+ * \param pMA_FG_Mask
+ * \param mode_flood
+ * \param mode_marker
+ * \param mode_mask
+ * \param connectivity
+ * \param gauss_size
+ * \param gauss_sigma
+ * \param morphgrad_elem
+ * \param morphgrad_size
+ * \param thresh
+ * \param exclude_border
+ * \param include_non_seeded
+ * \param draw_watersheds
+ * \return
+ */
 int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, Mat *pMA_InMarker, Mat *pMA_FG_Mask, int mode_flood, int mode_marker, int mode_mask, int connectivity, int gauss_size, double gauss_sigma, int morphgrad_elem, int morphgrad_size, double thresh, bool exclude_border, bool include_non_seeded, bool draw_watersheds)
 {
     //error checks
@@ -16443,6 +16548,54 @@ bool D_Img_Proc::Floodfill_Delta_Step(Mat *pMA_Target, Mat *pMA_Check, int x, in
     Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y,  0, +1, val_new, val_delta, val_current);
     Floodfill_Delta_Step(pMA_Target, pMA_Check, x, y,  0, -1, val_new, val_delta, val_current);
     return true;
+}
+
+int D_Img_Proc::Hysteresis(Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hysteresis, bool labeling)
+{
+    if(pMA_In_Indicator->empty())                                       return ER_empty;
+    if(pMA_In_Hysteresis->empty())                                      return ER_empty;
+    if(pMA_In_Indicator->type() != CV_8UC1)                             return ER_empty;
+    if(pMA_In_Hysteresis->type() != CV_8UC1)                            return ER_empty;
+    if(pMA_In_Indicator->size != pMA_In_Hysteresis->size)               return ER_size_bad;
+
+    if(labeling)
+    {
+        //use watershed labeling as flooding and sorting tool (non seeded are excluded)
+        return Transformation_Watershed_Auto(
+                    pMA_Out,
+                    pMA_In_Hysteresis,
+                    pMA_In_Indicator,
+                    false,
+                    false,
+                    false);
+    }
+    else
+    {
+        //use watershed labeling as flooding and sorting tool (non seeded are excluded)
+        Mat MA_tmp_Labels;
+        int ER = Transformation_Watershed_Auto(
+                    &MA_tmp_Labels,
+                    pMA_In_Hysteresis,
+                    pMA_In_Indicator,
+                    false,
+                    false,
+                    false);
+        if(ER != ER_okay)
+        {
+            MA_tmp_Labels.release();
+            return ER;
+        }
+
+        //binaize
+        ER = Threshold_Absolute(
+                    pMA_Out,
+                    &MA_tmp_Labels,
+                    0);
+        MA_tmp_Labels.release();
+        return ER;
+    }
+
+    return ER_okay;
 }
 
 

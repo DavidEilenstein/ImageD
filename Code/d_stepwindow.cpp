@@ -1224,6 +1224,21 @@ void D_StepWindow::Update_Img_Proc()
             }
                 break;
 
+            case 4://------------------rank order hysteresis
+            {
+                ERR(D_VisDat_Proc::Threshold_RankOrderOffsetHysteresis(
+                        SlicingFromUi(),
+                        pStore->get_pVD(pos_Dest),
+                        pStore->get_pVD(pos_Source1),
+                        ui->doubleSpinBox_03_Thres_RankHysteresis_Radius->value(),
+                        ui->doubleSpinBox_03_Thres_RankHysteresis_Quantil->value() / 100.0,
+                        ui->doubleSpinBox_03_Thres_RankHysteresis_ThresIndicator->value(),
+                        ui->doubleSpinBox_03_Thres_RankHysteresis_ThresHysteresis->value()),
+                    "Update_Img_Proc",
+                    "Threshold_Adaptive");
+            }
+                break;
+
             default:
                 break;
             }
@@ -5450,6 +5465,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->comboBox_03_Thres_Adapt_Type,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->doubleSpinBox_03_Thres_Adapt_Offset,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         connect(ui->spinBox_03_Thres_Mask_Size,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_03_Thres_RankHysteresis_Radius,           SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_03_Thres_RankHysteresis_Quantil,          SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_03_Thres_RankHysteresis_ThresIndicator,   SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        connect(ui->doubleSpinBox_03_Thres_RankHysteresis_ThresHysteresis,  SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //Labeling
         connect(ui->comboBox_03_Labeling_Connectivity,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         connect(ui->comboBox_03_Labeling_Depth,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
@@ -6050,6 +6069,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->comboBox_03_Thres_Adapt_Type,           SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->doubleSpinBox_03_Thres_Adapt_Offset,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->spinBox_03_Thres_Mask_Size,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_03_Thres_RankHysteresis_Radius,            SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_03_Thres_RankHysteresis_Quantil,           SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_03_Thres_RankHysteresis_ThresIndicator,    SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->doubleSpinBox_03_Thres_RankHysteresis_ThresHysteresis,   SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         //Labeling
         disconnect(ui->comboBox_03_Labeling_Connectivity,      SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         disconnect(ui->comboBox_03_Labeling_Depth,             SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));

@@ -157,27 +157,28 @@ public:
     static int      Scale_Factor                (Mat *pMA_Out, Mat *pMA_In, double scale_x, double scale_y);
     static int      Scale_ToSize                (Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y);
 
-    static int      Threshold_Relative          (Mat *pMA_Out, Mat *pMA_In, double max_val, double thres_rel);
-    static int      Threshold_Relative_1C       (Mat *pMA_Out, Mat *pMA_In, double max_val, double thres_rel);
-    static int      Threshold_Absolute          (Mat *pMA_Out, Mat *pMA_In, double thres_abs);
-    static int      Threshold_Absolute_1C       (Mat *pMA_Out, Mat *pMA_In, double thres_abs);
-    static int      Threshold_Value             (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, double thres);
-    static int      Threshold_Auto              (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int auto_mode);
-    static int      Threshold_Adaptive          (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int adapt_mode, unsigned int mask_size, double offset);
-    static int      Threshold_Adaptive_Gauss    (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale);
-    static int      Threshold_Adaptive_Gauss_1C (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale);
-    static int      Threshold_BlurThres         (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres);
-    static int      Color_Grab                  (Mat *pMA_Out, Mat *pMA_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);
+    static int      Threshold_Relative                      (Mat *pMA_Out, Mat *pMA_In, double max_val, double thres_rel);
+    static int      Threshold_Relative_1C                   (Mat *pMA_Out, Mat *pMA_In, double max_val, double thres_rel);
+    static int      Threshold_Absolute                      (Mat *pMA_Out, Mat *pMA_In, double thres_abs);
+    static int      Threshold_Absolute_1C                   (Mat *pMA_Out, Mat *pMA_In, double thres_abs);
+    static int      Threshold_Value                         (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, double thres);
+    static int      Threshold_Auto                          (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int auto_mode);
+    static int      Threshold_Adaptive                      (Mat *pMA_Out, Mat *pMA_In, int out_mode, double max_val, int adapt_mode, unsigned int mask_size, double offset);
+    static int      Threshold_Adaptive_Gauss                (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale);
+    static int      Threshold_Adaptive_Gauss_1C             (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale);
+    static int      Threshold_RankOrderOffsetHysteresis     (Mat *pMA_Out, Mat *pMA_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling = false);
+    static int      Threshold_BlurThres                     (Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double thres);
+    static int      Color_Grab                              (Mat *pMA_Out, Mat *pMA_In, int color_space, int out_mode, vector<uchar> min, vector<uchar> max);
 
-    static int      Morphology_Elemental        (Mat *pMA_Out, Mat *pMA_In, int morph_type, int elem_type, unsigned int elem_size_X, unsigned int elem_size_Y, int border_type, unsigned int iterations);
-    static int      Morphology_Skeleton         (Mat *pMA_Out, Mat *pMA_In, int elem_type, unsigned int elem_size_X, unsigned int elem_size_Y, int border_type);
-    static int      Morphology_Thinning         (Mat *pMA_Out, Mat *pMA_In, int thinning_type);
-    static int      Morphology_Thinning_Iteration(Mat img, int iter, int thinning_type);
-    static int      Morphology_Erode_Rect       (Mat *pMA_Out, Mat *pMA_In, int elem_size_X, int elem_size_Y);
-    static int      Morphology_Dilate_Rect      (Mat *pMA_Out, Mat *pMA_In, int elem_size_X, int elem_size_Y);
-    static int      Morphology_LocMax_Rect      (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
-    static int      Morphology_LocMax_Rect_1C   (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
-    static int      Morphology_Reconstruction   (Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil = 1);
+    static int      Morphology_Elemental                    (Mat *pMA_Out, Mat *pMA_In, int morph_type, int elem_type, unsigned int elem_size_X, unsigned int elem_size_Y, int border_type, unsigned int iterations);
+    static int      Morphology_Skeleton                     (Mat *pMA_Out, Mat *pMA_In, int elem_type, unsigned int elem_size_X, unsigned int elem_size_Y, int border_type);
+    static int      Morphology_Thinning                     (Mat *pMA_Out, Mat *pMA_In, int thinning_type);
+    static int      Morphology_Thinning_Iteration           (Mat img, int iter, int thinning_type);
+    static int      Morphology_Erode_Rect                   (Mat *pMA_Out, Mat *pMA_In, int elem_size_X, int elem_size_Y);
+    static int      Morphology_Dilate_Rect                  (Mat *pMA_Out, Mat *pMA_In, int elem_size_X, int elem_size_Y);
+    static int      Morphology_LocMax_Rect                  (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
+    static int      Morphology_LocMax_Rect_1C               (Mat *pMA_Out, Mat *pMA_In, int elem_size_X = 3, int elem_size_Y = 3);
+    static int      Morphology_Reconstruction               (Mat *pMA_Out, Mat *pMA_InSeed, Mat *pMA_InLimit, Mat *pMA_Mask, double quantil = 1);
 
     static int      Transformation_Distance         (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
   //static int      Transformation_Distance_Rel     (Mat *pMA_Out, Mat *pMA_In, int metric, int precision);
@@ -378,6 +379,7 @@ public:
     static int      Floodfill_Boundary          (Mat *pMA_Out, Mat *pMA_In, double new_val);
     static int      Floodfill_Delta             (Mat *pMA_Out, Mat *pMA_In, int seed_x, int seed_y, uchar val_new, uchar val_delta);
     static bool     Floodfill_Delta_Step        (Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin);
+    static int      Hysteresis                  (Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hysteresis, bool labeling = false);
 
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int d, uchar val);
     static int      Draw_Dots                   (Mat *pMA_Target, vector<Point2f> vCenters, vector<double> vDiameters, uchar val);

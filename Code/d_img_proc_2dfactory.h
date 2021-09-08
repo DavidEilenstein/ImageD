@@ -62,21 +62,22 @@ public:
     static function<int (Mat *)>                                Draw_Contours                       (vector<vector<Point>> vContours, int line_thickness, double value);
 
     //1 Input -> 1 Output
-    static function<int (Mat *, Mat *)>                         Convert_Color                   (int cvt_mode);
-    static function<int (Mat *, Mat *)>                         Convert_Color2Mono              (int col2mono_code);
-    static function<int (Mat *, Mat *)>                         Normalize                       (int norm, int type, double min, double max);
-    static function<int (Mat *, Mat *)>                         Convert_Depth_NoScaling         (int depth);
-    static function<int (Mat *, Mat *)>                         Channel_Split                   (int channel);
-    static function<int (Mat *, Mat *)>                         Channel_Supression              (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
-    static function<int (Mat *, Mat *)>                         Convert_8UC1_binary             ();
-    static function<int (Mat *, Mat *)>                         Visualize_to8bit                (int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
+    static function<int (Mat *, Mat *)>                         Convert_Color                       (int cvt_mode);
+    static function<int (Mat *, Mat *)>                         Convert_Color2Mono                  (int col2mono_code);
+    static function<int (Mat *, Mat *)>                         Normalize                           (int norm, int type, double min, double max);
+    static function<int (Mat *, Mat *)>                         Convert_Depth_NoScaling             (int depth);
+    static function<int (Mat *, Mat *)>                         Channel_Split                       (int channel);
+    static function<int (Mat *, Mat *)>                         Channel_Supression                  (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
+    static function<int (Mat *, Mat *)>                         Convert_8UC1_binary                 ();
+    static function<int (Mat *, Mat *)>                         Visualize_to8bit                    (int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
 
-    static function<int (Mat *, Mat *)>                         Threshold_Auto                  (int mode, int max, int auto_type);
-    static function<int (Mat *, Mat *)>                         Threshold_Value                 (int mode, int max, int thresh);
-    static function<int (Mat *, Mat *)>                         Threshold_Absolute              (double thresh);
-    static function<int (Mat *, Mat *)>                         Threshold_Realtive              (double base, double thresh_rel);
-    static function<int (Mat *, Mat *)>                         Threshold_Adaptive              (int mode, int max, int mask_type, int mask_size, double offset);
-    static function<int (Mat *, Mat *)>                         Threshold_Adaptive_Gauss        (int size, double sigma, double offset, double scale);
+    static function<int (Mat *, Mat *)>                         Threshold_Auto                      (int mode, int max, int auto_type);
+    static function<int (Mat *, Mat *)>                         Threshold_Value                     (int mode, int max, int thresh);
+    static function<int (Mat *, Mat *)>                         Threshold_Absolute                  (double thresh);
+    static function<int (Mat *, Mat *)>                         Threshold_Realtive                  (double base, double thresh_rel);
+    static function<int (Mat *, Mat *)>                         Threshold_Adaptive                  (int mode, int max, int mask_type, int mask_size, double offset);
+    static function<int (Mat *, Mat *)>                         Threshold_Adaptive_Gauss            (int size, double sigma, double offset, double scale);
+    static function<int (Mat *, Mat *)>                         Threshold_RankOrderOffsetHysteresis (double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling = false);
 
     static function<int (Mat *, Mat *)>                         Labeling                        (int connectivity, int out_depth);
     static function<int (Mat *, Mat *)>                         Grab_Color                      (int color_space, int out_mode, vector<uchar> min, vector<uchar> max);
@@ -146,6 +147,8 @@ public:
 
     //2 Input -> 1 Output
     static function<int (Mat *, Mat *, Mat *)>                  Shading_Correct                 ();
+
+    static function<int (Mat *, Mat *, Mat *)>                  Hysteresis                      (bool labeling = false);
 
     static function<int (Mat *, Mat *, Mat *)>                  Filter_RankOrder                (double quantil);
     static function<int (Mat *, Mat *, Mat *)>                  Filter_Median                   ();

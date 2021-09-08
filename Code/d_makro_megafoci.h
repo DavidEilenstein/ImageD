@@ -161,10 +161,16 @@ private slots:
     void on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1);
 
     //img proc nuclei
-    void on_doubleSpinBox_ImgProc_RankOrder_Size_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_RankOrder_Quantil_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_Thresh_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_BlurGFP_GaussSize_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_BlurGFP_GaussSigma_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_Quantil_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_FilterRadius_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresIndicator_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresHysteresis_valueChanged(double arg1);
     void on_spinBox_ImgProc_Seg0_ClosingSize_valueChanged(int arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_ConnectSmall_CloseSize_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg1_DistThresh_valueChanged(double arg1);
@@ -371,12 +377,19 @@ private:
         STEP_VIS_PAGES_AS_COLOR_ALL,
 
         //Find Nuclei
-        STEP_NUC_GFP_RANK_ORDER,
+        STEP_NUC_GFP_BLUR_GAUSS,
         //segmentation level 0
-        STEP_NUC_GFP_SEG0_THRES,
-        STEP_NUC_GFP_SEG0_MORPH_OPENING,
+        STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE,
+        STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED,
+        STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR,
+        STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS,
+        STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS,
+        STEP_NUC_GFP_SEG0_MORPH_CLOSEING,
         STEP_NUC_GFP_SEG0_FILL_HOLES,
-        STEP_NUC_GFP_SEG0_SELECT_AREA,
+        STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL,
+        STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL,
+        STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL,
+        STEP_NUC_GFP_SEG0_SELECT_AREA_BIG,
         //segmentation level 1
         STEP_NUC_GFP_SEG1_DISTANCE,
         STEP_NUC_GFP_SEG1_SEEDS,
@@ -443,28 +456,35 @@ private:
         "vis-3 Color GFP green RFP blue",
         "vis-4 Color all channels",
 
-        "nuc-0 GFP circular rank order filter",
+        "nuc-0 GFP gaussain blur",
         //segmentation level 0..........................................
-        "nuc-1 GFP seg0 base threshold",
-        "nuc-2 GFP seg0 remove small foreground noise",
-        "nuc-3 GFP seg0 fill holes",
-        "nuc-4 GFP seg0 select by area",
+        "nuc-1 GFP seg0 rank order filter for backgound ref",
+        "nuc-2 GFP seg0 difference to background",
+        "nuc-3 GFP seg0 threshhold object indicator",
+        "nuc-4 GFP seg0 threshold possible objects",
+        "nuc-5 GFP seg0 hysteresis of two thresholds",
+        "nuc-6 GFP seg0 connect foreground objects",
+        "nuc-7 GFP seg0 fill holes",
+        "nuc-8 GFP seg0 select small",
+        "nuc-9 GFP seg0 connect small",
+        "nuc-10 GFP seg0 add connected small",
+        "nuc-11 GFP seg0 select by area",
         //segmentation level 1..........................................
-        "nuc-5 GFP seg1 distance transformation",
-        "nuc-6 GFP seg1 get seeds",
-        "nuc-7 GFP seg1 clear seeds",
-        "nuc-8 GFP seg1 watershed segmentation",
-        "nuc-9 GFP seg1 binary segments",
+        "nuc-12 GFP seg1 distance transformation",
+        "nuc-13 GFP seg1 get seeds",
+        "nuc-14 GFP seg1 clear seeds",
+        "nuc-15 GFP seg1 watershed segmentation",
+        "nuc-16 GFP seg1 binary segments",
         //segmentation level 2..........................................
-        "nuc-10 GFP seg2 distance transformation",
-        "nuc-11 GFP seg2 get seeds",
-        "nuc-12 GFP seg2 clear seeds",
-        "nuc-13 GFP seg2 watershed segmentation",
-        "nuc-14 GFP seg2 select by area",
+        "nuc-17 GFP seg2 distance transformation",
+        "nuc-18 GFP seg2 get seeds",
+        "nuc-19 GFP seg2 clear seeds",
+        "nuc-20 GFP seg2 watershed segmentation",
+        "nuc-21 GFP seg2 select by area",
         //segmentation level 3..........................................
-        "nuc-15 GFP seg3 convex hull",
-        "nuc-16 GFP seg3 watershed transformation seed from seg2",
-        "nuc-17 GFP seg3 binary segments",
+        "nuc-22 GFP seg3 convex hull",
+        "nuc-23 GFP seg3 watershed transformation seed from seg2",
+        "nuc-24 GFP seg3 binary segments",
 
         "vis-5 Nuclei segemntation borders",
 

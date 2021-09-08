@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1416</width>
-    <height>891</height>
+    <height>870</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -701,6 +701,44 @@
                <property name="spacing">
                 <number>3</number>
                </property>
+               <item row="2" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Pre_Blur_Sigma">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>blur sigma </string>
+                 </property>
+                 <property name="maximum">
+                  <double>100.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.250000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>3.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="19" column="1" colspan="2">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Seg0_ClosingSize">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>closing size </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0" colspan="3">
                 <widget class="QComboBox" name="comboBox_ImgProc_StepShow">
                  <item>
@@ -710,42 +748,66 @@
                  </item>
                 </widget>
                </item>
-               <item row="29" column="1" colspan="2">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Foc_RFP_BlurMedianSize">
+               <item row="37" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_Both_AreaMin">
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>min area </string>
                  </property>
                  <property name="suffix">
                   <string> px</string>
                  </property>
-                 <property name="prefix">
-                  <string>median filter radius </string>
-                 </property>
-                 <property name="minimum">
+                 <property name="decimals">
                   <number>0</number>
                  </property>
+                 <property name="maximum">
+                  <double>999.000000000000000</double>
+                 </property>
                  <property name="singleStep">
-                  <number>1</number>
+                  <double>1.000000000000000</double>
                  </property>
                  <property name="value">
-                  <number>6</number>
+                  <double>5.000000000000000</double>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_vis_0">
-                 <property name="text">
-                  <string>vis-0</string>
+               <item row="35" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_RFP_AreaMax">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>max area </string>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>20.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>400.000000000000000</double>
                  </property>
                 </widget>
                </item>
-               <item row="23" column="2">
+               <item row="27" column="2">
                 <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg2_Area_Max">
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::NoButtons</enum>
                  </property>
                  <property name="prefix">
-                  <string>area max </string>
+                  <string>convex area max </string>
                  </property>
                  <property name="suffix">
                   <string>px</string>
@@ -764,7 +826,230 @@
                  </property>
                 </widget>
                </item>
-               <item row="30" column="1" colspan="2">
+               <item row="24" column="1" colspan="2">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Seg1_OpenSeeds">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="prefix">
+                  <string>open seeds </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="39" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Intensity_Overlay">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>intensity overlay  </string>
+                 </property>
+                 <property name="suffix">
+                  <string>%</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>100.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>5.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>100.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1" colspan="2">
+                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_RFP">
+                 <item row="0" column="0">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_RFP_Min">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>rfp min </string>
+                   </property>
+                   <property name="maximum">
+                    <number>65534</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>200</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_RFP_Max">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>rfp max </string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>800</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_RFP_Gamma">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>rfp gamma </string>
+                   </property>
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.700000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="31" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_GFP_AreaMin">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>min area </string>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>9999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="25" column="0">
+                <widget class="QLabel" name="label_nuc_11">
+                 <property name="text">
+                  <string>nuc-18</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="35" column="0">
+                <widget class="QLabel" name="label_foc_rfp_3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-rfp-3</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="20" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>convex area max </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>250.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>4000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="0" colspan="3">
+                <widget class="Line" name="line_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="28" column="0" colspan="3">
+                <widget class="Line" name="line_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="19" column="0">
+                <widget class="QLabel" name="label_nuc_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>nuc-6</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="34" column="1" colspan="2">
                 <layout class="QHBoxLayout" name="horizontalLayout_2">
                  <property name="spacing">
                   <number>6</number>
@@ -916,7 +1201,552 @@
                  </item>
                 </layout>
                </item>
-               <item row="31" column="1">
+               <item row="39" column="0">
+                <widget class="QLabel" name="label_vis_6">
+                 <property name="text">
+                  <string>vis-4/5/6/7</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1" colspan="2">
+                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_GFP">
+                 <item row="0" column="0">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_GFP_Min">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>gfp min </string>
+                   </property>
+                   <property name="maximum">
+                    <number>65534</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>60</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_GFP_Max">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>gfp max </string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>385</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_GFP_Gamma">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>gfp gamma </string>
+                   </property>
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.700000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="31" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_GFP_AreaMax">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>max area </string>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>20.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>400.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="27" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg2_Area_Min">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>convex area min </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>250.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>9000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="22" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_Area_Min">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>convex area min </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>250.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>4000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="16" column="0">
+                <widget class="QLabel" name="label_nuc_1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>nuc-1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="18" column="1" colspan="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_BaseBin_ThresHysteresis">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>offset threshold </string>
+                 </property>
+                 <property name="suffix">
+                  <string> (hysteresis)</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-65536.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>65535.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>28.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1" colspan="2">
+                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_Other">
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_Other_Max">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>nuc max </string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>5000</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_Other_Min">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>nuc min </string>
+                   </property>
+                   <property name="maximum">
+                    <number>65534</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>5</number>
+                   </property>
+                   <property name="value">
+                    <number>10</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Other_Gamma">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>nuc gamma </string>
+                   </property>
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.500000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_pre_5">
+                 <property name="text">
+                  <string>pre-5</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_pre_6">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>pre-6</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="26" column="1" colspan="2">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Seg2_OpenSeeds">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="prefix">
+                  <string>open seeds </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="29" column="1" colspan="2">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Foc_GFP_BlurMedianSize">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="prefix">
+                  <string>median filter radius </string>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="comboBox_ImgProc_ProjectZ_Stat">
+                 <item>
+                  <property name="text">
+                   <string>[project stats]</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="36" column="0" colspan="3">
+                <widget class="Line" name="line_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="34" column="0">
+                <widget class="QLabel" name="label_foc_rfp_1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-rfp-1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="37" column="0">
+                <widget class="QLabel" name="label_foc_both_1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-both-1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="30" column="0">
+                <widget class="QLabel" name="label_foc_gfp_1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-gfp-1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="26" column="0">
+                <widget class="QLabel" name="label_nuc_12">
+                 <property name="text">
+                  <string>nuc-19</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="41" column="0" colspan="3">
+                <spacer name="verticalSpacer_ImgProc">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>273</width>
+                   <height>277</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_vis_2">
+                 <property name="text">
+                  <string>vis-2</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="39" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Intensity_Background">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>intensity background </string>
+                 </property>
+                 <property name="suffix">
+                  <string>%</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>100.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>5.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>80.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="18" column="0">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
+                  <string>nuc-4</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="0">
+                <widget class="QLabel" name="label_nuc_0">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>nuc-0</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="37" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_Both_AreaMax">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>max area </string>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>20.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>400.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>cast to 16bit unsigned!</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="3">
+                <widget class="Line" name="line">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="31" column="0">
+                <widget class="QLabel" name="label_foc_gfp_3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-gfp-3</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="35" column="1">
                 <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_RFP_AreaMin">
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::NoButtons</enum>
@@ -941,7 +1771,273 @@
                  </property>
                 </widget>
                </item>
-               <item row="19" column="0">
+               <item row="16" column="1" colspan="2">
+                <layout class="QGridLayout" name="gridLayout_45">
+                 <item row="0" column="2">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_BaseBin_FilterRadius">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>filter radius </string>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="decimals">
+                    <number>1</number>
+                   </property>
+                   <property name="minimum">
+                    <double>0.500000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>5.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>200.500000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_BaseBin_Quantil">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>rank order quantil </string>
+                   </property>
+                   <property name="suffix">
+                    <string>%</string>
+                   </property>
+                   <property name="decimals">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>25.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="17" column="1" colspan="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_BaseBin_ThresIndicator">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>offset threshhold </string>
+                 </property>
+                 <property name="suffix">
+                  <string> (indicator)</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-65536.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>65535.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>50.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="22" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_Area_Max">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>convex area max </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>999999.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="32" column="0" colspan="3">
+                <widget class="Line" name="line_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="20" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>convex area min </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="17" column="0">
+                <widget class="QLabel" name="label_43">
+                 <property name="text">
+                  <string>nuc-3</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="38" column="0" colspan="3">
+                <widget class="Line" name="line_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="24" column="0">
+                <widget class="QLabel" name="label_nuc_7">
+                 <property name="text">
+                  <string>nuc-14</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="23" column="1" colspan="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg1_DistThresh">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>distance threshold </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="maximum">
+                  <double>999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>59.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="20" column="0">
+                <widget class="QLabel" name="label_45">
+                 <property name="text">
+                  <string>nuc-8</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="27" column="0">
+                <widget class="QLabel" name="label_nuc_14">
+                 <property name="text">
+                  <string>nuc-21</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_BlurGFP_GaussSize">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>blur size </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>999.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>2.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>11.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_BlurGFP_GaussSigma">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>blur sigma </string>
+                 </property>
+                 <property name="suffix">
+                  <string/>
+                 </property>
+                 <property name="decimals">
+                  <number>1</number>
+                 </property>
+                 <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>3.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="29" column="0">
+                <widget class="QLabel" name="label_foc_gfp_0">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-gfp-0</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="22" column="0">
+                <widget class="QLabel" name="label_nuc_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>nuc-11</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="23" column="0">
                 <widget class="QLabel" name="label_nuc_6">
                  <property name="minimumSize">
                   <size>
@@ -956,18 +2052,114 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>nuc-6</string>
+                  <string>nuc-13</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="3">
-                <widget class="Line" name="line">
+               <item row="33" column="0">
+                <widget class="QLabel" name="label_foc_rfp_0">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>foc-rfp-0</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="25" column="1" colspan="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg2_DistThresh">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>distance threshold </string>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="maximum">
+                  <double>999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>45.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_vis_1">
+                 <property name="text">
+                  <string>vis-1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Pre_Blur_Size">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string>px</string>
+                 </property>
+                 <property name="prefix">
+                  <string>blur size </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>2</number>
+                 </property>
+                 <property name="value">
+                  <number>11</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_vis_0">
+                 <property name="text">
+                  <string>vis-0</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" colspan="3">
+                <widget class="Line" name="line_9">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
-               <item row="26" column="1" colspan="2">
+               <item row="33" column="1" colspan="2">
+                <widget class="QSpinBox" name="spinBox_ImgProc_Foc_RFP_BlurMedianSize">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string> px</string>
+                 </property>
+                 <property name="prefix">
+                  <string>median filter radius </string>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>6</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="30" column="1" colspan="2">
                 <layout class="QHBoxLayout" name="horizontalLayout">
                  <property name="spacing">
                   <number>6</number>
@@ -1122,1035 +2314,37 @@
                  </item>
                 </layout>
                </item>
-               <item row="33" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_Both_AreaMin">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>min area </string>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>999.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>5.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QLabel" name="label_vis_2">
+               <item row="21" column="0">
+                <widget class="QLabel" name="label_46">
                  <property name="text">
-                  <string>vis-2</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="24" column="0" colspan="3">
-                <widget class="Line" name="line_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                  <string>nuc-10</string>
                  </property>
                 </widget>
                </item>
                <item row="21" column="1" colspan="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg2_DistThresh">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>distance threshold </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="maximum">
-                  <double>999.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>35.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="32" column="0" colspan="3">
-                <widget class="Line" name="line_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="31" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_RFP_AreaMax">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>max area </string>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="minimum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>20.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>400.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="15" column="0">
-                <widget class="QLabel" name="label_nuc_0">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>nuc-0</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QComboBox" name="comboBox_ImgProc_ProjectZ_Stat">
-                 <item>
-                  <property name="text">
-                   <string>[project stats]</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="15" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_RankOrder_Quantil">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>rank order quantil </string>
-                 </property>
-                 <property name="suffix">
-                  <string>%</string>
-                 </property>
-                 <property name="maximum">
-                  <double>100.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>75.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="25" column="0">
-                <widget class="QLabel" name="label_foc_gfp_0">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-gfp-0</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="20" column="0">
-                <widget class="QLabel" name="label_nuc_7">
-                 <property name="text">
-                  <string>nuc-7</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="28" column="0" colspan="3">
-                <widget class="Line" name="line_5">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="27" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_GFP_AreaMax">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>max area </string>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="minimum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>20.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>400.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="16" column="0">
-                <widget class="QLabel" name="label_nuc_1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>nuc-1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="33" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_Both_AreaMax">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>max area </string>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="minimum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>20.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>400.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="23" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg2_Area_Min">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>area min </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>999999.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>250.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>9000.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="35" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Intensity_Background">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>intensity background </string>
-                 </property>
-                 <property name="suffix">
-                  <string>%</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>100.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>5.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>80.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="18" column="0">
-                <widget class="QLabel" name="label_nuc_4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>nuc-4</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="21" column="0">
-                <widget class="QLabel" name="label_nuc_11">
-                 <property name="text">
-                  <string>nuc-11</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="23" column="0">
-                <widget class="QLabel" name="label_nuc_14">
-                 <property name="text">
-                  <string>nuc-14</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="16" column="1" colspan="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_Thresh">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>threshhold binarization </string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>65535.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>100.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0" colspan="3">
-                <widget class="Line" name="line_9">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="15" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_RankOrder_Size">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>rank order radius </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="value">
-                  <double>10.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="27" column="0">
-                <widget class="QLabel" name="label_foc_gfp_3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-gfp-3</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="30" column="0">
-                <widget class="QLabel" name="label_foc_rfp_1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-rfp-1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="27" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Foc_GFP_AreaMin">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>min area </string>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>9999.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>10.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="22" column="0">
-                <widget class="QLabel" name="label_nuc_12">
-                 <property name="text">
-                  <string>nuc-12</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="17" column="1" colspan="2">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Seg0_ClosingSize">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_ConnectSmall_CloseSize">
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::NoButtons</enum>
                  </property>
                  <property name="prefix">
                   <string>closing size </string>
                  </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>999</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="18" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_Area_Max">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>area max </string>
-                 </property>
                  <property name="suffix">
                   <string>px</string>
                  </property>
                  <property name="decimals">
                   <number>0</number>
                  </property>
-                 <property name="maximum">
-                  <double>999999.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>999999.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="33" column="0">
-                <widget class="QLabel" name="label_foc_both_1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-both-1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_pre_6">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>pre-6</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="37" column="0" colspan="3">
-                <spacer name="verticalSpacer_ImgProc">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>273</width>
-                   <height>277</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="25" column="1" colspan="2">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Foc_GFP_BlurMedianSize">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="suffix">
-                  <string> px</string>
-                 </property>
-                 <property name="prefix">
-                  <string>median filter radius </string>
-                 </property>
                  <property name="minimum">
-                  <number>0</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="18" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg0_Area_Min">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>area min </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>999999.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>250.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>4000.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="34" column="0" colspan="3">
-                <widget class="Line" name="line_10">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="35" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Intensity_Overlay">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>intensity overlay  </string>
-                 </property>
-                 <property name="suffix">
-                  <string>%</string>
-                 </property>
-                 <property name="decimals">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <double>100.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>5.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>100.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="35" column="0">
-                <widget class="QLabel" name="label_vis_6">
-                 <property name="text">
-                  <string>vis-4/5/6/7</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Pre_Blur_Size">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="prefix">
-                  <string>blur size </string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>2</number>
-                 </property>
-                 <property name="value">
-                  <number>11</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="19" column="1" colspan="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Seg1_DistThresh">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>distance threshold </string>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
+                  <double>1.000000000000000</double>
                  </property>
                  <property name="maximum">
                   <double>999.000000000000000</double>
                  </property>
                  <property name="value">
-                  <double>57.000000000000000</double>
+                  <double>21.000000000000000</double>
                  </property>
                 </widget>
-               </item>
-               <item row="22" column="1" colspan="2">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Seg2_OpenSeeds">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="prefix">
-                  <string>open seeds </string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>999</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="31" column="0">
-                <widget class="QLabel" name="label_foc_rfp_3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-rfp-3</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_pre_5">
-                 <property name="text">
-                  <string>pre-5</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Pre_Blur_Sigma">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>blur sigma </string>
-                 </property>
-                 <property name="maximum">
-                  <double>100.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.250000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>3.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="17" column="0">
-                <widget class="QLabel" name="label_nuc_2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>nuc-2</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="26" column="0">
-                <widget class="QLabel" name="label_foc_gfp_1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-gfp-1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="29" column="0">
-                <widget class="QLabel" name="label_foc_rfp_0">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>foc-rfp-0</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="2">
-                <widget class="QLabel" name="label_17">
-                 <property name="text">
-                  <string>cast to 16bit unsigned!</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="13" column="0" colspan="3">
-                <widget class="Line" name="line_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="20" column="1" colspan="2">
-                <widget class="QSpinBox" name="spinBox_ImgProc_Seg1_OpenSeeds">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="suffix">
-                  <string>px</string>
-                 </property>
-                 <property name="prefix">
-                  <string>open seeds </string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>999</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1" colspan="2">
-                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_Other">
-                 <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_Other_Max">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>nuc max </string>
-                   </property>
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>65535</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>5000</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_Other_Min">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>nuc min </string>
-                   </property>
-                   <property name="maximum">
-                    <number>65534</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>10</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_Other_Gamma">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>nuc gamma </string>
-                   </property>
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="maximum">
-                    <double>100.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.010000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.500000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_vis_1">
-                 <property name="text">
-                  <string>vis-1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1" colspan="2">
-                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_GFP">
-                 <item row="0" column="0">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_GFP_Min">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>gfp min </string>
-                   </property>
-                   <property name="maximum">
-                    <number>65534</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>60</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_GFP_Max">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>gfp max </string>
-                   </property>
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>65535</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>385</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_GFP_Gamma">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>gfp gamma </string>
-                   </property>
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="maximum">
-                    <double>100.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.010000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.700000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="7" column="1" colspan="2">
-                <layout class="QGridLayout" name="gridLayout_ImgProc_Vis_RFP">
-                 <item row="0" column="0">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_RFP_Min">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>rfp min </string>
-                   </property>
-                   <property name="maximum">
-                    <number>65534</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>200</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox_ImgProc_Vis_RFP_Max">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>rfp max </string>
-                   </property>
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>65535</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>5</number>
-                   </property>
-                   <property name="value">
-                    <number>800</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_ImgProc_Vis_RFP_Gamma">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>rfp gamma </string>
-                   </property>
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="maximum">
-                    <double>100.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.010000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.700000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
                </item>
               </layout>
              </widget>

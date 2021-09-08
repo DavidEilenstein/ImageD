@@ -784,39 +784,140 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
     //Find Nuclei -------------------------------------------------------------------------------------------------------
 
-    case STEP_NUC_GFP_RANK_ORDER:
+    case STEP_NUC_GFP_BLUR_GAUSS:
     {
-        ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+        ERR(D_VisDat_Proc::Filter_Gauss(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_RANK_ORDER]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS]),
                 &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                ui->doubleSpinBox_ImgProc_RankOrder_Quantil->value() / 100.0,
-                ui->doubleSpinBox_ImgProc_RankOrder_Size->value()),
+                ui->doubleSpinBox_ImgProc_BlurGFP_GaussSize->value(),
+                ui->doubleSpinBox_ImgProc_BlurGFP_GaussSize->value(),
+                BORDER_DEFAULT,
+                ui->doubleSpinBox_ImgProc_BlurGFP_GaussSize->value(),
+                ui->doubleSpinBox_ImgProc_BlurGFP_GaussSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_RANK_ORDER");
+            "STEP_NUC_GFP_BLUR_GAUSS");
     }
         break;
 
-    case STEP_NUC_GFP_SEG0_THRES:
+    case STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE:
+    {
+        //create out VD
+        vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS].Dim(), vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS].type());
+
+        //corners of the 4 subimges
+        int x0 = 0;
+        int x1 = dataset_dim_img_x;
+        int x2 = vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS].pDim()->size_X();
+        int y0 = 0;
+        int y1 = dataset_dim_img_y;
+        int y2 = vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS].pDim()->size_Y();
+        vector<Point> vP_TL = {Point(x0, y0), Point(x1, y0), Point(x0, y1), Point(x1, y1)};
+        vector<Point> vP_BR = {Point(x1, y1), Point(x2, y1), Point(x1, y2), Point(x2, y2)};
+
+        //crop, filter and insert sub images - treat mosaik segments separatly
+        for(size_t i = 0; i < 4; i++)
+        {
+            //crop
+            D_VisDat_Obj VD_tmp_Croped;
+            ERR(D_VisDat_Proc::Crop_Rect_Abs(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &VD_tmp_Croped,
+                    &(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS]),
+                    vP_TL[i].x,
+                    vP_TL[i].y,
+                    vP_BR[i].x - vP_TL[i].x,
+                    vP_BR[i].y - vP_TL[i].y),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE - Crop_Rect_Abs (sub img " + QString::number(i) + ")");
+
+            //rank order filter
+            D_VisDat_Obj VD_tmp_Filtered;
+            ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &VD_tmp_Filtered,
+                    &VD_tmp_Croped,
+                    ui->doubleSpinBox_ImgProc_Seg0_BaseBin_Quantil->value() / 100.0,
+                    ui->doubleSpinBox_ImgProc_Seg0_BaseBin_FilterRadius->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE - Filter_RankOrder_Circular (sub img " + QString::number(i) + ")");
+
+            //insert
+            ERR(D_VisDat_Proc::Insert_atPos(
+                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE]),
+                    &VD_tmp_Filtered,
+                    vector<int>{
+                        vP_TL[i].x,
+                        vP_TL[i].y,
+                        0,
+                        0,
+                        0,
+                        0}),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE - Insert_atPos (sub img " + QString::number(i) + ")");
+        }
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Function(
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_BLUR_GAUSS]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE]),
+                D_Math::Function_2D_to_1D(
+                    c_MATH_2D_TO_1D_X_minus_Y,
+                    1, 0,
+                    1, 0)),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR:
     {
         ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_THRES]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_RANK_ORDER]),
-                ui->doubleSpinBox_ImgProc_Seg0_Thresh->value()),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED]),
+                ui->doubleSpinBox_ImgProc_Seg0_BaseBin_ThresIndicator->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG0_THRES");
+            "STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR");
     }
         break;
 
-    case STEP_NUC_GFP_SEG0_MORPH_OPENING:
+    case STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS:
     {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Opening(
+        ERR(D_VisDat_Proc::Threshold_Absolute(
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED]),
+                ui->doubleSpinBox_ImgProc_Seg0_BaseBin_ThresHysteresis->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS:
+    {
+        ERR(D_VisDat_Proc::Hysteresis(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_OPENING]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_THRES]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS]),
+                false),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_MORPH_CLOSEING:
+    {
+        ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_CLOSEING]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS]),
                 ui->spinBox_ImgProc_Seg0_ClosingSize->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG0_MORPH_OPENING");
+            "STEP_NUC_GFP_SEG0_MORPH_CLOSEING");
     }
         break;
 
@@ -825,24 +926,62 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::Fill_Holes(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_OPENING])),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_CLOSEING])),
             "Update_ImageProcessing_StepSingle",
             "STEP_NUC_GFP_SEG0_FILL_HOLES");
     }
         break;
 
-    case STEP_NUC_GFP_SEG0_SELECT_AREA:
+    case STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL]),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_FILL_HOLES]),
-                c_FEAT_AREA,
+                c_FEAT_CONVEX_AREA,
+                ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min->value(),
+                ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max->value(),
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL:
+    {
+        ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL]),
+                ui->doubleSpinBox_ImgProc_ConnectSmall_CloseSize->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Addition(
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_FILL_HOLES])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL");
+    }
+        break;
+
+    case STEP_NUC_GFP_SEG0_SELECT_AREA_BIG:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_BIG]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL]),
+                c_FEAT_CONVEX_AREA,
                 ui->doubleSpinBox_ImgProc_Seg0_Area_Min->value(),
                 ui->doubleSpinBox_ImgProc_Seg0_Area_Max->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG0_SELECT_AREA");
+            "STEP_NUC_GFP_SEG0_SELECT_AREA_BIG");
     }
         break;
 
@@ -851,7 +990,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::Transformation_Distance(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG1_DISTANCE]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_BIG]),
                 DIST_L2,
                 DIST_MASK_PRECISE),
             "Update_ImageProcessing_StepSingle",
@@ -887,13 +1026,13 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG1_WATERSHED]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_BIG]),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG1_SEEDS_CLEAR]),
                 true,
                 false,
                 false),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG1_WATERSHED\nROI:\n" + vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA].info_short() + "\nSeeds:\n" + vVD_ImgProcSteps[STEP_NUC_GFP_SEG1_SEEDS_CLEAR].info_short());
+            "STEP_NUC_GFP_SEG1_WATERSHED\nROI:\n" + vVD_ImgProcSteps[STEP_NUC_GFP_SEG0_SELECT_AREA_BIG].info_short() + "\nSeeds:\n" + vVD_ImgProcSteps[STEP_NUC_GFP_SEG1_SEEDS_CLEAR].info_short());
     }
         break;
 
@@ -965,7 +1104,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG2_SELECT_AREA]),
                 &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG2_WATERSHED]),
-                c_FEAT_AREA,
+                c_FEAT_CONVEX_AREA,
                 ui->doubleSpinBox_ImgProc_Seg2_Area_Min->value(),
                 ui->doubleSpinBox_ImgProc_Seg2_Area_Max->value(),
                 8),
@@ -4648,39 +4787,75 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(doubl
     arg1++;//useless opration to supress warning
 }
 
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_RankOrder_Size_valueChanged(double arg1)
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_BlurGFP_GaussSize_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_RANK_ORDER);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_BLUR_GAUSS);
     arg1++;//useless opration to supress warning
 }
 
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_RankOrder_Quantil_valueChanged(double arg1)
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_BlurGFP_GaussSigma_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_BLUR_GAUSS);
     arg1++;//useless opration to supress warning
 }
 
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_Thresh_valueChanged(double arg1)
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_BaseBin_Quantil_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_THRES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_BaseBin_FilterRadius_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresIndicator_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresHysteresis_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS);
     arg1++;//useless opration to supress warning
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg0_ClosingSize_valueChanged(int arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_MORPH_OPENING);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_MORPH_CLOSEING);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL);
+    arg1++;//useless opration to supress warning
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_ConnectSmall_CloseSize_valueChanged(double arg1)
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL);
     arg1++;//useless opration to supress warning
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_SELECT_AREA);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_SELECT_AREA_BIG);
     arg1++;//useless opration to supress warning
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_FILL_HOLES);
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0_SELECT_AREA_BIG);
     arg1++;//useless opration to supress warning
 }
 
@@ -5279,5 +5454,3 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
     arg1++;//useless opration to supress warning
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_NUCLEI_BORDERS);
 }
-
-

@@ -256,6 +256,22 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Adaptive_Gauss(int 
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_RankOrderOffsetHysteresis(double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling)
+{
+    return
+            [radius, quantile, thresh_offset_indicator, thresh_offset_hysteresis, labeling](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Threshold_RankOrderOffsetHysteresis(
+                    pMA_Out,
+                    pMA_In,
+                    radius,
+                    quantile,
+                    thresh_offset_indicator,
+                    thresh_offset_hysteresis,
+                    labeling);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Labeling(int connectivity, int out_depth)
 {
     return
@@ -1046,6 +1062,19 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Shading_Correct()
                     pMA_Out,
                     pMA_In,
                     pMA_Ref);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Hysteresis(bool labeling)
+{
+    return
+            [labeling](Mat *pMA_Out, Mat *pMA_InIndicator, Mat *pMA_InHysteresis)
+    {
+        return D_Img_Proc::Hysteresis(
+                    pMA_Out,
+                    pMA_InIndicator,
+                    pMA_InHysteresis,
+                    labeling);
     };
 }
 
