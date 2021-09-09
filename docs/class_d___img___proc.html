@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_3 (06.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_4 (09.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -284,6 +284,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad42a61ed6f0bb58b750bd9990319c630"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630">Threshold_Adaptive_Gauss_1C</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int size, double sigma, double offset, double scale)</td></tr>
 <tr class="memdesc:ad42a61ed6f0bb58b750bd9990319c630"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630" title="D_Img_Proc::Threshold_Adaptive_Gauss_1C lokall adaptive threshhold using comparison to gauss filtered...">D_Img_Proc::Threshold_Adaptive_Gauss_1C</a> lokall adaptive threshhold using comparison to gauss filtered image.  <a href="class_d___img___proc.html#ad42a61ed6f0bb58b750bd9990319c630">More...</a><br /></td></tr>
 <tr class="separator:ad42a61ed6f0bb58b750bd9990319c630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a472343a6df16f77c6e1407fd70b9a100"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a472343a6df16f77c6e1407fd70b9a100">Threshold_RankOrderOffsetHysteresis</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling=false)</td></tr>
+<tr class="separator:a472343a6df16f77c6e1407fd70b9a100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a459be7d9b4f4f24242dca9eaad5ea419"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a459be7d9b4f4f24242dca9eaad5ea419">Threshold_BlurThres</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int size, double sigma, double thres)</td></tr>
 <tr class="separator:a459be7d9b4f4f24242dca9eaad5ea419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ebcb476ab95d22a547d5da02e42fef5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a0ebcb476ab95d22a547d5da02e42fef5">Color_Grab</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int color_space, int out_mode, vector&lt; uchar &gt; min, vector&lt; uchar &gt; max)</td></tr>
@@ -317,6 +319,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aedf4f9e62b489c18ddc50c4d0d87ddb0">Transformation_Watershed_Auto</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In, int size, double sigma, bool include_not_seeded, bool conv_8bit, bool exclude_border)</td></tr>
 <tr class="separator:aedf4f9e62b489c18ddc50c4d0d87ddb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97514054fe05f415ace9cd4133eadf6b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a97514054fe05f415ace9cd4133eadf6b">Transformation_Watershed_Custom</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In2Fill, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_InMarker, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_FG_Mask, int mode_flood, int mode_marker, int mode_mask, int connectivity=8, int gauss_size=5, double gauss_sigma=2, int morphgrad_elem=<a class="el" href="d__opencv__typedefs_8h.html#a57937e41e668a4f75cd67700af22f139">MORPH_ELLIPSE</a>, int morphgrad_size=3, double thresh=127, bool exclude_border=true, bool include_non_seeded=true, bool draw_watersheds=true)</td></tr>
+<tr class="memdesc:a97514054fe05f415ace9cd4133eadf6b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#a97514054fe05f415ace9cd4133eadf6b" title="D_Img_Proc::Transformation_Watershed_Custom WIP, don&#39;t use!">D_Img_Proc::Transformation_Watershed_Custom</a> WIP, don't use!  <a href="class_d___img___proc.html#a97514054fe05f415ace9cd4133eadf6b">More...</a><br /></td></tr>
 <tr class="separator:a97514054fe05f415ace9cd4133eadf6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a879acc50b541dba4cd98f89a75698ad4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a879acc50b541dba4cd98f89a75698ad4">Transformation_Watershed_Custom</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In2Fill, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_InMarker, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_FG_Mask, int connectivity=8)</td></tr>
 <tr class="separator:a879acc50b541dba4cd98f89a75698ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -613,6 +616,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a70a6f083f31270a1a34540b14708a05b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a050d0f7f370e615460bfcc2d408d1b6c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a050d0f7f370e615460bfcc2d408d1b6c">Floodfill_Delta_Step</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin)</td></tr>
 <tr class="separator:a050d0f7f370e615460bfcc2d408d1b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f89b3190b1f8a3502686d8248ce1772"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a6f89b3190b1f8a3502686d8248ce1772">Hysteresis</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Out, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In_Indicator, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_In_Hysteresis, bool labeling=false)</td></tr>
+<tr class="separator:a6f89b3190b1f8a3502686d8248ce1772"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a975c86c16cac4982a2861ec82a848962"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a975c86c16cac4982a2861ec82a848962">Draw_Dot</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, int x, int y, int d, uchar val)</td></tr>
 <tr class="separator:a975c86c16cac4982a2861ec82a848962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4a0dedba5f687c08211cd2c1900fb0a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ab4a0dedba5f687c08211cd2c1900fb0a">Draw_Dots</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; vCenters, vector&lt; double &gt; vDiameters, uchar val)</td></tr>
@@ -9158,6 +9163,54 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a6f89b3190b1f8a3502686d8248ce1772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f89b3190b1f8a3502686d8248ce1772">&#9670;&nbsp;</a></span>Hysteresis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Hysteresis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_In_Indicator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_In_Hysteresis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>labeling</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a36a1d4115df6d66bd647d82124a13a44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a36a1d4115df6d66bd647d82124a13a44">&#9670;&nbsp;</a></span>Insert() <span class="overload">[1/2]</span></h2>
 
@@ -16377,6 +16430,72 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a472343a6df16f77c6e1407fd70b9a100"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a472343a6df16f77c6e1407fd70b9a100">&#9670;&nbsp;</a></span>Threshold_RankOrderOffsetHysteresis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Threshold_RankOrderOffsetHysteresis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh_offset_indicator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh_offset_hysteresis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>labeling</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ade0b97046bbfed1c2845187ddcaa3170"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade0b97046bbfed1c2845187ddcaa3170">&#9670;&nbsp;</a></span>Threshold_Relative()</h2>
 
@@ -17268,6 +17387,30 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="class_d___img___proc.html#a97514054fe05f415ace9cd4133eadf6b" title="D_Img_Proc::Transformation_Watershed_Custom WIP, don&#39;t use!">D_Img_Proc::Transformation_Watershed_Custom</a> WIP, don't use! </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMA_Out</td><td></td></tr>
+    <tr><td class="paramname">pMA_In2Fill</td><td></td></tr>
+    <tr><td class="paramname">pMA_InMarker</td><td></td></tr>
+    <tr><td class="paramname">pMA_FG_Mask</td><td></td></tr>
+    <tr><td class="paramname">mode_flood</td><td></td></tr>
+    <tr><td class="paramname">mode_marker</td><td></td></tr>
+    <tr><td class="paramname">mode_mask</td><td></td></tr>
+    <tr><td class="paramname">connectivity</td><td></td></tr>
+    <tr><td class="paramname">gauss_size</td><td></td></tr>
+    <tr><td class="paramname">gauss_sigma</td><td></td></tr>
+    <tr><td class="paramname">morphgrad_elem</td><td></td></tr>
+    <tr><td class="paramname">morphgrad_size</td><td></td></tr>
+    <tr><td class="paramname">thresh</td><td></td></tr>
+    <tr><td class="paramname">exclude_border</td><td></td></tr>
+    <tr><td class="paramname">include_non_seeded</td><td></td></tr>
+    <tr><td class="paramname">draw_watersheds</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
 </div>

@@ -131,6 +131,11 @@ private slots:
     void Next_Image();
     void Clear_Images();
 
+    bool LoadParams_CurrentDir();
+    bool LoadParams();
+    bool LoadParams(QString QS_FileName);
+    void SaveParams();
+
     void Stack_Attributes_AskUpdate();
     void Stack_Attributes_Process();
     void Stack_Attributes_Init();
@@ -220,7 +225,6 @@ private slots:
     void on_spinBox_SetCore_14_AreaMinOfBig_valueChanged(int arg1);
 
     void on_pushButton_ParamsLoad_clicked();
-
     void on_pushButton_ParamsSave_clicked();
 
 private:
@@ -351,6 +355,39 @@ private:
         C_PAR_FOCI_EXCLUDE_BORDER,
         C_PAR_FOCI_RES_MAX_EXPECTED,
         c_PAR_NUMBER_OF
+    };
+    const QStringList QSL_ParameterNames = {
+        "Nuclei, blur size",
+        "Nuclei, blur sigma",
+        "Nuclei, local adaptive threshold filter size",
+        "Nuclei, local adaptive threshold offset",
+        "Nuclei, fill holes",
+        "Nuclei, local adaptive contrast equilibration (eilenstein filter) size",
+        "Nuclei, local adaptive contrast equilibration (eilenstein filter) offset",
+        "Nuclei, threshold for local maxima",
+        "Nuclei, remove small seeds",
+        "Nuclei, connect near seeds",
+        "Nuclei, eclude border connected",
+        "Nuclei, merge by area context - dist min",
+        "Nuclei, merge by area context - dist max",
+        "Nuclei, merge by area context - max area of small",
+        "Nuclei, merge by area context - min area of big",
+        "Cytoplasma, blur size",
+        "Cytoplasma, blur sigma",
+        "Cytoplasma, local adaptive threshold filter size",
+        "Cytoplasma, local adaptive threshold offset",
+        "Cytoplasma, fill holes",
+        "Cytoplasma, add margin",
+        "Foci, blur size",
+        "Foci, blur sigma",
+        "Foci, local adaptive threshold filter size",
+        "Foci, local adaptive threshold offset",
+        "Foci, add margin to nuclei",
+        "Foci, connect near foci",
+        "Foci, area selection min",
+        "Foci, area selection max",
+        "Foci, exclude border connected",
+        "Foci, visualization max value expected"
     };
 
     //Resulttypes

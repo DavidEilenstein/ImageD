@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_3 (06.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_4 (09.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -301,6 +301,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2c5531319bc1e83293eb9aa953b79fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9370afe2f6b167adde33d3734b16f2c7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9370afe2f6b167adde33d3734b16f2c7">Threshold_Adaptive_Gauss</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int size, double sigma, double offset, double scale=1)</td></tr>
 <tr class="separator:a9370afe2f6b167adde33d3734b16f2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7c5acdfd75135bbcf799500bf389038"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ad7c5acdfd75135bbcf799500bf389038">Threshold_RankOrderOffsetHysteresis</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, double radius, double quantile, double thresh_offset_indicator, double thresh_offset_hysteresis, bool labeling=false)</td></tr>
+<tr class="separator:ad7c5acdfd75135bbcf799500bf389038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae227f76e1b9723051b39c1629a7b7733"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ae227f76e1b9723051b39c1629a7b7733">Color_Grab</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int color_space, int out_mode, vector&lt; uchar &gt; min, vector&lt; uchar &gt; max)</td></tr>
 <tr class="separator:ae227f76e1b9723051b39c1629a7b7733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9db42b51f17a3fc5446801caca740b83"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9db42b51f17a3fc5446801caca740b83">Labeling</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int connecivity, int out_depth)</td></tr>
@@ -377,6 +379,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a12e976b54acdbf07619317eb9cc10869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96669614da225713237cea8bd6b0cb55"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a96669614da225713237cea8bd6b0cb55">Filter_Maximum_1C</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, size_t mask_size_x, size_t mask_size_y)</td></tr>
 <tr class="separator:a96669614da225713237cea8bd6b0cb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b12ed25393ea015b304ee9e96a6dabd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a1b12ed25393ea015b304ee9e96a6dabd">Hysteresis</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In_Indicator, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In_Hysteresis, bool labeling=false)</td></tr>
+<tr class="separator:a1b12ed25393ea015b304ee9e96a6dabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703cee42bb61178df649aaa4fb952c78"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a703cee42bb61178df649aaa4fb952c78">Math_1img_Inversion</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
 <tr class="separator:a703cee42bb61178df649aaa4fb952c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0abf98c8c217321927cfcb197208bf2f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a0abf98c8c217321927cfcb197208bf2f">Math_1img_Addition</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, double summmand)</td></tr>
@@ -6148,6 +6152,60 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a1b12ed25393ea015b304ee9e96a6dabd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b12ed25393ea015b304ee9e96a6dabd">&#9670;&nbsp;</a></span>Hysteresis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Hysteresis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In_Indicator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In_Hysteresis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>labeling</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a23f5eee2ff974ba5c2bf7e17c1830d80"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a23f5eee2ff974ba5c2bf7e17c1830d80">&#9670;&nbsp;</a></span>Insert_atPos()</h2>
 
@@ -10386,6 +10444,78 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7c5acdfd75135bbcf799500bf389038"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7c5acdfd75135bbcf799500bf389038">&#9670;&nbsp;</a></span>Threshold_RankOrderOffsetHysteresis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Threshold_RankOrderOffsetHysteresis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quantile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh_offset_indicator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh_offset_hysteresis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>labeling</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

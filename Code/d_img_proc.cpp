@@ -9136,7 +9136,7 @@ int D_Img_Proc::Filter_RankOrder_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, do
                 abs(mask_c2l),
                 abs(mask_c2t),
                 abs(mask_c2b),
-                BORDER_REPLICATE);
+                BORDER_REFLECT);
     if(ER != ER_okay)
     {
         MA_tmp_MaskBinary.release();

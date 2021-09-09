@@ -2014,8 +2014,11 @@ void D_MAKRO_CoreFoci::Load_Images()
     if(QSL_FileNames.size() != 0)
         QS_FileName_Current = QSL_FileNames[0];
 
-    //export file
+    //save file
     pStore->set_dir_M_dsDNA(QSL_Input_Images.first());
+
+    //load params, if saved
+    LoadParams_CurrentDir();
 
     //update
     Update_ImgProc_All();
@@ -2060,6 +2063,164 @@ void D_MAKRO_CoreFoci::Clear_Images()
     V_Results.clear_Image();
     D_Plot::Plot_Empty(ChartView_Cells);
     D_Plot::Plot_Empty(ChartView_Image);
+}
+
+bool D_MAKRO_CoreFoci::LoadParams_CurrentDir()
+{
+    if(FIL_Input_Images.empty())
+        return false;
+
+    QDir DIR_ImageDir = FIL_Input_Images.first().dir();
+
+    QFileInfoList FIL_InImgDir = DIR_ImageDir.entryInfoList();
+
+    for(int i = 0; i < FIL_InImgDir.size(); i++)
+        if(FIL_InImgDir[i].suffix() == "csv" || FIL_InImgDir[i].suffix() == "CSV")
+            if(FIL_InImgDir[i].baseName().contains("Parameters"))
+                if(LoadParams(FIL_InImgDir[i].absoluteFilePath()))
+                    return true;
+
+    return false;
+}
+
+bool D_MAKRO_CoreFoci::LoadParams()
+{
+    QString QS_LoadPath = QFileDialog::getOpenFileName(this,
+                                                       tr("Load param file"),
+                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_blablabla.csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_LoadPath.isEmpty())
+        return false;
+
+    if(!QFileInfo(QS_LoadPath).exists())
+        return false;
+
+    if(!QFileInfo(QS_LoadPath).baseName().contains("Parameters"))
+    {
+        ERR(
+                    ER_type_missmatch,
+                    "LoadParams",
+                    "Load File must contain 'Parameters' in its base name and it does not.\n" + QS_LoadPath);
+        return false;
+    }
+
+    return LoadParams(QS_LoadPath);
+}
+
+bool D_MAKRO_CoreFoci::LoadParams(QString QS_FileName)
+{
+    //qDebug() << "D_MAKRO_CoreFoci::LoadParams" << "try load" << QS_FileName;
+    if(!QFileInfo(QS_FileName).exists())
+        return false;
+
+    pStore->dir_M_dsDNA()->setPath(QS_FileName);
+
+    ifstream is_param;
+    is_param.open(QS_FileName.toStdString());
+
+    string st_line;
+
+    vector<double> v_params(c_PAR_NUMBER_OF, 0);
+    while(getline(is_param, st_line))
+    {
+        QString QS_Line = QString::fromStdString(st_line);
+        //qDebug() << QS_Line << "---------------------------------";
+        QStringList QSL_Blocks = QS_Line.split(",");
+        if(QSL_Blocks.size() == 4 || QSL_Blocks.size() == 2) //4 from v2.0.4 and 2 in v2.0.3
+        {
+            //qDebug() << "4 blocks";
+            bool ok;
+            int param_index = QSL_Blocks[0].toInt(&ok);
+            if(ok)
+            {
+                //qDebug() << "param index read" << param_index;
+                if(param_index >= 0 && param_index < c_PAR_NUMBER_OF)
+                {
+                    //qDebug() << "param index valid";
+                    double param_value = QSL_Blocks[1].toDouble(&ok);
+                    if(ok)
+                    {
+                        //qDebug() << "param value valid" << param_value;
+                        v_params[param_index] = param_value;
+                        //qDebug() << "param value saved :-)";
+                    }
+                }
+            }
+        }
+    }
+
+    is_param.close();
+
+    Parameters_ParamSetToUi(v_params);
+
+    //qDebug() << "D_MAKRO_CoreFoci::LoadParams" << "loaded" << QS_FileName << ":-)";
+    return true;
+}
+
+void D_MAKRO_CoreFoci::SaveParams()
+{
+    QString QS_SavePath = QFileDialog::getSaveFileName(this,
+                                                       tr("Save param file (must contain 'Parameters' to be reloaded automatically)"),
+                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_" + QDateTime::currentDateTime().toString().replace(":", "x") + ".csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_SavePath.isEmpty())
+        return;
+
+    //force to contain "Parameters"
+    QFileInfo FI_SavePath(QS_SavePath);
+    if(!FI_SavePath.baseName().contains("Parameters"))
+        QS_SavePath = FI_SavePath.dir().path() + "/Parameters_" + FI_SavePath.baseName() + ".csv";
+
+    pStore->dir_M_dsDNA()->setPath(QS_SavePath);
+
+    ofstream os_param;
+    os_param.open(QS_SavePath.toStdString());
+
+    //header
+    os_param
+            << "Path,"                  << QS_SavePath.toStdString() << "\n"
+            << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "Version"                << D_QS_Version.toStdString() << "\n"
+            << "Release Date"           << D_QS_Release.toStdString() << "\n";
+
+    //Params
+    os_param
+            << c_PAR_NUC_BLUR_SIZE          << "," << ui->spinBox_SetCore_02_Gauss_Size->value()                    << "," << QSL_ParameterNames[c_PAR_NUC_BLUR_SIZE].toStdString() << "\n"
+            << c_PAR_NUC_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCore_02_Gauss_Sigma->value()             << "," << QSL_ParameterNames[c_PAR_NUC_BLUR_SIGMA].toStdString() << "\n"
+            << c_PAR_NUC_THRES_SIZE         << "," << ui->spinBox_SetCore_04_Thres_Size->value()                    << "," << QSL_ParameterNames[c_PAR_NUC_THRES_SIZE].toStdString() << "\n"
+            << c_PAR_NUC_THRES_OFFSET       << "," << ui->doubleSpinBox_SetCore_04_Thres_Offset->value()            << "," << QSL_ParameterNames[c_PAR_NUC_THRES_OFFSET].toStdString() << "\n"
+            << c_PAR_NUC_AREA_FILL          << "," << ui->spinBox_SetCore_05_Fill_Area->value()                     << "," << QSL_ParameterNames[c_PAR_NUC_AREA_FILL].toStdString() << "\n"
+            << c_PAR_NUC_EILENSTEIN_SIZE    << "," << ui->spinBox_SetCore_09_Eilenstein_Size->value()               << "," << QSL_ParameterNames[c_PAR_NUC_EILENSTEIN_SIZE].toStdString() << "\n"
+            << c_PAR_NUC_EILENSTEIN_OFFSET  << "," << ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->value()      << "," << QSL_ParameterNames[c_PAR_NUC_EILENSTEIN_OFFSET].toStdString() << "\n"
+            << c_PAR_NUC_LOCMAX_THRES       << "," << ui->spinBox_SetCore_11_Thresh_Thres->value()                  << "," << QSL_ParameterNames[c_PAR_NUC_LOCMAX_THRES].toStdString() << "\n"
+            << c_PAR_NUC_REMOVE_SMALL       << "," << ui->spinBox_SetCore_12_Open_Area->value()                     << "," << QSL_ParameterNames[c_PAR_NUC_REMOVE_SMALL].toStdString() << "\n"
+            << c_PAR_NUC_CONNECT_NEAR       << "," << ui->spinBox_SetCore_13_Dilation_Size->value()                 << "," << QSL_ParameterNames[c_PAR_NUC_CONNECT_NEAR].toStdString() << "\n"
+            << c_PAR_NUC_EXCULDE_BORDER     << "," << double(ui->checkBox_SetCore_13_ExcludeBordered->isChecked())  << "," << QSL_ParameterNames[c_PAR_NUC_EXCULDE_BORDER].toStdString() << "\n"
+            << c_PAR_NUC_AREA_DIST_MIN      << "," << ui->spinBox_SetCore_14_AreaDistMin->value()                   << "," << QSL_ParameterNames[c_PAR_NUC_AREA_DIST_MIN].toStdString() << "\n"
+            << c_PAR_NUC_AREA_DIST_MAX      << "," << ui->spinBox_SetCore_14_AreaDistMax->value()                   << "," << QSL_ParameterNames[c_PAR_NUC_AREA_DIST_MAX].toStdString() << "\n"
+            << c_PAR_NUC_AREA_MAX_SMALL     << "," << ui->spinBox_SetCore_14_AreaMaxOfSmall->value()                << "," << QSL_ParameterNames[c_PAR_NUC_AREA_MAX_SMALL].toStdString() << "\n"
+            << c_PAR_NUC_AREA_MIN_BIG       << "," << ui->spinBox_SetCore_14_AreaMinOfBig->value()                  << "," << QSL_ParameterNames[c_PAR_NUC_AREA_MIN_BIG].toStdString() << "\n"
+
+            << c_PAR_CYT_BLUR_SIZE          << "," << ui->spinBox_SetCyto_Gauss_Size->value()                       << "," << QSL_ParameterNames[c_PAR_CYT_BLUR_SIZE].toStdString() << "\n"
+            << c_PAR_CYT_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCyto_Gauss_Sigma->value()                << "," << QSL_ParameterNames[c_PAR_CYT_BLUR_SIGMA].toStdString() << "\n"
+            << c_PAR_CTT_THRES_SIZE         << "," << ui->spinBox_SetCyto_Thresh_Size->value()                      << "," << QSL_ParameterNames[c_PAR_CTT_THRES_SIZE].toStdString() << "\n"
+            << c_PAR_CYT_THRES_SIGMA        << "," << ui->doubleSpinBox_SetCyto_Thresh_Offset->value()              << "," << QSL_ParameterNames[c_PAR_CYT_THRES_SIGMA].toStdString() << "\n"
+            << c_PAR_CYT_CLOSE_HOLES        << "," << ui->spinBox_SetCyto_Closing_Size->value()                     << "," << QSL_ParameterNames[c_PAR_CYT_CLOSE_HOLES].toStdString() << "\n"
+            << c_PAR_CYT_MARGIN             << "," << ui->spinBox_SetCyto_Dilation_Size->value()                    << "," << QSL_ParameterNames[c_PAR_CYT_MARGIN].toStdString() << "\n"
+
+            << c_PAR_FOCI_BLUR_SIZE         << "," << ui->spinBox_SetFoci_02_Size->value()                          << "," << QSL_ParameterNames[c_PAR_FOCI_BLUR_SIZE].toStdString() << "\n"
+            << c_PAR_FOCI_BLUR_SIGMA        << "," << ui->doubleSpinBox_SetFoci_02_Sigma->value()                   << "," << QSL_ParameterNames[c_PAR_FOCI_BLUR_SIGMA].toStdString() << "\n"
+            << c_PAR_FOCI_THRES_SIZE        << "," << ui->spinBox_SetFoci_03_Size->value()                          << "," << QSL_ParameterNames[c_PAR_FOCI_THRES_SIZE].toStdString() << "\n"
+            << C_PAR_FOCI_THRES_SIGMA       << "," << ui->doubleSpinBox_SetFoci_03_Offset->value()                  << "," << QSL_ParameterNames[C_PAR_FOCI_THRES_SIGMA].toStdString() << "\n"
+            << C_PAR_FOCI_MARGIN            << "," << ui->spinBox_SetFoci_04_Size->value()                          << "," << QSL_ParameterNames[C_PAR_FOCI_MARGIN].toStdString() << "\n"
+            << C_PAR_FOCI_CONNECT_NEAR      << "," << ui->spinBox_SetFoci_05_Size->value()                          << "," << QSL_ParameterNames[C_PAR_FOCI_CONNECT_NEAR].toStdString() << "\n"
+            << C_PAR_FOCI_AREA_MIN          << "," << ui->spinBox_SetFoci_06_Size_Min->value()                      << "," << QSL_ParameterNames[C_PAR_FOCI_AREA_MIN].toStdString() << "\n"
+            << C_PAR_FOCI_AREA_MAX          << "," << ui->spinBox_SetFoci_06_Size_Max->value()                      << "," << QSL_ParameterNames[C_PAR_FOCI_AREA_MAX].toStdString() << "\n"
+            << C_PAR_FOCI_EXCLUDE_BORDER    << "," << double(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked())  << "," << QSL_ParameterNames[C_PAR_FOCI_EXCLUDE_BORDER].toStdString() << "\n"
+
+            << C_PAR_FOCI_RES_MAX_EXPECTED  << "," << ui->spinBox_Results_SpreadMax->value()                        << "," << QSL_ParameterNames[C_PAR_FOCI_RES_MAX_EXPECTED].toStdString() << "\n";
+
+    os_param.close();
 }
 
 
@@ -3082,109 +3243,10 @@ void D_MAKRO_CoreFoci::on_spinBox_SetCore_14_AreaMinOfBig_valueChanged(int arg1)
 
 void D_MAKRO_CoreFoci::on_pushButton_ParamsLoad_clicked()
 {
-    QString QS_LoadPath = QFileDialog::getOpenFileName(this,
-                                                       tr("Load param file"),
-                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_blablabla.csv",
-                                                       tr("csv-file (*.csv)"));
-    if(QS_LoadPath.isEmpty())
-        return;
-    pStore->dir_M_dsDNA()->setPath(QS_LoadPath);
-
-    ifstream is_param;
-    is_param.open(QS_LoadPath.toStdString());
-
-    string st_line;
-
-    vector<double> v_params(c_PAR_NUMBER_OF, 0);
-    while(getline(is_param, st_line))
-    {
-        QString QS_Line = QString::fromStdString(st_line);
-        //qDebug() << QS_Line << "---------------------------------";
-        QStringList QSL_Blocks = QS_Line.split(",");
-        if(QSL_Blocks.size() == 2)
-        {
-            //qDebug() << "2 blocks";
-            bool ok;
-            int param_index = QSL_Blocks[0].toInt(&ok);
-            if(ok)
-            {
-                //qDebug() << "param index read" << param_index;
-                if(param_index >= 0 && param_index < c_PAR_NUMBER_OF)
-                {
-                    //qDebug() << "param index valid";
-                    int param_value = QSL_Blocks[1].toDouble(&ok);
-                    if(ok)
-                    {
-                        //qDebug() << "param value valid" << param_value;
-                        v_params[param_index] = param_value;
-                        //qDebug() << "param value saved :-)";
-                    }
-                }
-            }
-        }
-    }
-
-    is_param.close();
-
-    Parameters_ParamSetToUi(v_params);
+    LoadParams();
 }
 
 void D_MAKRO_CoreFoci::on_pushButton_ParamsSave_clicked()
 {
-    QString QS_SavePath = QFileDialog::getSaveFileName(this,
-                                                       tr("Save param file"),
-                                                       pStore->dir_M_dsDNA()->path() + "/Parameters_" + QDateTime::currentDateTime().toString().replace(":", "x") + ".csv",
-                                                       tr("csv-file (*.csv)"));
-    if(QS_SavePath.isEmpty())
-        return;
-    pStore->dir_M_dsDNA()->setPath(QS_SavePath);
-
-    ofstream os_param;
-    os_param.open(QS_SavePath.toStdString());
-
-    //header
-    os_param
-            << "Path,"                  << QS_SavePath.toStdString() << "\n"
-            << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
-            << "Version"                << D_QS_Version.toStdString() << "\n"
-            << "Release Date"           << D_QS_Release.toStdString() << "\n";
-
-    //Params
-    os_param
-            << c_PAR_NUC_BLUR_SIZE          << "," << ui->spinBox_SetCore_02_Gauss_Size->value() << "\n"
-            << c_PAR_NUC_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCore_02_Gauss_Sigma->value() << "\n"
-            << c_PAR_NUC_THRES_SIZE         << "," << ui->spinBox_SetCore_04_Thres_Size->value() << "\n"
-            << c_PAR_NUC_THRES_OFFSET       << "," << ui->doubleSpinBox_SetCore_04_Thres_Offset->value() << "\n"
-            << c_PAR_NUC_AREA_FILL          << "," << ui->spinBox_SetCore_05_Fill_Area->value() << "\n"
-            << c_PAR_NUC_EILENSTEIN_SIZE    << "," << ui->spinBox_SetCore_09_Eilenstein_Size->value() << "\n"
-            << c_PAR_NUC_EILENSTEIN_OFFSET  << "," << ui->doubleSpinBox_Set_Core_09_Eilenstein_Offset->value() << "\n"
-            << c_PAR_NUC_LOCMAX_THRES       << "," << ui->spinBox_SetCore_11_Thresh_Thres->value() << "\n"
-            << c_PAR_NUC_REMOVE_SMALL       << "," << ui->spinBox_SetCore_12_Open_Area->value() << "\n"
-            << c_PAR_NUC_CONNECT_NEAR       << "," << ui->spinBox_SetCore_13_Dilation_Size->value() << "\n"
-            << c_PAR_NUC_EXCULDE_BORDER     << "," << static_cast<double>(ui->checkBox_SetCore_13_ExcludeBordered->isChecked()) << "\n"
-            << c_PAR_NUC_AREA_DIST_MIN      << "," << ui->spinBox_SetCore_14_AreaDistMin->value() << "\n"
-            << c_PAR_NUC_AREA_DIST_MAX      << "," << ui->spinBox_SetCore_14_AreaDistMax->value() << "\n"
-            << c_PAR_NUC_AREA_MAX_SMALL     << "," << ui->spinBox_SetCore_14_AreaMaxOfSmall->value() << "\n"
-            << c_PAR_NUC_AREA_MIN_BIG       << "," << ui->spinBox_SetCore_14_AreaMinOfBig->value() << "\n"
-
-            << c_PAR_CYT_BLUR_SIZE          << "," << ui->spinBox_SetCyto_Gauss_Size->value() << "\n"
-            << c_PAR_CYT_BLUR_SIGMA         << "," << ui->doubleSpinBox_SetCyto_Gauss_Sigma->value() << "\n"
-            << c_PAR_CTT_THRES_SIZE         << "," << ui->spinBox_SetCyto_Thresh_Size->value() << "\n"
-            << c_PAR_CYT_THRES_SIGMA        << "," << ui->doubleSpinBox_SetCyto_Thresh_Offset->value() << "\n"
-            << c_PAR_CYT_CLOSE_HOLES        << "," << ui->spinBox_SetCyto_Closing_Size->value() << "\n"
-            << c_PAR_CYT_MARGIN             << "," << ui->spinBox_SetCyto_Dilation_Size->value() << "\n"
-
-            << c_PAR_FOCI_BLUR_SIZE         << "," << ui->spinBox_SetFoci_02_Size->value() << "\n"
-            << c_PAR_FOCI_BLUR_SIGMA        << "," << ui->doubleSpinBox_SetFoci_02_Sigma->value() << "\n"
-            << c_PAR_FOCI_THRES_SIZE        << "," << ui->spinBox_SetFoci_03_Size->value() << "\n"
-            << C_PAR_FOCI_THRES_SIGMA       << "," << ui->doubleSpinBox_SetFoci_03_Offset->value() << "\n"
-            << C_PAR_FOCI_MARGIN            << "," << ui->spinBox_SetFoci_04_Size->value() << "\n"
-            << C_PAR_FOCI_CONNECT_NEAR      << "," << ui->spinBox_SetFoci_05_Size->value() << "\n"
-            << C_PAR_FOCI_AREA_MIN          << "," << ui->spinBox_SetFoci_06_Size_Min->value() << "\n"
-            << C_PAR_FOCI_AREA_MAX          << "," << ui->spinBox_SetFoci_06_Size_Max->value() << "\n"
-            << C_PAR_FOCI_EXCLUDE_BORDER    << "," << static_cast<double>(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked()) << "\n"
-
-            << C_PAR_FOCI_RES_MAX_EXPECTED  << "," << ui->spinBox_Results_SpreadMax->value() << "\n";
-
-    os_param.close();
+    SaveParams();
 }
