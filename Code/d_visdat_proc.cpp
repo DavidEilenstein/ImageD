@@ -6891,6 +6891,43 @@ int D_VisDat_Proc::Draw_Label_Text(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out
                 pVD_Label);
 }
 
+int D_VisDat_Proc::Draw_ContourText(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Target, vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Draw_ContourText(
+                    vContours,
+                    QSL_Texts,
+                    vTextOrigins,
+                    line_thickness,
+                    text_thickness,
+                    text_scale,
+                    value),
+                pVD_Target);
+}
+
+int D_VisDat_Proc::Draw_ContourText(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    *pVD_Out = *pVD_In;
+
+    return Draw_ContourText(
+                slice,
+                pVD_Out,
+                vContours,
+                QSL_Texts,
+                vTextOrigins,
+                line_thickness,
+                text_thickness,
+                text_scale,
+                value);
+}
+
 int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay, double intensity_backgr)
 {
     return Wrap_VD_SameSizeType(

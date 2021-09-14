@@ -68,7 +68,9 @@ public:
     void set_OffsetPixels(Point OffsetPixels)           {m_Offset_Coord = OffsetPixels;}
 
     int get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
+    vector<Point2f> get_Centroids(double scale, Point2f scaled_offset);
     int get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale);
+    QStringList get_FociCounts();
     int get_FociCount_append(QStringList *pQSL_FociCounts);
     int get_ShapeInfo_append(QStringList *pQSL_ShapeInfo);
     int get_ChannelStat_append(QStringList *pQSL_Stat, size_t stat_index_bio_enum);

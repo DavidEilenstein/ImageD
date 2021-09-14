@@ -664,7 +664,7 @@ int D_Bio_NucleusImage::save(QString path, bool save_foci_in_nuclei, bool save_f
 
 int D_Bio_NucleusImage::save_PathExactDir(QString path, bool save_foci_in_nuclei, bool save_foci_separate, size_t x, size_t y, size_t t)
 {
-    qDebug() << "D_Bio_NucleusImage::save_PathExactDir" << path;
+    //qDebug() << "D_Bio_NucleusImage::save_PathExactDir" << path;
 
     QDir DIR_Image(path);
     if(!DIR_Image.exists())
@@ -769,6 +769,16 @@ int D_Bio_NucleusImage::get_Contours_append(vector<vector<Point> > *pvScaledCont
     return ER_okay;
 }
 
+QStringList D_Bio_NucleusImage::get_FociCounts()
+{
+    QStringList QSL_FociCounts;
+
+    for(size_t i = 0; i < vNuclei.size(); i++)
+        vNuclei[i].get_FociCount_append(&QSL_FociCounts);
+
+    return QSL_FociCounts;
+}
+
 int D_Bio_NucleusImage::get_FociCount_append(QStringList *pQSL_FociCounts)
 {
     for(size_t i = 0; i < vNuclei.size(); i++)
@@ -794,6 +804,18 @@ int D_Bio_NucleusImage::get_ChannelStat_append(QStringList *pQSL_Stat, size_t st
         vNuclei[i].get_ChannelStat_append(pQSL_Stat, stat_index_bio_enum);
 
     return ER_okay;
+}
+
+vector<Point2f> D_Bio_NucleusImage::get_Centroids(double scale, Point2f scaled_offset)
+{
+    size_t n = vNuclei.size();
+
+    vector<Point2f> vCentroids(n);
+
+    for(size_t i = 0; i < n; i++)
+        vCentroids[i] = (vNuclei[i].centroid() * scale) + scaled_offset;
+
+    return vCentroids;
 }
 
 int D_Bio_NucleusImage::get_Centroids_append(vector<Point2f> *pvScaledCentroids, double scale)
@@ -1000,6 +1022,8 @@ void D_Bio_NucleusImage::remove_nuclei_all()
 
 void D_Bio_NucleusImage::remove_nuclei_dulicates(vector<D_Bio_NucleusImage> vNucImgOther, double min_rel_intersection_for_remove)
 {
+    //qDebug() << "number of neighbor imgs:" << vNucImgOther.size();
+
     //contours in this img
     vector<D_Contour> vC1 = get_nuclei_contour_objects();
     size_t n_nuclei = vC1.size();
@@ -1007,18 +1031,26 @@ void D_Bio_NucleusImage::remove_nuclei_dulicates(vector<D_Bio_NucleusImage> vNuc
     //contours in other img
     vector<D_Contour> vC2;
     for(size_t i = 0; i < vNucImgOther.size(); i++)
+    {
         vNucImgOther[i].get_nuclei_contour_objects_append(&vC2);
+        //qDebug() << "img" << i << vNucImgOther[i].info() << "nucs total" << vC2.size();
+    }
 
 
     //loop nuclei in this img
     vector<size_t> vDuplicateIndices;
+    //qDebug() << "loop nuclei =================================";
     for(size_t i1 = 0; i1 < n_nuclei; i1++)
     {
+        //qDebug() << "..........." << i1 << vC2.size();
+
         //find duplicate
         bool duplicate = false;
         for(size_t i2 = 0; i2 < vC2.size() && !duplicate; i2++)
         {
-            if(vC1[i1].intersection_area_relative(vC2[i2]) >= min_rel_intersection_for_remove)
+            double intersection_area_rel = vC1[i1].intersection_area_relative(vC2[i2]);
+            //qDebug() << i1 << i2 << intersection_area_rel;
+            if(intersection_area_rel >= min_rel_intersection_for_remove)
             {
                 duplicate = true;
                 vDuplicateIndices.push_back(i1);
@@ -1036,7 +1068,7 @@ void D_Bio_NucleusImage::remove_nuclei_dulicates(vector<D_Bio_NucleusImage> vNuc
         //nucleus index to be removed
         size_t i_nuc_rem = vDuplicateIndices[i_dup_rev];
 
-        qDebug() << "remove_nuclei_dulicates - remove" << i_nuc_rem << vNuclei[i_nuc_rem].info();
+        //qDebug() << "remove_nuclei_dulicates - remove" << i_nuc_rem << vNuclei[i_nuc_rem].info();
         vNuclei.erase(vNuclei.begin() + i_nuc_rem);
     }
 }

@@ -60,6 +60,8 @@ public:
     static function<int (Mat *)>                                Generate_byValueFunction_Complex    (int width, int height, function<complex<double> (complex<double> x, complex<double> y)> value_function);
     static function<int (Mat *)>                                Load_From_Path_Raw                  (string path, int width, int height, int out_type);
     static function<int (Mat *)>                                Draw_Contours                       (vector<vector<Point>> vContours, int line_thickness, double value);
+    static function<int (Mat *)>                                Draw_ContourText                    (vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
+
 
     //1 Input -> 1 Output
     static function<int (Mat *, Mat *)>                         Convert_Color                       (int cvt_mode);
@@ -143,7 +145,7 @@ public:
     static function<int (Mat *, Mat *)>                         GammaSpread                     (double gamma, double in_min, double in_max, double out_min, double out_max, bool force_8bit);
     static function<int (Mat *, Mat *)>                         GammaSpread_Quantiles           (double gamma, double quantile_low, double quantile_high, double out_min = 0, double out_max = 255, bool force_8bit = false, bool ignore_zeros = true);
     static function<int (Mat *, Mat *)>                         DistancesStat                   (function<double (vector<double>)> F_Stat);
-    static function<int (Mat *, Mat *)>                         Convert_Angle2Color_Rad          (uchar Saturation = 255, uchar Value = 255);
+    static function<int (Mat *, Mat *)>                         Convert_Angle2Color_Rad         (uchar Saturation = 255, uchar Value = 255);
 
     //2 Input -> 1 Output
     static function<int (Mat *, Mat *, Mat *)>                  Shading_Correct                 ();

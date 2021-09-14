@@ -44,8 +44,15 @@ void D_FinishTimePrognosis::set_ProgressBar(QProgressBar *bar)
     pProgressBar = bar;
     state_bar_set = true;
 
-    //pProgressBar->setAlignment(Qt::AlignCenter);
-    //pProgressBar->setStyleSheet("color: green");
+    /*
+    pProgressBar->setAlignment(Qt::AlignCenter);
+    pProgressBar->setStyleSheet(
+                "QProgressBar::chunk {"
+                "background-color: green;"
+                "width: 1px;"
+                "margin: 0px;"
+                "}");
+                */
 }
 
 void D_FinishTimePrognosis::set_StepCount(size_t step_count)

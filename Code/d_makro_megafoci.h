@@ -161,20 +161,37 @@ private slots:
     void on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1);
 
     //img proc nuclei
-    void on_doubleSpinBox_ImgProc_BlurGFP_GaussSize_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_BlurGFP_GaussSigma_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_Quantil_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_FilterRadius_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresIndicator_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_BaseBin_ThresHysteresis_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Seg0_ClosingSize_valueChanged(int arg1);
+    //SEEK
+    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Seg0A_ClosingSize_valueChanged(int arg1);
+    void on_comboBox_ImgProc_Seg0A_IgnoreDirt_Stat_currentIndexChanged(int index);
+    void on_doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres_valueChanged(double arg1);
+
+    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma_valueChanged(double arg1);
+    void on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize_valueChanged(double arg1);
+    void on_spinBox_ImgProc_Seg0B_ClosingSize_valueChanged(int arg1);
+    void on_comboBox_ImgProc_Seg0B_IgnoreDirt_Stat_activated(int index);
+    void on_doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres_valueChanged(double arg1);
+
+    void on_spinBox_ImgProc_Seg0_CloseGaps_Size_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_ConnectSmall_CloseSize_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1);
+
     void on_doubleSpinBox_ImgProc_Seg1_DistThresh_valueChanged(double arg1);
     void on_spinBox_ImgProc_Seg1_OpenSeeds_valueChanged(int arg1);
+
     void on_doubleSpinBox_ImgProc_Seg2_DistThresh_valueChanged(double arg1);
     void on_spinBox_ImgProc_Seg2_OpenSeeds_valueChanged(int arg1);
     void on_doubleSpinBox_ImgProc_Seg2_Area_Min_valueChanged(double arg1);
@@ -376,36 +393,54 @@ private:
         STEP_VIS_PAGES_AS_COLOR_GFP_RFP,
         STEP_VIS_PAGES_AS_COLOR_ALL,
 
-        //Find Nuclei
-        STEP_NUC_GFP_BLUR_GAUSS,
-        //segmentation level 0
-        STEP_NUC_GFP_SEG0_BASEBIN_BG_REFERENCE,
-        STEP_NUC_GFP_SEG0_BASEBIN_REF_CORRECTED,
-        STEP_NUC_GFP_SEG0_BASEBIN_THRESH_INDICATOR,
-        STEP_NUC_GFP_SEG0_BASEBIN_THRESH_HYSTERESIS,
-        STEP_NUC_GFP_SEG0_BASEBIN_HYSTERESIS,
-        STEP_NUC_GFP_SEG0_MORPH_CLOSEING,
-        STEP_NUC_GFP_SEG0_FILL_HOLES,
-        STEP_NUC_GFP_SEG0_SELECT_AREA_SMALL,
-        STEP_NUC_GFP_SEG0_MORPH_CLOSE_SMALL,
-        STEP_NUC_GFP_SEG0_ADD_CLOSED_SMALL,
-        STEP_NUC_GFP_SEG0_SELECT_AREA_BIG,
+        //Find Nuclei other
+        //segmentation level 0a
+        STEP_NUC_OTHER_SEG0A_BLUR_GAUSS,
+        STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE,
+        STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED,
+        STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR,
+        STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS,
+        STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS,
+        STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING,
+        STEP_NUC_OTHER_SEG0A_FILL_HOLES,
+        STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT,
+
+        //Find Nuclei GFP
+        //segmentation level 0b
+        STEP_NUC_GFP_SEG0B_BLUR_GAUSS,
+        STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE,
+        STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED,
+        STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR,
+        STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS,
+        STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS,
+        STEP_NUC_GFP_SEG0B_MORPH_CLOSEING,
+        STEP_NUC_GFP_SEG0B_FILL_HOLES,
+        STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT,
+
+        //merge other and gfp seg 0a/0b-> seg 0
+        STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER,
+        STEP_NUC_BOTH_SEG0_CLOSE_GAPS,
+        STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL,
+        STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL,
+        STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL,
+        STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG,
+
         //segmentation level 1
-        STEP_NUC_GFP_SEG1_DISTANCE,
-        STEP_NUC_GFP_SEG1_SEEDS,
-        STEP_NUC_GFP_SEG1_SEEDS_CLEAR,
-        STEP_NUC_GFP_SEG1_WATERSHED,
-        STEP_NUC_GFP_SEG1_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG1_DISTANCE,
+        STEP_NUC_BOTH_SEG1_SEEDS,
+        STEP_NUC_BOTH_SEG1_SEEDS_CLEAR,
+        STEP_NUC_BOTH_SEG1_WATERSHED,
+        STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS,
         //segmentation level 2
-        STEP_NUC_GFP_SEG2_DISTANCE,
-        STEP_NUC_GFP_SEG2_SEEDS,
-        STEP_NUC_GFP_SEG2_SEEDS_CLEAR,
-        STEP_NUC_GFP_SEG2_WATERSHED,
-        STEP_NUC_GFP_SEG2_SELECT_AREA,
+        STEP_NUC_BOTH_SEG2_DISTANCE,
+        STEP_NUC_BOTH_SEG2_SEEDS,
+        STEP_NUC_BOTH_SEG2_SEEDS_CLEAR,
+        STEP_NUC_BOTH_SEG2_WATERSHED,
+        STEP_NUC_BOTH_SEG2_SELECT_AREA,
         //segmentation level 3
-        STEP_NUC_GFP_SEG3_CONVEX_HULL,
-        STEP_NUC_GFP_SEG3_WATERSHED_SEGMENTS,
-        STEP_NUC_GFP_SEG3_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3_CONVEX_HULL,
+        STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS,
+        STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS,
 
         //Visualization
         STEP_VIS_NUC_BORDERS,
@@ -433,7 +468,7 @@ private:
         //Visualization
         STEP_VIS_REGIONS,
         STEP_VIS_REGIONS_BACKGROUND,
-        STEP_VIS_REGIONS_FOCI_COUNT,
+        //STEP_VIS_REGIONS_FOCI_COUNT,
 
         STEP_NUMBER_OF
     };
@@ -456,35 +491,52 @@ private:
         "vis-3 Color GFP green RFP blue",
         "vis-4 Color all channels",
 
-        "nuc-0 GFP gaussain blur",
+        //segmentation level 0A..........................................
+        "nuc-0 OTHER seg0a gaussain blur",
+        "nuc-1 OTHER seg0a rank order filter for backgound ref",
+        "nuc-2 OTHER seg0a difference to background",
+        "nuc-3 OTHER seg0a threshhold object indicator",
+        "nuc-4 OTHER seg0a threshold possible objects",
+        "nuc-5 OTHER seg0a hysteresis of two thresholds",
+        "nuc-6 OTHER seg0a connect foreground objects",
+        "nuc-7 OTHER seg0a fill holes",
+        "nuc-8 OTHER seg0a exclude dirt",
+
+        //segmentation level 0B..........................................
+        "nuc-9 GFP seg0b gaussain blur",
+        "nuc-10 GFP seg0b rank order filter for backgound ref",
+        "nuc-11 GFP seg0b difference to background",
+        "nuc-12 GFP seg0b threshhold object indicator",
+        "nuc-13 GFP seg0b threshold possible objects",
+        "nuc-14 GFP seg0b hysteresis of two thresholds",
+        "nuc-15 GFP seg0b connect foreground objects",
+        "nuc-16 GFP seg0b fill holes",
+        "nuc-17 OTHER seg0b exclude dirt",
+
         //segmentation level 0..........................................
-        "nuc-1 GFP seg0 rank order filter for backgound ref",
-        "nuc-2 GFP seg0 difference to background",
-        "nuc-3 GFP seg0 threshhold object indicator",
-        "nuc-4 GFP seg0 threshold possible objects",
-        "nuc-5 GFP seg0 hysteresis of two thresholds",
-        "nuc-6 GFP seg0 connect foreground objects",
-        "nuc-7 GFP seg0 fill holes",
-        "nuc-8 GFP seg0 select small",
-        "nuc-9 GFP seg0 connect small",
-        "nuc-10 GFP seg0 add connected small",
-        "nuc-11 GFP seg0 select by area",
+        "nuc-18 BOTH seg0 add GFP and OTHER binary",
+        "nuc-19 BOTH seg0 close gaps",
+        "nuc-20 BOTH seg0 select small",
+        "nuc-21 BOTH seg0 connect small",
+        "nuc-22 BOTH seg0 add connected small",
+        "nuc-23 BOTH seg0 select by area",
+
         //segmentation level 1..........................................
-        "nuc-12 GFP seg1 distance transformation",
-        "nuc-13 GFP seg1 get seeds",
-        "nuc-14 GFP seg1 clear seeds",
-        "nuc-15 GFP seg1 watershed segmentation",
-        "nuc-16 GFP seg1 binary segments",
+        "nuc-24 BOTH seg1 distance transformation",
+        "nuc-25 BOTH seg1 get seeds",
+        "nuc-26 BOTH seg1 clear seeds",
+        "nuc-27 BOTH seg1 watershed segmentation",
+        "nuc-28 BOTH seg1 binary segments",
         //segmentation level 2..........................................
-        "nuc-17 GFP seg2 distance transformation",
-        "nuc-18 GFP seg2 get seeds",
-        "nuc-19 GFP seg2 clear seeds",
-        "nuc-20 GFP seg2 watershed segmentation",
-        "nuc-21 GFP seg2 select by area",
+        "nuc-29 BOTH seg2 distance transformation",
+        "nuc-30 BOTH seg2 get seeds",
+        "nuc-31 BOTH seg2 clear seeds",
+        "nuc-32 BOTH seg2 watershed segmentation",
+        "nuc-33 BOTH seg2 select by area",
         //segmentation level 3..........................................
-        "nuc-22 GFP seg3 convex hull",
-        "nuc-23 GFP seg3 watershed transformation seed from seg2",
-        "nuc-24 GFP seg3 binary segments",
+        "nuc-34 BOTH seg3 convex hull",
+        "nuc-35 BOTH seg3 watershed transformation seed from seg2",
+        "nuc-36 BOTH seg3 binary segments",
 
         "vis-5 Nuclei segemntation borders",
 
@@ -506,7 +558,7 @@ private:
 
         "vis-6 Regions",
         "vis-7 Regions with background",
-        "vis-8 Regions with foci counts"
+        //"vis-8 Regions with foci counts"
     };
 
     //Tabs
@@ -892,6 +944,10 @@ private slots:
     void on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index);
 
     void on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChanged(double arg1);
+
+
+
+
 
 private:
 

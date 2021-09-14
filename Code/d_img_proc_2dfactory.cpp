@@ -58,6 +58,23 @@ function<int (Mat *)> D_Img_Proc_2dFactory::Draw_Contours(vector<vector<Point> >
     };
 }
 
+function<int (Mat *)> D_Img_Proc_2dFactory::Draw_ContourText(vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    return
+            [vContours, QSL_Texts, vTextOrigins, line_thickness, text_thickness, text_scale, value](Mat *pMA_Target)
+    {
+        return D_Img_Proc::Draw_ContourText(
+                    pMA_Target,
+                    vContours,
+                    QSL_Texts,
+                    vTextOrigins,
+                    line_thickness,
+                    text_thickness,
+                    text_scale,
+                    value);
+    };
+}
+
 
 
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Color(int cvt_mode)
