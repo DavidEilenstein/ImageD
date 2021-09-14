@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"d__job__manager_8h_source.html":[5,0,0,0,0,57],
+"d__mainwindow_8cpp.html":[5,0,0,0,0,58],
 "d__mainwindow_8h.html":[5,0,0,0,0,59],
 "d__mainwindow_8h_source.html":[5,0,0,0,0,59],
 "d__makro__airdragtrack_8cpp.html":[5,0,0,0,0,60],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "d__visdat__proc_8h_source.html":[5,0,0,0,0,154],
 "d__visdat__range_8cpp.html":[5,0,0,0,0,155],
 "d__visdat__range_8h.html":[5,0,0,0,0,156],
-"d__visdat__range_8h_source.html":[5,0,0,0,0,156],
-"d__visdat__slice__1d_8cpp.html":[5,0,0,0,0,157],
-"d__visdat__slice__1d_8h.html":[5,0,0,0,0,158]
+"d__visdat__range_8h_source.html":[5,0,0,0,0,156]
 };

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_4 (09.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_5 (14.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -113,6 +113,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a37e7b79aa010a116e4529a8d9eb8c33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e146abdda2468ca228b0605bd64ff56"><td class="memItemLeft" align="right" valign="top">static function&lt; int(<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a3e146abdda2468ca228b0605bd64ff56">Draw_Contours</a> (vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; vContours, int line_thickness, double value)</td></tr>
 <tr class="separator:a3e146abdda2468ca228b0605bd64ff56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e1fb1b6f44e1026c5ff92876e50604f"><td class="memItemLeft" align="right" valign="top">static function&lt; int(<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a3e1fb1b6f44e1026c5ff92876e50604f">Draw_ContourText</a> (vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
+<tr class="separator:a3e1fb1b6f44e1026c5ff92876e50604f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a539917cc5a2e9437e0a3f13305333d4e"><td class="memItemLeft" align="right" valign="top">static function&lt; int(<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#a539917cc5a2e9437e0a3f13305333d4e">Convert_Color</a> (int cvt_mode)</td></tr>
 <tr class="separator:a539917cc5a2e9437e0a3f13305333d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab15b5bdb7db3e993624314d0c5c1b8c1"><td class="memItemLeft" align="right" valign="top">static function&lt; int(<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *, <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc__2d_factory.html#ab15b5bdb7db3e993624314d0c5c1b8c1">Convert_Color2Mono</a> (int col2mono_code)</td></tr>
@@ -920,6 +922,72 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3e1fb1b6f44e1026c5ff92876e50604f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e1fb1b6f44e1026c5ff92876e50604f">&#9670;&nbsp;</a></span>Draw_ContourText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function&lt; int(<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *)&gt; D_Img_Proc_2dFactory::Draw_ContourText </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_Texts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt;&#160;</td>
+          <td class="paramname"><em>vTextOrigins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>text_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>text_scale</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

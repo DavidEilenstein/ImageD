@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_4 (09.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_5 (14.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -126,8 +126,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a291b2abe262156287df693a417fedc96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#afe1cf1ccb2fa9c6dab784311eceb9830">get_Contours_append</a> (vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; *pvScaledContours, double scale)</td></tr>
 <tr class="separator:afe1cf1ccb2fa9c6dab784311eceb9830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1add1b3bd46dbbabd0c47977f8fac259"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a1add1b3bd46dbbabd0c47977f8fac259">get_Centroids</a> (double scale, <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> scaled_offset)</td></tr>
+<tr class="separator:a1add1b3bd46dbbabd0c47977f8fac259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f46dd18ba021dd6eedfa9b47fbd19c2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a8f46dd18ba021dd6eedfa9b47fbd19c2">get_Centroids_append</a> (vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; *pvScaledCentroids, double scale)</td></tr>
 <tr class="separator:a8f46dd18ba021dd6eedfa9b47fbd19c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9d67236241292429dc4f2236328197"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a2a9d67236241292429dc4f2236328197">get_FociCounts</a> ()</td></tr>
+<tr class="separator:a2a9d67236241292429dc4f2236328197"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c4578f9be86bc61fc8dbb453f8f869f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a6c4578f9be86bc61fc8dbb453f8f869f">get_FociCount_append</a> (QStringList *pQSL_FociCounts)</td></tr>
 <tr class="separator:a6c4578f9be86bc61fc8dbb453f8f869f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c95daaa967c9de042fca42d52954cca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_image.html#a5c95daaa967c9de042fca42d52954cca">get_ShapeInfo_append</a> (QStringList *pQSL_ShapeInfo)</td></tr>
@@ -796,6 +800,34 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a1add1b3bd46dbbabd0c47977f8fac259"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1add1b3bd46dbbabd0c47977f8fac259">&#9670;&nbsp;</a></span>get_Centroids()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; D_Bio_NucleusImage::get_Centroids </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>&#160;</td>
+          <td class="paramname"><em>scaled_offset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8f46dd18ba021dd6eedfa9b47fbd19c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f46dd18ba021dd6eedfa9b47fbd19c2">&#9670;&nbsp;</a></span>get_Centroids_append()</h2>
 
@@ -1032,6 +1064,23 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">QStringList *&#160;</td>
           <td class="paramname"><em>pQSL_FociCounts</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a9d67236241292429dc4f2236328197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9d67236241292429dc4f2236328197">&#9670;&nbsp;</a></span>get_FociCounts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList D_Bio_NucleusImage::get_FociCounts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>

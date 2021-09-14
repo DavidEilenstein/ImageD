@@ -1,5 +1,7 @@
 var NAVTREEINDEX10 =
 {
+"d__visdat__slice__1d_8cpp.html":[5,0,0,0,0,157],
+"d__visdat__slice__1d_8h.html":[5,0,0,0,0,158],
 "d__visdat__slice__1d_8h_source.html":[5,0,0,0,0,158],
 "d__visdat__slice__2d_8cpp.html":[5,0,0,0,0,159],
 "d__visdat__slice__2d_8h.html":[5,0,0,0,0,160],

@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_4 (09.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_5 (14.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -499,6 +499,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae11ff847ce51a16a48fa3abdcd9b4d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a81d8b33d44a1ab9e4f9645a91372ecfe">Draw_Label_Text</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Label, QStringList QSL_Labeltexts, bool border, double scale, double thickness, bool center, uchar r=0, uchar g=0, uchar b=0, int connectivity=4)</td></tr>
 <tr class="separator:a81d8b33d44a1ab9e4f9645a91372ecfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba2a0a370112d622eb708095725f710"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#aaba2a0a370112d622eb708095725f710">Draw_ContourText</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Target, vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
+<tr class="separator:aaba2a0a370112d622eb708095725f710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9646d7d48444a351c178aaaca0a717e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ae9646d7d48444a351c178aaaca0a717e">Draw_ContourText</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
+<tr class="separator:ae9646d7d48444a351c178aaaca0a717e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a891797195c6e7decfe8040e9910cb2ea"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a891797195c6e7decfe8040e9910cb2ea">OverlayOverwrite</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Background, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Overlay, double intensity_overlay=1.0, double intensity_backgr=1.0)</td></tr>
 <tr class="separator:a891797195c6e7decfe8040e9910cb2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc0bc833aaefe9b3b7ec74ecb3081da"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#acfc0bc833aaefe9b3b7ec74ecb3081da">Neighborhood_Configs</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In)</td></tr>
@@ -3184,6 +3188,168 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9646d7d48444a351c178aaaca0a717e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9646d7d48444a351c178aaaca0a717e">&#9670;&nbsp;</a></span>Draw_ContourText() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int D_VisDat_Proc::Draw_ContourText </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_Texts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt;&#160;</td>
+          <td class="paramname"><em>vTextOrigins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>text_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>text_scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaba2a0a370112d622eb708095725f710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaba2a0a370112d622eb708095725f710">&#9670;&nbsp;</a></span>Draw_ContourText() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int D_VisDat_Proc::Draw_ContourText </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt;&#160;</td>
+          <td class="paramname"><em>vContours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>QSL_Texts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt;&#160;</td>
+          <td class="paramname"><em>vTextOrigins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>text_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>text_scale</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
