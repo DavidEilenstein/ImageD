@@ -1617,7 +1617,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . select
     case STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED:
     {
-        vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED] = vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS];
+        vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED] = vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS];
     }
         break;
 
