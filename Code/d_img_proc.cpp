@@ -18715,15 +18715,43 @@ int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QC
                 pMA_Out,
                 pMA_In,
                 pMA_Overlay,
-                color.red(),
-                color.green(),
-                color.blue(),
+                uchar(color.red()),
+                uchar(color.green()),
+                uchar(color.blue()),
                 intensity_overlay,
                 intensity_backgr);
 }
 
+int D_Img_Proc::OverlayOverwrite(Mat *pMA_Target, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay)
+{
+    //qDebug() << "Target version" << Type_of_Mat(pMA_Target) << Type_of_Mat(pMA_Overlay);
+    if(pMA_Target->type() != CV_8UC3)                       return ER_type_bad;
+    if(pMA_Overlay->type() != CV_8UC1)                      return ER_type_bad;
+    if(pMA_Target->size() != pMA_Overlay->size())           return ER_size_missmatch;
+    if(intensity_overlay < 0 || intensity_overlay > 1)      return ER_parameter_bad;
+
+    //px count
+    int area = pMA_Target->rows * pMA_Target->cols;
+
+    //overlay color as pixel
+    Vec3b val_overlay = {
+        static_cast<uchar>(b * intensity_overlay),
+        static_cast<uchar>(g * intensity_overlay),
+        static_cast<uchar>(r * intensity_overlay)};
+
+    //loop & replace
+    Vec3b* ptr_tar = reinterpret_cast<Vec3b*>(pMA_Target->data);
+    uchar* ptr_ovr = reinterpret_cast<uchar*>(pMA_Overlay->data);
+    for(int px = 0; px < area; px++, ptr_tar++, ptr_ovr++)
+        if(*ptr_ovr)
+            *ptr_tar = val_overlay;
+
+    return ER_okay;
+}
+
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay, double intensity_backgr)
 {
+    //qDebug() << "non-Target version" << Type_of_Mat(pMA_In) << Type_of_Mat(pMA_Overlay);
     if(pMA_In->type() != CV_8UC3)                       return ER_type_bad;
     if(pMA_Overlay->type() != CV_8UC1)                  return ER_type_bad;
     if(pMA_In->size() != pMA_Overlay->size())           return ER_size_missmatch;

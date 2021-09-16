@@ -428,6 +428,7 @@ public:
     static int      OverlayImage                (Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *pMA_BaseB, Mat *pMA_OverR, Mat *pMA_OverG, Mat *pMA_OverB, uchar thresh_overlay = 0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
+    static int      OverlayOverwrite            (Mat *pMA_Target, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, uchar r, uchar g, uchar b, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      ExtremeValuesColor          (Mat *pMA_Out, Mat *pMA_In, double rel_low = 0.1, double rel_high = 0.9, double gamma = 1.0, bool color_low = false, bool color_high = true, bool zero_as_lowest = true);
     static int      Legend_HSV                  (Mat *pMA_Out, int width, int height, QStringList QSL_H, QStringList QSL_S, QStringList QSL_V, QString QS_H, QString QS_S, QString QS_V, double H_angle_min, double H_angle_range, double scale = 1, double thickness = 1);

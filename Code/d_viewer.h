@@ -190,6 +190,11 @@ public slots:
     void        MouseClicked_Right      (int x, int y);
     void        MouseClicked_Mid        (int x, int y);
 
+    //mouse pos request
+    Point       MousePos                ()  {return P_LastMousePos;}
+    int         MousePos_X              ()  {return P_LastMousePos.x;}
+    int         MousePos_Y              ()  {return P_LastMousePos.y;}
+
     //click recording for drawing
     void                    ClickRecord_Start                   ();
     void                    ClickRecord_Start_RecieveOnly       ();
@@ -362,6 +367,9 @@ private:    //members
     vector<D_Viewer*>       v_ConnectedViewersClickRecord;
     QColor                  ClickRecord_OverlayColor = Qt::white;
     double                  ClickRecord_PointDiameter = 1;
+
+    //other
+    Point                   P_LastMousePos = Point(0,0);
 };
 
 #endif // D_VIEWER_H

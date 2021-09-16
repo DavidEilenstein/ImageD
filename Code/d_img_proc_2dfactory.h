@@ -147,6 +147,8 @@ public:
     static function<int (Mat *, Mat *)>                         DistancesStat                   (function<double (vector<double>)> F_Stat);
     static function<int (Mat *, Mat *)>                         Convert_Angle2Color_Rad         (uchar Saturation = 255, uchar Value = 255);
 
+    static function<int (Mat *, Mat *)>                         OverlayOverwrite                (uchar r, uchar g, uchar b, double intensity_overlay);
+
     //2 Input -> 1 Output
     static function<int (Mat *, Mat *, Mat *)>                  Shading_Correct                 ();
 
@@ -184,7 +186,8 @@ public:
     static function<int (Mat *, Mat *, Mat *)>                  Draw_Label_Text                 (QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);
     static function<int (Mat *, Mat *, Mat *)>                  ClassBorder_kNN                 (int n);
 
-    static function<int (Mat *, Mat *, Mat *)>                  OverlayOverwrite                (double intensity_overlay = 1.0, double intensity_backgr = 1.0);
+    static function<int (Mat *, Mat *, Mat *)>                  OverlayOverwrite                (double intensity_overlay, double intensity_backg);
+    static function<int (Mat *, Mat *, Mat *)>                  OverlayOverwrite                (uchar r, uchar g, uchar b, double intensity_overlay, double intensity_backgr);
 
     static function<int (Mat *, Mat *, Mat *)>                  ValueStat                       (int stat, int connectivity = 8);
     static function<int (Mat *, Mat *, Mat *)>                  ValueStat_Select                (int stat, double thresh_min, double thresh_max, int connectivity = 8);

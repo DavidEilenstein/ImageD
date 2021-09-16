@@ -1339,6 +1339,8 @@ void D_MAKRO_Mitochondrien::Load_Directory()
     if(ST_Dir == 0)
         return;
 
+    Clear_Queue();
+
     DIR_Input_Dir.setPath(ST_Dir);
     pStore->set_dir_M_Mitochondria(ST_Dir);
     DIR_Stream.setPath(ST_Dir);
@@ -2060,6 +2062,8 @@ void D_MAKRO_Mitochondrien::Init_vMA_Parameter()
 
 void D_MAKRO_Mitochondrien::Load_Reference()
 {
+    qDebug() << "load ref";
+
     FI_Reference = QFileInfo(DIR_Input_Dir.absolutePath() + "/" + "reference_image.asc");
 
     if(!FI_Reference.exists())

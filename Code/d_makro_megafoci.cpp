@@ -1331,7 +1331,23 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
     //Nuclei segmentation 3 .........................................
 
-    case STEP_NUC_BOTH_SEG3_CONVEX_HULL:
+    case STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
+                c_GEO_CONTOUR,
+                4,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_NUC_BORDERS_ORIGINAL");
+    }
+        break;
+
+    //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Convex Hull
+    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL:
     {
         //contour of convex hull
         D_VisDat_Obj VD_tmp_ConvexHullContour;
@@ -1344,62 +1360,287 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 1,
                 255),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3_CONVEX_HULL - hull contour");
+            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL - hull contour");
 
         //fill contour
         ERR(D_VisDat_Proc::Fill_Holes(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_CONVEX_HULL]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL]),
                 &VD_tmp_ConvexHullContour),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3_CONVEX_HULL - fill contour");
+            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL - fill contour");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS:
+    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS:
     {
         ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_CONVEX_HULL]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL]),
                 &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
                 true,
                 false,
                 true),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS");
+            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS:
+    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS:
     {
         ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS]),
                 0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS");
+            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS");
     }
         break;
 
-    //Nuclei segmentation vis .........................................
-
-    case STEP_VIS_NUC_BORDERS:
+    case STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL:
     {
         ERR(D_VisDat_Proc::Geometric_Reduce(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS]),
                 c_GEO_CONTOUR,
                 4,
                 2,
                 255),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_NUC_BORDERS");
+            "STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL");
     }
         break;
 
-    //Find Foci GFP -------------------------------------------------------------------------------------------------------
+
+        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Ellipse
+        case STEP_NUC_BOTH_SEG3B_ELLIPSE:
+        {
+            //contour of convex hull
+            D_VisDat_Obj VD_tmp_EllipseContour;
+            ERR(D_VisDat_Proc::Geometric_Reduce(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &VD_tmp_EllipseContour,
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
+                    c_GEO_ELLIPSE_FIT,
+                    4,
+                    1,
+                    255),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3B_ELLIPSE - ellipse contour");
+
+            //fill contour
+            ERR(D_VisDat_Proc::Fill_Holes(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE]),
+                    &VD_tmp_EllipseContour),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3B_ELLIPSE - fill contour");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
+                    true,
+                    false,
+                    true),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Threshold_Absolute(
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS]),
+                    0),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS");
+        }
+            break;
+
+    case STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS]),
+                c_GEO_CONTOUR,
+                4,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE");
+    }
+        break;
+
+
+        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . opened
+        case STEP_NUC_BOTH_SEG3C_OPEND:
+        {
+            //contour of convex hull
+            D_VisDat_Obj VD_tmp_OpenedContour;
+            ERR(D_VisDat_Proc::MorphSimple_Circ_Opening(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &VD_tmp_OpenedContour,
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
+                    ui->spinBox_ImgProc_Seg3_Open->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3C_OPEND - opened contour");
+
+            //fill contour
+            ERR(D_VisDat_Proc::Fill_Holes(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND]),
+                    &VD_tmp_OpenedContour),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3C_OPEND - fill contour");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
+                    true,
+                    false,
+                    true),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Threshold_Absolute(
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS]),
+                    0),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS");
+        }
+            break;
+
+    case STEP_NUC_BOTH_SEG3C_BORDERS_OPENED:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS]),
+                c_GEO_CONTOUR,
+                4,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_BOTH_SEG3C_BORDERS_OPENED");
+    }
+        break;
+
+
+        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . opened ellipse
+        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE:
+        {
+            //contour of convex hull
+            D_VisDat_Obj VD_tmp_ConvexHullContour;
+            ERR(D_VisDat_Proc::Geometric_Reduce(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &VD_tmp_ConvexHullContour,
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
+                    c_GEO_ELLIPSE_FIT,
+                    4,
+                    1,
+                    255),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE - ellipse contour");
+
+            //fill contour
+            ERR(D_VisDat_Proc::Fill_Holes(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE]),
+                    &VD_tmp_ConvexHullContour),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE - fill contour");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
+                    true,
+                    false,
+                    true),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS");
+        }
+            break;
+
+        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS:
+        {
+            ERR(D_VisDat_Proc::Threshold_Absolute(
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS]),
+                    0),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS");
+        }
+            break;
+
+    case STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS]),
+                c_GEO_CONTOUR,
+                4,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE");
+    }
+        break;
+
+    //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . select
+    case STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED:
+    {
+        vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED] = vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS];
+    }
+        break;
+
+    case STEP_NUC_BOTH_SEG3_BORDERS_USED:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
+                c_GEO_CONTOUR,
+                4,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_NUC_BORDERS_USED");
+    }
+        break;
+
+    //Nuclei segmentation vis .........................................
+
+
+
+        //Find Foci GFP -------------------------------------------------------------------------------------------------------
 
     case STEP_FOC_GFP_BLUR_MEDIAN:
     {
@@ -1569,44 +1810,128 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
     //Visualization -------------------------------------------------------------------------------------------------------
 
-    case STEP_VIS_REGIONS:
+    case STEP_VIS_REGIONS_NUCLEI:
     {
         //color code:
-        //R: Nuclei Borders
-        //G: GFP Foci
-        //M: RFP Foci
-        //W: GFP Foci + RFP Foci
+        //STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL           //red       R
+        //STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL       //blue              B
+        //STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE           //yellow    R   G
+        //STEP_NUC_BOTH_SEG3C_BORDERS_OPENED            //magenta   R       B
+        //STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE    //cyan          G   B
+        //STEP_NUC_BOTH_SEG3_BORDERS_USED               //white     R   G   B
 
-        //merge to red channel
-        D_VisDat_Obj VD_tmp_red;
-        ERR(D_VisDat_Proc::Math_2img_Maximum(
-                &VD_tmp_red,
-                &(vVD_ImgProcSteps[STEP_VIS_NUC_BORDERS]),
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS - Math_2img_Maximum calc red channel");
+        //dummy VD
+        D_VisDat_Obj VD_tmp_dummy;
 
-        //merge to rgb image
-        ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),          //out
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),  //B
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),  //G
-                &VD_tmp_red),                                   //R
+        //black BG
+        vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI] =
+                D_VisDat_Obj(
+                    vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL].Dim(),
+                    CV_8UC3,
+                    0);
+
+        qDebug() << vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI].info_short();
+
+        //nuclei original
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
+                255.0, 0.0, 0.0,
+                1.0, 1.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS - Channels_Merge Nuclei and foci area as color");
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - original");
+
+        //nuclei convex hull
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL]),
+                0.0, 0.0, 255.0,
+                1.0, 1.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - convex hull");
+
+        //nuclei ellipse
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE]),
+                255.0, 255.0, 0.0,
+                1.0, 1.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - ellipse");
+
+        //nuclei opened
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
+                255.0, 0.0, 255.0,
+                1.0, 1.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - opened");
+
+        //nuclei opened ellipse
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE]),
+                0.0, 255.0, 255.0,
+                1.0, 1.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - opened ellipse");
+
+        //nuclei used
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
+                &VD_tmp_dummy,
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
+                255, 255, 255,
+                1.0, 1.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - used");
     }
         break;
 
-    case STEP_VIS_REGIONS_BACKGROUND:
+    case STEP_VIS_REGIONS_FOCI:
+    {
+        //foci
+        D_VisDat_Obj VD_tmp_Foci;
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI]),     //out
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),  //B
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),  //G
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])), //R
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_FOCI - Channels_Merge foci");
+    }
+        break;
+
+    case STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL:
     {
         ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL]),
                 &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
                 ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
                 ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND - OverlayOverwrite");
+            "STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL - OverlayOverwrite");
+    }
+        break;
+
+    case STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
+                255, 255, 255,
+                ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
+                ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED - OverlayOverwrite");
     }
         break;
 
@@ -1976,7 +2301,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     ///get index of nuclei segmentation image
     size_t index_nuclei;
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
-        index_nuclei = STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS;
+        index_nuclei = STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED;
     else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
         index_nuclei = STEP_MS3_VIS_NUCLEI_FILLED;
     else
@@ -2329,7 +2654,7 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
     Populate_CB_Single(ui->comboBox_VisTrafo_AnchorMode,                    QSL_VisTrafo_Anchor,    c_VIS_TRAFO_ANCHOR_DYNAMIC);
     Populate_CB_Single(ui->comboBox_VisTrafo_RangeMode,                     QSL_VisTrafo_Range,     c_VIS_TRAFO_RANGE_DYNAMIC);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,              STEP_VIS_REGIONS_BACKGROUND);
+    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,              STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
 
     Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,           c_STAT_QUANTIL_95);
     Populate_CB_Single(ui->comboBox_ImgProc_Seg0A_IgnoreDirt_Stat,          QSL_StatList,           c_STAT_QUANTIL_95);
@@ -3072,6 +3397,7 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     v_MS2_Viewer[3] = &MS2_Viewer4;
     //viewport viewer
     MS2_Viewer_Viewport.set_GV(ui->graphicsView_MS2_Viewport);
+    MS2_Viewer_ToDo.set_GV(ui->graphicsView_MS2_Viewer_ToDo);
     //viewer names
     for(size_t v = 0; v < MS2_ViewersCount; v++)
         v_MS2_Viewer[v]->set_Name("D_MAKRO_MegaFoci MS2_Viewer_" + QString::number(v));
@@ -3188,10 +3514,16 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
         v_MS2_Viewer[v]->Set_VisTrafo_Divisor(5);
         v_MS2_Viewer[v]->Set_VisTrafo_Center(0);
     }
+
     MS2_Viewer_Viewport.Set_VisTrafo_ActiveBool(false);
     MS2_Viewer_Viewport.Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
     MS2_Viewer_Viewport.Set_VisTrafo_Divisor(5);
     MS2_Viewer_Viewport.Set_VisTrafo_Center(0);
+
+    MS2_Viewer_ToDo.Set_VisTrafo_ActiveBool(false);
+    MS2_Viewer_ToDo.Set_VisTrafo_Mode_Trafo(c_VIS_TRAFO_LOG);
+    MS2_Viewer_ToDo.Set_VisTrafo_Divisor(5);
+    MS2_Viewer_ToDo.Set_VisTrafo_Center(0);
 
     //point size
     for(size_t v = 0; v < MS2_ViewersCount; v++)
@@ -3252,6 +3584,10 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
     connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
     connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_LoadData_TimeSelected()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateImage_ToDo()));
+
+    //highlighting frames in to do list
+    connect(&MS2_Viewer_ToDo,                               SIGNAL(MouseMoved_Pos(int, int)),   this,   SLOT(MS2_UpdateImage_ToDo_Highlight(int, int)));
 
     //click recording
     for(size_t v = 0; v < MS2_ViewersCount; v++)
@@ -3262,6 +3598,7 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
 
     //show
     MS2_UpdateImages();
+    MS2_ChangeMode(MS2_MODE_DETAILED);
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_Save()
@@ -3727,6 +4064,111 @@ void D_MAKRO_MegaFoci::MS2_DetOutBackup_UpdateUi()
     ui->pushButton_MS2_Tools_History_Redo->setEnabled(cursor < MS2_DetOutBackup_Count - 1 && cursor < vvv_MS2_DetectionsOut_BackupValidMax[ix][iy]);
 }
 
+void D_MAKRO_MegaFoci::MS2_ToDo_SetFinished()
+{
+    return MS2_ToDo_SetFinished(
+                MS2_Viewer_ToDo.MousePos_X(),
+                MS2_Viewer_ToDo.MousePos_Y());
+}
+
+void D_MAKRO_MegaFoci::MS2_ToDo_SetFinished(int x, int y)
+{
+    if(!state_MS2_data_loaded || !state_MS2_detections_loaded)
+        return;
+
+    if(!ui->radioButton_MS2_Mode_ToDo->isChecked())
+        return;
+
+    if(!state_MS2_todo_static_img_created)
+        return;
+
+    //size
+    int w = MA_MS2_ToDo_Static.cols;
+    int h = MA_MS2_ToDo_Static.rows;
+
+    if(x < 0 || x >= w || y < 0 || y >= h)
+        return;
+
+    //calc mosaik pos
+    int ix = max(0, min(int(dataset_dim_mosaic_x - 1), int((x / double(w)) * dataset_dim_mosaic_x)));
+    int iy = max(0, min(int(dataset_dim_mosaic_y - 1), int((y / double(h)) * dataset_dim_mosaic_y)));
+    int it = ui->spinBox_MS2_Viewport_T->value();
+
+
+    //time dir
+    QDir DIR_Time(DIR_MS2_Out_DetectionsCorrected.path() + "/Time_" + QString::number(it));
+    if(!DIR_Time.exists())
+        QDir().mkdir(DIR_Time.path());
+    if(!DIR_Time.exists())
+        return;
+
+    //target dir
+    QDir DIR_Target(DIR_Time.path() + "/Image_T" + QString::number(it) + "_Y" + QString::number(iy) + "_X" + QString::number(ix));
+    //qDebug() << "D_MAKRO_MegaFoci::MS2_ToDo_SetFinished" << DIR_Target.path();
+    if(DIR_Target.exists())
+    {
+        DIR_Target.setNameFilters(QStringList() << "*.*");
+        DIR_Target.setFilter(QDir::Files);
+        foreach(QString dirFile, DIR_Target.entryList())
+        {
+            DIR_Target.remove(dirFile);
+        }
+    }
+    else
+    {
+        QDir().mkdir(DIR_Target.path());
+    }
+
+    //save
+    vv_MS2_NucImg_Out_mosaikXY[ix][iy].save_PathExactDir(DIR_Target.path(), false, true, ix, iy, it);
+    StatusSet("Viewport x=" + QString::number(ix) + "/y=" + QString::number(iy) + " kicked from to do list");
+
+    //change state
+    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_PROCESSED;
+
+    //update image
+    MS2_UpdateImage_ToDo_Static();
+    MS2_UpdateImage_Viewport();
+}
+
+void D_MAKRO_MegaFoci::MS2_ToDo_SetToBeEdited()
+{
+    return MS2_ToDo_SetToBeEdited(
+                MS2_Viewer_ToDo.MousePos_X(),
+                MS2_Viewer_ToDo.MousePos_Y());
+}
+
+void D_MAKRO_MegaFoci::MS2_ToDo_SetToBeEdited(int x, int y)
+{
+    if(!state_MS2_data_loaded || !state_MS2_detections_loaded)
+        return;
+
+    if(!ui->radioButton_MS2_Mode_ToDo->isChecked())
+        return;
+
+    if(!state_MS2_todo_static_img_created)
+        return;
+
+    //size
+    int w = MA_MS2_ToDo_Static.cols;
+    int h = MA_MS2_ToDo_Static.rows;
+
+    if(x < 0 || x >= w || y < 0 || y >= h)
+        return;
+
+    //calc mosaik pos
+    int ix = max(0, min(int(dataset_dim_mosaic_x - 1), int((x / double(w)) * dataset_dim_mosaic_x)));
+    int iy = max(0, min(int(dataset_dim_mosaic_y - 1), int((y / double(h)) * dataset_dim_mosaic_y)));
+
+    //change state
+    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    StatusSet("Viewport x=" + QString::number(ix) + "/y=" + QString::number(iy) + " set on to do list");
+
+    //update image
+    MS2_UpdateImage_ToDo_Static();
+    MS2_UpdateImage_Viewport();
+}
+
 void D_MAKRO_MegaFoci::MS3_UiInit()
 {
     //porc steps
@@ -3994,6 +4436,229 @@ void D_MAKRO_MegaFoci::MS2_UpdateImages_Editing()
 {
     for(size_t v = 0; v < MS2_ViewersCount; v++)
         MS2_UpdateImage(v);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage_ToDo_Static()
+{
+    if(!ui->radioButton_MS2_Mode_ToDo->isChecked())
+        return;
+
+    //base image
+    int err = D_Img_Proc::Merge(
+                &MA_MS2_ToDo_Static,
+                &(v_MS2_MA_ChannelsImage_Full[MS2_CH_IMG_RFP]),
+                &(v_MS2_MA_ChannelsImage_Full[MS2_CH_IMG_GFP]),
+                &(v_MS2_MA_ChannelsImage_Full[MS2_CH_IMG_DIC]));
+    if(err != ER_okay)
+    {
+        ERR(err, "MS2_UpdateImage_ToDo", "D_Img_Proc::Merge to MA_MS2_ToDo_Static");
+        return;
+    }
+
+    state_MS2_todo_static_img_created = true;
+
+    //draw status symbols on img
+    if(state_MS2_detections_loaded)
+    {
+        //qDebug() << "D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport" << "try to draw state symbols";
+        for(size_t ix = 0; ix < vv_MS2_NucImg_State_Out_mosaikXY.size(); ix++)
+        {
+            for(size_t iy = 0; iy < vv_MS2_NucImg_State_Out_mosaikXY[ix].size(); iy++)
+            {
+                //border stitching
+                double overlap = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+
+                //rect
+                int x1 = int(max(0.0,                           (double(ix              ) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth));
+                int y1 = int(max(0.0,                           (double(iy              ) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight));
+                int x2 = int(min(MS2_MosaikImageWidth  - 1.0,   (double(ix + 1          ) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth));
+                int y2 = int(min(MS2_MosaikImageHeight - 1.0,   (double(iy + 1          ) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight));
+                int x3 = int(min(MS2_MosaikImageWidth  - 1.0,   (double(ix + 1 + overlap) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth));
+                int y3 = int(min(MS2_MosaikImageHeight - 1.0,   (double(iy + 1 + overlap) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight));
+                //qDebug() << "D_MAKRO_MegaFoci::MS2_UpdateImage_ToDo" << "draw to x1/x2/y1/y2/x3/y3" << x1 << x2 << y1 << y2 << x3 << y3;
+
+                //select style
+                bool known_state = true;
+                int symbol = c_MARKER_SYMBOL_DOT;
+                uchar r = 0;
+                uchar g = 0;
+                uchar b = 0;
+
+                switch (vv_MS2_NucImg_State_Out_mosaikXY[ix][iy]) {
+                case MS2_IMG_STATE_PROCESSED:   symbol = c_MARKER_SYMBOL_TICK;      g = 255;    break;
+                case MS2_IMG_STATE_TO_PROCESS:  symbol = c_MARKER_SYMBOL_3DOTS;     b = 255;    break;
+                case MS2_IMG_STATE_NOT_FOUND:   symbol = c_MARKER_SYMBOL_CROSS;     r = 255;    break;
+                default:                        known_state = false;                            break;}
+
+                if(known_state)
+                {
+                    if(ui->checkBox_MS2_ToDo_SegmentBorders->isChecked())
+                    {
+                        uchar val = 128;
+
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x3,
+                                y1,
+                                x3,
+                                y3,
+                                2,
+                                val, val, val),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - segment border");
+
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x1, y3, x3, y3,
+                                2,
+                                val, val, val),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - segment border");
+                    }
+
+                    if(ui->checkBox_MS2_ToDo_StateBorders->isChecked())
+                    {
+                        int shift = 2;
+                        int thickness = 2;
+
+                        //left
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x1+shift, y1+shift, x1+shift, y2-shift,
+                                thickness,
+                                r, g, b),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - State");
+
+                        //top
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x1+shift, y1+shift, x2-shift, y1+shift,
+                                thickness,
+                                r, g, b),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - State");
+
+                        //right
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x2-shift, y1+shift, x2-shift, y2-shift,
+                                thickness,
+                                r, g, b),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - State");
+
+                        //bottom
+                        ERR(D_Img_Proc::Draw_Line(
+                                &MA_MS2_ToDo_Static,
+                                x1+shift, y2-shift, x2-shift, y2-shift,
+                                thickness,
+                                r, g, b),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_Line - State");
+                    }
+
+                    if(ui->checkBox_MS2_ToDo_StateMarkers->isChecked())
+                        ERR(D_Img_Proc::Draw_MarkerSymbol(
+                                &MA_MS2_ToDo_Static,
+                                x1, y1, x2, y2,
+                                symbol,
+                                r, g, b,
+                                0.2),
+                            "MS2_UpdateImage_ToDo",
+                            "D_Img_Proc::Draw_MarkerSymbol - State");
+                }
+            }
+        }
+    }
+
+    //add overlay for detections
+    if(ui->checkBox_MS2_ToDo_DetectionsOverlay->isChecked())
+        D_Img_Proc::OverlayOverwrite(
+                    &MA_MS2_ToDo_Static,
+                    &MA_MS2_ToDo_Static,
+                    &(v_MS2_MA_ChannelsImage_Full[MS2_CH_IMG_DET_IN]),
+                    255, 255, 255,
+                    1, 1);
+
+    //show img
+    MS2_Viewer_ToDo.Update_Image(&MA_MS2_ToDo_Static);
+
+    //try to highlight frame of hovered segment
+    MS2_UpdateImage_ToDo_Highlight();
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage_ToDo_Highlight(int x, int y)
+{
+    if(!ui->radioButton_MS2_Mode_ToDo->isChecked())
+        return;
+
+    if(!state_MS2_todo_static_img_created)
+        return;
+
+    //size
+    int w = MA_MS2_ToDo_Static.cols;
+    int h = MA_MS2_ToDo_Static.rows;
+
+    if(x < 0 || x >= w || y < 0 || y >= h)
+        return;
+
+    //calc mosaik pos
+    int ix = max(0, min(int(dataset_dim_mosaic_x - 1), int((x / double(w)) * dataset_dim_mosaic_x)));
+    int iy = max(0, min(int(dataset_dim_mosaic_y - 1), int((y / double(h)) * dataset_dim_mosaic_y)));
+
+    //base img
+    MA_MS2_ToDo_Highlight = MA_MS2_ToDo_Static.clone();
+
+    //calc frame of current img in mosaic
+
+    //border stitching
+    double overlap = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+
+    //rect
+    int x1 = int(max(0.0,                           (double(ix              ) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth));
+    int y1 = int(max(0.0,                           (double(iy              ) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight));
+    int x3 = int(min(MS2_MosaikImageWidth  - 1.0,   (double(ix + 1 + overlap) / dataset_dim_mosaic_x) * MS2_MosaikImageWidth));
+    int y3 = int(min(MS2_MosaikImageHeight - 1.0,   (double(iy + 1 + overlap) / dataset_dim_mosaic_y) * MS2_MosaikImageHeight));
+
+    int shift_px = 0;
+    int thickness = 2;
+
+    //draw highlight frame outer
+    ERR(D_Img_Proc::Draw_Rect(
+            &MA_MS2_ToDo_Highlight,
+            max(0, min(MS2_MosaikImageWidth  - 1, x1 - shift_px)),
+            max(0, min(MS2_MosaikImageHeight - 1, y1 - shift_px)),
+            max(0, min(MS2_MosaikImageWidth  - 1, x3 + shift_px)),
+            max(0, min(MS2_MosaikImageHeight - 1, y3 + shift_px)),
+            thickness,
+            255),
+        "MS2_UpdateImage_ToDo_Highlight",
+        "D_Img_Proc::Draw_Rect - highlight frame outer");
+
+    /*
+    //draw highlight frame inner
+    ERR(D_Img_Proc::Draw_Rect(
+            &MA_MS2_ToDo_Highlight,
+            max(0, min(MS2_MosaikImageWidth  - 1, x1 + shift_px)),
+            max(0, min(MS2_MosaikImageHeight - 1, y1 + shift_px)),
+            max(0, min(MS2_MosaikImageWidth  - 1, x3 - shift_px)),
+            max(0, min(MS2_MosaikImageHeight - 1, y3 - shift_px)),
+            thickness,
+            255),
+        "MS2_UpdateImage_ToDo_Highlight",
+        "D_Img_Proc::Draw_Rect - highlight frame inner");
+    */
+
+    //show img
+    MS2_Viewer_ToDo.Update_Image(&MA_MS2_ToDo_Highlight);
+}
+
+void D_MAKRO_MegaFoci::MS2_UpdateImage_ToDo_Highlight()
+{
+    return MS2_UpdateImage_ToDo_Highlight(
+                MS2_Viewer_ToDo.MousePos_X(),
+                MS2_Viewer_ToDo.MousePos_Y());
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateImage_Viewport()
@@ -4605,19 +5270,65 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Mosaiks_In(size_t t)
     {
         QFileInfo FI(vDIR_MS2_In_MosaikChannels[ch].path() + "/Mosaik_" + QSL_MS2_ChannelsMosaik[ch] + "_T" + QString::number(t) + ".png");
         Mat MA_tmp_channel;
-        int ER = ER_okay;
+        int err = ER_okay;
 
         //try loading existing img
         if(FI.exists())
         {
-            ER = D_Img_Proc::Load_From_Path(
+            err = D_Img_Proc::Load_From_Path(
                         &(v_MS2_MA_ChannelsImage_Full[ch+1]),
                         FI);
             ERR(
-                        ER,
+                        err,
                         "MS2_LoadData_Mosaiks_In",
                         "Failed to load " + FI.absoluteFilePath() + ".\nAn empty channel image is created instead");
         }
+    }
+
+    //load input detetcion overlay
+    QFileInfo FI_DetIn(DIR_MS2_In_Mosaik.path() + "/AutoDetections/Mosaik_AutoDetections_T" + QString::number(t) + ".png");
+    int err = ER_okay;
+
+    //try loading existing img
+    if(FI_DetIn.exists())
+    {
+        Mat MA_tmp_DetIn;
+        err = D_Img_Proc::Load_From_Path(
+                    &MA_tmp_DetIn,
+                    FI_DetIn);
+        ERR(
+                    err,
+                    "MS2_LoadData_Mosaiks_In",
+                    "Failed to load " + FI_DetIn.absoluteFilePath() + ".\nAn empty channel image is created instead");
+
+        if(err == ER_okay)
+        {
+            Mat MA_tmp_DetIn_Gray;
+            err = D_Img_Proc::Convert_Color2Mono(
+                        &MA_tmp_DetIn_Gray,
+                        &MA_tmp_DetIn,
+                        c_COL2MONO_GRAY);
+            ERR(
+                        err,
+                        "MS2_LoadData_Mosaiks_In",
+                        "D_Img_Proc::Convert_Color2Mono");
+
+            if(err == ER_okay)
+            {
+                err = D_Img_Proc::Threshold_Absolute(
+                            &(v_MS2_MA_ChannelsImage_Full[MS2_CH_IMG_DET_IN]),
+                            &MA_tmp_DetIn_Gray,
+                            254);
+                ERR(
+                            err,
+                            "MS2_LoadData_Mosaiks_In",
+                            "D_Img_Proc::Threshold_Absolute");
+            }
+
+            MA_tmp_DetIn_Gray.release();
+        }
+
+        MA_tmp_DetIn.release();
     }
 
     return true;
@@ -4833,6 +5544,28 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
     }
 
     return true;
+}
+
+void D_MAKRO_MegaFoci::MS2_ChangeMode(int mode)
+{
+    ui->groupBox_MS2_Viewer_ToDoList->setVisible(mode == MS2_MODE_TO_DO);
+
+    ui->groupBox_MS2_Viewer_1->setVisible(mode == MS2_MODE_DETAILED);
+    ui->groupBox_MS2_Viewer_2->setVisible(mode == MS2_MODE_DETAILED);
+    ui->groupBox_MS2_Viewer_3->setVisible(mode == MS2_MODE_DETAILED);
+    ui->groupBox_MS2_Viewer_4->setVisible(mode == MS2_MODE_DETAILED);
+
+    ui->tabWidget_MS2_Control->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->spinBox_MS2_Viewport_X->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->spinBox_MS2_Viewport_Y->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->pushButton_MS2_Viewport_Up->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->pushButton_MS2_Viewport_Down->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->pushButton_MS2_Viewport_Left->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->pushButton_MS2_Viewport_Right->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->pushButton_MS2_Viewport_NextToCorrect->setEnabled(mode == MS2_MODE_DETAILED);
+
+    if(mode == MS2_MODE_TO_DO)
+        MS2_UpdateImage_ToDo_Static();
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -5333,14 +6066,14 @@ void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND);
+    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
 
     arg1++;//useless opration to supress warning
 }
 
 void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1)
 {
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND);
+    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
 
     arg1++;//useless opration to supress warning
 }
@@ -5406,8 +6139,10 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_FileDialog_clicked()
         ui->groupBox_MS2_Viewers->setEnabled(true);
         ui->groupBox_VisTrafo->setEnabled(true);
         ui->groupBox_MS2_Viewport->setEnabled(true);
+        ui->groupBox_MS2_Mode->setEnabled(true);
         ui->groupBox_MS2_Tools->setEnabled(true);
         ui->groupBox_MS2_ViewerControls->setEnabled(true);
+
         MS2_SetComboboxColor_All();
     }
 }
@@ -5711,7 +6446,17 @@ void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_T_valueChanged(int arg1)
 
 void D_MAKRO_MegaFoci::on_progressBar_MS2_CorrectionProgress_valueChanged(int value)
 {
-    ui->pushButton_MS2_Viewport_NextToCorrect->setEnabled(value < ui->progressBar_MS2_CorrectionProgress->maximum());
+    ui->pushButton_MS2_Viewport_NextToCorrect->setEnabled(value < ui->progressBar_MS2_CorrectionProgress->maximum() && ui->radioButton_MS2_Mode_Detailed->isChecked());
+}
+
+void D_MAKRO_MegaFoci::on_radioButton_MS2_Mode_ToDo_clicked(bool checked)
+{
+    MS2_ChangeMode(MS2_MODE_TO_DO);
+}
+
+void D_MAKRO_MegaFoci::on_radioButton_MS2_Mode_Detailed_clicked(bool checked)
+{
+    MS2_ChangeMode(MS2_MODE_DETAILED);
 }
 
 void D_MAKRO_MegaFoci::on_stackedWidget_StepMajor_currentChanged(int arg1)
@@ -5774,3 +6519,41 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
 
 
 
+
+
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateBorders_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateMarkers_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_SegmentBorders_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_DetectionsOverlay_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToOk_clicked()
+{
+    MS2_ToDo_SetFinished();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToUnknown_clicked()
+{
+    MS2_ToDo_SetToBeEdited();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG3C_OPEND);
+}

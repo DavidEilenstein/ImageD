@@ -230,8 +230,19 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     //slice volume
     ui_CheckBox_Slices_SliceVolume = new QCheckBox("Cut Volume", this);
     ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_CheckBox_Slices_SliceVolume);
+    ui_CheckBox_Slices_SliceVolume->setEnabled(false);
     connect(ui_CheckBox_Slices_SliceVolume, SIGNAL(toggled(bool)), this, SLOT(Update_Slices()));
+    connect(ui_CheckBox_Slices_Show, SIGNAL(toggled(bool)), ui_CheckBox_Slices_SliceVolume, SLOT(setEnabled(bool)));
 
+    //slice volume
+    ui_CheckBox_Slices_KeepAspectRatio = new QCheckBox("Keep Aspect Ratio", this);
+    ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_CheckBox_Slices_KeepAspectRatio);
+    ui_CheckBox_Slices_KeepAspectRatio->setChecked(true);
+    ui_CheckBox_Slices_KeepAspectRatio->setEnabled(false);
+    connect(ui_CheckBox_Slices_KeepAspectRatio, SIGNAL(toggled(bool)), &Viewer_Slice2D_X, SLOT(Set_Aspect_Mode(bool)));
+    connect(ui_CheckBox_Slices_KeepAspectRatio, SIGNAL(toggled(bool)), &Viewer_Slice2D_Y, SLOT(Set_Aspect_Mode(bool)));
+    connect(ui_CheckBox_Slices_KeepAspectRatio, SIGNAL(toggled(bool)), &Viewer_Slice2D_Z, SLOT(Set_Aspect_Mode(bool)));
+    connect(ui_CheckBox_Slices_Show, SIGNAL(toggled(bool)), ui_CheckBox_Slices_KeepAspectRatio, SLOT(setEnabled(bool)));
 
     //-------------------------------------------------------------- graph
 

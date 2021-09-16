@@ -327,7 +327,9 @@ public:
     static int  Draw_ContourText                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     static int  Draw_ContourText                (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
 
-    static int  OverlayOverwrite                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
+    static int  OverlayOverwrite                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay, double intensity_backgr);
+    static int  OverlayOverwrite                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, uchar r, uchar g, uchar b, double intensity_overlay, double intensity_backgr);
+    static int  OverlayOverwrite                (D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Overlay, uchar r, uchar g, uchar b, double intensity_overlay);
 
     //Other
     static int  Neighborhood_Configs            (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);

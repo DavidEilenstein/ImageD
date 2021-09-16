@@ -467,5 +467,5 @@ void D_VisDat_Obj::Init(double val)
                 c_DIM_NUMBER_OF,        //Number of Dimensions
                 dim_size,               //Sizes in Dimensions
                 MA_Type,                //Contained DataType
-                init_scalar);
+                init_scalar);           //init value
 }

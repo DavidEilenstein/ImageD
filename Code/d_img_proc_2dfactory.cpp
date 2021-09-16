@@ -871,6 +871,22 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Angle2Color_Rad(uchar
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(uchar r, uchar g, uchar b, double intensity_overlay)
+{
+    qDebug() << "function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(uchar r, uchar g, uchar b, double intensity_overlay)";
+    return
+            [r, g, b, intensity_overlay](Mat *pMA_Target, Mat *pMA_Overlay)
+    {
+        return D_Img_Proc::OverlayOverwrite(
+                    pMA_Target,
+                    pMA_Overlay,
+                    r,
+                    g,
+                    b,
+                    intensity_overlay);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Crop_Rect_Rel(double x1_rel, double y1_rel, double x2_rel, double y2_rel)
 {
     return
@@ -1500,6 +1516,23 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(doubl
                     pMA_Out,
                     pMA_BG,
                     pMA_Overlay,
+                    intensity_overlay,
+                    intensity_backgr);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(uchar r, uchar g, uchar b, double intensity_overlay, double intensity_backgr)
+{
+    return
+            [r, g, b, intensity_overlay, intensity_backgr](Mat *pMA_Out, Mat *pMA_BG, Mat *pMA_Overlay)
+    {
+        return D_Img_Proc::OverlayOverwrite(
+                    pMA_Out,
+                    pMA_BG,
+                    pMA_Overlay,
+                    r,
+                    g,
+                    b,
                     intensity_overlay,
                     intensity_backgr);
     };

@@ -438,12 +438,27 @@ private:
         STEP_NUC_BOTH_SEG2_WATERSHED,
         STEP_NUC_BOTH_SEG2_SELECT_AREA,
         //segmentation level 3
-        STEP_NUC_BOTH_SEG3_CONVEX_HULL,
-        STEP_NUC_BOTH_SEG3_WATERSHED_SEGMENTS,
-        STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL,
+        STEP_NUC_BOTH_SEG3A_CONVEX_HULL,
+        STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS,
+        STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL,
+        STEP_NUC_BOTH_SEG3B_ELLIPSE,
+        STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS,
+        STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE,
+        STEP_NUC_BOTH_SEG3C_OPEND,
+        STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS,
+        STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3C_BORDERS_OPENED,
+        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE,
+        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS,
+        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS,
+        STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE,
+        STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED,
+        STEP_NUC_BOTH_SEG3_BORDERS_USED,
 
         //Visualization
-        STEP_VIS_NUC_BORDERS,
 
         //Find Foci GFP
         STEP_FOC_GFP_BLUR_MEDIAN,
@@ -466,8 +481,10 @@ private:
         STEP_CLA_FOC_IN_RFP_ONLY,
 
         //Visualization
-        STEP_VIS_REGIONS,
-        STEP_VIS_REGIONS_BACKGROUND,
+        STEP_VIS_REGIONS_NUCLEI,
+        STEP_VIS_REGIONS_FOCI,
+        STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL,
+        STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED,
         //STEP_VIS_REGIONS_FOCI_COUNT,
 
         STEP_NUMBER_OF
@@ -527,18 +544,34 @@ private:
         "nuc-26 BOTH seg1 clear seeds",
         "nuc-27 BOTH seg1 watershed segmentation",
         "nuc-28 BOTH seg1 binary segments",
+
         //segmentation level 2..........................................
         "nuc-29 BOTH seg2 distance transformation",
         "nuc-30 BOTH seg2 get seeds",
         "nuc-31 BOTH seg2 clear seeds",
         "nuc-32 BOTH seg2 watershed segmentation",
         "nuc-33 BOTH seg2 select by area",
-        //segmentation level 3..........................................
-        "nuc-34 BOTH seg3 convex hull",
-        "nuc-35 BOTH seg3 watershed transformation seed from seg2",
-        "nuc-36 BOTH seg3 binary segments",
 
-        "vis-5 Nuclei segemntation borders",
+        //segmentation level 3..........................................
+        "vis-5 Nuclei segemntation borders (original)",
+        "nuc-34 BOTH seg3a convex hull",
+        "nuc-35 BOTH seg3a convex hull watershed",
+        "nuc-36 BOTH seg3a convex hull binary segments",
+        "vis-6 Nuclei segemntation borders (convex hull)",
+        "nuc-37 BOTH seg3b ellipse",
+        "nuc-38 BOTH seg3b ellipse watershed",
+        "nuc-39 BOTH seg3b ellipse binary segments",
+        "vis-7 Nuclei segemntation borders (ellipse)",
+        "nuc-40 BOTH seg3c opened",
+        "nuc-41 BOTH seg3c opened watershed",
+        "nuc-42 BOTH seg3c opened binary segments",
+        "vis-8 Nuclei segemntation borders (opened)",
+        "nuc-43 BOTH seg3d opened ellipse",
+        "nuc-44 BOTH seg3d opened ellipse watershed",
+        "nuc-45 BOTH seg3d opened ellipse binary segments",
+        "vis-9 Nuclei segemntation borders (opened ellipse)",
+        "nuc-46 BOTH seg3 binary segments used",
+        "vis-10 Nuclei segemntation borders (used)",
 
         "foc-gfp-0 circular median blur",
         "foc-gfp-1 binarize by threshold",
@@ -556,9 +589,11 @@ private:
         "cla-2 Foci in GFP only",
         "cla-3 Foci in RFP only",
 
-        "vis-6 Regions",
-        "vis-7 Regions with background",
-        //"vis-8 Regions with foci counts"
+        "vis-11 Regions Nuclei",
+        "vis-11 Regions Foci",
+        "vis-12 Regions nuclei with background (used)",
+        "vis-13 Regions nuclei with background (all)",
+        //"vis-13 Regions with foci counts"
     };
 
     //Tabs
@@ -698,6 +733,10 @@ private slots:
     void MS2_UpdateImage(size_t img2update);
     void MS2_UpdateImages_Editing();
 
+    void MS2_UpdateImage_ToDo_Static();
+    void MS2_UpdateImage_ToDo_Highlight(int x, int y);
+    void MS2_UpdateImage_ToDo_Highlight();
+
     void MS2_UpdateImage_Viewport();
     void MS2_MoveToNextViewportToProcess();
 
@@ -723,6 +762,10 @@ private slots:
     bool MS2_LoadData_Detections_In(size_t t, bool error_when_no_dir);
     bool MS2_LoadData_Detections_Out(size_t t);
     bool MS2_LoadData_Detections(size_t t, bool error_when_no_dir, vector<vector<D_Bio_NucleusImage> > *vvNucleiTarget, QDir DIR_Source, vector<vector<size_t> > *vvState, size_t state_found, size_t state_not_found);
+
+    void MS2_ChangeMode(int mode);
+
+
 
     void on_groupBox_VisTrafo_clicked();
 
@@ -770,6 +813,9 @@ private slots:
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked();
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked();
 
+    void on_radioButton_MS2_Mode_ToDo_clicked(bool checked);
+    void on_radioButton_MS2_Mode_Detailed_clicked(bool checked);
+
 private:
     void                        MS2_init_ui();
     const static size_t         MS2_ViewersCount = 4;
@@ -782,6 +828,7 @@ private:
     D_Viewer                    MS2_Viewer3;
     D_Viewer                    MS2_Viewer4;
     D_Viewer                    MS2_Viewer_Viewport;
+    D_Viewer                    MS2_Viewer_ToDo;
     vector<D_Viewer*>           v_MS2_Viewer;
     vector<QPushButton*>        v_MS2_PUB_Viewer_Maximize;
     vector<QPushButton*>        v_MS2_PUB_Viewer_PointColor;
@@ -800,6 +847,8 @@ private:
     //images to show
     vector<Mat>                 v_MS2_MA_Images2Show;
     Mat                         MA_MS2_ViewportShow;
+    Mat                         MA_MS2_ToDo_Static;
+    Mat                         MA_MS2_ToDo_Highlight;
 
     //channel images
     vector<Mat>                 v_MS2_MA_ChannelsImage_Full;
@@ -859,13 +908,23 @@ private:
     vector<vector<size_t>>                      vvv_MS2_DetectionsOut_BackupCursor;
     vector<vector<size_t>>                      vvv_MS2_DetectionsOut_BackupValidMax;
 
+    //to do list / fast editing
+    void                                MS2_ToDo_SetFinished();
+    void                                MS2_ToDo_SetFinished(int x, int y);
+    void                                MS2_ToDo_SetToBeEdited();
+    void                                MS2_ToDo_SetToBeEdited(int x, int y);
 
     //states
     bool                        state_MS2_data_loaded = false;
     bool                        state_MS2_detections_loaded = false;
     bool                        state_MS2_backups_init = false;
+    bool                        state_MS2_todo_static_img_created = false;
 
-
+    enum MS2_EDITING_MODE {
+        MS2_MODE_DETAILED,
+        MS2_MODE_TO_DO,
+        MS2_MODE_NUMBER_OF
+    };
 
     enum MS2_CHANNELS_MOSAIK {
         MS2_CH_MOSAIK_DIC,
@@ -884,13 +943,15 @@ private:
         MS2_CH_IMG_DIC,
         MS2_CH_IMG_GFP,
         MS2_CH_IMG_RFP,
+        MS2_CH_IMG_DET_IN,
         MS2_CH_IMG_NUMBER_OF
     };
     const QStringList QSL_MS2_ChannelsImage = {
         "empty",
         "DIC",
         "GFP",
-        "RFP"
+        "RFP",
+        "Detections in"
     };
 
     enum MS2_CHANNELS_OVERLAY {
@@ -948,6 +1009,22 @@ private slots:
 
 
 
+
+
+
+    void on_checkBox_MS2_ToDo_StateBorders_clicked();
+
+    void on_checkBox_MS2_ToDo_StateMarkers_clicked();
+
+    void on_checkBox_MS2_ToDo_SegmentBorders_clicked();
+
+    void on_checkBox_MS2_ToDo_DetectionsOverlay_clicked();
+
+    void on_pushButton_MS2_ToDo_HoveredToOk_clicked();
+
+    void on_pushButton_MS2_ToDo_HoveredToUnknown_clicked();
+
+    void on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1);
 
 private:
 

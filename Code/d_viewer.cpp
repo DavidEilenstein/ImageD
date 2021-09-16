@@ -2300,6 +2300,10 @@ void D_Viewer::MouseMoved(int x, int y)
 
     /// - x and y are now correct image corrdinates
     //qDebug() << "D_Viewer::MouseMoved" << x << y << "(out)";
+
+    ///save mouse pos on img in img corrdinates
+    P_LastMousePos = Point(x, y);
+
     /// - emit signals
 
     emit MouseMoved();

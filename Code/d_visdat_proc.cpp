@@ -6940,6 +6940,35 @@ int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Bac
                 pVD_Overlay);
 }
 
+int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, uchar r, uchar g, uchar b, double intensity_overlay, double intensity_backgr)
+{
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::OverlayOverwrite(
+                    r,
+                    g,
+                    b,
+                    intensity_overlay,
+                    intensity_backgr),
+                pVD_Out,
+                pVD_Background,
+                pVD_Overlay);
+}
+
+int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Overlay, uchar r, uchar g, uchar b, double intensity_overlay)
+{
+    //qDebug() << "D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Target, D_VisDat_Obj *pVD_Overlay, uchar r, uchar g, uchar b, double intensity_overlay)";
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::OverlayOverwrite(
+                    r,
+                    g,
+                    b,
+                    intensity_overlay),
+                pVD_Target,
+                pVD_Overlay);
+}
+
 int D_VisDat_Proc::Neighborhood_Configs(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In)
 {
     if(!slice.is_3D())

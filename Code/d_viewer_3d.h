@@ -221,6 +221,7 @@ private:
     QCheckBox               *ui_CheckBox_HeatColor;
     QCheckBox               *ui_CheckBox_Slices_Show;
     QCheckBox               *ui_CheckBox_Slices_SliceVolume;
+    QCheckBox               *ui_CheckBox_Slices_KeepAspectRatio;
     QCheckBox               *ui_CheckBox_Shader_HD;
     QCheckBox               *ui_CheckBox_OpacityPreserve;
     QComboBox               *ui_ComboBox_ShadowQuality;
