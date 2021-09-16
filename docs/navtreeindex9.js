@@ -1,5 +1,8 @@
 var NAVTREEINDEX9 =
 {
+"d__img__proc__3dfactory_8h_source.html":[5,0,0,0,0,55],
+"d__job__manager_8cpp.html":[5,0,0,0,0,56],
+"d__job__manager_8h.html":[5,0,0,0,0,57],
 "d__job__manager_8h_source.html":[5,0,0,0,0,57],
 "d__mainwindow_8cpp.html":[5,0,0,0,0,58],
 "d__mainwindow_8h.html":[5,0,0,0,0,59],
@@ -246,8 +249,5 @@ var NAVTREEINDEX9 =
 "d__visdat__obj_8h_source.html":[5,0,0,0,0,152],
 "d__visdat__proc_8cpp.html":[5,0,0,0,0,153],
 "d__visdat__proc_8h.html":[5,0,0,0,0,154],
-"d__visdat__proc_8h_source.html":[5,0,0,0,0,154],
-"d__visdat__range_8cpp.html":[5,0,0,0,0,155],
-"d__visdat__range_8h.html":[5,0,0,0,0,156],
-"d__visdat__range_8h_source.html":[5,0,0,0,0,156]
+"d__visdat__proc_8h_source.html":[5,0,0,0,0,154]
 };

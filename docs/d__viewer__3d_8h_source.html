@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_5 (14.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_6 (16.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -311,56 +311,57 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    QCheckBox               *ui_CheckBox_HeatColor;</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    QCheckBox               *ui_CheckBox_Slices_Show;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    QCheckBox               *ui_CheckBox_Slices_SliceVolume;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    QCheckBox               *ui_CheckBox_Shader_HD;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    QCheckBox               *ui_CheckBox_OpacityPreserve;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    QComboBox               *ui_ComboBox_ShadowQuality;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    QSpacerItem             *ui_spacer_Settings;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="comment">//VD to be displayed</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a>            *pVD_Data;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="comment">//selected volume</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordtype">int</span>                     volume_index_current = <a class="code" href="d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a6e3de90936615242c371f4fc38a251bd">c_VOLUME_XYZ</a>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    vector&lt;int&gt;             v_dim_indeces_last = {0, 0, 0, 0, 0, 0};</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    vector&lt;int&gt;             v_dims_extended = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a>};</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    vector&lt;int&gt;             v_dims_fix = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a>};</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    QCheckBox               *ui_CheckBox_Slices_KeepAspectRatio;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    QCheckBox               *ui_CheckBox_Shader_HD;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    QCheckBox               *ui_CheckBox_OpacityPreserve;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    QComboBox               *ui_ComboBox_ShadowQuality;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    QSpacerItem             *ui_spacer_Settings;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">//VD to be displayed</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a>            *pVD_Data;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="comment">//selected volume</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">int</span>                     volume_index_current = <a class="code" href="d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a6e3de90936615242c371f4fc38a251bd">c_VOLUME_XYZ</a>;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    vector&lt;int&gt;             v_dim_indeces_last = {0, 0, 0, 0, 0, 0};</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    vector&lt;int&gt;             v_dims_extended = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a>};</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    vector&lt;int&gt;             v_dims_fix = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a>};</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment">//graph elements</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    Q3DScatter              *graph_scatter;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    QWidget                 *container_widget_scatter;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    QCustom3DVolume         *volume_item;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="comment">//texture data</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    QVector&lt;uchar&gt;          vTextureData;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    QVector&lt;QRgb&gt;           vColorTable;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="comment">//vis trafo</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordtype">bool</span>                    vis_trafo_active       = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_min       = 0;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_max       = 255;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_gamma        = 1.0;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_center       = 0.0;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_divisor      = 1.0;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_anchor       = 0;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_range        = 1;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_crop    = <a class="code" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_trafo   = <a class="code" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_anchor  = <a class="code" href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a>;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_range   = <a class="code" href="d__enum_8h.html#ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55">c_VIS_TRAFO_RANGE_DYNAMIC</a>;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_complex = <a class="code" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="comment">//states</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordtype">bool</span>            state_ui_init = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">bool</span>            state_VD_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordtype">bool</span>            state_texture_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordtype">bool</span>            state_graph_up2date = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordtype">bool</span>            state_graph_updating = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;};</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">//graph elements</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    Q3DScatter              *graph_scatter;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    QWidget                 *container_widget_scatter;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    QCustom3DVolume         *volume_item;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="comment">//texture data</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    QVector&lt;uchar&gt;          vTextureData;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    QVector&lt;QRgb&gt;           vColorTable;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="comment">//vis trafo</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">bool</span>                    vis_trafo_active       = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_min       = 0;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_max       = 255;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_gamma        = 1.0;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_center       = 0.0;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_divisor      = 1.0;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_anchor       = 0;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_range        = 1;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_crop    = <a class="code" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_trafo   = <a class="code" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_anchor  = <a class="code" href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a>;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_range   = <a class="code" href="d__enum_8h.html#ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55">c_VIS_TRAFO_RANGE_DYNAMIC</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_complex = <a class="code" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//states</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">bool</span>            state_ui_init = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordtype">bool</span>            state_VD_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordtype">bool</span>            state_texture_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordtype">bool</span>            state_graph_up2date = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordtype">bool</span>            state_graph_updating = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;};</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VIEWER_3D_H</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_VIEWER_3D_H</span></div>
 <div class="ttc" id="aclass_d___error___handler_html"><div class="ttname"><a href="class_d___error___handler.html">D_Error_Handler</a></div><div class="ttdoc">The D_Error_Handler class takes error codes from D_ERROR_ENUM and shows a popup if an error occures.</div><div class="ttdef"><b>Definition:</b> d_error_handler.h:38</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html"><div class="ttname"><a href="class_d___viewer__3_d.html">D_Viewer_3D</a></div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:81</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a061012a0cbb9a2acd703197603eefbea"><div class="ttname"><a href="class_d___viewer__3_d.html#a061012a0cbb9a2acd703197603eefbea">D_Viewer_3D::Dim_is_extended</a></div><div class="ttdeci">bool Dim_is_extended(int d)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:125</div></div>

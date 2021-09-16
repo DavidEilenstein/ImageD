@@ -76,13 +76,13 @@ var NAVTREEINDEX =
 "class_d___geo___line__2_d.html#a9271567bb7c1d9bedd6eb37836e5d77d",
 "class_d___main_window.html#a9a8e9c949b6a17f9577b854a7d2ebf3a",
 "class_d___viewer.html#a04c56c2457317c27919ba69464e9d237",
-"class_d___viewer___plot__3_d.html#abb8295c2e2052eb71f22e694b960d14c",
-"class_d___vis_dat___slicing.html#ab5dc8073990389e22154c4207219ac00",
-"d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a0c1b3585296cdcc55eeceb7933eef676",
-"d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a6c7dcd8e2416c14e326c5da249602174",
-"d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a0a11dc896849d4687af684b0deb9be4f",
-"d__job__manager_8h_source.html",
-"d__visdat__slice__1d_8cpp.html"
+"class_d___viewer___plot__3_d.html#a6cdbd6f6a561e438e9c03d7d82af07c3",
+"class_d___vis_dat___slicing.html#aa491aa51f4a5b42b4e20f314cc9dc7d9",
+"d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a0297b6c7d51ff81427ec86abc5462822",
+"d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a5799381c7536dd4af91e6c51c2289d84",
+"d__enum_8h.html#ab319110af650c4717e7f51f240404964abae046f3b273076c574056b24a2d42ab",
+"d__img__proc__3dfactory_8h_source.html",
+"d__visdat__range_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

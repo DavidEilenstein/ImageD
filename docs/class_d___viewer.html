@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_0_5 (14.09.21)</span>
+   &#160;<span id="projectnumber">v2_0_6 (16.09.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -194,6 +194,12 @@ Public Slots</h2></td></tr>
 <tr class="separator:ad881989a19d4a1f767f08d76482241bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11e165f8cb1ff5f1f0b4df5dc8e5356a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a11e165f8cb1ff5f1f0b4df5dc8e5356a">MouseClicked_Mid</a> (int x, int y)</td></tr>
 <tr class="separator:a11e165f8cb1ff5f1f0b4df5dc8e5356a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b11c88bee48834f6a0c78f39ac695b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a60b11c88bee48834f6a0c78f39ac695b">MousePos</a> ()</td></tr>
+<tr class="separator:a60b11c88bee48834f6a0c78f39ac695b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cc31ff0eb09f6946492d9ea90eab168"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a7cc31ff0eb09f6946492d9ea90eab168">MousePos_X</a> ()</td></tr>
+<tr class="separator:a7cc31ff0eb09f6946492d9ea90eab168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88fdbb91f8006d2c0993e72750beb6dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a88fdbb91f8006d2c0993e72750beb6dc">MousePos_Y</a> ()</td></tr>
+<tr class="separator:a88fdbb91f8006d2c0993e72750beb6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75e514faeb039c42f9e19a89984ddd7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a75e514faeb039c42f9e19a89984ddd7e">ClickRecord_Start</a> ()</td></tr>
 <tr class="separator:a75e514faeb039c42f9e19a89984ddd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76952ae65f72a073e2aea4b56387b7ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer.html#a76952ae65f72a073e2aea4b56387b7ca">ClickRecord_Start_RecieveOnly</a> ()</td></tr>
@@ -2395,6 +2401,9 @@ Public Member Functions</h2></td></tr>
 <li>scaling to image coordinates</li>
 <li>offset of image, if zoom is active</li>
 <li>x and y are now correct image corrdinates</li>
+</ul>
+<p>save mouse pos on img in img corrdinates</p>
+<ul>
 <li>emit signals</li>
 </ul>
 
@@ -2508,6 +2517,81 @@ Public Member Functions</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60b11c88bee48834f6a0c78f39ac695b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b11c88bee48834f6a0c78f39ac695b">&#9670;&nbsp;</a></span>MousePos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> D_Viewer::MousePos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7cc31ff0eb09f6946492d9ea90eab168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cc31ff0eb09f6946492d9ea90eab168">&#9670;&nbsp;</a></span>MousePos_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Viewer::MousePos_X </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88fdbb91f8006d2c0993e72750beb6dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88fdbb91f8006d2c0993e72750beb6dc">&#9670;&nbsp;</a></span>MousePos_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Viewer::MousePos_Y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
