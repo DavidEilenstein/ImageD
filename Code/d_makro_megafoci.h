@@ -197,6 +197,8 @@ private slots:
     void on_doubleSpinBox_ImgProc_Seg2_Area_Min_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Seg2_Area_Max_valueChanged(double arg1);
 
+    void on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1);
+
     //img proc foci gfp
     void on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1);
     void on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1);
@@ -815,6 +817,12 @@ private slots:
 
     void on_radioButton_MS2_Mode_ToDo_clicked(bool checked);
     void on_radioButton_MS2_Mode_Detailed_clicked(bool checked);
+    void on_checkBox_MS2_ToDo_StateBorders_clicked();
+    void on_checkBox_MS2_ToDo_StateMarkers_clicked();
+    void on_checkBox_MS2_ToDo_SegmentBorders_clicked();
+    void on_checkBox_MS2_ToDo_DetectionsOverlay_clicked();
+    void on_pushButton_MS2_ToDo_HoveredToOk_clicked();
+    void on_pushButton_MS2_ToDo_HoveredToUnknown_clicked();
 
 private:
     void                        MS2_init_ui();
@@ -1012,19 +1020,9 @@ private slots:
 
 
 
-    void on_checkBox_MS2_ToDo_StateBorders_clicked();
 
-    void on_checkBox_MS2_ToDo_StateMarkers_clicked();
 
-    void on_checkBox_MS2_ToDo_SegmentBorders_clicked();
 
-    void on_checkBox_MS2_ToDo_DetectionsOverlay_clicked();
-
-    void on_pushButton_MS2_ToDo_HoveredToOk_clicked();
-
-    void on_pushButton_MS2_ToDo_HoveredToUnknown_clicked();
-
-    void on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1);
 
 private:
 

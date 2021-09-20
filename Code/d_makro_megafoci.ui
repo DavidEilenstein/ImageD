@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1416</width>
-    <height>955</height>
+    <width>1399</width>
+    <height>921</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -4483,6 +4483,43 @@ background-color: rgb(0,0,0);</string>
               <property name="spacing">
                <number>2</number>
               </property>
+              <item row="0" column="2">
+               <widget class="QCheckBox" name="checkBox_MS2_ToDo_SegmentBorders">
+                <property name="text">
+                 <string>segment borders</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_MS2_ToDo_HoveredToUnknown">
+                <property name="text">
+                 <string>hovered -&gt; ?? (L)</string>
+                </property>
+                <property name="shortcut">
+                 <string>L</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="8">
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_ToDo">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QCheckBox" name="checkBox_MS2_ToDo_DetectionsOverlay">
+                <property name="text">
+                 <string>overlay</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QPushButton" name="pushButton_MS2_ToDo_HoveredToOk">
                 <property name="text">
@@ -4497,23 +4534,6 @@ background-color: rgb(0,0,0);</string>
                <widget class="QCheckBox" name="checkBox_MS2_ToDo_StateMarkers">
                 <property name="text">
                  <string>state markers</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QCheckBox" name="checkBox_MS2_ToDo_SegmentBorders">
-                <property name="text">
-                 <string>segment borders</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5">
-               <widget class="QCheckBox" name="checkBox_MS2_ToDo_DetectionsOverlay">
-                <property name="text">
-                 <string>input detections overlay</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -4530,7 +4550,7 @@ background-color: rgb(0,0,0);</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="6">
+              <item row="0" column="7">
                <spacer name="horizontalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -4543,19 +4563,12 @@ background-color: rgb(0,0,0);</string>
                 </property>
                </spacer>
               </item>
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_MS2_ToDo_HoveredToUnknown">
+              <item row="0" column="6">
+               <widget class="QCheckBox" name="checkBox_MS2_ToDo_SegmentNuclei">
                 <property name="text">
-                 <string>hovered -&gt; ?? (L)</string>
+                 <string>segment nuclei</string>
                 </property>
-                <property name="shortcut">
-                 <string>L</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="7">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewer_ToDo">
-                <property name="mouseTracking">
+                <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
@@ -6051,7 +6064,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1416</width>
+     <width>1399</width>
      <height>22</height>
     </rect>
    </property>

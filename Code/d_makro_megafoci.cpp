@@ -4625,30 +4625,26 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage_ToDo_Highlight(int x, int y)
     int thickness = 2;
 
     //draw highlight frame outer
-    ERR(D_Img_Proc::Draw_Rect(
-            &MA_MS2_ToDo_Highlight,
-            max(0, min(MS2_MosaikImageWidth  - 1, x1 - shift_px)),
-            max(0, min(MS2_MosaikImageHeight - 1, y1 - shift_px)),
-            max(0, min(MS2_MosaikImageWidth  - 1, x3 + shift_px)),
-            max(0, min(MS2_MosaikImageHeight - 1, y3 + shift_px)),
-            thickness,
-            255),
-        "MS2_UpdateImage_ToDo_Highlight",
-        "D_Img_Proc::Draw_Rect - highlight frame outer");
+    if(ui->checkBox_MS2_ToDo_SegmentBorders)
+        ERR(D_Img_Proc::Draw_Rect(
+                &MA_MS2_ToDo_Highlight,
+                max(0, min(MS2_MosaikImageWidth  - 1, x1 - shift_px)),
+                max(0, min(MS2_MosaikImageHeight - 1, y1 - shift_px)),
+                max(0, min(MS2_MosaikImageWidth  - 1, x3 + shift_px)),
+                max(0, min(MS2_MosaikImageHeight - 1, y3 + shift_px)),
+                thickness,
+                255),
+            "MS2_UpdateImage_ToDo_Highlight",
+            "D_Img_Proc::Draw_Rect - highlight frame outer");
 
-    /*
-    //draw highlight frame inner
-    ERR(D_Img_Proc::Draw_Rect(
-            &MA_MS2_ToDo_Highlight,
-            max(0, min(MS2_MosaikImageWidth  - 1, x1 + shift_px)),
-            max(0, min(MS2_MosaikImageHeight - 1, y1 + shift_px)),
-            max(0, min(MS2_MosaikImageWidth  - 1, x3 - shift_px)),
-            max(0, min(MS2_MosaikImageHeight - 1, y3 - shift_px)),
-            thickness,
-            255),
-        "MS2_UpdateImage_ToDo_Highlight",
-        "D_Img_Proc::Draw_Rect - highlight frame inner");
-    */
+    if(ui->checkBox_MS2_ToDo_SegmentNuclei->isChecked())
+        ERR(D_Img_Proc::Draw_Contours(
+                &MA_MS2_ToDo_Highlight,
+                vv_MS2_NucImg_In_mosaikXY[ix][iy].get_nuclei_contours(ui->doubleSpinBox_OverviewQuality->value() / 100.0, Point(0, 0)),
+                5,
+                255),
+            "MS2_UpdateImage_ToDo_Highlight",
+            "D_Img_Proc::Draw_Contours - Segment nuclei");
 
     //show img
     MS2_Viewer_ToDo.Update_Image(&MA_MS2_ToDo_Highlight);
@@ -5943,6 +5939,12 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg2_Area_Max_valueChanged(doubl
     arg1++;//useless opration to supress warning
 }
 
+void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG3C_OPEND);
+}
+
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1)
 {
     Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BLUR_MEDIAN);
@@ -6459,6 +6461,36 @@ void D_MAKRO_MegaFoci::on_radioButton_MS2_Mode_Detailed_clicked(bool checked)
     MS2_ChangeMode(MS2_MODE_DETAILED);
 }
 
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateBorders_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateMarkers_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_SegmentBorders_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_DetectionsOverlay_clicked()
+{
+    MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToOk_clicked()
+{
+    MS2_ToDo_SetFinished();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToUnknown_clicked()
+{
+    MS2_ToDo_SetToBeEdited();
+}
+
 void D_MAKRO_MegaFoci::on_stackedWidget_StepMajor_currentChanged(int arg1)
 {
     if(arg1 == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
@@ -6522,38 +6554,6 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
 
 
 
-void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateBorders_clicked()
-{
-    MS2_UpdateImage_ToDo_Static();
-}
 
-void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_StateMarkers_clicked()
-{
-    MS2_UpdateImage_ToDo_Static();
-}
 
-void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_SegmentBorders_clicked()
-{
-    MS2_UpdateImage_ToDo_Static();
-}
 
-void D_MAKRO_MegaFoci::on_checkBox_MS2_ToDo_DetectionsOverlay_clicked()
-{
-    MS2_UpdateImage_ToDo_Static();
-}
-
-void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToOk_clicked()
-{
-    MS2_ToDo_SetFinished();
-}
-
-void D_MAKRO_MegaFoci::on_pushButton_MS2_ToDo_HoveredToUnknown_clicked()
-{
-    MS2_ToDo_SetToBeEdited();
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1)
-{
-    arg1++;//useless opration to supress warning
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG3C_OPEND);
-}
