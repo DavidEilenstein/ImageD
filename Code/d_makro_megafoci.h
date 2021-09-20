@@ -843,6 +843,7 @@ private:
     vector<vector<QComboBox*>>  vv_MS2_COB_ViewerChannel_Image_viewer_bgr;
     vector<vector<QComboBox*>>  vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr;
     vector<QCheckBox*>          v_MS2_CHB_Viewer_Transform;
+    vector<QCheckBox*>          v_MS2_CHB_Viewer_SegmentBox;
     vector<QCheckBox*>          v_MS2_CHB_Viewer_ConnectZoom;
     vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupAll;
     vector<QGroupBox*>          v_MS2_GRB_Viewer_GroupSettings;

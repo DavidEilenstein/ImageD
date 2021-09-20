@@ -3475,6 +3475,13 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     v_MS2_CHB_Viewer_ConnectZoom[2] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_3;
     v_MS2_CHB_Viewer_ConnectZoom[3] = ui->checkBox_MS2_ViewerSettings_ConnectZoom_4;
 
+    //segment boxes
+    v_MS2_CHB_Viewer_SegmentBox.resize(MS2_ViewersCount);
+    v_MS2_CHB_Viewer_SegmentBox[0] = ui->checkBox_MS2_ViewerSettings_SegmentBox_1;
+    v_MS2_CHB_Viewer_SegmentBox[1] = ui->checkBox_MS2_ViewerSettings_SegmentBox_2;
+    v_MS2_CHB_Viewer_SegmentBox[2] = ui->checkBox_MS2_ViewerSettings_SegmentBox_3;
+    v_MS2_CHB_Viewer_SegmentBox[3] = ui->checkBox_MS2_ViewerSettings_SegmentBox_4;
+
     //group boxes
     v_MS2_GRB_Viewer_GroupAll.resize(MS2_ViewersCount);
     v_MS2_GRB_Viewer_GroupAll[0] = ui->groupBox_MS2_Viewer_1;
@@ -4421,13 +4428,40 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage4()
 void D_MAKRO_MegaFoci::MS2_UpdateImage(size_t img2update)
 {
     ERR(D_Img_Proc::OverlayImage(
-            &(v_MS2_MA_Images2Show[img2update]),
-            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][2]->currentIndex()]),
-            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][1]->currentIndex()]),
-            &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][0]->currentIndex()]),
-            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][2]->currentIndex()]),
-            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][1]->currentIndex()]),
-            &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][0]->currentIndex()])));
+                &(v_MS2_MA_Images2Show[img2update]),
+                &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][2]->currentIndex()]),
+                &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][1]->currentIndex()]),
+                &(v_MS2_MA_ChannelsImage_Croped[vv_MS2_COB_ViewerChannel_Image_viewer_bgr[img2update][0]->currentIndex()]),
+                &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][2]->currentIndex()]),
+                &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][1]->currentIndex()]),
+                &(v_MS2_MA_ChannelsOverlay_Croped[vv_MS2_COB_ViewerChannel_Overlay_viewer_bgr[img2update][0]->currentIndex()])),
+            "MS2_UpdateImage",
+            "D_Img_Proc::OverlayImage");
+
+    if(v_MS2_CHB_Viewer_SegmentBox[img2update]->isChecked())
+    {
+        double overlap = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+        double rel_segment_start = 1.0 - (1.0 / (1.0 + overlap));
+
+        int w = v_MS2_MA_Images2Show[img2update].cols;
+        int h = v_MS2_MA_Images2Show[img2update].rows;
+
+        int x1 = ui->spinBox_MS2_Viewport_X->value() == 0 ? 0 : int(w * rel_segment_start);
+        int y1 = ui->spinBox_MS2_Viewport_Y->value() == 0 ? 0 : int(h * rel_segment_start);
+        int x2 = w - 1;
+        int y2 = h - 1;
+
+        ERR(D_Img_Proc::Draw_Rect(
+                &(v_MS2_MA_Images2Show[img2update]),
+                x1,
+                y1,
+                x2,
+                y2,
+                2,
+                196),
+            "MS2_UpdateImage",
+            "D_Img_Proc::Draw_Rect - segment box");
+    }
 
     v_MS2_Viewer[img2update]->Update_Image(&(v_MS2_MA_Images2Show[img2update]));
 }
