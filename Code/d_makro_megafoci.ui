@@ -32,6 +32,9 @@
     </property>
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
         <property name="leftMargin">
@@ -531,7 +534,103 @@
       </widget>
       <widget class="QWidget" name="stackedWidget_StepMajor_1">
        <layout class="QGridLayout" name="gridLayout_16">
-        <item row="1" column="2" rowspan="2">
+        <item row="0" column="1" rowspan="3">
+         <widget class="QGroupBox" name="groupBox_View">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="title">
+           <string>View</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QStackedWidget" name="stackedWidget_View">
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="page_ViewGraphics_Proc">
+              <layout class="QGridLayout" name="gridLayout_5">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QGraphicsView" name="graphicsView_ImgProc">
+                 <property name="mouseTracking">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_ViewGraphics_OverviewBig">
+              <layout class="QGridLayout" name="gridLayout_12">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QGraphicsView" name="graphicsView_OverviewBig"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_ViewPlot">
+              <layout class="QGridLayout" name="gridLayout_11">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_ViewPlot"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QPushButton" name="pushButton_ParamSave">
+          <property name="text">
+           <string>Save Params</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" rowspan="2" colspan="3">
          <widget class="QGroupBox" name="groupBox_Control">
           <property name="enabled">
            <bool>true</bool>
@@ -2310,6 +2409,9 @@
                  <property name="title">
                   <string>GFP</string>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
                  <layout class="QGridLayout" name="gridLayout_48">
                   <property name="leftMargin">
                    <number>1</number>
@@ -2533,6 +2635,12 @@
                 <widget class="QGroupBox" name="groupBox_Seg0A_OTHER">
                  <property name="title">
                   <string>OTHER</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_47">
                   <property name="leftMargin">
@@ -3138,93 +3246,11 @@ QProgressBar::chunk {
           </property>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="3">
-         <widget class="QGroupBox" name="groupBox_View">
-          <property name="enabled">
-           <bool>true</bool>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="pushButton_ParamLoad">
+          <property name="text">
+           <string>Load Params</string>
           </property>
-          <property name="title">
-           <string>View</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QStackedWidget" name="stackedWidget_View">
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="page_ViewGraphics_Proc">
-              <layout class="QGridLayout" name="gridLayout_5">
-               <property name="leftMargin">
-                <number>3</number>
-               </property>
-               <property name="topMargin">
-                <number>3</number>
-               </property>
-               <property name="rightMargin">
-                <number>3</number>
-               </property>
-               <property name="bottomMargin">
-                <number>3</number>
-               </property>
-               <property name="spacing">
-                <number>3</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QGraphicsView" name="graphicsView_ImgProc">
-                 <property name="mouseTracking">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_ViewGraphics_OverviewBig">
-              <layout class="QGridLayout" name="gridLayout_12">
-               <property name="leftMargin">
-                <number>3</number>
-               </property>
-               <property name="topMargin">
-                <number>3</number>
-               </property>
-               <property name="rightMargin">
-                <number>3</number>
-               </property>
-               <property name="bottomMargin">
-                <number>3</number>
-               </property>
-               <property name="spacing">
-                <number>3</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QGraphicsView" name="graphicsView_OverviewBig"/>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_ViewPlot">
-              <layout class="QGridLayout" name="gridLayout_11">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_ViewPlot"/>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-          </layout>
          </widget>
         </item>
        </layout>

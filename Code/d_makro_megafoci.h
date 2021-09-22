@@ -115,6 +115,10 @@ private slots:
     void ConnectViewersVisTrafo(D_Viewer* view);
 
     bool Load_Dataset();
+    bool Params_Load_CurrentDir();
+    bool Params_Load();
+    bool Params_Load(QString QS_FileName);
+    void Params_Save();
     void Overview_Init();
     void Overview_Update();
 
@@ -235,6 +239,9 @@ private slots:
 
     void on_horizontalSlider_OverviewBig_T_valueChanged(int value);
 
+    void on_pushButton_ParamLoad_clicked();
+    void on_pushButton_ParamSave_clicked();
+
 private:
     Ui::D_MAKRO_MegaFoci *ui;
     bool ClosingPossible = false;
@@ -258,6 +265,7 @@ private:
     bool                                state_image_decomposition_init = false;
     bool                                state_first_proc_on_start = true;
     bool                                state_page_indices_consistent = true;
+    bool                                state_block_img_proc_update = false;
 
     //data files
     QFileInfoList                       FIL_ImagesYXT;
@@ -596,6 +604,141 @@ private:
         "vis-12 Regions nuclei with background (used)",
         "vis-13 Regions nuclei with background (all)",
         //"vis-13 Regions with foci counts"
+    };
+
+    enum MS1_PARAMS {
+        MS1_PARAM_PRE5_BLUR_SIZE,
+        MS1_PARAM_PRE5_BLUR_SIGMA,
+        MS1_PARAM_PRE6_STAT,
+        MS1_PARAM_VIS0_NUC_MIN,
+        MS1_PARAM_VIS0_NUC_MAX,
+        MS1_PARAM_VIS0_NUC_GAMMA,
+        MS1_PARAM_VIS1_GFP_MIN,
+        MS1_PARAM_VIS1_GFP_MAX,
+        MS1_PARAM_VIS1_GFP_GAMMA,
+        MS1_PARAM_VIS2_RFP_MIN,
+        MS1_PARAM_VIS2_RFP_MAX,
+        MS1_PARAM_VIS2_RFP_GAMMA,
+        MS1_PARAM_NUC0_IN_USE,
+        MS1_PARAM_NUC0_BLUR_SIZE,
+        MS1_PARAM_NUC0_BLUR_SIGMA,
+        MS1_PARAM_NUC1_QUANTIL,
+        MS1_PARAM_NUC1_RADIUS,
+        MS1_PARAM_NUC3_THRES_INDICATOR,
+        MS1_PARAM_NUC4_THRES_HYSTERESIS,
+        MS1_PARAM_NUC6_CLOSE_SIZE,
+        MS1_PARAM_NUC8_STAT,
+        MS1_PARAM_NUC8_THRESH_DIRT,
+        MS1_PARAM_NUC9_IN_USE,
+        MS1_PARAM_NUC9_BLUR_SIZE,
+        MS1_PARAM_NUC9_BLUR_SIGMA,
+        MS1_PARAM_NUC10_QUANTIL,
+        MS1_PARAM_NUC10_RADIUS,
+        MS1_PARAM_NUC12_THRES_INDICATOR,
+        MS1_PARAM_NUC13_THRES_HYSTERESIS,
+        MS1_PARAM_NUC15_CLOSE_SIZE,
+        MS1_PARAM_NUC17_STAT,
+        MS1_PARAM_NUC17_THRESH_DIRT,
+        MS1_PARAM_NUC19_CLOSE_SIZE,
+        MS1_PARAM_NUC21_AREA_MIN,
+        MS1_PARAM_NUC21_AREA_MAX,
+        MS1_PARAM_NUC22_CLOSE_SIZE,
+        MS1_PARAM_NUC23_AREA_MIN,
+        MS1_PARAM_NUC23_AREA_MAX,
+        MS1_PARAM_NUC25_DISTANCE,
+        MS1_PARAM_NUC26_OPEN_SIZE,
+        MS1_PARAM_NUC30_DISTANCE,
+        MS1_PARAM_NUC31_OPEN_SIZE,
+        MS1_PARAM_NUC33_AREA_MIN,
+        MS1_PARAM_NUC33_AREA_MAX,
+        MS1_PARAM_NUC40_OPEN_SIZE,
+        MS1_PARAM_FOCGFP0_RADIUS,
+        MS1_PARAM_FOCGFP1_SIZE,
+        MS1_PARAM_FOCGFP1_SIGMA,
+        MS1_PARAM_FOCGFP1_SCALE,
+        MS1_PARAM_FOCGFP1_OFFSET,
+        MS1_PARAM_FOCGFP3_AREA_MIN,
+        MS1_PARAM_FOCGFP3_AREA_MAX,
+        MS1_PARAM_FOCRFP0_RADIUS,
+        MS1_PARAM_FOCRFP1_SIZE,
+        MS1_PARAM_FOCRFP1_SIGMA,
+        MS1_PARAM_FOCRFP1_SCALE,
+        MS1_PARAM_FOCRFP1_OFFSET,
+        MS1_PARAM_FOCRFP3_AREA_MIN,
+        MS1_PARAM_FOCRFP3_AREA_MAX,
+        MS1_PARAM_FOCBOTH1_AREA_MIN,
+        MS1_PARAM_FOCBOTH1_AREA_MAX,
+        MS1_PARAM_VIS8_INTENSITY_OVERLAY,
+        MS1_PARAM_VIS8_INTENSITY_BACKGROUND,
+        MS1_PARAM_OTHER_DUPLICATE_OVERLAP,
+        MS1_PARAM_NUMBER_OF
+    };
+
+    const QStringList QSL_MS1_Params = {
+        "MS1_PARAM_PRE5_BLUR_SIZE",
+        "MS1_PARAM_PRE5_BLUR_SIGMA",
+        "MS1_PARAM_PRE6_STAT",
+        "MS1_PARAM_VIS0_NUC_MIN",
+        "MS1_PARAM_VIS0_NUC_MAX",
+        "MS1_PARAM_VIS0_NUC_GAMMA",
+        "MS1_PARAM_VIS1_GFP_MIN",
+        "MS1_PARAM_VIS1_GFP_MAX",
+        "MS1_PARAM_VIS1_GFP_GAMMA",
+        "MS1_PARAM_VIS2_RFP_MIN",
+        "MS1_PARAM_VIS2_RFP_MAX",
+        "MS1_PARAM_VIS2_RFP_GAMMA",
+        "MS1_PARAM_NUC0_IN_USE",
+        "MS1_PARAM_NUC0_BLUR_SIZE",
+        "MS1_PARAM_NUC0_BLUR_SIGMA",
+        "MS1_PARAM_NUC1_QUANTIL",
+        "MS1_PARAM_NUC1_RADIUS",
+        "MS1_PARAM_NUC3_THRES_INDICATOR",
+        "MS1_PARAM_NUC4_THRES_HYSTERESIS",
+        "MS1_PARAM_NUC6_CLOSE_SIZE",
+        "MS1_PARAM_NUC8_STAT",
+        "MS1_PARAM_NUC8_THRESH_DIRT",
+        "MS1_PARAM_NUC9_IN_USE",
+        "MS1_PARAM_NUC9_BLUR_SIZE",
+        "MS1_PARAM_NUC9_BLUR_SIGMA",
+        "MS1_PARAM_NUC10_QUANTIL",
+        "MS1_PARAM_NUC10_RADIUS",
+        "MS1_PARAM_NUC12_THRES_INDICATOR",
+        "MS1_PARAM_NUC13_THRES_HYSTERESIS",
+        "MS1_PARAM_NUC15_CLOSE_SIZE",
+        "MS1_PARAM_NUC17_STAT",
+        "MS1_PARAM_NUC17_THRESH_DIRT",
+        "MS1_PARAM_NUC19_CLOSE_SIZE",
+        "MS1_PARAM_NUC21_AREA_MIN",
+        "MS1_PARAM_NUC21_AREA_MAX",
+        "MS1_PARAM_NUC22_CLOSE_SIZE",
+        "MS1_PARAM_NUC23_AREA_MIN",
+        "MS1_PARAM_NUC23_AREA_MAX",
+        "MS1_PARAM_NUC25_DISTANCE",
+        "MS1_PARAM_NUC26_OPEN_SIZE",
+        "MS1_PARAM_NUC30_DISTANCE",
+        "MS1_PARAM_NUC31_OPEN_SIZE",
+        "MS1_PARAM_NUC33_AREA_MIN",
+        "MS1_PARAM_NUC33_AREA_MAX",
+        "MS1_PARAM_NUC40_OPEN_SIZE",
+        "MS1_PARAM_FOCGFP0_RADIUS",
+        "MS1_PARAM_FOCGFP1_SIZE",
+        "MS1_PARAM_FOCGFP1_SIGMA",
+        "MS1_PARAM_FOCGFP1_SCALE",
+        "MS1_PARAM_FOCGFP1_OFFSET",
+        "MS1_PARAM_FOCGFP3_AREA_MIN",
+        "MS1_PARAM_FOCGFP3_AREA_MAX",
+        "MS1_PARAM_FOCRFP0_RADIUS",
+        "MS1_PARAM_FOCRFP1_SIZE",
+        "MS1_PARAM_FOCRFP1_SIGMA",
+        "MS1_PARAM_FOCRFP1_SCALE",
+        "MS1_PARAM_FOCRFP1_OFFSET",
+        "MS1_PARAM_FOCRFP3_AREA_MIN",
+        "MS1_PARAM_FOCRFP3_AREA_MAX",
+        "MS1_PARAM_FOCBOTH1_AREA_MIN",
+        "MS1_PARAM_FOCBOTH1_AREA_MAX",
+        "MS1_PARAM_VIS8_INTENSITY_OVERLAY",
+        "MS1_PARAM_VIS8_INTENSITY_BACKGROUND",
+        "MS1_PARAM_OTHER_DUPLICATE_OVERLAP"
     };
 
     //Tabs
@@ -1024,6 +1167,12 @@ private slots:
 
 
 
+
+
+
+    void on_groupBox_Seg0A_OTHER_clicked();
+
+    void on_groupBox_Seg0B_GFP_clicked();
 
 private:
 

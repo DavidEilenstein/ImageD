@@ -2180,8 +2180,8 @@ void D_MAKRO_CoreFoci::SaveParams()
     os_param
             << "Path,"                  << QS_SavePath.toStdString() << "\n"
             << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
-            << "Version"                << D_QS_Version.toStdString() << "\n"
-            << "Release Date"           << D_QS_Release.toStdString() << "\n";
+            << "Version,"               << D_QS_Version.toStdString() << "\n"
+            << "Release Date,"          << D_QS_Release.toStdString() << "\n";
 
     //Params
     os_param

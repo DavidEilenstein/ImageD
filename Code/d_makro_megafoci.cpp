@@ -443,6 +443,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage()
     if(!state_dataset_img_list_loaded)
         return;
 
+    if(state_block_img_proc_update)
+        return;
+
     //start time measurement
     QElapsedTimer timer_img_proc;
     timer_img_proc.start();
@@ -459,6 +462,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_CurrentImage()
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
         return Update_ImageProcessing_StepFrom_MS1(step_start);
     else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
@@ -467,6 +473,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom(size_t step_start)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS1(size_t step_start)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(!state_dataset_img_list_loaded)
         return;
 
@@ -490,6 +499,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS1(size_t step_start)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS3(size_t step_start)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(!state_dataset_img_list_loaded)
         return;
 
@@ -513,6 +525,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS3(size_t step_start)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
         return Update_ImageProcessing_StepSingle_MS1(step);
     else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
@@ -521,6 +536,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle(size_t step)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(!state_dataset_img_list_loaded)
         return;
 
@@ -785,17 +803,20 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
     case STEP_NUC_OTHER_SEG0A_BLUR_GAUSS:
     {
-        ERR(D_VisDat_Proc::Filter_Gauss(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS]),
-                &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
-                int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
-                int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
-                BORDER_DEFAULT,
-                ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value(),
-                ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_BLUR_GAUSS");
+        if(ui->groupBox_Seg0A_OTHER->isChecked())
+            ERR(D_VisDat_Proc::Filter_Gauss(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS]),
+                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                    int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
+                    int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
+                    BORDER_DEFAULT,
+                    ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value(),
+                    ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_OTHER_SEG0A_BLUR_GAUSS");
+        else
+            vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_PCK_OTHER].Dim(), vVD_ImgProcSteps[STEP_PCK_OTHER].type(), 0);
     }
         break;
 
@@ -954,17 +975,20 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
         case STEP_NUC_GFP_SEG0B_BLUR_GAUSS:
         {
-            ERR(D_VisDat_Proc::Filter_Gauss(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS]),
-                    &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                    int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
-                    int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
-                    BORDER_DEFAULT,
-                    ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value(),
-                    ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value()),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_BLUR_GAUSS");
+            if(ui->groupBox_Seg0B_GFP->isChecked())
+                ERR(D_VisDat_Proc::Filter_Gauss(
+                        D_VisDat_Slicing(c_SLICE_2D_XY),
+                        &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS]),
+                        &(vVD_ImgProcSteps[STEP_PCK_GFP]),
+                        int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
+                        int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
+                        BORDER_DEFAULT,
+                        ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value(),
+                        ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value()),
+                    "Update_ImageProcessing_StepSingle",
+                    "STEP_NUC_GFP_SEG0B_BLUR_GAUSS");
+            else
+                vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_PCK_GFP].Dim(), vVD_ImgProcSteps[STEP_PCK_GFP].type(), 0);
         }
             break;
 
@@ -1357,7 +1381,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
                 c_GEO_CONVEX_HULL,
                 4,
-                1,
+                2,
                 255),
             "Update_ImageProcessing_StepSingle",
             "STEP_NUC_BOTH_SEG3A_CONVEX_HULL - hull contour");
@@ -1425,7 +1449,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                     &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
                     c_GEO_ELLIPSE_FIT,
                     4,
-                    1,
+                    2,
                     255),
                 "Update_ImageProcessing_StepSingle",
                 "STEP_NUC_BOTH_SEG3B_ELLIPSE - ellipse contour");
@@ -1558,7 +1582,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                     &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
                     c_GEO_ELLIPSE_FIT,
                     4,
-                    1,
+                    2,
                     255),
                 "Update_ImageProcessing_StepSingle",
                 "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE - ellipse contour");
@@ -1830,7 +1854,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                     CV_8UC3,
                     0);
 
-        qDebug() << vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI].info_short();
+        //qDebug() << vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI].info_short();
 
         //nuclei original
         ERR(D_VisDat_Proc::OverlayOverwrite(
@@ -1996,6 +2020,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(!state_dataset_img_list_loaded)
         return;
 
@@ -2013,6 +2040,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size_t step)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(step < STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE || step > STEP_MS3_VIS_FOCI_BOTH)
     {
         ERR(ER_index_out_of_range,
@@ -2141,6 +2171,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(size_t step)
 {
+    if(state_block_img_proc_update)
+        return;
+
     if(step < STEP_MS3_VIS_REGIONS || step > STEP_MS3_VIS_REGIONS_FOCI_COUNT)
     {
         ERR(ER_index_out_of_range,
@@ -2850,6 +2883,9 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
             return false;
     }
 
+    //load params if existent
+    Params_Load_CurrentDir();
+
     //update proc and image
     StatusSet("Now updating ImgProc for the 1st time");
     Update_ImageProcessing_CurrentImage();
@@ -2857,6 +2893,315 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
 
     //return
     return true;
+}
+
+bool D_MAKRO_MegaFoci::Params_Load_CurrentDir()
+{
+    if(FIL_ImagesYXT.empty())
+        return false;
+
+    if(!state_dataset_img_list_loaded)
+        return false;
+
+    QString QS_Mandatory = "Parameters_" + QString::number(mode_major_current);
+
+    QDir DIR_ImageDir = FIL_ImagesYXT.first().dir();
+
+    QFileInfoList FIL_InImgDir = DIR_ImageDir.entryInfoList();
+
+    for(int i = 0; i < FIL_InImgDir.size(); i++)
+        if(FIL_InImgDir[i].suffix() == "csv" || FIL_InImgDir[i].suffix() == "CSV")
+            if(FIL_InImgDir[i].baseName().contains(QS_Mandatory))
+                if(Params_Load(FIL_InImgDir[i].absoluteFilePath()))
+                    return true;
+
+    return false;
+}
+
+bool D_MAKRO_MegaFoci::Params_Load()
+{
+    QString QS_Mandatory = "Parameters_" + QString::number(mode_major_current);
+
+    QString QS_LoadPath = QFileDialog::getOpenFileName(this,
+                                                       tr("Load param file"),
+                                                       pStore->dir_M_dsDNA()->path() + "/" + QS_Mandatory + "_blablabla.csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_LoadPath.isEmpty())
+        return false;
+
+    if(!QFileInfo(QS_LoadPath).exists())
+        return false;
+
+    if(!QFileInfo(QS_LoadPath).baseName().contains(QS_Mandatory))
+    {
+        ERR(
+                    ER_type_missmatch,
+                    "Params_Load",
+                    "Load File must contain '" + QS_Mandatory + "' in its base name and it does not.\n" + QS_LoadPath);
+        return false;
+    }
+
+    return Params_Load(QS_LoadPath);
+}
+
+bool D_MAKRO_MegaFoci::Params_Load(QString QS_FileName)
+{
+    QString QS_Mandatory = "Parameters_" + QString::number(mode_major_current);
+
+    if(!QFileInfo(QS_FileName).exists())
+        return false;
+
+    pStore->dir_M_dsDNA()->setPath(QS_FileName);
+
+    state_block_img_proc_update = true;
+
+    ifstream is_param;
+    is_param.open(QS_FileName.toStdString());
+
+    string st_line;
+
+    while(getline(is_param, st_line))
+    {
+        QString QS_Line = QString::fromStdString(st_line);
+        //qDebug() << QS_Line << "---------------------------------";
+        QStringList QSL_Blocks = QS_Line.split(",");
+        if(QSL_Blocks.size() == 3) //index, value, name
+        {
+            //qDebug() << "3 blocks";
+            bool ok;
+            int param_index = QSL_Blocks[0].toInt(&ok);
+            if(ok)
+            {
+                double param_value = QSL_Blocks[1].toDouble(&ok);
+                if(ok)
+                {
+                    switch (mode_major_current)
+                    {
+
+                    case MODE_MAJOR_1_AUTO_DETECTION:
+                    {
+
+                        switch (param_index)
+                        {
+                        case MS1_PARAM_PRE5_BLUR_SIZE:              ui->spinBox_ImgProc_Pre_Blur_Size->setValue(int(param_value));                          break;
+                        case MS1_PARAM_PRE5_BLUR_SIGMA:             ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->setValue(param_value);                        break;
+                        case MS1_PARAM_PRE6_STAT:                   ui->comboBox_ImgProc_ProjectZ_Stat->setCurrentIndex(int(param_value));                  break;
+
+                        case MS1_PARAM_VIS0_NUC_MIN:                ui->spinBox_ImgProc_Vis_Other_Min->setValue(int(param_value));                          break;
+                        case MS1_PARAM_VIS0_NUC_MAX:                ui->spinBox_ImgProc_Vis_Other_Max->setValue(int(param_value));                          break;
+                        case MS1_PARAM_VIS0_NUC_GAMMA:              ui->doubleSpinBox_ImgProc_Vis_Other_Gamma->setValue(param_value);                       break;
+                        case MS1_PARAM_VIS1_GFP_MIN:                ui->spinBox_ImgProc_Vis_GFP_Min->setValue(int(param_value));                            break;
+                        case MS1_PARAM_VIS1_GFP_MAX:                ui->spinBox_ImgProc_Vis_GFP_Max->setValue(int(param_value));                            break;
+                        case MS1_PARAM_VIS1_GFP_GAMMA:              ui->doubleSpinBox_ImgProc_Vis_GFP_Gamma->setValue(param_value);                         break;
+                        case MS1_PARAM_VIS2_RFP_MIN:                ui->spinBox_ImgProc_Vis_RFP_Min->setValue(int(param_value));                            break;
+                        case MS1_PARAM_VIS2_RFP_MAX:                ui->spinBox_ImgProc_Vis_RFP_Max->setValue(int(param_value));                            break;
+                        case MS1_PARAM_VIS2_RFP_GAMMA:              ui->doubleSpinBox_ImgProc_Vis_RFP_Gamma->setValue(param_value);                         break;
+
+                        case MS1_PARAM_NUC0_IN_USE:                 ui->groupBox_Seg0A_OTHER->setChecked(bool(param_value));                                break;
+                        case MS1_PARAM_NUC0_BLUR_SIZE:              ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->setValue(param_value);                  break;
+                        case MS1_PARAM_NUC0_BLUR_SIGMA:             ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->setValue(param_value);                  break;
+                        case MS1_PARAM_NUC1_QUANTIL:                ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil->setValue(param_value);                 break;
+                        case MS1_PARAM_NUC1_RADIUS:                 ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius->setValue(param_value);            break;
+                        case MS1_PARAM_NUC3_THRES_INDICATOR:        ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator->setValue(param_value);          break;
+                        case MS1_PARAM_NUC4_THRES_HYSTERESIS:       ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis->setValue(param_value);         break;
+                        case MS1_PARAM_NUC6_CLOSE_SIZE:             ui->spinBox_ImgProc_Seg0A_ClosingSize->setValue(int(param_value));                      break;
+                        case MS1_PARAM_NUC8_STAT:                   ui->comboBox_ImgProc_Seg0A_IgnoreDirt_Stat->setCurrentIndex(int(param_value));          break;
+                        case MS1_PARAM_NUC8_THRESH_DIRT:            ui->doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres->setValue(param_value);                break;
+
+                        case MS1_PARAM_NUC9_IN_USE:                 ui->groupBox_Seg0B_GFP->setChecked(bool(param_value));                                  break;
+                        case MS1_PARAM_NUC9_BLUR_SIZE:              ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->setValue(param_value);                  break;
+                        case MS1_PARAM_NUC9_BLUR_SIGMA:             ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->setValue(param_value);                 break;
+                        case MS1_PARAM_NUC10_QUANTIL:               ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil->setValue(param_value);                 break;
+                        case MS1_PARAM_NUC10_RADIUS:                ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius->setValue(param_value);            break;
+                        case MS1_PARAM_NUC12_THRES_INDICATOR:       ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator->setValue(param_value);          break;
+                        case MS1_PARAM_NUC13_THRES_HYSTERESIS:      ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis->setValue(param_value);         break;
+                        case MS1_PARAM_NUC15_CLOSE_SIZE:            ui->spinBox_ImgProc_Seg0B_ClosingSize->setValue(int(param_value));                      break;
+                        case MS1_PARAM_NUC17_STAT:                  ui->comboBox_ImgProc_Seg0B_IgnoreDirt_Stat->setCurrentIndex(int(param_value));          break;
+                        case MS1_PARAM_NUC17_THRESH_DIRT:           ui->doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres->setValue(param_value);                break;
+
+                        case MS1_PARAM_NUC19_CLOSE_SIZE:            ui->spinBox_ImgProc_Seg0_CloseGaps_Size->setValue(int(param_value));                    break;
+                        case MS1_PARAM_NUC21_AREA_MIN:              ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min->setValue(param_value);                break;
+                        case MS1_PARAM_NUC21_AREA_MAX:              ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max->setValue(param_value);                break;
+                        case MS1_PARAM_NUC22_CLOSE_SIZE:            ui->spinBox_ImgProc_Seg0_CloseGaps_Size->setValue(int(param_value));                    break;
+                        case MS1_PARAM_NUC23_AREA_MIN:              ui->doubleSpinBox_ImgProc_Seg0_Area_Min->setValue(param_value);                         break;
+                        case MS1_PARAM_NUC23_AREA_MAX:              ui->doubleSpinBox_ImgProc_Seg0_Area_Max->setValue(param_value);                         break;
+
+                        case MS1_PARAM_NUC25_DISTANCE:              ui->doubleSpinBox_ImgProc_Seg1_DistThresh->setValue(param_value);                       break;
+                        case MS1_PARAM_NUC26_OPEN_SIZE:             ui->spinBox_ImgProc_Seg1_OpenSeeds->setValue(int(param_value));                         break;
+
+                        case MS1_PARAM_NUC30_DISTANCE:              ui->doubleSpinBox_ImgProc_Seg2_DistThresh->setValue(param_value);                       break;
+                        case MS1_PARAM_NUC31_OPEN_SIZE:             ui->spinBox_ImgProc_Seg2_OpenSeeds->setValue(int(param_value));                         break;
+                        case MS1_PARAM_NUC33_AREA_MIN:              ui->doubleSpinBox_ImgProc_Seg2_Area_Min->setValue(param_value);                         break;
+                        case MS1_PARAM_NUC33_AREA_MAX:              ui->doubleSpinBox_ImgProc_Seg2_Area_Max->setValue(param_value);                         break;
+
+                        case MS1_PARAM_NUC40_OPEN_SIZE:             ui->spinBox_ImgProc_Seg3_Open->setValue(int(param_value));                              break;
+
+                        case MS1_PARAM_FOCGFP0_RADIUS:              ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->setValue(int(param_value));                 break;
+                        case MS1_PARAM_FOCGFP1_SIZE:                ui->spinBox_ImgProc_Foc_GFP_BinarySize->setValue(int(param_value));                     break;
+                        case MS1_PARAM_FOCGFP1_SIGMA:               ui->doubleSpinBox_ImgProc_Foc_GFP_BinarySigma->setValue(param_value);                   break;
+                        case MS1_PARAM_FOCGFP1_SCALE:               ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryScale->setValue(param_value);                   break;
+                        case MS1_PARAM_FOCGFP1_OFFSET:              ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->setValue(param_value);                  break;
+                        case MS1_PARAM_FOCGFP3_AREA_MIN:            ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->setValue(param_value);                       break;
+                        case MS1_PARAM_FOCGFP3_AREA_MAX:            ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->setValue(param_value);                       break;
+
+                        case MS1_PARAM_FOCRFP0_RADIUS:              ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->setValue(int(param_value));                 break;
+                        case MS1_PARAM_FOCRFP1_SIZE:                ui->spinBox_ImgProc_Foc_RFP_BinarySize->setValue(int(param_value));                     break;
+                        case MS1_PARAM_FOCRFP1_SIGMA:               ui->doubleSpinBox_ImgProc_Foc_RFP_BinarySigma->setValue(param_value);                   break;
+                        case MS1_PARAM_FOCRFP1_SCALE:               ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryScale->setValue(param_value);                   break;
+                        case MS1_PARAM_FOCRFP1_OFFSET:              ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->setValue(param_value);                  break;
+                        case MS1_PARAM_FOCRFP3_AREA_MIN:            ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->setValue(param_value);                       break;
+                        case MS1_PARAM_FOCRFP3_AREA_MAX:            ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->setValue(param_value);                       break;
+
+                        case MS1_PARAM_FOCBOTH1_AREA_MIN:           ui->doubleSpinBox_ImgProc_Foc_Both_AreaMin->setValue(param_value);                      break;
+                        case MS1_PARAM_FOCBOTH1_AREA_MAX:           ui->doubleSpinBox_ImgProc_Foc_Both_AreaMax->setValue(param_value);                      break;
+
+                        case MS1_PARAM_VIS8_INTENSITY_OVERLAY:      ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->setValue(param_value);                 break;
+                        case MS1_PARAM_VIS8_INTENSITY_BACKGROUND:   ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->setValue(param_value);          break;
+
+                        case MS1_PARAM_OTHER_DUPLICATE_OVERLAP:     ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->setValue(param_value);                 break;
+
+                        default:                                                                                                                            break;
+                        }
+                    }
+                    break;
+
+                    default:
+                        is_param.close();
+                        state_block_img_proc_update = false;
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    is_param.close();
+
+    state_block_img_proc_update = false;
+    Update_ImageProcessing_StepFrom(0);
+    return true;
+}
+
+void D_MAKRO_MegaFoci::Params_Save()
+{
+    QString QS_Mandatory = "Parameters_" + QString::number(mode_major_current);
+
+    QString QS_SavePath = QFileDialog::getSaveFileName(this,
+                                                       "Save param file (must contain '" + QS_Mandatory + "' to be reloaded automatically)",
+                                                       pStore->dir_M_MegaFoci_Images()->path() + "/" + QS_Mandatory + " " + QDateTime::currentDateTime().toString().replace(":", "x") + ".csv",
+                                                       tr("csv-file (*.csv)"));
+    if(QS_SavePath.isEmpty())
+        return;
+
+    //force to contain QS_Mandatory
+    QFileInfo FI_SavePath(QS_SavePath);
+    if(!FI_SavePath.baseName().contains(QS_Mandatory))
+        QS_SavePath = FI_SavePath.dir().path() + "/" + QS_Mandatory + "_" + FI_SavePath.baseName() + ".csv";
+
+    pStore->dir_M_MegaFoci_Images()->setPath(QS_SavePath);
+
+    ofstream os_param;
+    os_param.open(QS_SavePath.toStdString());
+
+    //header
+    os_param
+            << "Path,"                  << QS_SavePath.toStdString() << "\n"
+            << "DateTime of Analysis,"  << QDateTime::currentDateTime().toString().toStdString() << "\n"
+            << "Version,"               << D_QS_Version.toStdString() << "\n"
+            << "Release Date,"          << D_QS_Release.toStdString() << "\n"
+            << "Major Mode,"            << QSL_ModeMajor[mode_major_current].toStdString() << "\n";
+
+    switch (mode_major_current) {
+
+    case MODE_MAJOR_1_AUTO_DETECTION:
+    {
+        //Params
+        os_param
+                << MS1_PARAM_PRE5_BLUR_SIZE             << "," << ui->spinBox_ImgProc_Pre_Blur_Size->value()                            << "," << QSL_MS1_Params[MS1_PARAM_PRE5_BLUR_SIZE].toStdString() << "\n"
+                << MS1_PARAM_PRE5_BLUR_SIGMA            << "," << ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value()                     << "," << QSL_MS1_Params[MS1_PARAM_PRE5_BLUR_SIGMA].toStdString() << "\n"
+                << MS1_PARAM_PRE6_STAT                  << "," << ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex()                    << "," << QSL_MS1_Params[MS1_PARAM_PRE6_STAT].toStdString() << "\n"
+
+                << MS1_PARAM_VIS0_NUC_MIN               << "," << ui->spinBox_ImgProc_Vis_Other_Min->value()                            << "," << QSL_MS1_Params[MS1_PARAM_VIS0_NUC_MIN].toStdString() << "\n"
+                << MS1_PARAM_VIS0_NUC_MAX               << "," << ui->spinBox_ImgProc_Vis_Other_Max->value()                            << "," << QSL_MS1_Params[MS1_PARAM_VIS0_NUC_MAX].toStdString() << "\n"
+                << MS1_PARAM_VIS0_NUC_GAMMA             << "," << ui->doubleSpinBox_ImgProc_Vis_Other_Gamma->value()                    << "," << QSL_MS1_Params[MS1_PARAM_VIS0_NUC_GAMMA].toStdString() << "\n"
+                << MS1_PARAM_VIS1_GFP_MIN               << "," << ui->spinBox_ImgProc_Vis_GFP_Min->value()                              << "," << QSL_MS1_Params[MS1_PARAM_VIS1_GFP_MIN].toStdString() << "\n"
+                << MS1_PARAM_VIS1_GFP_MAX               << "," << ui->spinBox_ImgProc_Vis_GFP_Max->value()                              << "," << QSL_MS1_Params[MS1_PARAM_VIS1_GFP_MAX].toStdString() << "\n"
+                << MS1_PARAM_VIS1_GFP_GAMMA             << "," << ui->doubleSpinBox_ImgProc_Vis_GFP_Gamma->value()                      << "," << QSL_MS1_Params[MS1_PARAM_VIS1_GFP_GAMMA].toStdString() << "\n"
+                << MS1_PARAM_VIS2_RFP_MIN               << "," << ui->spinBox_ImgProc_Vis_RFP_Min->value()                              << "," << QSL_MS1_Params[MS1_PARAM_VIS2_RFP_MIN].toStdString() << "\n"
+                << MS1_PARAM_VIS2_RFP_MAX               << "," << ui->spinBox_ImgProc_Vis_RFP_Max->value()                              << "," << QSL_MS1_Params[MS1_PARAM_VIS2_RFP_MAX].toStdString() << "\n"
+                << MS1_PARAM_VIS2_RFP_GAMMA             << "," << ui->doubleSpinBox_ImgProc_Vis_RFP_Gamma->value()                      << "," << QSL_MS1_Params[MS1_PARAM_VIS2_RFP_GAMMA].toStdString() << "\n"
+
+                << MS1_PARAM_NUC0_IN_USE                << "," << ui->groupBox_Seg0A_OTHER->isChecked()                                 << "," << QSL_MS1_Params[MS1_PARAM_NUC0_IN_USE].toStdString() << "\n"
+                << MS1_PARAM_NUC0_BLUR_SIZE             << "," << ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()               << "," << QSL_MS1_Params[MS1_PARAM_NUC0_BLUR_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC0_BLUR_SIGMA            << "," << ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()               << "," << QSL_MS1_Params[MS1_PARAM_NUC0_BLUR_SIGMA].toStdString() << "\n"
+                << MS1_PARAM_NUC1_QUANTIL               << "," << ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil->value()              << "," << QSL_MS1_Params[MS1_PARAM_NUC1_QUANTIL].toStdString() << "\n"
+                << MS1_PARAM_NUC1_RADIUS                << "," << ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius->value()         << "," << QSL_MS1_Params[MS1_PARAM_NUC1_RADIUS].toStdString() << "\n"
+                << MS1_PARAM_NUC3_THRES_INDICATOR       << "," << ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator->value()       << "," << QSL_MS1_Params[MS1_PARAM_NUC3_THRES_INDICATOR].toStdString() << "\n"
+                << MS1_PARAM_NUC4_THRES_HYSTERESIS      << "," << ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis->value()      << "," << QSL_MS1_Params[MS1_PARAM_NUC4_THRES_HYSTERESIS].toStdString() << "\n"
+                << MS1_PARAM_NUC6_CLOSE_SIZE            << "," << ui->spinBox_ImgProc_Seg0A_ClosingSize->value()                        << "," << QSL_MS1_Params[MS1_PARAM_NUC6_CLOSE_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC8_STAT                  << "," << ui->comboBox_ImgProc_Seg0A_IgnoreDirt_Stat->currentIndex()            << "," << QSL_MS1_Params[MS1_PARAM_NUC8_STAT].toStdString() << "\n"
+                << MS1_PARAM_NUC8_THRESH_DIRT           << "," << ui->doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres->value()             << "," << QSL_MS1_Params[MS1_PARAM_NUC8_THRESH_DIRT].toStdString() << "\n"
+
+                << MS1_PARAM_NUC9_IN_USE                << "," << ui->groupBox_Seg0B_GFP->isChecked()                                   << "," << QSL_MS1_Params[MS1_PARAM_NUC9_IN_USE].toStdString() << "\n"
+                << MS1_PARAM_NUC9_BLUR_SIZE             << "," << ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()               << "," << QSL_MS1_Params[MS1_PARAM_NUC9_BLUR_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC9_BLUR_SIGMA            << "," << ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value()              << "," << QSL_MS1_Params[MS1_PARAM_NUC9_BLUR_SIGMA].toStdString() << "\n"
+                << MS1_PARAM_NUC10_QUANTIL              << "," << ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil->value()              << "," << QSL_MS1_Params[MS1_PARAM_NUC10_QUANTIL].toStdString() << "\n"
+                << MS1_PARAM_NUC10_RADIUS               << "," << ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius->value()         << "," << QSL_MS1_Params[MS1_PARAM_NUC10_RADIUS].toStdString() << "\n"
+                << MS1_PARAM_NUC12_THRES_INDICATOR      << "," << ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator->value()       << "," << QSL_MS1_Params[MS1_PARAM_NUC12_THRES_INDICATOR].toStdString() << "\n"
+                << MS1_PARAM_NUC13_THRES_HYSTERESIS     << "," << ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis->value()      << "," << QSL_MS1_Params[MS1_PARAM_NUC13_THRES_HYSTERESIS].toStdString() << "\n"
+                << MS1_PARAM_NUC15_CLOSE_SIZE           << "," << ui->spinBox_ImgProc_Seg0B_ClosingSize->value()                        << "," << QSL_MS1_Params[MS1_PARAM_NUC15_CLOSE_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC17_STAT                 << "," << ui->comboBox_ImgProc_Seg0B_IgnoreDirt_Stat->currentIndex()            << "," << QSL_MS1_Params[MS1_PARAM_NUC17_STAT].toStdString() << "\n"
+                << MS1_PARAM_NUC17_THRESH_DIRT          << "," << ui->doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres->value()             << "," << QSL_MS1_Params[MS1_PARAM_NUC17_THRESH_DIRT].toStdString() << "\n"
+
+                << MS1_PARAM_NUC19_CLOSE_SIZE           << "," << ui->spinBox_ImgProc_Seg0_CloseGaps_Size->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC19_CLOSE_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC21_AREA_MIN             << "," << ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min->value()             << "," << QSL_MS1_Params[MS1_PARAM_NUC21_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_NUC21_AREA_MAX             << "," << ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max->value()             << "," << QSL_MS1_Params[MS1_PARAM_NUC21_AREA_MAX].toStdString() << "\n"
+                << MS1_PARAM_NUC22_CLOSE_SIZE           << "," << ui->spinBox_ImgProc_Seg0_CloseGaps_Size->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC22_CLOSE_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC23_AREA_MIN             << "," << ui->doubleSpinBox_ImgProc_Seg0_Area_Min->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC23_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_NUC23_AREA_MAX             << "," << ui->doubleSpinBox_ImgProc_Seg0_Area_Max->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC23_AREA_MAX].toStdString() << "\n"
+
+                << MS1_PARAM_NUC25_DISTANCE             << "," << ui->doubleSpinBox_ImgProc_Seg1_DistThresh->value()                    << "," << QSL_MS1_Params[MS1_PARAM_NUC25_DISTANCE].toStdString() << "\n"
+                << MS1_PARAM_NUC26_OPEN_SIZE            << "," << ui->spinBox_ImgProc_Seg1_OpenSeeds->value()                           << "," << QSL_MS1_Params[MS1_PARAM_NUC26_OPEN_SIZE].toStdString() << "\n"
+
+                << MS1_PARAM_NUC30_DISTANCE             << "," << ui->doubleSpinBox_ImgProc_Seg2_DistThresh->value()                    << "," << QSL_MS1_Params[MS1_PARAM_NUC30_DISTANCE].toStdString() << "\n"
+                << MS1_PARAM_NUC31_OPEN_SIZE            << "," << ui->spinBox_ImgProc_Seg2_OpenSeeds->value()                           << "," << QSL_MS1_Params[MS1_PARAM_NUC31_OPEN_SIZE].toStdString() << "\n"
+                << MS1_PARAM_NUC33_AREA_MIN             << "," << ui->doubleSpinBox_ImgProc_Seg2_Area_Min->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC33_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_NUC33_AREA_MAX             << "," << ui->doubleSpinBox_ImgProc_Seg2_Area_Max->value()                      << "," << QSL_MS1_Params[MS1_PARAM_NUC33_AREA_MAX].toStdString() << "\n"
+
+                << MS1_PARAM_NUC40_OPEN_SIZE            << "," << ui->spinBox_ImgProc_Seg3_Open->value()                                << "," << QSL_MS1_Params[MS1_PARAM_NUC40_OPEN_SIZE].toStdString() << "\n"
+
+                << MS1_PARAM_FOCGFP0_RADIUS             << "," << ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->value()                   << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP0_RADIUS].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP1_SIZE               << "," << ui->spinBox_ImgProc_Foc_GFP_BinarySize->value()                       << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP1_SIZE].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP1_SIGMA              << "," << ui->doubleSpinBox_ImgProc_Foc_GFP_BinarySigma->value()                << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP1_SIGMA].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP1_SCALE              << "," << ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryScale->value()                << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP1_SCALE].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP1_OFFSET             << "," << ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->value()               << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP1_OFFSET].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP3_AREA_MIN           << "," << ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value()                    << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP3_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_FOCGFP3_AREA_MAX           << "," << ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value()                    << "," << QSL_MS1_Params[MS1_PARAM_FOCGFP3_AREA_MAX].toStdString() << "\n"
+
+                << MS1_PARAM_FOCRFP0_RADIUS             << "," << ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->value()                   << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP0_RADIUS].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP1_SIZE               << "," << ui->spinBox_ImgProc_Foc_RFP_BinarySize->value()                       << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP1_SIZE].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP1_SIGMA              << "," << ui->doubleSpinBox_ImgProc_Foc_RFP_BinarySigma->value()                << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP1_SIGMA].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP1_SCALE              << "," << ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryScale->value()                << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP1_SCALE].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP1_OFFSET             << "," << ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->value()               << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP1_OFFSET].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP3_AREA_MIN           << "," << ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value()                    << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP3_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_FOCRFP3_AREA_MAX           << "," << ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value()                    << "," << QSL_MS1_Params[MS1_PARAM_FOCRFP3_AREA_MAX].toStdString() << "\n"
+
+                << MS1_PARAM_FOCBOTH1_AREA_MIN          << "," << ui->doubleSpinBox_ImgProc_Foc_Both_AreaMin->value()                   << "," << QSL_MS1_Params[MS1_PARAM_FOCBOTH1_AREA_MIN].toStdString() << "\n"
+                << MS1_PARAM_FOCBOTH1_AREA_MAX          << "," << ui->doubleSpinBox_ImgProc_Foc_Both_AreaMax->value()                   << "," << QSL_MS1_Params[MS1_PARAM_FOCBOTH1_AREA_MAX].toStdString() << "\n"
+
+                << MS1_PARAM_VIS8_INTENSITY_OVERLAY     << "," << ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value()              << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_OVERLAY].toStdString() << "\n"
+                << MS1_PARAM_VIS8_INTENSITY_BACKGROUND  << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->value()       << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_BACKGROUND].toStdString() << "\n"
+
+                << MS1_PARAM_OTHER_DUPLICATE_OVERLAP    << "," << ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->value()              << "," << QSL_MS1_Params[MS1_PARAM_OTHER_DUPLICATE_OVERLAP].toStdString() << "\n";
+
+        os_param.close();
+    }
+        break;
+
+    default:
+        return;
+
+    }
 }
 
 void D_MAKRO_MegaFoci::Overview_Init()
@@ -6114,6 +6459,16 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChang
     arg1++;//useless opration to supress warning
 }
 
+void D_MAKRO_MegaFoci::on_groupBox_Seg0A_OTHER_clicked()
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BLUR_GAUSS);
+}
+
+void D_MAKRO_MegaFoci::on_groupBox_Seg0B_GFP_clicked()
+{
+    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BLUR_GAUSS);
+}
+
 void D_MAKRO_MegaFoci::on_pushButton_StepMajor_1_clicked()
 {
     set_ModeMajor_Current(MODE_MAJOR_1_AUTO_DETECTION);
@@ -6157,6 +6512,22 @@ void D_MAKRO_MegaFoci::on_horizontalSlider_OverviewBig_T_valueChanged(int value)
 {
     ui->spinBox_OverviewBig_T->setValue(value);
 }
+
+void D_MAKRO_MegaFoci::on_pushButton_ParamLoad_clicked()
+{
+    Params_Load();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_ParamSave_clicked()
+{
+    Params_Save();
+}
+
+
+
+
+
+
 
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerShowSettings_clicked(bool checked)
 {
@@ -6579,6 +6950,10 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
     arg1++;//useless opration to supress warning
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_NUCLEI_BORDERS);
 }
+
+
+
+
 
 
 
