@@ -884,6 +884,7 @@ private slots:
 
     void MS2_UpdateImage_Viewport();
     void MS2_MoveToNextViewportToProcess();
+    void MS2_MoveToNextViewport();
 
     void MS2_UpdateViewportPos();
     void MS2_InitOverlays();
@@ -946,6 +947,7 @@ private slots:
     void on_spinBox_MS2_ViewerSettings_PointDiameter_4_valueChanged(int arg1);
 
     void on_pushButton_MS2_Viewport_NextToCorrect_clicked();
+    void on_pushButton_MS2_Viewport_NextSegment_clicked();
 
     void on_spinBox_MS2_Viewport_X_valueChanged(int arg1);
     void on_spinBox_MS2_Viewport_Y_valueChanged(int arg1);
@@ -1173,6 +1175,7 @@ private slots:
     void on_groupBox_Seg0A_OTHER_clicked();
 
     void on_groupBox_Seg0B_GFP_clicked();
+
 
 private:
 

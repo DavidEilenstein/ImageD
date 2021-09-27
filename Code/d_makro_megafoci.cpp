@@ -4008,8 +4008,8 @@ void D_MAKRO_MegaFoci::MS2_Draw_Clear()
     MS2_DetOutBackup_Save();
     StatusSet("Draw: Clear all nuclei and foci");
 
-    //change state
-    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
 
     //show image
     MS2_UpdateOverlays();
@@ -4032,8 +4032,8 @@ void D_MAKRO_MegaFoci::MS2_Draw_Reset()
     MS2_DetOutBackup_Save();
     StatusSet("Draw: Reset to input initially loaded");
 
-    //change state
-    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
 
     //show image
     MS2_UpdateOverlays();
@@ -4178,8 +4178,8 @@ void D_MAKRO_MegaFoci::MS2_Draw_Points()
     //backup
     MS2_DetOutBackup_Save();
 
-    //change state
-    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
 
     //update ui
     MS2_DetOutBackup_UpdateUi();
@@ -4215,8 +4215,8 @@ void D_MAKRO_MegaFoci::MS2_Draw_Contour(vector<Point> contour)
     //backup
     MS2_DetOutBackup_Save();
 
-    //change state
-    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
 
     //update ui
     MS2_DetOutBackup_UpdateUi();
@@ -4260,8 +4260,8 @@ void D_MAKRO_MegaFoci::MS2_Draw_Remove()
     //backup
     MS2_DetOutBackup_Save();
 
-    //change state
-    vv_MS2_NucImg_State_Out_mosaikXY[ix][iy] = MS2_IMG_STATE_TO_PROCESS;
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
 
     //update ui
     MS2_DetOutBackup_UpdateUi();
@@ -5144,11 +5144,60 @@ void D_MAKRO_MegaFoci::MS2_MoveToNextViewportToProcess()
             if(x != ix || y != iy)
                 if(vv_MS2_NucImg_State_Out_mosaikXY[x][y] != MS2_IMG_STATE_PROCESSED)
                 {
+                    if(y != iy)
+                        ui->spinBox_MS2_Viewport_X->blockSignals(true);
                     ui->spinBox_MS2_Viewport_X->setValue(x);
+                    if(y != iy)
+                        ui->spinBox_MS2_Viewport_X->blockSignals(false);
+
                     ui->spinBox_MS2_Viewport_Y->setValue(y);
                     return;
                 }
         }
+}
+
+void D_MAKRO_MegaFoci::MS2_MoveToNextViewport()
+{
+    if(!state_MS2_detections_loaded)
+        return;
+
+    int ix = ui->spinBox_MS2_Viewport_X->value();
+    int iy = ui->spinBox_MS2_Viewport_Y->value();
+    int it = ui->spinBox_MS2_Viewport_T->value();
+
+    if(ix < ui->spinBox_MS2_Viewport_X->maximum())
+    {
+        ix++;
+
+        ui->spinBox_MS2_Viewport_X->setValue(ix);
+    }
+    else if(iy < ui->spinBox_MS2_Viewport_Y->maximum())
+    {
+        ix = 0;
+        iy++;
+
+        ui->spinBox_MS2_Viewport_X->blockSignals(true);
+        ui->spinBox_MS2_Viewport_X->setValue(ix);
+        ui->spinBox_MS2_Viewport_X->blockSignals(false);
+
+        ui->spinBox_MS2_Viewport_Y->setValue(iy);
+    }
+    else if(it < ui->spinBox_MS2_Viewport_T->maximum())
+    {
+        ix = 0;
+        iy = 0;
+        it++;
+
+        ui->spinBox_MS2_Viewport_X->blockSignals(true);
+        ui->spinBox_MS2_Viewport_X->setValue(ix);
+        ui->spinBox_MS2_Viewport_X->blockSignals(false);
+
+        ui->spinBox_MS2_Viewport_Y->blockSignals(true);
+        ui->spinBox_MS2_Viewport_Y->setValue(iy);
+        ui->spinBox_MS2_Viewport_Y->blockSignals(false);
+
+        ui->spinBox_MS2_Viewport_T->setValue(it);
+    }    
 }
 
 void D_MAKRO_MegaFoci::MS2_UpdateViewportPos()
@@ -6833,6 +6882,11 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_NextToCorrect_clicked()
     MS2_MoveToNextViewportToProcess();
 }
 
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Viewport_NextSegment_clicked()
+{
+    MS2_MoveToNextViewport();
+}
+
 void D_MAKRO_MegaFoci::on_spinBox_MS2_Viewport_X_valueChanged(int arg1)
 {
     ui->pushButton_MS2_Viewport_Left->setEnabled(arg1 > 0);
@@ -6950,6 +7004,8 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
     arg1++;//useless opration to supress warning
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_NUCLEI_BORDERS);
 }
+
+
 
 
 

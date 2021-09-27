@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1399</width>
+    <width>1675</width>
     <height>921</height>
    </rect>
   </property>
@@ -33,7 +33,7 @@
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
@@ -4838,20 +4838,22 @@ background-color: rgb(0,0,0);</string>
               <property name="spacing">
                <number>3</number>
               </property>
-              <item row="6" column="2" colspan="2">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
-                <property name="text">
-                 <string>Next to correct (D)</string>
-                </property>
-                <property name="shortcut">
-                 <string>D</string>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="2">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Left">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="text">
                  <string>Left (🠔)</string>
@@ -4917,6 +4919,18 @@ QProgressBar::chunk {
               </item>
               <item row="3" column="3">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Down">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Down (🠗)</string>
                 </property>
@@ -4973,6 +4987,18 @@ QProgressBar::chunk {
               </item>
               <item row="2" column="3">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Right">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Right (🠒)</string>
                 </property>
@@ -4986,6 +5012,18 @@ QProgressBar::chunk {
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Up (🠕)</string>
                 </property>
@@ -4996,6 +5034,18 @@ QProgressBar::chunk {
               </item>
               <item row="5" column="3">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Next">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Next (N)</string>
                 </property>
@@ -5009,11 +5059,67 @@ QProgressBar::chunk {
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Previous (B)</string>
                 </property>
                 <property name="shortcut">
                  <string>B</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="2">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Next to correct (D)</string>
+                </property>
+                <property name="shortcut">
+                 <string>D</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextSegment">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Next viewport (F)</string>
+                </property>
+                <property name="shortcut">
+                 <string>F</string>
                 </property>
                </widget>
               </item>
@@ -6254,7 +6360,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1399</width>
+     <width>1675</width>
      <height>22</height>
     </rect>
    </property>
