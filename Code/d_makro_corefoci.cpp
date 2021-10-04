@@ -278,6 +278,7 @@ void D_MAKRO_CoreFoci::Update_Ui()
 
 void D_MAKRO_CoreFoci::Update_ImgProc_All()
 {
+    qDebug() << "Update_ImgProc_All";
     if(FIL_Input_Images.empty())
         return;
 
@@ -289,6 +290,7 @@ void D_MAKRO_CoreFoci::Update_ImgProc_All()
 
 void D_MAKRO_CoreFoci::Update_ImgProc_Cores(unsigned int start_step)
 {
+    qDebug() << "Update_ImgProc_Cores";
     if(FIL_Input_Images.empty())
         return;
 
@@ -303,6 +305,7 @@ void D_MAKRO_CoreFoci::Update_ImgProc_Cores(unsigned int start_step)
 
 void D_MAKRO_CoreFoci::Update_ImgProc_Plasma(unsigned int start_step)
 {
+    qDebug() << "Update_ImgProc_Plasma";
     if(FIL_Input_Images.empty())
         return;
 
@@ -315,6 +318,7 @@ void D_MAKRO_CoreFoci::Update_ImgProc_Plasma(unsigned int start_step)
 
 void D_MAKRO_CoreFoci::Update_ImgProc_Foci(unsigned int start_step)
 {
+    qDebug() << "Update_ImgProc_Foci";
     if(FIL_Input_Images.empty())
         return;
 
@@ -330,6 +334,7 @@ void D_MAKRO_CoreFoci::Update_ImgProc_Foci(unsigned int start_step)
 
 void D_MAKRO_CoreFoci::Update_ImgProc_Results(unsigned int start_step)
 {
+    qDebug() << "Update_ImgProc_Results";
     if(FIL_Input_Images.empty())
         return;
 
@@ -1342,6 +1347,8 @@ void D_MAKRO_CoreFoci::Update_Combi_Results_Preset(int preset)
 
 void D_MAKRO_CoreFoci::Update_Results()
 {
+    qDebug() << "Update_Results";
+
     switch (ui->tabWidget_View_Results->currentIndex()) {
 
     case c_RES_IMAGE://=======================  image
@@ -1467,7 +1474,8 @@ void D_MAKRO_CoreFoci::Plot_Cells_Attribute_Hist()
     double x_min, x_max, y_max, step;
 
     //calc
-    ERR(D_Stat::Calc_Vector2Hist_1(
+    qDebug() << "Plot_Cells_Attribute_Hist" << "Calc hist";
+    int err = D_Stat::Calc_Vector2Hist_1(
             &v_hist,
             &(vvd_AttCel_cel[ui->comboBox_ResPlo_Cells_Att_Hist_Att->currentIndex()]),
             ui->spinBox_ResPlo_Cells_Att_Hist_Classes->value(),
@@ -1476,37 +1484,65 @@ void D_MAKRO_CoreFoci::Plot_Cells_Attribute_Hist()
             &y_max,
             &step,
             ui->checkBox_ResPlo_Cells_Att_Hist_Acc->isChecked(),
-            ui->checkBox_ResPlo_Cells_Att_Hist_Uni->isChecked()),
-        "Plot_Cells_Attribute_Hist",
-        "Claculate Histogram");
+            ui->checkBox_ResPlo_Cells_Att_Hist_Uni->isChecked());
+
+    if(err != ER_okay && err != ER_empty)
+        ERR(
+                    err,
+                    "Plot_Cells_Attribute_Hist",
+                    "Claculate Histogram");
 
     //plot
-    ERR(D_Plot::Plot_Hist_Single_Classes(
-            ChartView_Cells,
-            &v_hist,
-            x_min,
-            step,
-            "Histogram",
-            "Cells",
-            ui->comboBox_ResPlo_Cells_Att_Hist_Att->currentText(),
-            "Amount of Cells",
-            false),
-        "Plot_Cells_Attribute_Hist",
-        "Plot Histogram");
+    qDebug() << "Plot_Cells_Attribute_Hist" << "decide if failed or plot hist";
+    if((step != 0.0) || (x_max != x_min) || (v_hist.size() > 0))
+    {
+        qDebug() << "Plot_Cells_Attribute_Hist" << "plot hist";
+        ERR(D_Plot::Plot_Hist_Single_Classes(
+                ChartView_Cells,
+                &v_hist,
+                x_min,
+                step,
+                "Histogram",
+                "Cells",
+                ui->comboBox_ResPlo_Cells_Att_Hist_Att->currentText(),
+                "Amount of Cells",
+                false),
+            "Plot_Cells_Attribute_Hist",
+            "Plot Histogram");
+    }
+    else
+    {
+        qDebug() << "Plot_Cells_Attribute_Hist" << "plot empty because of fail";
+        ERR(D_Plot::Plot_Empty(
+                ChartView_Cells,
+                "Failed because (step == 0.0) || (x_max == x_min) || (v_hist.size() <= 0)"),
+            "Plot_Cells_Attribute_Hist",
+            "Plot Histogram");
+    }
+    qDebug() << "Plot_Cells_Attribute_Hist" << "plotted";
 }
 
 void D_MAKRO_CoreFoci::Plot_Cells_Attribute_Scatter()
 {
-    ERR(D_Plot::Plot_Scatter_2D_Single_Y(
+    int err = D_Plot::Plot_Scatter_2D_Single_Y(
             ChartView_Cells,
             &(vvd_AttCel_cel[ui->comboBox_ResPlo_Cells_Att_Scatter_Att_X->currentIndex()]),
             &(vvd_AttCel_cel[ui->comboBox_ResPlo_Cells_Att_Scatter_Att_Y->currentIndex()]),
             "Cell Attributes Scatter",
             "Cells",
             ui->comboBox_ResPlo_Cells_Att_Scatter_Att_X->currentText() + " of Cells",
-            ui->comboBox_ResPlo_Cells_Att_Scatter_Att_Y->currentText() + " of Cells"),
-        "Plot_Cells_Attribute_Scatter",
-        "Plot_Scatter_2D_Single_Y");
+            ui->comboBox_ResPlo_Cells_Att_Scatter_Att_Y->currentText() + " of Cells");
+
+    if(err != ER_okay && err != ER_empty)
+        ERR(
+                    err,
+                    "Plot_Cells_Attribute_Scatter",
+                    "Plot_Scatter_2D_Single_Y");
+
+    if(err == ER_empty)
+        D_Plot::Plot_Empty(
+                    ChartView_Cells,
+                    "Plot_Cells_Attribute_Scatter empty plot :-(");
 }
 
 void D_MAKRO_CoreFoci::Plot_Image_Attribute()
@@ -1649,17 +1685,17 @@ void D_MAKRO_CoreFoci::Table_Summary()
     //single
     QStringList QSL_Summary_Single =
     {
-        "Nuclei Number",
-        "Nuclei Area",
-        "Cytoplasma Area",
-        "Foci Number"
+        "Nuclei n",
+        "Nuclei A um^2",
+        "Cytoplasma A um^2",
+        "Foci n"
     };
 
     vector<double> vd_Summary_Single;
     vd_Summary_Single.resize(QSL_Summary_Single.size());
-    vd_Summary_Single[0] = vvd_AttSta_cel[c_ATT_CELL_NUCLEUS_AREA][c_STAT_COUNT];
-    vd_Summary_Single[1] = vvd_AttSta_cel[c_ATT_CELL_NUCLEUS_AREA][c_STAT_SUM];
-    vd_Summary_Single[2] = vvd_AttSta_cel[c_ATT_CELL_CYTO_AREA][c_STAT_SUM];
+    vd_Summary_Single[0] = vvd_AttSta_cel[c_ATT_CELL_NUCLEUS_AREA_UM][c_STAT_COUNT];
+    vd_Summary_Single[1] = vvd_AttSta_cel[c_ATT_CELL_NUCLEUS_AREA_UM][c_STAT_SUM];
+    vd_Summary_Single[2] = vvd_AttSta_cel[c_ATT_CELL_CYTO_AREA_UM][c_STAT_SUM];
     vd_Summary_Single[3] = vvd_AttSta_cel[c_ATT_CELL_FOCI_COUNT][c_STAT_SUM];
 
     Table_Summary_Single.set_data_d_1D_qs_qsl(
@@ -1670,13 +1706,13 @@ void D_MAKRO_CoreFoci::Table_Summary()
     //quotients
     QStringList QSL_Summary_Quotients =
     {
-        "Nuclei Area / Nuclei Number",
-        "Nuclei Area / Cytoplasma Area",
-        "Cytoplasma Area / Nuclei Number",
-        "Cytoplasma Area / Nuclei Area",
-        "Foci Number / Nuclei Number",
-        "Foci Number / Nuclei Area",
-        "Foci Number / Cytoplasma Area"
+        "Nuclei A / Nuclei n",
+        "Nuclei A / Cytoplasma A",
+        "Cytoplasma A / Nuclei n",
+        "Cytoplasma A / Nuclei A",
+        "Foci n / Nuclei n",
+        "Foci n / Nuclei A",
+        "Foci n / Cytoplasma A"
     };
 
     vector<double> vd_Summary_Quotients;
@@ -1739,6 +1775,8 @@ void D_MAKRO_CoreFoci::Parameters_Init()
 
     vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_FOCI_RES_MAX_EXPECTED]     = 15000.0;
 
+    vvd_ParameterPresets_SetPar[c_PRESET_NIKON][C_PAR_CALC_PX_TO_UM]             = 0.035;
+
 
 
     //LEICA
@@ -1779,6 +1817,8 @@ void D_MAKRO_CoreFoci::Parameters_Init()
     vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_EXCLUDE_BORDER]     = 1.0;
 
     vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_FOCI_RES_MAX_EXPECTED]   = 255.0;
+
+    vvd_ParameterPresets_SetPar[c_PRESET_LEICA][C_PAR_CALC_PX_TO_UM]           = 1.0;
 }
 
 void D_MAKRO_CoreFoci::Parameters_ActivatePreset()
@@ -1835,6 +1875,9 @@ void D_MAKRO_CoreFoci::Parameters_ParamSetToUi(vector<double> vParams)
     //Results
     ui->spinBox_Results_SpreadMax->setValue(                    static_cast<int>(   vParams[C_PAR_FOCI_RES_MAX_EXPECTED]));
 
+    //calc
+    ui->doubleSpinBox_PixelArea_to_umArea->setValue(            static_cast<double>(vParams[C_PAR_CALC_PX_TO_UM]));
+
     Proc_BlocSignals(false);
 }
 
@@ -1865,14 +1908,14 @@ void D_MAKRO_CoreFoci::Calc_Cells_Attrib()
     v_area.clear();
     v_objects.clear();
     ERR(D_Img_Proc::Split_ObjectAreas(
-                &(v_objects),                           //Nuclei count
-                &(v_area),                              //Nuclei area
-                &(vMA_Foci[c_ST_F_REGIONS_CELLS_APPROX]),            //Regions
-                &(vMA_Cores[c_ST_C_BIN_INV]),           //Nuclei binary
+                &(v_objects),                               //Nuclei count
+                &(v_area),                                  //Nuclei area
+                &(vMA_Foci[c_ST_F_REGIONS_CELLS_APPROX]),   //Regions
+                &(vMA_Cores[c_ST_C_BIN_INV]),               //Nuclei binary
                 4),
         "Calc_Cells_Attrib",
         "Nuclei");
-    vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA] = v_area;
+    vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA_PX] = v_area;
 
     //qDebug() << "Calc_Cells_Attrib - Split_ObjectAreas - Cytoplasma";
     v_area.clear();
@@ -1885,7 +1928,7 @@ void D_MAKRO_CoreFoci::Calc_Cells_Attrib()
                 4),
         "Calc_Cells_Attrib",
         "Cytoplasma");
-    vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA] = v_area;
+    vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_PX] = v_area;
 
     //qDebug() << "Calc_Cells_Attrib - Split_ObjectAreas - Foci";
     v_area.clear();
@@ -1898,8 +1941,21 @@ void D_MAKRO_CoreFoci::Calc_Cells_Attrib()
                 4),
         "Calc_Cells_Attrib",
         "Foci");
-    vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA] = v_area;
+    vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA_PX] = v_area;
     vvd_AttCel_cel[c_ATT_CELL_FOCI_COUNT] = v_objects;
+
+    //convert px->um
+    //qDebug() << "Calc_Cells_Attrib" << "start convert px to um";
+    vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA_UM].resize(vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA_PX].size(), 0);
+    vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_UM].resize(vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_PX].size(), 0);
+    vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA_UM].resize(vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA_PX].size(), 0);
+    for(size_t c = 0; c < vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_PX].size(); c++)
+    {
+        vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA_UM][c]   = vvd_AttCel_cel[c_ATT_CELL_NUCLEUS_AREA_PX][c] * ui->doubleSpinBox_PixelArea_to_umArea->value();
+        vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_UM][c]      = vvd_AttCel_cel[c_ATT_CELL_CYTO_AREA_PX][c]    * ui->doubleSpinBox_PixelArea_to_umArea->value();
+        vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA_UM][c]      = vvd_AttCel_cel[c_ATT_CELL_FOCI_AREA_PX][c]    * ui->doubleSpinBox_PixelArea_to_umArea->value();
+    }
+    //qDebug() << "Calc_Cells_Attrib" << "finish convert px to um";
 
     //---------------------------------------------------------------------- statistical attributes
 
@@ -2018,7 +2074,8 @@ void D_MAKRO_CoreFoci::Load_Images()
     pStore->set_dir_M_dsDNA(QSL_Input_Images.first());
 
     //load params, if saved
-    LoadParams_CurrentDir();
+    if(ui->checkBox_AutoLoadParams->isChecked())
+        LoadParams_CurrentDir();
 
     //update
     Update_ImgProc_All();
@@ -2121,37 +2178,78 @@ bool D_MAKRO_CoreFoci::LoadParams(QString QS_FileName)
     string st_line;
 
     vector<double> v_params(c_PAR_NUMBER_OF, 0);
-    while(getline(is_param, st_line))
+    bool format_check = true;
+    int line_counter = 0;
+    while(getline(is_param, st_line) && format_check)
     {
         QString QS_Line = QString::fromStdString(st_line);
         //qDebug() << QS_Line << "---------------------------------";
         QStringList QSL_Blocks = QS_Line.split(",");
-        if(QSL_Blocks.size() == 4 || QSL_Blocks.size() == 2) //4 from v2.0.4 and 2 in v2.0.3
+
+        if(line_counter == 0)
         {
-            //qDebug() << "4 blocks";
-            bool ok;
-            int param_index = QSL_Blocks[0].toInt(&ok);
-            if(ok)
+            if(QSL_Blocks.size() >= 1)
             {
-                //qDebug() << "param index read" << param_index;
-                if(param_index >= 0 && param_index < c_PAR_NUMBER_OF)
+                if(QSL_Blocks[0] != "Path")
                 {
-                    //qDebug() << "param index valid";
-                    double param_value = QSL_Blocks[1].toDouble(&ok);
-                    if(ok)
+                    format_check = false;
+                }
+            }
+            else
+            {
+                format_check = false;
+            }
+        }
+
+        if(format_check)
+        {
+            if(QSL_Blocks.size() == 4 || QSL_Blocks.size() == 2) //4 from v2.0.4 and 2 in v2.0.3
+            {
+                //qDebug() << "4 blocks";
+                bool ok;
+                int param_index = QSL_Blocks[0].toInt(&ok);
+                if(ok)
+                {
+                    //qDebug() << "param index read" << param_index;
+                    if(param_index >= 0 && param_index < c_PAR_NUMBER_OF)
                     {
-                        //qDebug() << "param value valid" << param_value;
-                        v_params[param_index] = param_value;
-                        //qDebug() << "param value saved :-)";
+                        //qDebug() << "param index valid";
+                        double param_value = QSL_Blocks[1].toDouble(&ok);
+                        if(ok)
+                        {
+                            //qDebug() << "param value valid" << param_value;
+                            v_params[param_index] = param_value;
+                            //qDebug() << "param value saved :-)";
+                        }
                     }
                 }
             }
         }
+        else
+        {
+            ERR(
+                        ER_other,
+                        "LoadParams",
+                        "You tried to load an incopatible parameters file. Loading of parameters is quit.<br>"
+                        "A compatible parameters file can be obtained by using the the ''save parameters'' button in the top right.<br>"
+                        "It looks something like this:<br>"
+                        "<br>"
+                        "Path,C:/InputImages/Parameters_Mo Okt 4 11x26x55 2021.csv<br>"
+                        "DateTime of Analysis,Mo Okt 4 11:26:59 2021<br>"
+                        "Version,v2_1_1<br>"
+                        "Release Date,04.10.2021<br>"
+                        "0,85,Nuclei, blur size<br>"
+                        "1,30,Nuclei, blur sigma<br>"
+                        "...");
+        }
+
+        line_counter++;
     }
 
     is_param.close();
 
-    Parameters_ParamSetToUi(v_params);
+    if(format_check)
+        Parameters_ParamSetToUi(v_params);
 
     //qDebug() << "D_MAKRO_CoreFoci::LoadParams" << "loaded" << QS_FileName << ":-)";
     return true;
@@ -2218,7 +2316,9 @@ void D_MAKRO_CoreFoci::SaveParams()
             << C_PAR_FOCI_AREA_MAX          << "," << ui->spinBox_SetFoci_06_Size_Max->value()                      << "," << QSL_ParameterNames[C_PAR_FOCI_AREA_MAX].toStdString() << "\n"
             << C_PAR_FOCI_EXCLUDE_BORDER    << "," << double(ui->checkBox_SetFoci_13_ExcludeBordered->isChecked())  << "," << QSL_ParameterNames[C_PAR_FOCI_EXCLUDE_BORDER].toStdString() << "\n"
 
-            << C_PAR_FOCI_RES_MAX_EXPECTED  << "," << ui->spinBox_Results_SpreadMax->value()                        << "," << QSL_ParameterNames[C_PAR_FOCI_RES_MAX_EXPECTED].toStdString() << "\n";
+            << C_PAR_FOCI_RES_MAX_EXPECTED  << "," << ui->spinBox_Results_SpreadMax->value()                        << "," << QSL_ParameterNames[C_PAR_FOCI_RES_MAX_EXPECTED].toStdString() << "\n"
+
+            << C_PAR_CALC_PX_TO_UM          << "," << ui->doubleSpinBox_PixelArea_to_umArea->value()                << "," << QSL_ParameterNames[C_PAR_CALC_PX_TO_UM].toStdString() << "\n";
 
     os_param.close();
 }
@@ -2399,10 +2499,13 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Init()
     //img - attributes
     v_StreamImage_PlotAttrib.clear();
     v_StreamImage_PlotAttrib.resize(c_ATT_CELL_NUMBER_OF, 0);
-    v_StreamImage_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA]       = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
-    v_StreamImage_PlotAttrib[c_ATT_CELL_CYTO_AREA]          = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA_PX]    = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA_UM]    = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_CYTO_AREA_PX]       = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_CYTO_AREA_UM]       = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
     v_StreamImage_PlotAttrib[c_ATT_CELL_FOCI_COUNT]         = static_cast<int>(ui->checkBox_OutImg_Plots_FocNumber->checkState());
-    v_StreamImage_PlotAttrib[c_ATT_CELL_FOCI_AREA]          = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_FOCI_AREA_PX]       = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
+    v_StreamImage_PlotAttrib[c_ATT_CELL_FOCI_AREA_UM]       = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
     v_StreamImage_PlotAttrib[c_ATT_CELL_NUCLEUS_MEAN_I]     = static_cast<int>(ui->checkBox_OutImg_Plots_NucMeanInt->checkState());
 
     //stack - img
@@ -2418,10 +2521,13 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Init()
     //stack - attributes
     v_StreamStack_PlotAttrib.clear();
     v_StreamStack_PlotAttrib.resize(c_ATT_CELL_NUMBER_OF, 0);
-    v_StreamStack_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA]       = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
-    v_StreamStack_PlotAttrib[c_ATT_CELL_CYTO_AREA]          = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA_PX]    = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_NUCLEUS_AREA_UM]    = static_cast<int>(ui->checkBox_OutImg_Plots_NucArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_CYTO_AREA_PX]       = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_CYTO_AREA_UM]       = static_cast<int>(ui->checkBox_OutImg_Plots_CytArea->checkState());
     v_StreamStack_PlotAttrib[c_ATT_CELL_FOCI_COUNT]         = static_cast<int>(ui->checkBox_OutImg_Plots_FocNumber->checkState());
-    v_StreamStack_PlotAttrib[c_ATT_CELL_FOCI_AREA]          = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_FOCI_AREA_PX]       = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
+    v_StreamStack_PlotAttrib[c_ATT_CELL_FOCI_AREA_UM]       = static_cast<int>(ui->checkBox_OutImg_Plots_FocArea->checkState());
     v_StreamStack_PlotAttrib[c_ATT_CELL_NUCLEUS_MEAN_I]     = static_cast<int>(ui->checkBox_OutImg_Plots_NucMeanInt->checkState());
 
     //stack stream img subfolders

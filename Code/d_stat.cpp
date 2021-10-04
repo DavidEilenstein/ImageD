@@ -2739,6 +2739,19 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
 
 int D_Stat::Calc_Vector2Hist_1(vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_x_ext, double *max_x_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform)
 {
+    if(class_count < 2)
+        class_count = 2;
+
+    if(v_data->empty())
+    {
+        *min_x_ext = 0.0;
+        *max_x_ext = 0.0;
+        *max_y_ext = 0.0;
+        *step_ext = 0.0;
+        *v_hist = vector<double>(class_count, 0.0);
+        return ER_empty;
+    }
+
     //find min and max
     double min_x = (*v_data)[0];
     double max_x = (*v_data)[0];
@@ -2765,12 +2778,13 @@ int D_Stat::Calc_Vector2Hist_1(vector<double> *v_hist, vector<double> *v_data, u
 
     //calc hist
     v_hist->resize(class_count, 0.0);
-    for(unsigned int elem = 0; elem < v_data->size(); elem++)
-    {
-        double val = (*v_data)[elem];           //y
-        double pos = (val - min_x) / step_x;    //x
-        (*v_hist)[pos]++;
-    }
+    if(step_x > 0)
+        for(unsigned int elem = 0; elem < v_data->size(); elem++)
+        {
+            double val = (*v_data)[elem];                   //y
+            size_t pos = size_t((val - min_x) / step_x);    //x
+            (*v_hist)[pos]++;
+        }
 
 
     //accumulate
@@ -2780,8 +2794,9 @@ int D_Stat::Calc_Vector2Hist_1(vector<double> *v_hist, vector<double> *v_data, u
 
     //uniform
     if(uniform)
-        for(unsigned int elem = 0; elem < v_hist->size(); elem++)
-             (*v_hist)[elem] /= (double)(v_data->size());
+        if(v_data->size() > 0)
+            for(unsigned int elem = 0; elem < v_hist->size(); elem++)
+                (*v_hist)[elem] /= double(v_data->size());
 
     //max y
     double max_y = 0;

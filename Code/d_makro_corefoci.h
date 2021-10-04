@@ -354,6 +354,7 @@ private:
         C_PAR_FOCI_AREA_MAX,
         C_PAR_FOCI_EXCLUDE_BORDER,
         C_PAR_FOCI_RES_MAX_EXPECTED,
+        C_PAR_CALC_PX_TO_UM,
         c_PAR_NUMBER_OF
     };
     const QStringList QSL_ParameterNames = {
@@ -387,7 +388,8 @@ private:
         "Foci, area selection min",
         "Foci, area selection max",
         "Foci, exclude border connected",
-        "Foci, visualization max value expected"
+        "Results, visualization max value expected",
+        "Calc, px area to um area factor"
     };
 
     //Resulttypes
@@ -463,23 +465,29 @@ private:
 
     //Cells
     enum c_AttCell {
-        c_ATT_CELL_NUCLEUS_AREA     = 0,
-        c_ATT_CELL_CYTO_AREA        = 1,
-        c_ATT_CELL_FOCI_COUNT       = 2,
-        c_ATT_CELL_FOCI_AREA        = 3,
-        c_ATT_CELL_NUCLEUS_MEAN_I   = 4,
-      //C_ATT_CELL_NUCLEUS_SUM_I    = 5,
-        c_ATT_CELL_NUMBER_OF        = 5
+        c_ATT_CELL_NUCLEUS_AREA_PX,
+        c_ATT_CELL_NUCLEUS_AREA_UM,
+        c_ATT_CELL_CYTO_AREA_PX,
+        c_ATT_CELL_CYTO_AREA_UM,
+        c_ATT_CELL_FOCI_COUNT,
+        c_ATT_CELL_FOCI_AREA_PX,
+        c_ATT_CELL_FOCI_AREA_UM,
+        c_ATT_CELL_NUCLEUS_MEAN_I,
+        c_ATT_CELL_NUMBER_OF
     };
     QStringList QSL_AttCel =
     {
-        "Area of Nucleus",
-        "Area of Cytoplasma",
+        "Area of Nucleus px x px",
+        "Area of Nucleus um x um",
+        "Area of Cytoplasma px x px",
+        "Area of Cytoplasma um x um",
         "Number of Foci",
-        "Area of Foci",
-        "Mean Nucleus Intensity",
+        "Area of Foci px x px",
+        "Area of Foci um x um",
+        "Mean Nucleus Intensity"
         //"Sum Nucleus Intensity"
     };
+
 /*
     //Images
     static const unsigned int
