@@ -16774,39 +16774,12 @@ int D_Img_Proc::Draw_Line_Bresenham(Mat *pMA_Target, Point P1, Point P2, double 
     if(P2.y < 0 || P2.y >= pMA_Target->rows)    return ER_index_out_of_range;
     if(pMA_Target->type() != CV_8UC1)           return ER_type_bad;
 
-    //shifts in x and y
-    int dx = P2.x - P1.x;
-    int dy = P2.y - P1.y;
+    //get line coordinates
+    vector<Point> vLine = D_Math::Line_Bresenham_8(P1, P2);
 
-    //point to draw to (changes in while loop)
-    int x = P1.x;
-    int y = P1.y;
-
-    //set starting pixel
-    pMA_Target->at<uchar>(y, x) = static_cast<uchar>(val);
-
-    //error
-    int errorXdx = 0;
-
-    //loop line in x direction
-    while(x < P2.x)
-    {
-        //step to the right
-        x++;
-
-        //deviation of point to line as an effect of the slope of the line and discretisation
-        errorXdx += dy;
-
-        //check, if correction is needed
-        if(errorXdx > (dx / 2.0))
-        {
-            y++;
-            errorXdx -= dx;
-        }
-
-        //set new pixel
-        pMA_Target->at<uchar>(y, x) = static_cast<uchar>(val);
-    }
+    //draw line pixels
+    for(size_t p = 0; p < vLine.size(); p++)
+        pMA_Target->at<uchar>(vLine[p]) = uchar(val);
 
     return ER_okay;
 }
@@ -18417,7 +18390,7 @@ int D_Img_Proc::Draw_Label_Numbers_Center(Mat *pMA_Out, Mat *pMA_Label, double s
  * \param value intensity of contours in image
  * \return error code
  */
-int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point> > vContours, int line_thickness, double value)
+int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point>> vContours, int line_thickness, double value)
 {
     ///error checks
     if(pMA_Target->empty())                                         return ER_empty;
@@ -18437,15 +18410,12 @@ int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point> > vContours,
     default:                                            return ER_channel_bad;}
 
     /*
-    for(size_t blob = 0; blob < vContours.size(); blob++)
-    {
-        qDebug() << "blob" << blob << "of" << vContours.size() << "-----------------------------------------------------------------";
-        for(size_t pt = 0; pt < vContours[blob].size(); pt++)
-        {
-            qDebug() << "point" << pt << "of" << vContours[blob].size() << "x" << vContours[blob][pt].x << "/" << pMA_Target->cols << "y" << vContours[blob][pt].y << "/" << pMA_Target->rows;
-        }
-    }
-    */
+    ///close gaps in contours
+    vector<vector<Point>> vContoursWithoutGaps = vContours;
+    int err = D_Math::Close_Contour_Gaps_With_Lines_8(&vContoursWithoutGaps);
+    if(err != ER_okay)
+        return err;
+        */
 
     ///draw contours
     if(vContours.empty())

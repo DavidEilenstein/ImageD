@@ -91,10 +91,19 @@ public:
     static function<double (double val_in)>         Log_Centered            (double min, double max, double center, double divisor);
 
 
-    static Point                                    Minimum_TrisectionInterval  (function<double (double)> F, double start_border_low, double start_border_high, double resolution_needed);
-    static int                                      MedianRunning               (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size);
-    static int                                      QuantilRunning              (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size, double quantil_lower);
-    static int                                      Maximum_Gil                 (vector<double> *vDataOut, vector<double> *vDataIn, size_t mask_size);
+    static bool                                     Points_Are_Neighbors_8          (Point P0, Point P1);
+    static vector<Point>                            Line_Bresenham_8                (Point P0, Point P1);
+private:
+    static vector<Point>                            Line_Bresenham_8_Low            (int x0, int y0, int x1, int y1);
+    static vector<Point>                            Line_Bresenham_8_High           (int x0, int y0, int x1, int y1);
+public:
+    static int                                      Close_Contour_Gaps_With_Lines_8 (vector<Point> *pvContour);
+    static int                                      Close_Contour_Gaps_With_Lines_8 (vector<vector<Point>> *pvvContours);
+
+    static Point                                    Minimum_TrisectionInterval      (function<double (double)> F, double start_border_low, double start_border_high, double resolution_needed);
+    static int                                      MedianRunning                   (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size);
+    static int                                      QuantilRunning                  (vector<uchar> *vDataOut, vector<uchar> vDataIn, size_t mask_size, double quantil_lower);
+    static int                                      Maximum_Gil                     (vector<double> *vDataOut, vector<double> *vDataIn, size_t mask_size);
 
     static Mat  Homogenious_2D              (double x, double y);
     static Mat  Homogenious_2D              (double u, double v, double w);

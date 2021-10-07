@@ -515,7 +515,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepFrom_MS3(size_t step_start)
 
         if(state_stack_processing || state_first_proc_on_start)
         {
-            ui->comboBox_ImgProc_StepShow->setCurrentIndex(static_cast<int>(s));
+            //qDebug() << "Update_ImageProcessing_StepFrom_MS3" << "select currecnt BV step in ui";
+            ui->comboBox_MS3_ImgProc_StepShow->setCurrentIndex(static_cast<int>(s));
+
+            //qDebug() << "Update_ImageProcessing_StepFrom_MS3" << "updatre ui";
             Update_Ui();
         }
     }
@@ -546,6 +549,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
     int dataset_pos_x = ui->spinBox_Viewport_X->value();
     int dataset_pos_y = ui->spinBox_Viewport_Y->value();
     int dataset_pos_t = ui->spinBox_Viewport_T->value();
+
+    //major step 1?
+    bool ms1 = (mode_major_current == MODE_MAJOR_1_AUTO_DETECTION);
 
     //select step to do
     StatusSet("ImgProcMS1: " + QSL_Steps[static_cast<int>(step)]);
@@ -630,11 +636,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_PRE_BLUR_GAUSS]),
                 &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
-                ui->spinBox_ImgProc_Pre_Blur_Size->value(),
-                ui->spinBox_ImgProc_Pre_Blur_Size->value(),
+                ms1 ? ui->spinBox_ImgProc_Pre_Blur_Size->value() : ui->spinBox_MS3_ImgProc_Pre_Blur_Size->value(),
+                ms1 ? ui->spinBox_ImgProc_Pre_Blur_Size->value() : ui->spinBox_MS3_ImgProc_Pre_Blur_Size->value(),
                 BORDER_DEFAULT,
-                ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value(),
-                ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value()),
+                ms1 ? ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value() : ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value(),
+                ms1 ? ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value() : ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_PRE_BLUR_GAUSS");
     }
@@ -646,7 +652,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
                 &(vVD_ImgProcSteps[STEP_PRE_BLUR_GAUSS]),
                 c_DIM_Z,
-                ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex(),
+                ms1 ? ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex() : ui->comboBox_MS3_ImgProc_ProjectZ_Stat->currentIndex(),
                 CV_16UC1),
             "Update_ImageProcessing_StepSingle",
             "STEP_PRE_PROJECT_Z - Project Z-dimension to get a 2D image");
@@ -719,9 +725,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::GammaSpread(
                 &(vVD_ImgProcSteps[STEP_VIS_OTHER]),
                 &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
-                ui->doubleSpinBox_ImgProc_Vis_Other_Gamma->value(),
-                ui->spinBox_ImgProc_Vis_Other_Min->value(),
-                ui->spinBox_ImgProc_Vis_Other_Max->value(),
+                ms1 ? ui->doubleSpinBox_ImgProc_Vis_Other_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_Other_Min->value() : ui->spinBox_MS3_ImgProc_Vis_Other_Min->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_Other_Max->value() : ui->spinBox_MS3_ImgProc_Vis_Other_Max->value(),
                 0,
                 255,
                 true),
@@ -735,9 +741,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::GammaSpread(
                 &(vVD_ImgProcSteps[STEP_VIS_GFP]),
                 &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                ui->doubleSpinBox_ImgProc_Vis_GFP_Gamma->value(),
-                ui->spinBox_ImgProc_Vis_GFP_Min->value(),
-                ui->spinBox_ImgProc_Vis_GFP_Max->value(),
+                ms1 ? ui->doubleSpinBox_ImgProc_Vis_GFP_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_GFP_Min->value() : ui->spinBox_MS3_ImgProc_Vis_GFP_Min->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_GFP_Max->value() : ui->spinBox_MS3_ImgProc_Vis_GFP_Max->value(),
                 0,
                 255,
                 true),
@@ -751,9 +757,9 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::GammaSpread(
                 &(vVD_ImgProcSteps[STEP_VIS_RFP]),
                 &(vVD_ImgProcSteps[STEP_PCK_RFP]),
-                ui->doubleSpinBox_ImgProc_Vis_RFP_Gamma->value(),
-                ui->spinBox_ImgProc_Vis_RFP_Min->value(),
-                ui->spinBox_ImgProc_Vis_RFP_Max->value(),
+                ms1 ? ui->doubleSpinBox_ImgProc_Vis_RFP_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_RFP_Min->value() : ui->spinBox_MS3_ImgProc_Vis_RFP_Min->value(),
+                ms1 ? ui->spinBox_ImgProc_Vis_RFP_Max->value() : ui->spinBox_MS3_ImgProc_Vis_RFP_Max->value(),
                 0,
                 255,
                 true),
@@ -2010,12 +2016,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                     ER_parameter_bad,
                     "Update_ImageProcessing_StepSingle",
                     "default case reached - step parameter out of range");
+        StatusSet("ImgProcMS1: Error - No matching step parameter found");
         return;
     }
 
     }
-
-
 }
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
@@ -2027,10 +2032,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3(size_t step)
         return;
 
     //select step to do
-    StatusSet("ImgProcMS3: " + QSL_Steps_MS3[static_cast<int>(step)]);
+    StatusSet("ImgProcMS3: " + QSL_Steps_MS3[int(step)]);
 
     //chose method for proc step style
-    if(step <= STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_ALL)
+    if(step <= STEP_MS3_VIS_PAGES_AS_COLOR_ALL)
         return Update_ImageProcessing_StepSingle_MS1(step);
     else if(step <= STEP_MS3_VIS_FOCI_BOTH)
         return Update_ImageProcessing_StepSingle_MS3_DrawDetections(step);
@@ -2171,6 +2176,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
 
 void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(size_t step)
 {
+    //qDebug() << "Update_ImageProcessing_StepSingle_MS3_VisualizeResults" << "start";
+
     if(state_block_img_proc_update)
         return;
 
@@ -2178,9 +2185,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
     {
         ERR(ER_index_out_of_range,
             "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
-            "Index " + QSL_Steps_MS3[step] + " does not fit to this function");
+            "Index " + QSL_Steps_MS3[int(step)] + " does not fit to this function");
         return;
     }
+
+    //qDebug() << step;
+    //qDebug() << QSL_Steps_MS3[int(step)];
 
     switch (step) {
 
@@ -2216,7 +2226,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
     {
         ERR(D_VisDat_Proc::OverlayOverwrite(
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND]),
-                &(vVD_ImgProcSteps[STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_PAGES_AS_COLOR_ALL]),
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS]),
                 ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
                 ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->value() / 100.0),
@@ -2227,23 +2237,28 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
 
     case STEP_MS3_VIS_REGIONS_FOCI_COUNT:
     {
+        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "start";
         if(!state_image_decomposed)
         {
+            qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "no decomp";
             ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_MS3_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
             vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT] = vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND];
             return;
         }
 
         //get pos in dataset
+        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get pos";
         int pos_x = ui->spinBox_Viewport_X->value();
         int pos_y = ui->spinBox_Viewport_Y->value();
         int pos_t = ui->spinBox_Viewport_T->value();
 
         //get foci counts as QStringList
+        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get labels";
         QStringList QSL_LabelTexts = QStringList();
         vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_FociCount_append(&QSL_LabelTexts);
 
-        int ER = D_VisDat_Proc::Draw_Label_Text(
+        //draw labels
+        int err = D_VisDat_Proc::Draw_Label_Text(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
                     &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT]),
                     &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND]),
@@ -2254,9 +2269,14 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
                     true,
                     255, 255, 255,
                     4);
-        ERR(ER, "Update_ImageProcessing_StepSingle_MS3_VisualizeResults", "STEP_MS3_VIS_REGIONS_FOCI_COUNT - put numbers on image");
-        if(ER != ER_okay)
+        ERR(err, "Update_ImageProcessing_StepSingle_MS3_VisualizeResults", "STEP_MS3_VIS_REGIONS_FOCI_COUNT - put numbers on image");
+        if(err != ER_okay)
+        {
+            qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "failes";
             return;
+        }
+
+        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "finish";
     }
         break;
 
@@ -3056,11 +3076,39 @@ bool D_MAKRO_MegaFoci::Params_Load(QString QS_FileName)
                         case MS1_PARAM_FOCBOTH1_AREA_MAX:           ui->doubleSpinBox_ImgProc_Foc_Both_AreaMax->setValue(param_value);                      break;
 
                         case MS1_PARAM_VIS8_INTENSITY_OVERLAY:      ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->setValue(param_value);                 break;
-                        case MS1_PARAM_VIS8_INTENSITY_BACKGROUND:   ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->setValue(param_value);          break;
+                        case MS1_PARAM_VIS8_INTENSITY_BACKGROUND:   ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->setValue(param_value);              break;
 
                         case MS1_PARAM_OTHER_DUPLICATE_OVERLAP:     ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->setValue(param_value);                 break;
 
                         default:                                                                                                                            break;
+                        }
+                    }
+                    break;
+
+                    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:
+                    {
+                        switch (param_index)
+                        {
+                        case MS3_PARAM_PRE5_BLUR_SIZE:              ui->spinBox_MS3_ImgProc_Pre_Blur_Size->setValue(int(param_value));                          break;
+                        case MS3_PARAM_PRE5_BLUR_SIGMA:             ui->doubleSpinBox_MS3_ImgProc_Pre_Blur_Sigma->setValue(param_value);                        break;
+                        case MS3_PARAM_PRE6_STAT:                   ui->comboBox_MS3_ImgProc_ProjectZ_Stat->setCurrentIndex(int(param_value));                  break;
+
+                        case MS3_PARAM_VIS0_NUC_MIN:                ui->spinBox_MS3_ImgProc_Vis_Other_Min->setValue(int(param_value));                          break;
+                        case MS3_PARAM_VIS0_NUC_MAX:                ui->spinBox_MS3_ImgProc_Vis_Other_Max->setValue(int(param_value));                          break;
+                        case MS3_PARAM_VIS0_NUC_GAMMA:              ui->doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma->setValue(param_value);                       break;
+                        case MS3_PARAM_VIS1_GFP_MIN:                ui->spinBox_MS3_ImgProc_Vis_GFP_Min->setValue(int(param_value));                            break;
+                        case MS3_PARAM_VIS1_GFP_MAX:                ui->spinBox_MS3_ImgProc_Vis_GFP_Max->setValue(int(param_value));                            break;
+                        case MS3_PARAM_VIS1_GFP_GAMMA:              ui->doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma->setValue(param_value);                         break;
+                        case MS3_PARAM_VIS2_RFP_MIN:                ui->spinBox_MS3_ImgProc_Vis_RFP_Min->setValue(int(param_value));                            break;
+                        case MS3_PARAM_VIS2_RFP_MAX:                ui->spinBox_MS3_ImgProc_Vis_RFP_Max->setValue(int(param_value));                            break;
+                        case MS3_PARAM_VIS2_RFP_GAMMA:              ui->doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma->setValue(param_value);                         break;
+
+                        case MS1_PARAM_VIS8_INTENSITY_OVERLAY:      ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay->setValue(param_value);                 break;
+                        case MS1_PARAM_VIS8_INTENSITY_BACKGROUND:   ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->setValue(param_value);              break;
+
+                        case MS1_PARAM_OTHER_DUPLICATE_OVERLAP:     ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->setValue(param_value);                     break;
+
+                        default:                                                                                                                                break;
                         }
                     }
                     break;
@@ -3190,9 +3238,36 @@ void D_MAKRO_MegaFoci::Params_Save()
                 << MS1_PARAM_FOCBOTH1_AREA_MAX          << "," << ui->doubleSpinBox_ImgProc_Foc_Both_AreaMax->value()                   << "," << QSL_MS1_Params[MS1_PARAM_FOCBOTH1_AREA_MAX].toStdString() << "\n"
 
                 << MS1_PARAM_VIS8_INTENSITY_OVERLAY     << "," << ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value()              << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_OVERLAY].toStdString() << "\n"
-                << MS1_PARAM_VIS8_INTENSITY_BACKGROUND  << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->value()       << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_BACKGROUND].toStdString() << "\n"
+                << MS1_PARAM_VIS8_INTENSITY_BACKGROUND  << "," << ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value()           << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_BACKGROUND].toStdString() << "\n"
 
                 << MS1_PARAM_OTHER_DUPLICATE_OVERLAP    << "," << ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->value()              << "," << QSL_MS1_Params[MS1_PARAM_OTHER_DUPLICATE_OVERLAP].toStdString() << "\n";
+
+        os_param.close();
+    }
+        break;
+
+    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:
+    {
+        //Params
+        os_param
+                << MS3_PARAM_PRE5_BLUR_SIZE             << "," << ui->spinBox_MS3_ImgProc_Pre_Blur_Size->value()                            << "," << QSL_MS3_Params[MS3_PARAM_PRE5_BLUR_SIZE].toStdString() << "\n"
+                << MS3_PARAM_PRE5_BLUR_SIGMA            << "," << ui->doubleSpinBox_MS3_ImgProc_Pre_Blur_Sigma->value()                     << "," << QSL_MS3_Params[MS3_PARAM_PRE5_BLUR_SIGMA].toStdString() << "\n"
+                << MS3_PARAM_PRE6_STAT                  << "," << ui->comboBox_MS3_ImgProc_ProjectZ_Stat->currentIndex()                    << "," << QSL_MS3_Params[MS3_PARAM_PRE6_STAT].toStdString() << "\n"
+
+                << MS3_PARAM_VIS0_NUC_MIN               << "," << ui->spinBox_MS3_ImgProc_Vis_Other_Min->value()                            << "," << QSL_MS3_Params[MS3_PARAM_VIS0_NUC_MIN].toStdString() << "\n"
+                << MS3_PARAM_VIS0_NUC_MAX               << "," << ui->spinBox_MS3_ImgProc_Vis_Other_Max->value()                            << "," << QSL_MS3_Params[MS3_PARAM_VIS0_NUC_MAX].toStdString() << "\n"
+                << MS3_PARAM_VIS0_NUC_GAMMA             << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma->value()                    << "," << QSL_MS3_Params[MS3_PARAM_VIS0_NUC_GAMMA].toStdString() << "\n"
+                << MS3_PARAM_VIS1_GFP_MIN               << "," << ui->spinBox_MS3_ImgProc_Vis_GFP_Min->value()                              << "," << QSL_MS3_Params[MS3_PARAM_VIS1_GFP_MIN].toStdString() << "\n"
+                << MS3_PARAM_VIS1_GFP_MAX               << "," << ui->spinBox_MS3_ImgProc_Vis_GFP_Max->value()                              << "," << QSL_MS3_Params[MS3_PARAM_VIS1_GFP_MAX].toStdString() << "\n"
+                << MS3_PARAM_VIS1_GFP_GAMMA             << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma->value()                      << "," << QSL_MS3_Params[MS3_PARAM_VIS1_GFP_GAMMA].toStdString() << "\n"
+                << MS3_PARAM_VIS2_RFP_MIN               << "," << ui->spinBox_MS3_ImgProc_Vis_RFP_Min->value()                              << "," << QSL_MS3_Params[MS3_PARAM_VIS2_RFP_MIN].toStdString() << "\n"
+                << MS3_PARAM_VIS2_RFP_MAX               << "," << ui->spinBox_MS3_ImgProc_Vis_RFP_Max->value()                              << "," << QSL_MS3_Params[MS3_PARAM_VIS2_RFP_MAX].toStdString() << "\n"
+                << MS3_PARAM_VIS2_RFP_GAMMA             << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma->value()                      << "," << QSL_MS3_Params[MS3_PARAM_VIS2_RFP_GAMMA].toStdString() << "\n"
+
+                << MS3_PARAM_VIS6_INTENSITY_OVERLAY     << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay->value()              << "," << QSL_MS3_Params[MS3_PARAM_VIS6_INTENSITY_OVERLAY].toStdString() << "\n"
+                << MS3_PARAM_VIS6_INTENSITY_BACKGROUND  << "," << ui->doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background->value()           << "," << QSL_MS3_Params[MS3_PARAM_VIS6_INTENSITY_BACKGROUND].toStdString() << "\n"
+
+                << MS3_PARAM_OTHER_DUPLICATE_OVERLAP    << "," << ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->value()                  << "," << QSL_MS3_Params[MS3_PARAM_OTHER_DUPLICATE_OVERLAP].toStdString() << "\n";
 
         os_param.close();
     }
@@ -3471,7 +3546,7 @@ void D_MAKRO_MegaFoci::ImgBuffer_Init()
 void D_MAKRO_MegaFoci::ImgBuffer_Write(D_VisDat_Obj *img, int x_img, int y_img, int t_img)
 {
     ///find oldest
-    int value_min_t = INFINITY;
+    int value_min_t = INT_MAX;
     vector<size_t> v_index_min_t;
     for(size_t i = 0; i < ImgLoadBuffer_BufferSize; i++)
     {
@@ -3489,7 +3564,7 @@ void D_MAKRO_MegaFoci::ImgBuffer_Write(D_VisDat_Obj *img, int x_img, int y_img, 
     }
 
     ///find topmost among oldest
-    int value_min_y = INFINITY;
+    int value_min_y = INT_MAX;
     vector<size_t> v_index_min_y;
     for(size_t j = 0; j < v_index_min_t.size(); j++)
     {
@@ -3508,7 +3583,7 @@ void D_MAKRO_MegaFoci::ImgBuffer_Write(D_VisDat_Obj *img, int x_img, int y_img, 
     }
 
     ///find find leftmost among topmost among oldest (target position for overwriting)
-    int value_min_x = INFINITY;
+    int value_min_x = INT_MAX;
     size_t target_index = 0;
     for(size_t j = 0; j < v_index_min_y.size(); j++)
     {
@@ -3546,7 +3621,7 @@ int D_MAKRO_MegaFoci::ImgBuffer_Find(int x, int y, int t)
 bool D_MAKRO_MegaFoci::ImgBuffer_Read(D_VisDat_Obj *img, size_t i)
 {
     ///copy img to pointer if index fits
-    if(i >= 0 && i < vVD_ImgLoadBuffer.size())
+    if(i < vVD_ImgLoadBuffer.size())
     {
         StatusSet("Load image from buffer");
         *img = vVD_ImgLoadBuffer[i];
@@ -3561,7 +3636,7 @@ bool D_MAKRO_MegaFoci::ImgBuffer_Read(D_VisDat_Obj *img, size_t i)
 int D_MAKRO_MegaFoci::Load_Image(D_VisDat_Obj *img, size_t x, size_t y, size_t t)
 {
     ///Check, if image's index in dataset's range
-    if((t >= 0 && t < dataset_dim_t) && (y >= 0 && y < dataset_dim_mosaic_y) && (x >= 0 && x < dataset_dim_mosaic_x))
+    if((t < dataset_dim_t) && (y < dataset_dim_mosaic_y) && (x < dataset_dim_mosaic_x))
     {
         ///If in range:
         ///try loading img from buffer
@@ -3571,31 +3646,31 @@ int D_MAKRO_MegaFoci::Load_Image(D_VisDat_Obj *img, size_t x, size_t y, size_t t
         ///if img not in buffer, load it from file
         StatusSet("Load image from file");
         D_VisDat_Obj VD_ImgLoaded_ZP_asPages;
-        int ER = D_VisDat_Proc::Create_VD_SinglePaged(
+        int err = D_VisDat_Proc::Create_VD_SinglePaged(
                     &VD_ImgLoaded_ZP_asPages,
                     FIL_ImagesYXT[get_index_of_image(x, y, t)],
-                c_DIM_P,
-                c_DIM_X,
-                c_DIM_Y);
-        if(ER != ER_okay)
+                    c_DIM_P,
+                    c_DIM_X,
+                    c_DIM_Y);
+        if(err != ER_okay)
         {
             StatusSet("Create zero image (error)");
             CreateZero_Image(img);
-            return ER;
+            return err;
         }
 
         ///deserialise Z from combined ZP
-        ER = D_VisDat_Proc::Dim_Deserialise(
+        err = D_VisDat_Proc::Dim_Deserialise(
                     img,
                     &VD_ImgLoaded_ZP_asPages,
                     c_DIM_P,
                     c_DIM_Z,
                     dataset_dim_p_exist);
-        if(ER != ER_okay)
+        if(err != ER_okay)
         {
             StatusSet("Create zero image (error)");
             CreateZero_Image(img);
-            return ER;
+            return err;
         }
 
         ///if successful, write img to buffer
@@ -6572,12 +6647,6 @@ void D_MAKRO_MegaFoci::on_pushButton_ParamSave_clicked()
     Params_Save();
 }
 
-
-
-
-
-
-
 void D_MAKRO_MegaFoci::on_checkBox_MS2_ViewerShowSettings_clicked(bool checked)
 {
     for(size_t v = 0; v < v_MS2_GRB_Viewer_GroupSettings.size(); v++)
@@ -6956,21 +7025,9 @@ void D_MAKRO_MegaFoci::on_stackedWidget_StepMajor_currentChanged(int arg1)
         ui->stackedWidget_StepMajor->setCurrentIndex(MODE_MAJOR_1_AUTO_DETECTION);
 }
 
-void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1)
-{
-    arg1++;//useless opration to supress warning
-    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_PRE_PROJECT_Z);
-}
-
 void D_MAKRO_MegaFoci::on_comboBox_MS3_ImgProc_ProjectZ_Stat_currentIndexChanged(int index)
 {
     index++;//useless opration to supress warning
-    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_PAGES_AS_COLOR_GFP_RFP);
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1)
-{
-    arg1++;//useless opration to supress warning
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_PAGES_AS_COLOR_GFP_RFP);
 }
 
@@ -7005,20 +7062,72 @@ void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChang
     Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_NUCLEI_BORDERS);
 }
 
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_Other_Min_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_OTHER);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_Other_Max_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_OTHER);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma_valueChanged(double arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_OTHER);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_GFP_Min_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_GFP);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_GFP_Max_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_GFP);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma_valueChanged(double arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_GFP);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_RFP_Min_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_RFP);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS3_ImgProc_Vis_RFP_Max_valueChanged(int arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_RFP);
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1)
+{
+    arg1++;//useless opration to supress warning
+    Update_ImageProcessing_StepFrom_MS3(STEP_MS3_VIS_RFP);
+}
 
 
+void D_MAKRO_MegaFoci::on_spinBox_DataDim_X_valueChanged(int arg1)
+{
+    ui->groupBox_Dataset->setTitle("Dataset (" + QString::number(ui->spinBox_DataDim_X->value() * ui->spinBox_DataDim_Y->value() * ui->spinBox_DataDim_T->value()) + "Files)");
+}
 
+void D_MAKRO_MegaFoci::on_spinBox_DataDim_Y_valueChanged(int arg1)
+{
+    ui->groupBox_Dataset->setTitle("Dataset (" + QString::number(ui->spinBox_DataDim_X->value() * ui->spinBox_DataDim_Y->value() * ui->spinBox_DataDim_T->value()) + "Files)");
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void D_MAKRO_MegaFoci::on_spinBox_DataDim_T_valueChanged(int arg1)
+{
+    ui->groupBox_Dataset->setTitle("Dataset (" + QString::number(ui->spinBox_DataDim_X->value() * ui->spinBox_DataDim_Y->value() * ui->spinBox_DataDim_T->value()) + "Files)");
+}

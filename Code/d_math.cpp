@@ -1617,6 +1617,165 @@ function<double (double val_in)> D_Math::Log_Centered(double min, double max, do
     };
 }
 
+bool D_Math::Points_Are_Neighbors_8(Point P0, Point P1)
+{
+    return (abs(P0.x - P1.x) <= 1) && (abs(P0.y - P1.y) <= 1);
+}
+
+vector<Point> D_Math::Line_Bresenham_8(Point P0, Point P1)
+{
+    int x0 = P0.x;
+    int y0 = P0.y;
+    int x1 = P1.x;
+    int y1 = P1.y;
+
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    if(abs(dy) < abs(dx))
+    {
+        if(dx < 0)
+            return Line_Bresenham_8_Low(x1, y1, x0, y0);
+        else
+            return Line_Bresenham_8_Low(x0, y0, x1, y1);
+    }
+    else
+    {
+        if(dy < 0)
+            return Line_Bresenham_8_Low(x1, y1, x0, y0);
+        else
+            return Line_Bresenham_8_Low(x0, y0, x1, y1);
+    }
+}
+
+vector<Point> D_Math::Line_Bresenham_8_Low(int x0, int y0, int x1, int y1)
+{
+    vector<Point> vLine;
+
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    int yi = 1;
+    if(dy < 0)
+    {
+        yi = -1;
+        dy = -dy;
+    }
+
+    int D = (2 * dy) - dx;
+    int y = y0;
+
+    for(int x = x0; x <= x1; x++)
+    {
+        vLine.push_back(Point(x, y));
+
+        if(D > 0)
+        {
+            y += yi;
+            D += 2 * (dy - dx);
+        }
+        else
+        {
+            D += 2 * dy;
+        }
+    }
+
+    return vLine;
+}
+
+vector<Point> D_Math::Line_Bresenham_8_High(int x0, int y0, int x1, int y1)
+{
+    vector<Point> vLine;
+
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    int xi = 1;
+    if(dx < 0)
+    {
+        xi = -1;
+        dx = -dx;
+    }
+
+    int D = (2 * dx) - dy;
+    int x = x0;
+
+    for(int y = y0; y <= y1; y++)
+    {
+        vLine.push_back(Point(x, y));
+
+        if(D > 0)
+        {
+            x += xi;
+            D += 2 * (dx - dy);
+        }
+        else
+        {
+            D += 2 * dx;
+        }
+    }
+
+    return vLine;
+}
+
+/*!
+ * \brief D_Math::Close_Contour_Gaps_With_Lines_8 closes the gaps in between contour points with straight lines using <a href="https://en.wikipedia.org/wiki/Bresenham">bresenham algorithm</a>
+ * \param pvContour vector of sorted contour pixels. The vector will be changed by adding the missing points in between
+ * \return error code
+ */
+int D_Math::Close_Contour_Gaps_With_Lines_8(vector<Point> *pvContour)
+{
+    if(pvContour->empty())
+        return ER_okay;
+
+    size_t n = pvContour->size();
+
+    ///if there is a gap between start and end, append start to end to close this gap in the follwoing
+    Point P0 = (*pvContour)[0    ];
+    Point P1 = (*pvContour)[n - 1];
+    if(!Points_Are_Neighbors_8(P0, P1))
+    {
+        pvContour->push_back(P0);
+        n++;
+    }
+
+    ///loop contour
+    for(size_t p = 0; p < n - 1; p++)
+    {
+        ///detect gaps
+        P0 = (*pvContour)[p    ];
+        P1 = (*pvContour)[p + 1];
+        if(!Points_Are_Neighbors_8(P0, P1))
+        {
+            ///calc closing lines for all gaps
+            vector<Point> vConnectingLine = Line_Bresenham_8(P0, P1);
+            int n_line_without_endings = int(vConnectingLine.size()) - 2;
+
+            ///if closing lines include at least 3 Point, instert them into contour without start and end (should always be the case, since otherwise start and end would have been neighbors)
+            if(n_line_without_endings > 0)
+            {
+                pvContour->insert(pvContour->begin() + p, vConnectingLine.begin() + 1, vConnectingLine.end() - 1);
+                n += n_line_without_endings;
+                p += n_line_without_endings;
+            }
+        }
+    }
+
+    return ER_okay;
+}
+
+int D_Math::Close_Contour_Gaps_With_Lines_8(vector<vector<Point> > *pvvContours)
+{
+    for(size_t c = 0; c < pvvContours->size(); c++)
+    {
+        int err = Close_Contour_Gaps_With_Lines_8(&((*pvvContours)[c]));
+        if(err != ER_okay)
+            return err;
+    }
+
+    return ER_okay;
+}
+
 /*!
  * \brief D_Math::Minimum_TrisectionInterval use trisection of interval to determin the minimum of a convex function within a given interval
  * \details NOT TESTED YET!

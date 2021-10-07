@@ -230,12 +230,8 @@ private slots:
     void on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
     void on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
 
-    void on_pushButton_StepMajor_1_clicked();
-    void on_pushButton_StepMajor_2_clicked();
-    void on_pushButton_StepMajor_3_clicked();
-    void on_pushButton_StepMajor_4_clicked();
-    void on_pushButton_StepMajor_5_clicked();
-    void on_pushButton_StepMajor_6_clicked();
+    void on_groupBox_Seg0A_OTHER_clicked();
+    void on_groupBox_Seg0B_GFP_clicked();
 
     void on_horizontalSlider_OverviewBig_T_valueChanged(int value);
 
@@ -819,6 +815,13 @@ private slots:
 
     void on_stackedWidget_StepMajor_currentChanged(int arg1);
 
+    void on_pushButton_StepMajor_1_clicked();
+    void on_pushButton_StepMajor_2_clicked();
+    void on_pushButton_StepMajor_3_clicked();
+    void on_pushButton_StepMajor_4_clicked();
+    void on_pushButton_StepMajor_5_clicked();
+    void on_pushButton_StepMajor_6_clicked();
+
     //-------------------------------------------------------------------- MS2 ----------------------------------------------------
 
 private slots:
@@ -1150,32 +1153,31 @@ private:
 
 private slots:
 
-    void on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_high_valueChanged(double arg1);
     void on_comboBox_MS3_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
-    void on_doubleSpinBox_MS3_ImgProc_Vis_BackgroundQuantil_low_valueChanged(double arg1);
     void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
     void on_doubleSpinBox_MS3_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
+    void on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChanged(double arg1);
+    void on_spinBox_MS3_ImgProc_Vis_Other_Min_valueChanged(int arg1);
+    void on_spinBox_MS3_ImgProc_Vis_Other_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma_valueChanged(double arg1);
+    void on_spinBox_MS3_ImgProc_Vis_GFP_Min_valueChanged(int arg1);
+    void on_spinBox_MS3_ImgProc_Vis_GFP_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma_valueChanged(double arg1);
+    void on_spinBox_MS3_ImgProc_Vis_RFP_Min_valueChanged(int arg1);
+    void on_spinBox_MS3_ImgProc_Vis_RFP_Max_valueChanged(int arg1);
+    void on_doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1);
 
     void on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index);
 
-    void on_doubleSpinBox_MS3_ImgProc_DuplicateRelThres_valueChanged(double arg1);
 
 
 
 
+    void on_spinBox_DataDim_X_valueChanged(int arg1);
 
+    void on_spinBox_DataDim_Y_valueChanged(int arg1);
 
-
-
-
-
-
-
-
-    void on_groupBox_Seg0A_OTHER_clicked();
-
-    void on_groupBox_Seg0B_GFP_clicked();
-
+    void on_spinBox_DataDim_T_valueChanged(int arg1);
 
 private:
 
@@ -1209,6 +1211,7 @@ private:
         STEP_MS3_PRE_LOAD_BOTTOM,
         STEP_MS3_PRE_LOAD_BOTTOM_RIGHT,
         STEP_MS3_PRE_STITCH,
+        STEP_MS3_PRE_BLUR_GAUSS,
         STEP_MS3_PRE_PROJECT_Z,
 
         //Pick Channels
@@ -1217,10 +1220,11 @@ private:
         STEP_MS3_PCK_RFP,
 
         //Visualization
+        STEP_MS3_VIS_OTHER,
+        STEP_MS3_VIS_GFP,
+        STEP_MS3_VIS_RFP,
         STEP_MS3_VIS_PAGES_AS_COLOR_GFP_RFP,
-        STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_GFP_RFP,
         STEP_MS3_VIS_PAGES_AS_COLOR_ALL,
-        STEP_MS3_VIS_PAGES_AS_COLOR_QUANTILS_ALL,
 
         //draw detections
         STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE,
@@ -1243,27 +1247,66 @@ private:
         "pre-2 Load border image B",
         "pre-3 Load border image BR",
         "pre-4 Stitch borders to main image",
-        "pre-5 Z-Projection",
+        "pre-5 Blur gaussian",
+        "pre-6 Z-Projection",
 
         "pck-0 OTHER pick signal",
         "pck-1 GFP pick signal",
         "pck-2 RFP pick Signal",
 
-        "vis-0 Color GFP green RFP blue",
-        "vis-1 Color GFP RFP crop interquantil",
-        "vis-2 Color all channels",
-        "vis-3 Color all crop interquantil",
+        "vis-0 visualize OTHER",
+        "vis-1 visualize GFP",
+        "vis-2 visualize RFP",
+        "vis-3 Color GFP and RFP",
+        "vis-4 Color all channels",
 
-        "vis-4 Nuclei Borders (without remove duplicates)",
-        "vis-5 Nuclei Borders",
-        "vis-6 Nuclei Filled",
-        "vis-7 Foci GFP",
-        "vis-8 Foci RFP",
-        "vis-9 Foci Both",
+        "draw-0 Nuclei Borders (without remove duplicates)",
+        "draw-1 Nuclei Borders",
+        "draw-2 Nuclei Filled",
+        "draw-3 Foci GFP",
+        "draw-4 Foci RFP",
+        "draw-5 Foci Both",
 
-        "vis-10 Regions",
-        "vis-11 Regions with background",
-        "vis-12 Regions with foci counts"
+        "vis-5 Regions",
+        "vis-6 Regions with background",
+        "vis-7 Regions with foci counts"
+    };
+
+    enum MS3_PARAMS {
+        MS3_PARAM_PRE5_BLUR_SIZE,
+        MS3_PARAM_PRE5_BLUR_SIGMA,
+        MS3_PARAM_PRE6_STAT,
+        MS3_PARAM_VIS0_NUC_MIN,
+        MS3_PARAM_VIS0_NUC_MAX,
+        MS3_PARAM_VIS0_NUC_GAMMA,
+        MS3_PARAM_VIS1_GFP_MIN,
+        MS3_PARAM_VIS1_GFP_MAX,
+        MS3_PARAM_VIS1_GFP_GAMMA,
+        MS3_PARAM_VIS2_RFP_MIN,
+        MS3_PARAM_VIS2_RFP_MAX,
+        MS3_PARAM_VIS2_RFP_GAMMA,
+        MS3_PARAM_VIS6_INTENSITY_OVERLAY,
+        MS3_PARAM_VIS6_INTENSITY_BACKGROUND,
+        MS3_PARAM_OTHER_DUPLICATE_OVERLAP,
+        MS3_PARAM_NUMBER_OF
+    };
+
+    const QStringList QSL_MS3_Params = {
+        "MS3_PARAM_PRE5_BLUR_SIZE",
+        "MS3_PARAM_PRE5_BLUR_SIGMA",
+        "MS3_PARAM_PRE6_STAT",
+        "MS3_PARAM_VIS0_NUC_MIN",
+        "MS3_PARAM_VIS0_NUC_MAX",
+        "MS3_PARAM_VIS0_NUC_GAMMA",
+        "MS3_PARAM_VIS1_GFP_MIN",
+        "MS3_PARAM_VIS1_GFP_MAX",
+        "MS3_PARAM_VIS1_GFP_GAMMA",
+        "MS3_PARAM_VIS2_RFP_MIN",
+        "MS3_PARAM_VIS2_RFP_MAX",
+        "MS3_PARAM_VIS2_RFP_GAMMA",
+        "MS3_PARAM_VIS6_INTENSITY_OVERLAY",
+        "MS3_PARAM_VIS6_INTENSITY_BACKGROUND",
+        "MS3_PARAM_OTHER_DUPLICATE_OVERLAP"
     };
 };
 

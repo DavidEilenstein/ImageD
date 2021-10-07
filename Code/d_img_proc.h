@@ -424,7 +424,6 @@ public:
     static QString  Color2Text4StyleSheet       (QColor col_in);
     static int      Highlight_NumericalProblems (Mat *pMA_Out, Mat *pMA_In);
 
-
     static int      OverlayImage                (Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *pMA_BaseB, Mat *pMA_OverR, Mat *pMA_OverG, Mat *pMA_OverB, uchar thresh_overlay = 0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay = 1.0, double intensity_backgr = 1.0);
     static int      OverlayOverwrite            (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, QColor color, double intensity_overlay = 1.0, double intensity_backgr = 1.0);

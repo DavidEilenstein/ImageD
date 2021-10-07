@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_1 (04.10.21)</span>
+   &#160;<span id="projectnumber">v2_1_2 (07.10.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -177,6 +177,15 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a9373d7a2d954d63efc90f1e1a4739a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0c435d2b6171f6f9f5e48211fd029ee"><td class="memItemLeft" align="right" valign="top">static function&lt; double(double val_in)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#ad0c435d2b6171f6f9f5e48211fd029ee">Log_Centered</a> (double min, double max, double center, double divisor)</td></tr>
 <tr class="separator:ad0c435d2b6171f6f9f5e48211fd029ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c9a5e18fa3428f659d7daa67709a4ec"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#a0c9a5e18fa3428f659d7daa67709a4ec">Points_Are_Neighbors_8</a> (<a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P0, <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P1)</td></tr>
+<tr class="separator:a0c9a5e18fa3428f659d7daa67709a4ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7244bcf7ae0b547df0e0d4997caf1e8"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#ae7244bcf7ae0b547df0e0d4997caf1e8">Line_Bresenham_8</a> (<a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P0, <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P1)</td></tr>
+<tr class="separator:ae7244bcf7ae0b547df0e0d4997caf1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c7ba2ee05004853cf64b1801cdd825"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#a82c7ba2ee05004853cf64b1801cdd825">Close_Contour_Gaps_With_Lines_8</a> (vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; *pvContour)</td></tr>
+<tr class="memdesc:a82c7ba2ee05004853cf64b1801cdd825"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___math.html#a82c7ba2ee05004853cf64b1801cdd825" title="D_Math::Close_Contour_Gaps_With_Lines_8 closes the gaps in between contour points with straight lines...">D_Math::Close_Contour_Gaps_With_Lines_8</a> closes the gaps in between contour points with straight lines using <a href="https://en.wikipedia.org/wiki/Bresenham">bresenham algorithm</a>  <a href="class_d___math.html#a82c7ba2ee05004853cf64b1801cdd825">More...</a><br /></td></tr>
+<tr class="separator:a82c7ba2ee05004853cf64b1801cdd825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a7e9ae4da3f64a7bdd924232bfb9ff5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#a3a7e9ae4da3f64a7bdd924232bfb9ff5">Close_Contour_Gaps_With_Lines_8</a> (vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; *pvvContours)</td></tr>
+<tr class="separator:a3a7e9ae4da3f64a7bdd924232bfb9ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e">Minimum_TrisectionInterval</a> (function&lt; double(double)&gt; F, double start_border_low, double start_border_high, double resolution_needed)</td></tr>
 <tr class="memdesc:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e" title="D_Math::Minimum_TrisectionInterval use trisection of interval to determin the minimum of a convex fun...">D_Math::Minimum_TrisectionInterval</a> use trisection of interval to determin the minimum of a convex function within a given interval.  <a href="class_d___math.html#a3ac29ce6f48d08cb56af83d4aed9559e">More...</a><br /></td></tr>
 <tr class="separator:a3ac29ce6f48d08cb56af83d4aed9559e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -540,6 +549,72 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82c7ba2ee05004853cf64b1801cdd825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82c7ba2ee05004853cf64b1801cdd825">&#9670;&nbsp;</a></span>Close_Contour_Gaps_With_Lines_8() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Math::Close_Contour_Gaps_With_Lines_8 </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; *&#160;</td>
+          <td class="paramname"><em>pvContour</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_d___math.html#a82c7ba2ee05004853cf64b1801cdd825" title="D_Math::Close_Contour_Gaps_With_Lines_8 closes the gaps in between contour points with straight lines...">D_Math::Close_Contour_Gaps_With_Lines_8</a> closes the gaps in between contour points with straight lines using <a href="https://en.wikipedia.org/wiki/Bresenham">bresenham algorithm</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pvContour</td><td>vector of sorted contour pixels. The vector will be changed by adding the missing points in between </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>error code </dd></dl>
+<p>if there is a gap between start and end, append start to end to close this gap in the follwoing</p>
+<p>loop contour</p>
+<p>detect gaps</p>
+<p>calc closing lines for all gaps</p>
+<p>if closing lines include at least 3 Point, instert them into contour without start and end (should always be the case, since otherwise start and end would have been neighbors)</p>
+
+</div>
+</div>
+<a id="a3a7e9ae4da3f64a7bdd924232bfb9ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a7e9ae4da3f64a7bdd924232bfb9ff5">&#9670;&nbsp;</a></span>Close_Contour_Gaps_With_Lines_8() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int D_Math::Close_Contour_Gaps_With_Lines_8 </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; *&#160;</td>
+          <td class="paramname"><em>pvvContours</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -2458,6 +2533,42 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae7244bcf7ae0b547df0e0d4997caf1e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7244bcf7ae0b547df0e0d4997caf1e8">&#9670;&nbsp;</a></span>Line_Bresenham_8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; D_Math::Line_Bresenham_8 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P1</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9373d7a2d954d63efc90f1e1a4739a76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9373d7a2d954d63efc90f1e1a4739a76">&#9670;&nbsp;</a></span>Log_Centered() <span class="overload">[1/2]</span></h2>
 
@@ -2683,6 +2794,42 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a0c9a5e18fa3428f659d7daa67709a4ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c9a5e18fa3428f659d7daa67709a4ec">&#9670;&nbsp;</a></span>Points_Are_Neighbors_8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Math::Points_Are_Neighbors_8 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P1</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
