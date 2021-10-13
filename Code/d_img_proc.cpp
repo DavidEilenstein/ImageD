@@ -1315,7 +1315,7 @@ int D_Img_Proc::Convert_QImage_to_Mat(Mat *pMA_Out, QImage *pQI_In)
                 CV_8UC3,
                 pQI_In->data_ptr());
 
-    imshow("qi2mat", *pMA_Out);
+    //imshow("qi2mat", *pMA_Out);
 
     return ER_okay;
 }

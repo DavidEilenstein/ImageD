@@ -27,6 +27,7 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
 
     //3D Viewer
     Viewer_3D.init(ui->gridLayout_Viewer3D_TargetLayout);
+    Viewer_3D.Set_DefaultDir(pStorage->dir_Save());
 
     //3D Viewer plot
     ViewerPlot_3D.init(ui->gridLayout_Output_3D);

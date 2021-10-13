@@ -100,6 +100,11 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     ui_GroupBox_Settings_Graphics->layout()->setSpacing(1);
     ui_GroupBox_Settings_Graphics->layout()->setContentsMargins(1, 1, 1, 1);
 
+    //save as video button
+    ui_PushButton_SaveAsVideo = new QPushButton("Save as Video", this);
+    ui_GroupBox_Settings->layout()->addWidget(ui_PushButton_SaveAsVideo);
+    connect(ui_PushButton_SaveAsVideo, SIGNAL(clicked()), this, SLOT(SaveVideo_CameraRotationFull()));
+
     //spacer
     ui_spacer_Settings = new QSpacerItem(1, 1, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Expanding);
     ui_GroupBox_Settings->layout()->addItem(ui_spacer_Settings);
@@ -334,6 +339,143 @@ int D_Viewer_3D::set_VisDat(D_VisDat_Obj *pVD_toShow)
 
     //qDebug() << "D_Viewer_3D::set_VisDat" << "end";
     return ER_okay;
+}
+
+int D_Viewer_3D::SaveVideo_CameraRotationFull()
+{
+    bool ok;
+
+    int length_s = QInputDialog::getInt(
+                this,
+                "Video length",
+                "Please select the video length in seconds",
+                30,
+                1,
+                300,
+                1,
+                &ok);
+    if(!ok)
+        return ER_parameter_bad;
+
+    int fps = QInputDialog::getInt(
+                this,
+                "Video framerate",
+                "Please select the framerate in frames per second",
+                48,
+                1,
+                100,
+                1,
+                &ok);
+    if(!ok)
+        return ER_parameter_bad;
+
+    int n_frames = fps * length_s;
+
+    vector<Mat> vMA_Screeshots;
+    int err = CameraRotationFull(&vMA_Screeshots, n_frames);
+    if(err != ER_okay)
+        return err;
+
+    if(vMA_Screeshots.empty())
+        return ER_empty;
+
+    if(vMA_Screeshots[0].empty())
+        return ER_empty;
+
+    QString QS_DefaultPath = state_default_dir ? pDIR_DefaultDir->path() : QDir().homePath();
+    QS_DefaultPath.append("/ImageD_3D_Video.avi");
+    QString QS_PathOut = QFileDialog::getSaveFileName(
+                this,
+                "Save Video",
+                QS_DefaultPath,
+                tr("*.avi *.AVI"));
+    if(QS_PathOut.isEmpty())
+        return ER_empty;
+    pDIR_DefaultDir->setPath(QS_PathOut);
+
+    D_VideoWriter VideoWriter;
+    VideoWriter.set_FPS(fps);
+    VideoWriter.set_Size(vMA_Screeshots[0].size());
+    VideoWriter.set_isColor(true);
+    VideoWriter.set_PathOut(QS_PathOut);
+    VideoWriter.init_VideoWriter();
+    if(!VideoWriter.is_Init())
+        return ER_StreamNotOpen;
+
+    for(size_t f = 0; f < vMA_Screeshots.size(); f++)
+        VideoWriter.AddFrame(vMA_Screeshots[f]);
+
+    VideoWriter.EndVideoWriting();
+
+    QMessageBox::information(
+                this,
+                "Saved Video",
+                "Your Video was saved as \n" + QS_PathOut);
+
+    return ER_okay;
+}
+
+int D_Viewer_3D::CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames)
+{
+    pvMA_ViewsOut->clear();
+    pvMA_ViewsOut->resize(n_frames);
+
+    if(!state_graph_up2date)
+        return ER_empty;
+
+    int n_rot_x = 2;
+    double y_amplitude = 2.0 / 3.0;
+
+    for(size_t i = 0; i < n_frames; i++)
+    {
+        //rotate camera
+        double rel_pos = double(i) / double(n_frames);
+
+        double angle_x = rel_pos * 360.0 * n_rot_x;
+        angle_x -= floor(angle_x / 360.0) * 360;
+
+        //double rel_pos_y = rel_pos < 0.5 ? rel_pos : -rel_pos + 1;
+        //double angle_y = 90.0 * y_amplitude * (rel_pos_y * 4 - 1);
+        double angle_y = 90.0 * y_amplitude * (cos(rel_pos * PI_2_0));
+
+        //qDebug() << angle_x << angle_y;
+        graph_scatter->scene()->activeCamera()->setXRotation(angle_x);
+        graph_scatter->scene()->activeCamera()->setYRotation(angle_y);
+
+        //update ui
+        Update_Ui();
+
+        //take screenshot
+        //qDebug() << "take";
+        QImage QI_Screenshot = graph_scatter->renderToImage(4);
+
+        //qDebug() << "convert";
+        int h = QI_Screenshot.height();
+        int w = QI_Screenshot.width();
+        Mat MA_Screenshot(h, w, CV_8UC3);
+        for(int y = 0; y < h; y++)
+            for(int x = 0; x < w; x++)
+            {
+                QColor col_px = QColor(QI_Screenshot.pixel(x, y));
+                MA_Screenshot.at<Vec3b>(y, x) = Vec3b(
+                            col_px.blue(),
+                            col_px.green(),
+                            col_px.red());
+            }
+
+        //qDebug() << "save";
+        (*pvMA_ViewsOut)[i] = MA_Screenshot.clone();
+    }
+
+    return ER_okay;
+}
+
+void D_Viewer_3D::Update_Ui()
+{
+    this->setEnabled(false);
+    this->repaint();
+    qApp->processEvents();
+    this->setEnabled(true);
 }
 
 void D_Viewer_3D::on_VolumeCurrent_Changed(int vol)

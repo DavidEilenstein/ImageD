@@ -62,6 +62,7 @@ public:
     int         set_Size(int width, int height);
     int         set_FPS(double fps);
     int         set_isColor(bool is_color);
+    //void        set_compression(bool compress)          {prop_FourCC = compress ? prop_FourCC_compressed : prop_FourCC_full;}
 
     int         init_VideoWriter();
     bool        is_Init();
@@ -72,12 +73,15 @@ public:
 
 private:
 
+    //const int           prop_FourCC_compressed = CV_FOURCC('a','v','c','1'); //is buggy...
+    const int           prop_FourCC_full = CV_FOURCC('M','J','P','G');
+
     //Destination Information
     QFileInfo           FI_Out;
     QDir                DIR_Out;
     Size                prop_SizeOut = Size(1,1);
     double              prop_FPS = 24;
-    int                 prop_FourCC = CV_FOURCC('M','J','P','G');
+    int                 prop_FourCC = prop_FourCC_full;
     bool                prop_isColor = true;
 
     //read video
