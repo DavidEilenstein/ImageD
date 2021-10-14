@@ -2539,12 +2539,12 @@ vector<Point> D_Viewer::ClickRecord_GetPoints()
     return vClicksRecorded;
 }
 
-vector<Point> D_Viewer::ClickRecord_GetPoints(double scale, Point scaled_offset)
+vector<Point> D_Viewer::ClickRecord_GetPoints(double scale_factor, Point scaled_offset)
 {
-    return ScaleContour(ClickRecord_GetPoints(), scale, scaled_offset);
+    return ScaleContour(ClickRecord_GetPoints(), scale_factor, scaled_offset);
 }
 
-vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
+vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse(bool limit_by_img_size)
 {
     if(vClicksRecorded.empty())
         return vClicksRecorded;
@@ -2553,14 +2553,21 @@ vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
     RotatedRect E = ClickRecord_Ellipse();
 
     //draw ellipse
+    int thickness = limit_by_img_size ? FILLED : 1;
     Mat MA_Draw = Mat::zeros(MA_Data.size(), CV_8UC1);
-    ellipse(MA_Draw, E, Scalar(255), 1, LINE_8);
+    ellipse(MA_Draw, E, Scalar(255), thickness, LINE_8);
 
     //get contour of ellipse
     vector<vector<Point>> vvContours;
     vector<Vec4i> hierarchy;
     findContours(MA_Draw, vvContours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE, Point(0, 0));
     MA_Draw.release();
+
+    //limit contour by img size
+    if(limit_by_img_size)
+    {
+
+    }
 
     //check contours
     if(vvContours.empty())
@@ -2571,9 +2578,9 @@ vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse()
     return vvContours[0];
 }
 
-vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse(double scale, Point scaled_offset)
+vector<Point> D_Viewer::ClickRecord_GetPoints_Ellipse(double scale_factor, Point scaled_offset, bool limit_by_img_size)
 {
-    return ScaleContour(ClickRecord_GetPoints_Ellipse(), scale, scaled_offset);
+    return ScaleContour(ClickRecord_GetPoints_Ellipse(limit_by_img_size), scale_factor, scaled_offset);
 }
 
 vector<Point> D_Viewer::ClickRecord_GetPoints_Polygon()
@@ -2786,3 +2793,28 @@ vector<vector<Point> > D_Viewer::ScaleContours(vector<vector<Point> > vvContours
 
     return vvContoursScaled;
 }
+
+/*
+vector<Point> D_Viewer::LimitContourByImgSize(vector<Point> vContour)
+{
+    //extreme coordiantes
+    int x_min_img = 0;
+    int y_min_img = 0;
+    int x_max_img = img_width() - 1;
+    int y_max_img = img_height() - 1;
+
+    //find points where contour leaves the img
+
+}
+
+vector<vector<Point> > D_Viewer::LimitContoursByImgSize(vector<vector<Point> > vvContours)
+{
+    size_t n = vvContours.size();
+
+    vector<vector<Point>> vvContoursLimited(n);
+    for(size_t i = 0; i < n; i++)
+        vvContoursLimited[i] = LimitContourByImgSize(vvContours[i]);
+
+    return vvContoursLimited;
+}
+*/

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['imread_5fanycolor_4197',['IMREAD_ANYCOLOR',['../d__opencv__typedefs_8h.html#a04deb7542b6a12481654912219f593de',1,'d_opencv_typedefs.h']]],
-  ['imread_5fanydepth_4198',['IMREAD_ANYDEPTH',['../d__opencv__typedefs_8h.html#a7cd8827c2be2db128c3be596c70e0d48',1,'d_opencv_typedefs.h']]],
-  ['imread_5fcolor_4199',['IMREAD_COLOR',['../d__opencv__typedefs_8h.html#a294e843b16335fa88607bdd2b0998a8b',1,'d_opencv_typedefs.h']]],
-  ['imread_5fgrayscale_4200',['IMREAD_GRAYSCALE',['../d__opencv__typedefs_8h.html#a71b7b28d2223d4163fee33025521fcf1',1,'d_opencv_typedefs.h']]],
-  ['inter_5flinear_4201',['INTER_LINEAR',['../d__opencv__typedefs_8h.html#a118b5a4f8a631186ee1d6d3658183006',1,'d_opencv_typedefs.h']]]
+  ['imread_5fanycolor_4205',['IMREAD_ANYCOLOR',['../d__opencv__typedefs_8h.html#ac28bb6db96a7945c168b70ef37cf9424',1,'d_opencv_typedefs.h']]],
+  ['imread_5fanydepth_4206',['IMREAD_ANYDEPTH',['../d__opencv__typedefs_8h.html#af6fb3f90697fdc86bc2110b73d77ba3c',1,'d_opencv_typedefs.h']]],
+  ['imread_5fcolor_4207',['IMREAD_COLOR',['../d__opencv__typedefs_8h.html#aa80801617b28d7d969066a3022b2e532',1,'d_opencv_typedefs.h']]],
+  ['imread_5fgrayscale_4208',['IMREAD_GRAYSCALE',['../d__opencv__typedefs_8h.html#a2c762f52ed3ab73ca0945a037f0eb498',1,'d_opencv_typedefs.h']]],
+  ['inter_5flinear_4209',['INTER_LINEAR',['../d__opencv__typedefs_8h.html#a2289b229efa79e7fab93dc297eb5a45e',1,'d_opencv_typedefs.h']]]
 ];

@@ -143,6 +143,8 @@ private slots:
     void                    ClickRecord_DrawOverlay ();
     vector<Point>           ScaleContour            (vector<Point> vContour, double scale, Point scaled_offset);
     vector<vector<Point>>   ScaleContours           (vector<vector<Point>> vvContours, double scale, Point scaled_offset);
+    //vector<Point>           LimitContourByImgSize   (vector<Point> vContour);
+    //vector<vector<Point>>   LimitContoursByImgSize  (vector<vector<Point>> vvContours);
 
 public slots:
 
@@ -207,9 +209,9 @@ public slots:
     void                    ClickRecord_Quit                    ();
     void                    ClickRecord_Quit_RecieveOnly        ();
     vector<Point>           ClickRecord_GetPoints               ();
-    vector<Point>           ClickRecord_GetPoints               (double scale, Point scaled_offset);
-    vector<Point>           ClickRecord_GetPoints_Ellipse       ();
-    vector<Point>           ClickRecord_GetPoints_Ellipse       (double scale, Point scaled_offset);
+    vector<Point>           ClickRecord_GetPoints               (double scale_factor, Point scaled_offset);
+    vector<Point>           ClickRecord_GetPoints_Ellipse       (bool limit_by_img_size = true);
+    vector<Point>           ClickRecord_GetPoints_Ellipse       (double scale_factor, Point scaled_offset, bool limit_by_img_size = true);
     vector<Point>           ClickRecord_GetPoints_Polygon       ();
     vector<Point>           ClickRecord_GetPoints_Polygon       (double scale, Point scaled_offset);
     vector<Point>           ClickRecord_GetPoints_ConvexHull    ();
@@ -371,5 +373,6 @@ private:    //members
     //other
     Point                   P_LastMousePos = Point(0,0);
 };
+
 
 #endif // D_VIEWER_H

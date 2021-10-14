@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_2 (07.10.21)</span>
+   &#160;<span id="projectnumber">v2_1_3 (14.10.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -142,6 +142,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac86648fe7eeb4768b3ab5fb9ff35a457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5fb15023dcfe69d472b4bf88a9fc87bf">load_simple</a> (QString nucleus_file, bool load_foci)</td></tr>
 <tr class="separator:a5fb15023dcfe69d472b4bf88a9fc87bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b84e573e115a398a8db969dce7e6a39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5b84e573e115a398a8db969dce7e6a39">bounding_box</a> ()</td></tr>
+<tr class="separator:a5b84e573e115a398a8db969dce7e6a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c1e221fc793351e68dff40c47c8317c"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a6c1e221fc793351e68dff40c47c8317c">merge_contours_with_other_nucleus</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> nuc_merge, int merging_distance)</td></tr>
+<tr class="separator:a6c1e221fc793351e68dff40c47c8317c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24d26909d3f7653cdf704d094e664724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">set_value_channels</a> (size_t <a class="el" href="class_d___bio___nucleus_blob.html#ad0dfcb3175bd97cf557b6ee99f1db9a4">channels</a>)</td></tr>
 <tr class="separator:a24d26909d3f7653cdf704d094e664724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9041253fbef60cec8e6b0af139658bca"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a9041253fbef60cec8e6b0af139658bca">contour</a> ()</td></tr>
@@ -439,6 +443,23 @@ Public Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b84e573e115a398a8db969dce7e6a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b84e573e115a398a8db969dce7e6a39">&#9670;&nbsp;</a></span>bounding_box()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a> D_Bio_NucleusBlob::bounding_box </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -974,6 +995,39 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c1e221fc793351e68dff40c47c8317c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1e221fc793351e68dff40c47c8317c">&#9670;&nbsp;</a></span>merge_contours_with_other_nucleus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; &gt; D_Bio_NucleusBlob::merge_contours_with_other_nucleus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>&#160;</td>
+          <td class="paramname"><em>nuc_merge</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>merging_distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>calc merged bounding box</p>
+<p>generate tmp img</p>
+<p>get and scale contours</p>
+<p>draw contours</p>
+<p>closing blobs</p>
 
 </div>
 </div>

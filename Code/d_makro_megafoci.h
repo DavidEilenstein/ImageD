@@ -960,6 +960,8 @@ private slots:
 
     void on_pushButton_MS2_Tools_ApplyPoints_ConvexHull_clicked();
     void on_pushButton_MS2_Tools_ApplyPoints_Points_clicked();
+    void on_pushButton_MS2_Tools_ApplyPoints_Merge_clicked();
+    void on_pushButton_MS2_Tools_ApplyPoints_Separate_clicked();
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked();
     void on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked();
 
@@ -1051,6 +1053,8 @@ private:
     void                                MS2_Draw_Polygon();
     void                                MS2_Draw_ConvexHull();
     void                                MS2_Draw_Points();
+    void                                MS2_Draw_SeparateObject();
+    void                                MS2_Draw_MergeObjects();
     void                                MS2_Draw_Contour(vector<Point> contour);
     void                                MS2_Draw_Remove();
 
@@ -1169,15 +1173,11 @@ private slots:
 
     void on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int index);
 
-
-
-
-
     void on_spinBox_DataDim_X_valueChanged(int arg1);
-
     void on_spinBox_DataDim_Y_valueChanged(int arg1);
-
     void on_spinBox_DataDim_T_valueChanged(int arg1);
+
+
 
 private:
 

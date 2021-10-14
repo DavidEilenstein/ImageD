@@ -4196,7 +4196,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_RecordingEnd()
 void D_MAKRO_MegaFoci::MS2_Draw_Ellipse()
 {
     StatusSet("Draw: Ellipse");
-    return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Ellipse(1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled));
+    return MS2_Draw_Contour(MS2_Viewer1.ClickRecord_GetPoints_Ellipse(1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled, true));
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_Polygon()
@@ -4229,7 +4229,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_Points()
         return;
 
     //point size
-    double r = ui->spinBox_MS2_Tools_AllplyPoints_PointSize->value();
+    double r = ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->value();
 
     //get countours of circles
     vector<vector<Point>> vContours = MS2_Viewer1.ClickRecord_GetPoints_Circles(r, 1.0 / MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled);
@@ -4264,6 +4264,68 @@ void D_MAKRO_MegaFoci::MS2_Draw_Points()
 
     //end click recording
     MS2_Draw_RecordingEnd();
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_SeparateObject()
+{
+    /*
+    //check state
+    if(!state_MS2_backups_init)
+        return;
+
+    //check mode
+    if(MS2_draw_mode != MS2_DRAW_MODE_NUCLEI)
+        return;
+
+    //get pos
+    size_t ix = ui->spinBox_MS2_Viewport_X->value();
+    size_t iy = ui->spinBox_MS2_Viewport_Y->value();
+    size_t it = ui->spinBox_MS2_Viewport_T->value();
+    if(ix >= dataset_dim_mosaic_x || iy >= dataset_dim_mosaic_y || it >= dataset_dim_t)
+        return;
+
+    //point size
+    double size = ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->value();
+
+    //get countours of circles
+    vector<Point> vPoints = MS2_Viewer1.ClickRecord_GetPoints(MS2_MosaikImageScale, MS2_ViewportOffset_NotScaled);
+    size_t n = vPoints.size();
+
+    //create foci
+    vector<D_Bio_Focus> vFoc(n);
+    for(size_t i = 0; i < n; i++)
+        vFoc[i] = D_Bio_Focus(vContours[i]);
+
+    //edit
+    switch (MS2_draw_mode) {
+    case MS2_DRAW_MODE_FOCI_GFP:    vv_MS2_NucImg_Out_mosaikXY[ix][iy].add_foci(FOCI_GFP,  vFoc);   break;
+    case MS2_DRAW_MODE_FOCI_RFP:    vv_MS2_NucImg_Out_mosaikXY[ix][iy].add_foci(FOCI_RFP,  vFoc);   break;
+    case MS2_DRAW_MODE_FOCI_BOTH:   vv_MS2_NucImg_Out_mosaikXY[ix][iy].add_foci(FOCI_BOTH, vFoc);   break;
+    default:                                                                                        return;}
+
+    //status
+    StatusSet("Draw: Points/Circles");
+
+    //backup
+    MS2_DetOutBackup_Save();
+
+    //change state to "to process";
+    MS2_Draw_SetToProcess();
+
+    //update ui
+    MS2_DetOutBackup_UpdateUi();
+    MS2_UpdateOverlays();
+    MS2_UpdateImages_Editing();
+    MS2_Draw_UpdateUi();
+
+    //end click recording
+    MS2_Draw_RecordingEnd();
+    */
+}
+
+void D_MAKRO_MegaFoci::MS2_Draw_MergeObjects()
+{
+
 }
 
 void D_MAKRO_MegaFoci::MS2_Draw_Contour(vector<Point> contour)
@@ -5447,7 +5509,7 @@ void D_MAKRO_MegaFoci::MS2_Draw_RecordedClicksChanged(size_t point_count)
     ui->pushButton_MS2_Tools_ApplyPoints_Points->setEnabled             (point_count >= 1 && !draw_points);
     ui->pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller->setEnabled (point_count >= 1 && !draw_points);
     ui->pushButton_MS2_Tools_ApplyPointsParam_PointsBigger->setEnabled  (point_count >= 1 && !draw_points);
-    ui->spinBox_MS2_Tools_AllplyPoints_PointSize->setEnabled            (point_count >= 1 && !draw_points);
+    ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->setEnabled             (point_count >= 1 && !draw_points);
 }
 
 bool D_MAKRO_MegaFoci::MS2_CalcMosaik_Size()
@@ -6916,14 +6978,26 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Points_clicked()
     MS2_Draw_Points();
 }
 
+
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Merge_clicked()
+{
+    MS2_Draw_MergeObjects();
+}
+
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPointsParam_PointsBigger_clicked()
 {
-    ui->spinBox_MS2_Tools_AllplyPoints_PointSize->setValue(ui->spinBox_MS2_Tools_AllplyPoints_PointSize->value() + 1);
+    ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->setValue(ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->value() + 1);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPointsParam_PointsSmaller_clicked()
 {
-    ui->spinBox_MS2_Tools_AllplyPoints_PointSize->setValue(ui->spinBox_MS2_Tools_AllplyPoints_PointSize->value() - 1);
+    ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->setValue(ui->spinBox_MS2_Tools_AllplyPoints_DrawSize->value() - 1);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_Tools_ApplyPoints_Separate_clicked()
+{
+
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_MS2_ViewerSettings_PointDiameter_1_valueChanged(int arg1)
@@ -7131,3 +7205,5 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_T_valueChanged(int arg1)
 {
     ui->groupBox_Dataset->setTitle("Dataset (" + QString::number(ui->spinBox_DataDim_X->value() * ui->spinBox_DataDim_Y->value() * ui->spinBox_DataDim_T->value()) + "Files)");
 }
+
+

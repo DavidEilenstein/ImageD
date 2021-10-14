@@ -651,6 +651,65 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     return true;
 }
 
+Rect D_Bio_NucleusBlob::bounding_box()
+{
+    return boundingRect(m_contour);
+}
+
+vector<vector<Point> > D_Bio_NucleusBlob::merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance)
+{
+    ///calc merged bounding box
+    Rect R0 = bounding_box();
+    Rect R1 = nuc_merge.bounding_box();
+    int x_min = min(R0.tl().x, R1.tl().x);
+    int y_min = min(R0.tl().y, R1.tl().y);
+    int x_max = max(R0.br().x, R1.br().x);
+    int y_max = max(R0.br().y, R1.br().y);
+    int dx = x_max - x_min;
+    int dy = y_max - y_min;
+
+    ///generate tmp img
+    int offset = merging_distance;
+    int w_img = dx + 2 * offset;
+    int h_img = dy + 2 * offset;
+    Mat MA_tmp_contours = Mat::zeros(h_img, w_img, CV_8UC1);
+
+    ///get and scale contours
+    vector<vector<Point>> vContours = {m_contour, nuc_merge.contour()};
+    Point P_Offset(x_min - offset, y_min - offset);
+    vector<vector<Point>> vContoursShifted(vContours.size());
+    for(size_t c = 0; c < vContours.size(); c++)
+    {
+        vContoursShifted[c].reserve(vContours[c].size());
+        for(size_t p = 0; p < vContours[c].size(); p++)
+            vContoursShifted[c][p] = vContours[c][p] - P_Offset;
+    }
+
+    ///draw contours
+    drawContours(MA_tmp_contours, vContours, -1, 255, -1);
+
+    ///closing blobs
+    int diameter = 2 * offset + 1;
+    Mat MA_Kernel = getStructuringElement(
+                MORPH_ELLIPSE,
+                Size(diameter, diameter),
+                Point(offset, offset));
+
+    Mat MA_tmp_closed;
+    morphologyEx(
+                MA_tmp_contours,
+                MA_tmp_closed,
+                MORPH_CLOSE,
+                MA_Kernel,
+                Point(-1, -1),
+                1,
+                BORDER_DEFAULT);
+
+    vector<vector<Point>> vContoursNew;
+
+    MA_Kernel.release();
+}
+
 bool D_Bio_NucleusBlob::is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs, double rel_overlap_for_duplicate)
 {
     D_Contour C1(m_contour);

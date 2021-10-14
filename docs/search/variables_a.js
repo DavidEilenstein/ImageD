@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['norm_5fminmax_4219',['NORM_MINMAX',['../d__opencv__typedefs_8h.html#ab0b35531a9420c9978364dd27aee0661',1,'d_opencv_typedefs.h']]]
+  ['norm_5fminmax_4227',['NORM_MINMAX',['../d__opencv__typedefs_8h.html#a73e1ef029718b2ab519d4950d834f9e0',1,'d_opencv_typedefs.h']]]
 ];

@@ -279,7 +279,7 @@ void D_Bio_Focus::CalcFeats(vector<Point> contour)
     Moments moments_tmp = moments(contour);
 
     //calc centroids
-    if(moments_tmp.m00 == 0)
+    if(moments_tmp.m00 == 0.0)
     {
         double center_x = contour[0].x;
         double center_y = contour[0].y;
@@ -295,7 +295,7 @@ void D_Bio_Focus::CalcFeats(vector<Point> contour)
     }
 
     //Area
-    if(moments_tmp.m00 == 0)
+    if(moments_tmp.m00 == 0.0)
         m_area = 0;
     else
         m_area = contourArea(contour);
@@ -309,7 +309,7 @@ void D_Bio_Focus::CalcFeats(vector<Point> contour)
     double hull_perimeter = arcLength(convex_hull, true);
 
     //other features
-    if(perimeter == 0)
+    if(perimeter == 0.0)
     {
         m_compactness   = 0;
         m_convexity     = 0;

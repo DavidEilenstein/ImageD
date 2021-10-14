@@ -1,5 +1,11 @@
 var NAVTREEINDEX4 =
 {
+"class_d___viewer___plot.html#ab1734f461fb9f391e8ab4b4311fcabdb":[4,0,69,1],
+"class_d___viewer___plot.html#afa337280d0dd4c90cc5cbedbc9b63c1e":[4,0,69,0],
+"class_d___viewer___plot__3_d.html":[4,0,70],
+"class_d___viewer___plot__3_d.html#a0d7b4526329260258c79923034790e5c":[4,0,70,11],
+"class_d___viewer___plot__3_d.html#a59e3c549dd905aeccc454777d4e067d5":[4,0,70,3],
+"class_d___viewer___plot__3_d.html#a6ccc1c154bcd2e9e7f84f5444c7dec91":[4,0,70,9],
 "class_d___viewer___plot__3_d.html#a6cdbd6f6a561e438e9c03d7d82af07c3":[4,0,70,5],
 "class_d___viewer___plot__3_d.html#a86db9ec99015735a37c6661c045adb5c":[4,0,70,8],
 "class_d___viewer___plot__3_d.html#a88a1d9af5f7fef1e3a03a1c7febc968c":[4,0,70,4],
@@ -243,11 +249,5 @@ var NAVTREEINDEX4 =
 "class_d___vis_dat___slicing.html#a61efa043cf1e281c936ca5492a4fe582":[4,0,80,29],
 "class_d___vis_dat___slicing.html#a69b75e543d46a6b564c0398dbfd8c2f6":[4,0,80,2],
 "class_d___vis_dat___slicing.html#a6b339699341f20474005d98ab731f520":[4,0,80,12],
-"class_d___vis_dat___slicing.html#a6e5f7f2a4448f135c77a06e04f678974":[4,0,80,5],
-"class_d___vis_dat___slicing.html#a71571fce8dbf232bf83dc6b92154a804":[4,0,80,15],
-"class_d___vis_dat___slicing.html#a766a60fe970eeffa6d6d446986881e5f":[4,0,80,1],
-"class_d___vis_dat___slicing.html#a8039a68e03e1165a965a9c25a9ff7882":[4,0,80,10],
-"class_d___vis_dat___slicing.html#a813499c8cf631c978f07cc75a0dfac4b":[4,0,80,3],
-"class_d___vis_dat___slicing.html#a82556d83a8d11be3555cc68febea6c35":[4,0,80,32],
-"class_d___vis_dat___slicing.html#a9d63e2ad5bc0c18b727d079b30ad13c4":[4,0,80,39]
+"class_d___vis_dat___slicing.html#a6e5f7f2a4448f135c77a06e04f678974":[4,0,80,5]
 };

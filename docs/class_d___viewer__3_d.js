@@ -3,6 +3,7 @@ var class_d___viewer__3_d =
     [ "D_Viewer_3D", "class_d___viewer__3_d.html#a7795296bb1c0c73247484aab31a0a712", null ],
     [ "D_Viewer_3D", "class_d___viewer__3_d.html#a285a25ccaca1ba811055405a62f4c878", null ],
     [ "~D_Viewer_3D", "class_d___viewer__3_d.html#a158a152c963b13e644a4fe9e3caf1863", null ],
+    [ "CameraRotationFull", "class_d___viewer__3_d.html#a376c323d42ae3f29b775dce796645dc2", null ],
     [ "clear_graph", "class_d___viewer__3_d.html#ad0403e668d2a9274e8070e2adf302b83", null ],
     [ "Dim_extended0", "class_d___viewer__3_d.html#aa7b0e62b32279937f2e471f0e843cf67", null ],
     [ "Dim_extended1", "class_d___viewer__3_d.html#a8158b0edd9cf5c397aa53de9d7c61d71", null ],
@@ -18,6 +19,8 @@ var class_d___viewer__3_d =
     [ "Plane_SliceXY", "class_d___viewer__3_d.html#aa481b7a28fc7695e3798abdf8e7efe26", null ],
     [ "Plane_SliceXZ", "class_d___viewer__3_d.html#af2a6df91699fcc2b19d9e460a20faf5f", null ],
     [ "Plane_SliceYZ", "class_d___viewer__3_d.html#a56e3b184a1df12e0332d0891df8611e8", null ],
+    [ "SaveVideo_CameraRotationFull", "class_d___viewer__3_d.html#afee53dd38f230d8baffe1ceaf518f0fa", null ],
+    [ "Set_DefaultDir", "class_d___viewer__3_d.html#a24ca5f4cf54135695f96de83d66a1b9a", null ],
     [ "set_VisDat", "class_d___viewer__3_d.html#ad34422daab5622d61ae4954116e93237", null ],
     [ "Set_VisTrafo_ActiveBool", "class_d___viewer__3_d.html#ab50898177f114768df5dbe9e80e148a9", null ],
     [ "Set_VisTrafo_ActiveInt", "class_d___viewer__3_d.html#af7bbbd0803f2be5e20d140742b444001", null ],
@@ -35,5 +38,6 @@ var class_d___viewer__3_d =
     [ "Set_VisTrafo_SpreadInMin", "class_d___viewer__3_d.html#ae0ea46ea19b38de74072149ce271e3f1", null ],
     [ "Update_Graph", "class_d___viewer__3_d.html#a0b1fb695f413a722ce15c63ce16089a2", null ],
     [ "Update_Slices", "class_d___viewer__3_d.html#aa1cebbf0d00463625f56eba9652a37af", null ],
+    [ "Update_Ui", "class_d___viewer__3_d.html#a0a0b70fbd6817e57de88368fbdd6d136", null ],
     [ "Volume", "class_d___viewer__3_d.html#a3963bf5ee0460113477875448c4f173e", null ]
 ];

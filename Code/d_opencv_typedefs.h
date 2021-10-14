@@ -73,80 +73,80 @@ typedef cv::Stitcher Stitcher;
 
 //enums
 //border
-const size_t BORDER_CONSTANT = cv::BORDER_CONSTANT;
-const size_t BORDER_DEFAULT = cv::BORDER_DEFAULT;
-const size_t BORDER_REFLECT = cv::BORDER_REFLECT;
-const size_t BORDER_REFLECT101 = cv::BORDER_REFLECT101;
-const size_t BORDER_REFLECT_101 = cv::BORDER_REFLECT_101;
-const size_t BORDER_REPLICATE = cv::BORDER_REPLICATE;
-const size_t BORDER_ISOLATED = cv::BORDER_ISOLATED;
+const int BORDER_CONSTANT = cv::BORDER_CONSTANT;
+const int BORDER_DEFAULT = cv::BORDER_DEFAULT;
+const int BORDER_REFLECT = cv::BORDER_REFLECT;
+const int BORDER_REFLECT101 = cv::BORDER_REFLECT101;
+const int BORDER_REFLECT_101 = cv::BORDER_REFLECT_101;
+const int BORDER_REPLICATE = cv::BORDER_REPLICATE;
+const int BORDER_ISOLATED = cv::BORDER_ISOLATED;
 //morphology
-const size_t MORPH_CROSS = cv::MORPH_CROSS;
-const size_t MORPH_RECT = cv::MORPH_RECT;
-const size_t MORPH_ELLIPSE = cv::MORPH_ELLIPSE;
-const size_t MORPH_DILATE = cv::MORPH_DILATE;
-const size_t MORPH_ERODE = cv::MORPH_ERODE;
-const size_t MORPH_GRADIENT = cv::MORPH_GRADIENT;
-const size_t MORPH_OPEN = cv::MORPH_OPEN;
-const size_t MORPH_CLOSE = cv::MORPH_CLOSE;
-const size_t MORPH_BLACKHAT = cv::MORPH_BLACKHAT;
-const size_t MORPH_TOPHAT = cv::MORPH_TOPHAT;
-const size_t MORPH_HITMISS = cv::MORPH_HITMISS;
+const int MORPH_CROSS = cv::MORPH_CROSS;
+const int MORPH_RECT = cv::MORPH_RECT;
+const int MORPH_ELLIPSE = cv::MORPH_ELLIPSE;
+const int MORPH_DILATE = cv::MORPH_DILATE;
+const int MORPH_ERODE = cv::MORPH_ERODE;
+const int MORPH_GRADIENT = cv::MORPH_GRADIENT;
+const int MORPH_OPEN = cv::MORPH_OPEN;
+const int MORPH_CLOSE = cv::MORPH_CLOSE;
+const int MORPH_BLACKHAT = cv::MORPH_BLACKHAT;
+const int MORPH_TOPHAT = cv::MORPH_TOPHAT;
+const int MORPH_HITMISS = cv::MORPH_HITMISS;
 //contours
-const size_t RETR_TREE = cv::RETR_TREE;
-const size_t RETR_CCOMP = cv::RETR_CCOMP;
-const size_t CHAIN_APPROX_NONE = cv::CHAIN_APPROX_NONE;
-const size_t CHAIN_APPROX_SIMPLE = cv::CHAIN_APPROX_SIMPLE;
+const int RETR_TREE = cv::RETR_TREE;
+const int RETR_CCOMP = cv::RETR_CCOMP;
+const int CHAIN_APPROX_NONE = cv::CHAIN_APPROX_NONE;
+const int CHAIN_APPROX_SIMPLE = cv::CHAIN_APPROX_SIMPLE;
 //videocapture
-const size_t CAP_PROP_FPS = cv::CAP_PROP_FPS;
-const size_t CAP_PROP_FRAME_WIDTH = cv::CAP_PROP_FRAME_WIDTH;
-const size_t CAP_PROP_FRAME_HEIGHT = cv::CAP_PROP_FRAME_HEIGHT;
-const size_t CAP_PROP_FRAME_COUNT = cv::CAP_PROP_FRAME_COUNT;
-const size_t CAP_PROP_POS_FRAMES = cv::CAP_PROP_POS_FRAMES;
+const int CAP_PROP_FPS = cv::CAP_PROP_FPS;
+const int CAP_PROP_FRAME_WIDTH = cv::CAP_PROP_FRAME_WIDTH;
+const int CAP_PROP_FRAME_HEIGHT = cv::CAP_PROP_FRAME_HEIGHT;
+const int CAP_PROP_FRAME_COUNT = cv::CAP_PROP_FRAME_COUNT;
+const int CAP_PROP_POS_FRAMES = cv::CAP_PROP_POS_FRAMES;
 //load img
-const size_t IMREAD_ANYCOLOR = cv::IMREAD_ANYCOLOR;
-const size_t IMREAD_ANYDEPTH = cv::IMREAD_ANYDEPTH;
-const size_t IMREAD_COLOR = cv::IMREAD_COLOR;
-const size_t IMREAD_GRAYSCALE = cv::IMREAD_GRAYSCALE;
+const int IMREAD_ANYCOLOR = cv::IMREAD_ANYCOLOR;
+const int IMREAD_ANYDEPTH = cv::IMREAD_ANYDEPTH;
+const int IMREAD_COLOR = cv::IMREAD_COLOR;
+const int IMREAD_GRAYSCALE = cv::IMREAD_GRAYSCALE;
 //dist
-const size_t DIST_L1 = cv::DIST_L1;
-const size_t DIST_L2 = cv::DIST_L2;
-const size_t DIST_L12 = cv::DIST_L12;
-const size_t DIST_C = cv::DIST_C;
-const size_t DIST_FAIR = cv::DIST_FAIR;
-const size_t DIST_WELSCH = cv::DIST_WELSCH;
-const size_t DIST_HUBER = cv::DIST_HUBER;
-const size_t DIST_MASK_3 = cv::DIST_MASK_3;
-const size_t DIST_MASK_5 = cv::DIST_MASK_5;
-const size_t DIST_MASK_PRECISE = cv::DIST_MASK_PRECISE;
+const int DIST_L1 = cv::DIST_L1;
+const int DIST_L2 = cv::DIST_L2;
+const int DIST_L12 = cv::DIST_L12;
+const int DIST_C = cv::DIST_C;
+const int DIST_FAIR = cv::DIST_FAIR;
+const int DIST_WELSCH = cv::DIST_WELSCH;
+const int DIST_HUBER = cv::DIST_HUBER;
+const int DIST_MASK_3 = cv::DIST_MASK_3;
+const int DIST_MASK_5 = cv::DIST_MASK_5;
+const int DIST_MASK_PRECISE = cv::DIST_MASK_PRECISE;
 //dft
-const size_t DFT_REAL_OUTPUT = cv::DFT_REAL_OUTPUT;
-const size_t DFT_COMPLEX_INPUT = cv::DFT_COMPLEX_INPUT;
-const size_t DFT_COMPLEX_OUTPUT = cv::DFT_COMPLEX_OUTPUT;
-const size_t DFT_INVERSE = cv::DFT_INVERSE;
-const size_t DFT_SCALE = cv::DFT_SCALE;
+const int DFT_REAL_OUTPUT = cv::DFT_REAL_OUTPUT;
+const int DFT_COMPLEX_INPUT = cv::DFT_COMPLEX_INPUT;
+const int DFT_COMPLEX_OUTPUT = cv::DFT_COMPLEX_OUTPUT;
+const int DFT_INVERSE = cv::DFT_INVERSE;
+const int DFT_SCALE = cv::DFT_SCALE;
 //compare
-const size_t CMP_EQ = cv::CMP_EQ;
-const size_t CMP_GT = cv::CMP_GT;
-const size_t CMP_GE = cv::CMP_GE;
-const size_t CMP_LT = cv::CMP_LT;
-const size_t CMP_LE = cv::CMP_LE;
-const size_t CMP_NE = cv::CMP_NE;
+const int CMP_EQ = cv::CMP_EQ;
+const int CMP_GT = cv::CMP_GT;
+const int CMP_GE = cv::CMP_GE;
+const int CMP_LT = cv::CMP_LT;
+const int CMP_LE = cv::CMP_LE;
+const int CMP_NE = cv::CMP_NE;
 //font
-const size_t FONT_HERSHEY_COMPLEX_SMALL = cv::FONT_HERSHEY_COMPLEX_SMALL;
-const size_t FONT_HERSHEY_TRIPLEX = cv::FONT_HERSHEY_TRIPLEX;
+const int FONT_HERSHEY_COMPLEX_SMALL = cv::FONT_HERSHEY_COMPLEX_SMALL;
+const int FONT_HERSHEY_TRIPLEX = cv::FONT_HERSHEY_TRIPLEX;
 //draw
-const size_t LINE_4 = cv::LINE_4;
-const size_t LINE_8 = cv::LINE_8;
-const size_t LINE_AA = cv::LINE_AA;
-const size_t FILLED = cv::FILLED;
+const int LINE_4 = cv::LINE_4;
+const int LINE_8 = cv::LINE_8;
+const int LINE_AA = cv::LINE_AA;
+const int FILLED = cv::FILLED;
 //img proc params
-const size_t ADAPTIVE_THRESH_MEAN_C = cv::ADAPTIVE_THRESH_MEAN_C;
-const size_t ADAPTIVE_THRESH_GAUSSIAN_C = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
-const size_t THRESH_OTSU = cv::THRESH_OTSU;
+const int ADAPTIVE_THRESH_MEAN_C = cv::ADAPTIVE_THRESH_MEAN_C;
+const int ADAPTIVE_THRESH_GAUSSIAN_C = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
+const int THRESH_OTSU = cv::THRESH_OTSU;
 //math
-const size_t NORM_MINMAX = cv::NORM_MINMAX;
-const size_t INTER_LINEAR = cv::INTER_LINEAR;
+const int NORM_MINMAX = cv::NORM_MINMAX;
+const int INTER_LINEAR = cv::INTER_LINEAR;
 
 
 #endif // D_OPENCV_TYPEDEFS_H

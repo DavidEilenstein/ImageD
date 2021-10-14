@@ -79,6 +79,10 @@ public:
     int                             save_simple(QString path_of_dir_to_save_in, bool save_foci);
     bool                            load_simple(QString nucleus_file, bool load_foci);
 
+    Rect                            bounding_box();
+
+    vector<vector<Point>>           merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance);
+
     //copied from D_BioFocus because inhering causes problems...
 
     void            set_value_channels(size_t channels)             {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
