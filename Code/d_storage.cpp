@@ -259,7 +259,7 @@ void D_Storage::Paths_Write()
     if (F_Paths.open(QIODevice::Truncate | QIODevice::WriteOnly))
     {
         QTextStream TS_Paths(&F_Paths);
-        for(unsigned int ld = 0; ld < c_COUNT_DIR; ld++)
+        for(unsigned int ld = 0; ld < dir_NUMBER_OF; ld++)
         {
             TS_Paths << vDIR_DefaultPaths[ld].absolutePath();
             TS_Paths << "\r\n";
@@ -277,7 +277,7 @@ void D_Storage::Paths_Read()
         {
             QTextStream TS_Paths(&F_Paths);
 
-            for(unsigned int ld = 0; ld < c_COUNT_DIR && !TS_Paths.atEnd(); ld++)
+            for(unsigned int ld = 0; ld < dir_NUMBER_OF && !TS_Paths.atEnd(); ld++)
                 vDIR_DefaultPaths[ld].setPath(TS_Paths.readLine());
 
            F_Paths.close();
@@ -296,8 +296,8 @@ void D_Storage::Paths_Init()
     DIR_Config.setPath(QS_Dir_Config);
 
     //Init with default path (same as config)
-    vDIR_DefaultPaths.resize(c_COUNT_DIR);
-    for(size_t d = 0; d < c_COUNT_DIR; d++)
+    vDIR_DefaultPaths.resize(dir_NUMBER_OF);
+    for(size_t d = 0; d < dir_NUMBER_OF; d++)
         vDIR_DefaultPaths[d].setPath(QS_Dir_Config);
 
     //Read existing path
@@ -309,7 +309,7 @@ void D_Storage::Path_Set(QString path, unsigned int index_DIR)
     if(path.isEmpty())
         return;
 
-    if(index_DIR > c_COUNT_DIR)
+    if(index_DIR >= dir_NUMBER_OF)
         return;
 
     QFileInfo FI_Path(path);

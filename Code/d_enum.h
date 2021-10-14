@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_1_3";
-const QString           D_QS_Release  = "13.10.2021";
+const QString           D_QS_Version  = "v2_1_4";
+const QString           D_QS_Release  = "14.10.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -62,6 +62,39 @@ const QStringList QSL_Plugins = {
     "Mega Foci tracker (WIP)",
     "Huang rank order filter visualization",
     "Softmax Classifier Visualization"
+};
+
+//default dir indices
+enum default_dirs
+{
+    dir_DEFAULT,
+    dir_LOAD,
+    dir_SAVE,
+    dir_M_DSDNA,
+    dir_M_MITO,
+    dir_M_EILEN,
+    dir_EXAMPLE,
+    dir_STEPS,
+    dir_M_CELLCOL,
+    dir_M_FOCITIME,
+    dir_ANALYZER,
+    dir_TEST,
+    dir_M_TRACKS,
+    dir_M_VIS,
+    dir_M_OSTEO,
+    dir_M_DNAFIBER,
+    dir_M_RADONFIT,
+    dir_M_SEGASSI,
+    dir_M_CEREB,
+    dir_M_MANSEG,
+    dir_M_CILTRACK,
+    dir_M_FOURIER,
+    dir_M_AIRDRAG,
+    dir_M_MEGAFOCI_IMG,
+    dir_M_HUANG,
+    dir_M_SOFTMAX,
+    dir_M_MEGAFOCI_RES,
+    dir_NUMBER_OF
 };
 
 enum D_NUMBER_TYPE {

@@ -51,6 +51,8 @@
 #include <QtCore/qrandom.h>
 #include <QtWidgets/QComboBox>
 #include <QLabel>
+#include <d_popup_listselect.h>
+#include <d_storage.h>
 
 //Qt-Datavisualization
 #include <QtDataVisualization>
@@ -119,7 +121,7 @@ public slots:
     void        Set_VisTrafo_Mode_Range (int mode = c_VIS_TRAFO_RANGE_DYNAMIC)      {vis_trafo_mode_range = mode;       for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Range(mode);         Update_Graph();}
     void        Set_VisTrafo_Mode_Complex(int mode = c_COMPLEX2REAL_RE_IM)          {vis_trafo_mode_complex = mode;     for(int i = 0; i < SLICE_2D_NUMBER_OF; i++) vViewer_Slices2D[i]->Set_VisTrafo_Mode_Complex(mode);       Update_Graph();}
 
-    void        Set_DefaultDir          (QDir *default_dir)                         {if(default_dir->exists()) {pDIR_DefaultDir = default_dir; state_default_dir = true;}}
+    void        Set_StoragePointer(D_Storage *pStorage, int index_dir2use)          {pStore = pStorage; default_dir_index = index_dir2use; state_default_dir = true;}
 
     int         Volume()                                                            {return volume_index_current;}
     int         Dim_extended0()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[0] : -1;}
@@ -136,8 +138,10 @@ public slots:
     int         Plane_SliceXZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended0(), Dim_extended2());}
     int         Plane_SliceYZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended1(), Dim_extended2());}
 
+    int         SaveVideo_SliceDim();
     int         SaveVideo_CameraRotationFull();
-    int         CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames = 360);
+    int         TakeFrames_CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames = 360);
+    int         TakeFrames_SliceDim(vector<Mat> *pvMA_ViewsOut, int dim2loop);
 
     void        Update_Ui();
 
@@ -176,6 +180,10 @@ private:
     D_Error_Handler ER;
     void ERR(int err, QString func, QString detail);
 
+    //Storage (needed for save dir defaults)
+    D_Storage *pStore;
+    int default_dir_index = 0;
+
     //populate CB
     void Populate_CB_Single(QComboBox *CB, QStringList QSL, int init_index = 0);
 
@@ -190,6 +198,7 @@ private:
   //QGroupBox               *ui_GroupBox_Settings_DrawCondition;
     QGroupBox               *ui_GroupBox_Settings_Alpha;
     QGroupBox               *ui_GroupBox_Settings_Graphics;
+    QGroupBox               *ui_GroupBox_SaveAnimationVideo;
 
     //volume and slicing
     QComboBox               *ui_ComboBox_Volume;
@@ -234,7 +243,8 @@ private:
     QCheckBox               *ui_CheckBox_OpacityPreserve;
     QComboBox               *ui_ComboBox_ShadowQuality;
     QSpacerItem             *ui_spacer_Settings;
-    QPushButton             *ui_PushButton_SaveAsVideo;
+    QPushButton             *ui_PushButton_SaveAnimationVideo_Rotation;
+    QPushButton             *ui_PushButton_SaveAnimationVideo_Slice;
 
     //VD to be displayed
     D_VisDat_Obj            *pVD_Data;
@@ -269,8 +279,6 @@ private:
     int                     vis_trafo_mode_anchor  = c_VIS_TRAFO_ANCHOR_DYNAMIC;
     int                     vis_trafo_mode_range   = c_VIS_TRAFO_RANGE_DYNAMIC;
     int                     vis_trafo_mode_complex = c_COMPLEX2REAL_RE_IM;
-
-    QDir                    *pDIR_DefaultDir;
 
     //states
     bool            state_ui_init = false;

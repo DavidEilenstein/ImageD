@@ -62,60 +62,63 @@ public:
     QClipboard      *clipboard()                                    {return clip;}
 
     //Standard-Directories
+    QDir            *dir_byIndex(int dir_index)                     {return &(vDIR_DefaultPaths[dir_index > 0 && dir_index < dir_NUMBER_OF ? dir_index : 0]);}
     QDir            *dir_Config()                                   {return &DIR_Config;}
-    QDir            *dir_Default()                                  {return &(vDIR_DefaultPaths[i_DEFAULT]);}
-    QDir            *dir_Load()                                     {return &(vDIR_DefaultPaths[i_LOAD]);}
-    QDir            *dir_Save()                                     {return &(vDIR_DefaultPaths[i_SAVE]);}
-    QDir            *dir_M_dsDNA()                                  {return &(vDIR_DefaultPaths[i_M_DSDNA]);}
-    QDir            *dir_M_Mitochondria()                           {return &(vDIR_DefaultPaths[i_M_MITO]);}
-    QDir            *dir_M_Eilenstein()                             {return &(vDIR_DefaultPaths[i_M_EILEN]);}
-    QDir            *dir_Examples()                                 {return &(vDIR_DefaultPaths[i_EXAMPLE]);}
-    QDir            *dir_Steps()                                    {return &(vDIR_DefaultPaths[i_STEPS]);}
-    QDir            *dir_M_CellColonies()                           {return &(vDIR_DefaultPaths[i_M_CELLCOL]);}
-    QDir            *dir_M_FociTimeNuclei()                         {return &(vDIR_DefaultPaths[i_M_FOCITIME]);}
-    QDir            *dir_Analyzer()                                 {return &(vDIR_DefaultPaths[i_ANALYZER]);}
-    QDir            *dir_Test()                                     {return &(vDIR_DefaultPaths[i_TEST]);}
-    QDir            *dir_M_IonTracks()                              {return &(vDIR_DefaultPaths[i_M_TRACKS]);}
-    QDir            *dir_M_Visualization()                          {return &(vDIR_DefaultPaths[i_M_VIS]);}
-    QDir            *dir_M_Osteoclasts()                            {return &(vDIR_DefaultPaths[i_M_OSTEO]);}
-    QDir            *dir_M_DnaFibre()                               {return &(vDIR_DefaultPaths[i_M_DNAFIBER]);}
-    QDir            *dir_M_RadonCurveFit()                          {return &(vDIR_DefaultPaths[i_M_RADONFIT]);}
-    QDir            *dir_M_SegmentationAssistant()                  {return &(vDIR_DefaultPaths[i_M_SEGASSI]);}
-    QDir            *dir_M_CerebralOrganoids()                      {return &(vDIR_DefaultPaths[i_M_CEREB]);}
-    QDir            *dir_M_ManualSegmentation()                     {return &(vDIR_DefaultPaths[i_M_MANSEG]);}
-    QDir            *dir_M_CiliaSphereTracker()                     {return &(vDIR_DefaultPaths[i_M_CILTRACK]);}
-    QDir            *dir_M_FourierTransformator()                   {return &(vDIR_DefaultPaths[i_M_FOURIER]);}
-    QDir            *dir_M_AirDrag()                                {return &(vDIR_DefaultPaths[i_M_AIRDRAG]);}
-    QDir            *dir_M_MegaFoci_Images()                        {return &(vDIR_DefaultPaths[i_M_MEGAFOCI_IMG]);}
-    QDir            *dir_M_MegaFoci_Results()                       {return &(vDIR_DefaultPaths[i_M_MEGAFOCI_RES]);}
-    QDir            *dir_M_Huang()                                  {return &(vDIR_DefaultPaths[i_M_HUANG]);}
-    QDir            *dir_M_Softmax()                                {return &(vDIR_DefaultPaths[i_M_SOFTMAX]);}
-    void            set_dir_Load(QString path)                      {Path_Set(path, i_LOAD);}
-    void            set_dir_Save(QString path)                      {Path_Set(path, i_SAVE);}
-    void            set_dir_M_dsDNA(QString path)                   {Path_Set(path, i_M_DSDNA);}
-    void            set_dir_M_Mitochondria(QString path)            {Path_Set(path, i_M_MITO);}
-    void            set_dir_M_Eilenstein(QString path)              {Path_Set(path, i_M_EILEN);}
-    void            set_dir_Examples(QString path)                  {Path_Set(path, i_EXAMPLE);}
-    void            set_dir_Steps(QString path)                     {Path_Set(path, i_STEPS);}
-    void            set_dir_M_CellColonies(QString path)            {Path_Set(path, i_M_CELLCOL);}
-    void            set_dir_M_FociTimeNuclei(QString path)          {Path_Set(path, i_M_FOCITIME);}
-    void            set_dir_Analyzer(QString path)                  {Path_Set(path, i_ANALYZER);}
-    void            set_dir_Test(QString path)                      {Path_Set(path, i_TEST);}
-    void            set_dir_M_IonTracks(QString path)               {Path_Set(path, i_M_TRACKS);}
-    void            set_dir_M_Visualization(QString path)           {Path_Set(path, i_M_VIS);}
-    void            set_dir_M_Osteoclasts(QString path)             {Path_Set(path, i_M_OSTEO);}
-    void            set_dir_M_DnaFibre(QString path)                {Path_Set(path, i_M_DNAFIBER);}
-    void            set_dir_M_RadonCurveFit(QString path)           {Path_Set(path, i_M_RADONFIT);}
-    void            set_dir_M_SegmentationAssistant(QString path)   {Path_Set(path, i_M_SEGASSI);}
-    void            set_dir_M_CerebralOrganoids(QString path)       {Path_Set(path, i_M_CEREB);}
-    void            set_dir_M_ManualSegmentation(QString path)      {Path_Set(path, i_M_MANSEG);}
-    void            set_dir_M_CiliaSphereTracker(QString path)      {Path_Set(path, i_M_CILTRACK);}
-    void            set_dir_M_FourierTransformator(QString path)    {Path_Set(path, i_M_FOURIER);}
-    void            set_dir_M_AirDrag(QString path)                 {Path_Set(path, i_M_AIRDRAG);}
-    void            set_dir_M_MegaFoci_Images(QString path)         {Path_Set(path, i_M_MEGAFOCI_IMG);}
-    void            set_dir_M_MegaFoci_Results(QString path)        {Path_Set(path, i_M_MEGAFOCI_RES);}
-    void            set_dir_M_Huang(QString path)                   {Path_Set(path, i_M_HUANG);}
-    void            set_dir_M_Softmax(QString path)                 {Path_Set(path, i_M_SOFTMAX);}
+    QDir            *dir_Default()                                  {return dir_byIndex(dir_DEFAULT);}
+    QDir            *dir_Load()                                     {return dir_byIndex(dir_LOAD);}
+    QDir            *dir_Save()                                     {return dir_byIndex(dir_SAVE);}
+    QDir            *dir_M_dsDNA()                                  {return dir_byIndex(dir_M_DSDNA);}
+    QDir            *dir_M_Mitochondria()                           {return dir_byIndex(dir_M_MITO);}
+    QDir            *dir_M_Eilenstein()                             {return dir_byIndex(dir_M_EILEN);}
+    QDir            *dir_Examples()                                 {return dir_byIndex(dir_EXAMPLE);}
+    QDir            *dir_Steps()                                    {return dir_byIndex(dir_STEPS);}
+    QDir            *dir_M_CellColonies()                           {return dir_byIndex(dir_M_CELLCOL);}
+    QDir            *dir_M_FociTimeNuclei()                         {return dir_byIndex(dir_M_FOCITIME);}
+    QDir            *dir_Analyzer()                                 {return dir_byIndex(dir_ANALYZER);}
+    QDir            *dir_Test()                                     {return dir_byIndex(dir_TEST);}
+    QDir            *dir_M_IonTracks()                              {return dir_byIndex(dir_M_TRACKS);}
+    QDir            *dir_M_Visualization()                          {return dir_byIndex(dir_M_VIS);}
+    QDir            *dir_M_Osteoclasts()                            {return dir_byIndex(dir_M_OSTEO);}
+    QDir            *dir_M_DnaFibre()                               {return dir_byIndex(dir_M_DNAFIBER);}
+    QDir            *dir_M_RadonCurveFit()                          {return dir_byIndex(dir_M_RADONFIT);}
+    QDir            *dir_M_SegmentationAssistant()                  {return dir_byIndex(dir_M_SEGASSI);}
+    QDir            *dir_M_CerebralOrganoids()                      {return dir_byIndex(dir_M_CEREB);}
+    QDir            *dir_M_ManualSegmentation()                     {return dir_byIndex(dir_M_MANSEG);}
+    QDir            *dir_M_CiliaSphereTracker()                     {return dir_byIndex(dir_M_CILTRACK);}
+    QDir            *dir_M_FourierTransformator()                   {return dir_byIndex(dir_M_FOURIER);}
+    QDir            *dir_M_AirDrag()                                {return dir_byIndex(dir_M_AIRDRAG);}
+    QDir            *dir_M_MegaFoci_Images()                        {return dir_byIndex(dir_M_MEGAFOCI_IMG);}
+    QDir            *dir_M_MegaFoci_Results()                       {return dir_byIndex(dir_M_MEGAFOCI_RES);}
+    QDir            *dir_M_Huang()                                  {return dir_byIndex(dir_M_HUANG);}
+    QDir            *dir_M_Softmax()                                {return dir_byIndex(dir_M_SOFTMAX);}
+
+    void            set_dir_byIndex(QString path, int dir_index)    {Path_Set(path, dir_index > 0 && dir_index < dir_NUMBER_OF ? dir_index : 0);}
+    void            set_dir_Load(QString path)                      {set_dir_byIndex(path, dir_LOAD);}
+    void            set_dir_Save(QString path)                      {set_dir_byIndex(path, dir_SAVE);}
+    void            set_dir_M_dsDNA(QString path)                   {set_dir_byIndex(path, dir_M_DSDNA);}
+    void            set_dir_M_Mitochondria(QString path)            {set_dir_byIndex(path, dir_M_MITO);}
+    void            set_dir_M_Eilenstein(QString path)              {set_dir_byIndex(path, dir_M_EILEN);}
+    void            set_dir_Examples(QString path)                  {set_dir_byIndex(path, dir_EXAMPLE);}
+    void            set_dir_Steps(QString path)                     {set_dir_byIndex(path, dir_STEPS);}
+    void            set_dir_M_CellColonies(QString path)            {set_dir_byIndex(path, dir_M_CELLCOL);}
+    void            set_dir_M_FociTimeNuclei(QString path)          {set_dir_byIndex(path, dir_M_FOCITIME);}
+    void            set_dir_Analyzer(QString path)                  {set_dir_byIndex(path, dir_ANALYZER);}
+    void            set_dir_Test(QString path)                      {set_dir_byIndex(path, dir_TEST);}
+    void            set_dir_M_IonTracks(QString path)               {set_dir_byIndex(path, dir_M_TRACKS);}
+    void            set_dir_M_Visualization(QString path)           {set_dir_byIndex(path, dir_M_VIS);}
+    void            set_dir_M_Osteoclasts(QString path)             {set_dir_byIndex(path, dir_M_OSTEO);}
+    void            set_dir_M_DnaFibre(QString path)                {set_dir_byIndex(path, dir_M_DNAFIBER);}
+    void            set_dir_M_RadonCurveFit(QString path)           {set_dir_byIndex(path, dir_M_RADONFIT);}
+    void            set_dir_M_SegmentationAssistant(QString path)   {set_dir_byIndex(path, dir_M_SEGASSI);}
+    void            set_dir_M_CerebralOrganoids(QString path)       {set_dir_byIndex(path, dir_M_CEREB);}
+    void            set_dir_M_ManualSegmentation(QString path)      {set_dir_byIndex(path, dir_M_MANSEG);}
+    void            set_dir_M_CiliaSphereTracker(QString path)      {set_dir_byIndex(path, dir_M_CILTRACK);}
+    void            set_dir_M_FourierTransformator(QString path)    {set_dir_byIndex(path, dir_M_FOURIER);}
+    void            set_dir_M_AirDrag(QString path)                 {set_dir_byIndex(path, dir_M_AIRDRAG);}
+    void            set_dir_M_MegaFoci_Images(QString path)         {set_dir_byIndex(path, dir_M_MEGAFOCI_IMG);}
+    void            set_dir_M_MegaFoci_Results(QString path)        {set_dir_byIndex(path, dir_M_MEGAFOCI_RES);}
+    void            set_dir_M_Huang(QString path)                   {set_dir_byIndex(path, dir_M_HUANG);}
+    void            set_dir_M_Softmax(QString path)                 {set_dir_byIndex(path, dir_M_SOFTMAX);}
 
     //SettingsStats
     int             get_UseCounter();
@@ -183,40 +186,6 @@ private:
         SS_PLUGIN_LAST_USED,
         SS_NUMBER_OF
     };
-
-    //Dir indices
-    enum default_dirs
-    {
-        i_DEFAULT,
-        i_LOAD,
-        i_SAVE,
-        i_M_DSDNA,
-        i_M_MITO,
-        i_M_EILEN,
-        i_EXAMPLE,
-        i_STEPS,
-        i_M_CELLCOL,
-        i_M_FOCITIME,
-        i_ANALYZER,
-        i_TEST,
-        i_M_TRACKS,
-        i_M_VIS,
-        i_M_OSTEO,
-        i_M_DNAFIBER,
-        i_M_RADONFIT,
-        i_M_SEGASSI,
-        i_M_CEREB,
-        i_M_MANSEG,
-        i_M_CILTRACK,
-        i_M_FOURIER,
-        i_M_AIRDRAG,
-        i_M_MEGAFOCI_IMG,
-        i_M_HUANG,
-        i_M_SOFTMAX,
-        i_M_MEGAFOCI_RES,
-        c_COUNT_DIR
-    };
-
 };
 
 #endif // D_STORAGE_H

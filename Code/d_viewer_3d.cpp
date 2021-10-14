@@ -100,10 +100,25 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     ui_GroupBox_Settings_Graphics->layout()->setSpacing(1);
     ui_GroupBox_Settings_Graphics->layout()->setContentsMargins(1, 1, 1, 1);
 
+    //animations
+    ui_GroupBox_SaveAnimationVideo = new QGroupBox("Save animation video", this);
+    ui_GroupBox_SaveAnimationVideo->setLayout(new QHBoxLayout(this));
+    ui_GroupBox_Settings->layout()->addWidget(ui_GroupBox_SaveAnimationVideo);
+    ui_GroupBox_SaveAnimationVideo->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    ui_GroupBox_SaveAnimationVideo->layout()->setSpacing(3);
+    ui_GroupBox_SaveAnimationVideo->layout()->setContentsMargins(1, 1, 1, 1);
+
     //save as video button
-    ui_PushButton_SaveAsVideo = new QPushButton("Save as Video", this);
-    ui_GroupBox_Settings->layout()->addWidget(ui_PushButton_SaveAsVideo);
-    connect(ui_PushButton_SaveAsVideo, SIGNAL(clicked()), this, SLOT(SaveVideo_CameraRotationFull()));
+    //rotate
+    ui_PushButton_SaveAnimationVideo_Rotation = new QPushButton("Rotation", this);
+    ui_GroupBox_SaveAnimationVideo->layout()->addWidget(ui_PushButton_SaveAnimationVideo_Rotation);
+    ui_PushButton_SaveAnimationVideo_Rotation->setFixedHeight(17);
+    connect(ui_PushButton_SaveAnimationVideo_Rotation, SIGNAL(clicked()), this, SLOT(SaveVideo_CameraRotationFull()));
+    //slice
+    ui_PushButton_SaveAnimationVideo_Slice = new QPushButton("Slicing", this);
+    ui_GroupBox_SaveAnimationVideo->layout()->addWidget(ui_PushButton_SaveAnimationVideo_Slice);
+    ui_PushButton_SaveAnimationVideo_Slice->setFixedHeight(17);
+    connect(ui_PushButton_SaveAnimationVideo_Slice, SIGNAL(clicked()), this, SLOT(SaveVideo_SliceDim()));
 
     //spacer
     ui_spacer_Settings = new QSpacerItem(1, 1, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Expanding);
@@ -184,6 +199,7 @@ void D_Viewer_3D::init(QGridLayout *target_layout)
     //background color
     ui_PushButton_BackgroundColor = new QPushButton("Background Color", this);
     ui_GroupBox_Settings_Graphics->layout()->addWidget(ui_PushButton_BackgroundColor);
+    ui_PushButton_BackgroundColor->setFixedHeight(17);
     ui_PushButton_BackgroundColor->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(Qt::darkGreen) + ";\ncolor: " + D_Img_Proc::Color2Text4StyleSheet(D_Img_Proc::Contrast_Color(QColor(Qt::darkGreen))) + ";");
     connect(ui_PushButton_BackgroundColor, SIGNAL(clicked()), this, SLOT(change_graph_background_color()));
 
@@ -341,6 +357,109 @@ int D_Viewer_3D::set_VisDat(D_VisDat_Obj *pVD_toShow)
     return ER_okay;
 }
 
+int D_Viewer_3D::SaveVideo_SliceDim()
+{
+    if(!state_VD_set || v_dims_extended.empty())
+        return ER_empty;
+
+    //set ui
+    ui_CheckBox_Slices_Show->setChecked(true);
+    ui_CheckBox_Slices_SliceVolume->setChecked(true);
+    Update_Ui();
+
+    //get most biggest dim that is extended as suggestion
+    D_VisDat_Dim Dim = pVD_Data->Dim();
+    int dim_loop = v_dims_extended[0];
+    for(size_t d = 0; d < v_dims_extended.size(); d++)
+        if(Dim.size_Dim(d) < Dim.size_Dim(dim_loop))
+            dim_loop = d;
+
+    //get dim to loop
+    D_Popup_ListSelect pop(
+                "Select dim to loop",
+                &dim_loop,
+                QSL_DimIndices,
+                dim_loop,
+                this);
+    pop.exec();
+    if(dim_loop < 0 || dim_loop >= c_DIM_NUMBER_OF)
+        return ER_index_out_of_range;
+
+    //get video length
+    bool ok;
+    int length_s = QInputDialog::getInt(
+                this,
+                "Video length",
+                "Please select the video length in seconds",
+                5,
+                1,
+                300,
+                1,
+                &ok);
+    if(!ok)
+        return ER_parameter_bad;
+
+    //loop and take screenshots
+    vector<Mat> vMA_Screenshots;
+    int err = TakeFrames_SliceDim(&vMA_Screenshots, dim_loop);
+    if(err != ER_okay)
+        return err;
+    if(vMA_Screenshots.empty())
+        return ER_empty;
+    if(vMA_Screenshots[0].empty())
+        return ER_empty;
+
+    //calc video information
+    size_t n_frames = vMA_Screenshots.size();
+    double fps = double(n_frames) / double(length_s);
+    qDebug() << n_frames << length_s << fps;
+
+    //get save path for video
+    QString QS_DefaultPath = state_default_dir ? pStore->dir_byIndex(default_dir_index)->path() : QDir().homePath();
+    QS_DefaultPath.append("/ImageD_3D_Video.avi");
+    QString QS_PathOut = QFileDialog::getSaveFileName(
+                this,
+                "Save Video",
+                QS_DefaultPath,
+                tr("*.avi *.AVI"));
+    qDebug() << "dialog end";
+    if(QS_PathOut.isEmpty())
+    {
+        qDebug() << "path empty";
+        return ER_empty;
+    }
+    qDebug() << "path not empty" << QS_PathOut;
+    pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
+
+    //prepare video
+    qDebug() << "init";
+    D_VideoWriter VideoWriter;
+    VideoWriter.set_FPS(fps);
+    VideoWriter.set_Size(vMA_Screenshots[0].size());
+    VideoWriter.set_isColor(true);
+    VideoWriter.set_PathOut(QS_PathOut);
+    VideoWriter.init_VideoWriter();
+    if(!VideoWriter.is_Init())
+        return ER_StreamNotOpen;
+
+    //write video
+    qDebug() << "start";
+    for(size_t f = 0; f < vMA_Screenshots.size(); f++)
+        VideoWriter.AddFrame(vMA_Screenshots[f]);
+    qDebug() << "end";
+    VideoWriter.EndVideoWriting();
+
+    //tell succsess
+    qDebug() << "sucess";
+    QMessageBox::information(
+                this,
+                "Saved video",
+                "Your video was saved as \n" + QS_PathOut);
+
+    qDebug() << "finish";
+    return ER_okay;
+}
+
 int D_Viewer_3D::SaveVideo_CameraRotationFull()
 {
     bool ok;
@@ -371,18 +490,18 @@ int D_Viewer_3D::SaveVideo_CameraRotationFull()
 
     int n_frames = fps * length_s;
 
-    vector<Mat> vMA_Screeshots;
-    int err = CameraRotationFull(&vMA_Screeshots, n_frames);
+    vector<Mat> vMA_Screenshots;
+    int err = TakeFrames_CameraRotationFull(&vMA_Screenshots, n_frames);
     if(err != ER_okay)
         return err;
 
-    if(vMA_Screeshots.empty())
+    if(vMA_Screenshots.empty())
         return ER_empty;
 
-    if(vMA_Screeshots[0].empty())
+    if(vMA_Screenshots[0].empty())
         return ER_empty;
 
-    QString QS_DefaultPath = state_default_dir ? pDIR_DefaultDir->path() : QDir().homePath();
+    QString QS_DefaultPath = state_default_dir ? pStore->dir_byIndex(default_dir_index)->path() : QDir().homePath();
     QS_DefaultPath.append("/ImageD_3D_Video.avi");
     QString QS_PathOut = QFileDialog::getSaveFileName(
                 this,
@@ -391,31 +510,73 @@ int D_Viewer_3D::SaveVideo_CameraRotationFull()
                 tr("*.avi *.AVI"));
     if(QS_PathOut.isEmpty())
         return ER_empty;
-    pDIR_DefaultDir->setPath(QS_PathOut);
+    pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
 
     D_VideoWriter VideoWriter;
     VideoWriter.set_FPS(fps);
-    VideoWriter.set_Size(vMA_Screeshots[0].size());
+    VideoWriter.set_Size(vMA_Screenshots[0].size());
     VideoWriter.set_isColor(true);
     VideoWriter.set_PathOut(QS_PathOut);
     VideoWriter.init_VideoWriter();
     if(!VideoWriter.is_Init())
         return ER_StreamNotOpen;
 
-    for(size_t f = 0; f < vMA_Screeshots.size(); f++)
-        VideoWriter.AddFrame(vMA_Screeshots[f]);
+    for(size_t f = 0; f < vMA_Screenshots.size(); f++)
+        VideoWriter.AddFrame(vMA_Screenshots[f]);
 
     VideoWriter.EndVideoWriting();
 
     QMessageBox::information(
                 this,
-                "Saved Video",
-                "Your Video was saved as \n" + QS_PathOut);
+                "Saved video",
+                "Your video was saved as \n" + QS_PathOut);
 
     return ER_okay;
 }
 
-int D_Viewer_3D::CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames)
+int D_Viewer_3D::TakeFrames_SliceDim(vector<Mat> *pvMA_ViewsOut, int dim2loop)
+{
+    pvMA_ViewsOut->clear();
+    if(!state_graph_up2date)
+        return ER_empty;
+
+    size_t n_frames = pVD_Data->pDim()->size_Dim(dim2loop);
+    pvMA_ViewsOut->resize(n_frames);
+
+    for(size_t i = 0; i < n_frames; i++)
+    {
+        //set pos in dim
+        vui_SpinBox_DimIndices[dim2loop]->setValue(i);
+
+        //update ui
+        Update_Ui();
+
+        //take screenshot
+        //qDebug() << "take";
+        QImage QI_Screenshot = graph_scatter->renderToImage(4);
+
+        //qDebug() << "convert";
+        int h = QI_Screenshot.height();
+        int w = QI_Screenshot.width();
+        Mat MA_Screenshot(h, w, CV_8UC3);
+        for(int y = 0; y < h; y++)
+            for(int x = 0; x < w; x++)
+            {
+                QColor col_px = QColor(QI_Screenshot.pixel(x, y));
+                MA_Screenshot.at<Vec3b>(y, x) = Vec3b(
+                            uchar(col_px.blue()),
+                            uchar(col_px.green()),
+                            uchar(col_px.red()));
+            }
+
+        //qDebug() << "save";
+        (*pvMA_ViewsOut)[i] = MA_Screenshot.clone();
+    }
+
+    return ER_okay;
+}
+
+int D_Viewer_3D::TakeFrames_CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames)
 {
     pvMA_ViewsOut->clear();
     pvMA_ViewsOut->resize(n_frames);
@@ -439,8 +600,8 @@ int D_Viewer_3D::CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames)
         double angle_y = 90.0 * y_amplitude * (cos(rel_pos * PI_2_0));
 
         //qDebug() << angle_x << angle_y;
-        graph_scatter->scene()->activeCamera()->setXRotation(angle_x);
-        graph_scatter->scene()->activeCamera()->setYRotation(angle_y);
+        graph_scatter->scene()->activeCamera()->setXRotation(float(angle_x));
+        graph_scatter->scene()->activeCamera()->setYRotation(float(angle_y));
 
         //update ui
         Update_Ui();
@@ -458,9 +619,9 @@ int D_Viewer_3D::CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames)
             {
                 QColor col_px = QColor(QI_Screenshot.pixel(x, y));
                 MA_Screenshot.at<Vec3b>(y, x) = Vec3b(
-                            col_px.blue(),
-                            col_px.green(),
-                            col_px.red());
+                            uchar(col_px.blue()),
+                            uchar(col_px.green()),
+                            uchar(col_px.red()));
             }
 
         //qDebug() << "save";
