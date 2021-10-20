@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_3 (14.10.21)</span>
+   &#160;<span id="projectnumber">v2_1_5 (20.10.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -115,6 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a390c03fee8bd9a9569d8f0a4d80c490a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa115d4539e1738a6b3899e2d328bcd28"><td class="memItemLeft" align="right" valign="top">QClipboard *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#aa115d4539e1738a6b3899e2d328bcd28">clipboard</a> ()</td></tr>
 <tr class="separator:aa115d4539e1738a6b3899e2d328bcd28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb2f63fc06a2e866525ce4f86b710a3c"><td class="memItemLeft" align="right" valign="top">QDir *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#acb2f63fc06a2e866525ce4f86b710a3c">dir_byIndex</a> (int dir_index)</td></tr>
+<tr class="separator:acb2f63fc06a2e866525ce4f86b710a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a174123075594a3f748f770785afcbac6"><td class="memItemLeft" align="right" valign="top">QDir *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#a174123075594a3f748f770785afcbac6">dir_Config</a> ()</td></tr>
 <tr class="separator:a174123075594a3f748f770785afcbac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1bcf8afc0b7b5046b4ff2fd8425aacf"><td class="memItemLeft" align="right" valign="top">QDir *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#aa1bcf8afc0b7b5046b4ff2fd8425aacf">dir_Default</a> ()</td></tr>
@@ -171,6 +173,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0410b58615cd61e532aca00c8639a82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8489dbb98ad74f55026b0e55ef9553c"><td class="memItemLeft" align="right" valign="top">QDir *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#af8489dbb98ad74f55026b0e55ef9553c">dir_M_Softmax</a> ()</td></tr>
 <tr class="separator:af8489dbb98ad74f55026b0e55ef9553c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38ce8f70509916f902c756a86ad48408"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#a38ce8f70509916f902c756a86ad48408">set_dir_byIndex</a> (QString path, int dir_index)</td></tr>
+<tr class="separator:a38ce8f70509916f902c756a86ad48408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b01a9670439967a60d94ca62c7aa143"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#a9b01a9670439967a60d94ca62c7aa143">set_dir_Load</a> (QString path)</td></tr>
 <tr class="separator:a9b01a9670439967a60d94ca62c7aa143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae11d4a388e32f3217f7165e6a4662b9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___storage.html#ae11d4a388e32f3217f7165e6a4662b9a">set_dir_Save</a> (QString path)</td></tr>
@@ -358,6 +362,32 @@ Public Member Functions</h2></td></tr>
           <td class="memname">QDir* D_Storage::dir_Analyzer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb2f63fc06a2e866525ce4f86b710a3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb2f63fc06a2e866525ce4f86b710a3c">&#9670;&nbsp;</a></span>dir_byIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDir* D_Storage::dir_byIndex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dir_index</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1266,6 +1296,42 @@ Public Member Functions</h2></td></tr>
           <td class="paramtype">QString&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38ce8f70509916f902c756a86ad48408"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38ce8f70509916f902c756a86ad48408">&#9670;&nbsp;</a></span>set_dir_byIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Storage::set_dir_byIndex </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dir_index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

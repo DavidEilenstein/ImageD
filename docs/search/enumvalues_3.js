@@ -1,11 +1,24 @@
 var searchData=
 [
-  ['val_5fstat_5fcount_5107',['VAL_STAT_COUNT',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ae971c54f305f59803be730a0b9cddce6',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fkurtosis_5108',['VAL_STAT_KURTOSIS',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087aa39ca2f559a03b34fa7d35ad13218fa1',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmean_5109',['VAL_STAT_MEAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a3d072ecdc8667f271f193bfe39e0a9ec',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmedian_5110',['VAL_STAT_MEDIAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ac4f9eb134bac596036bcd3776d4a8548',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmedian_5fdeviation_5111',['VAL_STAT_MEDIAN_DEVIATION',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a1a3f9632307054bf1daeb47bd4520bad',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fnumber_5fof_5112',['VAL_STAT_NUMBER_OF',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087af48d6751ffd63e598945305ba69bc928',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fskew_5113',['VAL_STAT_SKEW',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a2d2be2444a1ad8e4833fd7a895815ed9',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fstd_5114',['VAL_STAT_STD',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a55819d667e91b81605a186f4d78b47cc',1,'d_bio_enum.h']]]
+  ['file_5fsection_5fbegin_5152',['FILE_SECTION_BEGIN',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a63489d3f077cd3feaa6ea50a014febac',1,'d_bio_enum.h']]],
+  ['file_5fsection_5fcontour_5fpixels_5153',['FILE_SECTION_CONTOUR_PIXELS',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a91723ae8ec2513d7c070d0c748b05d07',1,'d_bio_enum.h']]],
+  ['file_5fsection_5fend_5154',['FILE_SECTION_END',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1aab12eb888eb726db93e27d2dfcf0141c',1,'d_bio_enum.h']]],
+  ['file_5fsection_5ffoci_5155',['FILE_SECTION_FOCI',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1af744f8c990c95916adb3f1aa3318b36e',1,'d_bio_enum.h']]],
+  ['file_5fsection_5fmeta_5finfo_5156',['FILE_SECTION_META_INFO',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1a712d6b4dd1df98130b9a86f95c6da53e',1,'d_bio_enum.h']]],
+  ['file_5fsection_5fnumber_5fof_5157',['FILE_SECTION_NUMBER_OF',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1aef30543056edb2fe083cb7b150ffc543',1,'d_bio_enum.h']]],
+  ['file_5fsection_5fvalues_5158',['FILE_SECTION_VALUES',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1accb03e1e70ecea87dc8513462e52da7d',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fdefault_5159',['FILE_SUBSECTION_DEFAULT',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869acdb3cd8377ca9d4cd293433cc587ab46',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5ffocus_5fbegin_5160',['FILE_SUBSECTION_FOCUS_BEGIN',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a64a390b54e6451455b587582f5c0b9b1',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5ffocus_5fend_5161',['FILE_SUBSECTION_FOCUS_END',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a4528fff3d3a743764e111e39392b60d8',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fkurtosis_5162',['FILE_SUBSECTION_KURTOSIS',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a73cbb2ec4a0ec8c7f97b2915b4c937ee',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fmean_5163',['FILE_SUBSECTION_MEAN',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869ad50672d9b1cdb11b85f982ce36f0d490',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fmedian_5164',['FILE_SUBSECTION_MEDIAN',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a88eac70862e78d938a16bd950af05e3e',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fmedian_5fdeviation_5165',['FILE_SUBSECTION_MEDIAN_DEVIATION',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869adb770605bbbbc4adbd8297e5ad01a0ef',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fnew_5ffoci_5fchannel_5166',['FILE_SUBSECTION_NEW_FOCI_CHANNEL',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a50255a15b96232a38b9ac5b4b7ee5260',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fnumber_5fof_5167',['FILE_SUBSECTION_NUMBER_OF',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a7da7dacea8be85cf793fb6e498e7c688',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fposition_5168',['FILE_SUBSECTION_POSITION',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a3ad86f21a51be69dac954f1025a1840a',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fshape_5169',['FILE_SUBSECTION_SHAPE',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a02d2f0c1bef9a4e97de33d80d6a77e1d',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fskew_5170',['FILE_SUBSECTION_SKEW',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a6dafb49eb31c5d4f0840cc2e6e307dde',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fstd_5171',['FILE_SUBSECTION_STD',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869afce12a80015cc5ae0ec13de304550d51',1,'d_bio_enum.h']]],
+  ['file_5fsubsection_5fval_5fcount_5172',['FILE_SUBSECTION_VAL_COUNT',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869ac0d61b3e844a20c903608578244ab475',1,'d_bio_enum.h']]]
 ];

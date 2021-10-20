@@ -3711,15 +3711,30 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
 
     StatusSet("MAJOR MODE:\n" + QSL_ModeMajor[mode_major_current]);
 
-    if(mode == MODE_MAJOR_2_MANU_CORRECT_DETECTION)
+    switch (mode) {
+
+    case MODE_MAJOR_2_MANU_CORRECT_DETECTION:
     {
         MS2_init_ui();
     }
+        break;
 
-    if(mode == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
+    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:
     {
         MS3_UiInit();
     }
+        break;
+
+    case MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE:
+        {
+            MS4_UiInit();
+        }
+            break;
+
+    default:
+        return;
+    }
+
 }
 
 void D_MAKRO_MegaFoci::MS2_SetComboboxColor(QComboBox *CB_R, QComboBox *CB_G, QComboBox *CB_B, bool color_background_not_text)
@@ -4008,10 +4023,10 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_4,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
 
     //range selection
-    connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
-    connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
-    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_LoadData_TimeSelected()));
-    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateImage_ToDo()));
+    connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_LoadData_TimeSelected()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateImage_ToDo_Static()));
 
     //highlighting frames in to do list
     connect(&MS2_Viewer_ToDo,                               SIGNAL(MouseMoved_Pos(int, int)),   this,   SLOT(MS2_UpdateImage_ToDo_Highlight(int, int)));
@@ -5777,7 +5792,10 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_DirsOut()
 
 bool D_MAKRO_MegaFoci::MS2_LoadData_TimeSelected()
 {
-    return MS2_LoadData_Time(ui->spinBox_MS2_Viewport_T->value());
+    this->setEnabled(false);
+    bool ok = MS2_LoadData_Time(ui->spinBox_MS2_Viewport_T->value());
+    this->setEnabled(true);
+    return ok;
 }
 
 bool D_MAKRO_MegaFoci::MS2_LoadData_Time(size_t t)
@@ -7206,4 +7224,229 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_T_valueChanged(int arg1)
     ui->groupBox_Dataset->setTitle("Dataset (" + QString::number(ui->spinBox_DataDim_X->value() * ui->spinBox_DataDim_Y->value() * ui->spinBox_DataDim_T->value()) + "Files)");
 }
 
+void D_MAKRO_MegaFoci::MS4_UiInit()
+{
 
+}
+
+bool D_MAKRO_MegaFoci::MS4_LoadData()
+{
+    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
+        return false;
+
+
+    ui->groupBox_MS4_Data->setEnabled(false);
+
+    if(!MS4_LoadDirs())
+    {
+        ui->groupBox_MS4_Data->setEnabled(true);
+        return false;
+    }
+
+    if(!MS4_LoadDetections())
+    {
+        ui->groupBox_MS4_Data->setEnabled(true);
+        return false;
+    }
+
+    ui->groupBox_MS4_Matching->setEnabled(true);
+    ui->groupBox_MS4_ScoreFeats->setEnabled(true);
+    ui->groupBox_MS4_ScoreNoGoThres->setEnabled(true);
+    //ui->groupBox_MS4_Pedigree->setEnabled(true);
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS4_LoadDirs()
+{
+    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
+        return false;
+
+    StatusSet("Please select results directory from step 3.");
+    QString QS_MasterIn = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 3 you want to load (must beginn with 'Results_Step3_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_MasterIn.isEmpty())
+    {
+        StatusSet("Didn't you find your data? A clean file system is a nice thing, right?");
+        return false;
+    }
+
+    //check, if dir is results from step 3
+    if(!QS_MasterIn.contains("Results_Step3"))
+    {
+        StatusSet("You should selct results from step 3...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS4_In_Master.setPath(QS_MasterIn);
+    if(!DIR_MS4_In_Master.exists())
+    {
+        StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //dir in: detections
+    DIR_MS4_In_DetectionsAssigned.setPath(DIR_MS4_In_Master.path() + "/DetectionsAssigned");
+    if(!DIR_MS4_In_DetectionsAssigned.exists())
+    {
+        StatusSet("Your selected reults folder does not contain a detections folder... That won't work.");
+        return false;
+    }
+
+    //correct input data selected
+    StatusSet("Input valid:\n" + DIR_MS4_In_Master.path());
+
+    //save input dir
+    QDir DIR_parent(DIR_MS4_In_Master);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    state_MS4_dirs_loaded = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS4_LoadDetections()
+{
+    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
+        return false;
+
+    if(!state_MS4_dirs_loaded)
+        return false;
+
+    state_MS4_detections_loaded = false;
+    StatusSet("Start loading nuclei data from step 3");
+
+    vv_MS4_NucImg_InAssigned_T.clear();
+    vv_MS4_NucImg_InAssigned_T.resize(dataset_dim_t);
+    for(size_t t = 0; t < dataset_dim_t; t++)
+        if(!MS4_LoadDetections(t, false))
+            return false;
+
+    state_MS4_detections_loaded = true;
+    StatusSet("Finished loading nuclei data from step 3");
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
+{
+    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
+        return false;
+
+    if(!state_MS4_dirs_loaded)
+        return false;
+
+    if(t >= dataset_dim_t)
+        return false;
+
+    if(vv_MS4_NucImg_InAssigned_T.size() != dataset_dim_t)
+        return false;
+
+    if(t >= dataset_dim_t)
+        return false;
+
+    //clear old content
+    vv_MS4_NucImg_InAssigned_T[t].clear();
+
+    //detections dir time t
+    QDir DIR_t(DIR_MS4_In_DetectionsAssigned.path() + "/Time_" + QString::number(t));
+    if(!DIR_t.exists() && error_when_no_dir)
+        return false;
+
+    if(DIR_t.exists())
+    {
+        //get image directories
+        QStringList QSL_ImageDirs = DIR_t.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
+
+        //loop image dirs
+        for(int d = 0; d < QSL_ImageDirs.size(); d++)
+        {
+            bool img_loaded = false;
+
+            //image dir
+            QString QS_ImageDirName = QSL_ImageDirs[d];
+            QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
+
+            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
+            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "DIR" << DIR_ImageTYX.path();
+            if(DIR_ImageTYX.exists())
+            {
+                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "dir exists";
+
+                //check if indicatros contained
+                if(QS_ImageDirName.contains("_X") && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("Image_T" + QString::number(t)))
+                {
+                    //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "indicator strings contained" << QS_ImageDirName;
+
+                    //blocks in dir name
+                    QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
+                    if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
+                    {
+                        //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "correct block count of name" << QSL_ImageDirBlocks;
+
+                        //get x
+                        bool ok_x;
+                        QString QS_BlockX = QSL_ImageDirBlocks[3];
+                        QS_BlockX = QS_BlockX.remove(0, 1);
+                        int dir_x = QS_BlockX.toInt(&ok_x);
+
+                        //get y
+                        bool ok_y;
+                        QString QS_BlockY = QSL_ImageDirBlocks[2];
+                        QS_BlockY = QS_BlockY.remove(0, 1);
+                        int dir_y = QS_BlockY.toInt(&ok_y);
+
+                        //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
+
+                        //conversion to numbers worked?
+                        if(ok_x && ok_y)
+                        {
+                            //calc indices (results from step 1 saved with mosaic coordiantes in name not pixel coordinates)
+                            size_t ix = dir_x;
+                            size_t iy = dir_y;
+
+                            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
+
+                            //indices in range?
+                            if(ix < dataset_dim_mosaic_x && iy < dataset_dim_mosaic_y)
+                            {
+                                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "mosaix coordinates in range";
+
+                                //load nucleus image
+                                D_Bio_NucleusImage NucImg;
+                                int err = NucImg.load(DIR_ImageTYX.path());
+                                ERR(err, "MS4_LoadDetections", "Load nucleus image");
+
+                                //succsess?
+                                if(err == ER_okay)
+                                {
+                                    //set mosaic offset
+                                    NucImg.set_OffsetMosaicGrid(Point(ix, iy));
+
+                                    //save nucleus image
+                                    vv_MS4_NucImg_InAssigned_T[t].push_back(NucImg);
+
+                                    img_loaded = true;
+
+                                    //test
+                                    //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "Loaded x/y" << ix << iy << NucImg.info();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    StatusSet("Succsessfully loaded nucleus data T=" + QString::number(t));
+    return true;
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
+{
+    MS4_LoadData();
+}

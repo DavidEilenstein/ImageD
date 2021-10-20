@@ -291,12 +291,12 @@ private:
     size_t                              dataset_dim_mosaic_y = 15;
     size_t                              dataset_dim_mosaic_xy = 15 * 15;
     size_t                              dataset_dim_z = 8;
-    size_t                              dataset_dim_t = 49;
-    size_t                              dataset_dim_xyt = 15 * 15 * 49;
+    size_t                              dataset_dim_t = 52;
+    size_t                              dataset_dim_xyt = 15 * 15 * 52;
     size_t                              dataset_dim_p_used = 2;
     size_t                              dataset_dim_p_exist = 3;
-    size_t                              dataset_dim_tzp_used = 49 * 8 * 2;
-    size_t                              dataset_dim_tzp_exist = 49 * 8 * 3;
+    size_t                              dataset_dim_tzp_used = 52 * 8 * 2;
+    size_t                              dataset_dim_tzp_exist = 52 * 8 * 3;
     size_t                              dataset_dim_img_x = 1004;
     size_t                              dataset_dim_img_y = 1002;
     int                                 dataset_type_mat = CV_16UC1;
@@ -1178,7 +1178,6 @@ private slots:
     void on_spinBox_DataDim_T_valueChanged(int arg1);
 
 
-
 private:
 
     void MS3_UiInit();
@@ -1308,6 +1307,33 @@ private:
         "MS3_PARAM_VIS6_INTENSITY_BACKGROUND",
         "MS3_PARAM_OTHER_DUPLICATE_OVERLAP"
     };
+
+
+    //-------------------------------------------------------------------- MS4 ----------------------------------------------------
+
+private:
+
+    //data
+    QDir DIR_MS4_In_Master;
+    QDir DIR_MS4_In_DetectionsAssigned;
+    QDir DIR_MS4_Out_NucleiLifes;
+    vector<vector<D_Bio_NucleusImage>> vv_MS4_NucImg_InAssigned_T;
+    D_Bio_NucleusPedigree MS4_NucPedigree_AutoReconstruct;
+
+    //states
+    bool state_MS4_dirs_loaded = false;
+    bool state_MS4_detections_loaded = false;
+    bool state_MS4_stack_processing = false;
+
+private slots:
+
+    void MS4_UiInit();
+    bool MS4_LoadData();
+    bool MS4_LoadDirs();
+    bool MS4_LoadDetections();
+    bool MS4_LoadDetections(size_t t, bool error_when_no_dir);
+
+    void on_pushButton_MS4_LoadData_clicked();
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

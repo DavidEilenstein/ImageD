@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['marker_5f3d_5farrow_4841',['MARKER_3D_ARROW',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6abf531388fb66bae315c9097b07e3eaf1',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fcube_4842',['MARKER_3D_CUBE',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6abbeb52433b90284c43d9a14b0f3a6b02',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fcylinder_4843',['MARKER_3D_CYLINDER',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a2723ae73e4bf44425d8dde937673c6cc',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fminimal_4844',['MARKER_3D_MINIMAL',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a53187746d93e9fe27a9b9c5a652cd776',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fnumber_5fof_4845',['MARKER_3D_NUMBER_OF',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6ad31c448a0f98e62da3a6a7592811235e',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fpoint_4846',['MARKER_3D_POINT',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6a9a4f4e1b818b45e432338bada7194e49',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fpyramid_4847',['MARKER_3D_PYRAMID',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6aee1dd6ab29a0c08d9ce1ed0f1d9c9ef1',1,'d_viewer_3d.h']]],
-  ['marker_5f3d_5fsphere_4848',['MARKER_3D_SPHERE',['../d__viewer__3d_8h.html#ac6304e14682c5c440f420f2044d2ecf6aa497c632e79187243bc2a78f7e94b69f',1,'d_viewer_3d.h']]]
+  ['val_5fstat_5fcount_5173',['VAL_STAT_COUNT',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ae971c54f305f59803be730a0b9cddce6',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fkurtosis_5174',['VAL_STAT_KURTOSIS',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087aa39ca2f559a03b34fa7d35ad13218fa1',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fmean_5175',['VAL_STAT_MEAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a3d072ecdc8667f271f193bfe39e0a9ec',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fmedian_5176',['VAL_STAT_MEDIAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ac4f9eb134bac596036bcd3776d4a8548',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fmedian_5fdeviation_5177',['VAL_STAT_MEDIAN_DEVIATION',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a1a3f9632307054bf1daeb47bd4520bad',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fnumber_5fof_5178',['VAL_STAT_NUMBER_OF',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087af48d6751ffd63e598945305ba69bc928',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fskew_5179',['VAL_STAT_SKEW',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a2d2be2444a1ad8e4833fd7a895815ed9',1,'d_bio_enum.h']]],
+  ['val_5fstat_5fstd_5180',['VAL_STAT_STD',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a55819d667e91b81605a186f4d78b47cc',1,'d_bio_enum.h']]]
 ];
