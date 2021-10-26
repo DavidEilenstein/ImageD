@@ -58,7 +58,7 @@ function<int (Mat *)> D_Img_Proc_2dFactory::Draw_Contours(vector<vector<Point> >
     };
 }
 
-function<int (Mat *)> D_Img_Proc_2dFactory::Draw_ContourText(vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+function<int (Mat *)> D_Img_Proc_2dFactory::Draw_ContourText_InPlace(vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
 {
     return
             [vContours, QSL_Texts, vTextOrigins, line_thickness, text_thickness, text_scale, value](Mat *pMA_Target)
@@ -884,6 +884,24 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::OverlayOverwrite(uchar r, uch
                     g,
                     b,
                     intensity_overlay);
+    };
+}
+
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Draw_ContourText(vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    return
+            [vContours, QSL_Texts, vTextOrigins, line_thickness, text_thickness, text_scale, value](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Draw_ContourText(
+                    pMA_Out,
+                    pMA_In,
+                    vContours,
+                    QSL_Texts,
+                    vTextOrigins,
+                    line_thickness,
+                    text_thickness,
+                    text_scale,
+                    value);
     };
 }
 

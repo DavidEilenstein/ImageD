@@ -256,7 +256,7 @@
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
       <property name="currentIndex">
-       <number>4</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
@@ -425,7 +425,7 @@
            </size>
           </property>
           <property name="title">
-           <string>Dataset (11025 Files)</string>
+           <string>Dataset (11700 Files)</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_10">
            <property name="leftMargin">
@@ -889,7 +889,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_Viewport">
               <attribute name="title">
@@ -912,25 +912,6 @@
                  </property>
                  <property name="mouseTracking">
                   <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QSpinBox" name="spinBox_Viewport_P">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="suffix">
-                  <string> (GFP)</string>
-                 </property>
-                 <property name="prefix">
-                  <string>P=</string>
-                 </property>
-                 <property name="maximum">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
                  </property>
                 </widget>
                </item>
@@ -998,6 +979,44 @@
                  </property>
                  <property name="prefix">
                   <string>T=</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QSpinBox" name="spinBox_Viewport_P">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="suffix">
+                  <string> (GFP)</string>
+                 </property>
+                 <property name="prefix">
+                  <string>P=</string>
+                 </property>
+                 <property name="maximum">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QSpinBox" name="spinBox_Viewport_S">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="prefix">
+                  <string>S=</string>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
                  </property>
                 </widget>
                </item>
@@ -3627,7 +3646,7 @@ QProgressBar::chunk {
         <item row="0" column="2">
          <widget class="QPushButton" name="pushButton_DataLoad">
           <property name="text">
-           <string>Load Dataset (11025 Files)</string>
+           <string>Load Dataset (11700 Files)</string>
           </property>
          </widget>
         </item>

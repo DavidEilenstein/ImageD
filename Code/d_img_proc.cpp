@@ -18431,6 +18431,16 @@ int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point>> vContours, 
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Contour(Mat *pMA_Target, vector<Point> vContour, int line_thickness, double value)
+{
+    vector<vector<Point>> vContours = {vContour};
+    return Draw_Contours(
+                pMA_Target,
+                vContours,
+                line_thickness,
+                value);
+}
+
 /*!
  * \brief D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers
  * \param pMA_Target image to draw in
@@ -18443,10 +18453,11 @@ int D_Img_Proc::Draw_Contours(Mat *pMA_Target, vector<vector<Point>> vContours, 
  */
 int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
 {
+    //qDebug() << "Draw_ContourText" << "start";
     ///error checks
-    if(pMA_Target->empty())                                         return ER_empty;
-    if(static_cast<size_t>(QSL_Texts.size()) != vContours.size())   return ER_size_missmatch;
-    if(vContours.size() != vTextOrigins.size())                     return ER_size_missmatch;
+    //if(pMA_Target->empty())                                       return ER_empty;
+    if(vContours.size() != size_t(QSL_Texts.size()))                {qDebug() << "vContours.size() != size_t(QSL_Texts.size())";    return ER_size_missmatch;}
+    if(vContours.size() != vTextOrigins.size())                     {qDebug() << "vContours.size() != vTextOrigins.size()";         return ER_size_missmatch;}
 
     ///calc draw color with fitting channel count
     Scalar color;
@@ -18470,7 +18481,7 @@ int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContour
     for(size_t i = 0; i < n; i++)
         putText(
                     *pMA_Target,
-                    QSL_Texts[i].toStdString(),
+                    QSL_Texts[int(i)].toStdString(),
                     vTextOrigins[i],
                     FONT_HERSHEY_COMPLEX_SMALL,
                     text_scale,
@@ -18478,7 +18489,22 @@ int D_Img_Proc::Draw_ContourText(Mat *pMA_Target, vector<vector<Point>> vContour
                     text_thickness,
                     CV_AA);
 
+    //qDebug() << "Draw_ContourText" << "end";
     return ER_okay;
+}
+
+int D_Img_Proc::Draw_ContourText(Mat *pMA_Out, Mat *pMA_In, vector<vector<Point> > vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)
+{
+    *pMA_Out = pMA_In->clone();
+    return Draw_ContourText(
+                pMA_Out,
+                vContours,
+                QSL_Texts,
+                vTextOrigins,
+                line_thickness,
+                text_thickness,
+                text_scale,
+                value);
 }
 
 QColor D_Img_Proc::Contrast_Color(QColor col_in, bool force_black_and_white, bool mirror_hue, bool force_light2blue)

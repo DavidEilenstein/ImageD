@@ -1,11 +1,14 @@
 var searchData=
 [
-  ['val_5fstat_5fcount_5173',['VAL_STAT_COUNT',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ae971c54f305f59803be730a0b9cddce6',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fkurtosis_5174',['VAL_STAT_KURTOSIS',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087aa39ca2f559a03b34fa7d35ad13218fa1',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmean_5175',['VAL_STAT_MEAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a3d072ecdc8667f271f193bfe39e0a9ec',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmedian_5176',['VAL_STAT_MEDIAN',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ac4f9eb134bac596036bcd3776d4a8548',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fmedian_5fdeviation_5177',['VAL_STAT_MEDIAN_DEVIATION',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a1a3f9632307054bf1daeb47bd4520bad',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fnumber_5fof_5178',['VAL_STAT_NUMBER_OF',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087af48d6751ffd63e598945305ba69bc928',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fskew_5179',['VAL_STAT_SKEW',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a2d2be2444a1ad8e4833fd7a895815ed9',1,'d_bio_enum.h']]],
-  ['val_5fstat_5fstd_5180',['VAL_STAT_STD',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a55819d667e91b81605a186f4d78b47cc',1,'d_bio_enum.h']]]
+  ['score_5fweight_5farea_5204',['SCORE_WEIGHT_AREA',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda6637805d67653546729f852a303e7dde',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fcompactness_5205',['SCORE_WEIGHT_COMPACTNESS',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda7f35adc0d53db051bddfac77d3e8e627',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fconvexity_5206',['SCORE_WEIGHT_CONVEXITY',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdaeb7b9ea4a5beb286c3e0cd5672921b57',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fmean_5fch0_5207',['SCORE_WEIGHT_MEAN_CH0',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda21c3f875030d6d579c312ad6ab4a8a7f',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fmean_5fch1_5208',['SCORE_WEIGHT_MEAN_CH1',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdac1913083c5ea77daea94c730a522441f',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fmean_5fch2_5209',['SCORE_WEIGHT_MEAN_CH2',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdac41a94f7c23fca801cd3e82c3cbe1535',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fnumber_5fof_5210',['SCORE_WEIGHT_NUMBER_OF',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda493166ad09044c9b8917980bc2ae9405',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fspeed_5211',['SCORE_WEIGHT_SPEED',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdaaec1773dec31b46c9b7e3596a0f6099a',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fstd_5fch0_5212',['SCORE_WEIGHT_STD_CH0',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda1543b4617d8bd37812b78cf471e0df20',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fstd_5fch1_5213',['SCORE_WEIGHT_STD_CH1',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdacc946e219562aa7cf81df49c9130d3a2',1,'d_bio_enum.h']]],
+  ['score_5fweight_5fstd_5fch2_5214',['SCORE_WEIGHT_STD_CH2',['../d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda8e76a3d30411f423ed92e64fb8e681ea',1,'d_bio_enum.h']]]
 ];

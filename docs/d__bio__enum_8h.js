@@ -25,6 +25,19 @@ var d__bio__enum_8h =
       [ "FILE_SUBSECTION_SHAPE", "d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a02d2f0c1bef9a4e97de33d80d6a77e1d", null ],
       [ "FILE_SUBSECTION_NUMBER_OF", "d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869a7da7dacea8be85cf793fb6e498e7c688", null ]
     ] ],
+    [ "SCORE_WEIGHT", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffd", [
+      [ "SCORE_WEIGHT_SPEED", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdaaec1773dec31b46c9b7e3596a0f6099a", null ],
+      [ "SCORE_WEIGHT_AREA", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda6637805d67653546729f852a303e7dde", null ],
+      [ "SCORE_WEIGHT_CONVEXITY", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdaeb7b9ea4a5beb286c3e0cd5672921b57", null ],
+      [ "SCORE_WEIGHT_COMPACTNESS", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda7f35adc0d53db051bddfac77d3e8e627", null ],
+      [ "SCORE_WEIGHT_MEAN_CH0", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda21c3f875030d6d579c312ad6ab4a8a7f", null ],
+      [ "SCORE_WEIGHT_MEAN_CH1", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdac1913083c5ea77daea94c730a522441f", null ],
+      [ "SCORE_WEIGHT_MEAN_CH2", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdac41a94f7c23fca801cd3e82c3cbe1535", null ],
+      [ "SCORE_WEIGHT_STD_CH0", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda1543b4617d8bd37812b78cf471e0df20", null ],
+      [ "SCORE_WEIGHT_STD_CH1", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffdacc946e219562aa7cf81df49c9130d3a2", null ],
+      [ "SCORE_WEIGHT_STD_CH2", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda8e76a3d30411f423ed92e64fb8e681ea", null ],
+      [ "SCORE_WEIGHT_NUMBER_OF", "d__bio__enum_8h.html#a1c26b4f579a6f3b8cb43c59a9f392ffda493166ad09044c9b8917980bc2ae9405", null ]
+    ] ],
     [ "VALUE_STAT", "d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087", [
       [ "VAL_STAT_COUNT", "d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087ae971c54f305f59803be730a0b9cddce6", null ],
       [ "VAL_STAT_MEAN", "d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087a3d072ecdc8667f271f193bfe39e0a9ec", null ],

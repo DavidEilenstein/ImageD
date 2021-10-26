@@ -135,10 +135,12 @@ var menudata={children:[
 {text:"Enumerations",url:"globals_enum.html",children:[
 {text:"d",url:"globals_enum.html#index_d"},
 {text:"f",url:"globals_enum.html#index_f"},
+{text:"s",url:"globals_enum.html#index_s"},
 {text:"v",url:"globals_enum.html#index_v"}]},
 {text:"Enumerator",url:"globals_eval.html",children:[
 {text:"c",url:"globals_eval.html#index_c"},
 {text:"d",url:"globals_eval_d.html#index_d"},
 {text:"e",url:"globals_eval_e.html#index_e"},
 {text:"f",url:"globals_eval_f.html#index_f"},
+{text:"s",url:"globals_eval_s.html#index_s"},
 {text:"v",url:"globals_eval_v.html#index_v"}]}]}]}]}

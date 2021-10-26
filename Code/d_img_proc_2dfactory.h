@@ -60,7 +60,7 @@ public:
     static function<int (Mat *)>                                Generate_byValueFunction_Complex    (int width, int height, function<complex<double> (complex<double> x, complex<double> y)> value_function);
     static function<int (Mat *)>                                Load_From_Path_Raw                  (string path, int width, int height, int out_type);
     static function<int (Mat *)>                                Draw_Contours                       (vector<vector<Point>> vContours, int line_thickness, double value);
-    static function<int (Mat *)>                                Draw_ContourText                    (vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
+    static function<int (Mat *)>                                Draw_ContourText_InPlace            (vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
 
 
     //1 Input -> 1 Output
@@ -148,6 +148,7 @@ public:
     static function<int (Mat *, Mat *)>                         Convert_Angle2Color_Rad         (uchar Saturation = 255, uchar Value = 255);
 
     static function<int (Mat *, Mat *)>                         OverlayOverwrite                (uchar r, uchar g, uchar b, double intensity_overlay);
+    static function<int (Mat *, Mat *)>                         Draw_ContourText                (vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
 
     //2 Input -> 1 Output
     static function<int (Mat *, Mat *, Mat *)>                  Shading_Correct                 ();

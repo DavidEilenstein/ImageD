@@ -50,6 +50,7 @@ class D_Bio_NucleusImage
 {
 public:
     D_Bio_NucleusImage();
+    D_Bio_NucleusImage(vector<D_Bio_NucleusImage> vNucImgs2Merge, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time);
     D_Bio_NucleusImage(Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time);
     D_Bio_NucleusImage(Mat *pMA_NucleiBinary, vector<Mat> *pvMA_FociBinary, vector<Mat> *pvMA_Values, Point P_Offset_coordinates = Point(0, 0), Point P_Offset_mosaicgrid = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
     D_Bio_NucleusImage(D_VisDat_Obj *pVD_NucleiBinary, vector<D_VisDat_Obj> *pvVD_FociBinary, vector<D_VisDat_Obj> *pvVD_Values, Point P_Offset_coordinates = Point(0, 0), Point P_Offset_mosaicgrid = Point(0, 0), size_t time = 0, int neighborhood = 4, bool blockSave_StichBorder_BottomRight = false, size_t block_x_right = INFINITY, size_t block_y_bottom = INFINITY);
@@ -83,6 +84,7 @@ public:
     size_t get_foci_count(size_t foci_channel)      {return foci_channel < get_foci_channel_count() ? vvFoci[foci_channel].size() : 0;}
 
     vector<vector<Point>>       get_nuclei_contours(double scale = 1, Point scaled_offset = Point(0, 0));
+    vector<Point2f>             get_nuclei_centers(double scale = 1, Point scaled_offset = Point(0, 0));
     vector<Point2f>             get_foci_centers(size_t channel, double scale = 1, Point scaled_offset = Point(0, 0));
     vector<double>              get_foci_radii(size_t channel, double scale = 1);
     vector<double>              get_foci_diameters(size_t channel, double scale = 1);

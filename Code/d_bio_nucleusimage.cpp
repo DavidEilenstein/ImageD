@@ -13,6 +13,20 @@ D_Bio_NucleusImage::D_Bio_NucleusImage()
 
 }
 
+D_Bio_NucleusImage::D_Bio_NucleusImage(vector<D_Bio_NucleusImage> vNucImgs2Merge, Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time)
+{
+    m_Offset_Grid = P_Offset_mosaicgrid;
+    m_Offset_Coord = P_Offset_coordinates;
+    m_time = time;
+
+    for(size_t i = 0; i < vNucImgs2Merge.size(); i++)
+    {
+        vector<D_Bio_NucleusBlob> vNucs2add = vNucImgs2Merge[i].get_nuclei();
+        for(size_t nuc = 0; nuc < vNucs2add.size(); nuc++)
+            add_nucleus(vNucs2add[nuc]);
+    }
+}
+
 D_Bio_NucleusImage::D_Bio_NucleusImage(Point P_Offset_coordinates, Point P_Offset_mosaicgrid, size_t time)
 {
     m_Offset_Grid = P_Offset_mosaicgrid;
@@ -864,6 +878,23 @@ vector<vector<Point>> D_Bio_NucleusImage::get_nuclei_contours(double scale, Poin
     }
 
     return vvPointsContour;
+}
+
+vector<Point2f> D_Bio_NucleusImage::get_nuclei_centers(double scale, Point scaled_offset)
+{
+    vector<Point2f> vCenters;
+
+    for(size_t nuc = 0; nuc < vNuclei.size(); nuc++)
+    {
+        double x = vNuclei[nuc].centroid().x;
+        double y = vNuclei[nuc].centroid().y;
+        vCenters.push_back(
+                    Point(
+                        static_cast<int>(x * scale) + scaled_offset.x,
+                        static_cast<int>(y * scale) + scaled_offset.y));
+    }
+
+    return vCenters;
 }
 
 vector<Point2f> D_Bio_NucleusImage::get_foci_centers(size_t channel, double scale, Point scaled_offset)

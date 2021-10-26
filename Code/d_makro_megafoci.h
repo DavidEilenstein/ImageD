@@ -1202,6 +1202,8 @@ private:
     bool state_MS3_stack_processing = false;
     bool state_MS3_detections_loaded = false;
 
+    int MS3_current_loaded_detections_T = -1;
+
     //Img Proc Step
     enum STEPS_MS3 {
         //Prepare (Load, Stitch, Project)
@@ -1228,7 +1230,9 @@ private:
         //draw detections
         STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE,
         STEP_MS3_VIS_NUCLEI_BORDERS,
-        STEP_MS3_VIS_NUCLEI_FILLED,
+        STEP_MS3_VIS_NUCLEI_FILLED_STACK,
+        STEP_MS3_VIS_NUCLEI_FILLED_PICKED,
+        STEP_MS3_VIS_NUCLEI_FILLED_ALL,
         STEP_MS3_VIS_FOCI_GFP,
         STEP_MS3_VIS_FOCI_RFP,
         STEP_MS3_VIS_FOCI_BOTH,
@@ -1236,7 +1240,7 @@ private:
         //Visualization
         STEP_MS3_VIS_REGIONS,
         STEP_MS3_VIS_REGIONS_BACKGROUND,
-        STEP_MS3_VIS_REGIONS_FOCI_COUNT,
+        //STEP_MS3_VIS_REGIONS_FOCI_COUNT,
 
         STEP_MS3_NUMBER_OF
     };
@@ -1261,14 +1265,16 @@ private:
 
         "draw-0 Nuclei Borders (without remove duplicates)",
         "draw-1 Nuclei Borders",
-        "draw-2 Nuclei Filled",
+        "draw-2 Nuclei Filled (stacked)",
+        "draw-2 Nuclei Filled (picked)",
+        "draw-2 Nuclei Filled (projected all)",
         "draw-3 Foci GFP",
         "draw-4 Foci RFP",
         "draw-5 Foci Both",
 
         "vis-5 Regions",
-        "vis-6 Regions with background",
-        "vis-7 Regions with foci counts"
+        "vis-6 Regions with background"
+        //"vis-7 Regions with foci counts"
     };
 
     enum MS3_PARAMS {
@@ -1317,7 +1323,7 @@ private:
     QDir DIR_MS4_In_Master;
     QDir DIR_MS4_In_DetectionsAssigned;
     QDir DIR_MS4_Out_NucleiLifes;
-    vector<vector<D_Bio_NucleusImage>> vv_MS4_NucImg_InAssigned_T;
+    vector<vector<D_Bio_NucleusImage>>  vv_MS4_NucImg_InAssigned_T;
     D_Bio_NucleusPedigree MS4_NucPedigree_AutoReconstruct;
 
     //states
@@ -1332,6 +1338,8 @@ private slots:
     bool MS4_LoadDirs();
     bool MS4_LoadDetections();
     bool MS4_LoadDetections(size_t t, bool error_when_no_dir);
+
+    //bool MS4_
 
     void on_pushButton_MS4_LoadData_clicked();
 };

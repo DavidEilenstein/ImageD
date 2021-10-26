@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_5 (20.10.21)</span>
+   &#160;<span id="projectnumber">v2_1_6 (26.10.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -200,55 +200,72 @@ $(document).ready(function(){initNavTree('d__bio__nucleusblob_8h_source.html',''
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    QString         info();</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">//bool            load(QString QS_DirLoad);</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">double</span>                          m_time = 0;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    vector&lt;vector&lt;D_Bio_Focus&gt;&gt;     vvFoci;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">//matching with other nucleus</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a28bbf719e940ade03fcbe9e0789bec39">  114</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="class_d___bio___nucleus_blob.html#a28bbf719e940ade03fcbe9e0789bec39">matching_isMitosis</a>()                            {<span class="keywordflow">return</span> Matching_FoundChild1 &amp;&amp; Matching_FoundChild2;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a079d76363cb9949993cca5510b131e24">  115</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="class_d___bio___nucleus_blob.html#a079d76363cb9949993cca5510b131e24">matching_foundChild</a>()                           {<span class="keywordflow">return</span> Matching_FoundChild1 || Matching_FoundChild2;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a7c426d2472267907d9f142bfd3d1782e">  116</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="class_d___bio___nucleus_blob.html#a7c426d2472267907d9f142bfd3d1782e">matching_foundChild1</a>()                          {<span class="keywordflow">return</span> Matching_FoundChild1;}</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a4321b86e9c2190d060e1f280678692df">  117</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="class_d___bio___nucleus_blob.html#a4321b86e9c2190d060e1f280678692df">matching_foundChild2</a>()                          {<span class="keywordflow">return</span> Matching_FoundChild2;}</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_blob.html#a2205c95a05a57fa9148a5d4dafea9906">  118</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="class_d___bio___nucleus_blob.html#a2205c95a05a57fa9148a5d4dafea9906">matching_foundParnet</a>()                          {<span class="keywordflow">return</span> Matching_FoundParnet;}</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">size_t</span>                          leftmost();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">size_t</span>                          topmost();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">bool</span>                            block_stitching_border = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">size_t</span>                          block_stitching_border_x = INFINITY;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordtype">size_t</span>                          block_stitching_border_y = INFINITY;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">//bool            load(QString QS_DirLoad);</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">double</span>                          m_time = 0;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    vector&lt;vector&lt;D_Bio_Focus&gt;&gt;     vvFoci;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">//copied from D_BioFocus because inhering causes problems...</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">bool</span>                            state_feats_calced  = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">void</span>                            CalcFeats();</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    vector&lt;Point&gt;                   m_contour;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    vector&lt;Point&gt;                   m_convex_hull;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">size_t</span>                          leftmost();</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">size_t</span>                          topmost();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">bool</span>                            block_stitching_border = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">size_t</span>                          block_stitching_border_x = size_t(INFINITY);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">size_t</span>                          block_stitching_border_y = size_t(INFINITY);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment">//copied from D_BioFocus because inhering causes problems...</span></div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>                         m_centroid          = <a class="code" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>(0, 0);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">double</span>                          m_area              = 0;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">double</span>                          m_compactness       = 0;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">double</span>                          m_convexity         = 0;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    vector&lt;vector&lt;double&gt;&gt;          vvSignalStats_StatChannel = vector&lt;vector&lt;double&gt;&gt;(<a class="code" href="d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087af48d6751ffd63e598945305ba69bc928">VAL_STAT_NUMBER_OF</a>, vector&lt;double&gt;(1, 0));</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;};</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">bool</span>                            state_feats_calced  = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">void</span>                            CalcFeats();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    vector&lt;Point&gt;                   m_contour;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    vector&lt;Point&gt;                   m_convex_hull;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>                         m_centroid          = <a class="code" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>(0, 0);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">double</span>                          m_area              = 0;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">double</span>                          m_compactness       = 0;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">double</span>                          m_convexity         = 0;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_BIO_NUCLEUSBLOB_H</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    vector&lt;vector&lt;double&gt;&gt;          vvSignalStats_StatChannel = vector&lt;vector&lt;double&gt;&gt;(<a class="code" href="d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087af48d6751ffd63e598945305ba69bc928">VAL_STAT_NUMBER_OF</a>, vector&lt;double&gt;(1, 0));</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">//matching with other nucleus</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <a class="code" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>               *Matching_Nuc_Parent;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>               *Matching_Nuc_Child1;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <a class="code" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>               *Matching_Nuc_Child2;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">bool</span>                            Matching_FoundParnet = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">bool</span>                            Matching_FoundChild1 = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">bool</span>                            Matching_FoundChild2 = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;};</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_BIO_NUCLEUSBLOB_H</span></div>
 <div class="ttc" id="aclass_d___bio___focus_html"><div class="ttname"><a href="class_d___bio___focus.html">D_Bio_Focus</a></div><div class="ttdef"><b>Definition:</b> d_bio_focus.h:45</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html"><div class="ttname"><a href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:46</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a00f10f9dcb40abb69eb3271eee98f2f7"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a00f10f9dcb40abb69eb3271eee98f2f7">D_Bio_NucleusBlob::dist2centroid</a></div><div class="ttdeci">double dist2centroid(Point2f point)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:96</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a079d76363cb9949993cca5510b131e24"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a079d76363cb9949993cca5510b131e24">D_Bio_NucleusBlob::matching_foundChild</a></div><div class="ttdeci">bool matching_foundChild()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:115</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a199eacd0390ce53ba915fac62a7eeab7"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a199eacd0390ce53ba915fac62a7eeab7">D_Bio_NucleusBlob::set_Foci</a></div><div class="ttdeci">void set_Foci(vector&lt; vector&lt; D_Bio_Focus &gt;&gt; vv_foci)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:58</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a1f182d5ba076abcc8bdec1728a9b02aa"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a1f182d5ba076abcc8bdec1728a9b02aa">D_Bio_NucleusBlob::dist2contour</a></div><div class="ttdeci">double dist2contour(Point2f point)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:95</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a206337fe7e1b55ab5aa8b77ca6249cb8"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a206337fe7e1b55ab5aa8b77ca6249cb8">D_Bio_NucleusBlob::centroid</a></div><div class="ttdeci">Point2f centroid()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:99</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a2205c95a05a57fa9148a5d4dafea9906"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a2205c95a05a57fa9148a5d4dafea9906">D_Bio_NucleusBlob::matching_foundParnet</a></div><div class="ttdeci">bool matching_foundParnet()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:118</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a24d26909d3f7653cdf704d094e664724"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">D_Bio_NucleusBlob::set_value_channels</a></div><div class="ttdeci">void set_value_channels(size_t channels)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:88</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a28bbf719e940ade03fcbe9e0789bec39"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a28bbf719e940ade03fcbe9e0789bec39">D_Bio_NucleusBlob::matching_isMitosis</a></div><div class="ttdeci">bool matching_isMitosis()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:114</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a349a554f2dfc390e5eeac953542a73aa"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a349a554f2dfc390e5eeac953542a73aa">D_Bio_NucleusBlob::set_Foci</a></div><div class="ttdeci">void set_Foci(size_t channel, vector&lt; D_Bio_Focus &gt; v_foci)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:57</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a4321b86e9c2190d060e1f280678692df"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a4321b86e9c2190d060e1f280678692df">D_Bio_NucleusBlob::matching_foundChild2</a></div><div class="ttdeci">bool matching_foundChild2()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:117</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a56aad27bca6564d24f6272a2e0ad4425"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a56aad27bca6564d24f6272a2e0ad4425">D_Bio_NucleusBlob::convexity</a></div><div class="ttdeci">double convexity()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:102</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a5fd52a2de45c2707828e1b7e00a72fee"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a5fd52a2de45c2707828e1b7e00a72fee">D_Bio_NucleusBlob::get_FociChannels</a></div><div class="ttdeci">size_t get_FociChannels()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:62</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a63f0be5b04cc83a5d1418b27f1632c33"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a63f0be5b04cc83a5d1418b27f1632c33">D_Bio_NucleusBlob::get_Contours_append</a></div><div class="ttdeci">int get_Contours_append(vector&lt; vector&lt; Point &gt;&gt; *pvScaledContours, double scale)</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a65d0c10b1bf117af4abbd9d13bb8ac65"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a65d0c10b1bf117af4abbd9d13bb8ac65">D_Bio_NucleusBlob::D_Bio_NucleusBlob</a></div><div class="ttdeci">D_Bio_NucleusBlob(vector&lt; Point &gt; contour_points, vector&lt; vector&lt; double &gt;&gt; SignalStats_StatChannel, Point Offset=Point(0, 0))</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a65e87197f3aa6abb02a3675b62a0a5e4"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a65e87197f3aa6abb02a3675b62a0a5e4">D_Bio_NucleusBlob::D_Bio_NucleusBlob</a></div><div class="ttdeci">D_Bio_NucleusBlob(vector&lt; Point &gt; contour_points, vector&lt; vector&lt; double &gt;&gt; SignalStats_StatChannel, double time, Point Offset=Point(0, 0))</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a73b69b7b4a4b5e8e0cfe91638a704818"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a73b69b7b4a4b5e8e0cfe91638a704818">D_Bio_NucleusBlob::compactness</a></div><div class="ttdeci">double compactness()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:101</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html_a7c426d2472267907d9f142bfd3d1782e"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a7c426d2472267907d9f142bfd3d1782e">D_Bio_NucleusBlob::matching_foundChild1</a></div><div class="ttdeci">bool matching_foundChild1()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:116</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a828dcf16c20cf3d8b64ca535639a6baf"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a828dcf16c20cf3d8b64ca535639a6baf">D_Bio_NucleusBlob::get_Foci</a></div><div class="ttdeci">vector&lt; D_Bio_Focus &gt; get_Foci(size_t channel)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:65</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a9041253fbef60cec8e6b0af139658bca"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a9041253fbef60cec8e6b0af139658bca">D_Bio_NucleusBlob::contour</a></div><div class="ttdeci">vector&lt; Point &gt; contour()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:94</div></div>
 <div class="ttc" id="aclass_d___bio___nucleus_blob_html_a9bd7f703efcd3638b0c0250e619ac155"><div class="ttname"><a href="class_d___bio___nucleus_blob.html#a9bd7f703efcd3638b0c0250e619ac155">D_Bio_NucleusBlob::signal_median</a></div><div class="ttdeci">double signal_median(size_t channel)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:106</div></div>

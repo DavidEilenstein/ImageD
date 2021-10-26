@@ -1,6 +1,7 @@
 var class_d___bio___nucleus_image =
 [
     [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html#ae91542ee4fd704284790de7e401b5f6e", null ],
+    [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html#a0eab701780fb8692791c2d9f6eb17a9c", null ],
     [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html#ad7b37f6566fdc0ee7e9390f56d3a3134", null ],
     [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html#afbb6916245f34042ee28c24c988d7097", null ],
     [ "D_Bio_NucleusImage", "class_d___bio___nucleus_image.html#a62e57317d892b1aac523c1e06bfb6f5b", null ],
@@ -25,6 +26,7 @@ var class_d___bio___nucleus_image =
     [ "get_FociCounts", "class_d___bio___nucleus_image.html#a2a9d67236241292429dc4f2236328197", null ],
     [ "get_focus", "class_d___bio___nucleus_image.html#ae89aaca87b711c117b754dfb7142ff51", null ],
     [ "get_nuclei", "class_d___bio___nucleus_image.html#a4a19b227d4a950ba15fc48032508acd6", null ],
+    [ "get_nuclei_centers", "class_d___bio___nucleus_image.html#a9881b9f26f34275be1c0b73c27c09798", null ],
     [ "get_nuclei_contour_objects", "class_d___bio___nucleus_image.html#aed736f21ca1a3c03426f0c5ec11f3a1b", null ],
     [ "get_nuclei_contour_objects_append", "class_d___bio___nucleus_image.html#a8f37df2561df8c220b22f7b9a859c26d", null ],
     [ "get_nuclei_contours", "class_d___bio___nucleus_image.html#a4cadb9b7118e73b7e74e5a1a5b4716c3", null ],

@@ -110,6 +110,12 @@ public:
 
     QString         info();
 
+    //matching with other nucleus
+    bool            matching_isMitosis()                            {return Matching_FoundChild1 && Matching_FoundChild2;}
+    bool            matching_foundChild()                           {return Matching_FoundChild1 || Matching_FoundChild2;}
+    bool            matching_foundChild1()                          {return Matching_FoundChild1;}
+    bool            matching_foundChild2()                          {return Matching_FoundChild2;}
+    bool            matching_foundParnet()                          {return Matching_FoundParnet;}
 
 private:
 
@@ -122,8 +128,8 @@ private:
     size_t                          leftmost();
     size_t                          topmost();
     bool                            block_stitching_border = false;
-    size_t                          block_stitching_border_x = INFINITY;
-    size_t                          block_stitching_border_y = INFINITY;
+    size_t                          block_stitching_border_x = size_t(INFINITY);
+    size_t                          block_stitching_border_y = size_t(INFINITY);
 
     //copied from D_BioFocus because inhering causes problems...
 
@@ -140,7 +146,13 @@ private:
 
     vector<vector<double>>          vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
-
+    //matching with other nucleus
+    D_Bio_NucleusBlob               *Matching_Nuc_Parent;
+    D_Bio_NucleusBlob               *Matching_Nuc_Child1;
+    D_Bio_NucleusBlob               *Matching_Nuc_Child2;
+    bool                            Matching_FoundParnet = false;
+    bool                            Matching_FoundChild1 = false;
+    bool                            Matching_FoundChild2 = false;
 
 };
 

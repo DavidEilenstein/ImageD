@@ -76,8 +76,9 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     connect(&Viewer_OverviewSmall,                          SIGNAL(MouseMoved_Value(QString)),          L_SB_ValueAtCursor, SLOT(setText(QString)));
     connect(&Viewer_OverviewBig,                            SIGNAL(MouseMoved_Value(QString)),          L_SB_ValueAtCursor, SLOT(setText(QString)));
     //Viewport (only inside image processing position: fix x, y, t)
-    connect(ui->spinBox_Viewport_Z,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images()));
-    connect(ui->spinBox_Viewport_P,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images()));
+    connect(ui->spinBox_Viewport_Z,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_Proc()));
+    connect(ui->spinBox_Viewport_P,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_Proc()));
+    connect(ui->spinBox_Viewport_S,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_Images_Proc()));
     //Image Processing / image proc pos relevant viewport
     connect(ui->spinBox_Viewport_X,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_ImageProcessing_CurrentImage()));
     connect(ui->spinBox_Viewport_Y,                         SIGNAL(valueChanged(int)),                  this,               SLOT(Update_ImageProcessing_CurrentImage()));
@@ -218,13 +219,15 @@ void D_MAKRO_MegaFoci::Update_Images_Proc()
     //get inidices to show
     int z = ui->spinBox_Viewport_Z->value();
     int p = ui->spinBox_Viewport_P->value();
+    int s = ui->spinBox_Viewport_S->value();
 
     //make sure indices fit
     if(z >= vVD_ImgProcSteps[proc_step_index].pDim()->size_Z())   z = 0;
     if(p >= vVD_ImgProcSteps[proc_step_index].pDim()->size_P())   p = 0;
+    if(s >= vVD_ImgProcSteps[proc_step_index].pDim()->size_S())   s = 0;
 
     //2D plane to show
-    D_VisDat_Slice_2D Slice2d(-1, -1, z, 0, 0, p);
+    D_VisDat_Slice_2D Slice2d(-1, -1, z, 0, s, p);
 
     //Crop 2D plane from VD
     ERR(D_VisDat_Proc::Read_2D_Plane(
@@ -2048,6 +2051,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
     if(state_block_img_proc_update)
         return;
 
+    if(MS3_current_loaded_detections_T != ui->spinBox_Viewport_T->value())
+        MS3_LoadDetections(ui->spinBox_Viewport_T->value());
+    if(MS3_current_loaded_detections_T != ui->spinBox_Viewport_T->value())
+        return;
+
     if(step < STEP_MS3_VIS_NUCLEI_BORDERS_NO_REMOVE || step > STEP_MS3_VIS_FOCI_BOTH)
     {
         ERR(ER_index_out_of_range,
@@ -2116,19 +2124,70 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
                 255),
             "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
             QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
+
+        //convert to VD
+        vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
+        ERR(D_VisDat_Proc::Write_2D_Plane(
+                &(vVD_ImgProcSteps[step]),
+                &MA_tmp_target,
+                D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "D_VisDat_Proc::Write_2D_Plane");
     }
         break;
 
-    case STEP_MS3_VIS_NUCLEI_FILLED:
+    case STEP_MS3_VIS_NUCLEI_FILLED_STACK:
     {
-        //draw nuclei
-        ERR(D_Img_Proc::Draw_Contours(
-                &MA_tmp_target,
-                NucImg.get_nuclei_contours(1, -P_Offset),
-                -1,
-                255),
+        //nuclei count
+        size_t n_nuc = NucImg.get_nuclei_count();
+
+        //dim of stacked img
+        D_VisDat_Dim dim_stacked = vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim();
+        dim_stacked.set_size_S(n_nuc);
+
+        //init black VD with stacked dim
+        vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK] = D_VisDat_Obj(dim_stacked, CV_8UC1, 0);
+        //qDebug() << "Update_ImageProcessing_StepSingle_MS3_DrawDetections" << "STEP_MS3_VIS_NUCLEI_FILLED_STACK" << "init VD:" << vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK].info_short();
+
+        for(size_t nuc = 0; nuc < n_nuc; nuc++)
+        {
+            //qDebug() << "loop nuclei" << nuc << "of" << n_nuc;
+
+            //Mat to draw to
+            Mat MA_tmp_OneNucOnly = MA_tmp_target.clone();
+
+            //draw nucleus
+            ERR(D_Img_Proc::Draw_Contour(
+                    &MA_tmp_OneNucOnly,
+                    NucImg.get_nuclei_contours(1, -P_Offset)[nuc],
+                    -1,
+                    255),
+                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                "STEP_MS3_VIS_NUCLEI_FILLED_STACK - D_Img_Proc::Draw_Contour");
+
+            //put Mat into VD
+            ERR(D_VisDat_Proc::Write_2D_Plane(
+                    &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK]),
+                    &MA_tmp_OneNucOnly,
+                    D_VisDat_Slice_2D(-1, -1, 0, 0, nuc, 0)),
+                "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+                "D_VisDat_Proc::Write_2D_Plane");
+
+            MA_tmp_OneNucOnly.release();
+        }
+    }
+        break;
+
+        case STEP_MS3_VIS_NUCLEI_FILLED_ALL:
+    {
+        ERR(D_VisDat_Proc::Dim_Project(
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_ALL]),
+                &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK]),
+                c_DIM_S,
+                c_STAT_MAXIMUM,
+                CV_8UC1),
             "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-            "STEP_MS3_VIS_NUCLEI_FILLED - D_Img_Proc::Draw_Contours");
+            "D_VisDat_Proc::Dim_Project");
     }
         break;
 
@@ -2152,6 +2211,15 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
                 255),
             "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
             QSL_Steps_MS3[step] + " - D_Img_Proc::Draw_Contours");
+
+        //convert to VD
+        vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
+        ERR(D_VisDat_Proc::Write_2D_Plane(
+                &(vVD_ImgProcSteps[step]),
+                &MA_tmp_target,
+                D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
+            "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
+            "D_VisDat_Proc::Write_2D_Plane");
     }
         break;
 
@@ -2159,14 +2227,6 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_DrawDetections(size
         break;
     }
 
-    //convert to VD
-    vVD_ImgProcSteps[step] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_MS3_PCK_GFP].Dim(), CV_8UC1, 0);
-    ERR(D_VisDat_Proc::Write_2D_Plane(
-            &(vVD_ImgProcSteps[step]),
-            &MA_tmp_target,
-            D_VisDat_Slice_2D(-1, -1, 0, 0, 0, 0)),
-        "Update_ImageProcessing_StepSingle_MS3_DrawDetections",
-        "D_VisDat_Proc::Write_2D_Plane");
     MA_tmp_target.release();
 
     //update image decomposition when all foci are drawn
@@ -2181,7 +2241,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
     if(state_block_img_proc_update)
         return;
 
-    if(step < STEP_MS3_VIS_REGIONS || step > STEP_MS3_VIS_REGIONS_FOCI_COUNT)
+    if(step < STEP_MS3_VIS_REGIONS || step > STEP_MS3_VIS_REGIONS_BACKGROUND)
     {
         ERR(ER_index_out_of_range,
             "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
@@ -2209,7 +2269,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_BORDERS]),
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_RFP])),
             "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
-            "STEP_MS3_VIS_NUCLEI_FILLED - Math_2img_Maximum calc red channel");
+            "STEP_MS3_VIS_REGIONS - Math_2img_Maximum calc red channel");
 
         //merge to rgb image
         ERR(D_VisDat_Proc::Channels_Merge(
@@ -2218,7 +2278,7 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
                 &(vVD_ImgProcSteps[STEP_MS3_VIS_FOCI_GFP]),     //G
                 &VD_tmp_red),                                   //R
             "Update_ImageProcessing_StepSingle_MS3_VisualizeResults",
-            "STEP_MS3_VIS_NUCLEI_FILLED - Channels_Merge Nuclei and foci area as color");
+            "STEP_MS3_VIS_REGIONS - Channels_Merge Nuclei and foci area as color");
     }
         break;
 
@@ -2235,40 +2295,50 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
     }
         break;
 
+        /*
     case STEP_MS3_VIS_REGIONS_FOCI_COUNT:
     {
-        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "start";
+        //qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "start";
         if(!state_image_decomposed)
         {
-            qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "no decomp";
+            //qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "no decomp";
             ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_MS3_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
             vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT] = vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND];
             return;
         }
 
         //get pos in dataset
-        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get pos";
+        //qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get pos";
         int pos_x = ui->spinBox_Viewport_X->value();
         int pos_y = ui->spinBox_Viewport_Y->value();
         int pos_t = ui->spinBox_Viewport_T->value();
 
         //get foci counts as QStringList
-        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get labels";
+        //qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "get labels";
         QStringList QSL_LabelTexts = QStringList();
         vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_FociCount_append(&QSL_LabelTexts);
 
-        //draw labels
-        int err = D_VisDat_Proc::Draw_Label_Text(
+        //geometric moisaik offset in pixels and scale
+        Point MosaikOffset_Coordinates(
+                    int(pos_x * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value())),
+                    int(pos_y * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value())));
+
+        //qDebug() << vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_nuclei_contours(1, MosaikOffset_Coordinates).size();
+        //qDebug() << vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_nuclei_centers(1, MosaikOffset_Coordinates).size();
+        //qDebug() << QSL_LabelTexts.size();
+
+        //draw contours with texts
+        int err = D_VisDat_Proc::Draw_ContourText(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
                     &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_FOCI_COUNT]),
                     &(vVD_ImgProcSteps[STEP_MS3_VIS_REGIONS_BACKGROUND]),
-                    &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED]),
+                    vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_nuclei_contours(1, MosaikOffset_Coordinates),
                     QSL_LabelTexts,
-                    false,
-                    1.0, 2,
-                    true,
-                    255, 255, 255,
-                    4);
+                    vvvImageDecomp_TYX[pos_t][pos_y][pos_x].get_nuclei_centers(1, MosaikOffset_Coordinates),
+                    2,
+                    2,
+                    1,
+                    255);
         ERR(err, "Update_ImageProcessing_StepSingle_MS3_VisualizeResults", "STEP_MS3_VIS_REGIONS_FOCI_COUNT - put numbers on image");
         if(err != ER_okay)
         {
@@ -2276,9 +2346,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS3_VisualizeResults(si
             return;
         }
 
-        qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "finish";
+        //qDebug() << "STEP_MS3_VIS_REGIONS_FOCI_COUNT" << "finish";
     }
         break;
+        */
 
     default:
         return;
@@ -2308,38 +2379,6 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     if(!state_image_decomposition_init)
         return;
 
-    ///vector of foci segmentation images indices
-    vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
-    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
-    {
-        vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
-        vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
-        vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
-    }
-    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
-    {
-        vIndices_FociBinary[FOCI_GFP]   = STEP_MS3_VIS_FOCI_GFP;
-        vIndices_FociBinary[FOCI_RFP]   = STEP_MS3_VIS_FOCI_RFP;
-        vIndices_FociBinary[FOCI_BOTH]  = STEP_MS3_VIS_FOCI_BOTH;
-    }
-    else
-        return;
-
-    ///list of value image indices (GFP and RFP)
-    vector<size_t> vIndices_Values(3);
-    if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
-    {
-        vIndices_Values[0] = STEP_PCK_OTHER;
-        vIndices_Values[1] = STEP_PCK_GFP;
-        vIndices_Values[2] = STEP_PCK_RFP;
-    }
-    else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
-    {
-        vIndices_Values[0] = STEP_MS3_PCK_OTHER;
-        vIndices_Values[1] = STEP_MS3_PCK_GFP;
-        vIndices_Values[2] = STEP_MS3_PCK_RFP;
-    }
-
     ///get position in dataset
     int pos_x = ui->spinBox_Viewport_X->value();
     int pos_y = ui->spinBox_Viewport_Y->value();
@@ -2351,41 +2390,130 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
                 pos_y * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
     Point MosaikOffset_Grid(pos_x, pos_y);
 
-    ///get index of nuclei segmentation image
-    size_t index_nuclei;
+    ///Proc different, dependend on major mode
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION)
-        index_nuclei = STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED;
+    {
+        ///vector of foci segmentation images indices
+        vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
+        vIndices_FociBinary[FOCI_GFP]   = STEP_FOC_GFP_SELECT_AREA;
+        vIndices_FociBinary[FOCI_RFP]   = STEP_FOC_RFP_SELECT_AREA;
+        vIndices_FociBinary[FOCI_BOTH]  = STEP_FOC_BOTH_SELECT_AREA;
+
+        ///list of value image indices (GFP and RFP)
+        vector<size_t> vIndices_Values(3);
+        vIndices_Values[0] = STEP_PCK_OTHER;
+        vIndices_Values[1] = STEP_PCK_GFP;
+        vIndices_Values[2] = STEP_PCK_RFP;
+
+        ///calculate image decomposition to bio info format
+        StatusSet("Nuclei image decomposition");
+        int err = vvvImageDecomp_TYX[pos_t][pos_y][pos_x].calc_NucleiDecomposition(
+                    &vVD_ImgProcSteps,
+                    STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED,
+                    vIndices_FociBinary,
+                    vIndices_Values,
+                    MosaikOffset_Coordinates,
+                    MosaikOffset_Grid,
+                    ui->spinBox_Viewport_T->value(),
+                    4,
+                    true,
+                    MosaikOffset_Coordinates.x + dataset_dim_img_x,
+                    MosaikOffset_Coordinates.y + dataset_dim_img_y);
+        ERR(
+                    err,
+                    "Update_ImageDecomposition",
+                    "ImageDecomp.calc_NucleiDecomposition");
+        if(err != ER_okay)
+            return;
+    }
     else if(mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
-        index_nuclei = STEP_MS3_VIS_NUCLEI_FILLED;
+    {
+        ///vector of foci segmentation images indices
+        vector<size_t> vIndices_FociBinary(FOCI_NUMBER_OF);
+        vIndices_FociBinary[FOCI_GFP]   = STEP_MS3_VIS_FOCI_GFP;
+        vIndices_FociBinary[FOCI_RFP]   = STEP_MS3_VIS_FOCI_RFP;
+        vIndices_FociBinary[FOCI_BOTH]  = STEP_MS3_VIS_FOCI_BOTH;
+
+        ///list of value image indices (GFP and RFP)
+        vector<size_t> vIndices_Values(3);
+        vIndices_Values[0] = STEP_MS3_PCK_OTHER;
+        vIndices_Values[1] = STEP_MS3_PCK_GFP;
+        vIndices_Values[2] = STEP_MS3_PCK_RFP;
+
+        ///calculate image decomposition to bio info format
+        StatusSet("Nuclei image decomposition");
+
+        ///independed nuclei image decompositions to be merged afterwards (1 decomp per nucleus to avoid overlapping errors)
+        size_t n_nuc = vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK].Dim().size_S();
+        vector<D_Bio_NucleusImage> v_NucImgs_ToBeMergedLater(n_nuc);
+
+        ///adapt ui
+        int proc_step_shown_before = ui->comboBox_MS3_ImgProc_StepShow->currentIndex();
+        if(state_stack_processing)
+            ui->comboBox_MS3_ImgProc_StepShow->setCurrentIndex(STEP_MS3_VIS_NUCLEI_FILLED_STACK);
+        ui->spinBox_Viewport_S->setMaximum(n_nuc - 1);
+
+        ///loop nuclei (in stack dim) and make independed decompositions to be merged afterwards
+        //qDebug() << "D_MAKRO_MegaFoci::Update_ImageDecomposition" << "loop nuclei";
+        for(size_t nuc = 0; nuc < n_nuc; nuc++)
+        {
+            if(state_stack_processing)
+                ui->spinBox_Viewport_S->setValue(nuc);
+
+            ///put selected nucleus in a container fitting to the functions parameters list (a bit unelegant, but fastes solution to get)
+            //qDebug() << "Pick nucleus" << nuc;
+            vector<int> vPosPick(c_DIM_NUMBER_OF, -1);
+            vPosPick[c_DIM_S] = nuc;
+            int err = D_VisDat_Proc::Dim_Pick(
+                        &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_PICKED]),
+                        &(vVD_ImgProcSteps[STEP_MS3_VIS_NUCLEI_FILLED_STACK]),
+                        vPosPick);
+
+            ///do the decomp of the selected nuc
+            //qDebug() << "calc decomp";
+            err = v_NucImgs_ToBeMergedLater[nuc].calc_NucleiDecomposition(
+                        &vVD_ImgProcSteps,
+                        STEP_MS3_VIS_NUCLEI_FILLED_PICKED,
+                        vIndices_FociBinary,
+                        vIndices_Values,
+                        MosaikOffset_Coordinates,
+                        MosaikOffset_Grid,
+                        ui->spinBox_Viewport_T->value(),
+                        4,
+                        true,
+                        MosaikOffset_Coordinates.x + dataset_dim_img_x,
+                        MosaikOffset_Coordinates.y + dataset_dim_img_y);
+
+            ERR(
+                        err,
+                        "Update_ImageDecomposition",
+                        "ImageDecomp.calc_NucleiDecomposition");
+            if(err != ER_okay)
+                return;
+        }
+
+        ///adapt ui
+        if(state_stack_processing)
+            ui->comboBox_MS3_ImgProc_StepShow->setCurrentIndex(proc_step_shown_before);
+
+        ///merge nuclei decomps
+        //qDebug() << "merge decomps";
+        vvvImageDecomp_TYX[pos_t][pos_y][pos_x] = D_Bio_NucleusImage(
+                    v_NucImgs_ToBeMergedLater, MosaikOffset_Coordinates,
+                    MosaikOffset_Grid,
+                    ui->spinBox_Viewport_T->value());
+    }
     else
         return;
 
-    ///calculate image decomposition to bio info format
-    StatusSet("Nuclei image decomposition");
-    int ER = vvvImageDecomp_TYX[pos_t][pos_y][pos_x].calc_NucleiDecomposition(
-                &vVD_ImgProcSteps,
-                index_nuclei,
-                vIndices_FociBinary,
-                vIndices_Values,
-                MosaikOffset_Coordinates,
-                MosaikOffset_Grid,
-                ui->spinBox_Viewport_T->value(),
-                4,
-                true,
-                MosaikOffset_Coordinates.x + dataset_dim_img_x,
-                MosaikOffset_Coordinates.y + dataset_dim_img_y);
-    ERR(
-                ER,
-                "Update_ImageDecomposition",
-                "ImageDecomp.calc_NucleiDecomposition");
-    if(ER != ER_okay)
-        return;
 
     ///remember current pos as calced
+    //qDebug() << "save as demcoped";
     vvvImageDecompCalced_TYX[pos_t][pos_y][pos_x] = static_cast<int>(true);
     state_image_decomposed = true;
 
     ///remove duplicates
+    //qDebug() << "remove duplicates";
     if(mode_major_current == MODE_MAJOR_1_AUTO_DETECTION || mode_major_current == MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI)
     {
         //valid neighbor images
@@ -4023,10 +4151,10 @@ void D_MAKRO_MegaFoci::MS2_init_ui()
     connect(ui->comboBox_MS2_ViewerSettings_Overlay_B_4,    SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS2_UpdateImage4()));
 
     //range selection
-    connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateViewportPos()));
-    connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateViewportPos()));
-    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_LoadData_TimeSelected()));
-    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(editingFinished()),          this,   SLOT(MS2_UpdateImage_ToDo_Static()));
+    connect(ui->spinBox_MS2_Viewport_X,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_Y,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateViewportPos()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_LoadData_TimeSelected()));
+    connect(ui->spinBox_MS2_Viewport_T,                     SIGNAL(valueChanged(int)),          this,   SLOT(MS2_UpdateImage_ToDo_Static()));
 
     //highlighting frames in to do list
     connect(&MS2_Viewer_ToDo,                               SIGNAL(MouseMoved_Pos(int, int)),   this,   SLOT(MS2_UpdateImage_ToDo_Highlight(int, int)));
@@ -4676,7 +4804,7 @@ void D_MAKRO_MegaFoci::MS2_ToDo_SetToBeEdited(int x, int y)
 void D_MAKRO_MegaFoci::MS3_UiInit()
 {
     //porc steps
-    Populate_CB_Single(ui->comboBox_MS3_ImgProc_StepShow, QSL_Steps_MS3, STEP_MS3_VIS_REGIONS_FOCI_COUNT);
+    Populate_CB_Single(ui->comboBox_MS3_ImgProc_StepShow, QSL_Steps_MS3, STEP_MS3_VIS_REGIONS_BACKGROUND);
 
     //stats
     Populate_CB_Single(ui->comboBox_MS3_ImgProc_ProjectZ_Stat, QSL_StatList, c_STAT_QUANTIL_95);
@@ -4755,6 +4883,8 @@ bool D_MAKRO_MegaFoci::MS3_LoadDetections(size_t t)
                 &vv_MS3_NucImg_InCorrected_States_mosaikXY,
                 MS2_IMG_STATE_LOADED,
                 MS2_IMG_STATE_NOT_FOUND);
+
+    MS3_current_loaded_detections_T = state_MS3_detections_loaded ? int(t) : -1;
 
     return state_MS3_detections_loaded;
 }
@@ -5983,8 +6113,14 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections_Out(size_t t)
 
 bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir, vector<vector<D_Bio_NucleusImage>> *vvNucleiTarget, QDir DIR_Source, vector<vector<size_t>> *vvState, size_t state_found, size_t state_not_found)
 {
+
+    StatusSet("Start loading detections for T=" + QString::number(t));
+
     if(t >= dataset_dim_t)
+    {
+        StatusSet("Failed loading detections for T=" + QString::number(t) + ". (T out of range)");
         return false;
+    }
 
     //resize mosaic detections container
     vvNucleiTarget->clear();
@@ -6012,7 +6148,10 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
     //detections dir time t
     QDir DIR_t(DIR_Source.path() + "/Time_" + QString::number(t));
     if(!DIR_t.exists() && error_when_no_dir)
+    {
+        StatusSet("Failed loading detections for T=" + QString::number(t) + ". Dir does not exists.");
         return false;
+    }
 
     //get image directories
     QStringList QSL_ImageDirs = DIR_t.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
@@ -6089,7 +6228,10 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
                                             iy * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
                             }
                             else
+                            {
+                                StatusSet("Failed loading detections for T=" + QString::number(t) + ". non comaptible step MS=" + QString::number(mode_major_current) + ".");
                                 return false;
+                            }
 
 
                             //load nucleus image
@@ -6122,6 +6264,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
         }
     }
 
+    StatusSet("Finished loading detections for T=" + QString::number(t));
     return true;
 }
 
@@ -7140,6 +7283,7 @@ void D_MAKRO_MegaFoci::on_comboBox_MS3_ImgProc_StepShow_currentIndexChanged(int 
     ///enable/disable viewport plane and page selection
     ui->spinBox_Viewport_Z->setEnabled(index < STEP_MS3_PRE_PROJECT_Z);
     ui->spinBox_Viewport_P->setEnabled(index < STEP_MS3_PCK_OTHER);
+    ui->spinBox_Viewport_S->setEnabled(index == STEP_MS3_VIS_NUCLEI_FILLED_STACK);
 
     ///update data dimension info in statusbar
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
@@ -7450,3 +7594,5 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
 {
     MS4_LoadData();
 }
+
+

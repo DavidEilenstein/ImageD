@@ -6898,7 +6898,7 @@ int D_VisDat_Proc::Draw_ContourText(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Ta
 
     return Wrap_VD(
                 slice,
-                D_Img_Proc_2dFactory::Draw_ContourText(
+                D_Img_Proc_2dFactory::Draw_ContourText_InPlace(
                     vContours,
                     QSL_Texts,
                     vTextOrigins,
@@ -6914,18 +6914,18 @@ int D_VisDat_Proc::Draw_ContourText(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Ou
     if(!slice.is_2D())
         return ER_dim_2D_only;
 
-    *pVD_Out = *pVD_In;
-
-    return Draw_ContourText(
+    return Wrap_VD_SameSizeType(
                 slice,
+                D_Img_Proc_2dFactory::Draw_ContourText(
+                    vContours,
+                    QSL_Texts,
+                    vTextOrigins,
+                    line_thickness,
+                    text_thickness,
+                    text_scale,
+                    value),
                 pVD_Out,
-                vContours,
-                QSL_Texts,
-                vTextOrigins,
-                line_thickness,
-                text_thickness,
-                text_scale,
-                value);
+                pVD_In);
 }
 
 int D_VisDat_Proc::OverlayOverwrite(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_Background, D_VisDat_Obj *pVD_Overlay, double intensity_overlay, double intensity_backgr)

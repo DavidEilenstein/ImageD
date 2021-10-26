@@ -1,5 +1,14 @@
 var NAVTREEINDEX4 =
 {
+"class_d___viewer___img.html#ad0e5aba4d63299dd8378da971f0c0983":[4,0,68,50],
+"class_d___viewer___img.html#ad389a7e78d28edf119fdeeef50492cf5":[4,0,68,14],
+"class_d___viewer___img.html#adae3540d0b61d95ed586b9e6bc8e514e":[4,0,68,40],
+"class_d___viewer___img.html#ae0eae23eb7a553c5ae2ae0570953a51e":[4,0,68,16],
+"class_d___viewer___img.html#aed229f7167c50916c0b0d9996526c6b2":[4,0,68,6],
+"class_d___viewer___img.html#aef5a26829201f4e18bf916e98db9be59":[4,0,68,36],
+"class_d___viewer___img.html#af47ee5ed4c1f69136766eeeb5039be1a":[4,0,68,29],
+"class_d___viewer___img.html#af8bda4082dc3cb200ab4e4175ec28cf4":[4,0,68,20],
+"class_d___viewer___img.html#afc30de512a9d76635e1fc5f57ab9205f":[4,0,68,39],
 "class_d___viewer___img.html#afc3d681ccfcd54a3fefb7ab36635c142":[4,0,68,3],
 "class_d___viewer___img.html#afe75577f9a498982046dfd6ea4435e78":[4,0,68,54],
 "class_d___viewer___plot.html":[4,0,69],
@@ -240,14 +249,5 @@ var NAVTREEINDEX4 =
 "class_d___vis_dat___slicing.html#a077887fe117875dc6d57f589ef401024":[4,0,80,13],
 "class_d___vis_dat___slicing.html#a1110fe3f3cf825221376d074096c3057":[4,0,80,37],
 "class_d___vis_dat___slicing.html#a142752810f1a99ad56b169ee1a4488fe":[4,0,80,36],
-"class_d___vis_dat___slicing.html#a1cc110f092a560266e82679c5e9cf32a":[4,0,80,27],
-"class_d___vis_dat___slicing.html#a2533552ec57da429bee5a2a113e280b6":[4,0,80,30],
-"class_d___vis_dat___slicing.html#a2a3328ffd0456dea9c466fb64fa1a061":[4,0,80,20],
-"class_d___vis_dat___slicing.html#a2aaba1905b161f38af581ed204de23a6":[4,0,80,14],
-"class_d___vis_dat___slicing.html#a33603d47daa8025fed5aaac45344d688":[4,0,80,38],
-"class_d___vis_dat___slicing.html#a34a03c2b92258d68072b5bd09002f582":[4,0,80,33],
-"class_d___vis_dat___slicing.html#a3caff96a66012793bad52ddfe8132c26":[4,0,80,40],
-"class_d___vis_dat___slicing.html#a44cb6614903e639f62f0ffeada9746a6":[4,0,80,11],
-"class_d___vis_dat___slicing.html#a55ec215159877044023fd8ea70035442":[4,0,80,17],
-"class_d___vis_dat___slicing.html#a5a628c4fe67ace81b174e9dd6bf8e826":[4,0,80,19]
+"class_d___vis_dat___slicing.html#a1cc110f092a560266e82679c5e9cf32a":[4,0,80,27]
 };

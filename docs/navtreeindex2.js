@@ -1,5 +1,14 @@
 var NAVTREEINDEX2 =
 {
+"class_d___m_a_k_r_o___softmax_visualization.html#aec93185220c86ddbbc6804e04fabd5d4":[4,0,45,2],
+"class_d___m_a_k_r_o___visualization.html":[4,0,46],
+"class_d___m_a_k_r_o___visualization.html#a02d9aaa487f919d9cedfb044583ccb8e":[4,0,46,2],
+"class_d___m_a_k_r_o___visualization.html#a1b5c06ff18d76194bb6a1169e2598b81":[4,0,46,4],
+"class_d___m_a_k_r_o___visualization.html#a436ef8e22855657440ccc9c8e510d028":[4,0,46,0],
+"class_d___m_a_k_r_o___visualization.html#a782f767383ce56d7fa4a396dba82de14":[4,0,46,1],
+"class_d___m_a_k_r_o___visualization.html#abf58ef347bdc0d19d4fd26a4507e892f":[4,0,46,5],
+"class_d___m_a_k_r_o___visualization.html#ac729fe007aa2595cd37dd2f7e16fec41":[4,0,46,3],
+"class_d___main_window.html":[4,0,27],
 "class_d___main_window.html#a1904d76fecc85d8c2537666c3447186e":[4,0,27,2],
 "class_d___main_window.html#a26808d472a9d38dd16e42e1906bb62eb":[4,0,27,1],
 "class_d___main_window.html#a9a8e9c949b6a17f9577b854a7d2ebf3a":[4,0,27,5],
@@ -240,14 +249,5 @@ var NAVTREEINDEX2 =
 "class_d___video_writer.html":[4,0,65],
 "class_d___video_writer.html#a013a568b0d0898efb7980ea5cecf463e":[4,0,65,2],
 "class_d___video_writer.html#a156285efad03e82efd03044ab11d8e0e":[4,0,65,8],
-"class_d___video_writer.html#a243e983ff9439e139ebf40915bc3be12":[4,0,65,10],
-"class_d___video_writer.html#a2511445777941ca65079c4f74068e3ea":[4,0,65,12],
-"class_d___video_writer.html#a29e8610e03ee3d6d3241486f291d3da5":[4,0,65,3],
-"class_d___video_writer.html#a32ecf2ffdb7a8c20451e108357728720":[4,0,65,0],
-"class_d___video_writer.html#a53f1803a17837ab66de3b7ce9235ba23":[4,0,65,9],
-"class_d___video_writer.html#a5e7c8e5195e44f3485bd95ed65d73b25":[4,0,65,4],
-"class_d___video_writer.html#aaff5000f3ea32960104068842f8787f6":[4,0,65,6],
-"class_d___video_writer.html#abf72ae7b7ddc481a4c305c29328f5d4a":[4,0,65,5],
-"class_d___video_writer.html#aca718b290bb9a9f5dc51517a7e0ee04b":[4,0,65,7],
-"class_d___video_writer.html#af2fbc530002e16fa75838f2f6ea5b1fd":[4,0,65,11]
+"class_d___video_writer.html#a243e983ff9439e139ebf40915bc3be12":[4,0,65,10]
 };
