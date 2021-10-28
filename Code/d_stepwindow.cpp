@@ -8296,7 +8296,7 @@ void D_StepWindow::on_comboBox_3D_ColorHandling_currentIndexChanged(int index)
 
 void D_StepWindow::on_comboBox_3D_TextureMode_Heightmap_currentIndexChanged(int index)
 {
-    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index != c_VIEWER_PLOT_3D_TEXTURE_IMAGE);
+    ui->comboBox_3D_Axis_V_Heightmap->setEnabled(index == c_VIEWER_PLOT_3D_TEXTURE_GRAY || index == c_VIEWER_PLOT_3D_TEXTURE_HUE);
 }
 
 void D_StepWindow::on_comboBox_3D_SurfaceMode_currentIndexChanged(int index)

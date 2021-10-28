@@ -90,6 +90,7 @@ public:
     vector<double>              get_foci_diameters(size_t channel, double scale = 1);
 
     vector<D_Bio_NucleusBlob>   get_nuclei()                        {return vNuclei;}
+    D_Bio_NucleusBlob           get_nucleus(size_t nuc)             {return nuc < vNuclei.size() ? vNuclei[nuc] : D_Bio_NucleusBlob();}
     D_Bio_Focus                 get_focus(size_t ch, size_t foc)    {return ch < vvFoci.size() ? (foc < vvFoci[ch].size() ? (vvFoci[ch][foc]) : (D_Bio_Focus())) : (D_Bio_Focus());}
 
     QString info();

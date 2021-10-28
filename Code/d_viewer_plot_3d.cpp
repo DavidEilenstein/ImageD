@@ -512,12 +512,12 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
 
 int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally)
 {
-    if(!state_ui_init)                                          return ER_UiNotInit;
-    if(vX.empty())                                              return ER_empty;
-    if(vX.size() != vY.size())                                  return ER_size_missmatch;
-    if(vX.size() != vZ.size())                                  return ER_size_missmatch;
-    if(vX.size() != vV.size())                                  return ER_size_missmatch;
-    if(color_handle >= c_VIEWER_PLOT_3D_VALUE_HANDLING_NUMBER_OF)    return ER_parameter_bad;
+    if(!state_ui_init)                                              return ER_UiNotInit;
+    if(vX.empty())                                                  return ER_empty;
+    if(vX.size() != vY.size())                                      return ER_size_missmatch;
+    if(vX.size() != vZ.size())                                      return ER_size_missmatch;
+    if(vX.size() != vV.size())                                      return ER_size_missmatch;
+    if(color_handle >= c_VIEWER_PLOT_3D_VALUE_HANDLING_NUMBER_OF)   return ER_parameter_bad;
 
     //avoid thread issues
     if(state_plotting && !called_internally)
@@ -575,6 +575,9 @@ int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> v
     graph_scatter->axisX()->setTitle(axis_x);   //default x axis
     graph_scatter->axisY()->setTitle(axis_z);   //graph z axis is img y axis
     graph_scatter->axisZ()->setTitle(axis_y);   //graph y axis is img z axis
+    graph_scatter->axisX()->setTitleVisible(true);
+    graph_scatter->axisY()->setTitleVisible(true);
+    graph_scatter->axisZ()->setTitleVisible(true);
     graph_scatter->axisZ()->setReversed(true);  //graph z / img y axis is reversed (0,0 is in the top left of an img)
 
     //style
@@ -594,13 +597,130 @@ int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> v
         vDataArray[i_group].append(
                     QVector3D(
                         static_cast<float>(vX[i]),
-                        static_cast<float>(vY[i]),
-                        static_cast<float>(vZ[i])));
+                        static_cast<float>(vZ[i]),
+                        static_cast<float>(vY[i])));
     }
 
     //add data to series
     for(size_t s = 0; s < n_series; s++)
         vSeries[s]->dataProxy()->addItems(vDataArray[s]);
+
+    //finish
+    state_plot_active = true;
+    state_plotting = false;
+    return ER_okay;
+}
+
+int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, bool top_down_tree, bool called_internally)
+{
+    if(!state_ui_init)                                          return ER_UiNotInit;
+    if(vNodesCoord.size() != vNodeColor.size())                 return ER_size_missmatch;
+    if(vEdgeCoordBegins.size() != vEdgeCoordEnds.size())        return ER_size_missmatch;
+    if(vEdgeCoordBegins.size() != vEdgeColor.size())            return ER_size_missmatch;
+
+    //avoid thread issues
+    if(state_plotting && !called_internally)
+        return ER_ThreadIssue;
+    state_plotting = true;
+
+    //clear old content
+    clear_graph_all();
+
+    //show correct graph
+    show_graph_type(c_VIEWER_PLOT_3D_MODE_SCATTER);
+
+    //sizes
+    size_t n_nodes = vNodesCoord.size();
+    size_t n_edges = vEdgeCoordBegins.size();
+
+    //scatter data array for saving coords
+    vector<QScatterDataArray>   vDataArray(n_nodes + n_edges);
+
+    //series/data array of nodes
+    vector<QScatter3DSeries *>  vSeriesNodes(n_nodes);
+    for(size_t i = 0; i < n_nodes; i++)
+    {
+        //create series
+        vSeriesNodes[i] = new QScatter3DSeries;
+
+        //style
+        vSeriesNodes[i]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
+        vSeriesNodes[i]->setMeshSmooth(smooth);
+        vSeriesNodes[i]->setMesh(QAbstract3DSeries::Mesh::MeshSphere);
+        vSeriesNodes[i]->setBaseColor(vNodeColor[i]);
+
+        //series to graph
+        graph_scatter->addSeries(vSeriesNodes[i]);
+
+        //data
+        vDataArray[i].append(
+                    QVector3D(
+                        static_cast<float>(vNodesCoord[i].x),
+                        static_cast<float>(vNodesCoord[i].z),
+                        static_cast<float>(vNodesCoord[i].y)));
+    }
+
+    //series/data array of edges
+    vector<QScatter3DSeries *>  vSeriesEdges(n_edges);
+    for(size_t i = 0; i < n_edges; i++)
+    {
+        //points describing edge
+        Point3d P0 = vEdgeCoordBegins[i];
+        Point3d P1 = vEdgeCoordEnds[i];
+        Point3d PC((P0.x + P1.x)/2, (P0.y + P1.y)/2, (P0.z + P1.z)/2);
+
+        //dist bewteen edge
+        float dx = P0.x - P1.x;
+        float dy = P0.y - P1.y;
+        float dz = P0.z - P1.z;
+        float dist = sqrt((dx * dx) + (dy * dy) + (dz * dz));
+
+        //vector P0->P1
+        QVector3D V01(dx, dz, dy);
+
+        //create series
+        vSeriesEdges[i] = new QScatter3DSeries;
+
+        //style
+        vSeriesEdges[i]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
+        vSeriesEdges[i]->setMeshSmooth(smooth);
+        vSeriesEdges[i]->setMesh(QAbstract3DSeries::Mesh::MeshCylinder);
+        vSeriesEdges[i]->setBaseColor(vEdgeColor[i]);
+
+        //size and orientation
+        vSeriesEdges[i]->setMeshAxisAndAngle(V01, 0);
+        //vSeriesEdges[i]->setItemSize(dist);
+
+        //series to graph
+        graph_scatter->addSeries(vSeriesEdges[i]);
+
+        //data (center of edge)
+        vDataArray[i].append(QVector3D(PC.x, PC.z, PC.y));
+    }
+
+    //axis
+    graph_scatter->axisX()->setTitle(axis_x);       //default x axis
+    graph_scatter->axisY()->setTitle(axis_z);       //graph z axis is img y axis
+    graph_scatter->axisZ()->setTitle(axis_y);       //graph y axis is img z axis
+    graph_scatter->axisX()->setTitleVisible(true);
+    graph_scatter->axisY()->setTitleVisible(true);
+    graph_scatter->axisZ()->setTitleVisible(true);
+    graph_scatter->axisZ()->setReversed(true);      //graph z / img y axis is reversed (0,0 is in the top left of an img)
+    if(top_down_tree)
+        graph_scatter->axisY()->setReversed(true);
+
+    //style
+    graph_scatter->activeTheme()->setGridEnabled(grid);
+    graph_scatter->activeTheme()->setBackgroundEnabled(background);
+    graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
+
+    //add data to series
+    //nodes first
+    for(size_t sn = 0; sn < n_nodes; sn++)
+        vSeriesNodes[sn]->dataProxy()->addItems(vDataArray[sn]);
+    //edges to same array after nodes
+    for(size_t se = 0; se < n_edges; se++)
+        vSeriesEdges[se]->dataProxy()->addItems(vDataArray[se + n_nodes]);
 
     //finish
     state_plot_active = true;
@@ -698,6 +818,10 @@ int D_Viewer_Plot_3D::plot_Heightmap(vector<Mat> *pvMA_Height, vector<QImage> *p
     graph_heightmap->axisX()->setTitle(axis_x);   //default x axis
     graph_heightmap->axisY()->setTitle(axis_z);   //graph z axis is img y axis
     graph_heightmap->axisZ()->setTitle(axis_y);   //graph y axis is img z axis
+    graph_heightmap->axisX()->setTitleVisible(true);
+    graph_heightmap->axisY()->setTitleVisible(true);
+    graph_heightmap->axisZ()->setTitleVisible(true);
+    //graph_heightmap->axisX()->setReversed(true);
     graph_heightmap->axisZ()->setReversed(true);  //graph z / img y axis is reversed (0,0 is in the top left of an img)
 
     //style

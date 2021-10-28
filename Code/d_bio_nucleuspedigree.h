@@ -16,6 +16,7 @@
 #include <d_bio_nucleuslife.h>
 #include <d_bio_nucleusblob.h>
 #include <d_bio_enum.h>
+#include <d_viewer_plot_3d.h>
 
 //Qt
 #include <QFileDialog>
@@ -50,17 +51,57 @@ public:
     void clear();
     void set_size_time(size_t t_size);
 
+    bool add_nucleus_blob(size_t t, D_Bio_NucleusBlob nuc);
+
+    void initMatching();
+    bool initMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1, double thres_tm2);
+
+    int setPedigreePlotViewer(D_Viewer_Plot_3D *viewer);
+    int updatePedigreePlot();
+    int updatePedigreePlot(D_Viewer_Plot_3D *viewer);
+
+    void set_scale_px2um(double scale)                              {if(scale > 0) scale_px_to_um = scale;}
+    void set_scale_T2h(double scale)                                {if(scale > 0) scale_t_to_h = scale;}
+    void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) FrameInRegularRangeXY = Rect(x_min, y_min, w, h);}
+
+    void match_all();
+    void match_time(size_t t);
+    void match_step1_to_tm1(size_t t);
+    void match_step2_to_tm2(size_t t);
+
 private:
+
+    void match_times(size_t t0, size_t t1, double score_thresh, bool dont_change_previous_mitosis);
+
+    //viewer
+    D_Viewer_Plot_3D *pViewerPedigreePlot;
 
     //dimension
     size_t size_time = 0;
 
     //data
-    vector<vector<D_Bio_NucleusBlob>> vvNucBlobs;
-
+    vector<vector<D_Bio_NucleusBlob>> vvNucBlobs_T;
 
     //weights for score calc
-    vector<double> vScoreWeights;
+    vector<double>                  vScoreWeights;
+    vector<double>                  vScoreMaxima;
+    double                          match_thresh_max_area_increase_to = 1.25;
+    double                          match_thresh_max_area_decrease_to = 0.35;
+    double                          match_thresh_max_speed = 1500;
+    double                          match_max_age = 35;
+    double                          match_score_thres_tm1 = 0.7;
+    double                          match_score_thres_tm2 = 0.5;
+
+    //scaling XYT to rteal world coords
+    double                          scale_px_to_um = 0.1;
+    double                          scale_t_to_h = 1.0;
+
+    //XY range no border
+    Rect                            FrameInRegularRangeXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);
+
+    //states
+    bool                            state_ScoreWeightsAndMaxSet = false;
+    bool                            state_PlotViewerSet = false;
 };
 
 #endif // D_BIO_NUCLEUSPEDIGREE_H

@@ -85,40 +85,90 @@ public:
 
     //copied from D_BioFocus because inhering causes problems...
 
-    void            set_value_channels(size_t channels)             {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
-  //void            set_values_medians(vector<double> vMedian)      {vSignalMedians = vMedian;}
-  //void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
-  //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
-  //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
+    void            set_value_channels(size_t channels)                 {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
+  //void            set_values_medians(vector<double> vMedian)          {vSignalMedians = vMedian;}
+  //void            set_values_devs2med(vector<double> vMedDev)         {vSignalMedDevs = vMedDev;}
+  //void            set_value_median(size_t channel, double Median)     {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
+  //void            set_value_dev2med(size_t channel, double MedDev)    {if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
-    vector<Point>   contour()                                       {                                       return m_contour;}
-    double          dist2contour(Point2f point)                     {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
-    double          dist2centroid(Point2f point)                    {if(state_feats_calced) CalcFeats();    return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
-    bool            contains_point(Point P, double margin = 0)      {return dist2contour(P) <= margin;}
+    vector<Point>   contour()                                           {                                       return m_contour;}
+    double          dist2contour(Point2f point)                         {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
+    double          dist2centroid(Point2f point)                        {if(state_feats_calced) CalcFeats();    return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
+    bool            contains_point(Point P, double margin = 0)          {return dist2contour(P) <= margin;}
 
-    Point2f         centroid()                                      {if(state_feats_calced) CalcFeats();    return m_centroid;}
-    double          area()                                          {if(state_feats_calced) CalcFeats();    return m_area;}
-    double          compactness()                                   {if(state_feats_calced) CalcFeats();    return m_compactness;}
-    double          convexity()                                     {if(state_feats_calced) CalcFeats();    return m_convexity;}
+    Point2f         centroid()                                          {if(state_feats_calced) CalcFeats();    return m_centroid;}
+    double          area()                                              {if(state_feats_calced) CalcFeats();    return m_area;}
+    double          compactness()                                       {if(state_feats_calced) CalcFeats();    return m_compactness;}
+    double          convexity()                                         {if(state_feats_calced) CalcFeats();    return m_convexity;}
 
-    size_t          channels()                                      {return vvSignalStats_StatChannel.empty() ? 0 : vvSignalStats_StatChannel[0].size();}
-    double          signal_stat(size_t channel, size_t stat_local_id){return stat_local_id < vvSignalStats_StatChannel.size() ? (channel < vvSignalStats_StatChannel[stat_local_id].size() ? vvSignalStats_StatChannel[stat_local_id][channel] : 0) : 0;}
-    double          signal_median(size_t channel)                   {return signal_stat(channel, VAL_STAT_MEDIAN);}
-    double          signal_dev2med(size_t channel)                  {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
+    double          time()                                              {return m_time;}
+    void            set_time(double t)                                  {m_time = t;}
+
+    size_t          channels()                                          {return vvSignalStats_StatChannel.empty() ? 0 : vvSignalStats_StatChannel[0].size();}
+    double          signal_stat(size_t channel, size_t stat_local_id)   {return stat_local_id < vvSignalStats_StatChannel.size() ? (channel < vvSignalStats_StatChannel[stat_local_id].size() ? vvSignalStats_StatChannel[stat_local_id][channel] : 0) : 0;}
+    double          signal_median(size_t channel)                       {return signal_stat(channel, VAL_STAT_MEDIAN);}
+    double          signal_dev2med(size_t channel)                      {return signal_stat(channel, VAL_STAT_MEDIAN_DEVIATION);}
 
     bool            is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs, double rel_overlap_for_duplicate = 0.5);
 
     QString         info();
 
+
+
     //matching with other nucleus
-    bool            matching_isMitosis()                            {return Matching_FoundChild1 && Matching_FoundChild2;}
-    bool            matching_foundChild()                           {return Matching_FoundChild1 || Matching_FoundChild2;}
-    bool            matching_foundChild1()                          {return Matching_FoundChild1;}
-    bool            matching_foundChild2()                          {return Matching_FoundChild2;}
-    bool            matching_foundParnet()                          {return Matching_FoundParnet;}
+    void                matching_InitMatching();
+    bool                matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to);
+
+    double              matching_Score(D_Bio_NucleusBlob *nuc_calc_score);
+
+    double              matching_Score_Parent()                         {return Score_Parent;}
+    double              matching_Score_Child1()                         {return Score_Child1;}
+    double              matching_Score_Child2()                         {return Score_Child2;}
+
+    void                matching_SetAsChild_Candidate(D_Bio_NucleusBlob *nuc_set_child, double score);
+    void                matching_SetAsParent_Candidate(D_Bio_NucleusBlob *nuc_set_parent, double score);
+    bool                matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh);
+    bool                matching_TestAsParent_Candidate(D_Bio_NucleusBlob *nuc_test_parent, double score_thresh);
+    bool                matching_AcceptAndTellParent();
+    bool                matching_AcceptAndTellChilds();
+
+    //matching candidate
+    D_Bio_NucleusBlob*  matching_Child1_Candidate()                               {return state_FoundChild1_Candidate ? Nuc_Child1 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Child2_Candidate()                               {return state_FoundChild2_Candidate ? Nuc_Child2 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Parent_Candidate()                               {return state_FoundParent_Candidate ? Nuc_Parent : nullptr;}
+    bool                matching_foundChild1_Candidate()                          {return state_FoundChild1_Candidate;}
+    bool                matching_foundChild2_Candidate()                          {return state_FoundChild2_Candidate;}
+    bool                matching_foundParent_Candidate()                          {return state_FoundParent_Candidate;}
+    bool                matching_foundNoParent_Candidate()                        {return !(matching_foundParent_Candidate());}
+    bool                matching_foundNoChild_Candidate()                         {return !(matching_foundAtLeastOneChild_Candidate());}
+    bool                matching_foundAtLeastOneChild_Candidate()                 {return state_FoundChild1_Candidate || state_FoundChild2_Candidate;}
+    bool                matching_foundExactlyOneChild_Candidate()                 {return (state_FoundChild1_Candidate && !state_FoundChild2_Candidate) || (!state_FoundChild1_Candidate && state_FoundChild2_Candidate);}
+    bool                matching_isMitosis_Candidate()                            {return state_FoundChild1_Candidate && state_FoundChild2_Candidate;}
+    bool                matching_isLinear_Candidate()                             {return (matching_foundParent_Candidate() && matching_foundExactlyOneChild_Candidate());}
+
+    //matching Accepted
+    D_Bio_NucleusBlob*  matching_Child1_Accepted()                               {return state_FoundChild1_Accepted ? Nuc_Child1 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Child2_Accepted()                               {return state_FoundChild2_Accepted ? Nuc_Child2 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Parent_Accepted()                               {return state_FoundParent_Accepted ? Nuc_Parent : nullptr;}
+    bool                matching_foundChild1_Accepted()                          {return state_FoundChild1_Accepted;}
+    bool                matching_foundChild2_Accepted()                          {return state_FoundChild2_Accepted;}
+    bool                matching_foundParent_Accepted()                          {return state_FoundParent_Accepted;}
+    bool                matching_foundNoParent_Accepted()                        {return !(matching_foundParent_Accepted());}
+    bool                matching_foundNoChild_Accepted()                         {return !(matching_foundAtLeastOneChild_Accepted());}
+    bool                matching_foundAtLeastOneChild_Accepted()                 {return state_FoundChild1_Accepted || state_FoundChild2_Accepted;}
+    bool                matching_foundExactlyOneChild_Accepted()                 {return (state_FoundChild1_Accepted && !state_FoundChild2_Accepted) || (!state_FoundChild1_Accepted && state_FoundChild2_Accepted);}
+    bool                matching_isMitosis_Accepted()                            {return state_FoundChild1_Accepted && state_FoundChild2_Accepted;}
+    bool                matching_isLinear_Accepted()                             {return (matching_foundParent_Accepted() && matching_foundExactlyOneChild_Accepted());}
+
+    int                 matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end);
+    QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
+    double              matching_Age();
+    double              matching_TimeOfOldestAncestor();
+
+    void                matching_setTriedToMatchAtLeastOnce(bool tried)         {state_triedAtLeastOnceToMatch = tried;}
+
 
 private:
-
 
     //bool            load(QString QS_DirLoad);
 
@@ -147,13 +197,28 @@ private:
     vector<vector<double>>          vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
     //matching with other nucleus
-    D_Bio_NucleusBlob               *Matching_Nuc_Parent;
-    D_Bio_NucleusBlob               *Matching_Nuc_Child1;
-    D_Bio_NucleusBlob               *Matching_Nuc_Child2;
-    bool                            Matching_FoundParnet = false;
-    bool                            Matching_FoundChild1 = false;
-    bool                            Matching_FoundChild2 = false;
+    D_Bio_NucleusBlob               *Nuc_Parent = nullptr;
+    D_Bio_NucleusBlob               *Nuc_Child1 = nullptr;
+    D_Bio_NucleusBlob               *Nuc_Child2 = nullptr;
+    double                          Score_Parent = -INFINITY;
+    double                          Score_Child1 = -INFINITY;
+    double                          Score_Child2 = -INFINITY;
+    bool                            state_FoundParent_Candidate = false;
+    bool                            state_FoundChild1_Candidate = false;
+    bool                            state_FoundChild2_Candidate = false;
+    bool                            state_FoundParent_Accepted = false;
+    bool                            state_FoundChild1_Accepted = false;
+    bool                            state_FoundChild2_Accepted = false;
 
+    //weights for score calc
+    vector<double>                  vScoreWeights;
+    vector<double>                  vScoreMaxima;
+    double                          match_thresh_max_area_increase_to = 1.25;
+    double                          match_thresh_max_area_decrease_to = 0.35;
+    double                          match_thresh_max_speed = 1500;
+    bool                            state_ScoreWeightsAndMaxSet = false;
+
+    bool                            state_triedAtLeastOnceToMatch = false;
 };
 
 #endif // D_BIO_NUCLEUSBLOB_H

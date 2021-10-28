@@ -1323,13 +1323,18 @@ private:
     QDir DIR_MS4_In_Master;
     QDir DIR_MS4_In_DetectionsAssigned;
     QDir DIR_MS4_Out_NucleiLifes;
-    vector<vector<D_Bio_NucleusImage>>  vv_MS4_NucImg_InAssigned_T;
+    vector<vector<D_Bio_NucleusImage>> vv_MS4_NucImg_InAssigned_T;
+
     D_Bio_NucleusPedigree MS4_NucPedigree_AutoReconstruct;
+
+    //viewer
+    D_Viewer_Plot_3D MS4_Viewer_PedigreePlot;
 
     //states
     bool state_MS4_dirs_loaded = false;
     bool state_MS4_detections_loaded = false;
     bool state_MS4_stack_processing = false;
+    bool state_MS4_pedigree_init = false;
 
 private slots:
 
@@ -1339,9 +1344,13 @@ private slots:
     bool MS4_LoadDetections();
     bool MS4_LoadDetections(size_t t, bool error_when_no_dir);
 
+    bool MS4_InitPedigree();
+    bool MS4_UpdatePedigreePlot();
+
     //bool MS4_
 
     void on_pushButton_MS4_LoadData_clicked();
+    void on_pushButton_MS4_StartPedigreeReconstruction_clicked();
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

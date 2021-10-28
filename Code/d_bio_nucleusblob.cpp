@@ -10,7 +10,7 @@
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob()
 {
-
+    matching_InitMatching();
 }
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(QString QS_PathLoad)
@@ -21,6 +21,8 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(QString QS_PathLoad)
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset)
 {
+    matching_InitMatching();
+
     //apply offset to contour
     m_contour.resize(contour_points.size());
     for(size_t i = 0; i < m_contour.size(); i++)
@@ -32,6 +34,8 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset)
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, double time, Point Offset)
 {
+    matching_InitMatching();
+
     //save data
     m_time = time;
 
@@ -46,6 +50,8 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, double time, 
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, Point Offset)
 {
+    matching_InitMatching();
+
     //save data
     if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
         vvSignalStats_StatChannel = SignalStats_StatChannel;
@@ -63,6 +69,8 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector
 
 D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, double time, Point Offset)
 {
+    matching_InitMatching();
+
     //save data
     m_time = time;
     if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
@@ -728,6 +736,8 @@ QString D_Bio_NucleusBlob::info()
     return "D_Bio_NucleusBlob::info - " + QString::number(area()) + "px area - " + QString::number(get_FociChannels()) + " foci channels";
 }
 
+
+
 /*
 bool D_Bio_NucleusBlob::load(QString QS_DirLoad)
 {
@@ -895,23 +905,23 @@ void D_Bio_NucleusBlob::CalcFeats()
     Moments moments_tmp = moments(m_contour);
 
     //calc centroids
-    if(moments_tmp.m00 == 0)
+    if(moments_tmp.m00 == 0.0)
     {
         double center_x = m_contour[0].x;
         double center_y = m_contour[0].y;
-        qDebug() << "D_Bio_NucleusBlob::CalcFeats() centroid x/y" << center_x << center_y << "WARNING No mass!";
-        m_centroid = Point2f(center_x, center_y);
+        //qDebug() << "D_Bio_NucleusBlob::CalcFeats() centroid x/y" << center_x << center_y << "WARNING No mass!";
+        m_centroid = Point2f(float(center_x), float(center_y));
     }
     else
     {
         double center_x = moments_tmp.m10 / moments_tmp.m00;
         double center_y = moments_tmp.m01 / moments_tmp.m00;
         //qDebug() << "D_Bio_NucleusBlob::CalcFeats() centroid x/y" << center_x << center_y;
-        m_centroid = Point2f(center_x, center_y);
+        m_centroid = Point2f(float(center_x), float(center_y));
     }
 
     //Area
-    if(moments_tmp.m00 == 0)
+    if(moments_tmp.m00 == 0.0)
         m_area = 0;
     else
         m_area = contourArea(m_contour);
@@ -924,7 +934,7 @@ void D_Bio_NucleusBlob::CalcFeats()
     double hull_perimeter = arcLength(m_convex_hull, true);
 
     //other features
-    if(perimeter == 0)
+    if(perimeter == 0.0)
     {
         m_compactness   = 0;
         m_convexity     = 0;
@@ -937,3 +947,376 @@ void D_Bio_NucleusBlob::CalcFeats()
 
     state_feats_calced = true;
 }
+
+
+
+void D_Bio_NucleusBlob::matching_InitMatching()
+{
+    vScoreWeights.resize(SCORE_NUMBER_OF, 0);
+    vScoreWeights[SCORE_SPEED] = 1;
+
+    vScoreMaxima.resize(SCORE_NUMBER_OF, 1);
+
+    match_thresh_max_area_increase_to = 1.25;
+    match_thresh_max_area_decrease_to = 0.35;
+    match_thresh_max_speed = 1500;
+
+    state_FoundParent_Accepted = false;
+    state_FoundChild1_Accepted = false;
+    state_FoundChild2_Accepted = false;
+
+    state_FoundParent_Candidate = false;
+    state_FoundChild1_Candidate = false;
+    state_FoundChild2_Candidate = false;
+
+    Score_Parent = -INFINITY;
+    Score_Child1 = -INFINITY;
+    Score_Child2 = -INFINITY;
+
+    state_ScoreWeightsAndMaxSet = true;
+}
+
+bool D_Bio_NucleusBlob::matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to)
+{
+    if((score_weights.size() != SCORE_NUMBER_OF) || (score_maxima.size() != SCORE_NUMBER_OF))
+        return false;
+
+    double weight_sum = 0;
+    for(size_t i = 0; i < score_weights.size(); i++)
+        weight_sum += score_weights[i];
+
+    if(weight_sum <= 0.0)
+        return false;
+
+    for(size_t i = 0; i < score_maxima.size(); i++)
+        if(score_maxima[i] <= 0.0)
+            return false;
+
+    matching_InitMatching();
+
+    vScoreWeights.resize(SCORE_NUMBER_OF, 0);
+    vScoreMaxima.resize(SCORE_NUMBER_OF, 1);
+    for(size_t i = 0; i < score_weights.size(); i++)
+    {
+        vScoreWeights[i] = score_weights[i] / weight_sum;
+        vScoreMaxima[i] = score_maxima[i];
+    }
+
+    match_thresh_max_area_increase_to = max_rel_area_inc_to;
+    match_thresh_max_area_decrease_to = max_rel_area_dec_to;
+    match_thresh_max_speed = speed_limit;
+
+    return true;
+}
+
+double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
+{
+    double score_all = 1;
+
+    for(size_t i = 0; i < SCORE_NUMBER_OF; i++)
+    {
+        double diff_part = 0;
+
+        switch (i) {
+
+        case SCORE_SPEED:
+            diff_part = D_Math::Distance(centroid(), nuc_calc_score->centroid()) / abs(time() - nuc_calc_score->time());
+            if(diff_part > match_thresh_max_speed)
+            {
+                //qDebug() << "no match, broken speed limit (" << diff_part << ", limit is" << match_thresh_max_speed << ")";
+                return -INFINITY;
+            }
+            break;
+
+        case SCORE_AREA:
+        {
+            double area_this = area();
+            double area_other = nuc_calc_score->area();
+            bool earlier_this = time() < nuc_calc_score->time();
+            double area_earlier = earlier_this ? area_this : area_other;
+            double area_later = earlier_this ? area_other :area_this;
+
+            if(area_later > match_thresh_max_area_increase_to * area_earlier)
+            {
+                //qDebug() << "mo match, too much growth (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_increase_to << "allowed)";
+                return -INFINITY;
+            }
+
+            if(area_later < match_thresh_max_area_decrease_to * area_earlier)
+            {
+                //qDebug() << "mo match, too much shrink (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_decrease_to << "allowed)";
+                return -INFINITY;
+            }
+
+            diff_part = abs(area_this - area_other);
+        }
+            break;
+
+        case SCORE_CONVEXITY:
+            diff_part = abs(convexity() - nuc_calc_score->convexity());
+            break;
+
+        case SCORE_COMPACTNESS:
+            diff_part = abs(compactness() - nuc_calc_score->compactness());
+            break;
+
+        default:
+        {
+            //channel index
+            size_t channel = size_t(INFINITY);
+            switch (i) {
+
+            case SCORE_MEAN_CH0:
+            case SCORE_STD_CH0:
+                channel = 0;
+                break;
+
+            case SCORE_MEAN_CH1:
+            case SCORE_STD_CH1:
+                channel = 1;
+                break;
+
+            case SCORE_MEAN_CH2:
+            case SCORE_STD_CH2:
+                channel = 2;
+                break;
+
+            default:
+                channel = size_t(INFINITY);
+                break;
+            }
+
+
+            //stat index
+            size_t stat = size_t(INFINITY);
+            switch (i) {
+
+            case SCORE_MEAN_CH0:
+            case SCORE_MEAN_CH1:
+            case SCORE_MEAN_CH2:
+                stat = VAL_STAT_MEAN;
+                break;
+
+            case SCORE_STD_CH0:
+            case SCORE_STD_CH1:
+            case SCORE_STD_CH2:
+                stat = VAL_STAT_STD;
+                break;
+
+            default:
+                channel = size_t(INFINITY);
+                break;
+            }
+
+            //calc stat difference, if indices are valid
+            if(stat < vvSignalStats_StatChannel.size())
+                if(channel < vvSignalStats_StatChannel[stat].size())
+                    diff_part = abs(vvSignalStats_StatChannel[stat][channel] - nuc_calc_score->signal_stat(channel, stat));
+        }
+            break;
+        }
+
+        diff_part = max(0.0, min(diff_part, vScoreMaxima[i]));
+        diff_part /= vScoreMaxima[i];
+        diff_part *= vScoreWeights[i];
+        score_all -= diff_part;
+    }
+
+    return score_all;
+}
+
+void D_Bio_NucleusBlob::matching_SetAsChild_Candidate(D_Bio_NucleusBlob *nuc_set_child, double score)
+{
+    if((nuc_set_child == Nuc_Child1) || (nuc_set_child == Nuc_Child2))
+        return;
+
+    if(Score_Child1 < Score_Child2)
+    {
+        Nuc_Child1 = nuc_set_child;
+        Score_Child1 = score;
+        state_FoundChild1_Candidate = true;
+    }
+    else
+    {
+        Nuc_Child2 = nuc_set_child;
+        Score_Child2 = score;
+        state_FoundChild2_Candidate = true;
+    }
+
+    state_triedAtLeastOnceToMatch = true;
+    nuc_set_child->matching_setTriedToMatchAtLeastOnce(true);
+}
+
+void D_Bio_NucleusBlob::matching_SetAsParent_Candidate(D_Bio_NucleusBlob *nuc_set_parent, double score)
+{
+    if(nuc_set_parent == Nuc_Parent)
+    {
+        //qDebug() << "matching_SetAsParent" << "did not set identical parent again";
+        return;
+    }
+
+    //qDebug() << "matching_SetAsParent" << "found new best parent (score" << score << ")";
+    Nuc_Parent = nuc_set_parent;
+    Score_Parent = score;
+    state_FoundParent_Candidate = true;
+
+    state_triedAtLeastOnceToMatch = true;
+    nuc_set_parent->matching_setTriedToMatchAtLeastOnce(true);
+}
+
+bool D_Bio_NucleusBlob::matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh)
+{
+    state_triedAtLeastOnceToMatch = true;
+    nuc_test_child->matching_setTriedToMatchAtLeastOnce(true);
+    double score = matching_Score(nuc_test_child);
+
+    if(score < score_thresh)
+        return false;
+
+    if(score <= Score_Child1 && score <= Score_Child2)
+        return false;
+
+    matching_SetAsChild_Candidate(nuc_test_child, score);
+    return true;
+}
+
+bool D_Bio_NucleusBlob::matching_TestAsParent_Candidate(D_Bio_NucleusBlob *nuc_test_parent, double score_thresh)
+{
+    state_triedAtLeastOnceToMatch = true;
+    nuc_test_parent->matching_setTriedToMatchAtLeastOnce(true);
+    double score = matching_Score(nuc_test_parent);
+
+    if(score < score_thresh)
+    {
+        //qDebug() << "matching_TestAsParent no match score lower that thres (" << score << "<" << score_thresh << ")";
+        return false;
+    }
+
+    if(score <= Score_Parent)
+    {
+        //qDebug() << "matching_TestAsParent no match score lower then current parent score (" << score << "<" << score_thresh << ")";
+        return false;
+    }
+
+    //qDebug() << "matching_TestAsParent MATCHED with score" << score << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    matching_SetAsParent_Candidate(nuc_test_parent, score);
+    return true;
+}
+
+bool D_Bio_NucleusBlob::matching_AcceptAndTellParent()
+{
+    if(matching_foundNoParent_Candidate())
+        return false;
+
+    Nuc_Parent->matching_SetAsChild_Candidate(this, Score_Parent);
+    Nuc_Parent->matching_AcceptAndTellChilds();
+    state_FoundParent_Accepted = true;
+    return true;
+}
+
+bool D_Bio_NucleusBlob::matching_AcceptAndTellChilds()
+{
+    if(matching_foundNoChild_Candidate())
+        return false;
+
+    if(matching_foundChild1_Candidate())
+    {
+        Nuc_Child1->matching_SetAsParent_Candidate(this, Score_Child1);
+        Nuc_Child1->matching_AcceptAndTellParent();
+        state_FoundChild1_Accepted = true;
+    }
+
+    if(matching_foundChild2_Candidate())
+    {
+        Nuc_Child2->matching_SetAsParent_Candidate(this, Score_Child2);
+        Nuc_Child2->matching_AcceptAndTellParent();
+        state_FoundChild2_Accepted = true;
+    }
+
+    return true;
+}
+
+int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end)
+{
+    //check, if at border
+    Point center = centroid();
+    int x = center.x;
+    int y = center.y;
+    Point tl = FrameNotNearBorder.tl();
+    Point br = FrameNotNearBorder.br();
+    bool at_border = (x < tl.x) || (x > br.x) || (y < tl.y) || (y > br.y);
+
+    //check if in time interval
+    double t = time();
+    bool at_begin = t <= t_begin;
+    bool at_end = t >= t_end;
+
+    //calc binary attributes
+    bool mitosis = matching_isMitosis_Accepted();
+    bool linear = matching_isLinear_Accepted();
+    bool appear = !matching_foundParent_Accepted();
+    bool disappear = !matching_foundAtLeastOneChild_Accepted();
+    bool isolated = appear && disappear;
+
+    //return nucleus type
+    if(!state_triedAtLeastOnceToMatch)      return NUC_TYPE_UNKNOWN;
+    else if(isolated && at_end)             return NUC_TYPE_ISOLATED_END;
+    else if(isolated && at_begin)           return NUC_TYPE_ISOLATED_BEGIN;
+    else if(isolated && at_border)          return NUC_TYPE_ISOLATED_BORDER;
+    else if(isolated)                       return NUC_TYPE_ISOLATED_MYSTERY;
+    else if(linear)                         return NUC_TYPE_LINEAR;
+    else if(mitosis && !appear)             return NUC_TYPE_MITOSIS_REGULAR;
+    else if(mitosis && appear && at_begin)  return NUC_TYPE_MITOSIS_APPEARED_BEGIN;
+    else if(mitosis && appear && at_border) return NUC_TYPE_MITOSIS_APPEARED_BORDER;
+    else if(mitosis && appear)              return NUC_TYPE_MITOSIS_APPEARED_MYSTERY;
+    else if(appear && at_begin)             return NUC_TYPE_APPEAR_BEGIN;
+    else if(appear && at_border)            return NUC_TYPE_APPEAR_BORDER;
+    else if(appear)                         return NUC_TYPE_APPEAR_MYSTERY;
+    else if(disappear && at_end)            return NUC_TYPE_DISAPPEAR_END;
+    else if(disappear && at_border)         return NUC_TYPE_DISAPPEAR_BORDER;
+    else if(disappear)                      return NUC_TYPE_DISAPPEAR_DYING;
+    else                                    return NUC_TYPE_UNDEFINED;
+}
+
+QColor D_Bio_NucleusBlob::matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end)
+{
+    switch (matching_Type(FrameNotNearBorder, t_begin, t_end)) {
+    case NUC_TYPE_UNKNOWN:                      return QColor(192, 192, 192);
+
+    case NUC_TYPE_ISOLATED_MYSTERY:             return QColor(255, 0,   255);
+    case NUC_TYPE_ISOLATED_BEGIN:               return QColor(192, 0,   192);
+    case NUC_TYPE_ISOLATED_END:                 return QColor(192, 0,   192);
+    case NUC_TYPE_ISOLATED_BORDER:              return QColor(192, 0,   192);
+
+    case NUC_TYPE_LINEAR:                       return QColor(0,   0,   0  );
+
+    case NUC_TYPE_MITOSIS_REGULAR:              return QColor(0,   255, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_MYSTERY:     return QColor(0,   192, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_BEGIN:       return QColor(0,   192, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_BORDER:      return QColor(0,   192, 0  );
+
+    case NUC_TYPE_APPEAR_MYSTERY:               return QColor(0,   0,   255);
+    case NUC_TYPE_APPEAR_BEGIN:                 return QColor(0,   0,   192);
+    case NUC_TYPE_APPEAR_BORDER:                return QColor(0,   0,   192);
+
+    case NUC_TYPE_DISAPPEAR_DYING:              return QColor(255, 0,   0  );
+    case NUC_TYPE_DISAPPEAR_END:                return QColor(192, 0,   0  );
+    case NUC_TYPE_DISAPPEAR_BORDER:             return QColor(192, 0,   0  );
+
+    default:                                    return QColor(255, 192, 200);}
+}
+
+double D_Bio_NucleusBlob::matching_Age()
+{
+    return matching_TimeOfOldestAncestor() - time();
+}
+
+double D_Bio_NucleusBlob::matching_TimeOfOldestAncestor()
+{
+    if(state_FoundParent_Accepted)
+        return Nuc_Parent->matching_TimeOfOldestAncestor();
+    else
+        return time();
+}
+
+

@@ -66,7 +66,6 @@ const QStringList QSL_FileSections = {
  };
 
 
-
  const QStringList QSL_ValueStat_Subsection = {
      "Count",
      "Mean",
@@ -87,18 +86,39 @@ const QStringList QSL_FileSections = {
      VAL_STAT_NUMBER_OF
  };
 
- enum SCORE_WEIGHT {
-     SCORE_WEIGHT_SPEED,
-     SCORE_WEIGHT_AREA,
-     SCORE_WEIGHT_CONVEXITY,
-     SCORE_WEIGHT_COMPACTNESS,
-     SCORE_WEIGHT_MEAN_CH0,
-     SCORE_WEIGHT_MEAN_CH1,
-     SCORE_WEIGHT_MEAN_CH2,
-     SCORE_WEIGHT_STD_CH0,
-     SCORE_WEIGHT_STD_CH1,
-     SCORE_WEIGHT_STD_CH2,
-     SCORE_WEIGHT_NUMBER_OF
+ enum SCORES {
+     SCORE_SPEED,
+     SCORE_AREA,
+     SCORE_CONVEXITY,
+     SCORE_COMPACTNESS,
+     SCORE_MEAN_CH0,
+     SCORE_MEAN_CH1,
+     SCORE_MEAN_CH2,
+     SCORE_STD_CH0,
+     SCORE_STD_CH1,
+     SCORE_STD_CH2,
+     SCORE_NUMBER_OF
+ };
+
+ enum NUC_TYPE {
+     NUC_TYPE_UNKNOWN,                  //gray
+     NUC_TYPE_ISOLATED_BEGIN,           //dark magenta
+     NUC_TYPE_ISOLATED_END,             //dark magenta
+     NUC_TYPE_ISOLATED_BORDER,          //dark magenta
+     NUC_TYPE_ISOLATED_MYSTERY,         //intense magenta
+     NUC_TYPE_LINEAR,                   //black
+     NUC_TYPE_MITOSIS_REGULAR,          //intense green
+     NUC_TYPE_MITOSIS_APPEARED_MYSTERY, //intense cyan
+     NUC_TYPE_MITOSIS_APPEARED_BEGIN,   //dark cyan
+     NUC_TYPE_MITOSIS_APPEARED_BORDER,  //dark cyan
+     NUC_TYPE_APPEAR_BEGIN,             //dark blue
+     NUC_TYPE_APPEAR_BORDER,            //dark blue
+     NUC_TYPE_APPEAR_MYSTERY,           //intense blue
+     NUC_TYPE_DISAPPEAR_END,            //dark red
+     NUC_TYPE_DISAPPEAR_BORDER,         //dark red
+     NUC_TYPE_DISAPPEAR_DYING,          //intense red
+     NUC_TYPE_UNDEFINED,                //intense pink
+     NUC_TYPE_NUMBER_OF
  };
 
 
