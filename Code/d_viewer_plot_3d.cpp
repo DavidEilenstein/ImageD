@@ -611,12 +611,13 @@ int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> v
     return ER_okay;
 }
 
-int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, bool top_down_tree, bool called_internally)
+int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, size_t points_per_edge, double size_nodes, double size_edge, bool called_internally)
 {
-    if(!state_ui_init)                                          return ER_UiNotInit;
-    if(vNodesCoord.size() != vNodeColor.size())                 return ER_size_missmatch;
-    if(vEdgeCoordBegins.size() != vEdgeCoordEnds.size())        return ER_size_missmatch;
-    if(vEdgeCoordBegins.size() != vEdgeColor.size())            return ER_size_missmatch;
+    if(!state_ui_init)                                              return ER_UiNotInit;
+    if(vNodesCoord.size() != vNodeColor.size())                     return ER_size_missmatch;
+    if(vEdgeCoordBegins.size() != vEdgeCoordEnds.size())            return ER_size_missmatch;
+    if(vEdgeCoordBegins.size() != vEdgeColor.size())                return ER_size_missmatch;
+    if(points_per_edge <= 0)                                        return ER_parameter_bad;
 
     //avoid thread issues
     if(state_plotting && !called_internally)
@@ -632,82 +633,92 @@ int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEd
     //sizes
     size_t n_nodes = vNodesCoord.size();
     size_t n_edges = vEdgeCoordBegins.size();
+    size_t n_points = points_per_edge;
+    size_t n_all = n_nodes + n_edges * n_points;
+    size_t i_all = 0;
 
     //scatter data array for saving coords
-    vector<QScatterDataArray>   vDataArray(n_nodes + n_edges);
+    vector<QScatterDataArray> vDataArray_Nodes1st_Edges2nd(n_all);
 
-    //series/data array of nodes
-    vector<QScatter3DSeries *>  vSeriesNodes(n_nodes);
-    for(size_t i = 0; i < n_nodes; i++)
+    //series/data of nodes
+    vector<QScatter3DSeries*> vSeries_Nodes1st_Edges2nd(n_all);
+
+    //loop nodes
+    for(size_t i_node = 0; i_node < n_nodes; i_node++)
     {
         //create series
-        vSeriesNodes[i] = new QScatter3DSeries;
+        vSeries_Nodes1st_Edges2nd[i_all] = new QScatter3DSeries;
 
         //style
-        vSeriesNodes[i]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
-        vSeriesNodes[i]->setMeshSmooth(smooth);
-        vSeriesNodes[i]->setMesh(QAbstract3DSeries::Mesh::MeshSphere);
-        vSeriesNodes[i]->setBaseColor(vNodeColor[i]);
+        vSeries_Nodes1st_Edges2nd[i_all]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @zTitle: @zLabel @yTitle: @yLabel"));
+        vSeries_Nodes1st_Edges2nd[i_all]->setMeshSmooth(smooth);
+        vSeries_Nodes1st_Edges2nd[i_all]->setMesh(QAbstract3DSeries::Mesh::MeshSphere);
+        vSeries_Nodes1st_Edges2nd[i_all]->setBaseColor(vNodeColor[i_node]);
+        vSeries_Nodes1st_Edges2nd[i_all]->setItemSize(size_nodes);
 
         //series to graph
-        graph_scatter->addSeries(vSeriesNodes[i]);
+        graph_scatter->addSeries(vSeries_Nodes1st_Edges2nd[i_all]);
 
         //data
-        vDataArray[i].append(
+        vDataArray_Nodes1st_Edges2nd[i_all].append(
                     QVector3D(
-                        static_cast<float>(vNodesCoord[i].x),
-                        static_cast<float>(vNodesCoord[i].z),
-                        static_cast<float>(vNodesCoord[i].y)));
+                        static_cast<float>(vNodesCoord[i_node].x),
+                        static_cast<float>(vNodesCoord[i_node].z),
+                        static_cast<float>(vNodesCoord[i_node].y)));
+
+        //increment counter
+        i_all++;
     }
 
-    //series/data array of edges
-    vector<QScatter3DSeries *>  vSeriesEdges(n_edges);
-    for(size_t i = 0; i < n_edges; i++)
+    //series/data of edges
+    for(size_t i_edge = 0; i_edge < n_edges; i_edge++)
     {
         //points describing edge
-        Point3d P0 = vEdgeCoordBegins[i];
-        Point3d P1 = vEdgeCoordEnds[i];
-        Point3d PC((P0.x + P1.x)/2, (P0.y + P1.y)/2, (P0.z + P1.z)/2);
+        Point3d P0 = vEdgeCoordBegins[i_edge];
+        Point3d P1 = vEdgeCoordEnds[i_edge];
 
-        //dist bewteen edge
-        float dx = P0.x - P1.x;
-        float dy = P0.y - P1.y;
-        float dz = P0.z - P1.z;
-        float dist = sqrt((dx * dx) + (dy * dy) + (dz * dz));
+        //draw points to create a line
+        for(size_t i_pt = 0; i_pt < points_per_edge; i_pt++)
+        {
+            //create series
+            vSeries_Nodes1st_Edges2nd[i_all] = new QScatter3DSeries;
 
-        //vector P0->P1
-        QVector3D V01(dx, dz, dy);
+            //style
+            vSeries_Nodes1st_Edges2nd[i_all]->setItemLabelVisible(false);
+            vSeries_Nodes1st_Edges2nd[i_all]->setMeshSmooth(false);
+            vSeries_Nodes1st_Edges2nd[i_all]->setMesh(QAbstract3DSeries::Mesh::MeshSphere);
+            vSeries_Nodes1st_Edges2nd[i_all]->setBaseColor(vEdgeColor[i_edge]);
+            vSeries_Nodes1st_Edges2nd[i_all]->setItemSize(size_edge);
 
-        //create series
-        vSeriesEdges[i] = new QScatter3DSeries;
+            //series to graph
+            graph_scatter->addSeries(vSeries_Nodes1st_Edges2nd[i_all]);
 
-        //style
-        vSeriesEdges[i]->setItemLabelFormat(QStringLiteral("@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"));
-        vSeriesEdges[i]->setMeshSmooth(smooth);
-        vSeriesEdges[i]->setMesh(QAbstract3DSeries::Mesh::MeshCylinder);
-        vSeriesEdges[i]->setBaseColor(vEdgeColor[i]);
+            //data (point on edge)
+            double fP0 = (i_pt + 1) / double(points_per_edge + 1.0);
+            double fP1 = 1 - fP0;
+            Point3d PE(fP0 * P0.x + fP1 * P1.x,
+                       fP0 * P0.y + fP1 * P1.y,
+                       fP0 * P0.z + fP1 * P1.z);
+            vDataArray_Nodes1st_Edges2nd[i_all].append(QVector3D(PE.x, PE.z, PE.y));
 
-        //size and orientation
-        vSeriesEdges[i]->setMeshAxisAndAngle(V01, 0);
-        //vSeriesEdges[i]->setItemSize(dist);
-
-        //series to graph
-        graph_scatter->addSeries(vSeriesEdges[i]);
-
-        //data (center of edge)
-        vDataArray[i].append(QVector3D(PC.x, PC.z, PC.y));
+            //increment counter
+            i_all++;
+        }
     }
+
 
     //axis
     graph_scatter->axisX()->setTitle(axis_x);       //default x axis
     graph_scatter->axisY()->setTitle(axis_z);       //graph z axis is img y axis
     graph_scatter->axisZ()->setTitle(axis_y);       //graph y axis is img z axis
+
     graph_scatter->axisX()->setTitleVisible(true);
     graph_scatter->axisY()->setTitleVisible(true);
     graph_scatter->axisZ()->setTitleVisible(true);
+
     graph_scatter->axisZ()->setReversed(true);      //graph z / img y axis is reversed (0,0 is in the top left of an img)
-    if(top_down_tree)
-        graph_scatter->axisY()->setReversed(true);
+    graph_scatter->axisY()->setReversed(true);      //top to down tree
+
 
     //style
     graph_scatter->activeTheme()->setGridEnabled(grid);
@@ -715,12 +726,8 @@ int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEd
     graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
 
     //add data to series
-    //nodes first
-    for(size_t sn = 0; sn < n_nodes; sn++)
-        vSeriesNodes[sn]->dataProxy()->addItems(vDataArray[sn]);
-    //edges to same array after nodes
-    for(size_t se = 0; se < n_edges; se++)
-        vSeriesEdges[se]->dataProxy()->addItems(vDataArray[se + n_nodes]);
+    for(size_t i = 0; i < n_all; i++)
+        vSeries_Nodes1st_Edges2nd[i]->dataProxy()->addItems(vDataArray_Nodes1st_Edges2nd[i]);
 
     //finish
     state_plot_active = true;

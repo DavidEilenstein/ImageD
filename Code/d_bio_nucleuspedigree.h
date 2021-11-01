@@ -57,11 +57,13 @@ public:
     bool initMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1, double thres_tm2);
 
     int setPedigreePlotViewer(D_Viewer_Plot_3D *viewer);
-    int updatePedigreePlot();
-    int updatePedigreePlot(D_Viewer_Plot_3D *viewer);
+    int updatePedigreePlot(size_t points_per_edge);
+    int updatePedigreePlot(D_Viewer_Plot_3D *viewer, size_t points_per_edge);
 
     void set_scale_px2um(double scale)                              {if(scale > 0) scale_px_to_um = scale;}
     void set_scale_T2h(double scale)                                {if(scale > 0) scale_t_to_h = scale;}
+    void set_scale_nodes(double scale)                              {if(scale > 0 && scale <= 1) scale_nodes = scale;}
+    void set_scale_edges(double scale)                              {if(scale > 0 && scale <= 1) scale_edges = scale;}
     void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) FrameInRegularRangeXY = Rect(x_min, y_min, w, h);}
 
     void match_all();
@@ -71,7 +73,7 @@ public:
 
 private:
 
-    void match_times(size_t t0, size_t t1, double score_thresh, bool dont_change_previous_mitosis);
+    void match_times(size_t t_parents, size_t t_childs, double score_thresh, bool dont_change_previous_mitosis);
 
     //viewer
     D_Viewer_Plot_3D *pViewerPedigreePlot;
@@ -95,6 +97,8 @@ private:
     //scaling XYT to rteal world coords
     double                          scale_px_to_um = 0.1;
     double                          scale_t_to_h = 1.0;
+    double                          scale_nodes = 1;
+    double                          scale_edges = 1;
 
     //XY range no border
     Rect                            FrameInRegularRangeXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);

@@ -7396,7 +7396,8 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
     ui->groupBox_MS4_Matching->setEnabled(true);
     ui->groupBox_MS4_ScoreFeats->setEnabled(true);
     ui->groupBox_MS4_ScoreNoGoThres->setEnabled(true);
-    //ui->groupBox_MS4_Pedigree->setEnabled(true);
+    ui->groupBox_MS4_Pedigree->setEnabled(true);
+    ui->groupBox_MS4_PedigreePropertys->setEnabled(true);
 
     if(!MS4_InitPedigree())
         return false;
@@ -7601,6 +7602,12 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
     ///clear old pedigree
     MS4_NucPedigree_AutoReconstruct.clear();
 
+    ///set scaling
+    MS4_NucPedigree_AutoReconstruct.set_scale_T2h(ui->doubleSpinBox_MS4_Scale_T2h->value());
+    MS4_NucPedigree_AutoReconstruct.set_scale_px2um(ui->doubleSpinBox_MS4_Scale_px2um->value());
+    MS4_NucPedigree_AutoReconstruct.set_scale_nodes(ui->doubleSpinBox_MS4_Scale_Nodes->value() / 100.0);
+    MS4_NucPedigree_AutoReconstruct.set_scale_edges(ui->doubleSpinBox_MS4_Scale_Edges->value() / 100.0);
+
     ///get maxima for norming from ui
     vector<double> vScoreMax(SCORE_NUMBER_OF, 1);
     vScoreMax[SCORE_SPEED] = ui->doubleSpinBox_MS4_Score_Max_Speed->value();
@@ -7671,7 +7678,7 @@ bool D_MAKRO_MegaFoci::MS4_UpdatePedigreePlot()
 {
     StatusSet("Start plotting pedigree");
 
-    int err = MS4_NucPedigree_AutoReconstruct.updatePedigreePlot();
+    int err = MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(5);
     if(err != ER_okay)
     {
         StatusSet("failed plotting pedigree");
@@ -7693,12 +7700,14 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
 {
     MS4_InitPedigree();
 
-    size_t nt = 15;//vv_MS4_NucImg_InAssigned_T.size();
+    //MS4_NucPedigree_AutoReconstruct.match_all();
+
+    size_t nt = vv_MS4_NucImg_InAssigned_T.size();
     for(size_t t = 0; t < nt; t++)
     {
         StatusSet("Reconstruction Step 1 for T=" + QString::number(t));
         MS4_NucPedigree_AutoReconstruct.match_step1_to_tm1(t);
-        MS4_NucPedigree_AutoReconstruct.updatePedigreePlot();
+        //MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(2);
         Update_Ui();
 
         /*
@@ -7708,4 +7717,6 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         Update_Ui();
         */
     }
+
+    MS4_UpdatePedigreePlot();
 }

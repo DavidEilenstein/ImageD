@@ -86,7 +86,7 @@ public:
     int     plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally = false);
 
     int     plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally = false);
-    int     plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, bool top_down_tree = true, bool called_internally = false);
+    int     plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, size_t points_per_edge = 5, double size_nodes = 0.1, double size_edge = 0.05, bool called_internally = false);
     int     plot_Heightmap(vector<Mat> *pvMA_Height, vector<QImage> *pvQI_Texture, size_t shadow, bool background, bool grid, QString axis_x = "X", QString axis_y = "Y", QString axis_z = "Z", bool draw_surface = true, bool draw_wireframe = false, bool called_internally = false);
 
 signals:

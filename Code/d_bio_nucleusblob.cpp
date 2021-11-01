@@ -961,13 +961,9 @@ void D_Bio_NucleusBlob::matching_InitMatching()
     match_thresh_max_area_decrease_to = 0.35;
     match_thresh_max_speed = 1500;
 
-    state_FoundParent_Accepted = false;
-    state_FoundChild1_Accepted = false;
-    state_FoundChild2_Accepted = false;
-
-    state_FoundParent_Candidate = false;
-    state_FoundChild1_Candidate = false;
-    state_FoundChild2_Candidate = false;
+    state_FoundParent = false;
+    state_FoundChild1 = false;
+    state_FoundChild2 = false;
 
     Score_Parent = -INFINITY;
     Score_Child1 = -INFINITY;
@@ -1125,7 +1121,7 @@ double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
     return score_all;
 }
 
-void D_Bio_NucleusBlob::matching_SetAsChild_Candidate(D_Bio_NucleusBlob *nuc_set_child, double score)
+void D_Bio_NucleusBlob::matching_SetAsChild(D_Bio_NucleusBlob *nuc_set_child, double score)
 {
     if((nuc_set_child == Nuc_Child1) || (nuc_set_child == Nuc_Child2))
         return;
@@ -1134,20 +1130,21 @@ void D_Bio_NucleusBlob::matching_SetAsChild_Candidate(D_Bio_NucleusBlob *nuc_set
     {
         Nuc_Child1 = nuc_set_child;
         Score_Child1 = score;
-        state_FoundChild1_Candidate = true;
+        state_FoundChild1 = true;
+        nuc_set_child->matching_SetAsParent(this, score);
     }
     else
     {
         Nuc_Child2 = nuc_set_child;
         Score_Child2 = score;
-        state_FoundChild2_Candidate = true;
+        state_FoundChild2 = true;
+        nuc_set_child->matching_SetAsParent(this, score);
     }
 
     state_triedAtLeastOnceToMatch = true;
-    nuc_set_child->matching_setTriedToMatchAtLeastOnce(true);
 }
 
-void D_Bio_NucleusBlob::matching_SetAsParent_Candidate(D_Bio_NucleusBlob *nuc_set_parent, double score)
+void D_Bio_NucleusBlob::matching_SetAsParent(D_Bio_NucleusBlob *nuc_set_parent, double score)
 {
     if(nuc_set_parent == Nuc_Parent)
     {
@@ -1158,12 +1155,13 @@ void D_Bio_NucleusBlob::matching_SetAsParent_Candidate(D_Bio_NucleusBlob *nuc_se
     //qDebug() << "matching_SetAsParent" << "found new best parent (score" << score << ")";
     Nuc_Parent = nuc_set_parent;
     Score_Parent = score;
-    state_FoundParent_Candidate = true;
+    state_FoundParent = true;
 
     state_triedAtLeastOnceToMatch = true;
-    nuc_set_parent->matching_setTriedToMatchAtLeastOnce(true);
+    nuc_set_parent->matching_SetAsChild(this, Score_Parent);
 }
 
+/*
 bool D_Bio_NucleusBlob::matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh)
 {
     state_triedAtLeastOnceToMatch = true;
@@ -1235,6 +1233,7 @@ bool D_Bio_NucleusBlob::matching_AcceptAndTellChilds()
 
     return true;
 }
+*/
 
 int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end)
 {
@@ -1252,10 +1251,10 @@ int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, do
     bool at_end = t >= t_end;
 
     //calc binary attributes
-    bool mitosis = matching_isMitosis_Accepted();
-    bool linear = matching_isLinear_Accepted();
-    bool appear = !matching_foundParent_Accepted();
-    bool disappear = !matching_foundAtLeastOneChild_Accepted();
+    bool mitosis = matching_isMitosis();
+    bool linear = matching_isLinear();
+    bool appear = !matching_foundParent();
+    bool disappear = !matching_foundAtLeastOneChild();
     bool isolated = appear && disappear;
 
     //return nucleus type
@@ -1308,15 +1307,18 @@ QColor D_Bio_NucleusBlob::matching_TypeColor(Rect FrameNotNearBorder, double t_b
 
 double D_Bio_NucleusBlob::matching_Age()
 {
-    return matching_TimeOfOldestAncestor() - time();
+    return time() - matching_TimeOfOldestAncestor();
 }
 
 double D_Bio_NucleusBlob::matching_TimeOfOldestAncestor()
 {
-    if(state_FoundParent_Accepted)
-        return Nuc_Parent->matching_TimeOfOldestAncestor();
-    else
+    if(!state_FoundParent)
         return time();
+
+    if(Nuc_Parent->matching_isMitosis())
+        return time();
+
+    return Nuc_Parent->matching_TimeOfOldestAncestor();
 }
 
 

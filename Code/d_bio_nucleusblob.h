@@ -125,40 +125,29 @@ public:
     double              matching_Score_Child1()                         {return Score_Child1;}
     double              matching_Score_Child2()                         {return Score_Child2;}
 
-    void                matching_SetAsChild_Candidate(D_Bio_NucleusBlob *nuc_set_child, double score);
-    void                matching_SetAsParent_Candidate(D_Bio_NucleusBlob *nuc_set_parent, double score);
+    void                matching_SetAsChild(D_Bio_NucleusBlob *nuc_set_child, double score);
+    void                matching_SetAsParent(D_Bio_NucleusBlob *nuc_set_parent, double score);
+
+    /*
     bool                matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh);
     bool                matching_TestAsParent_Candidate(D_Bio_NucleusBlob *nuc_test_parent, double score_thresh);
     bool                matching_AcceptAndTellParent();
     bool                matching_AcceptAndTellChilds();
+    */
 
-    //matching candidate
-    D_Bio_NucleusBlob*  matching_Child1_Candidate()                               {return state_FoundChild1_Candidate ? Nuc_Child1 : nullptr;}
-    D_Bio_NucleusBlob*  matching_Child2_Candidate()                               {return state_FoundChild2_Candidate ? Nuc_Child2 : nullptr;}
-    D_Bio_NucleusBlob*  matching_Parent_Candidate()                               {return state_FoundParent_Candidate ? Nuc_Parent : nullptr;}
-    bool                matching_foundChild1_Candidate()                          {return state_FoundChild1_Candidate;}
-    bool                matching_foundChild2_Candidate()                          {return state_FoundChild2_Candidate;}
-    bool                matching_foundParent_Candidate()                          {return state_FoundParent_Candidate;}
-    bool                matching_foundNoParent_Candidate()                        {return !(matching_foundParent_Candidate());}
-    bool                matching_foundNoChild_Candidate()                         {return !(matching_foundAtLeastOneChild_Candidate());}
-    bool                matching_foundAtLeastOneChild_Candidate()                 {return state_FoundChild1_Candidate || state_FoundChild2_Candidate;}
-    bool                matching_foundExactlyOneChild_Candidate()                 {return (state_FoundChild1_Candidate && !state_FoundChild2_Candidate) || (!state_FoundChild1_Candidate && state_FoundChild2_Candidate);}
-    bool                matching_isMitosis_Candidate()                            {return state_FoundChild1_Candidate && state_FoundChild2_Candidate;}
-    bool                matching_isLinear_Candidate()                             {return (matching_foundParent_Candidate() && matching_foundExactlyOneChild_Candidate());}
-
-    //matching Accepted
-    D_Bio_NucleusBlob*  matching_Child1_Accepted()                               {return state_FoundChild1_Accepted ? Nuc_Child1 : nullptr;}
-    D_Bio_NucleusBlob*  matching_Child2_Accepted()                               {return state_FoundChild2_Accepted ? Nuc_Child2 : nullptr;}
-    D_Bio_NucleusBlob*  matching_Parent_Accepted()                               {return state_FoundParent_Accepted ? Nuc_Parent : nullptr;}
-    bool                matching_foundChild1_Accepted()                          {return state_FoundChild1_Accepted;}
-    bool                matching_foundChild2_Accepted()                          {return state_FoundChild2_Accepted;}
-    bool                matching_foundParent_Accepted()                          {return state_FoundParent_Accepted;}
-    bool                matching_foundNoParent_Accepted()                        {return !(matching_foundParent_Accepted());}
-    bool                matching_foundNoChild_Accepted()                         {return !(matching_foundAtLeastOneChild_Accepted());}
-    bool                matching_foundAtLeastOneChild_Accepted()                 {return state_FoundChild1_Accepted || state_FoundChild2_Accepted;}
-    bool                matching_foundExactlyOneChild_Accepted()                 {return (state_FoundChild1_Accepted && !state_FoundChild2_Accepted) || (!state_FoundChild1_Accepted && state_FoundChild2_Accepted);}
-    bool                matching_isMitosis_Accepted()                            {return state_FoundChild1_Accepted && state_FoundChild2_Accepted;}
-    bool                matching_isLinear_Accepted()                             {return (matching_foundParent_Accepted() && matching_foundExactlyOneChild_Accepted());}
+    //matching
+    D_Bio_NucleusBlob*  matching_Child1()                               {return state_FoundChild1 ? Nuc_Child1 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Child2()                               {return state_FoundChild2 ? Nuc_Child2 : nullptr;}
+    D_Bio_NucleusBlob*  matching_Parent()                               {return state_FoundParent ? Nuc_Parent : nullptr;}
+    bool                matching_foundChild1()                          {return state_FoundChild1;}
+    bool                matching_foundChild2()                          {return state_FoundChild2;}
+    bool                matching_foundParent()                          {return state_FoundParent;}
+    bool                matching_foundNoParent()                        {return !(matching_foundParent());}
+    bool                matching_foundNoChild()                         {return !(matching_foundAtLeastOneChild());}
+    bool                matching_foundAtLeastOneChild()                 {return state_FoundChild1 || state_FoundChild2;}
+    bool                matching_foundExactlyOneChild()                 {return (state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2);}
+    bool                matching_isMitosis()                            {return state_FoundChild1 && state_FoundChild2;}
+    bool                matching_isLinear()                             {return (matching_foundParent() && matching_foundExactlyOneChild());}
 
     int                 matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end);
     QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
@@ -203,12 +192,9 @@ private:
     double                          Score_Parent = -INFINITY;
     double                          Score_Child1 = -INFINITY;
     double                          Score_Child2 = -INFINITY;
-    bool                            state_FoundParent_Candidate = false;
-    bool                            state_FoundChild1_Candidate = false;
-    bool                            state_FoundChild2_Candidate = false;
-    bool                            state_FoundParent_Accepted = false;
-    bool                            state_FoundChild1_Accepted = false;
-    bool                            state_FoundChild2_Accepted = false;
+    bool                            state_FoundParent = false;
+    bool                            state_FoundChild1 = false;
+    bool                            state_FoundChild2 = false;
 
     //weights for score calc
     vector<double>                  vScoreWeights;
