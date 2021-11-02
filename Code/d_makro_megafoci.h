@@ -1335,6 +1335,7 @@ private:
     bool state_MS4_detections_loaded = false;
     bool state_MS4_stack_processing = false;
     bool state_MS4_pedigree_init = false;
+    bool state_MS4_pedigree_init_1st_time = false;
 
 private slots:
 
@@ -1344,10 +1345,10 @@ private slots:
     bool MS4_LoadDetections();
     bool MS4_LoadDetections(size_t t, bool error_when_no_dir);
 
+    void MS4_DisplayRelativeScoreWeights();
     bool MS4_InitPedigree();
     bool MS4_UpdatePedigreePlot();
 
-    //bool MS4_
 
     void on_pushButton_MS4_LoadData_clicked();
     void on_pushButton_MS4_StartPedigreeReconstruction_clicked();

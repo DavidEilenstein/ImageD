@@ -117,7 +117,7 @@ public:
 
     //matching with other nucleus
     void                matching_InitMatching();
-    bool                matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to);
+    bool                matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to);
 
     double              matching_Score(D_Bio_NucleusBlob *nuc_calc_score);
 
@@ -201,7 +201,7 @@ private:
     vector<double>                  vScoreMaxima;
     double                          match_thresh_max_area_increase_to = 1.25;
     double                          match_thresh_max_area_decrease_to = 0.35;
-    double                          match_thresh_max_speed = 1500;
+    double                          match_thresh_max_shift = 200;
     bool                            state_ScoreWeightsAndMaxSet = false;
 
     bool                            state_triedAtLeastOnceToMatch = false;

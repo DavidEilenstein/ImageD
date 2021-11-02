@@ -7371,6 +7371,19 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_T_valueChanged(int arg1)
 void D_MAKRO_MegaFoci::MS4_UiInit()
 {
     MS4_Viewer_PedigreePlot.init(ui->gridLayout_MS4_Pedigree);
+
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Shift,       SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Area,        SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Convexity,   SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Compactness, SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Mean_NUC,    SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Mean_GFP,    SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Mean_RFP,    SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Std_NUC,     SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Std_GFP,     SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+    connect(ui->doubleSpinBox_MS4_Score_Weight_Std_RFP,     SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
+
+    MS4_DisplayRelativeScoreWeights();
 }
 
 bool D_MAKRO_MegaFoci::MS4_LoadData()
@@ -7595,11 +7608,39 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
     return true;
 }
 
+void D_MAKRO_MegaFoci::MS4_DisplayRelativeScoreWeights()
+{
+    double sum = 0;
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Shift->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Area->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Convexity->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Compactness->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Mean_NUC->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Mean_GFP->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Mean_RFP->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Std_NUC->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Std_GFP->value();
+    sum += ui->doubleSpinBox_MS4_Score_Weight_Std_RFP->value();
+
+    double to_prz = 100.0 / sum;
+    ui->doubleSpinBox_MS4_Score_Weight_Shift->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Shift->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Area->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Area->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Convexity->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Convexity->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Compactness->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Compactness->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Mean_NUC->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Mean_NUC->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Mean_GFP->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Mean_GFP->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Mean_RFP->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Mean_RFP->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Std_NUC->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Std_NUC->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Std_GFP->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Std_GFP->value() * to_prz)) + "%)");
+    ui->doubleSpinBox_MS4_Score_Weight_Std_RFP->setSuffix(" (" + QString::number(int(ui->doubleSpinBox_MS4_Score_Weight_Std_RFP->value() * to_prz)) + "%)");
+}
+
 bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 {
     StatusSet("Start feeding nuclei pedigree with nuclei");
 
     ///clear old pedigree
+    state_MS4_pedigree_init = false;
     MS4_NucPedigree_AutoReconstruct.clear();
 
     ///set scaling
@@ -7610,7 +7651,7 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 
     ///get maxima for norming from ui
     vector<double> vScoreMax(SCORE_NUMBER_OF, 1);
-    vScoreMax[SCORE_SPEED] = ui->doubleSpinBox_MS4_Score_Max_Speed->value();
+    vScoreMax[SCORE_SHIFT] = ui->doubleSpinBox_MS4_Score_Max_Shift->value();
     vScoreMax[SCORE_AREA] = ui->doubleSpinBox_MS4_Score_Max_Area->value();
     vScoreMax[SCORE_CONVEXITY] = ui->doubleSpinBox_MS4_Score_Max_Convexity->value();
     vScoreMax[SCORE_COMPACTNESS] = ui->doubleSpinBox_MS4_Score_Max_Compactness->value();
@@ -7623,7 +7664,7 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 
     ///get weights from ui
     vector<double> vScoreWeight(SCORE_NUMBER_OF, 0);
-    vScoreWeight[SCORE_SPEED] = ui->doubleSpinBox_MS4_Score_Weight_Speed->value();
+    vScoreWeight[SCORE_SHIFT] = ui->doubleSpinBox_MS4_Score_Weight_Shift->value();
     vScoreWeight[SCORE_AREA] = ui->doubleSpinBox_MS4_Score_Weight_Area->value();
     vScoreWeight[SCORE_CONVEXITY] = ui->doubleSpinBox_MS4_Score_Weight_Convexity->value();
     vScoreWeight[SCORE_COMPACTNESS] = ui->doubleSpinBox_MS4_Score_Weight_Compactness->value();
@@ -7638,12 +7679,14 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
     if(!MS4_NucPedigree_AutoReconstruct.initMatching(
                 vScoreWeight,
                 vScoreMax,
-                ui->doubleSpinBox_MS4_Match_Thres_SpeedLimit->value(),
-                ui->doubleSpinBox_MS4_Match_Thres_MaxAreaIncrease->value() / 100,
-                ui->doubleSpinBox_MS4_Match_Thres_MaxAreaDecrease->value() / 100,
+                ui->checkBox_MS4_Match_Thresh_Shift->isChecked() ? ui->doubleSpinBox_MS4_Match_Thres_Shift->value() : INFINITY,
+                ui->checkBox_MS4_Match_Thresh_Area->isChecked() ? ui->doubleSpinBox_MS4_Match_Thres_MaxAreaIncrease->value() / 100 : INFINITY,
+                ui->checkBox_MS4_Match_Thresh_Area->isChecked() ? ui->doubleSpinBox_MS4_Match_Thres_MaxAreaDecrease->value() / 100 : 0,
                 35,
-                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1->value() / 100,
-                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2->value() / 100))
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1->value() / 100,
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1->value() / 100,
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2->value() / 100,
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2->value() / 100))
         return false;
 
     ///set plot viewer
@@ -7668,9 +7711,11 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
     StatusSet("Successfully init nuclei pedigree");
 
     ///show peddigree plot
-    if(!MS4_UpdatePedigreePlot())
-        return false;
+    if(!state_MS4_pedigree_init_1st_time)
+        MS4_UpdatePedigreePlot();
 
+    state_MS4_pedigree_init_1st_time = true;
+    state_MS4_pedigree_init = true;
     return true;
 }
 
@@ -7698,25 +7743,37 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
 
 void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
 {
+    this->setEnabled(false);
+
     MS4_InitPedigree();
 
-    //MS4_NucPedigree_AutoReconstruct.match_all();
-
     size_t nt = vv_MS4_NucImg_InAssigned_T.size();
-    for(size_t t = 0; t < nt; t++)
-    {
-        StatusSet("Reconstruction Step 1 for T=" + QString::number(t));
-        MS4_NucPedigree_AutoReconstruct.match_step1_to_tm1(t);
-        //MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(2);
-        Update_Ui();
 
-        /*
-        StatusSet("Reconstruction Step 2 for T=" + QString::number(t));
-        MS4_NucPedigree_AutoReconstruct.match_step2_to_tm2(t);
-        MS4_NucPedigree_AutoReconstruct.updatePedigreePlot();
-        Update_Ui();
-        */
-    }
+    //matching go 1
+    for(size_t t = 1; t < nt; t++)
+        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+        {
+            StatusSet("Reconstruction GO1 for T=" + QString::number(t) + ")");
+            MS4_NucPedigree_AutoReconstruct.match_time_go1(t);
+            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+                MS4_UpdatePedigreePlot();
+        }
 
-    MS4_UpdatePedigreePlot();
+    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
+        MS4_UpdatePedigreePlot();
+
+    //matching go 2
+    for(size_t t = 1; t < nt; t++)
+        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+        {
+            StatusSet("Reconstruction GO2 for T=" + QString::number(t) + ")");
+            MS4_NucPedigree_AutoReconstruct.match_time_go2(t);
+            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+                MS4_UpdatePedigreePlot();
+        }
+
+    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
+        MS4_UpdatePedigreePlot();
+
+    this->setEnabled(true);
 }

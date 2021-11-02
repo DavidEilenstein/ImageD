@@ -30,13 +30,10 @@
     <property name="spacing">
      <number>6</number>
     </property>
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="groupBox_VisTrafo">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBox_Other">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -44,7 +41,7 @@
       <property name="minimumSize">
        <size>
         <width>350</width>
-        <height>0</height>
+        <height>60</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -54,15 +51,9 @@
        </size>
       </property>
       <property name="title">
-       <string>View transformation</string>
+       <string>Status</string>
       </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_8">
+      <layout class="QGridLayout" name="gridLayout_9">
        <property name="leftMargin">
         <number>3</number>
        </property>
@@ -78,175 +69,29 @@
        <property name="spacing">
         <number>3</number>
        </property>
-       <item row="0" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_CropMode"/>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Anchor">
-         <property name="enabled">
-          <bool>false</bool>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_ImageReward">
+         <property name="minimumSize">
+          <size>
+           <width>342</width>
+           <height>342</height>
+          </size>
          </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
+         <property name="maximumSize">
+          <size>
+           <width>342</width>
+           <height>342</height>
+          </size>
          </property>
-         <property name="prefix">
-          <string>anchor=</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>65535.000000000000000</double>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
-       <item row="7" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Range">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>range=</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>65536.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>10000.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogDivisor">
-         <property name="enabled">
+       <item row="2" column="0">
+        <widget class="QPlainTextEdit" name="plainTextEdit_Status">
+         <property name="readOnly">
           <bool>true</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>divisor=</string>
-         </property>
-         <property name="decimals">
-          <number>3</number>
-         </property>
-         <property name="minimum">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>1000000.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>5.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_AnchorMode"/>
-       </item>
-       <item row="0" column="2" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_TransformationMode"/>
-       </item>
-       <item row="2" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogCenter">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>center=</string>
-         </property>
-         <property name="decimals">
-          <number>3</number>
-         </property>
-         <property name="minimum">
-          <double>-100000000000000003502199685943161173046080317798311825604870144.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>10000000000000000725314363815292351261583744096465219555182101554790400.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2" colspan="2">
-        <widget class="QComboBox" name="comboBox_VisTrafo_RangeMode"/>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMin">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>min=</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>65535.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Gamma">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>gamma=</string>
-         </property>
-         <property name="decimals">
-          <number>3</number>
-         </property>
-         <property name="minimum">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMax">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="prefix">
-          <string>max=</string>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>65535.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>250.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>3000.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -6620,7 +6465,48 @@ QProgressBar::chunk {
            <property name="spacing">
             <number>1</number>
            </property>
-           <item row="1" column="1">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_78">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Area change</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thres_MaxAreaIncrease">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>Max increase to </string>
+             </property>
+             <property name="suffix">
+              <string>% </string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>200.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
             <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thres_MaxAreaDecrease">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
@@ -6635,12 +6521,12 @@ QProgressBar::chunk {
               <number>0</number>
              </property>
              <property name="value">
-              <double>35.000000000000000</double>
+              <double>30.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="0" column="1" colspan="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thres_SpeedLimit">
+           <item row="0" column="2" colspan="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thres_Shift">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -6648,7 +6534,7 @@ QProgressBar::chunk {
               <string/>
              </property>
              <property name="suffix">
-              <string> px/T max possible speed</string>
+              <string> px max possible shift</string>
              </property>
              <property name="decimals">
               <number>0</number>
@@ -6680,44 +6566,32 @@ QProgressBar::chunk {
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_78">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>16777215</height>
-              </size>
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="checkBox_MS4_Match_Thresh_Shift">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="text">
-              <string>Area change</string>
+              <string/>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thres_MaxAreaIncrease">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="checkBox_MS4_Match_Thresh_Area">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="prefix">
-              <string>Max increase to </string>
-             </property>
-             <property name="suffix">
-              <string>% </string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>200.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>125.000000000000000</double>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -6748,7 +6622,7 @@ QProgressBar::chunk {
            </size>
           </property>
           <property name="title">
-           <string>Matching is done by the following steps</string>
+           <string>Matching</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_68">
            <property name="leftMargin">
@@ -6766,8 +6640,8 @@ QProgressBar::chunk {
            <property name="spacing">
             <number>1</number>
            </property>
-           <item row="1" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2">
+           <item row="2" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -6775,20 +6649,141 @@ QProgressBar::chunk {
               <string>min </string>
              </property>
              <property name="suffix">
-              <string>% score needed for match</string>
+              <string>% score</string>
              </property>
              <property name="decimals">
               <number>0</number>
              </property>
              <property name="value">
-              <double>40.000000000000000</double>
+              <double>70.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="2" column="1" colspan="2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_74">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>1) Match T-1 Go1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_79">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>3) Match T-1 Go2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="2">
             <widget class="QLabel" name="label_81">
              <property name="text">
               <string>Go to next T and start at 1)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>% score</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>85.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>% score</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>85.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_75">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>2) Match T-2 Go1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_84">
+             <property name="text">
+              <string>Compare to remaining nuc(T-2)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_77">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>3) Next</string>
              </property>
             </widget>
            </item>
@@ -6799,27 +6794,27 @@ QProgressBar::chunk {
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_74">
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_80">
              <property name="minimumSize">
               <size>
-               <width>75</width>
-               <height>20</height>
+               <width>100</width>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>75</width>
+               <width>100</width>
                <height>16777215</height>
               </size>
              </property>
              <property name="text">
-              <string>1) Match T-1</string>
+              <string>4) Match T-2 Go2</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1">
+           <item row="3" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -6827,7 +6822,7 @@ QProgressBar::chunk {
               <string>min </string>
              </property>
              <property name="suffix">
-              <string>% score needed for match</string>
+              <string>% score</string>
              </property>
              <property name="decimals">
               <number>0</number>
@@ -6837,53 +6832,36 @@ QProgressBar::chunk {
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_75">
-             <property name="minimumSize">
-              <size>
-               <width>75</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>75</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>2) Match T-2</string>
+           <item row="5" column="0" colspan="3">
+            <widget class="Line" name="line_24">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="3">
+           <item row="7" column="0" colspan="3">
             <widget class="QPushButton" name="pushButton_MS4_StartPedigreeReconstruction">
              <property name="text">
               <string>reconstruct pedigree</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_77">
-             <property name="minimumSize">
-              <size>
-               <width>75</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>75</width>
-               <height>16777215</height>
-              </size>
-             </property>
+           <item row="6" column="0" colspan="3">
+            <widget class="QCheckBox" name="checkBox_MS4_UpdatePedigreePlotAfterEachTStep">
              <property name="text">
-              <string>3) Next</string>
+              <string>Update plot after each T step</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_84">
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_82">
+             <property name="text">
+              <string>Compare to remaining nuc(T-1)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_85">
              <property name="text">
               <string>Compare to remaining nuc(T-2)</string>
              </property>
@@ -6998,17 +6976,17 @@ QProgressBar::chunk {
               </size>
              </property>
              <property name="text">
-              <string>Speed</string>
+              <string>Shift</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Score_Max_Speed">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Score_Max_Shift">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="suffix">
-              <string> px/T</string>
+              <string> px</string>
              </property>
              <property name="maximum">
               <double>999999.000000000000000</double>
@@ -7019,12 +6997,12 @@ QProgressBar::chunk {
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Score_Weight_Speed">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Score_Weight_Shift">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="suffix">
-              <string> (100%)</string>
+              <string> (0%)</string>
              </property>
              <property name="minimum">
               <double>0.010000000000000</double>
@@ -7089,6 +7067,9 @@ QProgressBar::chunk {
              </property>
              <property name="maximum">
               <double>999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -7280,6 +7261,9 @@ QProgressBar::chunk {
              <property name="maximum">
               <double>999.000000000000000</double>
              </property>
+             <property name="value">
+              <double>0.000000000000000</double>
+             </property>
             </widget>
            </item>
            <item row="10" column="0">
@@ -7327,6 +7311,9 @@ QProgressBar::chunk {
              </property>
              <property name="maximum">
               <double>999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -7654,7 +7641,7 @@ QProgressBar::chunk {
               <double>100.000000000000000</double>
              </property>
              <property name="value">
-              <double>8.000000000000000</double>
+              <double>7.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -7967,10 +7954,13 @@ background-color: rgb(128,128,128);</string>
       <widget class="QWidget" name="stackedWidget_StepMajor_6"/>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="groupBox_Other">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox_VisTrafo">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -7978,7 +7968,7 @@ background-color: rgb(128,128,128);</string>
       <property name="minimumSize">
        <size>
         <width>350</width>
-        <height>60</height>
+        <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -7988,9 +7978,15 @@ background-color: rgb(128,128,128);</string>
        </size>
       </property>
       <property name="title">
-       <string>Status</string>
+       <string>View transformation</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_9">
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_8">
        <property name="leftMargin">
         <number>3</number>
        </property>
@@ -8006,29 +8002,175 @@ background-color: rgb(128,128,128);</string>
        <property name="spacing">
         <number>3</number>
        </property>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_ImageReward">
-         <property name="minimumSize">
-          <size>
-           <width>342</width>
-           <height>342</height>
-          </size>
+       <item row="0" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_CropMode"/>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Anchor">
+         <property name="enabled">
+          <bool>false</bool>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>342</width>
-           <height>342</height>
-          </size>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
-         <property name="text">
-          <string/>
+         <property name="prefix">
+          <string>anchor=</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <double>65535.000000000000000</double>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QPlainTextEdit" name="plainTextEdit_Status">
-         <property name="readOnly">
+       <item row="7" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Range">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>range=</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <double>65536.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>10000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogDivisor">
+         <property name="enabled">
           <bool>true</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>divisor=</string>
+         </property>
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>0.001000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>1000000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>5.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_AnchorMode"/>
+       </item>
+       <item row="0" column="2" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_TransformationMode"/>
+       </item>
+       <item row="2" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_LogCenter">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>center=</string>
+         </property>
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-100000000000000003502199685943161173046080317798311825604870144.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>10000000000000000725314363815292351261583744096465219555182101554790400.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2" colspan="2">
+        <widget class="QComboBox" name="comboBox_VisTrafo_RangeMode"/>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMin">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>min=</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <double>65535.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_Gamma">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>gamma=</string>
+         </property>
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>0.001000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_VisTrafo_CropMax">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="prefix">
+          <string>max=</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <double>65535.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>250.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>3000.000000000000000</double>
          </property>
         </widget>
        </item>

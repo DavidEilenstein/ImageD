@@ -725,6 +725,7 @@ int D_Viewer_Plot_3D::plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEd
     graph_scatter->activeTheme()->setBackgroundEnabled(background);
     graph_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality(shadow));
 
+
     //add data to series
     for(size_t i = 0; i < n_all; i++)
         vSeries_Nodes1st_Edges2nd[i]->dataProxy()->addItems(vDataArray_Nodes1st_Edges2nd[i]);

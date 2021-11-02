@@ -87,7 +87,7 @@ const QStringList QSL_FileSections = {
  };
 
  enum SCORES {
-     SCORE_SPEED,
+     SCORE_SHIFT,
      SCORE_AREA,
      SCORE_CONVEXITY,
      SCORE_COMPACTNESS,

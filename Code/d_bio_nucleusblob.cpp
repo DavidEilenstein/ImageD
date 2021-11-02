@@ -953,13 +953,13 @@ void D_Bio_NucleusBlob::CalcFeats()
 void D_Bio_NucleusBlob::matching_InitMatching()
 {
     vScoreWeights.resize(SCORE_NUMBER_OF, 0);
-    vScoreWeights[SCORE_SPEED] = 1;
+    vScoreWeights[SCORE_SHIFT] = 1;
 
     vScoreMaxima.resize(SCORE_NUMBER_OF, 1);
 
     match_thresh_max_area_increase_to = 1.25;
     match_thresh_max_area_decrease_to = 0.35;
-    match_thresh_max_speed = 1500;
+    match_thresh_max_shift = 200;
 
     state_FoundParent = false;
     state_FoundChild1 = false;
@@ -972,7 +972,7 @@ void D_Bio_NucleusBlob::matching_InitMatching()
     state_ScoreWeightsAndMaxSet = true;
 }
 
-bool D_Bio_NucleusBlob::matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double speed_limit, double max_rel_area_inc_to, double max_rel_area_dec_to)
+bool D_Bio_NucleusBlob::matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to)
 {
     if((score_weights.size() != SCORE_NUMBER_OF) || (score_maxima.size() != SCORE_NUMBER_OF))
         return false;
@@ -1000,7 +1000,7 @@ bool D_Bio_NucleusBlob::matching_InitMatching(vector<double> score_weights, vect
 
     match_thresh_max_area_increase_to = max_rel_area_inc_to;
     match_thresh_max_area_decrease_to = max_rel_area_dec_to;
-    match_thresh_max_speed = speed_limit;
+    match_thresh_max_shift = shift_limit;
 
     return true;
 }
@@ -1015,13 +1015,17 @@ double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
 
         switch (i) {
 
-        case SCORE_SPEED:
-            diff_part = D_Math::Distance(centroid(), nuc_calc_score->centroid()) / abs(time() - nuc_calc_score->time());
-            if(diff_part > match_thresh_max_speed)
+        case SCORE_SHIFT:
+        {
+            double dt = abs(time() - nuc_calc_score->time());
+            double dist = D_Math::Distance(centroid(), nuc_calc_score->centroid());
+            diff_part = dist / dt;
+            if(dist > match_thresh_max_shift)
             {
-                //qDebug() << "no match, broken speed limit (" << diff_part << ", limit is" << match_thresh_max_speed << ")";
+                //qDebug() << "no match, broken shift limit (" << diff_part << ", limit is" << match_thresh_max_shift << ")";
                 return -INFINITY;
             }
+        }
             break;
 
         case SCORE_AREA:
@@ -1030,7 +1034,7 @@ double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
             double area_other = nuc_calc_score->area();
             bool earlier_this = time() < nuc_calc_score->time();
             double area_earlier = earlier_this ? area_this : area_other;
-            double area_later = earlier_this ? area_other :area_this;
+            double area_later = earlier_this ? area_other : area_this;
 
             if(area_later > match_thresh_max_area_increase_to * area_earlier)
             {
@@ -1283,24 +1287,24 @@ QColor D_Bio_NucleusBlob::matching_TypeColor(Rect FrameNotNearBorder, double t_b
     case NUC_TYPE_UNKNOWN:                      return QColor(192, 192, 192);
 
     case NUC_TYPE_ISOLATED_MYSTERY:             return QColor(255, 0,   255);
-    case NUC_TYPE_ISOLATED_BEGIN:               return QColor(192, 0,   192);
-    case NUC_TYPE_ISOLATED_END:                 return QColor(192, 0,   192);
-    case NUC_TYPE_ISOLATED_BORDER:              return QColor(192, 0,   192);
+    case NUC_TYPE_ISOLATED_BEGIN:               return QColor(128, 0,   128);
+    case NUC_TYPE_ISOLATED_END:                 return QColor(128, 0,   128);
+    case NUC_TYPE_ISOLATED_BORDER:              return QColor(128, 0,   128);
 
     case NUC_TYPE_LINEAR:                       return QColor(0,   0,   0  );
 
     case NUC_TYPE_MITOSIS_REGULAR:              return QColor(0,   255, 0  );
-    case NUC_TYPE_MITOSIS_APPEARED_MYSTERY:     return QColor(0,   192, 0  );
-    case NUC_TYPE_MITOSIS_APPEARED_BEGIN:       return QColor(0,   192, 0  );
-    case NUC_TYPE_MITOSIS_APPEARED_BORDER:      return QColor(0,   192, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_MYSTERY:     return QColor(0,   128, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_BEGIN:       return QColor(0,   128, 0  );
+    case NUC_TYPE_MITOSIS_APPEARED_BORDER:      return QColor(0,   128, 0  );
 
     case NUC_TYPE_APPEAR_MYSTERY:               return QColor(0,   0,   255);
-    case NUC_TYPE_APPEAR_BEGIN:                 return QColor(0,   0,   192);
-    case NUC_TYPE_APPEAR_BORDER:                return QColor(0,   0,   192);
+    case NUC_TYPE_APPEAR_BEGIN:                 return QColor(0,   0,   128);
+    case NUC_TYPE_APPEAR_BORDER:                return QColor(0,   0,   128);
 
     case NUC_TYPE_DISAPPEAR_DYING:              return QColor(255, 0,   0  );
-    case NUC_TYPE_DISAPPEAR_END:                return QColor(192, 0,   0  );
-    case NUC_TYPE_DISAPPEAR_BORDER:             return QColor(192, 0,   0  );
+    case NUC_TYPE_DISAPPEAR_END:                return QColor(128, 0,   0  );
+    case NUC_TYPE_DISAPPEAR_BORDER:             return QColor(128, 0,   0  );
 
     default:                                    return QColor(255, 192, 200);}
 }
