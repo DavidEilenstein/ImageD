@@ -1017,9 +1017,8 @@ double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
 
         case SCORE_SHIFT:
         {
-            double dt = abs(time() - nuc_calc_score->time());
             double dist = D_Math::Distance(centroid(), nuc_calc_score->centroid());
-            diff_part = dist / dt;
+            diff_part = dist;
             if(dist > match_thresh_max_shift)
             {
                 //qDebug() << "no match, broken shift limit (" << diff_part << ", limit is" << match_thresh_max_shift << ")";
@@ -1116,10 +1115,10 @@ double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
             break;
         }
 
-        diff_part = max(0.0, min(diff_part, vScoreMaxima[i]));
-        diff_part /= vScoreMaxima[i];
-        diff_part *= vScoreWeights[i];
-        score_all -= diff_part;
+        double diff_part_inRange = max(0.0, min(diff_part, vScoreMaxima[i]));
+        double diff_part_0to1 = vScoreMaxima[i] > 0 ? diff_part_inRange / vScoreMaxima[i] : 1;
+        double diff_part_0to1_weighted = diff_part_0to1 * vScoreWeights[i];
+        score_all -= diff_part_0to1_weighted;
     }
 
     return score_all;
@@ -1163,6 +1162,27 @@ void D_Bio_NucleusBlob::matching_SetAsParent(D_Bio_NucleusBlob *nuc_set_parent, 
 
     state_triedAtLeastOnceToMatch = true;
     nuc_set_parent->matching_SetAsChild(this, Score_Parent);
+}
+
+bool D_Bio_NucleusBlob::matching_RemoveChild(D_Bio_NucleusBlob *nuc_remove_child)
+{
+    if(nuc_remove_child == Nuc_Child1)
+    {
+        Nuc_Child1 = nullptr;
+        Score_Child1 = -INFINITY;
+        state_FoundChild1 = false;
+        return true;
+    }
+
+    if(nuc_remove_child == Nuc_Child2)
+    {
+        Nuc_Child2 = nullptr;
+        Score_Child2 = -INFINITY;
+        state_FoundChild2 = false;
+        return true;
+    }
+
+    return false;
 }
 
 /*

@@ -54,7 +54,7 @@ public:
     bool add_nucleus_blob(size_t t, D_Bio_NucleusBlob nuc);
 
     void initMatching();
-    bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm1_go2, double thres_tm2_go2);
+    bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis);
 
     int setPedigreePlotViewer(D_Viewer_Plot_3D *viewer);
     int updatePedigreePlot(size_t points_per_edge);
@@ -71,6 +71,7 @@ public:
     void match_all_go2();
     void match_time_go1(size_t t);
     void match_time_go2(size_t t);
+    void match_time_correct_mitosis(size_t t);
     void match_time_tm1_tm2_mixed(size_t t);
     void match_time_tm1_tm2_consecutive(size_t t);
     void match_time_ends_tm2_then_normal_tm1(size_t t);
@@ -78,6 +79,8 @@ public:
     void match_to_tm2_to_ends_only(size_t t);
 
 private:
+
+    void match_correct_mitosis(size_t t_parents, size_t t_childs);
 
     void match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
     void match_find_matches(vector<vector<double> > *vvMatches, size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
@@ -99,10 +102,13 @@ private:
     double                          match_thresh_max_area_decrease_to = 0.35;
     double                          match_thresh_max_shift = 200;
     double                          match_max_age = 35;
-    double                          match_score_thres_tm1_go1 = 0.9;
-    double                          match_score_thres_tm2_go1 = 0.9;
-    double                          match_score_thres_tm1_go2 = 0.7;
-    double                          match_score_thres_tm2_go2 = 0.7;
+    double                          match_score_thres_tm1_go1 = 0.50;
+    double                          match_score_thres_tm2_go1 = 0.55;
+    double                          match_score_thres_tm3_go1 = 0.60;
+    double                          match_score_thres_tm1_go2 = 0.20;
+    double                          match_score_thres_tm2_go2 = 0.25;
+    double                          match_score_thres_tm3_go2 = 0.30;
+    double                          match_score_multiplier_new_mitosis = 0.75;
 
     //scaling XYT to rteal world coords
     double                          scale_px_to_um = 0.1;

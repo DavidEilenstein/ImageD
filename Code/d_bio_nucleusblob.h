@@ -128,6 +128,8 @@ public:
     void                matching_SetAsChild(D_Bio_NucleusBlob *nuc_set_child, double score);
     void                matching_SetAsParent(D_Bio_NucleusBlob *nuc_set_parent, double score);
 
+    bool                matching_RemoveChild(D_Bio_NucleusBlob *nuc_remove_child);
+
     /*
     bool                matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh);
     bool                matching_TestAsParent_Candidate(D_Bio_NucleusBlob *nuc_test_parent, double score_thresh);

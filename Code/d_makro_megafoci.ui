@@ -6641,71 +6641,19 @@ QProgressBar::chunk {
             <number>1</number>
            </property>
            <item row="2" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>% score</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>70.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_74">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>1) Match T-1 Go1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_79">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
+               <width>60</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>60</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="text">
-              <string>3) Match T-1 Go2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1" colspan="2">
-            <widget class="QLabel" name="label_81">
-             <property name="text">
-              <string>Go to next T and start at 1)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -6713,108 +6661,210 @@ QProgressBar::chunk {
               <string>min </string>
              </property>
              <property name="suffix">
-              <string>% score</string>
+              <string>%</string>
              </property>
              <property name="decimals">
               <number>0</number>
              </property>
              <property name="value">
-              <double>85.000000000000000</double>
+              <double>50.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>% score</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>85.000000000000000</double>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_87">
+             <property name="text">
+              <string>Compare nuc(T-3), no new mitosis</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_75">
              <property name="minimumSize">
               <size>
-               <width>100</width>
+               <width>85</width>
                <height>20</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>85</width>
                <height>16777215</height>
               </size>
              </property>
              <property name="text">
-              <string>2) Match T-2 Go1</string>
+              <string>2/5) Match T-2</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_84">
-             <property name="text">
-              <string>Compare to remaining nuc(T-2)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_77">
+           <item row="3" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>20</height>
+               <width>60</width>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>55.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1" colspan="3">
+            <widget class="QLabel" name="label_81">
+             <property name="text">
+              <string>If T is not at max, go to T+1  and start at 1)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_79">
+             <property name="minimumSize">
+              <size>
+               <width>85</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>85</width>
                <height>16777215</height>
               </size>
              </property>
              <property name="text">
-              <string>3) Next</string>
+              <string>7) correct mitosis</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="10" column="0" colspan="4">
+            <layout class="QGridLayout" name="gridLayout_64">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="pushButton_MS4_StartPedigreeReconstruction">
+               <property name="text">
+                <string>reconstruct pedigree</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QCheckBox" name="checkBox_MS4_UpdatePedigreePlotAfterEachTStep">
+               <property name="text">
+                <string>Update plot after each T step (time consuming)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>25.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go1">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>100.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>60.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
             <widget class="QLabel" name="label_83">
              <property name="text">
               <string>Compare to nuc(T-1)</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_80">
+           <item row="9" column="0" colspan="4">
+            <widget class="Line" name="line_24">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go2">
              <property name="minimumSize">
               <size>
-               <width>100</width>
+               <width>60</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>60</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="text">
-              <string>4) Match T-2 Go2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -6822,48 +6872,192 @@ QProgressBar::chunk {
               <string>min </string>
              </property>
              <property name="suffix">
-              <string>% score</string>
+              <string>%</string>
              </property>
              <property name="decimals">
               <number>0</number>
              </property>
+             <property name="maximum">
+              <double>100.000000000000000</double>
+             </property>
              <property name="value">
-              <double>70.000000000000000</double>
+              <double>30.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="3">
-            <widget class="Line" name="line_24">
+           <item row="1" column="3">
+            <widget class="QLabel" name="label_91">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>score Go2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="4">
+            <widget class="Line" name="line_26">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="7" column="0" colspan="3">
-            <widget class="QPushButton" name="pushButton_MS4_StartPedigreeReconstruction">
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_77">
+             <property name="minimumSize">
+              <size>
+               <width>85</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>85</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="text">
-              <string>reconstruct pedigree</string>
+              <string>8) Next</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0" colspan="3">
-            <widget class="QCheckBox" name="checkBox_MS4_UpdatePedigreePlotAfterEachTStep">
-             <property name="text">
-              <string>Update plot after each T step</string>
+           <item row="2" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
              </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="label_82">
-             <property name="text">
-              <string>Compare to remaining nuc(T-1)</string>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>20.000000000000000</double>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QLabel" name="label_85">
+            <widget class="QLabel" name="label_84">
              <property name="text">
-              <string>Compare to remaining nuc(T-2)</string>
+              <string>Compare nuc(T-2), no new mitosis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_90">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>score Go1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_74">
+             <property name="minimumSize">
+              <size>
+               <width>85</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>85</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>1/4) Match T-1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_86">
+             <property name="minimumSize">
+              <size>
+               <width>85</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>85</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>3/6) Match T-3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2" colspan="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_ScoreMultiplier_NewMitosis">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string/>
+             </property>
+             <property name="suffix">
+              <string>% of prev. score</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>200.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLabel" name="label_80">
+             <property name="text">
+              <string>Kill mitoses for connection to open ends</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="4">
+            <widget class="Line" name="line_25">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
@@ -6992,7 +7186,7 @@ QProgressBar::chunk {
               <double>999999.000000000000000</double>
              </property>
              <property name="value">
-              <double>1000.000000000000000</double>
+              <double>250.000000000000000</double>
              </property>
             </widget>
            </item>

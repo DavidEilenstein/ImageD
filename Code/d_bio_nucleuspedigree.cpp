@@ -71,7 +71,7 @@ void D_Bio_NucleusPedigree::initMatching()
     state_ScoreWeightsAndMaxSet = true;
 }
 
-bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm1_go2, double thres_tm2_go2)
+bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis)
 {
     if((score_weights.size() != SCORE_NUMBER_OF) || (score_maxima.size() != SCORE_NUMBER_OF))
         return false;
@@ -99,12 +99,25 @@ bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<do
 
     match_thresh_max_area_increase_to   = max_rel_area_inc_to;
     match_thresh_max_area_decrease_to   = max_rel_area_dec_to;
+
     match_thresh_max_shift              = shift_limit;
+
     match_max_age                       = max_age;
+
     match_score_thres_tm1_go1           = thres_tm1_go1;
     match_score_thres_tm2_go1           = thres_tm2_go2;
+    match_score_thres_tm3_go1           = thres_tm3_go2;
+
     match_score_thres_tm1_go2           = thres_tm1_go2;
     match_score_thres_tm2_go2           = thres_tm2_go2;
+    match_score_thres_tm3_go2           = thres_tm3_go2;
+
+    match_score_multiplier_new_mitosis  = multipier_new_mitosis;
+
+    //qDebug() << "thres go1" << thres_tm1_go1 << thres_tm2_go1 << thres_tm3_go1;
+    //qDebug() << "thres go2" << thres_tm1_go2 << thres_tm2_go2 << thres_tm3_go2;
+    //qDebug() << "mitosis multiplier" << multipier_new_mitosis;
+    //qDebug() << "shift limit" << shift_limit;
 
     return true;
 }
@@ -137,17 +150,15 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
     //node data
     vector<Point3d> vNodesCoord;
     vector<QColor>  vNodeColor;
-    QStringList     QSL_NodeNames;
 
     //edge data
     vector<Point3d> vEdgeCoordBegins;
     vector<Point3d> vEdgeCoordEnds;
     vector<QColor>  vEdgeColor;
-    QStringList     QSL_EdgeNames;
 
     //score norming
-    double score_min = min(match_score_thres_tm1_go2, match_score_thres_tm2_go2);
-    double score_range = 1 - score_min;
+    double score_min = min(min(min(match_score_thres_tm1_go1, match_score_thres_tm2_go1), match_score_thres_tm3_go1), min(min(match_score_thres_tm1_go2, match_score_thres_tm2_go2), match_score_thres_tm3_go2));
+    double score_range = 1.0 - score_min;
 
     for(size_t t = 0; t < vvNucBlobs_T.size(); t++)
     {
@@ -166,11 +177,6 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
             //add node color
             vNodeColor.push_back(vvNucBlobs_T[t][i].matching_TypeColor(FrameInRegularRangeXY, 0, vvNucBlobs_T.size() - 1));
 
-            //add node name
-            QSL_NodeNames.append(
-                        "A=" + QString::number(vvNucBlobs_T[t][i].area() * scale_px_to_um * scale_px_to_um) + "um^2\n"
-                        "age=" + QString::number(vvNucBlobs_T[t][i].matching_Age() * scale_t_to_h) + "h");
-
             //get Ancestor and calc edge
             if(vvNucBlobs_T[t][i].matching_foundParent())
             {
@@ -188,7 +194,7 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
                 //age of nuc
                 double age = vvNucBlobs_T[t][i].matching_Age();
                 age = max(0.0, min(age, match_max_age));
-                double age_rel = match_max_age > 0 ? age / match_max_age : 0;
+                //double age_rel = match_max_age > 0 ? age / match_max_age : 0;
 
                 //calc color
                 QColor EdgeColor;
@@ -202,7 +208,6 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
                 vEdgeCoordBegins.push_back(P_AncestorCoord);
                 vEdgeCoordEnds.push_back(P_NucCoord);
                 vEdgeColor.push_back(EdgeColor);
-                QSL_EdgeNames.append("Score=" + QString::number(int(score * 100)) + "%");
 
                 //qDebug() << "Nuc at" << P_NucCoord.x << P_NucCoord.y << P_NucCoord.z << "with parent at" << P_AncestorCoord.x << P_AncestorCoord.y << P_AncestorCoord.z << "(score" << score << ")";
             }
@@ -262,12 +267,21 @@ void D_Bio_NucleusPedigree::match_time_go1(size_t t)
 {
     match_times(t - 1, t, match_score_thres_tm1_go1, true);
     match_times(t - 2, t, match_score_thres_tm2_go1, false);
+    match_times(t - 3, t, match_score_thres_tm3_go1, false);
 }
 
 void D_Bio_NucleusPedigree::match_time_go2(size_t t)
 {
     match_times(t - 1, t, match_score_thres_tm1_go2, true);
     match_times(t - 2, t, match_score_thres_tm2_go2, false);
+    match_times(t - 3, t, match_score_thres_tm3_go2, false);
+}
+
+void D_Bio_NucleusPedigree::match_time_correct_mitosis(size_t t)
+{
+    match_correct_mitosis(t - 1, t);
+    match_correct_mitosis(t - 2, t);
+    match_correct_mitosis(t - 3, t);
 }
 
 void D_Bio_NucleusPedigree::match_time_tm1_tm2_mixed(size_t t)
@@ -328,17 +342,123 @@ void D_Bio_NucleusPedigree::match_to_tm2_to_ends_only(size_t t)
     match_times(t - 2, t, match_score_thres_tm2_go1, false);
 }
 
+void D_Bio_NucleusPedigree::match_correct_mitosis(size_t t_parents, size_t t_childs)
+{
+    if(t_parents >= vvNucBlobs_T.size() || t_childs >= vvNucBlobs_T.size() || t_parents >= t_childs)
+        return;
+
+    //nuc counts
+    size_t n_parents = vvNucBlobs_T[t_parents].size();
+    size_t n_childs = vvNucBlobs_T[t_childs].size();
+
+    //score table as point list (for easy sorting)
+    vector<vector<double>> vvPossibleMitosisCorrections;
+
+    //loop all child candidates (later time index)
+    for(size_t i_child = 0; i_child < n_childs; i_child++)
+    {
+        //child has a parent?
+        if(vvNucBlobs_T[t_childs][i_child].matching_foundParent())
+        {
+            //childs assigned parent is mitosis?
+            if(vvNucBlobs_T[t_childs][i_child].matching_Parent()->matching_isMitosis())
+            {
+                //score to assigned mitosis parent
+                double score_mitosis_parent = vvNucBlobs_T[t_childs][i_child].matching_Score_Parent();
+
+                //modify score to make false mitosis less likely (score decreases)
+                double score_mitosis_parent_modified = score_mitosis_parent * match_score_multiplier_new_mitosis;
+
+                //loop all parent candidates (earlier time index)
+                for(size_t i_parent = 0; i_parent < n_parents; i_parent++)
+                {
+                    //parent candidate is an open ending?
+                    if(vvNucBlobs_T[t_parents][i_parent].matching_foundNoChild())
+                    {
+                        //score to possible new parent that is currently an open ending
+                        double score_new_ending_parent = vvNucBlobs_T[t_childs][i_child].matching_Score(&(vvNucBlobs_T[t_parents][i_parent]));
+
+                        //score is better than modified mitosis parent score?
+                        if(score_new_ending_parent > score_mitosis_parent_modified)
+                        {
+                            //create match
+                            vector<double> vMitosisCorrection(MATCH_ATTRIB_INDEX_NUMBER_OF, 0);
+                            vMitosisCorrection[MATCH_ATTRIB_INDEX_SCORE] = score_new_ending_parent;
+                            vMitosisCorrection[MATCH_ATTRIB_INDEX_PARENT_T] = t_parents;
+                            vMitosisCorrection[MATCH_ATTRIB_INDEX_PARENT_I] = i_parent;
+                            vMitosisCorrection[MATCH_ATTRIB_INDEX_CHILD_T] = t_childs;
+                            vMitosisCorrection[MATCH_ATTRIB_INDEX_CHILD_I] = i_child;
+                            vvPossibleMitosisCorrections.push_back(vMitosisCorrection);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //sort matches by score
+    struct score_higher {
+        bool operator ()(vector<double> const& correction1, vector<double> const& correction2) const
+        {
+            return correction1[MATCH_ATTRIB_INDEX_SCORE] > correction2[MATCH_ATTRIB_INDEX_SCORE];
+        }
+    };
+    sort(vvPossibleMitosisCorrections.begin(), vvPossibleMitosisCorrections.end(), score_higher());
+
+    //accept corrections from highest to lowest score
+    for(size_t c = 0; c < vvPossibleMitosisCorrections.size(); c++)
+    {
+        //match parameters
+        vector<double> vCorrection = vvPossibleMitosisCorrections[c];
+        //score
+        double score = vCorrection[MATCH_ATTRIB_INDEX_SCORE];
+        //time
+        size_t t_new_parent = vCorrection[MATCH_ATTRIB_INDEX_PARENT_T];
+        size_t t_child = vCorrection[MATCH_ATTRIB_INDEX_CHILD_T];
+        //nucleus index
+        size_t i_new_parent = vCorrection[MATCH_ATTRIB_INDEX_PARENT_I];
+        size_t i_child = vCorrection[MATCH_ATTRIB_INDEX_CHILD_I];
+
+        //match?
+        bool correction_possible = true;
+
+        //score is no catastrophy
+        if(score < 0)
+            correction_possible = false;
+
+        //only match to wanna be parents aka endings that are sill opend
+        if(vvNucBlobs_T[t_new_parent][i_new_parent].matching_foundAtLeastOneChild())
+            correction_possible = false;
+
+        //childs parent is a mitosis (it was not corrected yet)
+        if(vvNucBlobs_T[t_child][i_child].matching_foundParent())
+            if(!(vvNucBlobs_T[t_child][i_child].matching_Parent()->matching_isMitosis()))
+                correction_possible = false;
+
+        //accept match, if no conditions are violated
+        if(correction_possible)
+        {
+            //remove the child from old parent
+            if(vvNucBlobs_T[t_child][i_child].matching_foundParent())
+                vvNucBlobs_T[t_child][i_child].matching_Parent()->matching_RemoveChild(&(vvNucBlobs_T[t_child][i_child]));
+
+            //set the new parent for the child
+            vvNucBlobs_T[t_child][i_child].matching_SetAsParent(&(vvNucBlobs_T[t_new_parent][i_new_parent]), score);
+        }
+    }
+}
+
 void D_Bio_NucleusPedigree::match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis)
 {
     if(t_parents >= vvNucBlobs_T.size() || t_childs >= vvNucBlobs_T.size() || t_parents >= t_childs)
         return;
 
     //score table as point list (for easy sorting)
-    vector<vector<double>> vScores_parent_child_score;
+    vector<vector<double>> vvMatches;
 
     //find matches
     match_find_matches(
-                &vScores_parent_child_score,
+                &vvMatches,
                 t_parents,
                 t_childs,
                 score_thresh,
@@ -346,7 +466,7 @@ void D_Bio_NucleusPedigree::match_times(size_t t_parents, size_t t_childs, doubl
 
     //accept matches
     match_accept_matches(
-                &vScores_parent_child_score,
+                &vvMatches,
                 allow_new_mitosis);
 }
 
@@ -386,6 +506,7 @@ void D_Bio_NucleusPedigree::match_find_matches(vector<vector<double>> *vvMatches
                 double score = vvNucBlobs_T[t_childs][i_child].matching_Score(&(vvNucBlobs_T[t_parents][i_parent]));
                 if(score >= score_thresh)
                 {
+                    //create match
                     vector<double> vMatch(MATCH_ATTRIB_INDEX_NUMBER_OF, 0);
                     vMatch[MATCH_ATTRIB_INDEX_SCORE] = score;
                     vMatch[MATCH_ATTRIB_INDEX_PARENT_T] = t_parents;
@@ -396,9 +517,10 @@ void D_Bio_NucleusPedigree::match_find_matches(vector<vector<double>> *vvMatches
                 }
             }
         }
-
-        vvNucBlobs_T[t_childs][i_child].matching_setTriedToMatchAtLeastOnce(true);
     }
+
+    for(size_t i_parent = 0; i_parent < n_parents; i_parent++)
+        vvNucBlobs_T[t_parents][i_parent].matching_setTriedToMatchAtLeastOnce(true);
 }
 
 void D_Bio_NucleusPedigree::match_accept_matches(vector<vector<double> > *vvMatches, bool allow_new_mitosis)
@@ -448,7 +570,10 @@ void D_Bio_NucleusPedigree::match_accept_matches(vector<vector<double> > *vvMatc
 
         //accept match, if no conditions are violated
         if(match_possible)
+        {
+            //set the match as accpeted
             vvNucBlobs_T[t_child][i_child].matching_SetAsParent(&(vvNucBlobs_T[t_parent][i_parent]), score);
+        }
     }
 }
 

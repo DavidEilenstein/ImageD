@@ -7685,8 +7685,11 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
                 35,
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1->value() / 100,
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1->value() / 100,
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go1->value() / 100,
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2->value() / 100,
-                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2->value() / 100))
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2->value() / 100,
+                ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go2->value() / 100,
+                ui->doubleSpinBox_MS4_Match_ScoreMultiplier_NewMitosis->value() / 100))
         return false;
 
     ///set plot viewer
@@ -7745,6 +7748,8 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
 {
     this->setEnabled(false);
 
+    StatusSet("Start reconstruction---------------");
+
     MS4_InitPedigree();
 
     size_t nt = vv_MS4_NucImg_InAssigned_T.size();
@@ -7775,5 +7780,19 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
     if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
         MS4_UpdatePedigreePlot();
 
+    //matching correct mitosis
+    for(size_t t = 1; t < nt; t++)
+        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+        {
+            StatusSet("Reconstruction correct mitosis for T=" + QString::number(t) + ")");
+            MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis(t);
+            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+                MS4_UpdatePedigreePlot();
+        }
+
+    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
+        MS4_UpdatePedigreePlot();
+
+    StatusSet("Finish reconstruction---------------");
     this->setEnabled(true);
 }
