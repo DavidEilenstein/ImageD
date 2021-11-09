@@ -32,6 +32,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <thread>
 
 //openCV
 #include <opencv2/core/core.hpp>
@@ -49,11 +50,16 @@ public:
     D_Bio_NucleusPedigree();
 
     void clear();
-    void set_size_time(size_t t_size);
 
-    bool add_nucleus_blob(size_t t, D_Bio_NucleusBlob nuc);
+    void set_size_time_and_mosaik(size_t t_size, size_t y_size, size_t x_size);
+    size_t size_T() {return size_time;}
+    size_t size_Y() {return size_mosaik_y;}
+    size_t size_X() {return size_mosaik_x;}
+    size_t nuclei_blob_count(size_t t);
+    size_t nuclei_blob_count();
 
-    void initMatching();
+    bool add_nucleus_blob(size_t t, size_t y, size_t x, D_Bio_NucleusBlob nuc);
+
     bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis);
 
     int setPedigreePlotViewer(D_Viewer_Plot_3D *viewer);
@@ -69,35 +75,40 @@ public:
     void match_all();
     void match_all_go1();
     void match_all_go2();
+
     void match_time_go1(size_t t);
     void match_time_go2(size_t t);
     void match_time_correct_mitosis(size_t t);
-    void match_time_tm1_tm2_mixed(size_t t);
-    void match_time_tm1_tm2_consecutive(size_t t);
-    void match_time_ends_tm2_then_normal_tm1(size_t t);
-    void match_to_tm1(size_t t);
-    void match_to_tm2_to_ends_only(size_t t);
 
 private:
 
-    void match_correct_mitosis(size_t t_parents, size_t t_childs);
+    void        match_correct_mitosis(size_t t_parents, size_t t_childs);
+    void        match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
 
-    void match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
-    void match_find_matches(vector<vector<double> > *vvMatches, size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
-    void match_accept_matches(vector<vector<double>> *vvMatches, bool allow_new_mitosis);
+    void        match_find_possible_matches(            vector<vector<double>> *vvPossibleMatches,              size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
+    void        match_find_possible_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections,   size_t t_parents, size_t t_childs);
+
+    static void match_find_possible_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMatches,                         size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
+    static void match_find_possible_mitosis_corrections_thread( vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier,              vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
+
+    void match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
+    void match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections);
 
     //viewer
     D_Viewer_Plot_3D *pViewerPedigreePlot;
 
     //dimension
     size_t size_time = 0;
+    size_t size_mosaik_y = 0;
+    size_t size_mosaik_x = 0;
 
     //data
-    vector<vector<D_Bio_NucleusBlob>> vvNucBlobs_T;
+    vector<vector<vector<vector<D_Bio_NucleusBlob>>>> vvvvNucBlobs_TYXI;
 
     //weights for score calc
-    vector<double>                  vScoreWeights;
-    vector<double>                  vScoreMaxima;
+    vector<size_t>                  vScoreCriteria_Relevant;
+    vector<double>                  vScoreWeights_Relevant;
+    vector<double>                  vScoreMaxima_Relevant;
     double                          match_thresh_max_area_increase_to = 1.25;
     double                          match_thresh_max_area_decrease_to = 0.35;
     double                          match_thresh_max_shift = 200;
@@ -126,8 +137,12 @@ private:
     enum MATCH_ATTRIB_INDEX {
         MATCH_ATTRIB_INDEX_SCORE,
         MATCH_ATTRIB_INDEX_PARENT_T,
+        MATCH_ATTRIB_INDEX_PARENT_Y,
+        MATCH_ATTRIB_INDEX_PARENT_X,
         MATCH_ATTRIB_INDEX_PARENT_I,
         MATCH_ATTRIB_INDEX_CHILD_T,
+        MATCH_ATTRIB_INDEX_CHILD_Y,
+        MATCH_ATTRIB_INDEX_CHILD_X,
         MATCH_ATTRIB_INDEX_CHILD_I,
         MATCH_ATTRIB_INDEX_NUMBER_OF
     };

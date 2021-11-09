@@ -7400,7 +7400,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
         return false;
     }
 
-    if(!MS4_LoadDetections())
+    if(!MS4_LoadDetectionsToPedigree())
     {
         ui->groupBox_MS4_Data->setEnabled(true);
         return false;
@@ -7471,7 +7471,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadDirs()
     return true;
 }
 
-bool D_MAKRO_MegaFoci::MS4_LoadDetections()
+bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
 {
     if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
         return false;
@@ -7479,44 +7479,63 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections()
     if(!state_MS4_dirs_loaded)
         return false;
 
-    state_MS4_detections_loaded = false;
+    state_MS4_detections_loaded_to_pedigree = false;
+    state_MS4_pedigree_reconstructed = false;
     StatusSet("Start loading nuclei data from step 3");
 
-    vv_MS4_NucImg_InAssigned_T.clear();
-    vv_MS4_NucImg_InAssigned_T.resize(dataset_dim_t);
-    for(size_t t = 0; t < dataset_dim_t; t++)
-        if(!MS4_LoadDetections(t, false))
-            return false;
+    //detections
+    MS4_NucPedigree_AutoReconstruct.clear();
+    MS4_NucPedigree_AutoReconstruct.set_size_time_and_mosaik(dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
 
-    state_MS4_detections_loaded = true;
+    //number of threads (one per time)
+    size_t nt_thread = dataset_dim_t;
+
+    //threads
+    vector<std::thread> vThreads_LoadDetections(nt_thread);
+
+    //start threads: load detetctions
+    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
+    {
+        vThreads_LoadDetections[t_thread] = std::thread(
+                    MS4_LoadDetectionsToPedigree_Thread,
+                    &MS4_NucPedigree_AutoReconstruct,
+                    t_thread,
+                    DIR_MS4_In_DetectionsAssigned);
+        StatusSet("Loading detections T=" + QString::number(t_thread) + " (thread started)");
+    }
+
+    //join
+    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
+    {
+        vThreads_LoadDetections[t_thread].join();
+        StatusSet("Finished loading detections T=" + QString::number(t_thread) + " (thread synched)");
+    }
+
+    /*
+    //test
+    for(size_t t = 0; t < MS4_NucPedigree_AutoReconstruct.size_T(); t++)
+        qDebug() << "detected" << MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) << "in t=" << t;
+        */
+
+    state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
     return true;
 }
 
-bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
+void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections)
 {
-    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
-        return false;
+    //sizes
+    size_t nt = pNucPedigree->size_T();
+    size_t ny = pNucPedigree->size_Y();
+    size_t nx = pNucPedigree->size_X();
 
-    if(!state_MS4_dirs_loaded)
-        return false;
-
-    if(t >= dataset_dim_t)
-        return false;
-
-    if(vv_MS4_NucImg_InAssigned_T.size() != dataset_dim_t)
-        return false;
-
-    if(t >= dataset_dim_t)
-        return false;
-
-    //clear old content
-    vv_MS4_NucImg_InAssigned_T[t].clear();
+    if(t >= nt)
+        return;
 
     //detections dir time t
-    QDir DIR_t(DIR_MS4_In_DetectionsAssigned.path() + "/Time_" + QString::number(t));
-    if(!DIR_t.exists() && error_when_no_dir)
-        return false;
+    QDir DIR_t(DirDetections.path() + "/Time_" + QString::number(t));
+    if(!DIR_t.exists())
+        return;
 
     if(DIR_t.exists())
     {
@@ -7526,8 +7545,6 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
         //loop image dirs
         for(int d = 0; d < QSL_ImageDirs.size(); d++)
         {
-            bool img_loaded = false;
-
             //image dir
             QString QS_ImageDirName = QSL_ImageDirs[d];
             QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
@@ -7539,7 +7556,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
                 //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "dir exists";
 
                 //check if indicatros contained
-                if(QS_ImageDirName.contains("_X") && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("Image_T" + QString::number(t)))
+                if(QS_ImageDirName.contains("Image_T" + QString::number(t)) && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("_X"))
                 {
                     //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "indicator strings contained" << QS_ImageDirName;
 
@@ -7566,35 +7583,37 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
                         //conversion to numbers worked?
                         if(ok_x && ok_y)
                         {
-                            //calc indices (results from step 1 saved with mosaic coordiantes in name not pixel coordinates)
+                            //mosaik indices
                             size_t ix = dir_x;
                             size_t iy = dir_y;
 
-                            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "map coordinates x/y" << dir_x << dir_y << "to mosaic ix/iy" << ix << iy;
-
                             //indices in range?
-                            if(ix < dataset_dim_mosaic_x && iy < dataset_dim_mosaic_y)
+                            if(ix < nx && iy < ny)
                             {
-                                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "mosaix coordinates in range";
+                                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "mosaic coordinates in range";
 
                                 //load nucleus image
                                 D_Bio_NucleusImage NucImg;
-                                int err = NucImg.load(DIR_ImageTYX.path());
-                                ERR(err, "MS4_LoadDetections", "Load nucleus image");
-
-                                //succsess?
-                                if(err == ER_okay)
+                                if(NucImg.load(DIR_ImageTYX.path()) == ER_okay)
                                 {
                                     //set mosaic offset
                                     NucImg.set_OffsetMosaicGrid(Point(ix, iy));
 
-                                    //save nucleus image
-                                    vv_MS4_NucImg_InAssigned_T[t].push_back(NucImg);
-
-                                    img_loaded = true;
-
                                     //test
                                     //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "Loaded x/y" << ix << iy << NucImg.info();
+
+                                    //loop nuclei
+                                    for(size_t nuc = 0; nuc < NucImg.get_nuclei_count(); nuc++)
+                                    {
+                                        //get Nuc
+                                        D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);
+
+                                        //forget contour to save memory in this step
+
+
+                                        //push nucleus to pedigree
+                                        pNucPedigree->add_nucleus_blob(t, iy, ix, NucBlob);
+                                    }
                                 }
                             }
                         }
@@ -7603,9 +7622,6 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetections(size_t t, bool error_when_no_dir)
             }
         }
     }
-
-    StatusSet("Succsessfully loaded nucleus data T=" + QString::number(t));
-    return true;
 }
 
 void D_MAKRO_MegaFoci::MS4_DisplayRelativeScoreWeights()
@@ -7637,11 +7653,33 @@ void D_MAKRO_MegaFoci::MS4_DisplayRelativeScoreWeights()
 
 bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 {
-    StatusSet("Start feeding nuclei pedigree with nuclei");
-
-    ///clear old pedigree
+    StatusSet("Init pedigree with reconstruction params");
     state_MS4_pedigree_init = false;
-    MS4_NucPedigree_AutoReconstruct.clear();
+
+    if(!state_MS4_detections_loaded_to_pedigree)
+    {
+        StatusSet("Data missing -> Load data first");
+        MS4_LoadDetectionsToPedigree();
+
+        if(!state_MS4_detections_loaded_to_pedigree)
+        {
+            StatusSet("Failed loading missing data");
+            return false;
+        }
+    }
+
+    if(state_MS4_pedigree_reconstructed)
+    {
+        StatusSet("Reload data to get a blanc reconstruction again");
+        MS4_LoadDetectionsToPedigree();
+
+        if(!state_MS4_detections_loaded_to_pedigree)
+        {
+            StatusSet("Failed reloading data");
+            return false;
+        }
+    }
+    state_MS4_pedigree_reconstructed = false;
 
     ///set scaling
     MS4_NucPedigree_AutoReconstruct.set_scale_T2h(ui->doubleSpinBox_MS4_Scale_T2h->value());
@@ -7694,23 +7732,6 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 
     ///set plot viewer
     MS4_NucPedigree_AutoReconstruct.setPedigreePlotViewer(&MS4_Viewer_PedigreePlot);
-
-    ///push nuclei to pedigree
-    MS4_NucPedigree_AutoReconstruct.set_size_time(vv_MS4_NucImg_InAssigned_T.size());
-    for(size_t t = 0; t < vv_MS4_NucImg_InAssigned_T.size(); t++)
-    {
-        //qDebug() << "t" << t << "=====================================";
-        for(size_t img = 0; img < vv_MS4_NucImg_InAssigned_T[t].size(); img++)
-        {
-            //qDebug() << "t" << t << "img" << img << "------------------";
-            for(size_t nuc = 0; nuc < vv_MS4_NucImg_InAssigned_T[t][img].get_nuclei_count(); nuc++)
-            {
-                //qDebug() << "t" << t << "img" << img << "nuc" << nuc;
-                MS4_NucPedigree_AutoReconstruct.add_nucleus_blob(t, vv_MS4_NucImg_InAssigned_T[t][img].get_nucleus(nuc));
-            }
-        }
-    }
-
     StatusSet("Successfully init nuclei pedigree");
 
     ///show peddigree plot
@@ -7726,7 +7747,7 @@ bool D_MAKRO_MegaFoci::MS4_UpdatePedigreePlot()
 {
     StatusSet("Start plotting pedigree");
 
-    int err = MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(5);
+    int err = MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(MS4_PedigreePlot_DotsPerEdge);
     if(err != ER_okay)
     {
         StatusSet("failed plotting pedigree");
@@ -7748,51 +7769,78 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
 {
     this->setEnabled(false);
 
-    StatusSet("Start reconstruction---------------");
+    StatusSet("Start reconstruction------------------------------");
 
-    MS4_InitPedigree();
+    if(!MS4_InitPedigree())
+    {
+        StatusSet("Failed pedigree initialization");
+        return;
+    }
 
-    size_t nt = vv_MS4_NucImg_InAssigned_T.size();
+    size_t nt = MS4_NucPedigree_AutoReconstruct.size_T();
 
     //matching go 1
+    StatusSet("Reconstruction start GO1 . . . . . . . . . . . .");
     for(size_t t = 1; t < nt; t++)
-        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+    {
+        if(MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) > 0)
         {
-            StatusSet("Reconstruction GO1 for T=" + QString::number(t) + ")");
+            StatusSet("Reconstruction GO1 (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_go1(t);
             if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
+        else
+        {
+            //StatusSet("Reconstruction GO1 for (T=" + QString::number(t) + ") empty->skipped");
+        }
+    }
 
     if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
-        MS4_UpdatePedigreePlot();
+        if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachGo->isChecked())
+            MS4_UpdatePedigreePlot();
 
     //matching go 2
+    StatusSet("Reconstruction start GO2 . . . . . . . . . . . .");
     for(size_t t = 1; t < nt; t++)
-        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+    {
+        if(MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) > 0)
         {
-            StatusSet("Reconstruction GO2 for T=" + QString::number(t) + ")");
+            StatusSet("Reconstruction GO2 (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_go2(t);
             if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
+        else
+        {
+            //StatusSet("Reconstruction GO2 (T=" + QString::number(t) + ") empty->skipped");
+        }
+    }
 
     if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
-        MS4_UpdatePedigreePlot();
+        if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachGo->isChecked())
+            MS4_UpdatePedigreePlot();
 
     //matching correct mitosis
+    StatusSet("Reconstruction start mitoses correction . . . . . . . . .");
     for(size_t t = 1; t < nt; t++)
-        if(vv_MS4_NucImg_InAssigned_T[t].size() > 0)
+    {
+        if(MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) > 0)
         {
-            StatusSet("Reconstruction correct mitosis for T=" + QString::number(t) + ")");
+            StatusSet("Reconstruction correct mitoses (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis(t);
             if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
+        else
+        {
+            //StatusSet("Recon. correct mitoses (T=" + QString::number(t) + ") empty->skipped");
+        }
+    }
 
     if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
         MS4_UpdatePedigreePlot();
 
-    StatusSet("Finish reconstruction---------------");
+    StatusSet("Finish reconstruction------------------------------");
     this->setEnabled(true);
 }

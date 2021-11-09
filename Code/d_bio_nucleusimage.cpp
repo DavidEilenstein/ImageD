@@ -937,7 +937,12 @@ vector<double> D_Bio_NucleusImage::get_foci_diameters(size_t channel, double sca
 
 QString D_Bio_NucleusImage::info()
 {
-    return "D_Bio_NucleusImage::info - " + QString::number(get_nuclei_count()) + " nuclei - offset " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " + QString::number(get_foci_channel_count()) + " foci channels";
+    return
+            "D_Bio_NucleusImage::info - " +
+            QString::number(get_nuclei_count()) + " nuclei - "
+            "offset grid " + QString::number(m_Offset_Grid.x) + "/" + QString::number(m_Offset_Grid.y) + " - " +
+            "offset coord " + QString::number(m_Offset_Coord.x) + "/" + QString::number(m_Offset_Coord.y) + " - " +
+            QString::number(get_foci_channel_count()) + " foci channels";
 }
 
 void D_Bio_NucleusImage::add_focus(size_t channel, D_Bio_Focus Foc)

@@ -32,7 +32,7 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset)
     CalcFeats();
 }
 
-D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, double time, Point Offset)
+D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, size_t time, Point Offset)
 {
     matching_InitMatching();
 
@@ -67,7 +67,7 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector
     CalcFeats();
 }
 
-D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, double time, Point Offset)
+D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double> > SignalStats_StatChannel, size_t time, Point Offset)
 {
     matching_InitMatching();
 
@@ -948,19 +948,8 @@ void D_Bio_NucleusBlob::CalcFeats()
     state_feats_calced = true;
 }
 
-
-
 void D_Bio_NucleusBlob::matching_InitMatching()
 {
-    vScoreWeights.resize(SCORE_NUMBER_OF, 0);
-    vScoreWeights[SCORE_SHIFT] = 1;
-
-    vScoreMaxima.resize(SCORE_NUMBER_OF, 1);
-
-    match_thresh_max_area_increase_to = 1.25;
-    match_thresh_max_area_decrease_to = 0.35;
-    match_thresh_max_shift = 200;
-
     state_FoundParent = false;
     state_FoundChild1 = false;
     state_FoundChild2 = false;
@@ -969,156 +958,143 @@ void D_Bio_NucleusBlob::matching_InitMatching()
     Score_Child1 = -INFINITY;
     Score_Child2 = -INFINITY;
 
-    state_ScoreWeightsAndMaxSet = true;
+    Nuc_Parent = nullptr;
+    Nuc_Child1 = nullptr;
+    Nuc_Child2 = nullptr;
 }
 
-bool D_Bio_NucleusBlob::matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to)
+double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift)
 {
-    if((score_weights.size() != SCORE_NUMBER_OF) || (score_maxima.size() != SCORE_NUMBER_OF))
-        return false;
+    size_t n = pvScoreRelevantCriteria->size();
 
-    double weight_sum = 0;
-    for(size_t i = 0; i < score_weights.size(); i++)
-        weight_sum += score_weights[i];
+    if(pvScoreWeights->size() != n)
+        return -INFINITY;
 
-    if(weight_sum <= 0.0)
-        return false;
+    if(pvScoreMax->size() != n)
+        return -INFINITY;
 
-    for(size_t i = 0; i < score_maxima.size(); i++)
-        if(score_maxima[i] <= 0.0)
-            return false;
-
-    matching_InitMatching();
-
-    vScoreWeights.resize(SCORE_NUMBER_OF, 0);
-    vScoreMaxima.resize(SCORE_NUMBER_OF, 1);
-    for(size_t i = 0; i < score_weights.size(); i++)
-    {
-        vScoreWeights[i] = score_weights[i] / weight_sum;
-        vScoreMaxima[i] = score_maxima[i];
-    }
-
-    match_thresh_max_area_increase_to = max_rel_area_inc_to;
-    match_thresh_max_area_decrease_to = max_rel_area_dec_to;
-    match_thresh_max_shift = shift_limit;
-
-    return true;
-}
-
-double D_Bio_NucleusBlob::matching_Score(D_Bio_NucleusBlob *nuc_calc_score)
-{
+    //best score is 1 (calculation decreses this value step by step)
     double score_all = 1;
 
-    for(size_t i = 0; i < SCORE_NUMBER_OF; i++)
+    //loop score criteria
+    for(size_t c = 0; c < n; c++)
     {
-        double diff_part = 0;
+        //get criterium
+        size_t criterium = (*pvScoreRelevantCriteria)[c];
 
-        switch (i) {
-
-        case SCORE_SHIFT:
+        //criterium valid?
+        if(criterium < SCORE_NUMBER_OF)
         {
-            double dist = D_Math::Distance(centroid(), nuc_calc_score->centroid());
-            diff_part = dist;
-            if(dist > match_thresh_max_shift)
+            //difference for this criterium
+            double diff_part = 0;
+
+            switch (criterium) {
+
+            case SCORE_SHIFT:
             {
-                //qDebug() << "no match, broken shift limit (" << diff_part << ", limit is" << match_thresh_max_shift << ")";
-                return -INFINITY;
+                double dist = D_Math::Distance(centroid(), nuc_calc_score->centroid());
+                diff_part = dist;
+                if(dist > max_shift)
+                {
+                    //qDebug() << "no match, broken shift limit (" << diff_part << ", limit is" << match_thresh_max_shift << ")";
+                    return -INFINITY;
+                }
             }
-        }
-            break;
-
-        case SCORE_AREA:
-        {
-            double area_this = area();
-            double area_other = nuc_calc_score->area();
-            bool earlier_this = time() < nuc_calc_score->time();
-            double area_earlier = earlier_this ? area_this : area_other;
-            double area_later = earlier_this ? area_other : area_this;
-
-            if(area_later > match_thresh_max_area_increase_to * area_earlier)
-            {
-                //qDebug() << "mo match, too much growth (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_increase_to << "allowed)";
-                return -INFINITY;
-            }
-
-            if(area_later < match_thresh_max_area_decrease_to * area_earlier)
-            {
-                //qDebug() << "mo match, too much shrink (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_decrease_to << "allowed)";
-                return -INFINITY;
-            }
-
-            diff_part = abs(area_this - area_other);
-        }
-            break;
-
-        case SCORE_CONVEXITY:
-            diff_part = abs(convexity() - nuc_calc_score->convexity());
-            break;
-
-        case SCORE_COMPACTNESS:
-            diff_part = abs(compactness() - nuc_calc_score->compactness());
-            break;
-
-        default:
-        {
-            //channel index
-            size_t channel = size_t(INFINITY);
-            switch (i) {
-
-            case SCORE_MEAN_CH0:
-            case SCORE_STD_CH0:
-                channel = 0;
                 break;
 
-            case SCORE_MEAN_CH1:
-            case SCORE_STD_CH1:
-                channel = 1;
+            case SCORE_AREA:
+            {
+                double area_this = area();
+                double area_other = nuc_calc_score->area();
+                bool earlier_this = time_index() < nuc_calc_score->time_index();
+                double area_earlier = earlier_this ? area_this : area_other;
+                double area_later = earlier_this ? area_other : area_this;
+
+                if(area_later > max_area_increase_to_rel * area_earlier)
+                {
+                    //qDebug() << "mo match, too much growth (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_increase_to << "allowed)";
+                    return -INFINITY;
+                }
+
+                if(area_later < max_area_decrease_to_rel * area_earlier)
+                {
+                    //qDebug() << "mo match, too much shrink (" << area_earlier << "->" << area_later << ", factor " << match_thresh_max_area_decrease_to << "allowed)";
+                    return -INFINITY;
+                }
+
+                diff_part = abs(area_this - area_other);
+            }
                 break;
 
-            case SCORE_MEAN_CH2:
-            case SCORE_STD_CH2:
-                channel = 2;
+            case SCORE_CONVEXITY:
+                diff_part = abs(convexity() - nuc_calc_score->convexity());
+                break;
+
+            case SCORE_COMPACTNESS:
+                diff_part = abs(compactness() - nuc_calc_score->compactness());
                 break;
 
             default:
-                channel = size_t(INFINITY);
+            {
+                //channel index
+                size_t channel = size_t(INFINITY);
+                switch (criterium) {
+
+                case SCORE_MEAN_CH0:
+                case SCORE_STD_CH0:
+                    channel = 0;
+                    break;
+
+                case SCORE_MEAN_CH1:
+                case SCORE_STD_CH1:
+                    channel = 1;
+                    break;
+
+                case SCORE_MEAN_CH2:
+                case SCORE_STD_CH2:
+                    channel = 2;
+                    break;
+
+                default:
+                    channel = size_t(INFINITY);
+                    break;
+                }
+
+
+                //stat index
+                size_t stat = size_t(INFINITY);
+                switch (criterium) {
+
+                case SCORE_MEAN_CH0:
+                case SCORE_MEAN_CH1:
+                case SCORE_MEAN_CH2:
+                    stat = VAL_STAT_MEAN;
+                    break;
+
+                case SCORE_STD_CH0:
+                case SCORE_STD_CH1:
+                case SCORE_STD_CH2:
+                    stat = VAL_STAT_STD;
+                    break;
+
+                default:
+                    channel = size_t(INFINITY);
+                    break;
+                }
+
+                //calc stat difference, if indices are valid
+                if(stat < vvSignalStats_StatChannel.size())
+                    if(channel < vvSignalStats_StatChannel[stat].size())
+                        diff_part = abs(vvSignalStats_StatChannel[stat][channel] - nuc_calc_score->signal_stat(channel, stat));
+            }
                 break;
             }
 
-
-            //stat index
-            size_t stat = size_t(INFINITY);
-            switch (i) {
-
-            case SCORE_MEAN_CH0:
-            case SCORE_MEAN_CH1:
-            case SCORE_MEAN_CH2:
-                stat = VAL_STAT_MEAN;
-                break;
-
-            case SCORE_STD_CH0:
-            case SCORE_STD_CH1:
-            case SCORE_STD_CH2:
-                stat = VAL_STAT_STD;
-                break;
-
-            default:
-                channel = size_t(INFINITY);
-                break;
-            }
-
-            //calc stat difference, if indices are valid
-            if(stat < vvSignalStats_StatChannel.size())
-                if(channel < vvSignalStats_StatChannel[stat].size())
-                    diff_part = abs(vvSignalStats_StatChannel[stat][channel] - nuc_calc_score->signal_stat(channel, stat));
+            double diff_part_inRange = max(0.0, min(diff_part, (*pvScoreMax)[criterium]));
+            double diff_part_0to1 = (*pvScoreMax)[criterium] > 0 ? diff_part_inRange / (*pvScoreMax)[criterium] : 1;
+            double diff_part_0to1_weighted = diff_part_0to1 * (*pvScoreWeights)[criterium];
+            score_all -= diff_part_0to1_weighted;
         }
-            break;
-        }
-
-        double diff_part_inRange = max(0.0, min(diff_part, vScoreMaxima[i]));
-        double diff_part_0to1 = vScoreMaxima[i] > 0 ? diff_part_inRange / vScoreMaxima[i] : 1;
-        double diff_part_0to1_weighted = diff_part_0to1 * vScoreWeights[i];
-        score_all -= diff_part_0to1_weighted;
     }
 
     return score_all;
@@ -1270,7 +1246,7 @@ int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, do
     bool at_border = (x < tl.x) || (x > br.x) || (y < tl.y) || (y > br.y);
 
     //check if in time interval
-    double t = time();
+    size_t t = time_index();
     bool at_begin = t <= t_begin;
     bool at_end = t >= t_end;
 
@@ -1329,20 +1305,20 @@ QColor D_Bio_NucleusBlob::matching_TypeColor(Rect FrameNotNearBorder, double t_b
     default:                                    return QColor(255, 192, 200);}
 }
 
-double D_Bio_NucleusBlob::matching_Age()
+size_t D_Bio_NucleusBlob::matching_Age()
 {
-    return time() - matching_TimeOfOldestAncestor();
+    return time_index() - matching_TimeIndexOfOldestAncestor();
 }
 
-double D_Bio_NucleusBlob::matching_TimeOfOldestAncestor()
+size_t D_Bio_NucleusBlob::matching_TimeIndexOfOldestAncestor()
 {
     if(!state_FoundParent)
-        return time();
+        return time_index();
 
     if(Nuc_Parent->matching_isMitosis())
-        return time();
+        return time_index();
 
-    return Nuc_Parent->matching_TimeOfOldestAncestor();
+    return Nuc_Parent->matching_TimeIndexOfOldestAncestor();
 }
 
 

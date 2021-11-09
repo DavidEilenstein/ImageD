@@ -54,6 +54,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <thread>
 
 //openCV
 #include <opencv2/core/core.hpp>
@@ -1323,27 +1324,32 @@ private:
     QDir DIR_MS4_In_Master;
     QDir DIR_MS4_In_DetectionsAssigned;
     QDir DIR_MS4_Out_NucleiLifes;
-    vector<vector<D_Bio_NucleusImage>> vv_MS4_NucImg_InAssigned_T;
 
     D_Bio_NucleusPedigree MS4_NucPedigree_AutoReconstruct;
 
     //viewer
     D_Viewer_Plot_3D MS4_Viewer_PedigreePlot;
+    const size_t MS4_PedigreePlot_DotsPerEdge = 5;
 
     //states
     bool state_MS4_dirs_loaded = false;
-    bool state_MS4_detections_loaded = false;
+    bool state_MS4_detections_loaded_to_pedigree = false;
     bool state_MS4_stack_processing = false;
     bool state_MS4_pedigree_init = false;
     bool state_MS4_pedigree_init_1st_time = false;
+    bool state_MS4_pedigree_reconstructed = false;
 
 private slots:
 
     void MS4_UiInit();
     bool MS4_LoadData();
     bool MS4_LoadDirs();
-    bool MS4_LoadDetections();
-    bool MS4_LoadDetections(size_t t, bool error_when_no_dir);
+
+    bool MS4_LoadDetectionsToPedigree();
+
+private: //no slot to not cause conflicts with threading
+    static void MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections);
+private slots:
 
     void MS4_DisplayRelativeScoreWeights();
     bool MS4_InitPedigree();

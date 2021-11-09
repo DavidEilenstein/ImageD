@@ -48,9 +48,9 @@ public:
     D_Bio_NucleusBlob();
     D_Bio_NucleusBlob(QString QS_PathLoad);
     D_Bio_NucleusBlob(vector<Point> contour_points, Point Offset = Point(0, 0));
-    D_Bio_NucleusBlob(vector<Point> contour_points, double time, Point Offset = Point(0, 0));
+    D_Bio_NucleusBlob(vector<Point> contour_points, size_t time, Point Offset = Point(0, 0));
     D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, Point Offset = Point(0, 0));
-    D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, double time, Point Offset = Point(0, 0));
+    D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, size_t time, Point Offset = Point(0, 0));
 
     //set/add foic
     void                            set_FociChannels(size_t channels)                           {vvFoci.resize(channels);}
@@ -101,8 +101,8 @@ public:
     double          compactness()                                       {if(state_feats_calced) CalcFeats();    return m_compactness;}
     double          convexity()                                         {if(state_feats_calced) CalcFeats();    return m_convexity;}
 
-    double          time()                                              {return m_time;}
-    void            set_time(double t)                                  {m_time = t;}
+    size_t          time_index()                                        {return m_time;}
+    void            set_time_index(size_t t)                            {m_time = t;}
 
     size_t          channels()                                          {return vvSignalStats_StatChannel.empty() ? 0 : vvSignalStats_StatChannel[0].size();}
     double          signal_stat(size_t channel, size_t stat_local_id)   {return stat_local_id < vvSignalStats_StatChannel.size() ? (channel < vvSignalStats_StatChannel[stat_local_id].size() ? vvSignalStats_StatChannel[stat_local_id][channel] : 0) : 0;}
@@ -117,9 +117,8 @@ public:
 
     //matching with other nucleus
     void                matching_InitMatching();
-    bool                matching_InitMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to);
 
-    double              matching_Score(D_Bio_NucleusBlob *nuc_calc_score);
+    double              matching_Score(D_Bio_NucleusBlob *nuc_calc_score, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift);
 
     double              matching_Score_Parent()                         {return Score_Parent;}
     double              matching_Score_Child1()                         {return Score_Child1;}
@@ -144,17 +143,19 @@ public:
     bool                matching_foundChild1()                          {return state_FoundChild1;}
     bool                matching_foundChild2()                          {return state_FoundChild2;}
     bool                matching_foundParent()                          {return state_FoundParent;}
-    bool                matching_foundNoParent()                        {return !(matching_foundParent());}
-    bool                matching_foundNoChild()                         {return !(matching_foundAtLeastOneChild());}
+    bool                matching_foundNoParent()                        {return !state_FoundParent;}
+    bool                matching_foundNoChild()                         {return (!state_FoundChild1) && (!state_FoundChild2);}
+    bool                matching_foundAtMostOneChild()                  {return !(state_FoundChild1 && state_FoundChild2);}
+    bool                matching_isNoMitosis()                          {return !(state_FoundChild1 && state_FoundChild2);}
     bool                matching_foundAtLeastOneChild()                 {return state_FoundChild1 || state_FoundChild2;}
     bool                matching_foundExactlyOneChild()                 {return (state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2);}
     bool                matching_isMitosis()                            {return state_FoundChild1 && state_FoundChild2;}
-    bool                matching_isLinear()                             {return (matching_foundParent() && matching_foundExactlyOneChild());}
+    bool                matching_isLinear()                             {return state_FoundParent && ((state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2));}
 
     int                 matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end);
     QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
-    double              matching_Age();
-    double              matching_TimeOfOldestAncestor();
+    size_t              matching_Age();
+    size_t              matching_TimeIndexOfOldestAncestor();
 
     void                matching_setTriedToMatchAtLeastOnce(bool tried)         {state_triedAtLeastOnceToMatch = tried;}
 
@@ -163,7 +164,7 @@ private:
 
     //bool            load(QString QS_DirLoad);
 
-    double                          m_time = 0;
+    size_t                          m_time = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;
 
     size_t                          leftmost();
@@ -197,15 +198,6 @@ private:
     bool                            state_FoundParent = false;
     bool                            state_FoundChild1 = false;
     bool                            state_FoundChild2 = false;
-
-    //weights for score calc
-    vector<double>                  vScoreWeights;
-    vector<double>                  vScoreMaxima;
-    double                          match_thresh_max_area_increase_to = 1.25;
-    double                          match_thresh_max_area_decrease_to = 0.35;
-    double                          match_thresh_max_shift = 200;
-    bool                            state_ScoreWeightsAndMaxSet = false;
-
     bool                            state_triedAtLeastOnceToMatch = false;
 };
 
