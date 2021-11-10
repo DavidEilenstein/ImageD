@@ -156,20 +156,41 @@ bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<do
     return true;
 }
 
-int D_Bio_NucleusPedigree::setPedigreePlotViewer(D_Viewer_Plot_3D *viewer)
+int D_Bio_NucleusPedigree::setPedigreeViewer_Volumetric(D_Viewer_3D *viewer)
 {
     if(!viewer)
         return ER_UiNotInit;
 
-    pViewerPedigreePlot = viewer;
-    state_PlotViewerSet = true;
+    if(viewer == pViewerPedigree_Volumetric)
+        return ER_okay;
+
+    pViewerPedigree_Volumetric = viewer;
+    pViewerPedigree_Volumetric->Set_Volume(c_VOLUME_XYT);
+    pViewerPedigree_Volumetric->Set_backgroundColor(Qt::white);
+    pViewerPedigree_Volumetric->Set_AlphaMode(c_VIEWER_3D_ALPHA_MAX_IS_TRANSPARENT);
+
+    state_PedigreeViewer_Volumetric_Set = true;
 
     return ER_okay;
 }
 
-int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
+int D_Bio_NucleusPedigree::setPedigreeViewer_Plot3D(D_Viewer_Plot_3D *viewer)
 {
-    if(!state_PlotViewerSet)
+    if(!viewer)
+        return ER_UiNotInit;
+
+    if(viewer == pViewerPedigree_Plot3D)
+        return ER_okay;
+
+    pViewerPedigree_Plot3D = viewer;
+    state_PedigreeViewer_Plot3D_Set = true;
+
+    return ER_okay;
+}
+
+int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)
+{
+    if(!state_PedigreeViewer_Plot3D_Set)
         return ER_UiNotInit;
 
     //cosmetic params
@@ -180,6 +201,12 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
     QString         axis_x = "X/um";
     QString         axis_y = "Y/um";
     QString         axis_z = "T/h";
+
+    //scale ROI to px cooridantes
+    double y_min_px = y_min_um / scale_px_to_um;
+    double y_max_px = y_max_um / scale_px_to_um;
+    double x_min_px = x_min_um / scale_px_to_um;
+    double x_max_px = x_max_um / scale_px_to_um;
 
     //node data
     vector<Point3d> vNodesCoord;
@@ -194,10 +221,8 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
     double score_min = min(min(min(match_score_thres_tm1_go1, match_score_thres_tm2_go1), match_score_thres_tm3_go1), min(min(match_score_thres_tm1_go2, match_score_thres_tm2_go2), match_score_thres_tm3_go2));
     double score_range = 1.0 - score_min;
 
-    //max time index
-    size_t t_max = vvvvNucBlobs_TYXI.size() - 1;
-
-    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+    //loop nuclei
+    for(size_t t = max(size_t(0), t_min); t < min(t_max, vvvvNucBlobs_TYXI.size()); t++)
     {
         for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
         {
@@ -209,63 +234,67 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
                     //child nuc/node
                     D_Bio_NucleusBlob *pNucChild = &(vvvvNucBlobs_TYXI[t][y][x][i]);
 
-                    //add node coord
-                    Point3d P_NucCoord = Point3d(
-                                float(pNucChild->centroid().x * scale_px_to_um),
-                                float(pNucChild->centroid().y * scale_px_to_um),
-                                float(pNucChild->time_index() * scale_t_to_h));
-                    vNodesCoord.push_back(P_NucCoord);
-
-                    //add node color
-                    vNodeColor.push_back(pNucChild->matching_TypeColor(FrameInRegularRangeXY, 0, t_max));
-
-                    //get Ancestor and calc edge
-                    if(pNucChild->matching_foundParent())
+                    //ancestor is in plot range?
+                    if(pNucChild->matching_HasAncestorInRange(t_min, y_min_px, y_max_px, x_min_px, x_max_px))
                     {
-                        //parent nuc/node
-                        D_Bio_NucleusBlob *pNucParent = pNucChild->matching_Parent();
+                        //add node coord
+                        Point3d P_NucCoord = Point3d(
+                                    float(pNucChild->centroid().x * scale_px_to_um),
+                                    float(pNucChild->centroid().y * scale_px_to_um),
+                                    float(pNucChild->time_index() * scale_t_to_h));
+                        vNodesCoord.push_back(P_NucCoord);
 
-                        //position of ancestor
-                        Point3d P_AncestorCoord = Point3d(
-                                    float(pNucParent->centroid().x * scale_px_to_um),
-                                    float(pNucParent->centroid().y * scale_px_to_um),
-                                    float(pNucParent->time_index() * scale_t_to_h));
+                        //add node color
+                        vNodeColor.push_back(pNucChild->matching_TypeColor(FrameInRegularRangeXY, 0, vvvvNucBlobs_TYXI.size() - 1));
 
-                        //match score to ancestor
-                        double score = pNucChild->matching_Score_Parent();
-                        score = max(0.0, min(score, 1.0));
-                        double score_rel = (score - score_min) / score_range;
+                        //get Ancestor and calc edge
+                        if(pNucChild->matching_foundParent())
+                        {
+                            //parent nuc/node
+                            D_Bio_NucleusBlob *pNucParent = pNucChild->matching_Parent();
 
-                        //age of nuc
-                        //double age = pNucChild->matching_Age();
-                        //age = max(0.0, min(age, match_max_age));
-                        //double age_rel = match_max_age > 0 ? age / match_max_age : 0;
+                            //position of ancestor
+                            Point3d P_AncestorCoord = Point3d(
+                                        float(pNucParent->centroid().x * scale_px_to_um),
+                                        float(pNucParent->centroid().y * scale_px_to_um),
+                                        float(pNucParent->time_index() * scale_t_to_h));
 
-                        //calc color
-                        QColor EdgeColor;
-                        EdgeColor.setHsv(
-                                    int(240.0 * (1.0 - score_rel)),
-                                    255,
-                                    255);
-                        EdgeColor = EdgeColor.toRgb();
+                            //match score to ancestor
+                            double score = pNucChild->matching_Score_Parent();
+                            score = max(0.0, min(score, 1.0));
+                            double score_rel = (score - score_min) / score_range;
 
-                        //add edge
-                        vEdgeCoordBegins.push_back(P_AncestorCoord);
-                        vEdgeCoordEnds.push_back(P_NucCoord);
-                        vEdgeColor.push_back(EdgeColor);
+                            //age of nuc
+                            //double age = pNucChild->matching_Age();
+                            //age = max(0.0, min(age, match_max_age));
+                            //double age_rel = match_max_age > 0 ? age / match_max_age : 0;
 
-                        //qDebug() << "Nuc at" << P_NucCoord.x << P_NucCoord.y << P_NucCoord.z << "with parent at" << P_AncestorCoord.x << P_AncestorCoord.y << P_AncestorCoord.z << "(score" << score << ")";
-                    }
-                    else
-                    {
-                        //qDebug() << "Nuc at" << P_NucCoord.x << P_NucCoord.y << P_NucCoord.z << "with no parent" << "(highest parent score" << vvNucBlobs_T[t][i].matching_Score_Parent() << ")";
+                            //calc color
+                            QColor EdgeColor;
+                            EdgeColor.setHsv(
+                                        int(240.0 * (1.0 - score_rel)),
+                                        255,
+                                        255);
+                            EdgeColor = EdgeColor.toRgb();
+
+                            //add edge
+                            vEdgeCoordBegins.push_back(P_AncestorCoord);
+                            vEdgeCoordEnds.push_back(P_NucCoord);
+                            vEdgeColor.push_back(EdgeColor);
+
+                            //qDebug() << "Nuc at" << P_NucCoord.x << P_NucCoord.y << P_NucCoord.z << "with parent at" << P_AncestorCoord.x << P_AncestorCoord.y << P_AncestorCoord.z << "(score" << score << ")";
+                        }
+                        else
+                        {
+                            //qDebug() << "Nuc at" << P_NucCoord.x << P_NucCoord.y << P_NucCoord.z << "with no parent" << "(highest parent score" << vvNucBlobs_T[t][i].matching_Score_Parent() << ")";
+                        }
                     }
                 }
             }
         }
     }
 
-    return pViewerPedigreePlot->plot_Tree(
+    return pViewerPedigree_Plot3D->plot_Tree(
                 vNodesCoord,
                 vEdgeCoordBegins,
                 vEdgeCoordEnds,
@@ -283,13 +312,332 @@ int D_Bio_NucleusPedigree::updatePedigreePlot(size_t points_per_edge)
                 scale_edges);
 }
 
-int D_Bio_NucleusPedigree::updatePedigreePlot(D_Viewer_Plot_3D *viewer, size_t points_per_edge)
+int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric(size_t size_volT_px, size_t size_volY_px, size_t size_volX_px, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original)
 {
-    int err = setPedigreePlotViewer(viewer);
+    if(!state_PedigreeViewer_Volumetric_Set)
+        return ER_UiNotInit;
+
+    ///make sure node and edge sizes are odd
+    if(size_Node_px % 2 != 1)   size_Node_px++;
+    if(size_Edge_px % 2 != 1)   size_Edge_px++;
+
+    ///define dimension
+    D_VisDat_Dim Dim(
+                int(size_volX_px),
+                int(size_volY_px),
+                1,
+                int(size_volT_px),
+                1,
+                1);
+
+    ///init black volume as plot background
+    //qDebug() << "updatePedigreeView_Volumetric" << "create volume";
+    D_VisDat_Proc::Create_VD_Single_Constant(
+                &VD_PlotVol,
+                Dim,
+                CV_8UC3,
+                255);
+
+    ///cosmetic params
+    QString         axis_x = "X/um";
+    QString         axis_y = "Y/um";
+    QString         axis_z = "T/h";
+
+    ///score norming
+    //qDebug() << "updatePedigreeView_Volumetric" << "calc score norming";
+    double score_min = min(
+                min(min(match_score_thres_tm1_go1, match_score_thres_tm2_go1), match_score_thres_tm3_go1),
+                min(min(match_score_thres_tm1_go2, match_score_thres_tm2_go2), match_score_thres_tm3_go2));
+    double score_range = 1.0 - score_min;
+
+    ///create threads
+    size_t nt_threads = vvvvNucBlobs_TYXI.size();
+    vector<thread> vThreads(nt_threads);
+
+    ///start threads
+    //qDebug() << "updatePedigreeView_Volumetric" << "start" << nt_threads << "threads";
+    for(size_t t_thread = 0; t_thread < nt_threads; t_thread++)
+    {
+        //start the thread
+        vThreads[t_thread] = thread(
+                    updatePedigreeView_Volumetric_TimeThread,
+                    &VD_PlotVol,
+                    &vvvvNucBlobs_TYXI,
+                    score_range,
+                    score_min,
+                    size_Node_px,
+                    size_Edge_px,
+                    size_Y_px_original,
+                    size_X_px_original,
+                    FrameInRegularRangeXY,
+                    t_thread);
+    }
+
+    ///wait for all threads to finish
+    //qDebug() << "updatePedigreeView_Volumetric" << "join threads";
+    for(size_t t_thread = 0; t_thread < nt_threads; t_thread++)
+    {
+        vThreads[t_thread].join();
+    }
+
+    ///show plot
+    //qDebug() << "updatePedigreeView_Volumetric" << "Show plot";
+    pViewerPedigree_Volumetric->set_VisDat(&VD_PlotVol);
+
+    ///finish
+    return ER_okay;
+}
+
+int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj *pVD_Target, vector<vector<vector<vector<D_Bio_NucleusBlob> > > > *pvvvvNucsTYXI, double score_range, double score_min, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original, Rect frame_legit, size_t t_plane)
+{
+    if(pvvvvNucsTYXI->empty())
+        return ER_empty;
+
+    ///size of dataset
+    size_t nt_plane             = pvvvvNucsTYXI->size();
+    size_t nt_px                = pVD_Target->pDim()->size_T();
+    //size_t t_plane_max        = nt_plane - 1;
+    //size_t t_px_max           = nt_px - 1;
+    size_t nt_plane_thicknes_px = nt_px / nt_plane;
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "got sizes";
+
+    ///check time index existence
+    if(t_plane >= nt_plane)
+        return ER_index_out_of_range;
+    if(nt_plane_thicknes_px <= 0)
+        return ER_size_bad;
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "t thickness ok";
+
+    ///check node thickeness fit to plane thickness
+    if(size_Node_px >= nt_plane_thicknes_px)
+        return ER_size_missmatch;
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "node size fits to plane";
+
+    ///object radii
+    int node_radius = int(size_Node_px / 2);
+    int edge_radius = int(size_Edge_px /2);
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "object radii node/edge" << node_radius << edge_radius;
+
+    ///position of t-plane and elements in time
+    size_t t_px_begin           = t_plane * nt_plane_thicknes_px;
+    size_t t_px_end             = t_px_begin + nt_plane_thicknes_px - 1;
+    size_t t_px_node_center     = t_px_end - node_radius;
+    size_t t_px_node_top        = t_px_node_center - node_radius;
+    //size_t t_px_node_bottom     = t_px_end;
+    size_t t_px_edge_begin      = t_px_begin;
+    size_t t_px_edge_end        = t_px_node_top - 1;
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "pos of t plane begin/end" << t_px_begin << t_px_end << "node top/center" << t_px_node_top << t_px_node_center << "egde begin/end" << t_px_edge_begin << t_px_edge_end;
+
+    ///xy size
+    size_t nx_px = pVD_Target->pDim()->size_X();
+    size_t ny_px = pVD_Target->pDim()->size_Y();
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "VD size x/y" << nx_px << ny_px;
+
+    ///factors from original px to VD px
+    float factor_original_px_2_VD_px_X = float(nx_px) / float(size_X_px_original);
+    float factor_original_px_2_VD_px_Y = float(ny_px) / float(size_Y_px_original);
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "scale original->VD x/y" << factor_original_px_2_VD_px_X << factor_original_px_2_VD_px_Y;
+
+
+    ///functor to calc node position in px
+    function<Point3i (D_Bio_NucleusBlob*)> node_pos = [t_px_node_center, factor_original_px_2_VD_px_Y, factor_original_px_2_VD_px_X](D_Bio_NucleusBlob* nuc)
+    {
+        int x = int(nuc->centroid().x * factor_original_px_2_VD_px_X);
+        int y = int(nuc->centroid().y * factor_original_px_2_VD_px_Y);
+        int t = t_px_node_center;
+        return Point3i(x, y, t);
+    };
+
+
+    ///functor to calc node color
+    function<Vec3b (D_Bio_NucleusBlob*)> node_color = [frame_legit, nt_plane](D_Bio_NucleusBlob* nuc)
+    {
+        QColor color =  nuc->matching_TypeColor(frame_legit, 0, nt_plane);
+
+        return Vec3b(
+                    uchar(color.blue()),
+                    uchar(color.green()),
+                    uchar(color.red()));
+    };
+
+
+    ///functor to calc edge begin in px
+    function<Point3i (D_Bio_NucleusBlob*)> edge_begin = [t_px_edge_begin, nt_plane_thicknes_px, factor_original_px_2_VD_px_Y, factor_original_px_2_VD_px_X](D_Bio_NucleusBlob* nuc)
+    {
+        if(nuc->matching_foundParent())
+        {
+            int x = int(nuc->matching_Parent()->centroid().x * factor_original_px_2_VD_px_X);
+            int y = int(nuc->matching_Parent()->centroid().y * factor_original_px_2_VD_px_Y);
+
+            int dt = nuc->time_index() - nuc->matching_Parent()->time_index();
+
+            int t;
+            if(dt == 1)
+            {
+                t = t_px_edge_begin;
+            }
+            else
+            {
+                t = t_px_edge_begin - ((dt - 1) * nt_plane_thicknes_px);
+            }
+
+            return Point3i(x, y, t);
+        }
+        else
+        {
+            return  Point3i(0, 0, 0);
+        }
+    };
+
+
+    ///functor to calc edge end in px
+    function<Point3i (D_Bio_NucleusBlob*)> edge_end = [t_px_edge_end, factor_original_px_2_VD_px_Y, factor_original_px_2_VD_px_X](D_Bio_NucleusBlob* nuc)
+    {
+        int x = int(nuc->centroid().x * factor_original_px_2_VD_px_X);
+        int y = int(nuc->centroid().y * factor_original_px_2_VD_px_Y);
+        int t = int(t_px_edge_end);
+        return Point3i(x, y, t);
+    };
+
+
+    ///functor to calc edge color
+    function<Vec3b (D_Bio_NucleusBlob*)> edge_color = [score_range, score_min](D_Bio_NucleusBlob* nuc)
+    {
+        if(nuc->matching_foundParent())
+        {
+            //match score to ancestor
+            double score = nuc->matching_Score_Parent();
+            score = max(0.0, min(score, 1.0));
+            double score_rel = (score - score_min) / score_range;
+
+            //color
+            QColor color;
+            color.setHsv(
+                        int(240.0 * (1.0 - score_rel)),
+                        255,
+                        255);
+            color = color.toRgb();
+
+            return Vec3b(
+                        uchar(color.blue()),
+                        uchar(color.green()),
+                        uchar(color.red()));
+        }
+        else
+        {
+            return Vec3b(0, 0, 0);
+        }
+    };
+
+
+    ///functor to draw node
+    function<void (D_Bio_NucleusBlob*)> draw_node = [node_color, node_pos, node_radius, nt_px, ny_px, nx_px, pVD_Target](D_Bio_NucleusBlob* nuc)
+    {
+        //center
+        Point3i P = node_pos(nuc);
+
+        //color
+        Vec3b color = node_color(nuc);
+
+        //loop pixels to draw to
+        Vec<int, c_DIM_NUMBER_OF> pos = {0, 0, 0, 0, 0, 0};
+        for(        pos[c_DIM_T] = max(int(P.z - node_radius), int(0)); pos[c_DIM_T] <= min(int(P.z + node_radius), int(nt_px - 1)); pos[c_DIM_T]++)
+            for(    pos[c_DIM_Y] = max(int(P.y - node_radius), int(0)); pos[c_DIM_Y] <= min(int(P.y + node_radius), int(ny_px - 1)); pos[c_DIM_Y]++)
+                for(pos[c_DIM_X] = max(int(P.x - node_radius), int(0)); pos[c_DIM_X] <= min(int(P.x + node_radius), int(nx_px - 1)); pos[c_DIM_X]++)
+                    pVD_Target->pMA_full()->at<Vec3b>(pos) = color;
+    };
+
+    ///functor to draw edge
+    function<void (D_Bio_NucleusBlob*)> draw_edge = [edge_color, edge_begin, edge_end, edge_radius, nt_px, ny_px, nx_px, pVD_Target](D_Bio_NucleusBlob* nuc)
+    {
+        //begin/end point
+        Point3i P_begin = edge_begin(nuc);
+        Point3i P_end   = edge_end(nuc);
+
+        //color
+        Vec3b color = edge_color(nuc);
+
+        //time range
+        int t_begin = int(P_begin.z);
+        int t_end   = int(P_end.z);
+        int t_range = t_end - t_begin;
+
+        //loop pixels to draw to
+        Vec<int, c_DIM_NUMBER_OF> pos = {0, 0, 0, 0, 0, 0};
+        int t_local = 0;
+        for(pos[c_DIM_T] = max(t_begin, 0); pos[c_DIM_T] <= min(int(t_end), int(nt_px - 1)); pos[c_DIM_T]++)
+        {
+            //calc line pos at time
+            float t_rel_e = (t_range > 0.f) ? (float(t_local) / float(t_range)) : (0.f);
+            float t_rel_b = 1.f - t_rel_e;
+            Point3d P_center(
+                        P_begin.x * t_rel_b + P_end.x * t_rel_e,
+                        P_begin.y * t_rel_b + P_end.y * t_rel_e,
+                        P_begin.z * t_rel_b + P_end.z * t_rel_e);
+
+            //loop pixles to color
+            for(pos[c_DIM_Y] = max(int(P_center.y - edge_radius), int(0)); pos[c_DIM_Y] <= min(int(P_center.y + edge_radius), int(ny_px - 1)); pos[c_DIM_Y]++)
+            {
+                for(pos[c_DIM_X] = max(int(P_center.x - edge_radius), int(0)); pos[c_DIM_X] <= min(int(P_center.x + edge_radius), int(nx_px - 1)); pos[c_DIM_X]++)
+                {
+                    pVD_Target->pMA_full()->at<Vec3b>(pos) = color;
+                }
+            }
+
+            //increment local t index
+            t_local++;
+        }
+    };
+
+
+    //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "functors created";
+
+
+    ///loop lines of images (mosaik)
+    for(size_t y = 0; y < (*pvvvvNucsTYXI)[t_plane].size(); y++)
+    {
+        for(size_t x = 0; x < (*pvvvvNucsTYXI)[t_plane][y].size(); x++)
+        {
+            //qDebug() << t << "--------------------------------------------------------------------------";
+            for(size_t i = 0; i < (*pvvvvNucsTYXI)[t_plane][y][x].size(); i++)
+            {
+                //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "proc nuc y/x/i" << y << x << i;
+
+                //child nuc/node
+                D_Bio_NucleusBlob *pNucChild = &((*pvvvvNucsTYXI)[t_plane][y][x][i]);
+
+                //draw node
+                draw_node(pNucChild);
+
+                //get Ancestor and calc edge
+                if(pNucChild->matching_foundParent())
+                {
+                     draw_edge(pNucChild);
+                }
+            }
+        }
+    }
+
+  //qDebug() << "updatePedigreeView_Volumetric_TimeThread" << "finished";
+    return true;
+}
+
+int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)
+{
+    int err = setPedigreeViewer_Plot3D(viewer);
     if(err != ER_okay)
         return err;
 
-    return updatePedigreePlot(points_per_edge);
+    return updatePedigreeView_Plot3D(points_per_edge, t_min, t_max, y_min_um, y_max_um, x_min_um, x_max_um);
+}
+
+int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric(D_Viewer_3D *viewer, size_t size_volT_px, size_t size_volY_px, size_t size_volX_px, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original)
+{
+    int err = setPedigreeViewer_Volumetric(viewer);
+    if(err != ER_okay)
+        return err;
+
+    return updatePedigreeView_Volumetric(size_volT_px, size_volY_px, size_volX_px, size_Node_px, size_Edge_px, size_Y_px_original, size_X_px_original);
 }
 
 void D_Bio_NucleusPedigree::match_all()

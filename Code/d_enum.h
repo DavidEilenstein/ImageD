@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_1_11";
-const QString           D_QS_Release  = "09.11.2021";
+const QString           D_QS_Version  = "v2_1_12";
+const QString           D_QS_Release  = "10.11.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -479,7 +479,7 @@ const QStringList QSL_Viewer3D_Axis = {
 };
 
 enum D_VIEWER_3D_ALPHA {
-    c_VIEWER_3D_ALPHA_MAX,
+    c_VIEWER_3D_ALPHA_OPAC,
     c_VIEWER_3D_ALPHA_CHANNEL_0,
     c_VIEWER_3D_ALPHA_CHANNEL_1,
     c_VIEWER_3D_ALPHA_CHANNEL_2,
@@ -488,6 +488,7 @@ enum D_VIEWER_3D_ALPHA {
     c_VIEWER_3D_ALPHA_CHANNEL_MAX,
     c_VIEWER_3D_ALPHA_CHANNEL_MEAN,
     c_VIEWER_3D_ALPHA_CHANNEL_SQUARE_MEAN,
+    c_VIEWER_3D_ALPHA_MAX_IS_TRANSPARENT,
     c_VIEWER_3D_ALPHA_NUMBER_OF
 };
 const QStringList QSL_Viewer3D_Alpha = {
@@ -499,7 +500,8 @@ const QStringList QSL_Viewer3D_Alpha = {
     "Channel Min",
     "Channel Max",
     "Channel Mean",
-    "Ch. Square Mean"
+    "Ch. Square Mean",
+    "White=transparent"
 };
 
 enum D_VIEWER_PLOT_3D_TEXTURE {

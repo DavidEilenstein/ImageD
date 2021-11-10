@@ -156,6 +156,7 @@ public:
     QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
     size_t              matching_Age();
     size_t              matching_TimeIndexOfOldestAncestor();
+    bool                matching_HasAncestorInRange(size_t t_oldest, double y_min_px, double y_max_px, double x_min_px, double x_max_px);
 
     void                matching_setTriedToMatchAtLeastOnce(bool tried)         {state_triedAtLeastOnceToMatch = tried;}
 

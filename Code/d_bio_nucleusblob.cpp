@@ -1321,4 +1321,19 @@ size_t D_Bio_NucleusBlob::matching_TimeIndexOfOldestAncestor()
     return Nuc_Parent->matching_TimeIndexOfOldestAncestor();
 }
 
+bool D_Bio_NucleusBlob::matching_HasAncestorInRange(size_t t_oldest, double y_min_px, double y_max_px, double x_min_px, double x_max_px)
+{
+    if(time_index() <= t_oldest)
+    {
+        return ((y_min_px <= m_centroid.y && y_max_px >= m_centroid.y) && (x_min_px <= m_centroid.x && x_max_px >= m_centroid.x));
+    }
+    else
+    {
+        if(state_FoundParent)
+            return Nuc_Parent->matching_HasAncestorInRange(t_oldest, y_min_px, y_max_px, x_min_px, x_max_px);
+        else
+            return ((y_min_px <= m_centroid.y && y_max_px >= m_centroid.y) && (x_min_px <= m_centroid.x && x_max_px >= m_centroid.x));
+    }
+}
+
 

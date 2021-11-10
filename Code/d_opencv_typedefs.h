@@ -33,11 +33,12 @@ typedef cv::Size2f Size2f;
 
 //points
 typedef cv::Point Point;
+typedef cv::Point2i Point2i;
 typedef cv::Point2f Point2f;
-typedef cv::Point2f Point2d;
-typedef cv::Point Point3;
+typedef cv::Point2d Point2d;
+typedef cv::Point3i Point3i;
 typedef cv::Point3f Point3f;
-typedef cv::Point3f Point3d;
+typedef cv::Point3d Point3d;
 
 //vectors
 template <class T , size_t N> using Vec = cv::Vec<T, N>;

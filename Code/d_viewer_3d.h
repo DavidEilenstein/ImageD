@@ -123,6 +123,10 @@ public slots:
 
     void        Set_StoragePointer(D_Storage *pStorage, int index_dir2use)          {pStore = pStorage; default_dir_index = index_dir2use; state_default_dir = true;}
 
+    void        Set_Volume(size_t volume_index)                                     {if(state_ui_init && volume_index < c_VOLUME_NUMBER_OF) ui_ComboBox_Volume->setCurrentIndex(volume_index);}
+    void        Set_backgroundColor(QColor color)                                   {change_graph_background_color(color);}
+    void        Set_AlphaMode(size_t alpha_mode)                                    {if(state_ui_init && alpha_mode < c_VIEWER_3D_ALPHA_NUMBER_OF) ui_ComboBox_AlphaMode->setCurrentIndex(alpha_mode);}
+
     int         Volume()                                                            {return volume_index_current;}
     int         Dim_extended0()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[0] : -1;}
     int         Dim_extended1()                                                     {return v_dims_extended.size() == 3 ? v_dims_extended[1] : -1;}
@@ -165,6 +169,7 @@ private slots:
     void            set_shadow_quality(int shadow_quality_id);
 
     void            change_graph_background_color();
+    void            change_graph_background_color(QColor color);
 
     void            check_volume_changes_and_trigger_slots();
 

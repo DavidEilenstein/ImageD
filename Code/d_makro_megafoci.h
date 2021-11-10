@@ -16,6 +16,7 @@
 #include <d_plot.h>
 #include <d_stat.h>
 #include <d_viewer.h>
+#include <d_viewer_3d.h>
 #include <d_storage.h>
 #include <d_table.h>
 #include <d_popup_listedit.h>
@@ -1326,15 +1327,16 @@ private:
     QDir DIR_MS4_Out_NucleiLifes;
 
     D_Bio_NucleusPedigree MS4_NucPedigree_AutoReconstruct;
+    D_Bio_NucleusPedigree MS4_NucPedigree_CleanBackup;
 
     //viewer
-    D_Viewer_Plot_3D MS4_Viewer_PedigreePlot;
-    const size_t MS4_PedigreePlot_DotsPerEdge = 5;
+    D_Viewer_Plot_3D MS4_Viewer_Pedigree_Plot3D;
+    D_Viewer_3D MS4_Viewer_Pedigree_Volumetric;
 
     //states
     bool state_MS4_dirs_loaded = false;
     bool state_MS4_detections_loaded_to_pedigree = false;
-    bool state_MS4_stack_processing = false;
+    bool state_MS4_pedigree_backup_created = false;
     bool state_MS4_pedigree_init = false;
     bool state_MS4_pedigree_init_1st_time = false;
     bool state_MS4_pedigree_reconstructed = false;
@@ -1346,6 +1348,8 @@ private slots:
     bool MS4_LoadDirs();
 
     bool MS4_LoadDetectionsToPedigree();
+    bool MS4_PedigreeBackup_Create();
+    bool MS4_PedigreeBackup_Load();
 
 private: //no slot to not cause conflicts with threading
     static void MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections);
@@ -1353,11 +1357,17 @@ private slots:
 
     void MS4_DisplayRelativeScoreWeights();
     bool MS4_InitPedigree();
+    bool MS4_ReconstructPedigree();
     bool MS4_UpdatePedigreePlot();
 
+    void MS4_CalcVolumetricView_Memory();
 
     void on_pushButton_MS4_LoadData_clicked();
     void on_pushButton_MS4_StartPedigreeReconstruction_clicked();
+    void on_pushButton_MS4_UpdatePedigreeView_clicked();
+    void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X_valueChanged(int arg1);
+    void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y_valueChanged(int arg1);
+    void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T_valueChanged(int arg1);
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

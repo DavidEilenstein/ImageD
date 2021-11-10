@@ -1097,6 +1097,14 @@ void D_Viewer_3D::change_graph_background_color()
                 this,
                 "Change graph background color");
 
+    change_graph_background_color(color);
+}
+
+void D_Viewer_3D::change_graph_background_color(QColor color)
+{
+    if(!state_ui_init)
+        return;
+
     graph_scatter->activeTheme()->setBackgroundColor(color);
     graph_scatter->activeTheme()->setWindowColor(color);
 
@@ -1104,12 +1112,6 @@ void D_Viewer_3D::change_graph_background_color()
 
     for(int i = 0; i < SLICE_2D_NUMBER_OF; i++)
         vui_GraphicsView_Slices2D[i]->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
-
-    /*
-    ui_Label_2dSlice_XY->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
-    ui_Label_2dSlice_XZ->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
-    ui_Label_2dSlice_YZ->setStyleSheet("background-color: " + D_Img_Proc::Color2Text4StyleSheet(color) + ";");
-    */
 }
 
 void D_Viewer_3D::check_volume_changes_and_trigger_slots()

@@ -7370,7 +7370,8 @@ void D_MAKRO_MegaFoci::on_spinBox_DataDim_T_valueChanged(int arg1)
 
 void D_MAKRO_MegaFoci::MS4_UiInit()
 {
-    MS4_Viewer_PedigreePlot.init(ui->gridLayout_MS4_Pedigree);
+    MS4_Viewer_Pedigree_Plot3D.init(ui->gridLayout_MS4_Pedigree_Plot3D);
+    MS4_Viewer_Pedigree_Volumetric.init(ui->gridLayout_MS4_Pedigree_Volumetric3D);
 
     connect(ui->doubleSpinBox_MS4_Score_Weight_Shift,       SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
     connect(ui->doubleSpinBox_MS4_Score_Weight_Area,        SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
@@ -7384,13 +7385,14 @@ void D_MAKRO_MegaFoci::MS4_UiInit()
     connect(ui->doubleSpinBox_MS4_Score_Weight_Std_RFP,     SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
 
     MS4_DisplayRelativeScoreWeights();
+
+    MS4_CalcVolumetricView_Memory();
 }
 
 bool D_MAKRO_MegaFoci::MS4_LoadData()
 {
     if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
         return false;
-
 
     ui->groupBox_MS4_Data->setEnabled(false);
 
@@ -7411,6 +7413,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
     ui->groupBox_MS4_ScoreNoGoThres->setEnabled(true);
     ui->groupBox_MS4_Pedigree->setEnabled(true);
     ui->groupBox_MS4_PedigreePropertys->setEnabled(true);
+    ui->groupBox_MS4_PedigreeView->setEnabled(true);
 
     if(!MS4_InitPedigree())
         return false;
@@ -7476,6 +7479,11 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
     if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
         return false;
 
+    //load backup instead of loading, if any exists
+    bool backup_loaded = MS4_PedigreeBackup_Load();
+    if(backup_loaded)
+        return true;
+
     if(!state_MS4_dirs_loaded)
         return false;
 
@@ -7511,14 +7519,35 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
         StatusSet("Finished loading detections T=" + QString::number(t_thread) + " (thread synched)");
     }
 
-    /*
-    //test
-    for(size_t t = 0; t < MS4_NucPedigree_AutoReconstruct.size_T(); t++)
-        qDebug() << "detected" << MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) << "in t=" << t;
-        */
-
     state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
+
+    //create backup
+    MS4_PedigreeBackup_Create();
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Create()
+{
+    if(!state_MS4_detections_loaded_to_pedigree)
+        return false;
+
+    StatusSet("Create clean pedigree backup");
+    MS4_NucPedigree_CleanBackup = MS4_NucPedigree_AutoReconstruct;
+    state_MS4_pedigree_backup_created = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Load()
+{
+    if(!state_MS4_pedigree_backup_created)
+        return false;
+
+    StatusSet("Load clean pedigree backup");
+    MS4_NucPedigree_AutoReconstruct = MS4_NucPedigree_CleanBackup;
+    state_MS4_pedigree_reconstructed = false;
+    state_MS4_detections_loaded_to_pedigree = true;
     return true;
 }
 
@@ -7653,9 +7682,9 @@ void D_MAKRO_MegaFoci::MS4_DisplayRelativeScoreWeights()
 
 bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 {
-    StatusSet("Init pedigree with reconstruction params");
     state_MS4_pedigree_init = false;
 
+    ///check, if data are loaded (reload if needed)
     if(!state_MS4_detections_loaded_to_pedigree)
     {
         StatusSet("Data missing -> Load data first");
@@ -7668,9 +7697,10 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
         }
     }
 
+    ///check, if reconstruction is finished (clean if needed)
     if(state_MS4_pedigree_reconstructed)
     {
-        StatusSet("Reload data to get a blanc reconstruction again");
+        StatusSet("Reload data to get a clean pedigree");
         MS4_LoadDetectionsToPedigree();
 
         if(!state_MS4_detections_loaded_to_pedigree)
@@ -7680,6 +7710,9 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
         }
     }
     state_MS4_pedigree_reconstructed = false;
+
+    ///start pedigree reconstruction
+    StatusSet("Init pedigree with reconstruction params");
 
     ///set scaling
     MS4_NucPedigree_AutoReconstruct.set_scale_T2h(ui->doubleSpinBox_MS4_Scale_T2h->value());
@@ -7731,7 +7764,8 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
         return false;
 
     ///set plot viewer
-    MS4_NucPedigree_AutoReconstruct.setPedigreePlotViewer(&MS4_Viewer_PedigreePlot);
+    MS4_NucPedigree_AutoReconstruct.setPedigreeViewer_Plot3D(&MS4_Viewer_Pedigree_Plot3D);
+    MS4_NucPedigree_AutoReconstruct.setPedigreeViewer_Volumetric(&MS4_Viewer_Pedigree_Volumetric);
     StatusSet("Successfully init nuclei pedigree");
 
     ///show peddigree plot
@@ -7743,29 +7777,7 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
     return true;
 }
 
-bool D_MAKRO_MegaFoci::MS4_UpdatePedigreePlot()
-{
-    StatusSet("Start plotting pedigree");
-
-    int err = MS4_NucPedigree_AutoReconstruct.updatePedigreePlot(MS4_PedigreePlot_DotsPerEdge);
-    if(err != ER_okay)
-    {
-        StatusSet("failed plotting pedigree");
-        return false;
-    }
-
-    StatusSet("Successfully plotted pedigree");
-    return true;
-}
-
-void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
-{
-    MS4_LoadData();
-}
-
-
-
-void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
+bool D_MAKRO_MegaFoci::MS4_ReconstructPedigree()
 {
     this->setEnabled(false);
 
@@ -7774,8 +7786,10 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
     if(!MS4_InitPedigree())
     {
         StatusSet("Failed pedigree initialization");
-        return;
+        return false;
     }
+
+    state_MS4_pedigree_reconstructed = false;
 
     size_t nt = MS4_NucPedigree_AutoReconstruct.size_T();
 
@@ -7787,7 +7801,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         {
             StatusSet("Reconstruction GO1 (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_go1(t);
-            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+            if(ui->radioButton_MS4_PedigreePlotUpdate_EachStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
         else
@@ -7796,9 +7810,8 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         }
     }
 
-    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
-        if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachGo->isChecked())
-            MS4_UpdatePedigreePlot();
+    if(ui->radioButton_MS4_PedigreePlotUpdate_GosAndCorrection->isChecked())
+        MS4_UpdatePedigreePlot();
 
     //matching go 2
     StatusSet("Reconstruction start GO2 . . . . . . . . . . . .");
@@ -7808,7 +7821,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         {
             StatusSet("Reconstruction GO2 (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_go2(t);
-            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+            if(ui->radioButton_MS4_PedigreePlotUpdate_EachStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
         else
@@ -7817,9 +7830,8 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         }
     }
 
-    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
-        if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachGo->isChecked())
-            MS4_UpdatePedigreePlot();
+    if(ui->radioButton_MS4_PedigreePlotUpdate_GosAndCorrection->isChecked())
+        MS4_UpdatePedigreePlot();
 
     //matching correct mitosis
     StatusSet("Reconstruction start mitoses correction . . . . . . . . .");
@@ -7829,7 +7841,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         {
             StatusSet("Reconstruction correct mitoses (T=" + QString::number(t) + ")");
             MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis(t);
-            if(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked())
+            if(ui->radioButton_MS4_PedigreePlotUpdate_EachStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
         else
@@ -7838,9 +7850,117 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
         }
     }
 
-    if(!(ui->checkBox_MS4_UpdatePedigreePlotAfterEachTStep->isChecked()))
+    if(ui->radioButton_MS4_PedigreePlotUpdate_GosAndCorrection->isChecked() || ui->radioButton_MS4_PedigreePlotUpdate_Finished->isChecked())
         MS4_UpdatePedigreePlot();
 
     StatusSet("Finish reconstruction------------------------------");
+    state_MS4_pedigree_reconstructed = true;
     this->setEnabled(true);
+
+    return true;
 }
+
+bool D_MAKRO_MegaFoci::MS4_UpdatePedigreePlot()
+{
+    ///check conditions
+    if(!state_MS4_detections_loaded_to_pedigree)
+    {
+        StatusSet("Failed plotting pedigree (no data)");
+        return false;
+    }
+    StatusSet("Start plotting pedigree");
+
+    ///set plot params
+    MS4_NucPedigree_AutoReconstruct.set_scale_nodes(ui->doubleSpinBox_MS4_Scale_Nodes->value() / 100.0);
+    MS4_NucPedigree_AutoReconstruct.set_scale_edges(ui->doubleSpinBox_MS4_Scale_Edges->value() / 100.0);
+
+    ///plot
+    int err;
+    if(ui->tabWidget_MS4_PedigreeViewers->currentIndex() == 0)
+    {
+        err = MS4_NucPedigree_AutoReconstruct.updatePedigreeView_Plot3D(
+                    ui->spinBox_MS4_PedigreeView_Param_Plot3D_DotsPerEdge->value(),
+                    size_t(ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_T_min->value()),
+                    size_t(ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_T_max->value()),
+                    ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_Y_min->value(),
+                    ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_Y_max->value(),
+                    ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_X_min->value(),
+                    ui->doubleSpinBox_MS4_PedigreeView_Param_Plot3D_ROI_X_max->value());
+    }
+    else
+    {
+        MS4_CalcVolumetricView_Memory();
+        err = MS4_NucPedigree_AutoReconstruct.updatePedigreeView_Volumetric(
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_T->value(),
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_Y->value(),
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_X->value(),
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Node->value(),
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Edge->value(),
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_OriginalImgSize_Y->value() * dataset_dim_mosaic_x,
+                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_OriginalImgSize_X->value() * dataset_dim_mosaic_y);
+    }
+
+    if(err != ER_okay)
+    {
+        StatusSet("failed plotting pedigree");
+        return false;
+    }
+
+    ///finish
+    StatusSet("Successfully plotted pedigree");
+    return true;
+}
+
+void D_MAKRO_MegaFoci::MS4_CalcVolumetricView_Memory()
+{
+    int sub_t = ui->spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T->value();
+    int sub_y = ui->spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y->value();
+    int sub_x = ui->spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X->value();
+
+    int all_t = sub_t * dataset_dim_t;
+    int all_y = sub_y * dataset_dim_mosaic_y;
+    int all_x = sub_x * dataset_dim_mosaic_x;
+
+    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_T->setValue(all_t);
+    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_Y->setValue(all_y);
+    ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_X->setValue(all_x);
+
+    int all_px = all_t * all_y * all_x;
+    double all_B = all_px * 4.0;
+    double all_KB = all_B / 1024;
+    double all_MB = all_KB / 1024;
+
+    ui->doubleSpinBox_MS4_PedigreeView_Param_Memory->setValue(all_MB);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
+{
+    MS4_LoadData();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
+{
+    MS4_ReconstructPedigree();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS4_UpdatePedigreeView_clicked()
+{
+    MS4_UpdatePedigreePlot();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X_valueChanged(int arg1)
+{
+    MS4_CalcVolumetricView_Memory();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y_valueChanged(int arg1)
+{
+    MS4_CalcVolumetricView_Memory();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T_valueChanged(int arg1)
+{
+    MS4_CalcVolumetricView_Memory();
+}
+
+

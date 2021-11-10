@@ -17,6 +17,7 @@
 #include <d_bio_nucleusblob.h>
 #include <d_bio_enum.h>
 #include <d_viewer_plot_3d.h>
+#include <d_viewer_3d.h>
 
 //Qt
 #include <QFileDialog>
@@ -62,10 +63,17 @@ public:
 
     bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis);
 
-    int setPedigreePlotViewer(D_Viewer_Plot_3D *viewer);
-    int updatePedigreePlot(size_t points_per_edge);
-    int updatePedigreePlot(D_Viewer_Plot_3D *viewer, size_t points_per_edge);
+    int setPedigreeViewer_Plot3D( D_Viewer_Plot_3D *viewer);
+    int updatePedigreeView_Plot3D(                          size_t points_per_edge, size_t t_min = 0, size_t t_max = size_t(INFINITY), double y_min_um = -INFINITY, double y_max_um = INFINITY, double x_min_um = -INFINITY, double x_max_um = INFINITY);
+    int updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min = 0, size_t t_max = size_t(INFINITY), double y_min_um = -INFINITY, double y_max_um = INFINITY, double x_min_um = -INFINITY, double x_max_um = INFINITY);
 
+    int setPedigreeViewer_Volumetric( D_Viewer_3D *viewer);
+    int updatePedigreeView_Volumetric(                      size_t size_volT_px, size_t size_volY_px, size_t size_volX_px, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original);
+    int updatePedigreeView_Volumetric(D_Viewer_3D *viewer,  size_t size_volT_px, size_t size_volY_px, size_t size_volX_px, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original);
+private:
+    static int updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj *pVD_Target, vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, double score_range, double score_min, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original, Rect frame_legit, size_t t_plane);
+
+public:
     void set_scale_px2um(double scale)                              {if(scale > 0) scale_px_to_um = scale;}
     void set_scale_T2h(double scale)                                {if(scale > 0) scale_t_to_h = scale;}
     void set_scale_nodes(double scale)                              {if(scale > 0 && scale <= 1) scale_nodes = scale;}
@@ -91,11 +99,17 @@ private:
     static void match_find_possible_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMatches,                         size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
     static void match_find_possible_mitosis_corrections_thread( vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier,              vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
 
-    void match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
-    void match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections);
+    void        match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
+    void        match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections);
+
+    void        calc_PlotVol(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, int size_T_px, int size_Y_px, int size_X_px, int size_nodes = 3, int size_edge = 1);
 
     //viewer
-    D_Viewer_Plot_3D *pViewerPedigreePlot;
+    D_Viewer_Plot_3D *pViewerPedigree_Plot3D;
+    D_Viewer_3D *pViewerPedigree_Volumetric;
+
+    //Plot_Volume for volumetric plot
+    D_VisDat_Obj VD_PlotVol;
 
     //dimension
     size_t size_time = 0;
@@ -132,7 +146,8 @@ private:
 
     //states
     bool                            state_ScoreWeightsAndMaxSet = false;
-    bool                            state_PlotViewerSet = false;
+    bool                            state_PedigreeViewer_Plot3D_Set = false;
+    bool                            state_PedigreeViewer_Volumetric_Set = false;
 
     enum MATCH_ATTRIB_INDEX {
         MATCH_ATTRIB_INDEX_SCORE,
