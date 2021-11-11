@@ -92,14 +92,15 @@ public:
   //void            set_value_dev2med(size_t channel, double MedDev)    {if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
     vector<Point>   contour()                                           {                                       return m_contour;}
+    void            forget_contour_and_calc_feats()                     {if(!state_feats_calced) CalcFeats();   m_contour.clear();}
     double          dist2contour(Point2f point)                         {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
-    double          dist2centroid(Point2f point)                        {if(state_feats_calced) CalcFeats();    return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
+    double          dist2centroid(Point2f point)                        {if(!state_feats_calced) CalcFeats();   return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
     bool            contains_point(Point P, double margin = 0)          {return dist2contour(P) <= margin;}
 
-    Point2f         centroid()                                          {if(state_feats_calced) CalcFeats();    return m_centroid;}
-    double          area()                                              {if(state_feats_calced) CalcFeats();    return m_area;}
-    double          compactness()                                       {if(state_feats_calced) CalcFeats();    return m_compactness;}
-    double          convexity()                                         {if(state_feats_calced) CalcFeats();    return m_convexity;}
+    Point2f         centroid()                                          {if(!state_feats_calced) CalcFeats();   return m_centroid;}
+    double          area()                                              {if(!state_feats_calced) CalcFeats();   return m_area;}
+    double          compactness()                                       {if(!state_feats_calced) CalcFeats();   return m_compactness;}
+    double          convexity()                                         {if(!state_feats_calced) CalcFeats();   return m_convexity;}
 
     size_t          time_index()                                        {return m_time;}
     void            set_time_index(size_t t)                            {m_time = t;}

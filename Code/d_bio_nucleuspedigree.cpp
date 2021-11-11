@@ -78,7 +78,7 @@ bool D_Bio_NucleusPedigree::add_nucleus_blob(size_t t, size_t y, size_t x, D_Bio
     return true;
 }
 
-bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis)
+bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double mitosis_mult_go1, double mitosis_mult_go2)
 {
     if((score_weights.size() != SCORE_NUMBER_OF) || (score_maxima.size() != SCORE_NUMBER_OF))
         return false;
@@ -151,7 +151,8 @@ bool D_Bio_NucleusPedigree::initMatching(vector<double> score_weights, vector<do
     match_score_thres_tm2_go2           = thres_tm2_go2;
     match_score_thres_tm3_go2           = thres_tm3_go2;
 
-    match_score_multiplier_new_mitosis  = multipier_new_mitosis;
+    match_score_multiplier_mitosis_go1  = mitosis_mult_go1;
+    match_score_multiplier_mitosis_go2  = mitosis_mult_go1;
 
     return true;
 }
@@ -660,23 +661,30 @@ void D_Bio_NucleusPedigree::match_all_go2()
 
 void D_Bio_NucleusPedigree::match_time_go1(size_t t)
 {
-    if(t > 0)   match_times(t - 1, t, match_score_thres_tm1_go1, true);
+    if(t > 0)   match_times(t - 1, t, match_score_thres_tm1_go1, (t - 1) >= match_earliest_mitosis_allowed);
     if(t > 1)   match_times(t - 2, t, match_score_thres_tm2_go1, false);
     if(t > 2)   match_times(t - 3, t, match_score_thres_tm3_go1, false);
 }
 
 void D_Bio_NucleusPedigree::match_time_go2(size_t t)
 {
-    if(t > 0)   match_times(t - 1, t, match_score_thres_tm1_go2, true);
+    if(t > 0)   match_times(t - 1, t, match_score_thres_tm1_go2, (t - 1) >= match_earliest_mitosis_allowed);
     if(t > 1)   match_times(t - 2, t, match_score_thres_tm2_go2, false);
     if(t > 2)   match_times(t - 3, t, match_score_thres_tm3_go2, false);
 }
 
-void D_Bio_NucleusPedigree::match_time_correct_mitosis(size_t t)
+void D_Bio_NucleusPedigree::match_time_correct_mitosis_go1(size_t t)
 {
-    if(t > 0)   match_correct_mitosis(t - 1, t);
-    if(t > 1)   match_correct_mitosis(t - 2, t);
-    if(t > 2)   match_correct_mitosis(t - 3, t);
+    if(t > 0)   match_correct_mitosis(t - 1, t, match_score_multiplier_mitosis_go1, false);
+    if(t > 1)   match_correct_mitosis(t - 2, t, match_score_multiplier_mitosis_go1, false);
+    if(t > 2)   match_correct_mitosis(t - 3, t, match_score_multiplier_mitosis_go1, false);
+}
+
+void D_Bio_NucleusPedigree::match_time_correct_mitosis_go2(size_t t)
+{
+    if(t > 0)   match_correct_mitosis(t - 1, t, match_score_multiplier_mitosis_go2, true);
+    if(t > 1)   match_correct_mitosis(t - 2, t, match_score_multiplier_mitosis_go2, true);
+    if(t > 2)   match_correct_mitosis(t - 3, t, match_score_multiplier_mitosis_go2, true);
 }
 
 void D_Bio_NucleusPedigree::match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis)
@@ -702,7 +710,7 @@ void D_Bio_NucleusPedigree::match_times(size_t t_parents, size_t t_childs, doubl
                 allow_new_mitosis);
 }
 
-void D_Bio_NucleusPedigree::match_correct_mitosis(size_t t_parents, size_t t_childs)
+void D_Bio_NucleusPedigree::match_correct_mitosis(size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitosis)
 {
     size_t nt = vvvvNucBlobs_TYXI.size();
     if(t_parents >= nt || t_childs >= nt || t_parents >= t_childs)
@@ -715,11 +723,14 @@ void D_Bio_NucleusPedigree::match_correct_mitosis(size_t t_parents, size_t t_chi
     match_find_possible_mitosis_corrections(
                 &vvPossibleMitosisCorrections_MatchAttrib,
                 t_parents,
-                t_childs);
+                t_childs,
+                score_multiplier,
+                allow_new_mitosis);
 
     //accept matches
     match_accept_mitosis_corrections(
-                &vvPossibleMitosisCorrections_MatchAttrib);
+                &vvPossibleMitosisCorrections_MatchAttrib,
+                allow_new_mitosis);
 }
 
 void D_Bio_NucleusPedigree::match_find_possible_matches(vector<vector<double> > *vvPossibleMatches, size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis)
@@ -773,7 +784,7 @@ void D_Bio_NucleusPedigree::match_find_possible_matches(vector<vector<double> > 
     }
 }
 
-void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections(vector<vector<double> > *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs)
+void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections(vector<vector<double> > *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitoses)
 {
     //clear possible old content in output vector
     vvPossibleMitosisCorrections->clear();
@@ -797,7 +808,8 @@ void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections(vector<vecto
                     &(vvvPossibleMitosisCorrections_ThreadMatchAttrib[y_thread]),
                     t_parents,
                     t_childs,
-                    match_score_multiplier_new_mitosis,
+                    score_multiplier,
+                    allow_new_mitoses,
                     &vScoreCriteria_Relevant,
                     &vScoreWeights_Relevant,
                     &vScoreMaxima_Relevant,
@@ -944,7 +956,7 @@ void D_Bio_NucleusPedigree::match_find_possible_matches_thread(
     }
 }
 
-void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc)
+void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier, bool allow_new_mitoses, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc)
 {
     //check time integrity
     size_t nt = pvvvvNucsTYXI->size();
@@ -1015,8 +1027,8 @@ void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections_thread(vecto
                                 //get parent to check
                                 D_Bio_NucleusBlob *pNucParentPossibleNew = &((*pvvvvNucsTYXI)[t_parents][y_parents][x_parents][i_parent]);
 
-                                //only check possible new parents that don't have a child yet (don't create new mitosis here)
-                                if(pNucParentPossibleNew->matching_foundNoChild())
+                                //only check possible new parents that don't have a child yet?
+                                if((allow_new_mitoses && pNucParentPossibleNew->matching_isNoMitosis()) || (pNucParentPossibleNew->matching_foundNoChild()))
                                 {
                                     //calc score to new possible parent
                                     double score_new_ending_parent = pNucChild->matching_Score(
@@ -1119,7 +1131,7 @@ void D_Bio_NucleusPedigree::match_accept_matches(vector<vector<double>> *vvPossi
     }
 }
 
-void D_Bio_NucleusPedigree::match_accept_mitosis_corrections(vector<vector<double> > *vvPossibleMitosisCorrections)
+void D_Bio_NucleusPedigree::match_accept_mitosis_corrections(vector<vector<double> > *vvPossibleMitosisCorrections, bool allow_new_mitosis)
 {
     //sort criteria
     struct score_higher {
@@ -1171,8 +1183,8 @@ void D_Bio_NucleusPedigree::match_accept_mitosis_corrections(vector<vector<doubl
                     size_t x_parent = size_t(vMitosisCorrection[MATCH_ATTRIB_INDEX_PARENT_X]);
                     D_Bio_NucleusBlob *pNucParentNew = &(vvvvNucBlobs_TYXI[t_parent][y_parent][x_parent][i_parent]);
 
-                    //possible new parent is not a mitosis yet? (could have found a better child before)
-                    if(pNucParentNew->matching_isNoMitosis())
+                    //possible new parent is non_mitosis / open_ending? (could have found a better child before)
+                    if((allow_new_mitosis && pNucParentNew->matching_isNoMitosis()) || pNucParentNew->matching_foundNoChild())
                     {
                         //remove child from current parent
                         pNucParentCurrent->matching_RemoveChild(pNucChild);

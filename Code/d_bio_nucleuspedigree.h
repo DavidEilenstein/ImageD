@@ -61,7 +61,7 @@ public:
 
     bool add_nucleus_blob(size_t t, size_t y, size_t x, D_Bio_NucleusBlob nuc);
 
-    bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double multipier_new_mitosis);
+    bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double mitosis_mult_go1, double mitosis_mult_go2);
 
     int setPedigreeViewer_Plot3D( D_Viewer_Plot_3D *viewer);
     int updatePedigreeView_Plot3D(                          size_t points_per_edge, size_t t_min = 0, size_t t_max = size_t(INFINITY), double y_min_um = -INFINITY, double y_max_um = INFINITY, double x_min_um = -INFINITY, double x_max_um = INFINITY);
@@ -79,6 +79,7 @@ public:
     void set_scale_nodes(double scale)                              {if(scale > 0 && scale <= 1) scale_nodes = scale;}
     void set_scale_edges(double scale)                              {if(scale > 0 && scale <= 1) scale_edges = scale;}
     void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) FrameInRegularRangeXY = Rect(x_min, y_min, w, h);}
+    void set_earliest_mitoses_allowed(size_t t_earliest)            {match_earliest_mitosis_allowed = t_earliest;}
 
     void match_all();
     void match_all_go1();
@@ -86,21 +87,22 @@ public:
 
     void match_time_go1(size_t t);
     void match_time_go2(size_t t);
-    void match_time_correct_mitosis(size_t t);
+    void match_time_correct_mitosis_go1(size_t t);
+    void match_time_correct_mitosis_go2(size_t t);
 
 private:
 
-    void        match_correct_mitosis(size_t t_parents, size_t t_childs);
-    void        match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
+    void        match_correct_mitosis(  size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitosis);
+    void        match_times(            size_t t_parents, size_t t_childs, double score_thresh,     bool allow_new_mitosis);
 
     void        match_find_possible_matches(            vector<vector<double>> *vvPossibleMatches,              size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis);
-    void        match_find_possible_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections,   size_t t_parents, size_t t_childs);
+    void        match_find_possible_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections,   size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitoses);
 
     static void match_find_possible_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMatches,                         size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis, vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
-    static void match_find_possible_mitosis_corrections_thread( vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier,              vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
+    static void match_find_possible_mitosis_corrections_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, vector<vector<double>> *vvPossibleMitosisCorrections, size_t t_parents, size_t t_childs, double mitosis_score_muliplier, bool allow_new_mitoses,              vector<size_t> *pvScoreRelevantCriteria, vector<double> *pvScoreWeights, vector<double> *pvScoreMax, double max_area_increase_to_rel, double max_area_decrease_to_rel, double max_shift, size_t y_toProc);
 
     void        match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
-    void        match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections);
+    void        match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections, bool allow_new_mitosis);
 
     void        calc_PlotVol(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, int size_T_px, int size_Y_px, int size_X_px, int size_nodes = 3, int size_edge = 1);
 
@@ -133,7 +135,9 @@ private:
     double                          match_score_thres_tm1_go2 = 0.20;
     double                          match_score_thres_tm2_go2 = 0.25;
     double                          match_score_thres_tm3_go2 = 0.30;
-    double                          match_score_multiplier_new_mitosis = 0.75;
+    double                          match_score_multiplier_mitosis_go1 = 0.20;
+    double                          match_score_multiplier_mitosis_go2 = 0.70;
+    size_t                          match_earliest_mitosis_allowed = 0;
 
     //scaling XYT to rteal world coords
     double                          scale_px_to_um = 0.1;

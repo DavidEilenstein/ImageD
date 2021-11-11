@@ -1361,6 +1361,7 @@ private slots:
     bool MS4_UpdatePedigreePlot();
 
     void MS4_CalcVolumetricView_Memory();
+    void MS4_CalcOriginalMosaicSize();
 
     void on_pushButton_MS4_LoadData_clicked();
     void on_pushButton_MS4_StartPedigreeReconstruction_clicked();
@@ -1368,6 +1369,8 @@ private slots:
     void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X_valueChanged(int arg1);
     void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y_valueChanged(int arg1);
     void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T_valueChanged(int arg1);
+    void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X_valueChanged(int arg1);
+    void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1);
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

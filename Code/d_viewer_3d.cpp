@@ -429,7 +429,8 @@ int D_Viewer_3D::SaveVideo_SliceDim()
         return ER_empty;
     }
     qDebug() << "path not empty" << QS_PathOut;
-    pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
+    if(state_default_dir)
+        pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
 
     //prepare video
     qDebug() << "init";
@@ -510,7 +511,9 @@ int D_Viewer_3D::SaveVideo_CameraRotationFull()
                 tr("*.avi *.AVI"));
     if(QS_PathOut.isEmpty())
         return ER_empty;
-    pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
+
+    if(state_default_dir)
+        pStore->set_dir_byIndex(QFileInfo(QS_PathOut).dir().path(), default_dir_index);
 
     D_VideoWriter VideoWriter;
     VideoWriter.set_FPS(fps);

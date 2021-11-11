@@ -7372,6 +7372,7 @@ void D_MAKRO_MegaFoci::MS4_UiInit()
 {
     MS4_Viewer_Pedigree_Plot3D.init(ui->gridLayout_MS4_Pedigree_Plot3D);
     MS4_Viewer_Pedigree_Volumetric.init(ui->gridLayout_MS4_Pedigree_Volumetric3D);
+    MS4_Viewer_Pedigree_Volumetric.Set_StoragePointer(pStore, dir_M_MEGAFOCI_RES);
 
     connect(ui->doubleSpinBox_MS4_Score_Weight_Shift,       SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
     connect(ui->doubleSpinBox_MS4_Score_Weight_Area,        SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
@@ -7385,7 +7386,7 @@ void D_MAKRO_MegaFoci::MS4_UiInit()
     connect(ui->doubleSpinBox_MS4_Score_Weight_Std_RFP,     SIGNAL(valueChanged(double)),          this,   SLOT(MS4_DisplayRelativeScoreWeights()));
 
     MS4_DisplayRelativeScoreWeights();
-
+    MS4_CalcOriginalMosaicSize();
     MS4_CalcVolumetricView_Memory();
 }
 
@@ -7413,7 +7414,9 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
     ui->groupBox_MS4_ScoreNoGoThres->setEnabled(true);
     ui->groupBox_MS4_Pedigree->setEnabled(true);
     ui->groupBox_MS4_PedigreePropertys->setEnabled(true);
-    ui->groupBox_MS4_PedigreeView->setEnabled(true);
+    ui->groupBox_MS4_PedigreeView_General->setEnabled(true);
+    ui->groupBox_MS4_PedigreeView_Plot3D->setEnabled(true);
+    ui->groupBox_MS4_PedigreeView_Volumetric->setEnabled(true);
 
     if(!MS4_InitPedigree())
         return false;
@@ -7638,7 +7641,7 @@ void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree
                                         D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);
 
                                         //forget contour to save memory in this step
-
+                                        NucBlob.forget_contour_and_calc_feats();
 
                                         //push nucleus to pedigree
                                         pNucPedigree->add_nucleus_blob(t, iy, ix, NucBlob);
@@ -7720,6 +7723,15 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
     MS4_NucPedigree_AutoReconstruct.set_scale_nodes(ui->doubleSpinBox_MS4_Scale_Nodes->value() / 100.0);
     MS4_NucPedigree_AutoReconstruct.set_scale_edges(ui->doubleSpinBox_MS4_Scale_Edges->value() / 100.0);
 
+    ///set border
+    int border_px = ui->spinBox_MS4_PedigreeProp_TrackingBorderWidth->value();
+    MS4_NucPedigree_AutoReconstruct.set_range_XY(
+                border_px, ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X->value() - border_px,
+                border_px, ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y->value() - border_px);
+
+    ///set mitoses starting rule
+    MS4_NucPedigree_AutoReconstruct.set_earliest_mitoses_allowed(ui->spinBox_MS4_PedigreeProp_EarliestMitosisT->value());
+
     ///get maxima for norming from ui
     vector<double> vScoreMax(SCORE_NUMBER_OF, 1);
     vScoreMax[SCORE_SHIFT] = ui->doubleSpinBox_MS4_Score_Max_Shift->value();
@@ -7760,7 +7772,8 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2->value() / 100,
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2->value() / 100,
                 ui->doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go2->value() / 100,
-                ui->doubleSpinBox_MS4_Match_ScoreMultiplier_NewMitosis->value() / 100))
+                ui->doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go1->value() / 100,
+                ui->doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go2->value() / 100))
         return false;
 
     ///set plot viewer
@@ -7833,14 +7846,14 @@ bool D_MAKRO_MegaFoci::MS4_ReconstructPedigree()
     if(ui->radioButton_MS4_PedigreePlotUpdate_GosAndCorrection->isChecked())
         MS4_UpdatePedigreePlot();
 
-    //matching correct mitosis
-    StatusSet("Reconstruction start mitoses correction . . . . . . . . .");
+    //matching correct mitosis go1
+    StatusSet("Reconstruction start mitoses elimination . . . . . . . . .");
     for(size_t t = 1; t < nt; t++)
     {
         if(MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) > 0)
         {
-            StatusSet("Reconstruction correct mitoses (T=" + QString::number(t) + ")");
-            MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis(t);
+            StatusSet("Reconstruction mitoses elimination (T=" + QString::number(t) + ")");
+            MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis_go1(t);
             if(ui->radioButton_MS4_PedigreePlotUpdate_EachStep->isChecked())
                 MS4_UpdatePedigreePlot();
         }
@@ -7849,6 +7862,25 @@ bool D_MAKRO_MegaFoci::MS4_ReconstructPedigree()
             //StatusSet("Recon. correct mitoses (T=" + QString::number(t) + ") empty->skipped");
         }
     }
+
+    /*
+    //matching correct mitosis go2
+    StatusSet("Reconstruction start mitoses changing . . . . . . . . .");
+    for(size_t t = 1; t < nt; t++)
+    {
+        if(MS4_NucPedigree_AutoReconstruct.nuclei_blob_count(t) > 0)
+        {
+            StatusSet("Reconstruction mitoses changing (T=" + QString::number(t) + ")");
+            MS4_NucPedigree_AutoReconstruct.match_time_correct_mitosis_go2(t);
+            if(ui->radioButton_MS4_PedigreePlotUpdate_EachStep->isChecked())
+                MS4_UpdatePedigreePlot();
+        }
+        else
+        {
+            //StatusSet("Recon. correct mitoses (T=" + QString::number(t) + ") empty->skipped");
+        }
+    }
+    */
 
     if(ui->radioButton_MS4_PedigreePlotUpdate_GosAndCorrection->isChecked() || ui->radioButton_MS4_PedigreePlotUpdate_Finished->isChecked())
         MS4_UpdatePedigreePlot();
@@ -7896,8 +7928,8 @@ bool D_MAKRO_MegaFoci::MS4_UpdatePedigreePlot()
                     ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_X->value(),
                     ui->spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Node->value(),
                     ui->spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Edge->value(),
-                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_OriginalImgSize_Y->value() * dataset_dim_mosaic_x,
-                    ui->spinBox_MS4_PedigreeView_Param_Volumetric_OriginalImgSize_X->value() * dataset_dim_mosaic_y);
+                    ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y->value(),
+                    ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X->value());
     }
 
     if(err != ER_okay)
@@ -7917,9 +7949,9 @@ void D_MAKRO_MegaFoci::MS4_CalcVolumetricView_Memory()
     int sub_y = ui->spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y->value();
     int sub_x = ui->spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X->value();
 
-    int all_t = sub_t * dataset_dim_t;
-    int all_y = sub_y * dataset_dim_mosaic_y;
-    int all_x = sub_x * dataset_dim_mosaic_x;
+    int all_t = int(sub_t * dataset_dim_t);
+    int all_y = int(sub_y * dataset_dim_mosaic_y);
+    int all_x = int(sub_x * dataset_dim_mosaic_x);
 
     ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_T->setValue(all_t);
     ui->spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_Y->setValue(all_y);
@@ -7931,6 +7963,12 @@ void D_MAKRO_MegaFoci::MS4_CalcVolumetricView_Memory()
     double all_MB = all_KB / 1024;
 
     ui->doubleSpinBox_MS4_PedigreeView_Param_Memory->setValue(all_MB);
+}
+
+void D_MAKRO_MegaFoci::MS4_CalcOriginalMosaicSize()
+{
+    ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X->setValue(ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X->value() * dataset_dim_mosaic_x);
+    ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y->setValue(ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y->value() * dataset_dim_mosaic_y);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
@@ -7964,3 +8002,13 @@ void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSiz
 }
 
 
+
+void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X_valueChanged(int arg1)
+{
+    MS4_CalcOriginalMosaicSize();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1)
+{
+    MS4_CalcOriginalMosaicSize();
+}
