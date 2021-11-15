@@ -7395,17 +7395,17 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
     if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
         return false;
 
-    ui->groupBox_MS4_Data->setEnabled(false);
+    ui->pushButton_MS4_LoadData->setEnabled(false);
 
     if(!MS4_LoadDirs())
     {
-        ui->groupBox_MS4_Data->setEnabled(true);
+        ui->pushButton_MS4_LoadData->setEnabled(true);
         return false;
     }
 
     if(!MS4_LoadDetectionsToPedigree())
     {
-        ui->groupBox_MS4_Data->setEnabled(true);
+        ui->pushButton_MS4_LoadData->setEnabled(true);
         return false;
     }
 
@@ -7511,7 +7511,8 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
                     MS4_LoadDetectionsToPedigree_Thread,
                     &MS4_NucPedigree_AutoReconstruct,
                     t_thread,
-                    DIR_MS4_In_DetectionsAssigned);
+                    DIR_MS4_In_DetectionsAssigned,
+                    DIR_MS4_In_Master);
         StatusSet("Loading detections T=" + QString::number(t_thread) + " (thread started)");
     }
 
@@ -7554,7 +7555,7 @@ bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Load()
     return true;
 }
 
-void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections)
+void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections, QDir DirLoadMaster)
 {
     //sizes
     size_t nt = pNucPedigree->size_T();
@@ -7643,6 +7644,11 @@ void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree
                                         //forget contour to save memory in this step
                                         NucBlob.forget_contour_and_calc_feats();
 
+                                        //set path (needed for beeing able to save the pedigree as relative paths lists after reconstruction)
+                                        NucBlob.set_path_absolute(
+                                                    NucBlob.get_path_absolute_loaded_from(),
+                                                    DirLoadMaster);
+
                                         //push nucleus to pedigree
                                         pNucPedigree->add_nucleus_blob(t, iy, ix, NucBlob);
                                     }
@@ -7655,6 +7661,56 @@ void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree
         }
     }
 }
+
+bool D_MAKRO_MegaFoci::MS4_SaveData()
+{
+    if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
+        return false;
+
+    StatusSet("Please select directory to save step 4 results in");
+    QString QS_Save = QFileDialog::getExistingDirectory(
+                this,
+                "Please select directory to save step 4 results in ('Results_4_* folder is created automatically')",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_Save.isEmpty())
+    {
+        StatusSet("If you don't select a folder, i can't save the results i worked so hard for... " + QS_Fun_Sad);
+        return false;
+    }
+
+    //set master save dir and cehck existance
+    QDir DIR_Save(QS_Save);
+    if(!DIR_Save.exists())
+    {
+        StatusSet("With unknown dark magic you managed to select a non existent directory " +  QS_Fun_Confused);
+        return false;
+    }
+
+    //create sub dir
+    size_t count = 0;
+    do
+    {
+        DIR_MS4_Out_NucleiLifes.setPath(DIR_Save.path() + "/Results_Step4_" + QString::number(count));
+        count++;
+    }
+    while(DIR_MS4_Out_NucleiLifes.exists());
+    QDir().mkdir(DIR_MS4_Out_NucleiLifes.path());
+    StatusSet("Set as save directory:\n" + DIR_MS4_Out_NucleiLifes.path());
+
+    //save data
+    StatusSet("Start saving data");
+    bool ok = MS4_NucPedigree_AutoReconstruct.match_save_results(DIR_MS4_Out_NucleiLifes.path());
+    if(ok)
+        StatusSet("Saved data successfully " + QS_Fun_Happy);
+    else
+        StatusSet("Failed saving data " + QS_Fun_Sad);
+
+    return ok;
+}
+
+
 
 void D_MAKRO_MegaFoci::MS4_DisplayRelativeScoreWeights()
 {
@@ -7787,6 +7843,7 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 
     state_MS4_pedigree_init_1st_time = true;
     state_MS4_pedigree_init = true;
+    ui->pushButton_MS4_SaveData->setEnabled(false);
     return true;
 }
 
@@ -7887,6 +7944,7 @@ bool D_MAKRO_MegaFoci::MS4_ReconstructPedigree()
 
     StatusSet("Finish reconstruction------------------------------");
     state_MS4_pedigree_reconstructed = true;
+    ui->pushButton_MS4_SaveData->setEnabled(true);
     this->setEnabled(true);
 
     return true;
@@ -7976,6 +8034,11 @@ void D_MAKRO_MegaFoci::on_pushButton_MS4_LoadData_clicked()
     MS4_LoadData();
 }
 
+void D_MAKRO_MegaFoci::on_pushButton_MS4_SaveData_clicked()
+{
+    MS4_SaveData();
+}
+
 void D_MAKRO_MegaFoci::on_pushButton_MS4_StartPedigreeReconstruction_clicked()
 {
     MS4_ReconstructPedigree();
@@ -8012,3 +8075,5 @@ void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valu
 {
     MS4_CalcOriginalMosaicSize();
 }
+
+

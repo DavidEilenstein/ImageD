@@ -90,7 +90,11 @@ public:
     void match_time_correct_mitosis_go1(size_t t);
     void match_time_correct_mitosis_go2(size_t t);
 
+    bool match_save_results(QString QS_path);
+
 private:
+
+    static bool match_save_results_time_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirSaveMaster, size_t t_thread);
 
     void        match_correct_mitosis(  size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitosis);
     void        match_times(            size_t t_parents, size_t t_childs, double score_thresh,     bool allow_new_mitosis);
@@ -103,6 +107,8 @@ private:
 
     void        match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
     void        match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections, bool allow_new_mitosis);
+
+
 
     void        calc_PlotVol(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, int size_T_px, int size_Y_px, int size_X_px, int size_nodes = 3, int size_edge = 1);
 

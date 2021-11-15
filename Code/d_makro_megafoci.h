@@ -1346,14 +1346,16 @@ private slots:
     void MS4_UiInit();
     bool MS4_LoadData();
     bool MS4_LoadDirs();
-
     bool MS4_LoadDetectionsToPedigree();
+
+private: //no slot to not cause conflicts with threading
+    static void MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections, QDir DirLoadMaster);
+private slots:
+
     bool MS4_PedigreeBackup_Create();
     bool MS4_PedigreeBackup_Load();
 
-private: //no slot to not cause conflicts with threading
-    static void MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections);
-private slots:
+    bool MS4_SaveData();
 
     void MS4_DisplayRelativeScoreWeights();
     bool MS4_InitPedigree();
@@ -1364,6 +1366,7 @@ private slots:
     void MS4_CalcOriginalMosaicSize();
 
     void on_pushButton_MS4_LoadData_clicked();
+    void on_pushButton_MS4_SaveData_clicked();
     void on_pushButton_MS4_StartPedigreeReconstruction_clicked();
     void on_pushButton_MS4_UpdatePedigreeView_clicked();
     void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X_valueChanged(int arg1);

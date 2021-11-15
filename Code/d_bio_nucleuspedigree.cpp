@@ -687,6 +687,120 @@ void D_Bio_NucleusPedigree::match_time_correct_mitosis_go2(size_t t)
     if(t > 2)   match_correct_mitosis(t - 3, t, match_score_multiplier_mitosis_go2, true);
 }
 
+bool D_Bio_NucleusPedigree::match_save_results(QString QS_path)
+{
+    QDir DIR_SaveMaster;
+    DIR_SaveMaster.setPath(QS_path);
+
+    if(!DIR_SaveMaster.exists())
+        QDir().mkdir(DIR_SaveMaster.path());
+    if(!DIR_SaveMaster.exists())
+        return false;
+
+    size_t nt = vvvvNucBlobs_TYXI.size();
+    vector<thread> vThreads(nt);
+    for(size_t t = 0; t < nt; t++)
+        vThreads[t] = thread(
+                    match_save_results_time_thread,
+                    &vvvvNucBlobs_TYXI,
+                    DIR_SaveMaster,
+                    t);
+
+    for(size_t t = 0; t < nt; t++)
+        vThreads[t].join();
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirSaveMaster, size_t t_thread)
+{
+    if(!DirSaveMaster.exists())
+        return false;
+
+    if(t_thread >= pvvvvNucsTYXI->size())
+        return false;
+
+    //save dir for time
+    QDir DirSaveTime;
+    DirSaveTime.setPath(DirSaveMaster.path() + "/Time_" + QString::number(t_thread));
+
+    for(size_t y = 0; y < (*pvvvvNucsTYXI)[t_thread].size(); y++)
+    {
+        for(size_t x = 0; x < (*pvvvvNucsTYXI)[t_thread][y].size(); x++)
+        {
+            QDir DirSaveTimeSpace(DirSaveTime.path() + "/Image_Y"+ QString::number(y) + "_X" + QString::number(x));
+
+            for(size_t i = 0; i < (*pvvvvNucsTYXI)[t_thread][y][x].size(); i++)
+            {
+                D_Bio_NucleusBlob* pNuc = &((*pvvvvNucsTYXI)[t_thread][y][x][i]);
+
+                //Nucleus is begin of new tracking?
+                if(pNuc->matching_foundNoParent() || pNuc->matching_parent_isMitosis())
+                {
+                    //make sure save dir exists
+                    if(!DirSaveTime.exists())
+                        QDir().mkdir(DirSaveTime.path());
+                    if(!DirSaveTimeSpace.exists())
+                        QDir().mkdir(DirSaveTimeSpace.path());
+
+                    //save dir exists?
+                    if(DirSaveTimeSpace.exists())
+                    {
+                        //save file
+                        Point center = pNuc->centroid();
+                        QFileInfo FI_NucLife;
+                        FI_NucLife.setFile(DirSaveTimeSpace.path() + "/NucleusLife_T" + QString::number(t_thread) + "_Y" + QString::number(center.y) + "_X" + QString::number(center.x) + ".txt");
+
+                        //stream
+                        ofstream OF_NucLife;
+                        OF_NucLife.open(FI_NucLife.absoluteFilePath().toStdString());
+
+                        //open?
+                        if(true)//OF_NucLife.is_open())
+                        {
+                            //header
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_PATH_INFO].toStdString() << "\n";
+                            OF_NucLife << "Original absolute path of this file;" << FI_NucLife.path().toStdString() << "\n";
+                            OF_NucLife << "Original absolute path of 1st nucleus blob file;" << pNuc->get_path_absolute_loaded_from().toStdString() << "\n";
+                            OF_NucLife << "\n";
+
+                            //parent
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_PARENT].toStdString() << "\n";
+                            if(pNuc->matching_foundParent())
+                                OF_NucLife << pNuc->matching_Parent()->get_path_relative().toStdString() + "\n";
+
+                            //save member nucleus files
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_MEMBERS].toStdString() << "\n";
+                            OF_NucLife << pNuc->get_path_relative().toStdString() + "\n";
+                            while(pNuc->matching_foundExactlyOneChild())
+                            {
+                                pNuc = pNuc->matching_ChildFavorite();
+                                OF_NucLife << pNuc->get_path_relative().toStdString() + "\n";
+                            }
+
+                            //childs
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_CHILDS].toStdString() << "\n";
+                            if(pNuc->matching_isMitosis())
+                            {
+                                OF_NucLife << pNuc->matching_Child1()->get_path_relative().toStdString() + "\n";
+                                OF_NucLife << pNuc->matching_Child2()->get_path_relative().toStdString() + "\n";
+                            }
+
+                            //end
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_END].toStdString();
+                        }
+
+                        //close;
+                        OF_NucLife.close();
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
 void D_Bio_NucleusPedigree::match_times(size_t t_parents, size_t t_childs, double score_thresh, bool allow_new_mitosis)
 {
     size_t nt = vvvvNucBlobs_TYXI.size();

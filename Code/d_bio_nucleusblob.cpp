@@ -378,6 +378,9 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     if (!F_Nucleus.open(QIODevice::ReadOnly))
         return false;
 
+    //save load file name
+    QS_path_abs_loaded_from = FI_Nucleus.absoluteFilePath();
+
     //text stream
     QTextStream TS_Nucleus(&F_Nucleus);
 
@@ -657,6 +660,27 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     CalcFeats();
 
     return true;
+}
+
+bool D_Bio_NucleusBlob::set_path_relative(QString path_rel)
+{
+    if(path_rel.isEmpty())
+        return false;
+
+    if(path_rel[0] != "/")
+        return false;
+
+    QS_path_relative = path_rel;
+    return true;
+}
+
+bool D_Bio_NucleusBlob::set_path_absolute(QString path_abs, QDir master_dir)
+{
+    if(!path_abs.contains(master_dir.path()))
+        return false;
+
+    int n_rel = path_abs.length() - master_dir.path().length();
+    return set_path_relative(path_abs.right(n_rel));
 }
 
 Rect D_Bio_NucleusBlob::bounding_box()

@@ -79,6 +79,13 @@ public:
     int                             save_simple(QString path_of_dir_to_save_in, bool save_foci);
     bool                            load_simple(QString nucleus_file, bool load_foci);
 
+    bool                            set_path_relative(QString path_rel);
+    bool                            set_path_absolute(QString path_abs, QDir master_dir);
+    bool                            has_path_relative()                                     {return !QS_path_relative.isEmpty();}
+    QString                         get_path_relative()                                     {return QS_path_relative;}
+    QString                         get_path_absolute(QDir master_dir)                      {return master_dir.path() + QS_path_relative;}
+    QString                         get_path_absolute_loaded_from()                         {return QS_path_abs_loaded_from;}
+
     Rect                            bounding_box();
 
     vector<vector<Point>>           merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance);
@@ -140,6 +147,7 @@ public:
     //matching
     D_Bio_NucleusBlob*  matching_Child1()                               {return state_FoundChild1 ? Nuc_Child1 : nullptr;}
     D_Bio_NucleusBlob*  matching_Child2()                               {return state_FoundChild2 ? Nuc_Child2 : nullptr;}
+    D_Bio_NucleusBlob*  matching_ChildFavorite()                        {return (state_FoundChild1 || state_FoundChild2) ? (Score_Child2 > Score_Child1 ? Nuc_Child2 : Nuc_Child1) : nullptr;}
     D_Bio_NucleusBlob*  matching_Parent()                               {return state_FoundParent ? Nuc_Parent : nullptr;}
     bool                matching_foundChild1()                          {return state_FoundChild1;}
     bool                matching_foundChild2()                          {return state_FoundChild2;}
@@ -152,6 +160,7 @@ public:
     bool                matching_foundExactlyOneChild()                 {return (state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2);}
     bool                matching_isMitosis()                            {return state_FoundChild1 && state_FoundChild2;}
     bool                matching_isLinear()                             {return state_FoundParent && ((state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2));}
+    bool                matching_parent_isMitosis()                     {if(!state_FoundParent) return false; return Nuc_Parent->matching_isMitosis();}
 
     int                 matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end);
     QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
@@ -164,7 +173,8 @@ public:
 
 private:
 
-    //bool            load(QString QS_DirLoad);
+    QString                         QS_path_relative;
+    QString                         QS_path_abs_loaded_from;
 
     size_t                          m_time = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;

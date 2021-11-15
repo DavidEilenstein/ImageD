@@ -86,6 +86,22 @@ const QStringList QSL_FileSections = {
      VAL_STAT_NUMBER_OF
  };
 
+const QStringList QSL_NucLifeFileSections = {
+    ":::: PathInfo",
+    ":::: Parent",
+    ":::: Members",
+    ":::: Childs",
+    ":::: End"
+};
+enum NUC_LIFE_FILE_SECTIONS {
+    NUC_LIFE_FILE_SECTION_PATH_INFO,
+    NUC_LIFE_FILE_SECTION_PARENT,
+    NUC_LIFE_FILE_SECTION_MEMBERS,
+    NUC_LIFE_FILE_SECTION_CHILDS,
+    NUC_LIFE_FILE_SECTION_END,
+    NUC_LIFE_FILE_SECTION_NUMBER_OF
+};
+
  enum SCORES {
      SCORE_SHIFT,
      SCORE_AREA,
