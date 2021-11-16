@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_6 (26.10.21)</span>
+   &#160;<span id="projectnumber">v2_2_0 (15.11.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -106,62 +106,188 @@ $(document).ready(function(){initNavTree('d__bio__nucleuspedigree_8h_source.html
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__bio__nucleuslife_8h.html">d_bio_nucleuslife.h</a>&gt;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__bio__nucleusblob_8h.html">d_bio_nucleusblob.h</a>&gt;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__bio__enum_8h.html">d_bio_enum.h</a>&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//Qt</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;QFileDialog&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;QFileInfoList&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;QDir&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;QDateTime&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;QInputDialog&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//general</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//openCV</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;opencv2/core/core.hpp&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;opencv2/highgui/highgui.hpp&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;opencv2/imgproc/imgproc.hpp&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//namespaces</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a>();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> clear();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> set_size_time(<span class="keywordtype">size_t</span> t_size);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__viewer__plot__3d_8h.html">d_viewer_plot_3d.h</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__viewer__3d_8h.html">d_viewer_3d.h</a>&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//Qt</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;QFileDialog&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;QFileInfoList&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;QDateTime&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;QInputDialog&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//general</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//openCV</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;opencv2/core/core.hpp&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;opencv2/highgui/highgui.hpp&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;opencv2/imgproc/imgproc.hpp&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">//namespaces</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">//using namespace cv; (prohibited because of abigous names with qtdatavisualization)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html">   48</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a>();</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> clear();</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//dimension</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">size_t</span> size_time = 0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//data</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt; vvNucBlobs;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> set_size_time_and_mosaik(<span class="keywordtype">size_t</span> t_size, <span class="keywordtype">size_t</span> y_size, <span class="keywordtype">size_t</span> x_size);</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#aa4d0c5c3db9a3d96b098ed0095ece9cd">   56</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#aa4d0c5c3db9a3d96b098ed0095ece9cd">size_T</a>() {<span class="keywordflow">return</span> size_time;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#ad2d2e8c05491984ef39e7a0ef99de410">   57</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#ad2d2e8c05491984ef39e7a0ef99de410">size_Y</a>() {<span class="keywordflow">return</span> size_mosaik_y;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a2704de7227a059e7e7d02acda7f5979d">   58</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a2704de7227a059e7e7d02acda7f5979d">size_X</a>() {<span class="keywordflow">return</span> size_mosaik_x;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">size_t</span> nuclei_blob_count(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">size_t</span> nuclei_blob_count();</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">//weights for score calc</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    vector&lt;double&gt; vScoreWeights;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">bool</span> add_nucleus_blob(<span class="keywordtype">size_t</span> t, <span class="keywordtype">size_t</span> y, <span class="keywordtype">size_t</span> x, <a class="code" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> nuc);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> initMatching(vector&lt;double&gt; score_weights, vector&lt;double&gt; score_maxima, <span class="keywordtype">double</span> shift_limit, <span class="keywordtype">double</span> max_rel_area_inc_to, <span class="keywordtype">double</span> max_rel_area_dec_to, <span class="keywordtype">double</span> max_age, <span class="keywordtype">double</span> thres_tm1_go1, <span class="keywordtype">double</span> thres_tm2_go1, <span class="keywordtype">double</span> thres_tm3_go1, <span class="keywordtype">double</span> thres_tm1_go2, <span class="keywordtype">double</span> thres_tm2_go2, <span class="keywordtype">double</span> thres_tm3_go2, <span class="keywordtype">double</span> mitosis_mult_go1, <span class="keywordtype">double</span> mitosis_mult_go2);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_BIO_NUCLEUSPEDIGREE_H</span></div>
-<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:46</div></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">int</span> setPedigreeViewer_Plot3D( <a class="code" href="class_d___viewer___plot__3_d.html">D_Viewer_Plot_3D</a> *viewer);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">int</span> updatePedigreeView_Plot3D(                          <span class="keywordtype">size_t</span> points_per_edge, <span class="keywordtype">size_t</span> t_min = 0, <span class="keywordtype">size_t</span> t_max = <span class="keywordtype">size_t</span>(INFINITY), <span class="keywordtype">double</span> y_min_um = -INFINITY, <span class="keywordtype">double</span> y_max_um = INFINITY, <span class="keywordtype">double</span> x_min_um = -INFINITY, <span class="keywordtype">double</span> x_max_um = INFINITY);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">int</span> updatePedigreeView_Plot3D(<a class="code" href="class_d___viewer___plot__3_d.html">D_Viewer_Plot_3D</a> *viewer, <span class="keywordtype">size_t</span> points_per_edge, <span class="keywordtype">size_t</span> t_min = 0, <span class="keywordtype">size_t</span> t_max = <span class="keywordtype">size_t</span>(INFINITY), <span class="keywordtype">double</span> y_min_um = -INFINITY, <span class="keywordtype">double</span> y_max_um = INFINITY, <span class="keywordtype">double</span> x_min_um = -INFINITY, <span class="keywordtype">double</span> x_max_um = INFINITY);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> setPedigreeViewer_Volumetric( <a class="code" href="class_d___viewer__3_d.html">D_Viewer_3D</a> *viewer);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">int</span> updatePedigreeView_Volumetric(                      <span class="keywordtype">size_t</span> size_volT_px, <span class="keywordtype">size_t</span> size_volY_px, <span class="keywordtype">size_t</span> size_volX_px, <span class="keywordtype">size_t</span> size_Node_px, <span class="keywordtype">size_t</span> size_Edge_px, <span class="keywordtype">size_t</span> size_Y_px_original, <span class="keywordtype">size_t</span> size_X_px_original);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> updatePedigreeView_Volumetric(<a class="code" href="class_d___viewer__3_d.html">D_Viewer_3D</a> *viewer,  <span class="keywordtype">size_t</span> size_volT_px, <span class="keywordtype">size_t</span> size_volY_px, <span class="keywordtype">size_t</span> size_volX_px, <span class="keywordtype">size_t</span> size_Node_px, <span class="keywordtype">size_t</span> size_Edge_px, <span class="keywordtype">size_t</span> size_Y_px_original, <span class="keywordtype">size_t</span> size_X_px_original);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> updatePedigreeView_Volumetric_TimeThread(<a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Target, vector&lt;vector&lt;vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt;&gt;&gt; *pvvvvNucsTYXI, <span class="keywordtype">double</span> score_range, <span class="keywordtype">double</span> score_min, <span class="keywordtype">size_t</span> size_Node_px, <span class="keywordtype">size_t</span> size_Edge_px, <span class="keywordtype">size_t</span> size_Y_px_original, <span class="keywordtype">size_t</span> size_X_px_original, <a class="code" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a> frame_legit, <span class="keywordtype">size_t</span> t_plane);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#ac0274cac82fa3b50eddc0bd277f88a5f">   77</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#ac0274cac82fa3b50eddc0bd277f88a5f">set_scale_px2um</a>(<span class="keywordtype">double</span> scale)                              {<span class="keywordflow">if</span>(scale &gt; 0) scale_px_to_um = scale;}</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a752c7f7ea1fb53f27dec2c976b221012">   78</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a752c7f7ea1fb53f27dec2c976b221012">set_scale_T2h</a>(<span class="keywordtype">double</span> scale)                                {<span class="keywordflow">if</span>(scale &gt; 0) scale_t_to_h = scale;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a4fed174ad83a1d8d373443fe28ab09ad">   79</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a4fed174ad83a1d8d373443fe28ab09ad">set_scale_nodes</a>(<span class="keywordtype">double</span> scale)                              {<span class="keywordflow">if</span>(scale &gt; 0 &amp;&amp; scale &lt;= 1) scale_nodes = scale;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a8438b93c0fda1968657283c8c386ed49">   80</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a8438b93c0fda1968657283c8c386ed49">set_scale_edges</a>(<span class="keywordtype">double</span> scale)                              {<span class="keywordflow">if</span>(scale &gt; 0 &amp;&amp; scale &lt;= 1) scale_edges = scale;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a91507a85312c848ed7cc06cb06b87306">   81</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a91507a85312c848ed7cc06cb06b87306">set_range_XY</a>(<span class="keywordtype">int</span> x_min, <span class="keywordtype">int</span> x_max, <span class="keywordtype">int</span> y_min, <span class="keywordtype">int</span> y_max)   {<span class="keywordtype">int</span> w = x_max - x_min; <span class="keywordtype">int</span> h = y_max - y_min; <span class="keywordflow">if</span>(w &gt; 0 &amp;&amp; h &gt; 0) FrameInRegularRangeXY = <a class="code" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a>(x_min, y_min, w, h);}</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="class_d___bio___nucleus_pedigree.html#a436382ccd8460495aecb21dd624aa2ad">   82</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d___bio___nucleus_pedigree.html#a436382ccd8460495aecb21dd624aa2ad">set_earliest_mitoses_allowed</a>(<span class="keywordtype">size_t</span> t_earliest)            {match_earliest_mitosis_allowed = t_earliest;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> match_all();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> match_all_go1();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> match_all_go2();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> match_time_go1(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> match_time_go2(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">void</span> match_time_correct_mitosis_go1(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> match_time_correct_mitosis_go2(<span class="keywordtype">size_t</span> t);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">bool</span> match_save_results(QString QS_path);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> match_save_results_time_thread(vector&lt;vector&lt;vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt;&gt;&gt; *pvvvvNucsTYXI, QDir DirSaveMaster, <span class="keywordtype">size_t</span> t_thread);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span>        match_correct_mitosis(  <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> score_multiplier, <span class="keywordtype">bool</span> allow_new_mitosis);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span>        match_times(            <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> score_thresh,     <span class="keywordtype">bool</span> allow_new_mitosis);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span>        match_find_possible_matches(            vector&lt;vector&lt;double&gt;&gt; *vvPossibleMatches,              <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> score_thresh, <span class="keywordtype">bool</span> allow_new_mitosis);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span>        match_find_possible_mitosis_corrections(vector&lt;vector&lt;double&gt;&gt; *vvPossibleMitosisCorrections,   <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> score_multiplier, <span class="keywordtype">bool</span> allow_new_mitoses);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> match_find_possible_matches_thread(vector&lt;vector&lt;vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt;&gt;&gt; *pvvvvNucsTYXI, vector&lt;vector&lt;double&gt;&gt; *vvPossibleMatches,                         <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> score_thresh, <span class="keywordtype">bool</span> allow_new_mitosis, vector&lt;size_t&gt; *pvScoreRelevantCriteria, vector&lt;double&gt; *pvScoreWeights, vector&lt;double&gt; *pvScoreMax, <span class="keywordtype">double</span> max_area_increase_to_rel, <span class="keywordtype">double</span> max_area_decrease_to_rel, <span class="keywordtype">double</span> max_shift, <span class="keywordtype">size_t</span> y_toProc);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> match_find_possible_mitosis_corrections_thread(vector&lt;vector&lt;vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt;&gt;&gt; *pvvvvNucsTYXI, vector&lt;vector&lt;double&gt;&gt; *vvPossibleMitosisCorrections, <span class="keywordtype">size_t</span> t_parents, <span class="keywordtype">size_t</span> t_childs, <span class="keywordtype">double</span> mitosis_score_muliplier, <span class="keywordtype">bool</span> allow_new_mitoses,              vector&lt;size_t&gt; *pvScoreRelevantCriteria, vector&lt;double&gt; *pvScoreWeights, vector&lt;double&gt; *pvScoreMax, <span class="keywordtype">double</span> max_area_increase_to_rel, <span class="keywordtype">double</span> max_area_decrease_to_rel, <span class="keywordtype">double</span> max_shift, <span class="keywordtype">size_t</span> y_toProc);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span>        match_accept_matches(vector&lt;vector&lt;double&gt;&gt; *vvPossibleMatches, <span class="keywordtype">bool</span> allow_new_mitosis);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span>        match_accept_mitosis_corrections(vector&lt;vector&lt;double&gt;&gt; *vvPossibleMitosisCorrections, <span class="keywordtype">bool</span> allow_new_mitosis);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">void</span>        calc_PlotVol(vector&lt;Point3d&gt; vNodesCoord, vector&lt;Point3d&gt; vEdgeCoordBegins, vector&lt;Point3d&gt; vEdgeCoordEnds, vector&lt;QColor&gt; vNodeColor, vector&lt;QColor&gt; vEdgeColor, <span class="keywordtype">int</span> size_T_px, <span class="keywordtype">int</span> size_Y_px, <span class="keywordtype">int</span> size_X_px, <span class="keywordtype">int</span> size_nodes = 3, <span class="keywordtype">int</span> size_edge = 1);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">//viewer</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="class_d___viewer___plot__3_d.html">D_Viewer_Plot_3D</a> *pViewerPedigree_Plot3D;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="class_d___viewer__3_d.html">D_Viewer_3D</a> *pViewerPedigree_Volumetric;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">//Plot_Volume for volumetric plot</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> VD_PlotVol;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">//dimension</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">size_t</span> size_time = 0;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">size_t</span> size_mosaik_y = 0;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">size_t</span> size_mosaik_x = 0;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">//data</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    vector&lt;vector&lt;vector&lt;vector&lt;D_Bio_NucleusBlob&gt;&gt;&gt;&gt; vvvvNucBlobs_TYXI;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">//weights for score calc</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    vector&lt;size_t&gt;                  vScoreCriteria_Relevant;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    vector&lt;double&gt;                  vScoreWeights_Relevant;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    vector&lt;double&gt;                  vScoreMaxima_Relevant;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">double</span>                          match_thresh_max_area_increase_to = 1.25;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">double</span>                          match_thresh_max_area_decrease_to = 0.35;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">double</span>                          match_thresh_max_shift = 200;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">double</span>                          match_max_age = 35;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm1_go1 = 0.50;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm2_go1 = 0.55;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm3_go1 = 0.60;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm1_go2 = 0.20;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm2_go2 = 0.25;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">double</span>                          match_score_thres_tm3_go2 = 0.30;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">double</span>                          match_score_multiplier_mitosis_go1 = 0.20;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">double</span>                          match_score_multiplier_mitosis_go2 = 0.70;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">size_t</span>                          match_earliest_mitosis_allowed = 0;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">//scaling XYT to rteal world coords</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">double</span>                          scale_px_to_um = 0.1;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">double</span>                          scale_t_to_h = 1.0;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">double</span>                          scale_nodes = 1;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">double</span>                          scale_edges = 1;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">//XY range no border</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a>                            FrameInRegularRangeXY = <a class="code" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a>(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">//states</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">bool</span>                            state_ScoreWeightsAndMaxSet = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">bool</span>                            state_PedigreeViewer_Plot3D_Set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">bool</span>                            state_PedigreeViewer_Volumetric_Set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">enum</span> MATCH_ATTRIB_INDEX {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        MATCH_ATTRIB_INDEX_SCORE,</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        MATCH_ATTRIB_INDEX_PARENT_T,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        MATCH_ATTRIB_INDEX_PARENT_Y,</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        MATCH_ATTRIB_INDEX_PARENT_X,</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        MATCH_ATTRIB_INDEX_PARENT_I,</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        MATCH_ATTRIB_INDEX_CHILD_T,</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        MATCH_ATTRIB_INDEX_CHILD_Y,</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        MATCH_ATTRIB_INDEX_CHILD_X,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        MATCH_ATTRIB_INDEX_CHILD_I,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        MATCH_ATTRIB_INDEX_NUMBER_OF</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    };</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;};</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// D_BIO_NUCLEUSPEDIGREE_H</span></div>
+<div class="ttc" id="aclass_d___bio___nucleus_blob_html"><div class="ttname"><a href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleusblob.h:46</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html">D_Bio_NucleusPedigree</a></div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:49</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a2704de7227a059e7e7d02acda7f5979d"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a2704de7227a059e7e7d02acda7f5979d">D_Bio_NucleusPedigree::size_X</a></div><div class="ttdeci">size_t size_X()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:58</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a436382ccd8460495aecb21dd624aa2ad"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a436382ccd8460495aecb21dd624aa2ad">D_Bio_NucleusPedigree::set_earliest_mitoses_allowed</a></div><div class="ttdeci">void set_earliest_mitoses_allowed(size_t t_earliest)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:82</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a4fed174ad83a1d8d373443fe28ab09ad"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a4fed174ad83a1d8d373443fe28ab09ad">D_Bio_NucleusPedigree::set_scale_nodes</a></div><div class="ttdeci">void set_scale_nodes(double scale)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:79</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a752c7f7ea1fb53f27dec2c976b221012"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a752c7f7ea1fb53f27dec2c976b221012">D_Bio_NucleusPedigree::set_scale_T2h</a></div><div class="ttdeci">void set_scale_T2h(double scale)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:78</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a8438b93c0fda1968657283c8c386ed49"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a8438b93c0fda1968657283c8c386ed49">D_Bio_NucleusPedigree::set_scale_edges</a></div><div class="ttdeci">void set_scale_edges(double scale)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:80</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_a91507a85312c848ed7cc06cb06b87306"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#a91507a85312c848ed7cc06cb06b87306">D_Bio_NucleusPedigree::set_range_XY</a></div><div class="ttdeci">void set_range_XY(int x_min, int x_max, int y_min, int y_max)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:81</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_aa4d0c5c3db9a3d96b098ed0095ece9cd"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#aa4d0c5c3db9a3d96b098ed0095ece9cd">D_Bio_NucleusPedigree::size_T</a></div><div class="ttdeci">size_t size_T()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:56</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_ac0274cac82fa3b50eddc0bd277f88a5f"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#ac0274cac82fa3b50eddc0bd277f88a5f">D_Bio_NucleusPedigree::set_scale_px2um</a></div><div class="ttdeci">void set_scale_px2um(double scale)</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:77</div></div>
+<div class="ttc" id="aclass_d___bio___nucleus_pedigree_html_ad2d2e8c05491984ef39e7a0ef99de410"><div class="ttname"><a href="class_d___bio___nucleus_pedigree.html#ad2d2e8c05491984ef39e7a0ef99de410">D_Bio_NucleusPedigree::size_Y</a></div><div class="ttdeci">size_t size_Y()</div><div class="ttdef"><b>Definition:</b> d_bio_nucleuspedigree.h:57</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html"><div class="ttname"><a href="class_d___viewer__3_d.html">D_Viewer_3D</a></div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:85</div></div>
+<div class="ttc" id="aclass_d___viewer___plot__3_d_html"><div class="ttname"><a href="class_d___viewer___plot__3_d.html">D_Viewer_Plot_3D</a></div><div class="ttdef"><b>Definition:</b> d_viewer_plot_3d.h:68</div></div>
+<div class="ttc" id="aclass_d___vis_dat___obj_html"><div class="ttname"><a href="class_d___vis_dat___obj.html">D_VisDat_Obj</a></div><div class="ttdoc">The D_VisDat_Obj class Represents a 6D image.</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:51</div></div>
 <div class="ttc" id="ad__bio__enum_8h_html"><div class="ttname"><a href="d__bio__enum_8h.html">d_bio_enum.h</a></div></div>
 <div class="ttc" id="ad__bio__nucleusblob_8h_html"><div class="ttname"><a href="d__bio__nucleusblob_8h.html">d_bio_nucleusblob.h</a></div></div>
 <div class="ttc" id="ad__bio__nucleuslife_8h_html"><div class="ttname"><a href="d__bio__nucleuslife_8h.html">d_bio_nucleuslife.h</a></div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="ad__math_8h_html"><div class="ttname"><a href="d__math_8h.html">d_math.h</a></div></div>
 <div class="ttc" id="ad__opencv__typedefs_8h_html"><div class="ttname"><a href="d__opencv__typedefs_8h.html">d_opencv_typedefs.h</a></div></div>
+<div class="ttc" id="ad__opencv__typedefs_8h_html_ae9f64a335b58c3a305d21bccfbb30e1b"><div class="ttname"><a href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a></div><div class="ttdeci">cv::Rect Rect</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:65</div></div>
 <div class="ttc" id="ad__stat_8h_html"><div class="ttname"><a href="d__stat_8h.html">d_stat.h</a></div></div>
+<div class="ttc" id="ad__viewer__3d_8h_html"><div class="ttname"><a href="d__viewer__3d_8h.html">d_viewer_3d.h</a></div></div>
+<div class="ttc" id="ad__viewer__plot__3d_8h_html"><div class="ttname"><a href="d__viewer__plot__3d_8h.html">d_viewer_plot_3d.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -624,7 +624,7 @@ var d__enum_8h =
       [ "c_TIME_SOURCE_VIEW", "d__enum_8h.html#aa1473cb5264ee9ea7889f89a50ceb4ddac420b1212ce6bb254c3ab340155e41a9", null ]
     ] ],
     [ "D_VIEWER_3D_ALPHA", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0", [
-      [ "c_VIEWER_3D_ALPHA_MAX", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0ac70212f8b9c1e7f7b7d275f596e0f1d1", null ],
+      [ "c_VIEWER_3D_ALPHA_OPAC", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a65b169ee213f45561a025b01ca79956e", null ],
       [ "c_VIEWER_3D_ALPHA_CHANNEL_0", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0aa3cdc86a01cd89ce57d37c3180570471", null ],
       [ "c_VIEWER_3D_ALPHA_CHANNEL_1", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a9523eb7096e911567bd7e6f15697cb23", null ],
       [ "c_VIEWER_3D_ALPHA_CHANNEL_2", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0aecc680d496edc0ddd3d8c0a7ad47a160", null ],
@@ -633,6 +633,7 @@ var d__enum_8h =
       [ "c_VIEWER_3D_ALPHA_CHANNEL_MAX", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0aa45dd40b404ec3689465e1019287e8ac", null ],
       [ "c_VIEWER_3D_ALPHA_CHANNEL_MEAN", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a1e37c62af5972df262d36a1cfbf5a3fb", null ],
       [ "c_VIEWER_3D_ALPHA_CHANNEL_SQUARE_MEAN", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a0a11dc896849d4687af684b0deb9be4f", null ],
+      [ "c_VIEWER_3D_ALPHA_MAX_IS_TRANSPARENT", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a7fb45afc85d4b7a52936deeb097f9147", null ],
       [ "c_VIEWER_3D_ALPHA_NUMBER_OF", "d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0adbcdd607c91b6ab014361323e89320a8", null ]
     ] ],
     [ "D_VIEWER_MODE", "d__enum_8h.html#a493d7a8b036cf0f92e95cde0c5379734", [

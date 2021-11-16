@@ -31,6 +31,7 @@ var class_d___bio___nucleus_image =
     [ "get_nuclei_contour_objects_append", "class_d___bio___nucleus_image.html#a8f37df2561df8c220b22f7b9a859c26d", null ],
     [ "get_nuclei_contours", "class_d___bio___nucleus_image.html#a4cadb9b7118e73b7e74e5a1a5b4716c3", null ],
     [ "get_nuclei_count", "class_d___bio___nucleus_image.html#a5104dae8e4f2803325fd733e62029774", null ],
+    [ "get_nucleus", "class_d___bio___nucleus_image.html#a80f08a6a39e9ccc5f441a198ccc34877", null ],
     [ "get_ShapeInfo_append", "class_d___bio___nucleus_image.html#a5c95daaa967c9de042fca42d52954cca", null ],
     [ "info", "class_d___bio___nucleus_image.html#afd718440d6826f65516638fbd3dff22e", null ],
     [ "load", "class_d___bio___nucleus_image.html#aa26bf3d897009b8ff0f7b31434a44c0f", null ],

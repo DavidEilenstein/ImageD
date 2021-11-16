@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_1_6 (26.10.21)</span>
+   &#160;<span id="projectnumber">v2_2_0 (15.11.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -124,6 +124,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac05b146aaf5d3f7d0a3591685221ed1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86db9ec99015735a37c6661c045adb5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer___plot__3_d.html#a86db9ec99015735a37c6661c045adb5c">plot_ScatterData_Color</a> (vector&lt; double &gt; vX, vector&lt; double &gt; vY, vector&lt; double &gt; vZ, vector&lt; double &gt; vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally=false)</td></tr>
 <tr class="separator:a86db9ec99015735a37c6661c045adb5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a948159121b78a4adab46d968665ae150"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer___plot__3_d.html#a948159121b78a4adab46d968665ae150">plot_Tree</a> (vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt; vNodesCoord, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt; vEdgeCoordBegins, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt; vEdgeCoordEnds, vector&lt; QColor &gt; vNodeColor, vector&lt; QColor &gt; vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, size_t points_per_edge=5, double size_nodes=0.1, double size_edge=0.05, bool called_internally=false)</td></tr>
+<tr class="separator:a948159121b78a4adab46d968665ae150"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4aee33a58cd59dbef06992b1febc155"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___viewer___plot__3_d.html#ae4aee33a58cd59dbef06992b1febc155">plot_Heightmap</a> (vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> &gt; *pvMA_Height, vector&lt; QImage &gt; *pvQI_Texture, size_t shadow, bool background, bool grid, QString axis_x=&quot;X&quot;, QString axis_y=&quot;Y&quot;, QString axis_z=&quot;Z&quot;, bool draw_surface=true, bool draw_wireframe=false, bool called_internally=false)</td></tr>
 <tr class="separator:ae4aee33a58cd59dbef06992b1febc155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -421,6 +423,118 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">QString&#160;</td>
           <td class="paramname"><em>axis_v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>called_internally</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a948159121b78a4adab46d968665ae150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a948159121b78a4adab46d968665ae150">&#9670;&nbsp;</a></span>plot_Tree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Viewer_Plot_3D::plot_Tree </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt;&#160;</td>
+          <td class="paramname"><em>vNodesCoord</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt;&#160;</td>
+          <td class="paramname"><em>vEdgeCoordBegins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#adb4ce347b934f84a5d392f5329a09621">Point3d</a> &gt;&#160;</td>
+          <td class="paramname"><em>vEdgeCoordEnds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; QColor &gt;&#160;</td>
+          <td class="paramname"><em>vNodeColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; QColor &gt;&#160;</td>
+          <td class="paramname"><em>vEdgeColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>shadow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>background</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>grid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>smooth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>axis_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>points_per_edge</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>size_nodes</em> = <code>0.1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>size_edge</em> = <code>0.05</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
