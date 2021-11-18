@@ -44,6 +44,7 @@ public:
 
     static function<double (vector<double>)>        Function_SingleStat(int stat);
     static function<uchar  (vector<double>)>        Function_SingleStat_8bit(int stat);
+    static function<double (vector<double>)>        Function_SingleStat_Circ_Rad(int stat);
 
     static int          Calc_Vector2Hist_1          (vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
     static int          Calc_Vector2Hist_2          (vector<vector<double>> *vv_hist, vector<vector<double>> *vv_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);

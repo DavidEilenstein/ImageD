@@ -43,6 +43,7 @@ SOURCES += \
     d_bio_nucleuslife.cpp \
     d_bio_nucleuspedigree.cpp \
     d_contour.cpp \
+    d_datavolume_3d.cpp \
     d_featureset.cpp \
     d_finishtimeprognosis.cpp \
     d_geo_line_2d.cpp \
@@ -130,6 +131,7 @@ HEADERS += \
     d_bio_nucleuslife.h \
     d_bio_nucleuspedigree.h \
     d_contour.h \
+    d_datavolume_3d.h \
     d_docu_mainpage.h \
     d_docu_plugin_megafocitracker.h \
     d_featureset.h \

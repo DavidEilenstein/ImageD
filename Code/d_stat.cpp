@@ -2737,6 +2737,831 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
     }
 }
 
+function<double (vector<double>)> D_Stat::Function_SingleStat_Circ_Rad(int stat)
+{
+    switch (stat) {
+
+    case c_STAT_CIRC_COUNT:
+        return [](vector<double> v_x)
+        {
+            return static_cast<double>(v_x.size());
+        };
+
+    case c_STAT_CIRC_MEAN_SIN:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+                sum_s += sin(v_x[i]);
+
+            //mean sin
+            return sum_s / n;
+        };
+
+    case c_STAT_CIRC_MEAN_COS:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines
+            double sum_c = 0;
+            for(size_t i = 0; i < n; i++)
+                sum_c += cos(v_x[i]);
+
+            //mean sin
+            return sum_c / n;
+        };
+
+    case c_STAT_CIRC_MEAN_ANG:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            return atan2(mean_s, mean_c);
+        };
+
+    case c_STAT_CIRC_UNBALANCE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //unbalance
+            return sqrt(mean_c * mean_c + mean_s * mean_s);
+        };
+
+    case c_STAT_CIRC_BALANCE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            return 1.0 - sqrt(mean_c * mean_c + mean_s * mean_s);
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+
+            return balance * PI;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA1_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_2SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA2_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_3SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA3_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_4SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA4_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_5SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA5_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_6SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA6_PROB;
+        };
+
+    case c_STAT_CIRC_BALANCE_PI_OR_180_7SIGMA:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+
+            //balance
+            double unbalance = sqrt(mean_c * mean_c + mean_s * mean_s);
+            double balance = 1.0 - unbalance;
+            double balance_pi = balance * PI;
+
+            return balance_pi * SIGMA7_PROB;
+        };
+
+    case c_STAT_CIRC_VARIANCE_TOTAL:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+
+            return variance_tot;
+        };
+
+    case c_STAT_CIRC_VARIANCE_SAMPLE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+            double variance_sam = variance_tot;
+            if(n > 1) variance_sam = sum_mean_diff_pow2 / (n - 1);
+
+            return variance_sam;
+        };
+
+    case c_STAT_CIRC_SKEWNESS_TOTAL:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+
+            //skewness
+            double skewness_tot = sum_mean_diff_pow3 / (n * sqrt(variance_tot * variance_tot * variance_tot));
+
+            return skewness_tot;
+        };
+
+    case c_STAT_CIRC_SKEWNESS_SAMPLE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+            double variance_sam = variance_tot;
+            if(n > 1) variance_sam = sum_mean_diff_pow2 / (n - 1);
+
+            //skewness
+            double skewness_sam = sum_mean_diff_pow3 / (n * sqrt(variance_sam * variance_sam * variance_sam));
+
+            return skewness_sam;
+        };
+
+    case c_STAT_CIRC_KURTOSIS_TOTAL:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+
+            //kurtosis
+            return sum_mean_diff_pow4 / (n * variance_tot * variance_tot) - 3;
+        };
+
+    case c_STAT_CIRC_KURTOSIS_SAMPLE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+            double variance_sam = variance_tot;
+            if(n > 1) variance_sam = sum_mean_diff_pow2 / (n - 1);
+
+            //kurtosis
+            return sum_mean_diff_pow4 / (n * variance_sam * variance_sam) - 3;
+        };
+
+    case c_STAT_CIRC_STAN_DEV_TOTAL:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+
+            //std
+            return sqrt(variance_tot);
+        };
+
+    case c_STAT_CIRC_STAN_DEV_SAMPLE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+            double variance_sam = variance_tot;
+            if(n > 1) variance_sam = sum_mean_diff_pow2 / (n - 1);
+
+            //std
+            return sqrt(variance_sam);
+        };
+
+    case c_STAT_CIRC_SEM_TOTAL:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+
+            //std
+            double stan_dev_tot = sqrt(variance_tot);
+
+            //standard error to the mean
+            double sem_tot = 0;
+            if(n > 0)   sem_tot = stan_dev_tot / sqrt(n);
+
+            return sem_tot;
+        };
+
+    case c_STAT_CIRC_SEM_SAMPLE:
+        return [](vector<double> v_x)
+        {
+            //count
+            size_t n = v_x.size();
+
+            //sums of sines/cosines
+            double sum_c = 0;
+            double sum_s = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                sum_c += cos(v_x[i]);
+                sum_s += sin(v_x[i]);
+            }
+
+            //means
+            double mean_c = sum_c / n;
+            double mean_s = sum_s / n;
+            double mean_a = atan2(mean_s, mean_c);
+
+            //sums momentums
+            double sum_mean_diff_pow2 = 0;
+            double sum_mean_diff_pow3 = 0;
+            double sum_mean_diff_pow4 = 0;
+            for(size_t i = 0; i < n; i++)
+            {
+                //circular distance
+                double dist = DistCircular_Rad(v_x[i], mean_a);
+
+                //powers of distance
+                double dist_pow2 = dist * dist;
+                double dist_pow3 = dist * dist_pow2;
+                double dist_pow4 = dist * dist_pow3;
+
+                //cumulate
+                sum_mean_diff_pow2 += dist_pow2;
+                sum_mean_diff_pow3 += dist_pow3;
+                sum_mean_diff_pow4 += dist_pow4;
+            }
+
+            //variance
+            double variance_tot = sum_mean_diff_pow2 / n;
+            double variance_sam = variance_tot;
+            if(n > 1) variance_sam = sum_mean_diff_pow2 / (n - 1);
+
+            //std
+            double stan_dev_sam = sqrt(variance_sam);
+
+            //standard error to the mean
+            double sem_sam = 0;
+            if(n > 0)   sem_sam = stan_dev_sam / sqrt(n);
+
+            return sem_sam;
+        };
+
+    case c_STAT_CIRC_CONST_0:
+        return [](vector<double> v_x)
+        {
+            return 0;
+        };
+
+    case c_STAT_CIRC_CONST_1:
+        return [](vector<double> v_x)
+        {
+            return 1;
+        };
+
+    case c_STAT_CIRC_CONST_PI:
+        return [](vector<double> v_x)
+        {
+            return PI;
+        };
+
+    default:
+        return [](vector<double> v_x)
+        {
+            v_x;
+            return NAN;
+        };
+    }
+}
+
 int D_Stat::Calc_Vector2Hist_1(vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_x_ext, double *max_x_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform)
 {
     if(class_count < 2)

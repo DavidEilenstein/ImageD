@@ -2672,7 +2672,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_Histogram()
 
         if(ui->comboBox_Res_Type->currentIndex() == RES_OVERVIEW2)
         {
-            switch (ui->comboBox_Res_Histo_Type->currentIndex()) {
+            switch (mode) {
 
             case HIST_LINEAR_SPEED:
             {
