@@ -39,14 +39,14 @@ public:
     double get_Value                (size_t z, size_t y, size_t x, size_t i);
     vector<double> get_Values       (size_t z, size_t y, size_t x);
 
-   D_VisDat_Obj calc_stats          (size_t stat, bool linear, Point3i mask_size, double default_value, int min_elements);
+   int calc_stats(D_VisDat_Obj* pVD_Out, size_t stat, bool linear, Point3i mask_size, double default_value, int min_elements_thres);
 
 private:
 
     //raw data
     vector<vector<vector<vector<double>>>> vvvvData_ZYXI;
 
-    static bool calc_stats_thread   (vector<vector<vector<vector<double>>>>* pvvvvDataIn_ZYXI, D_VisDat_Obj *pVD_StatOut, function<double (vector<double>)> F_stat, Point3i mask_size, Point3i P_start, Point3i P_end);
+    static bool calc_stats_thread   (D_VisDat_Obj *pVD_StatOut, vector<vector<vector<vector<double>>>>* pvvvvDataIn_ZYXI, function<double (vector<double>)> F_stat, size_t min_elements_thres, Point3i mask_size, Point3i P_start, Point3i P_end);
 
 };
 

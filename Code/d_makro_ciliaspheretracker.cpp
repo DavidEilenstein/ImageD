@@ -617,6 +617,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Results()
     case RES_GRAPHICS_TIME_SUM_PROJ:        Update_Result_GraphicsTimeProjectSum();     break;
     case RES_GRAPHICS_VECTORS:              Update_Result_GraphicsVectors();            break;
     case RES_GRAPHICS_HEATMAP:              Update_Result_GraphicsHeatmap();            break;
+    case RES_GRAPHICS_STAT_FILTER:          Update_Result_StatFilter();                 break;
     case RES_GRAPHICS_VORTEX_CENTER:        Update_Result_GraphicsVortexCenter();       break;
     case RES_SPEED_STAT_CUSTOM:             Update_Result_SpeedStatCustom();            break;
     case RES_ANGLE_STAT_CUSTOM:             Update_Result_AngleStatCustom();            break;
@@ -1163,9 +1164,14 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
     MA_tmp_Value_Gray.release();
 }
 
+void D_MAKRO_CiliaSphereTracker::Update_Result_StatFilter()
+{
+    //CONTINUE HERE
+}
+
 D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start, int t_end)
 {
-    qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "check";
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "check";
 
     //Check requirements
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
@@ -1174,7 +1180,7 @@ D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *li
         return D_Geo_Point_2D(0, 0, 0);
     }
 
-    qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "start";
+    //qDebug() << "D_MAKRO_CiliaSphereTracker::CalcVortexCenter" << "start";
 
     //time window
     if(t_end >= frame_end - frame_start_ana)        t_end   = frame_end - frame_start_ana;
@@ -5158,7 +5164,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     ui->groupBox_Res_Heat->setVisible               (                                                                                                                                                               res_type == RES_GRAPHICS_HEATMAP);
     ui->groupBox_Res_Histo->setVisible              (                                                                                                                                                               res_type == RES_HISTOGRAM);
     ui->groupBox_Res_VortexCenter->setVisible       (                                                                                                                                                               res_type == RES_GRAPHICS_VORTEX_CENTER);
-
+    ui->groupBox_Res_StatFilter->setVisible         (res_type == RES_GRAPHICS_STAT_FILTER);
 
     //subelements
     ui->spinBox_ParamGrid_CellStart->setEnabled     (                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM);

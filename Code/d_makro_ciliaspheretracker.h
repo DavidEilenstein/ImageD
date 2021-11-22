@@ -26,6 +26,7 @@
 #include <d_geo_lineset_2d.h>
 #include <d_geo_line_2d.h>
 #include <d_geo_point_2d.h>
+#include <d_datavolume_3d.h>
 
 //Qt
 #include <QMainWindow>
@@ -102,6 +103,7 @@ private slots:
     void Update_Result_GraphicsTimeProjectSum();
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
+    void Update_Result_StatFilter();
     D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
@@ -445,6 +447,7 @@ private:
         RES_GRAPHICS_TIME_SUM_PROJ,
         RES_GRAPHICS_VECTORS,
         RES_GRAPHICS_HEATMAP,
+        RES_GRAPHICS_STAT_FILTER,
         RES_GRAPHICS_VORTEX_CENTER,
         RES_SPEED_STAT_CUSTOM,
         RES_ANGLE_STAT_CUSTOM,
@@ -459,6 +462,7 @@ private:
         "Graphics: Time Sum-Projection of Objects",
         "Graphics: Movement Vectors",
         "Graphics: Heatmap",
+        "Graphics: Stat Filter",
         "Graphics: Vortex Center",
         "Custom Statistical Speed Analysis",
         "Custom Statistical Angle Analysis",
