@@ -26,6 +26,10 @@ using namespace std;
 //using namespace cv; (prohibited because of abigous names with qtdatavisualization)
 #include <d_opencv_typedefs.h>
 
+/*!
+ * \brief The D_DataVolume_3D class abstract 3D data volume. WIP, NOT TESTED!
+ * \details Might be finished later if needed. Was a bit over the top approach to a simpler problem...
+ */
 class D_DataVolume_3D
 {
     //Q_OBJECT

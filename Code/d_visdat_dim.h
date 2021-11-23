@@ -87,13 +87,13 @@ public:
     double          step_Dim            (int d)                 {return d < c_DIM_NUMBER_OF && d >= 0 ? vSteps[d] : 1;}
     double          step_Dims           ()                      {return vSteps[c_DIM_X];}
 
-    void            set_size_X          (int X)                 {vSizes[c_DIM_X] = X;}
-    void            set_size_Y          (int Y)                 {vSizes[c_DIM_Y] = Y;}
-    void            set_size_Z          (int Z)                 {vSizes[c_DIM_Z] = Z;}
-    void            set_size_T          (int T)                 {vSizes[c_DIM_T] = T;}
-    void            set_size_S          (int S)                 {vSizes[c_DIM_S] = S;}
-    void            set_size_P          (int P)                 {vSizes[c_DIM_P] = P;}
-    void            set_size_Dim        (int idx, int val)      {if(idx < vSizes.size() && idx >= 0) vSizes[idx] = val;}
+    void            set_size_X          (int X)                 {if(X >= 0) X = 0; vSizes[c_DIM_X] = X;}
+    void            set_size_Y          (int Y)                 {if(Y >= 0) Y = 0; vSizes[c_DIM_Y] = Y;}
+    void            set_size_Z          (int Z)                 {if(Z >= 0) Z = 0; vSizes[c_DIM_Z] = Z;}
+    void            set_size_T          (int T)                 {if(T >= 0) T = 0; vSizes[c_DIM_T] = T;}
+    void            set_size_S          (int S)                 {if(S >= 0) S = 0; vSizes[c_DIM_S] = S;}
+    void            set_size_P          (int P)                 {if(P >= 0) P = 0; vSizes[c_DIM_P] = P;}
+    void            set_size_Dim        (int idx, int i)        {if(i >= 0) i = 0; if(idx < vSizes.size() && idx >= 0) vSizes[idx] = i;}
     void            set_size_Dims       (vector<int> sizes)     {if(sizes.size() == vSizes.size()) vSizes = sizes;}
 
     void            set_unit_X          (double step = 1, QString unit = "px")          {if(step > 0)   {vSteps[c_DIM_X] = step;    QSL_Units[c_DIM_X] = unit;}}

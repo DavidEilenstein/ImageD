@@ -42,6 +42,7 @@
 #include <qplaintextedit.h>
 #include <QColorDialog>
 #include <QPdfWriter>
+#include <QLabel>
 //#include <QWinTaskbarButton>
 //#include <QWinTaskbarProgress>
 
@@ -103,7 +104,7 @@ private slots:
     void Update_Result_GraphicsTimeProjectSum();
     void Update_Result_GraphicsVectors();
     void Update_Result_GraphicsHeatmap();
-    void Update_Result_StatFilter();
+    void Update_Result_GridSummary();
     D_Geo_Point_2D CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start = 0, int t_end = -1);
     void Update_Result_GraphicsVortexCenter();
     void Update_Result_SpeedStatCustom();
@@ -214,6 +215,9 @@ private slots:
 
     void on_comboBox_Res_Histo_Type_currentIndexChanged(int index);
 
+    void on_pushButton_Param_CropTime_To1s_clicked();
+
+    void on_comboBox_Res_FieldSumary_StatType_currentIndexChanged(int index);
 
 private:
     Ui::D_MAKRO_CiliaSphereTracker *ui;
@@ -347,6 +351,8 @@ private:
     bool                                state_StatSummaryCalced_angularSpeed = false;
     bool                                state_blockResultUpdate = false;
 
+    //statusbar
+    QLabel                              *L_SB_ValAtPos;
 
     //error handling
     D_Error_Handler ER;
@@ -380,6 +386,18 @@ private:
         HIST_ANGULAR_SPEED,
         HIST_DIST_CENTER_INTERSECTIONS,
         HIST_TYPE_NUMBER_OF
+    };
+
+    enum DATA_TYPES {
+        DATA_TYPE_SPEED_LINEAR,
+        DATA_TYPE_SPEED_ANGULAR,
+        DATA_TYPE_ANGLE,
+        DATA_TYPE_NUMBER_OF
+    };
+    const QStringList QSL_DataTypes = {
+        "Linear Speed",
+        "Angular Speed",
+        "Angle"
     };
 
     enum HEATMAP_TYPE {
@@ -447,7 +465,7 @@ private:
         RES_GRAPHICS_TIME_SUM_PROJ,
         RES_GRAPHICS_VECTORS,
         RES_GRAPHICS_HEATMAP,
-        RES_GRAPHICS_STAT_FILTER,
+        RES_GRAPHICS_FIELD_SUMMARY,
         RES_GRAPHICS_VORTEX_CENTER,
         RES_SPEED_STAT_CUSTOM,
         RES_ANGLE_STAT_CUSTOM,
@@ -462,7 +480,7 @@ private:
         "Graphics: Time Sum-Projection of Objects",
         "Graphics: Movement Vectors",
         "Graphics: Heatmap",
-        "Graphics: Stat Filter",
+        "Graphics: Field Summary",
         "Graphics: Vortex Center",
         "Custom Statistical Speed Analysis",
         "Custom Statistical Angle Analysis",

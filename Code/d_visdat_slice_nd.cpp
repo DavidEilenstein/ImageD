@@ -83,13 +83,13 @@ int D_VisDat_Slice_Nd::dimOutOfRange(D_VisDat_Dim dim_container)
 int D_VisDat_Slice_Nd::ER_OutOfrange(D_VisDat_Dim dim_container)
 {
     switch (dimOutOfRange(dim_container)) {
-    case c_DIM_X:   return ER_dim_X_out_of_range;   break;
-    case c_DIM_Y:   return ER_dim_Y_out_of_range;   break;
-    case c_DIM_Z:   return ER_dim_Z_out_of_range;   break;
-    case c_DIM_T:   return ER_dim_T_out_of_range;   break;
-    case c_DIM_S:   return ER_dim_S_out_of_range;   break;
-    case c_DIM_P:   return ER_dim_P_out_of_range;   break;
-    default:        return ER_okay;                 break;}
+    case c_DIM_X:   return ER_dim_X_out_of_range;
+    case c_DIM_Y:   return ER_dim_Y_out_of_range;
+    case c_DIM_Z:   return ER_dim_Z_out_of_range;
+    case c_DIM_T:   return ER_dim_T_out_of_range;
+    case c_DIM_S:   return ER_dim_S_out_of_range;
+    case c_DIM_P:   return ER_dim_P_out_of_range;
+    default:        return ER_okay;}
 }
 
 void D_VisDat_Slice_Nd::forceToBeInRangeOf(D_VisDat_Dim dim_container)

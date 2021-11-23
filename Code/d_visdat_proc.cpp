@@ -3124,7 +3124,6 @@ int D_VisDat_Proc::Read_2D_Plane(Mat *pMA_Out, D_VisDat_Obj *pVD_In, D_VisDat_Sl
 
     default:
         return ER_type_bad;
-        break;
     }
 
     //sucess :-)
