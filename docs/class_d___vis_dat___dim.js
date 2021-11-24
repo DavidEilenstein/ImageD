@@ -25,7 +25,7 @@ var class_d___vis_dat___dim =
     [ "loop_PosCurrent_Offset", "class_d___vis_dat___dim.html#a6185deda002f36c8e07aac0de1fe3acb", null ],
     [ "loop_Reset", "class_d___vis_dat___dim.html#acd1e134907d6908c6f61030a2c14b6fb", null ],
     [ "loop_SetOffset", "class_d___vis_dat___dim.html#a51ca40056789a983493d7b6e916af924", null ],
-    [ "set_size_Dim", "class_d___vis_dat___dim.html#ae1bac764d701742e01b39fecb9a3050e", null ],
+    [ "set_size_Dim", "class_d___vis_dat___dim.html#a17deac99e58a95b1a9d523cb301c024c", null ],
     [ "set_size_Dims", "class_d___vis_dat___dim.html#a14526145450e56c9b481d33ed7ba063f", null ],
     [ "set_size_P", "class_d___vis_dat___dim.html#a3a19ddb6a7cfaafd56d50b8d14d3e949", null ],
     [ "set_size_S", "class_d___vis_dat___dim.html#aa3bb49cd5df3ebffef357bbd40725256", null ],

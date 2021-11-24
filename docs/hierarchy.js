@@ -10,6 +10,7 @@ var hierarchy =
     [ "D_Component_List", "class_d___component___list.html", null ],
     [ "D_Component_List_Context", "class_d___component___list___context.html", null ],
     [ "D_Contour", "class_d___contour.html", null ],
+    [ "D_DataVolume_3D", "class_d___data_volume__3_d.html", null ],
     [ "D_Error_Handler", "class_d___error___handler.html", null ],
     [ "D_FeatureSet", "class_d___feature_set.html", null ],
     [ "D_Geo_Line_2D", "class_d___geo___line__2_d.html", null ],
