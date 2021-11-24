@@ -3556,8 +3556,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //5x4
     ui->spinBox_ParamGridHorizontal->setValue(5);
     ui->spinBox_ParamGridVertical->setValue(4);
-    qDebug() << "Save_AnalysisSingle" << "5x4 calc";
-    Update_Results();
+    //qDebug() << "Save_AnalysisSingle" << "5x4 calc";
+    //Update_Results();
     qDebug() << "Save_AnalysisSingle" << "5x4 show";
     Update_Ui();
     qDebug() << "Save_AnalysisSingle" << "5x4 shown";
@@ -3565,8 +3565,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //10x8
     ui->spinBox_ParamGridHorizontal->setValue(10);
     ui->spinBox_ParamGridVertical->setValue(8);
-    qDebug() << "Save_AnalysisSingle" << "10x8 calc";
-    Update_Results();
+    //qDebug() << "Save_AnalysisSingle" << "10x8 calc";
+    //Update_Results();
     qDebug() << "Save_AnalysisSingle" << "10x8 show";
     Update_Ui();
     qDebug() << "Save_AnalysisSingle" << "10x8 shown";
@@ -3574,8 +3574,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //20x16
     ui->spinBox_ParamGridHorizontal->setValue(20);
     ui->spinBox_ParamGridVertical->setValue(16);
-    qDebug() << "Save_AnalysisSingle" << "20x16 calc";
-    Update_Results();
+    //qDebug() << "Save_AnalysisSingle" << "20x16 calc";
+    //Update_Results();
     qDebug() << "Save_AnalysisSingle" << "20x16 show";
     Update_Ui();
     qDebug() << "Save_AnalysisSingle" << "20x16 shown";
@@ -5647,9 +5647,9 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     int res_type = ui->comboBox_Res_Type->currentIndex();
 
     //groups
-    ui->groupBox_Res_GraphicsParam->setVisible      (res_type == RES_GRAPHICS_FIELD_SUMMARY     || res_type == RES_GRAPHICS_TIME_SUM_PROJ                                                                                || res_type == RES_GRAPHICS_VECTORS);
+    ui->groupBox_Res_GraphicsParam->setVisible      (                                             res_type == RES_GRAPHICS_TIME_SUM_PROJ                                                                                || res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_GridSamplingParam->setVisible  (res_type == RES_GRAPHICS_FIELD_SUMMARY     ||                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS     || res_type == RES_GRAPHICS_VORTEX_CENTER);
-    ui->groupBox_Res_GridVisParam->setVisible       (res_type == RES_GRAPHICS_FIELD_SUMMARY     ||                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
+    ui->groupBox_Res_GridVisParam->setVisible       (                                                                                                                                                                       res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_VectorFieldParam->setVisible   (                                                                                                                                                                       res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_TimeAxis->setVisible           (                                                                                        res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM                                                                                || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
     ui->groupBox_Res_SpeedCustom->setVisible        (                                           res_type == RES_SPEED_STAT_CUSTOM                                                                                                                       || res_type == RES_SPEED_ANALYSIS                                       || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);

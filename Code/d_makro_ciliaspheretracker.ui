@@ -2367,6 +2367,9 @@
          <property name="title">
           <string>Grid stat summary</string>
          </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
          <layout class="QGridLayout" name="gridLayout_37">
           <property name="leftMargin">
            <number>3</number>

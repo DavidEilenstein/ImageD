@@ -15,7 +15,7 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_2_4";
+const QString           D_QS_Version  = "v2_2_5";
 const QString           D_QS_Release  = "24.11.2021";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
