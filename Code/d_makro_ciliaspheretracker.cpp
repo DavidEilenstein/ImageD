@@ -3531,16 +3531,35 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //track coordination
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_FIELD_SUMMARY);
+    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
+    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180);
     ui->comboBox_Res_FieldSumary_StatType->setCurrentIndex(DATA_TYPE_ANGLE);
     ui->comboBox_Res_FieldSumary_StatIndex_Grid->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
     ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular->setCurrentIndex(c_STAT_CIRC_UNBALANCE);
-    ui->spinBox_ParamGridHorizontal->setValue(10);
-    ui->spinBox_ParamGridVertical->setValue(8);
     ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
     ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
+    //5x4
+    ui->spinBox_ParamGridHorizontal->setValue(5);
+    ui->spinBox_ParamGridVertical->setValue(4);
     Update_Results();
     Update_Ui();
-    double track_coordination = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    double track_coordination_5x4 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    //10x8
+    ui->spinBox_ParamGridHorizontal->setValue(10);
+    ui->spinBox_ParamGridVertical->setValue(8);
+    Update_Results();
+    Update_Ui();
+    double track_coordination_10x8 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    //20x16
+    ui->spinBox_ParamGridHorizontal->setValue(20);
+    ui->spinBox_ParamGridVertical->setValue(16);
+    Update_Results();
+    Update_Ui();
+    double track_coordination_20x16 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+
 
 
     //simple stats
@@ -3609,7 +3628,9 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°\n"
-                "Track coord. " + QString::number(int(track_coordination * 10000) / 100.0) + "%",
+                "Track coord. 5x4 " + QString::number(int(track_coordination_5x4 * 10000) / 100.0) + "%\n"
+                "Track coord. 10x8 " + QString::number(int(track_coordination_10x8 * 10000) / 100.0) + "%\n"
+                "Track coord. 20x16 " + QString::number(int(track_coordination_20x16 * 10000) / 100.0) + "%",
                 x_4elem_3l, x_4elem_3r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
