@@ -1180,18 +1180,19 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GraphicsHeatmap()
 void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
 {
     //Check requirements
-    qDebug() << "Update_Result_StatFilter" << "check requirements";
+    //qDebug() << "Update_Result_StatFilter" << "check requirements";
     if(!state_VideosLoaded || !state_VideoSelected || !state_RoiTimeSelected || !state_ImgProcUp2date || !state_GridSamplingSplit || !state_VidProcUp2date)
         return;
 
     //data type and stat
-    qDebug() << "Update_Result_StatFilter" << "type and stat";
+    //qDebug() << "Update_Result_StatFilter" << "type and stat";
     int data_type = ui->comboBox_Res_FieldSumary_StatType->currentIndex();
     bool angular = data_type == DATA_TYPE_ANGLE;
     int stat_cell = angular ? ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular->currentIndex() : ui->comboBox_Res_FieldSumary_StatIndex_Cells_Linear->currentIndex();
     int stat_grid = ui->comboBox_Res_FieldSumary_StatIndex_Grid->currentIndex();
 
     //shift type
+    /*
     if(data_type == DATA_TYPE_SPEED_LINEAR)
     {
         ui->comboBox_Res_VectorFieldParam_ShiftType->blockSignals(true);
@@ -1204,6 +1205,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
         ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_ANGULAR);
         ui->comboBox_Res_VectorFieldParam_ShiftType->blockSignals(false);
     }
+    */
     int shift_type = ui->comboBox_Res_VectorFieldParam_ShiftType->currentIndex();
 
     //calc center, if needed
@@ -1213,6 +1215,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
         return;
 
     //Update background img
+    /*
     ui->comboBox_Res_MovAv_TimeWindow->blockSignals(true);
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_FULL_VIDEO);
     ui->comboBox_Res_MovAv_TimeWindow->blockSignals(false);
@@ -1220,6 +1223,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
     ui->comboBox_Res_MovAv_Background->setCurrentIndex(BACKGR_PROJECTION);
     ui->comboBox_Res_MovAv_Background->blockSignals(false);
     Update_Result_GraphicsTimeProjectSum();
+    */
 
     //stats selected
     int stat_length_val = ui->comboBox_Res_VectorFieldParam_Length_Value->currentIndex();
@@ -1387,6 +1391,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
 
     //=========================================================================================================== draw results ===================
 
+    /*
     //draw vector field
     Mat MA_tmp_overlay_field = Mat::zeros(MA_TimeProject_Show.size(), CV_8UC1);
     //qDebug() << "Update_Result_GraphicsVectors" << "Draw_VectorField";
@@ -1572,12 +1577,13 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
     vv_XY_AngleValues.clear();
     vv_XY_AngleErrors.clear();
 
+    */
+
     //show result
+    MA_Result = Mat::zeros(3, 3, CV_8UC1);
     Update_Image_Results();
 
-
-
-    qDebug() << "Update_Result_StatFilter" << "finish";
+    //qDebug() << "Update_Result_StatFilter" << "finish";
 }
 
 D_Geo_Point_2D D_MAKRO_CiliaSphereTracker::CalcVortexCenter(D_Geo_LineSet_2D *lines, double *deviation, vector<double> *v_residuals_all, vector<double> *v_residuals_used, double well_diameter_px, Point P_VideoOffset, int t_start, int t_end)
@@ -3400,6 +3406,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisAll()
 
 void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 {
+    qDebug() << "Save_AnalysisSingle" << "start";
+
     //current video name
     QString name_current = ui->comboBox_Data_Videos->currentText();
 
@@ -3412,6 +3420,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_VideoProc_All();
 
     //Save the results======================================================
+    qDebug() << "Save_AnalysisSingle" << "save results";
 
     //create sumary PDF
     D_PDF_Writer PDF_Overview(DIR_SaveStackOverview.path() + "/Overview_" + name_current + ".pdf");
@@ -3510,6 +3519,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->doubleSpinBox_Res_MovAv_ReqFrmWithDetect->setValue(75);
 
     //Graphics---------------------------------------------------------------
+    qDebug() << "Save_AnalysisSingle" << "graphics";
 
     //gamma strong for diff img projectiona na heatmaps
     ui->doubleSpinBox_Res_TimeProjSum_Gamma->setValue(0.33);
@@ -3528,45 +3538,57 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - DifferenceImages_SumProjection" + ".png");
 
     //Stats--------------------------------------------------------------- (Graphics will be continued)
+    //ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_TIME_SUM_PROJ);
 
     //track coordination
+    qDebug() << "Save_AnalysisSingle" << "track coord";
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_FIELD_SUMMARY);
-    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
-    ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
-    ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
-    ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
-    ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180);
+    //ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
+    //ui->comboBox_Res_VectorFieldParam_Length_Value->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    //ui->comboBox_Res_VectorFieldParam_Length_Error->setCurrentIndex(c_STAT_STAN_DEV_SAMPLE);
+    //ui->comboBox_Res_VectorFieldParam_Angle_Value->setCurrentIndex(c_STAT_CIRC_MEAN_ANG);
+    //ui->comboBox_Res_VectorFieldParam_Angle_Error->setCurrentIndex(c_STAT_CIRC_BALANCE_PI_OR_180);
     ui->comboBox_Res_FieldSumary_StatType->setCurrentIndex(DATA_TYPE_ANGLE);
     ui->comboBox_Res_FieldSumary_StatIndex_Grid->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
-    ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular->setCurrentIndex(c_STAT_CIRC_UNBALANCE);
-    ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
-    ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
+    ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular->setCurrentIndex(c_STAT_CIRC_BALANCE);
+    //ui->doubleSpinBox_Res_VectorFieldParam_ShiftPerSeconds->setValue(0.5);
+    //ui->doubleSpinBox_Res_VectorFieldParam_ScaleLength->setValue(1.0);
     //5x4
     ui->spinBox_ParamGridHorizontal->setValue(5);
     ui->spinBox_ParamGridVertical->setValue(4);
+    qDebug() << "Save_AnalysisSingle" << "5x4 calc";
     Update_Results();
+    qDebug() << "Save_AnalysisSingle" << "5x4 show";
     Update_Ui();
-    double track_coordination_5x4 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    qDebug() << "Save_AnalysisSingle" << "5x4 shown";
+    double track_chaos_5x4 = ui->doubleSpinBox_FieldSumary_StatResult->value();
     //10x8
     ui->spinBox_ParamGridHorizontal->setValue(10);
     ui->spinBox_ParamGridVertical->setValue(8);
+    qDebug() << "Save_AnalysisSingle" << "10x8 calc";
     Update_Results();
+    qDebug() << "Save_AnalysisSingle" << "10x8 show";
     Update_Ui();
-    double track_coordination_10x8 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    qDebug() << "Save_AnalysisSingle" << "10x8 shown";
+    double track_chaos_10x8 = ui->doubleSpinBox_FieldSumary_StatResult->value();
     //20x16
     ui->spinBox_ParamGridHorizontal->setValue(20);
     ui->spinBox_ParamGridVertical->setValue(16);
+    qDebug() << "Save_AnalysisSingle" << "20x16 calc";
     Update_Results();
+    qDebug() << "Save_AnalysisSingle" << "20x16 show";
     Update_Ui();
-    double track_coordination_20x16 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    qDebug() << "Save_AnalysisSingle" << "20x16 shown";
+    double track_chaos_20x16 = ui->doubleSpinBox_FieldSumary_StatResult->value();
 
-
+    //reset ui
+    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_TIME_SUM_PROJ);
 
     //simple stats
-
     //stat list
 
     //Speed linear
+    //qDebug() << "Save_AnalysisSingle" << "speed linear";
     //long
     QString QS_Stats_SpeedLinear = "Statistics of linear speed in full video:\n"
                              "\n"
@@ -3588,6 +3610,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 Qt::AlignCenter);
 
     //Speed angular
+    //qDebug() << "Save_AnalysisSingle" << "speed angular";
     if(!state_StatSummaryCalced_angularSpeed)
         Data_CalcFullVideoStats_AngularSpeed();
     if(state_StatSummaryCalced_angularSpeed)
@@ -3614,23 +3637,32 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     }
 
     //Angle
+    //qDebug() << "Save_AnalysisSingle" << "angle";
     //long
     QString QS_Stats_Angle = "Statistics of angle in full video:\n"
                              "\n"
                              "Base angle unit is degree.\n";
     for(size_t s = 0; s < v_VideoStats_Angles_Grad.size(); s++)
         QS_Stats_Angle.append("\n" + QSL_StatListCirc[static_cast<int>(s)] + ": " + QString::number(v_VideoStats_Angles_Grad[s]));
+
+    QS_Stats_Angle.append(
+                "\n"
+                "\nTrack chaos 5x4   " + QString::number(int(track_chaos_5x4 * 100000) / 1000.0) + "%"
+                "\nTrack chaos 10x8  " + QString::number(int(track_chaos_10x8 * 100000) / 1000.0) + "%"
+                "\nTrack chaos 20x16 " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%");
+
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Text(QS_Stats_Angle);
+
     //short
     PDF_Summary.add_Text(
                 "Angle Stats:\n"
                 "Average " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_MEAN_ANG], 'g', 4) + "°\n"
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°\n"
-                "Track coord. 5x4 " + QString::number(int(track_coordination_5x4 * 10000) / 100.0) + "%\n"
-                "Track coord. 10x8 " + QString::number(int(track_coordination_10x8 * 10000) / 100.0) + "%\n"
-                "Track coord. 20x16 " + QString::number(int(track_coordination_20x16 * 10000) / 100.0) + "%",
+                "Track chaos 5x4   " + QString::number(int(track_chaos_5x4 * 100000) / 1000.0) + "%\n"
+                "Track chaos 10x8  " + QString::number(int(track_chaos_10x8 * 100000) / 1000.0) + "%\n"
+                "Track chaos 20x16 " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%",
                 x_4elem_3l, x_4elem_3r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);
@@ -3638,8 +3670,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //Graphics (again)---------------------------------------------------------------
 
     //vortex center graphic
+    qDebug() << "Save_AnalysisSingle" << "vortex center graphic";
 
-    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VORTEX_CENTER);
     ui->spinBox_ParamGridHorizontal->setValue(5);
     ui->spinBox_ParamGridVertical->setValue(4);
     ui->checkBox_Res_VortexCenter_MovingAverage->setCheckState(Qt::CheckState::PartiallyChecked);
@@ -3647,12 +3679,16 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setCurrentIndex(0); //0=points, 1=lines
     ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setValue(75);
     ui->spinBox_Res_VortexCenter_RansacIterations->setValue(100000);
+    ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VORTEX_CENTER); //set at the end to not make the app repeat time intense analysis many times
+    qDebug() << "Save_AnalysisSingle" << "params set";
     //other settings on default
 
     Update_Ui();
+    qDebug() << "Save_AnalysisSingle" << "save img";
     View_Results.Save_Image(DIR_SaveStackGraphics_Vortex.path() + "/VortexCenter_Ransac75przOfPoints_grid4x5_iters100k - " + name_current + ".png");
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - VortexCenter_Ransac75przOfPoints_grid4x5_iters100k.png");
 
+    qDebug() << "Save_AnalysisSingle" << "img to summary pdf";
     PDF_Summary.add_Image(
                 View_Results.pQI(),
                 x_3elem_2l, x_3elem_2r, y_img_oth_t, y_img_oth_b);
@@ -3826,6 +3862,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     //---------------------------------------------------- heatmaps -----------------
 
     //Heatmap
+    qDebug() << "Save_AnalysisSingle" << "heatmaps";
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_HEATMAP);
 
     ui->comboBox_Res_Heat_Mode->setCurrentIndex(HEAT_SPEED_LINEAR);
@@ -3967,6 +4004,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
 
     //----------------------------------------------------------------------vector fields
+    qDebug() << "Save_AnalysisSingle" << "vector fields";
 
     //gamma softer for vector field backgrounds
     ui->doubleSpinBox_Res_TimeProjSum_Gamma->setValue(0.5);
@@ -4255,6 +4293,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     Update_Ui();
 
     //angular shift arc field -----------------------------------------
+    qDebug() << "Save_AnalysisSingle" << "arc fields";
 
     state_blockResultUpdate = true;
 
@@ -4326,6 +4365,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 Qt::AlignCenter);
 
     //plots---------------------------------------------------------------
+    qDebug() << "Save_AnalysisSingle" << "plots";
 
     //qDebug() << "Save_AnalysisSingle" << "plots";
 
@@ -5032,6 +5072,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->checkBox_Res_Histo_Acc->setChecked(false);
 
     //......................
+    qDebug() << "Save_AnalysisSingle" << "overview old";
 
     //overview old
     ui->comboBox_Res_Type->setCurrentIndex(RES_OVERVIEW1);
@@ -5079,6 +5120,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
 
     //overview new
+    qDebug() << "Save_AnalysisSingle" << "overview new";
     ui->comboBox_Res_Type->setCurrentIndex(RES_OVERVIEW2);
 
     ui->doubleSpinBox_Res_MovAv_WindowTime->setValue(10.0);
@@ -5106,8 +5148,11 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     ui->tabWidget_ResType->setCurrentIndex(RES_TYPE_LINE);
 
     //save pdf
+    qDebug() << "Save_AnalysisSingle" << "save pdf";
     PDF_Overview.save_PDF();
     PDF_Summary.save_PDF();
+
+    qDebug() << "Save_AnalysisSingle" << "end";
 }
 
 void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, int gridCellsHorizontal, int gridCellsVertical, double timeWindowSeconds, int backgroundMode)
@@ -5605,7 +5650,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Ui_ResParam()
     ui->groupBox_Res_GraphicsParam->setVisible      (res_type == RES_GRAPHICS_FIELD_SUMMARY     || res_type == RES_GRAPHICS_TIME_SUM_PROJ                                                                                || res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_GridSamplingParam->setVisible  (res_type == RES_GRAPHICS_FIELD_SUMMARY     ||                                           res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM    || res_type == RES_GRAPHICS_VECTORS     || res_type == RES_GRAPHICS_VORTEX_CENTER);
     ui->groupBox_Res_GridVisParam->setVisible       (res_type == RES_GRAPHICS_FIELD_SUMMARY     ||                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
-    ui->groupBox_Res_VectorFieldParam->setVisible   (res_type == RES_GRAPHICS_FIELD_SUMMARY     ||                                                                                                                          res_type == RES_GRAPHICS_VECTORS);
+    ui->groupBox_Res_VectorFieldParam->setVisible   (                                                                                                                                                                       res_type == RES_GRAPHICS_VECTORS);
     ui->groupBox_Res_TimeAxis->setVisible           (                                                                                        res_type == RES_SPEED_STAT_CUSTOM   || res_type == RES_ANGLE_STAT_CUSTOM                                                                                || res_type == RES_SPEED_ANALYSIS   || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
     ui->groupBox_Res_SpeedCustom->setVisible        (                                           res_type == RES_SPEED_STAT_CUSTOM                                                                                                                       || res_type == RES_SPEED_ANALYSIS                                       || res_type == RES_OVERVIEW1 || res_type == RES_OVERVIEW2);
     ui->groupBox_Res_AngleCustom->setVisible        (                                                                                                                               res_type == RES_ANGLE_STAT_CUSTOM                                                                                                                    || res_type == RES_ANGLE_ANALYSIS   || res_type == RES_OVERVIEW1);
@@ -5752,7 +5797,7 @@ void D_MAKRO_CiliaSphereTracker::Populate_CB_Start()
     Populate_CB_Single(ui->comboBox_Res_AngleCustom_Stat_Uncertanty,            QSL_StatListCirc,   c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA);
 
     Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatIndex_Cells_Linear,     QSL_StatList,       c_STAT_STAN_DEV_SAMPLE);
-    Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular,    QSL_StatListCirc,   c_STAT_CIRC_UNBALANCE);
+    Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular,    QSL_StatListCirc,   c_STAT_CIRC_BALANCE);
     Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatIndex_Grid,             QSL_StatList,       c_STAT_MEAN_ARITMETIC);
 }
 
@@ -6157,12 +6202,6 @@ void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_Ransac_stateChange
     ui->doubleSpinBox_Res_VortexCenter_RansacSubsetSize->setEnabled(arg1);
     ui->spinBox_Res_VortexCenter_RansacIterations->setEnabled(arg1);
     ui->comboBox_Res_VortexCenter_Ransac_PointsOrLines->setEnabled(arg1);
-}
-
-void D_MAKRO_CiliaSphereTracker::on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1)
-{
-    //ui->spinBox_Res_VortexCenter_kMeans_k->setEnabled(arg1);
-    //ui->spinBox_Res_VortexCenter_kMeans_Iterations->setEnabled(arg1);
 }
 
 void D_MAKRO_CiliaSphereTracker::on_doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec_valueChanged(double arg1)

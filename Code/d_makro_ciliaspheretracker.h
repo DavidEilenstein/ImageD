@@ -205,7 +205,6 @@ private slots:
 
     void on_checkBox_Res_VortexCenter_MovingAverage_stateChanged(int arg1);
     void on_checkBox_Res_VortexCenter_Ransac_stateChanged(int arg1);
-    void on_checkBox_Res_VortexCenter_kMeans_stateChanged(int arg1);
 
     void on_doubleSpinBox_Res_VortexCenter_MoveingAverage_TimeWindow_sec_valueChanged(double arg1);
 

@@ -19606,7 +19606,6 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
                 MA_tmp_Acc_A_Cos.at<double>(y, x) += cos(vv_FrmObjAngles[frm][obj]);
                 MA_tmp_Acc_Time.at<double>(y, x)   = frm;
 
-
                 //qDebug() << "Accumulation x/y/count/shift/sin/cos" << x << y << MA_tmp_Acc_Count.at<double>(y, x) << MA_tmp_Acc_Shift.at<double>(y, x) << MA_tmp_Acc_A_Sin.at<double>(y, x) << MA_tmp_Acc_A_Cos.at<double>(y, x);
             }
         }
