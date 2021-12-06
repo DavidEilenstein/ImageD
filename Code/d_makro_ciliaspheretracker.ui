@@ -2386,32 +2386,7 @@
           <property name="spacing">
            <number>1</number>
           </property>
-          <item row="0" column="14">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_FieldSumary_StatResult">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="decimals">
-             <number>6</number>
-            </property>
-            <property name="minimum">
-             <double>-999999999.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>999999999.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="9">
+          <item row="0" column="10">
            <widget class="QStackedWidget" name="stackedWidget_Res_FieldSumary_StatType">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2468,10 +2443,78 @@
             </widget>
            </widget>
           </item>
+          <item row="0" column="15">
+           <widget class="Line" name="line_14">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_20">
             <property name="text">
              <string>Data type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="12">
+           <widget class="QLabel" name="label_25">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Stat summarize grid</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="13">
+           <widget class="QComboBox" name="comboBox_Res_FieldSumary_StatIndex_Grid">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="9">
+           <widget class="QLabel" name="label_22">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Stat per grid cell</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="16">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_FieldSumary_StatResult">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="decimals">
+             <number>6</number>
+            </property>
+            <property name="minimum">
+             <double>-999999999.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>999999999.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -2485,46 +2528,13 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="11">
-           <widget class="QLabel" name="label_25">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+          <item row="0" column="14">
+           <widget class="QCheckBox" name="checkBox_Res_FieldSumary_Weighted">
             <property name="text">
-             <string>Stat summarize grid</string>
+             <string>Weighted</string>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="8">
-           <widget class="QLabel" name="label_22">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Stat per grid cell</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="12">
-           <widget class="QComboBox" name="comboBox_Res_FieldSumary_StatIndex_Grid">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="13">
-           <widget class="Line" name="line_14">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -3939,7 +3949,7 @@
      <x>0</x>
      <y>0</y>
      <width>1290</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuData">

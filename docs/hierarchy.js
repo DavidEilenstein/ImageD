@@ -47,12 +47,12 @@ var hierarchy =
       [ "D_VisDat_Slice_3D", "class_d___vis_dat___slice__3_d.html", null ]
     ] ],
     [ "QDialog", null, [
-      [ "D_PopUp_RangeSelector", "class_d___pop_up___range_selector.html", null ],
       [ "D_Popup_FeedbackRequest", "class_d___popup___feedback_request.html", null ],
       [ "D_Popup_ListEdit", "class_d___popup___list_edit.html", null ],
       [ "D_Popup_ListEdit_Numbers", "class_d___popup___list_edit___numbers.html", null ],
       [ "D_Popup_ListSelect", "class_d___popup___list_select.html", null ],
-      [ "D_Popup_Plot", "class_d___popup___plot.html", null ]
+      [ "D_Popup_Plot", "class_d___popup___plot.html", null ],
+      [ "D_PopUp_RangeSelector", "class_d___pop_up___range_selector.html", null ]
     ] ],
     [ "QGraphicsScene", null, [
       [ "SceneMouseTrack", "class_scene_mouse_track.html", null ]
@@ -62,6 +62,7 @@ var hierarchy =
     ] ],
     [ "QMainWindow", null, [
       [ "D_AnalysisWindow", "class_d___analysis_window.html", null ],
+      [ "D_MainWindow", "class_d___main_window.html", null ],
       [ "D_MAKRO_AirDragTrack", "class_d___m_a_k_r_o___air_drag_track.html", null ],
       [ "D_MAKRO_CellColonies", "class_d___m_a_k_r_o___cell_colonies.html", null ],
       [ "D_MAKRO_CerebralOrganoids", "class_d___m_a_k_r_o___cerebral_organoids.html", null ],
@@ -81,9 +82,8 @@ var hierarchy =
       [ "D_MAKRO_SegmentationAssistant", "class_d___m_a_k_r_o___segmentation_assistant.html", null ],
       [ "D_MAKRO_SoftmaxVisualization", "class_d___m_a_k_r_o___softmax_visualization.html", null ],
       [ "D_MAKRO_Visualization", "class_d___m_a_k_r_o___visualization.html", null ],
-      [ "D_MainWindow", "class_d___main_window.html", null ],
-      [ "D_StepWindow", "class_d___step_window.html", null ],
       [ "D_stat_tester", "class_d__stat__tester.html", null ],
+      [ "D_StepWindow", "class_d___step_window.html", null ],
       [ "m_makro_foci", "classm__makro__foci.html", null ]
     ] ],
     [ "QObject", null, [

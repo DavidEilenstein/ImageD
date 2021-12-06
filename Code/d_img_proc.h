@@ -399,7 +399,9 @@ public:
     static int      Draw_Rect                   (Mat *pMA_Target, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int thickness = 1, double val = 255);
     static int      Draw_Rect_Rotate            (Mat *pMA_Target, RotatedRect rrect, int thickness = 1, double value = 255);
     static int      Draw_GridSimple             (Mat *pMA_Target, int nx, int ny, Scalar value = 255, int thickness = 1);
-    static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness = 1, bool label_add = true, int label_thickness = 1, double label_scale = 1.0, double value = 255);
+    static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value);
+    static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b);
+    static int      Draw_Grid                   (Mat *pMA_Target, vector<vector<double>> vvNumbers_xy, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b);
     static int      Draw_Boundaries             (Mat *pMA_Target, int width = 1, int val = 255);
     static int      Draw_Circle                 (Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);
     static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val, int thickness = 1, bool filled = false);
@@ -407,7 +409,8 @@ public:
     static int      Draw_Ellipse                (Mat *pMA_Target, RotatedRect ell, double val_r, double val_g, double val_b, int thickness = 1);
     static int      Draw_MarkerSymbol           (Mat *pMA_Target, int x1, int y1, int x2, int y2, int symbol_id, uchar r, uchar g, uchar b, double scale = 1);
     static int      Draw_Text                   (QImage *pQI_Target, QString text_tl, QString text_tr, QString text_bl, QString text_br, unsigned int size, QColor color);
-    static int      Draw_Text                   (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0, double value = 255);
+    static int      Draw_Text                   (Mat *pMA_Target, QString text,int x, int y, int thickness, double scale, double value);
+    static int      Draw_Text                   (Mat *pMA_Target, QString text,int x, int y, int thickness, double scale, double value_r, double value_g, double value_b);
     static int      Draw_Text_ContrastColor     (Mat *pMA_Target, QString text,int x = 0, int y = 0, int thickness = 1, double scale = 1.0);
     static int      Draw_Label_Numbers_LUT      (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, vector<double> v_LUT, bool border, double scale, double thickness, bool center, int precision, uchar r = 0, uchar g = 0, uchar b = 0);
     static int      Draw_Label_Text             (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Label, QStringList QSL_LabelTexts, bool border, double scale, double thickness, bool center, uchar r = 0, uchar g = 0, uchar b = 0, int connectivity = 4);

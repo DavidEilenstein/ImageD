@@ -17581,7 +17581,176 @@ int D_Img_Proc::Draw_Grid(Mat *pMA_Target, int nx, int ny, bool lines_add, int g
     }
 
 
-   return ER_okay;
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Grid(Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b)
+{
+    if(pMA_Target->empty())                                                 return ER_empty;
+    if(grid_thickness < 1)                                                  return ER_parameter_bad;
+    if(label_thickness < 1)                                                 return ER_parameter_bad;
+    if(label_scale <= 0)                                                    return ER_parameter_bad;
+    if(pMA_Target->depth() != CV_8U)                                        return ER_bitdepth_bad;
+    if(pMA_Target->channels() != 3)                                         return ER_channel_bad;
+
+    //size
+    double w = pMA_Target->cols;
+    double h = pMA_Target->rows;
+
+    if(w < nx)                                                              return ER_parameter_bad;
+    if(h < ny)                                                              return ER_parameter_bad;
+
+
+
+    //grid
+    if(lines_add)
+    {
+        //vertical lines
+        for(int ix = 1; ix < nx; ix++)
+        {
+            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
+            Draw_Line(
+                        pMA_Target,
+                        x, 0,
+                        x, static_cast<unsigned int>(h-1),
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+
+        //horizontal lines
+        for(int iy = 1; iy < ny; iy++)
+        {
+            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
+            Draw_Line(
+                        pMA_Target,
+                        0, y,
+                        static_cast<unsigned int>(w-1), y,
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+    }
+
+    //labels
+    if(label_add)
+    {
+        //vertical lines
+        int box_number = 0;
+        for(int iy = 0; iy < ny; iy++)
+        {
+            //pos form number offset
+            int y = static_cast<int>((static_cast<double>(iy + 1) / ny) * h) - 3 * grid_thickness;
+            for(int ix = 0; ix < nx; ix++)
+            {
+                //pos for number offset
+                int x = static_cast<int>((static_cast<double>(ix) / nx) * w) + 2 * grid_thickness;
+
+                Draw_Text(
+                            pMA_Target,
+                            QString::number(box_number),
+                            x,
+                            y,
+                            label_thickness,
+                            label_scale,
+                            value_r,
+                            value_g,
+                            value_b);
+
+                //next number
+                box_number++;
+            }
+        }
+    }
+
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Grid(Mat *pMA_Target, vector<vector<double> > vvNumbers_xy, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b)
+{
+    if(pMA_Target->empty())                                                 return ER_empty;
+    if(grid_thickness < 1)                                                  return ER_parameter_bad;
+    if(label_thickness < 1)                                                 return ER_parameter_bad;
+    if(label_scale <= 0)                                                    return ER_parameter_bad;
+    if(pMA_Target->depth() != CV_8U)                                        return ER_bitdepth_bad;
+    if(pMA_Target->channels() != 3)                                         return ER_channel_bad;
+    if(nx <= 0)                                                             return ER_parameter_bad;
+    if(nx != vvNumbers_xy.size())                                           return ER_size_missmatch;
+    if(ny <= 0)                                                             return ER_parameter_bad;
+    for(int ix = 0; ix < nx; ix++)
+        if(ny != vvNumbers_xy[ix].size())                                   return ER_size_missmatch;
+
+    //size
+    double w = pMA_Target->cols;
+    double h = pMA_Target->rows;
+
+    if(w < nx)                                                              return ER_parameter_bad;
+    if(h < ny)                                                              return ER_parameter_bad;
+
+    //grid
+    if(lines_add)
+    {
+        //vertical lines
+        for(int ix = 1; ix < nx; ix++)
+        {
+            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
+            Draw_Line(
+                        pMA_Target,
+                        x, 0,
+                        x, static_cast<unsigned int>(h-1),
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+
+        //horizontal lines
+        for(int iy = 1; iy < ny; iy++)
+        {
+            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
+            Draw_Line(
+                        pMA_Target,
+                        0, y,
+                        static_cast<unsigned int>(w-1), y,
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+    }
+
+    //labels
+    if(label_add)
+    {
+        //vertical lines
+        for(int iy = 0; iy < ny; iy++)
+        {
+            //pos form number offset
+            int y = static_cast<int>((static_cast<double>(iy + 1) / ny) * h) - 3 * grid_thickness;
+            for(int ix = 0; ix < nx; ix++)
+            {
+                //pos for number offset
+                int x = static_cast<int>((static_cast<double>(ix) / nx) * w) + 2 * grid_thickness;
+
+                Draw_Text(
+                            pMA_Target,
+                            QString::number(vvNumbers_xy[ix][iy]),
+                            x,
+                            y,
+                            label_thickness,
+                            label_scale,
+                            value_r,
+                            value_g,
+                            value_b);
+            }
+        }
+    }
+
+
+    return ER_okay;
 }
 
 int D_Img_Proc::Draw_Boundaries(Mat *pMA_Target, int width, int val)
@@ -18028,6 +18197,27 @@ int D_Img_Proc::Draw_Text(Mat *pMA_Target, QString text, int x, int y, int thick
     default:
         break;
     }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Draw_Text(Mat *pMA_Target, QString text, int x, int y, int thickness, double scale, double value_r, double value_g, double value_b)
+{
+    if(pMA_Target->empty())             return ER_empty;
+    if(pMA_Target->channels() != 3)     return ER_channel_bad;
+    if(x < 0 || x > pMA_Target->cols)   return ER_index_out_of_range;
+    if(y < 0 || y > pMA_Target->rows)   return ER_index_out_of_range;
+
+
+        putText(
+                    *pMA_Target,
+                    text.toStdString(),
+                    Point(x, y),
+                    FONT_HERSHEY_TRIPLEX,
+                    scale,
+                    Scalar(value_b, value_g, value_r),
+                    thickness,
+                    CV_AA);
 
     return ER_okay;
 }

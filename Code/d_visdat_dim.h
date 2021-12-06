@@ -87,13 +87,13 @@ public:
     double          step_Dim            (int d)                 {return d < c_DIM_NUMBER_OF && d >= 0 ? vSteps[d] : 1;}
     double          step_Dims           ()                      {return vSteps[c_DIM_X];}
 
-    void            set_size_X          (int X)                 {if(X >= 0) X = 0; vSizes[c_DIM_X] = X;}
-    void            set_size_Y          (int Y)                 {if(Y >= 0) Y = 0; vSizes[c_DIM_Y] = Y;}
-    void            set_size_Z          (int Z)                 {if(Z >= 0) Z = 0; vSizes[c_DIM_Z] = Z;}
-    void            set_size_T          (int T)                 {if(T >= 0) T = 0; vSizes[c_DIM_T] = T;}
-    void            set_size_S          (int S)                 {if(S >= 0) S = 0; vSizes[c_DIM_S] = S;}
-    void            set_size_P          (int P)                 {if(P >= 0) P = 0; vSizes[c_DIM_P] = P;}
-    void            set_size_Dim        (int idx, int i)        {if(i >= 0) i = 0; if(idx < vSizes.size() && idx >= 0) vSizes[idx] = i;}
+    void            set_size_X          (int X)                 {vSizes[c_DIM_X] = X;}
+    void            set_size_Y          (int Y)                 {vSizes[c_DIM_Y] = Y;}
+    void            set_size_Z          (int Z)                 {vSizes[c_DIM_Z] = Z;}
+    void            set_size_T          (int T)                 {vSizes[c_DIM_T] = T;}
+    void            set_size_S          (int S)                 {vSizes[c_DIM_S] = S;}
+    void            set_size_P          (int P)                 {vSizes[c_DIM_P] = P;}
+    void            set_size_Dim        (int idx, int val)      {if(idx < vSizes.size() && idx >= 0) vSizes[idx] = val;}
     void            set_size_Dims       (vector<int> sizes)     {if(sizes.size() == vSizes.size()) vSizes = sizes;}
 
     void            set_unit_X          (double step = 1, QString unit = "px")          {if(step > 0)   {vSteps[c_DIM_X] = step;    QSL_Units[c_DIM_X] = unit;}}
@@ -104,22 +104,22 @@ public:
     void            set_unit_P          (double step = 1, QString unit = "px")          {if(step > 0)   {vSteps[c_DIM_X] = step;    QSL_Units[c_DIM_X] = unit;}}
     void            set_unit_Dim        (int d, double step = 1, QString unit = "u")    {if(step > 0 && d < c_DIM_NUMBER_OF && d >= 0)   {vSteps[d] = step;    QSL_Units[d] = unit;}}
 
-    int                         extended_DimsCount  ();
-    QString                     extended_DimsString ();
-    bool                        is_Dims             (int dims)                      {return extended_DimsCount() == dims ? true : false;}
-    bool                        is_DimsAtLeast      (int dims)                      {return extended_DimsCount() >= dims ? true : false;}
-    bool                        is_1D               ()                              {return is_Dims(1);}
-    bool                        is_2D               ()                              {return is_Dims(2);}
-    bool                        is_3D               ()                              {return is_Dims(3);}
-    bool                        is_4D               ()                              {return is_Dims(4);}
-    bool                        is_5D               ()                              {return is_Dims(5);}
-    bool                        is_6D               ()                              {return is_Dims(6);}
-    bool                        inRangeOf           (D_VisDat_Dim VD_container);
-    Vec<int, c_DIM_NUMBER_OF>   ForcePosInRange     (Vec<int, c_DIM_NUMBER_OF> pos);
-    int                         DimOutRanged        (D_VisDat_Dim VD_container);
-    bool                        isEqual             (D_VisDat_Dim VD_compare);
+    int                         extended_DimsCount      ();
+    QString                     extended_DimsString     ();
+    bool                        is_Dims                 (int dims)                      {return extended_DimsCount() == dims ? true : false;}
+    bool                        is_DimsAtLeast          (int dims)                      {return extended_DimsCount() >= dims ? true : false;}
+    bool                        is_1D                   ()                              {return is_Dims(1);}
+    bool                        is_2D                   ()                              {return is_Dims(2);}
+    bool                        is_3D                   ()                              {return is_Dims(3);}
+    bool                        is_4D                   ()                              {return is_Dims(4);}
+    bool                        is_5D                   ()                              {return is_Dims(5);}
+    bool                        is_6D                   ()                              {return is_Dims(6);}
+    bool                        inRangeOf               (D_VisDat_Dim VD_container);
+    Vec<int, c_DIM_NUMBER_OF>   ForcePosInRange         (Vec<int, c_DIM_NUMBER_OF> pos);
+    int                         DimOutRanged            (D_VisDat_Dim VD_container);
+    bool                        isEqual                 (D_VisDat_Dim VD_compare);
 
-    QString         info                ();
+    QString                     info                    ();
 
     //loop positions
     void                        loop_Reset              ()                                  {v_LoopCurPos = {0, 0, 0, 0, 0, 0};}
