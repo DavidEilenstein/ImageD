@@ -1374,6 +1374,8 @@ private slots:
     void on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T_valueChanged(int arg1);
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X_valueChanged(int arg1);
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1);
+
+
 };
 
 #endif // D_MAKRO_MEGAFOCI_H
