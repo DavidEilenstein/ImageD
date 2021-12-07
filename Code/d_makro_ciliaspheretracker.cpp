@@ -3589,13 +3589,6 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     double track_chaos_5x4 = ui->doubleSpinBox_FieldSumary_StatResult->value();
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - MovementsCount 5x4.png");
     View_Results.Save_Image(DIR_SaveStackGraphics_MovementsCount.path() + "/MovementsCount 5x4 - " + name_current + ".png");
-    //10x8
-    ui->spinBox_ParamGridHorizontal->setValue(10);
-    ui->spinBox_ParamGridVertical->setValue(8);
-    Update_Ui();
-    double track_chaos_10x8 = ui->doubleSpinBox_FieldSumary_StatResult->value();
-    View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - MovementsCount 10x8.png");
-    View_Results.Save_Image(DIR_SaveStackGraphics_MovementsCount.path() + "/MovementsCount 10x8 - " + name_current + ".png");
     //20x16
     ui->spinBox_ParamGridHorizontal->setValue(20);
     ui->spinBox_ParamGridVertical->setValue(16);
@@ -3603,6 +3596,13 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     double track_chaos_20x16 = ui->doubleSpinBox_FieldSumary_StatResult->value();
     View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - MovementsCount 20x16.png");
     View_Results.Save_Image(DIR_SaveStackGraphics_MovementsCount.path() + "/MovementsCount 20x16 - " + name_current + ".png");
+    //80x64
+    ui->spinBox_ParamGridHorizontal->setValue(80);
+    ui->spinBox_ParamGridVertical->setValue(64);
+    Update_Ui();
+    double track_chaos_80x64 = ui->doubleSpinBox_FieldSumary_StatResult->value();
+    //View_Results.Save_Image(DIR_SaveCurrentGraphics.path() + "/" + name_current + " - MovementsCount 80x64.png");
+    //View_Results.Save_Image(DIR_SaveStackGraphics_MovementsCount.path() + "/MovementsCount 80x64 - " + name_current + ".png");
 
 
     //reset ui
@@ -3672,8 +3672,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
     QS_Stats_Angle.append(
                 "\n"
                 "\nTrack chaos 5x4   " + QString::number(int(track_chaos_5x4 * 100000) / 1000.0) + "%"
-                "\nTrack chaos 10x8  " + QString::number(int(track_chaos_10x8 * 100000) / 1000.0) + "%"
-                "\nTrack chaos 20x16 " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%");
+                "\nTrack chaos 20x16  " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%"
+                "\nTrack chaos 80x64 " + QString::number(int(track_chaos_80x64 * 100000) / 1000.0) + "%");
 
     PDF_Overview.add_NewPage();
     PDF_Overview.add_Text(QS_Stats_Angle);
@@ -3685,8 +3685,8 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Balance " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE] * 100.0, 'g', 4) + "%\n"
                 "STD Equivalent " + QString::number(v_VideoStats_Angles_Grad[c_STAT_CIRC_BALANCE_PI_OR_180_1SIGMA], 'g', 4) + "°\n"
                 "Track chaos 5x4   " + QString::number(int(track_chaos_5x4 * 100000) / 1000.0) + "%\n"
-                "Track chaos 10x8  " + QString::number(int(track_chaos_10x8 * 100000) / 1000.0) + "%\n"
-                "Track chaos 20x16 " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%",
+                "Track chaos 20x16  " + QString::number(int(track_chaos_20x16 * 100000) / 1000.0) + "%\n"
+                "Track chaos 80x64 " + QString::number(int(track_chaos_80x64 * 100000) / 1000.0) + "%",
                 x_4elem_3l, x_4elem_3r, y_text_t, y_text_b,
                 10,
                 Qt::AlignCenter);

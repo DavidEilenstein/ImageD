@@ -18810,11 +18810,13 @@ Scalar D_Img_Proc::Contrast_Color(Vec3d val_BGR, bool force_black_and_white, boo
                 val_BGR[2],
                 val_BGR[1],
                 val_BGR[0]);
+
     QColor col_out = Contrast_Color(
                 col_in,
                 force_black_and_white,
                 mirror_hue,
                 force_light2blue);
+
     return Scalar(
                 col_out.blue(),
                 col_out.green(),
@@ -19302,31 +19304,31 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
     //Segments
     //horizontal
     //qDebug() << "Legend_HSV" << "Segments horizontal";
-    size_t n_horizontal = QSL_H.size() + 1;
-    vector<size_t> vOffsets_horizontal(n_horizontal+1);
-    for(size_t i = 0; i < vOffsets_horizontal.size(); i++)
+    int n_horizontal = QSL_H.size() + 1;
+    vector<int> vOffsets_horizontal(n_horizontal + 1);
+    for(int i = 0; i < int(vOffsets_horizontal.size()); i++)
         vOffsets_horizontal[i] = i * (static_cast<double>(width)/n_horizontal);
     //qDebug() << "Legend_HSV" << "Segments horizontal" << vOffsets_horizontal;
 
-    size_t width_colored = (width/n_horizontal) * (n_horizontal - 2);
+    int width_colored = (double(width)/n_horizontal) * (n_horizontal - 2);
 
     //vertical
     //qDebug() << "Legend_HSV" << "Segments vertical";
-    size_t n_vertical = 3;
-    vector<size_t> vOffsets_vertical(n_vertical+1);
-    for(size_t i = 0; i < vOffsets_vertical.size(); i++)
+    int n_vertical = 3;
+    vector<int> vOffsets_vertical(n_vertical+1);
+    for(int i = 0; i < int(vOffsets_vertical.size()); i++)
         vOffsets_vertical[i] = i * (static_cast<double>(height)/n_vertical);
     //qDebug() << "Legend_HSV" << "Segments vertical" << vOffsets_vertical;
 
-    size_t height_segment_vertical = height/n_vertical;
+    int height_segment_vertical = double(height)/n_vertical;
 
     //init img with color
 
     //hue
     //qDebug() << "Legend_HSV" << "Color init hue";
-    for(size_t x = 0; x < width_colored; x++)
+    for(int x = 0; x < width_colored; x++)
     {
-        double H    = ((static_cast<double>(x) / width_colored) * H_angle_range) + H_angle_min;
+        double H    = ((double(x) / width_colored) * H_angle_range) + H_angle_min;
         double S    = 1;
         double V    = 1;
 
@@ -19345,19 +19347,20 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
         case 4:     R = t;      G = p;      B = V;      break;
         case 5:     R = V;      G = p;      B = q;      break;
         default:    R = V;      G = t;      B = p;      break;}
-        Vec3d col(B, G, R);
+        Vec3d col(255 * B, 255 * G, 255 * R);
 
-        for(size_t y = 0; y < height_segment_vertical; y++)
+        //qDebug() << "RGB" << R << G << B << "in column x" << x << "from y" << vOffsets_vertical[0] << "to" << vOffsets_vertical[0] + height_segment_vertical - 1;
+        for(int y = 0; y < height_segment_vertical; y++)
             pMA_Out->at<Vec3d>(y + vOffsets_vertical[0], x + vOffsets_horizontal[1]) = col;
     }
 
     //saturation
     //qDebug() << "Legend_HSV" << "Color init saturation";
-    for(size_t x = 0; x < width_colored; x++)
+    for(int x = 0; x < width_colored; x++)
     {
         //qDebug() << "Legend_HSV" << "Color init saturation x=" << x;
         double H    = 0;
-        double S    = (static_cast<double>(x) / width_colored);
+        double S    = (double(x) / width_colored);
         double V    = 1;
 
         int     hi      = floor(H / (PI / 3.0));
@@ -19375,20 +19378,20 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
         case 4:     R = t;      G = p;      B = V;      break;
         case 5:     R = V;      G = p;      B = q;      break;
         default:    R = V;      G = t;      B = p;      break;}
-        Vec3d col(B, G, R);
+        Vec3d col(255 * B, 255 * G, 255 * R);
         //qDebug() << "Legend_HSV" << "Color init saturation R/G/B" << R << G << B;
 
-        for(size_t y = 0; y < height_segment_vertical; y++)
+        for(int y = 0; y < height_segment_vertical; y++)
             pMA_Out->at<Vec3d>(y + vOffsets_vertical[1], x + vOffsets_horizontal[1]) = col;
     }
 
     //value
     //qDebug() << "Legend_HSV" << "Color init value";
-    for(size_t x = 0; x < width_colored; x++)
+    for(int x = 0; x < width_colored; x++)
     {
         double H    = 0;
         double S    = 0;
-        double V    = (static_cast<double>(x) / width_colored);
+        double V    = (double(x) / width_colored);
 
         int     hi      = floor(H / (PI / 3.0));
         double  f       = (H / (PI / 3.0)) - hi;
@@ -19405,15 +19408,15 @@ int D_Img_Proc::Legend_HSV(Mat *pMA_Out, int width, int height, QStringList QSL_
         case 4:     R = t;      G = p;      B = V;      break;
         case 5:     R = V;      G = p;      B = q;      break;
         default:    R = V;      G = t;      B = p;      break;}
-        Vec3d col(B, G, R);
+        Vec3d col(255 * B, 255 * G, 255 * R);
 
-        for(size_t y = 0; y < height_segment_vertical; y++)
+        for(int y = 0; y < height_segment_vertical; y++)
             pMA_Out->at<Vec3d>(y + vOffsets_vertical[2], x + vOffsets_horizontal[1]) = col;
     }
 
     //text offsets
-    size_t text_offset_v = -5;//px
-    size_t text_offset_h = +1;//px
+    int text_offset_v = -5;//px
+    int text_offset_h = +1;//px
 
     //put text on it
     //qDebug() << "Legend_HSV" << "Put text";
@@ -19749,7 +19752,7 @@ int D_Img_Proc::ObjectsMovement(vector<double> *pvShift_PxPerFrame, vector<doubl
     return ER_okay;
 }
 
-int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, Point2f P_VortexCenter, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, size_t legend_examples, double min_rel, double max_rel, double frame2time)
+int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend, Mat *pMA_InValue, vector<vector<Point2f> > vv_FrmObjPositions, vector<vector<double> > vv_FrmObjShifts, vector<vector<double> > vv_FrmObjAngles, Point2f P_VortexCenter, double shift_scale, double value_scale, int blur_size_x, int blur_size_y, int mode, int legend_width, int legend_height, double legend_scale, double legend_thickness, int legend_examples, double min_rel, double max_rel, double frame2time)
 {
     //errors
     if(pMA_InValue->empty())            return ER_empty;
@@ -20096,7 +20099,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         QS_S = "-";
         QS_V = "\"Count\"";
         H_angle_range = (2/3.0) * PI_2_0;
-        for(size_t i = 0; i < legend_examples; i++)
+        for(int i = 0; i < legend_examples; i++)
         {
             if(i == 0)
                 QSL_H.append("<=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
@@ -20117,7 +20120,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         QS_S = "-";
         QS_V = "\"Count\"";
         H_angle_range = (2/3.0) * PI_2_0;
-        for(size_t i = 0; i < legend_examples; i++)
+        for(int i = 0; i < legend_examples; i++)
         {
             if(i == 0)
                 QSL_H.append("<=" + QString::number(((legend_examples - 1 - i) * (range_shifts / static_cast<double>(legend_examples-1)) * shift_scale) + shift_min, 'g', 3));
@@ -20137,7 +20140,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         QS_H = "Angle deg";
         QS_S = "-";
         QS_V = "\"Count\"";
-        for(size_t i = 0; i < legend_examples; i++)
+        for(int i = 0; i < legend_examples; i++)
         {
             double h = i * (360.0 / static_cast<double>(legend_examples-1));
             if(h > 180.0) h -= 360.0;
@@ -20153,7 +20156,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         QS_H = "Angle deg";
         QS_S = "Speed um/s";
         QS_V = "\"Count\"";
-        for(size_t i = 0; i < legend_examples; i++)
+        for(int i = 0; i < legend_examples; i++)
         {
             double h = i * (360.0 / static_cast<double>(legend_examples-1));
             if(h > 180.0) h -= 360.0;
@@ -20177,7 +20180,7 @@ int D_Img_Proc::ObjectsMovement_Heatmap(Mat *pMA_OutHeatmap, Mat *pMA_OutLegend,
         QS_S = "-";
         QS_V = "\"Count\"";
         H_angle_range = (2/3.0) * PI_2_0;
-        for(size_t i = 0; i < legend_examples; i++)
+        for(int i = 0; i < legend_examples; i++)
         {
             QSL_H.append(QString::number(((legend_examples - 1 - i) * (range_time / static_cast<double>(legend_examples-1))), 'g', 3));
             QSL_S.append("-");
