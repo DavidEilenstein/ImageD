@@ -1376,6 +1376,21 @@ private slots:
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1);
 
 
+    //-------------------------------------------------------------------- MS4 ----------------------------------------------------
+
+private:
+    void MS5_UiInit();
+    bool MS5_LoadData();
+    bool MS5_LoadDirs();
+    bool MS5_LoadMosaics();
+
+    //path
+
+    //data
+    vector<Mat> v_MS5_Mosaics_T;
+
+private slots:
+    void on_pushButton_MS5_DataLoad_clicked();
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

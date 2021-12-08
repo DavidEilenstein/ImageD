@@ -9850,7 +9850,7 @@ QProgressBar::chunk {
       <widget class="QWidget" name="stackedWidget_StepMajor_5">
        <layout class="QGridLayout" name="gridLayout_61">
         <item row="1" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="groupBox_MS5_Viewers">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -9876,143 +9876,8 @@ QProgressBar::chunk {
            <property name="spacing">
             <number>1</number>
            </property>
-           <item row="1" column="0">
-            <widget class="QGraphicsView" name="graphicsView">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>1</horstretch>
-               <verstretch>1</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QGraphicsView" name="graphicsView_5">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>1</horstretch>
-               <verstretch>1</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1">
-            <widget class="QGraphicsView" name="graphicsView_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>1</horstretch>
-               <verstretch>1</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" colspan="5">
-            <widget class="QGroupBox" name="groupBox_4">
-             <property name="title">
-              <string/>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_62">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_56">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0,255,0);
-background-color: rgb(128,128,128);
-font-weight: bold;</string>
-             </property>
-             <property name="text">
-              <string>T=2</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_55">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0,255,255);
-background-color: rgb(128,128,128);</string>
-             </property>
-             <property name="text">
-              <string>T=1</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_57">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(255,255,0);
-background-color: rgb(128,128,128);</string>
-             </property>
-             <property name="text">
-              <string>T=3</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_54">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0,0,255);
-background-color: rgb(128,128,128);</string>
-             </property>
-             <property name="text">
-              <string>T=0</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QGraphicsView" name="graphicsView_4">
+            <widget class="QGraphicsView" name="graphicsView_MS5_ViewT1">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>1</horstretch>
@@ -10022,7 +9887,7 @@ background-color: rgb(128,128,128);</string>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="label_58">
+            <widget class="QLabel" name="label_MS5_ViewT4">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                <horstretch>0</horstretch>
@@ -10041,18 +9906,28 @@ background-color: rgb(128,128,128);</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QGraphicsView" name="graphicsView_2">
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_MS5_ViewT1">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>1</horstretch>
-               <verstretch>1</verstretch>
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0,255,255);
+background-color: rgb(128,128,128);</string>
+             </property>
+             <property name="text">
+              <string>T=1</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
            <item row="2" column="2" rowspan="2">
-            <widget class="QGroupBox" name="groupBox_2">
+            <widget class="QGroupBox" name="groupBox_MS5_Controls">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>1</horstretch>
@@ -10079,34 +9954,52 @@ background-color: rgb(128,128,128);</string>
                <number>1</number>
               </property>
               <item row="3" column="0">
-               <widget class="QGroupBox" name="groupBox_6">
+               <widget class="QGroupBox" name="groupBox_MS5_Editing">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="title">
                  <string>Editing</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_83">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="spacing">
+                  <number>1</number>
+                 </property>
                  <item row="0" column="0">
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_Select">
                    <property name="text">
                     <string>Select (Space)</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QPushButton" name="pushButton_3">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_Quit">
                    <property name="text">
                     <string>Quit (Esc)</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QPushButton" name="pushButton_4">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionDelete">
                    <property name="text">
                     <string>Delete connection</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QPushButton" name="pushButton_5">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionCreate">
                    <property name="text">
                     <string>Create connection</string>
                    </property>
@@ -10116,7 +10009,10 @@ background-color: rgb(128,128,128);</string>
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QGroupBox" name="groupBox_5">
+               <widget class="QGroupBox" name="groupBox_MS5_Events">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="title">
                  <string>Events</string>
                 </property>
@@ -10300,7 +10196,10 @@ background-color: rgb(128,128,128);</string>
                </spacer>
               </item>
               <item row="1" column="0">
-               <widget class="QGroupBox" name="groupBox">
+               <widget class="QGroupBox" name="groupBox_MS5_Viewport">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="title">
                  <string>Viewport</string>
                 </property>
@@ -10477,7 +10376,7 @@ background-color: rgb(128,128,128);</string>
                </widget>
               </item>
               <item row="0" column="0">
-               <widget class="QGroupBox" name="groupBox_13">
+               <widget class="QGroupBox" name="groupBox_MS5_Data">
                 <property name="title">
                  <string>Data</string>
                 </property>
@@ -10498,14 +10397,14 @@ background-color: rgb(128,128,128);</string>
                   <number>1</number>
                  </property>
                  <item row="0" column="0">
-                  <widget class="QPushButton" name="pushButton_6">
+                  <widget class="QPushButton" name="pushButton_MS5_DataLoad">
                    <property name="text">
                     <string>Load data</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QPushButton" name="pushButton_7">
+                  <widget class="QPushButton" name="pushButton_MS5_DataSave">
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
@@ -10518,6 +10417,107 @@ background-color: rgb(128,128,128);</string>
                </widget>
               </item>
              </layout>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_MS5_ViewT2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0,255,0);
+background-color: rgb(128,128,128);
+font-weight: bold;</string>
+             </property>
+             <property name="text">
+              <string>T=2</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGraphicsView" name="graphicsView_MS5_ViewT0">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>1</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QGraphicsView" name="graphicsView_MS5_ViewT3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>1</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_MS5_ViewT0">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0,0,255);
+background-color: rgb(128,128,128);</string>
+             </property>
+             <property name="text">
+              <string>T=0</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QGraphicsView" name="graphicsView_MS5_ViewT2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>1</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_MS5_ViewT3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255,255,0);
+background-color: rgb(128,128,128);</string>
+             </property>
+             <property name="text">
+              <string>T=3</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QGraphicsView" name="graphicsView_MS5_ViewT4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>1</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
             </widget>
            </item>
           </layout>
