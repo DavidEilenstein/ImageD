@@ -3562,6 +3562,44 @@ function<double (vector<double>)> D_Stat::Function_SingleStat_Circ_Rad(int stat)
     }
 }
 
+double D_Stat::Mean(vector<double> v_data, double nan_value)
+{
+    size_t n = v_data.size();
+    if(n <= 0)
+        return nan_value;
+
+    double sum = 0;
+
+    for(size_t i = 0; i < n; i++)
+        sum += v_data[i];
+
+    return sum / n;
+}
+
+double D_Stat::MeanWeighted(vector<double> v_data, vector<double> v_weights, double nan_value)
+{
+    if(v_data.size() != v_weights.size())
+        return nan_value;
+
+    size_t n = v_data.size();
+    if(n <= 0)
+        return nan_value;
+
+    double sum_vals = 0;
+    double sum_weights = 0;
+
+    for(size_t i = 0; i < n; i++)
+    {
+        sum_vals    += v_weights[i] * v_data[i];
+        sum_weights += v_weights[i];
+    }
+
+    if(sum_weights == 0.0)
+        return nan_value;
+    else
+        return sum_vals / sum_weights;
+}
+
 int D_Stat::Calc_Vector2Hist_1(vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_x_ext, double *max_x_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform)
 {
     if(class_count < 2)

@@ -56,6 +56,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 //openCV
 #include <opencv2/core/core.hpp>

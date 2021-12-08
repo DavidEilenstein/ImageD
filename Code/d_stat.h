@@ -46,6 +46,9 @@ public:
     static function<uchar  (vector<double>)>        Function_SingleStat_8bit(int stat);
     static function<double (vector<double>)>        Function_SingleStat_Circ_Rad(int stat);
 
+    static double       Mean                        (vector<double> v_data, double nan_value = NAN);
+    static double       MeanWeighted                (vector<double> v_data, vector<double> v_weights, double nan_value = NAN);
+
     static int          Calc_Vector2Hist_1          (vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
     static int          Calc_Vector2Hist_2          (vector<vector<double>> *vv_hist, vector<vector<double>> *vv_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
 
@@ -73,5 +76,6 @@ private:
     static vector<double>   Convert_Rad2Grad        (vector<double> v_data_a_rad);
     static vector<double>   Convert_Grad2Rad        (vector<double> v_data_a_grad);
 };
+
 
 #endif // D_STAT_H

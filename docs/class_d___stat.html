@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_2_6 (06.12.21)</span>
+   &#160;<span id="projectnumber">v2_2_9 (08.12.21)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -119,6 +119,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a62e8bf178fe535119b0b9fa59941ff05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab94a638dbb08bed236c4e0ba0c83779b"><td class="memItemLeft" align="right" valign="top">static function&lt; double(vector&lt; double &gt;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___stat.html#ab94a638dbb08bed236c4e0ba0c83779b">Function_SingleStat_Circ_Rad</a> (int stat)</td></tr>
 <tr class="separator:ab94a638dbb08bed236c4e0ba0c83779b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad279ad06d6cc4ecea07b41f3b21dcba2"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___stat.html#ad279ad06d6cc4ecea07b41f3b21dcba2">Mean</a> (vector&lt; double &gt; v_data, double nan_value=NAN)</td></tr>
+<tr class="separator:ad279ad06d6cc4ecea07b41f3b21dcba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf93553ca5ea2eb6a7b718be6ba9f4d"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___stat.html#aaaf93553ca5ea2eb6a7b718be6ba9f4d">MeanWeighted</a> (vector&lt; double &gt; v_data, vector&lt; double &gt; v_weights, double nan_value=NAN)</td></tr>
+<tr class="separator:aaaf93553ca5ea2eb6a7b718be6ba9f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9455175149cd777fd38c27dd6d336d9d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___stat.html#a9455175149cd777fd38c27dd6d336d9d">Calc_Vector2Hist_1</a> (vector&lt; double &gt; *v_hist, vector&lt; double &gt; *v_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform)</td></tr>
 <tr class="separator:a9455175149cd777fd38c27dd6d336d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c3e7c7312e3c93a6062e5680b4afead"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___stat.html#a0c3e7c7312e3c93a6062e5680b4afead">Calc_Vector2Hist_2</a> (vector&lt; vector&lt; double &gt;&gt; *vv_hist, vector&lt; vector&lt; double &gt;&gt; *vv_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform)</td></tr>
@@ -875,6 +879,84 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>stat</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad279ad06d6cc4ecea07b41f3b21dcba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad279ad06d6cc4ecea07b41f3b21dcba2">&#9670;&nbsp;</a></span>Mean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Stat::Mean </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>nan_value</em> = <code>NAN</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaaf93553ca5ea2eb6a7b718be6ba9f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf93553ca5ea2eb6a7b718be6ba9f4d">&#9670;&nbsp;</a></span>MeanWeighted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double D_Stat::MeanWeighted </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>v_weights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>nan_value</em> = <code>NAN</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

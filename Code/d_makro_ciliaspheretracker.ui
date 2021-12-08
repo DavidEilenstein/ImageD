@@ -2472,6 +2472,9 @@
           </item>
           <item row="0" column="13">
            <widget class="QComboBox" name="comboBox_Res_FieldSumary_StatIndex_Grid">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>1</horstretch>
@@ -2530,6 +2533,9 @@
           </item>
           <item row="0" column="14">
            <widget class="QCheckBox" name="checkBox_Res_FieldSumary_Weighted">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Weighted</string>
             </property>
