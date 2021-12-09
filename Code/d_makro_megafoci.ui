@@ -9849,6 +9849,21 @@ QProgressBar::chunk {
       </widget>
       <widget class="QWidget" name="stackedWidget_StepMajor_5">
        <layout class="QGridLayout" name="gridLayout_61">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item row="1" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_MS5_Viewers">
           <property name="sizePolicy">
@@ -9895,8 +9910,7 @@ QProgressBar::chunk {
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(255,0,0);
-background-color: rgb(128,128,128);</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>T=4</string>
@@ -9915,8 +9929,7 @@ background-color: rgb(128,128,128);</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(0,255,255);
-background-color: rgb(128,128,128);</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>T=1</string>
@@ -10428,9 +10441,7 @@ background-color: rgb(128,128,128);</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(0,255,0);
-background-color: rgb(128,128,128);
-font-weight: bold;</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>T=2</string>
@@ -10469,8 +10480,7 @@ font-weight: bold;</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(0,0,255);
-background-color: rgb(128,128,128);</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>T=0</string>
@@ -10499,8 +10509,7 @@ background-color: rgb(128,128,128);</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(255,255,0);
-background-color: rgb(128,128,128);</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>T=3</string>
@@ -10536,7 +10545,7 @@ background-color: rgb(128,128,128);</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

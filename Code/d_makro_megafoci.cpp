@@ -3859,6 +3859,12 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
         }
             break;
 
+    case MODE_MAJOR_5_MANU_CORRECT_PEDIGREE:
+        {
+            MS5_UiInit();
+        }
+            break;
+
     default:
         return;
     }
@@ -8064,8 +8070,6 @@ void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSiz
     MS4_CalcVolumetricView_Memory();
 }
 
-
-
 void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X_valueChanged(int arg1)
 {
     MS4_CalcOriginalMosaicSize();
@@ -8080,7 +8084,345 @@ void D_MAKRO_MegaFoci::on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valu
 
 
 
+
+
+
+
+
+
+
+
+
+void D_MAKRO_MegaFoci::MS5_UiInit()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return;
+
+    //viewers
+    MS5_Viewer_T0.set_GV(ui->graphicsView_MS5_ViewT0);
+    MS5_Viewer_T1.set_GV(ui->graphicsView_MS5_ViewT1);
+    MS5_Viewer_T2.set_GV(ui->graphicsView_MS5_ViewT2);
+    MS5_Viewer_T3.set_GV(ui->graphicsView_MS5_ViewT3);
+    MS5_Viewer_T4.set_GV(ui->graphicsView_MS5_ViewT4);
+    v_MS5_Viewers_T.resize(MS5_ViewersCount);
+    v_MS5_Viewers_T[0] = &MS5_Viewer_T0;
+    v_MS5_Viewers_T[1] = &MS5_Viewer_T1;
+    v_MS5_Viewers_T[2] = &MS5_Viewer_T2;
+    v_MS5_Viewers_T[3] = &MS5_Viewer_T3;
+    v_MS5_Viewers_T[4] = &MS5_Viewer_T4;
+
+    //labels
+   v_MS5_ViewerLabels_T.resize(MS5_ViewersCount);
+   v_MS5_ViewerLabels_T[0] = ui->label_MS5_ViewT0;
+   v_MS5_ViewerLabels_T[1] = ui->label_MS5_ViewT1;
+   v_MS5_ViewerLabels_T[2] = ui->label_MS5_ViewT2;
+   v_MS5_ViewerLabels_T[3] = ui->label_MS5_ViewT3;
+   v_MS5_ViewerLabels_T[4] = ui->label_MS5_ViewT4;
+}
+
+bool D_MAKRO_MegaFoci::MS5_LoadAll()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+
+    if(!MS5_LoadDirs())
+    {
+        StatusSet("Failed loading directories " + QS_Fun_Sad);
+        return false;
+    }
+
+    if(!MS5_LoadMosaics())
+    {
+        StatusSet("Failed loading mosaics " + QS_Fun_Sad);
+        return false;
+    }
+
+    if(!MS5_LoadNucleiData())
+    {
+        StatusSet("Failed loading nuclei data " + QS_Fun_Sad);
+        return false;
+    }
+
+    if(!MS5_LoadNucleiLifes())
+    {
+        StatusSet("Failed loading nuclei lifes " + QS_Fun_Sad);
+        return false;
+    }
+
+    //states
+    MS5_state_loaded_all = true;
+    StatusSet("Loaded all needed data " + QS_Fun_Happy);
+
+    //ui
+    ui->pushButton_MS5_DataLoad->setEnabled(false);
+    ui->pushButton_MS5_DataSave->setEnabled(true);
+    ui->groupBox_MS5_Viewport->setEnabled(true);
+    ui->groupBox_MS5_Events->setEnabled(true);
+    ui->groupBox_MS5_Editing->setEnabled(true);
+
+    //finish
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_LoadDirs()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+
+    //------------------ mosaics ------------------------------------------------
+
+    StatusSet("Please select results directory from step 1 (for mosaics).");
+    QString QS_LoadMS1 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 1 you want to load mosaics from (must beginn with 'Results_Step1_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS1.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 1
+    if(!QS_LoadMS1.contains("Results_Step1"))
+    {
+        StatusSet("You should selct results from step 1...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS5_Load_Mosaics.setPath(QS_LoadMS1 + "/Mosaik");
+    if(!DIR_MS4_In_Master.exists())
+    {
+        StatusSet("The selected directory doesn't contain a 'Mosaik' directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    QDir DIR_parent(QS_LoadMS1);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //------------------ nuclei data ------------------------------------------------
+
+    StatusSet("Please select results directory from step 3 (for nuclei data).");
+    QString QS_LoadMS3 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 1 you want to load nuclei data from (must beginn with 'Results_Step3_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS3.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 3
+    if(!QS_LoadMS3.contains("Results_Step3"))
+    {
+        StatusSet("You should selct results from step 3...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS5_Load_NucleiData.setPath(QS_LoadMS3 + "/DetectionsAssigned");
+    if(!DIR_MS4_In_Master.exists())
+    {
+        StatusSet("The selected directory doesn't contain a 'DetectionsAssigned' directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    DIR_parent.setPath(QS_LoadMS3);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //------------------ nuclei lifes ------------------------------------------------
+
+    StatusSet("Please select results directory from step 4 (for nuclei lifes).");
+    QString QS_LoadMS4 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 4 you want to load nuclei lifes from (must beginn with 'Results_Step4_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS4.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 4
+    if(!QS_LoadMS4.contains("Results_Step4"))
+    {
+        StatusSet("You should selct results from step 4...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS5_Load_NucleiLifes.setPath(QS_LoadMS4);
+    if(!DIR_MS4_In_Master.exists())
+    {
+        StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    DIR_parent.setPath(QS_LoadMS4);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //------------------ finished ------------------------------------------------
+
+    MS5_state_loaded_dirs = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_LoadMosaics()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+    if(!MS5_state_loaded_dirs)
+        return false;
+
+    StatusSet("Start loading mosaics");
+
+    //clear and resize container
+    vv_MS5_Mosaics_CT.clear();
+    vv_MS5_Mosaics_CT.resize(MS5_MOSAIC_CH_NUMBER_OF);
+
+    //loop mosaic channels
+    for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
+    {
+        //channel name
+        QString QS_ChName = QSL_MS5_MosaicChannels[int(c)];
+
+        //dir
+        QDir DIR_MosaicChannel(DIR_MS5_Load_Mosaics.path() + "/" + QS_ChName);
+        if(!DIR_MosaicChannel.exists())
+        {
+            StatusSet("Mosaic directory not found:\n" + DIR_MosaicChannel.path());
+            return false;
+        }
+
+        //imgs in dir
+        QFileInfoList FIL_Imgs = DIR_MosaicChannel.entryInfoList();
+        for(int i = 0; i < FIL_Imgs.size(); i++)
+        {
+            //img
+            QFileInfo FI_Img = FIL_Imgs[i];
+            //qDebug() << "------------------------------------------------";
+            //qDebug() << FI_Img;
+
+            //is png
+            if(FI_Img.suffix() == "png")
+            {
+                //qDebug() << "is .png";
+
+                //contains correct text in file name
+                if(FI_Img.baseName().contains("Mosaik_" + QS_ChName + "_T"))
+                {
+                    //qDebug() << "base name fits" << FI_Img.baseName();
+
+                    //get time index
+                    bool ok;
+                    //qDebug() << "looking for t index" << FI_Img.baseName().right(FI_Img.baseName().size() - 9 - QS_ChName.length());
+                    int t = FI_Img.baseName().right(FI_Img.baseName().size() - 9 - QS_ChName.length()).toInt(&ok);
+                    if(ok)
+                    {
+                        //qDebug() << "got t" << t;
+
+                        //correct size of container
+                        while(t >= int(vv_MS5_Mosaics_CT[c].size()))
+                            vv_MS5_Mosaics_CT[c].push_back(Mat::zeros(1, 1, CV_8UC1));
+
+                        //read img
+                        D_Img_Proc::Load_From_Path(
+                                    &(vv_MS5_Mosaics_CT[c][t]),
+                                    FI_Img.absoluteFilePath());
+
+                        //qDebug() << "read" << FI_Img;
+                    }
+                }
+            }
+        }
+    }
+
+    MS5_state_loaded_mosaics = true;
+    StatusSet("Successfully loaded mosaics");
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_LoadNucleiData()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+
+    if(!MS5_state_loaded_dirs)
+        return false;
+
+    StatusSet("Start loading nuclei data from step 3");
+
+    //detections
+    MS5_NucPedigree_Editing.clear();
+    MS5_NucPedigree_Editing.set_size_time_and_mosaik(dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
+
+    //number of threads (one per time)
+    size_t nt_thread = dataset_dim_t;
+
+    //threads
+    vector<std::thread> vThreads_LoadDetections(nt_thread);
+
+    //parent dir of detections
+    QDir DIR_ParentMS3(DIR_MS5_Load_NucleiData);
+    DIR_ParentMS3.cdUp();
+
+    //start threads: load detetctions
+    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
+    {
+        vThreads_LoadDetections[t_thread] = std::thread(
+                    MS4_LoadDetectionsToPedigree_Thread,
+                    &MS5_NucPedigree_Editing,
+                    t_thread,
+                    DIR_MS5_Load_NucleiData,
+                    DIR_ParentMS3);
+        StatusSet("Loading detections T=" + QString::number(t_thread) + " (thread started)");
+    }
+
+    //join
+    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
+    {
+        vThreads_LoadDetections[t_thread].join();
+        StatusSet("Finished loading detections T=" + QString::number(t_thread) + " (thread synched)");
+    }
+
+    state_MS4_detections_loaded_to_pedigree = true;
+    StatusSet("Finished loading nuclei data from step 3");
+
+    MS5_state_loaded_nuc_data = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_LoadNucleiLifes()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+    if(!MS5_state_loaded_dirs || !MS5_state_loaded_nuc_data)
+        return false;
+
+
+
+    MS5_state_loaded_nuc_lifes = true;
+    return true;
+}
+
+
+
+
+
 void D_MAKRO_MegaFoci::on_pushButton_MS5_DataLoad_clicked()
 {
-
+    MS5_LoadAll();
 }

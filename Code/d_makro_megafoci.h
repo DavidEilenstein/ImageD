@@ -1376,18 +1376,54 @@ private slots:
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1);
 
 
-    //-------------------------------------------------------------------- MS4 ----------------------------------------------------
+    //-------------------------------------------------------------------- MS5 ----------------------------------------------------
 
 private:
     void MS5_UiInit();
-    bool MS5_LoadData();
+    bool MS5_LoadAll();
     bool MS5_LoadDirs();
     bool MS5_LoadMosaics();
+    bool MS5_LoadNucleiData();
+    bool MS5_LoadNucleiLifes();
 
     //path
+    QDir DIR_MS5_Load_Mosaics;
+    QDir DIR_MS5_Load_NucleiData;
+    QDir DIR_MS5_Load_NucleiLifes;
 
-    //data
-    vector<Mat> v_MS5_Mosaics_T;
+    //data mosaics
+    enum MS5_MOSAIC_CHANNELS {
+        MS5_MOSAIC_CH_DIC,
+        MS5_MOSAIC_CH_GFP,
+        MS5_MOSAIC_CH_RFP,
+        MS5_MOSAIC_CH_NUMBER_OF
+    };
+    const QStringList QSL_MS5_MosaicChannels = {
+        "DIC",
+        "GFP",
+        "RFP"
+    };
+    vector<vector<Mat>> vv_MS5_Mosaics_CT;
+
+    //data pedigree
+    D_Bio_NucleusPedigree MS5_NucPedigree_Editing;
+
+    //Viewers
+    const size_t        MS5_ViewersCount = 5;
+    D_Viewer            MS5_Viewer_T0;
+    D_Viewer            MS5_Viewer_T1;
+    D_Viewer            MS5_Viewer_T2;
+    D_Viewer            MS5_Viewer_T3;
+    D_Viewer            MS5_Viewer_T4;
+    vector<D_Viewer*>   v_MS5_Viewers_T;
+    vector<QLabel*>     v_MS5_ViewerLabels_T;
+
+    //states
+    bool                MS5_state_loaded_all = false;
+    bool                MS5_state_loaded_dirs = false;
+    bool                MS5_state_loaded_mosaics = false;
+    bool                MS5_state_loaded_nuc_data = false;
+    bool                MS5_state_loaded_nuc_lifes = false;
 
 private slots:
     void on_pushButton_MS5_DataLoad_clicked();

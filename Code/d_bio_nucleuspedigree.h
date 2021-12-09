@@ -91,6 +91,7 @@ public:
     void match_time_correct_mitosis_go2(size_t t);
 
     bool match_save_results(QString QS_path);
+    bool match_load_and_apply_matching(QString QS_path);
 
 private:
 
