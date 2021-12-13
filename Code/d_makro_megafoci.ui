@@ -9967,61 +9967,6 @@ QProgressBar::chunk {
                <number>1</number>
               </property>
               <item row="3" column="0">
-               <widget class="QGroupBox" name="groupBox_MS5_Editing">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="title">
-                 <string>Editing</string>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_83">
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="spacing">
-                  <number>1</number>
-                 </property>
-                 <item row="0" column="0">
-                  <widget class="QPushButton" name="pushButton_MS5_Editing_Select">
-                   <property name="text">
-                    <string>Select (Space)</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QPushButton" name="pushButton_MS5_Editing_Quit">
-                   <property name="text">
-                    <string>Quit (Esc)</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionDelete">
-                   <property name="text">
-                    <string>Delete connection</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionCreate">
-                   <property name="text">
-                    <string>Create connection</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="2" column="0">
                <widget class="QGroupBox" name="groupBox_MS5_Events">
                 <property name="enabled">
                  <bool>false</bool>
@@ -10195,20 +10140,7 @@ QProgressBar::chunk {
                 </layout>
                </widget>
               </item>
-              <item row="4" column="0">
-               <spacer name="verticalSpacer_11">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <widget class="QGroupBox" name="groupBox_MS5_Viewport">
                 <property name="enabled">
                  <bool>false</bool>
@@ -10233,7 +10165,7 @@ QProgressBar::chunk {
                   <number>1</number>
                  </property>
                  <item row="0" column="3">
-                  <widget class="QSpinBox" name="spinBox">
+                  <widget class="QSpinBox" name="spinBox_MS5_Y_start">
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
@@ -10252,7 +10184,7 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="0" column="5">
-                  <widget class="QSpinBox" name="spinBox_4">
+                  <widget class="QSpinBox" name="spinBox_MS5_X_start">
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
@@ -10271,7 +10203,7 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="0" column="0">
-                  <widget class="QSpinBox" name="spinBox_2">
+                  <widget class="QSpinBox" name="spinBox_MS5_T_start">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -10305,7 +10237,7 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QSpinBox" name="spinBox_6">
+                  <widget class="QSpinBox" name="spinBox_MS5_T_size">
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
@@ -10336,7 +10268,7 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="1" column="3">
-                  <widget class="QSpinBox" name="spinBox_3">
+                  <widget class="QSpinBox" name="spinBox_MS5_Y_size">
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
@@ -10361,7 +10293,7 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="1" column="5">
-                  <widget class="QSpinBox" name="spinBox_5">
+                  <widget class="QSpinBox" name="spinBox_MS5_X_size">
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
@@ -10387,6 +10319,19 @@ QProgressBar::chunk {
                  </item>
                 </layout>
                </widget>
+              </item>
+              <item row="5" column="0">
+               <spacer name="verticalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item row="0" column="0">
                <widget class="QGroupBox" name="groupBox_MS5_Data">
@@ -10425,6 +10370,137 @@ QProgressBar::chunk {
                     <string>Save corrected data</string>
                    </property>
                   </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QGroupBox" name="groupBox_MS5_Editing">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="title">
+                 <string>Editing</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_83">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="spacing">
+                  <number>1</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_Select">
+                   <property name="text">
+                    <string>Select (Space)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_Quit">
+                   <property name="text">
+                    <string>Quit (Esc)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionDelete">
+                   <property name="text">
+                    <string>Delete connection</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QPushButton" name="pushButton_MS5_Editing_ConnectionCreate">
+                   <property name="text">
+                    <string>Create connection</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="groupBox">
+                <property name="title">
+                 <string>Viewers</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_62">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="spacing">
+                  <number>1</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_DIC">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255,0,0);</string>
+                   </property>
+                   <property name="text">
+                    <string>DIC</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_GFP">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0,255,0);</string>
+                   </property>
+                   <property name="text">
+                    <string>GFP</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_RFP">
+                   <property name="styleSheet">
+                    <string notr="true">color: blue;</string>
+                   </property>
+                   <property name="text">
+                    <string>RFP</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </widget>
@@ -10545,7 +10621,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

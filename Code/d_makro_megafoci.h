@@ -1374,7 +1374,7 @@ private slots:
 
     //-------------------------------------------------------------------- MS5 ----------------------------------------------------
 
-private:
+private slots:
     void MS5_UiInit();
     bool MS5_LoadAll();
     bool MS5_LoadDirs();
@@ -1383,6 +1383,12 @@ private:
     bool MS5_LoadNucleiLifes();
 
     bool MS5_SaveData();
+
+    void MS5_ShowImages();
+
+
+private:
+    static void MS5_ShowImage_Thread(D_Viewer* pViewer, Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, size_t ny_mosaic, size_t nx_mosaic);
 
     //path
     QDir DIR_MS5_Load_Mosaics;
@@ -1416,6 +1422,7 @@ private:
     D_Viewer            MS5_Viewer_T4;
     vector<D_Viewer*>   v_MS5_Viewers_T;
     vector<QLabel*>     v_MS5_ViewerLabels_T;
+    vector<Mat>         v_MS5_MAs_Show;
 
     //states
     bool                MS5_state_loaded_all = false;

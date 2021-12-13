@@ -7988,6 +7988,9 @@ void D_MAKRO_MegaFoci::MS5_UiInit()
    v_MS5_ViewerLabels_T[2] = ui->label_MS5_ViewT2;
    v_MS5_ViewerLabels_T[3] = ui->label_MS5_ViewT3;
    v_MS5_ViewerLabels_T[4] = ui->label_MS5_ViewT4;
+
+   //imgs to show
+   v_MS5_MAs_Show.resize(MS5_ViewersCount, Mat::zeros(1, 1, CV_8UC1));
 }
 
 bool D_MAKRO_MegaFoci::MS5_LoadAll()
@@ -8029,6 +8032,9 @@ bool D_MAKRO_MegaFoci::MS5_LoadAll()
     ui->groupBox_MS5_Viewport->setEnabled(true);
     ui->groupBox_MS5_Events->setEnabled(true);
     ui->groupBox_MS5_Editing->setEnabled(true);
+
+    //show
+    MS5_ShowImages(); //CONTINUE HERE
 
     //finish
     return true;
@@ -8317,9 +8323,90 @@ bool D_MAKRO_MegaFoci::MS5_SaveData()
     return ok;
 }
 
+void D_MAKRO_MegaFoci::MS5_ShowImages()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return;
 
+    if(!MS5_state_loaded_all)
+        return;
 
+    //show images in diffrent threads
+    vector<std::thread> vThreadsMatch(MS5_ViewersCount);
+    for(size_t v = 0; v < MS5_ViewersCount; v++)
+        vThreadsMatch[v] = std::thread(
+                    MS5_ShowImage_Thread,
+                    v_MS5_Viewers_T[v],
+                    &(v_MS5_MAs_Show[v]),
+                    &vv_MS5_Mosaics_CT,
+                    size_t(ui->spinBox_MS5_T_start->value()),
+                    size_t(ui->spinBox_MS5_Y_start->value()),
+                    size_t(ui->spinBox_MS5_Y_size->value()),
+                    size_t(ui->spinBox_MS5_X_start->value()),
+                    size_t(ui->spinBox_MS5_X_size->value()),
+                    ui->checkBox_MS5_Viewer_DIC->isChecked(),
+                    ui->checkBox_MS5_Viewer_GFP->isChecked(),
+                    ui->checkBox_MS5_Viewer_RFP->isChecked(),
+                    dataset_dim_mosaic_y,
+                    dataset_dim_mosaic_x);
 
+    //join
+    for(size_t t = 0; t < MS5_ViewersCount; t++)
+        vThreadsMatch[t].join();
+}
+
+void D_MAKRO_MegaFoci::MS5_ShowImage_Thread(D_Viewer *pViewer, Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, size_t ny_mosaic, size_t nx_mosaic)
+{
+    if(pvv_imgs_ct->size() != MS5_MOSAIC_CH_NUMBER_OF)
+        return;
+
+    if(t >= (*pvv_imgs_ct)[0].size())
+        return;
+
+    //channels
+    vector<int> channels_use = {int(use_DIC), int(use_GFP), int(use_RFP)};
+
+    //crop
+    size_t w_full_px    = (*pvv_imgs_ct)[0][0].cols;
+    size_t h_full_px    = (*pvv_imgs_ct)[0][0].rows;
+    double x_mosaic2px  = double(w_full_px) / double(nx_mosaic);
+    double y_mosaic2px  = double(h_full_px) / double(ny_mosaic);
+    size_t w_crop_px    = x_size_mosaic * x_mosaic2px;
+    size_t h_crop_px    = y_size_mosaic * y_mosaic2px;
+    size_t x_start_px   = x_min_mosaic * x_mosaic2px;
+    size_t y_start_px   = y_min_mosaic * y_mosaic2px;
+    vector<Mat> vMA_Croped(MS5_MOSAIC_CH_NUMBER_OF);
+    for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
+    {
+        if(channels_use[c])
+        {
+            int err = D_Img_Proc::Crop_Rect_Abs(
+                        &(vMA_Croped[c]),
+                        &((*pvv_imgs_ct)[c][t]),
+                        x_start_px,
+                        y_start_px,
+                        w_crop_px,
+                        h_crop_px);
+
+            if(err != ER_okay)
+            {
+                vMA_Croped[c] = Mat::zeros(w_crop_px, h_crop_px, CV_8UC1);
+            }
+        }
+        else
+        {
+            vMA_Croped[c] = Mat::zeros(w_crop_px, h_crop_px, CV_8UC1);
+        }
+    }
+
+    D_Img_Proc::Merge(
+                pMA_out,
+                &(vMA_Croped[MS5_MOSAIC_CH_RFP]),
+                &(vMA_Croped[MS5_MOSAIC_CH_GFP]),
+                &(vMA_Croped[MS5_MOSAIC_CH_DIC]));
+
+    pViewer->Update_Image(pMA_out);
+}
 
 void D_MAKRO_MegaFoci::on_pushButton_MS5_DataLoad_clicked()
 {
