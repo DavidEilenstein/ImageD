@@ -7500,34 +7500,11 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
     state_MS4_pedigree_reconstructed = false;
     StatusSet("Start loading nuclei data from step 3");
 
-    //detections
-    MS4_NucPedigree_AutoReconstruct.clear();
-    MS4_NucPedigree_AutoReconstruct.set_size_time_and_mosaik(dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
-
-    //number of threads (one per time)
-    size_t nt_thread = dataset_dim_t;
-
-    //threads
-    vector<std::thread> vThreads_LoadDetections(nt_thread);
-
-    //start threads: load detetctions
-    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
-    {
-        vThreads_LoadDetections[t_thread] = std::thread(
-                    MS4_LoadDetectionsToPedigree_Thread,
-                    &MS4_NucPedigree_AutoReconstruct,
-                    t_thread,
-                    DIR_MS4_In_DetectionsAssigned,
-                    DIR_MS4_In_Master);
-        StatusSet("Loading detections T=" + QString::number(t_thread) + " (thread started)");
-    }
-
-    //join
-    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
-    {
-        vThreads_LoadDetections[t_thread].join();
-        StatusSet("Finished loading detections T=" + QString::number(t_thread) + " (thread synched)");
-    }
+    //load data
+    MS4_NucPedigree_AutoReconstruct.load_nuclei_data(
+                DIR_MS4_In_Master.path(),
+                DIR_MS4_In_DetectionsAssigned.path(),
+                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
 
     state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
@@ -7559,113 +7536,6 @@ bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Load()
     state_MS4_pedigree_reconstructed = false;
     state_MS4_detections_loaded_to_pedigree = true;
     return true;
-}
-
-void D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections, QDir DirLoadMaster)
-{
-    //sizes
-    size_t nt = pNucPedigree->size_T();
-    size_t ny = pNucPedigree->size_Y();
-    size_t nx = pNucPedigree->size_X();
-
-    if(t >= nt)
-        return;
-
-    //detections dir time t
-    QDir DIR_t(DirDetections.path() + "/Time_" + QString::number(t));
-    if(!DIR_t.exists())
-        return;
-
-    if(DIR_t.exists())
-    {
-        //get image directories
-        QStringList QSL_ImageDirs = DIR_t.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
-
-        //loop image dirs
-        for(int d = 0; d < QSL_ImageDirs.size(); d++)
-        {
-            //image dir
-            QString QS_ImageDirName = QSL_ImageDirs[d];
-            QDir DIR_ImageTYX(DIR_t.path() + "/" + QS_ImageDirName);
-
-            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << QS_ImageDirName;
-            //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "DIR" << DIR_ImageTYX.path();
-            if(DIR_ImageTYX.exists())
-            {
-                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "dir exists";
-
-                //check if indicatros contained
-                if(QS_ImageDirName.contains("Image_T" + QString::number(t)) && QS_ImageDirName.contains("_Y") && QS_ImageDirName.contains("_X"))
-                {
-                    //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "indicator strings contained" << QS_ImageDirName;
-
-                    //blocks in dir name
-                    QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
-                    if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
-                    {
-                        //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "correct block count of name" << QSL_ImageDirBlocks;
-
-                        //get x
-                        bool ok_x;
-                        QString QS_BlockX = QSL_ImageDirBlocks[3];
-                        QS_BlockX = QS_BlockX.remove(0, 1);
-                        int dir_x = QS_BlockX.toInt(&ok_x);
-
-                        //get y
-                        bool ok_y;
-                        QString QS_BlockY = QSL_ImageDirBlocks[2];
-                        QS_BlockY = QS_BlockY.remove(0, 1);
-                        int dir_y = QS_BlockY.toInt(&ok_y);
-
-                        //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "read x/y" << QSL_ImageDirBlocks[3] << QSL_ImageDirBlocks[2] << "reduced to" << QS_BlockX << QS_BlockY;
-
-                        //conversion to numbers worked?
-                        if(ok_x && ok_y)
-                        {
-                            //mosaik indices
-                            size_t ix = dir_x;
-                            size_t iy = dir_y;
-
-                            //indices in range?
-                            if(ix < nx && iy < ny)
-                            {
-                                //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "mosaic coordinates in range";
-
-                                //load nucleus image
-                                D_Bio_NucleusImage NucImg;
-                                if(NucImg.load(DIR_ImageTYX.path()) == ER_okay)
-                                {
-                                    //set mosaic offset
-                                    NucImg.set_OffsetMosaicGrid(Point(ix, iy));
-
-                                    //test
-                                    //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "Loaded x/y" << ix << iy << NucImg.info();
-
-                                    //loop nuclei
-                                    for(size_t nuc = 0; nuc < NucImg.get_nuclei_count(); nuc++)
-                                    {
-                                        //get Nuc
-                                        D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);
-
-                                        //forget contour to save memory in this step
-                                        NucBlob.forget_contour_and_calc_feats();
-
-                                        //set path (needed for beeing able to save the pedigree as relative paths lists after reconstruction)
-                                        NucBlob.set_path_absolute(
-                                                    NucBlob.get_path_absolute_loaded_from(),
-                                                    DirLoadMaster);
-
-                                        //push nucleus to pedigree
-                                        pNucPedigree->add_nucleus_blob(t, iy, ix, NucBlob);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 bool D_MAKRO_MegaFoci::MS4_SaveData()
@@ -8241,28 +8111,28 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
 
     //------------------ nuclei lifes ------------------------------------------------
 
-    StatusSet("Please select results directory from step 4 (for nuclei lifes).");
-    QString QS_LoadMS4 = QFileDialog::getExistingDirectory(
+    StatusSet("Please select results directory from step 4 or 5 (for nuclei lifes).");
+    QString QS_LoadMS4_5 = QFileDialog::getExistingDirectory(
                 this,
-                "Please select results folder of step 4 you want to load nuclei lifes from (must beginn with 'Results_Step4_').",
+                "Please select results folder of step 4 or 5 you want to load nuclei lifes from (must beginn with 'Results_Step4_' or 'Results_Step5_').",
                 pStore->dir_M_MegaFoci_Results()->path());
 
     //check if dir was selected
-    if(QS_LoadMS4.isEmpty())
+    if(QS_LoadMS4_5.isEmpty())
     {
         StatusSet("Well, you should select a folder... Wasn't that clear?");
         return false;
     }
 
-    //check, if dir is results from step 4
-    if(!QS_LoadMS4.contains("Results_Step4"))
+    //check, if dir is results from step 4 or 5
+    if(!QS_LoadMS4_5.contains("Results_Step4") && !QS_LoadMS4_5.contains("Results_Step5"))
     {
-        StatusSet("You should selct results from step 4...\n" + QS_Fun_TableFlip);
+        StatusSet("You should selct results from step 4 or 5...\n" + QS_Fun_TableFlip);
         return false;
     }
 
     //master dir in
-    DIR_MS5_Load_NucleiLifes.setPath(QS_LoadMS4);
+    DIR_MS5_Load_NucleiLifes.setPath(QS_LoadMS4_5);
     if(!DIR_MS4_In_Master.exists())
     {
         StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
@@ -8270,7 +8140,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
     }
 
     //save input dir
-    DIR_parent.setPath(QS_LoadMS4);
+    DIR_parent.setPath(QS_LoadMS4_5);
     DIR_parent.cdUp();
     pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
@@ -8365,40 +8235,16 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiData()
 
     StatusSet("Start loading nuclei data from step 3");
 
-    //detections
-    MS5_NucPedigree_Editing.clear();
-    MS5_NucPedigree_Editing.set_size_time_and_mosaik(dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
-
-    //number of threads (one per time)
-    size_t nt_thread = dataset_dim_t;
-
-    //threads
-    vector<std::thread> vThreads_LoadDetections(nt_thread);
-
     //parent dir of detections
     QDir DIR_ParentMS3(DIR_MS5_Load_NucleiData);
     DIR_ParentMS3.cdUp();
 
-    //start threads: load detetctions
-    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
-    {
-        vThreads_LoadDetections[t_thread] = std::thread(
-                    MS4_LoadDetectionsToPedigree_Thread,
-                    &MS5_NucPedigree_Editing,
-                    t_thread,
-                    DIR_MS5_Load_NucleiData,
-                    DIR_ParentMS3);
-        StatusSet("Loading detections T=" + QString::number(t_thread) + " (thread started)");
-    }
+    //load data
+    MS5_NucPedigree_Editing.load_nuclei_data(
+                DIR_ParentMS3.path(),
+                DIR_MS5_Load_NucleiData.path(),
+                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
 
-    //join
-    for(size_t t_thread = 0; t_thread < nt_thread; t_thread++)
-    {
-        vThreads_LoadDetections[t_thread].join();
-        StatusSet("Finished loading detections T=" + QString::number(t_thread) + " (thread synched)");
-    }
-
-    state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
 
     MS5_state_loaded_nuc_data = true;
@@ -8412,10 +8258,63 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiLifes()
     if(!MS5_state_loaded_dirs || !MS5_state_loaded_nuc_data)
         return false;
 
+    StatusSet("Start loading nuclei matches from step 4/5");
 
+    //load data
+    MS5_NucPedigree_Editing.match_load_matches(DIR_MS5_Load_NucleiLifes.path());
+
+    StatusSet("Finished loading nuclei matches from step 4/5");
 
     MS5_state_loaded_nuc_lifes = true;
     return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_SaveData()
+{
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+
+    StatusSet("Please select directory to save step 5 results in");
+    QString QS_Save = QFileDialog::getExistingDirectory(
+                this,
+                "Please select directory to save step 5 results in ('Results_5_* folder is created automatically')",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_Save.isEmpty())
+    {
+        StatusSet("If you don't select a folder, i can't save the results i worked so hard for... " + QS_Fun_Sad);
+        return false;
+    }
+
+    //set master save dir and cehck existance
+    QDir DIR_Save(QS_Save);
+    if(!DIR_Save.exists())
+    {
+        StatusSet("With unknown dark magic you managed to select a non existent directory " +  QS_Fun_Confused);
+        return false;
+    }
+
+    //create sub dir
+    size_t count = 0;
+    do
+    {
+        DIR_MS5_Out_NucleiLifes.setPath(DIR_Save.path() + "/Results_Step5_" + QString::number(count));
+        count++;
+    }
+    while(DIR_MS5_Out_NucleiLifes.exists());
+    QDir().mkdir(DIR_MS5_Out_NucleiLifes.path());
+    StatusSet("Set as save directory:\n" + DIR_MS5_Out_NucleiLifes.path());
+
+    //save data
+    StatusSet("Start saving data");
+    bool ok = MS5_NucPedigree_Editing.match_save_results(DIR_MS5_Out_NucleiLifes.path());
+    if(ok)
+        StatusSet("Saved data successfully " + QS_Fun_Happy);
+    else
+        StatusSet("Failed saving data " + QS_Fun_Sad);
+
+    return ok;
 }
 
 

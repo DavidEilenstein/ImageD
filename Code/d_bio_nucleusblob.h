@@ -85,6 +85,7 @@ public:
     QString                         get_path_relative()                                     {return QS_path_relative;}
     QString                         get_path_absolute(QDir master_dir)                      {return master_dir.path() + QS_path_relative;}
     QString                         get_path_absolute_loaded_from()                         {return QS_path_abs_loaded_from;}
+    bool                            is_path_relative(QString path_rel)                      {return QS_path_relative == path_rel;}
 
     Rect                            bounding_box();
 

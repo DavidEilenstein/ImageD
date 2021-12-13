@@ -1348,10 +1348,6 @@ private slots:
     bool MS4_LoadDirs();
     bool MS4_LoadDetectionsToPedigree();
 
-private: //no slot to not cause conflicts with threading
-    static void MS4_LoadDetectionsToPedigree_Thread(D_Bio_NucleusPedigree *pNucPedigree, size_t t, QDir DirDetections, QDir DirLoadMaster);
-private slots:
-
     bool MS4_PedigreeBackup_Create();
     bool MS4_PedigreeBackup_Load();
 
@@ -1386,10 +1382,13 @@ private:
     bool MS5_LoadNucleiData();
     bool MS5_LoadNucleiLifes();
 
+    bool MS5_SaveData();
+
     //path
     QDir DIR_MS5_Load_Mosaics;
     QDir DIR_MS5_Load_NucleiData;
     QDir DIR_MS5_Load_NucleiLifes;
+    QDir DIR_MS5_Out_NucleiLifes;
 
     //data mosaics
     enum MS5_MOSAIC_CHANNELS {
