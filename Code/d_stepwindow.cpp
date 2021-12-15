@@ -43,7 +43,6 @@ D_StepWindow::D_StepWindow(D_Storage *pStorage, vector<D_StepWindow *> *pSteps_i
     ChartView_Hist->setRubberBand(QChartView::RectangleRubberBand);
     ChartView_Hist->setInteractive(true);
 
-
     //TIMES
     //Init chart and chartview
     Chart_Times = new QChart();

@@ -108,7 +108,7 @@ D_MAKRO_MegaFoci::D_MAKRO_MegaFoci(D_Storage *pStorage, QWidget *parent) :
     StatusSet("Started this awesome piece of software");
     Update_Views();
     setWindowIcon(QIcon(":/logo/ImageD_Logo.png"));
-    setWindowTitle("ImageD - Monster Image Handler and Foci Detector (suggestions for a better name are welcome)");
+    setWindowTitle("ImageD - Mega foci tracker");
     Populate_CB_AtStart();
 
     ///update ui accesibility
@@ -7504,7 +7504,8 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
     MS4_NucPedigree_AutoReconstruct.load_nuclei_data(
                 DIR_MS4_In_Master.path(),
                 DIR_MS4_In_DetectionsAssigned.path(),
-                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
+                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
+                true);
 
     state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
@@ -7974,6 +7975,7 @@ void D_MAKRO_MegaFoci::MS5_UiInit()
     MS5_Viewer_T2.set_GV(ui->graphicsView_MS5_ViewT2);
     MS5_Viewer_T3.set_GV(ui->graphicsView_MS5_ViewT3);
     MS5_Viewer_T4.set_GV(ui->graphicsView_MS5_ViewT4);
+    //vieer vectors
     v_MS5_Viewers_T.resize(MS5_ViewersCount);
     v_MS5_Viewers_T[0] = &MS5_Viewer_T0;
     v_MS5_Viewers_T[1] = &MS5_Viewer_T1;
@@ -7991,6 +7993,28 @@ void D_MAKRO_MegaFoci::MS5_UiInit()
 
    //imgs to show
    v_MS5_MAs_Show.resize(MS5_ViewersCount, Mat::zeros(1, 1, CV_8UC1));
+
+   //connects
+   //show img
+   connect(ui->spinBox_MS5_T_start,                 SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_T_size,                  SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_Y_start,                 SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_Y_size,                  SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_X_start,                 SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_X_size,                  SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->spinBox_MS5_Viewers_Thickness,       SIGNAL(valueChanged(int)),      this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_DIC,             SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_GFP,             SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_RFP,             SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_ContoursParent,  SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_ContoursCurrent, SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_ContoursChilds,  SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_ShiftsParent,    SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   connect(ui->checkBox_MS5_Viewer_ShiftsChilds,    SIGNAL(clicked(bool)),          this,   SLOT(MS5_UpdateImages()));
+   //connected zoom in viewers
+   for(size_t v = 1; v < MS5_ViewersCount; v++)
+       v_MS5_Viewers_T[0]->connect_Zoom(v_MS5_Viewers_T[v]);
+
 }
 
 bool D_MAKRO_MegaFoci::MS5_LoadAll()
@@ -8032,9 +8056,10 @@ bool D_MAKRO_MegaFoci::MS5_LoadAll()
     ui->groupBox_MS5_Viewport->setEnabled(true);
     ui->groupBox_MS5_Events->setEnabled(true);
     ui->groupBox_MS5_Editing->setEnabled(true);
+    ui->groupBox_MS5_ViewersSettings->setEnabled(true);
 
     //show
-    MS5_ShowImages(); //CONTINUE HERE
+    MS5_UpdateImages();
 
     //finish
     return true;
@@ -8249,7 +8274,8 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiData()
     MS5_NucPedigree_Editing.load_nuclei_data(
                 DIR_ParentMS3.path(),
                 DIR_MS5_Load_NucleiData.path(),
-                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x);
+                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
+                false);
 
     StatusSet("Finished loading nuclei data from step 3");
 
@@ -8323,7 +8349,7 @@ bool D_MAKRO_MegaFoci::MS5_SaveData()
     return ok;
 }
 
-void D_MAKRO_MegaFoci::MS5_ShowImages()
+void D_MAKRO_MegaFoci::MS5_UpdateImages()
 {
     if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
         return;
@@ -8335,11 +8361,12 @@ void D_MAKRO_MegaFoci::MS5_ShowImages()
     vector<std::thread> vThreadsMatch(MS5_ViewersCount);
     for(size_t v = 0; v < MS5_ViewersCount; v++)
         vThreadsMatch[v] = std::thread(
-                    MS5_ShowImage_Thread,
+                    MS5_CalcImage_Thread,
                     v_MS5_Viewers_T[v],
                     &(v_MS5_MAs_Show[v]),
                     &vv_MS5_Mosaics_CT,
-                    size_t(ui->spinBox_MS5_T_start->value()),
+                    &MS5_NucPedigree_Editing,
+                    size_t(ui->spinBox_MS5_T_start->value() + v),
                     size_t(ui->spinBox_MS5_Y_start->value()),
                     size_t(ui->spinBox_MS5_Y_size->value()),
                     size_t(ui->spinBox_MS5_X_start->value()),
@@ -8347,24 +8374,47 @@ void D_MAKRO_MegaFoci::MS5_ShowImages()
                     ui->checkBox_MS5_Viewer_DIC->isChecked(),
                     ui->checkBox_MS5_Viewer_GFP->isChecked(),
                     ui->checkBox_MS5_Viewer_RFP->isChecked(),
+                    ui->checkBox_MS5_Viewer_ContoursParent->isChecked(),
+                    ui->checkBox_MS5_Viewer_ContoursCurrent->isChecked(),
+                    ui->checkBox_MS5_Viewer_ContoursChilds->isChecked(),
+                    ui->checkBox_MS5_Viewer_ShiftsParent->isChecked(),
+                    ui->checkBox_MS5_Viewer_ShiftsChilds->isChecked(),
+                    ui->checkBox_MS5_Viewer_AgeText->isChecked(),
+                    ui->checkBox_MS5_Viewer_ColorInfo->isChecked(),
                     dataset_dim_mosaic_y,
-                    dataset_dim_mosaic_x);
+                    dataset_dim_mosaic_x,
+                    ui->spinBox_MS5_Viewers_Thickness->value(),
+                    ui->doubleSpinBox_OverviewQuality->value() / 100.0);
 
-    //join
-    for(size_t t = 0; t < MS5_ViewersCount; t++)
-        vThreadsMatch[t].join();
+    //join and show
+    for(size_t v = 0; v < MS5_ViewersCount; v++)
+    {
+        vThreadsMatch[v].join();
+        v_MS5_Viewers_T[v]->Update_Image();
+        v_MS5_ViewerLabels_T[v]->setText("T=" + QString::number(ui->spinBox_MS5_T_start->value() + v));
+    }
 }
 
-void D_MAKRO_MegaFoci::MS5_ShowImage_Thread(D_Viewer *pViewer, Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, size_t ny_mosaic, size_t nx_mosaic)
+void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(D_Viewer *pViewer, Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale)
 {
+    //qDebug() << "scale" << scale;
+
     if(pvv_imgs_ct->size() != MS5_MOSAIC_CH_NUMBER_OF)
         return;
 
     if(t >= (*pvv_imgs_ct)[0].size())
         return;
 
+    //drawing thickness
+    int thick1 = max(1, thickness / 2);
+    int thick2 = max(thick1 + 1, thickness);
+
     //channels
-    vector<int> channels_use = {int(use_DIC), int(use_GFP), int(use_RFP)};
+    bool channels_use[4] = {use_RFP, use_GFP, use_DIC, false};
+    int channel_count = 0;
+    if(use_DIC) channel_count++;
+    if(use_GFP) channel_count++;
+    if(use_RFP) channel_count++;
 
     //crop
     size_t w_full_px    = (*pvv_imgs_ct)[0][0].cols;
@@ -8378,37 +8428,221 @@ void D_MAKRO_MegaFoci::MS5_ShowImage_Thread(D_Viewer *pViewer, Mat* pMA_out, vec
     vector<Mat> vMA_Croped(MS5_MOSAIC_CH_NUMBER_OF);
     for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
     {
-        if(channels_use[c])
-        {
-            int err = D_Img_Proc::Crop_Rect_Abs(
-                        &(vMA_Croped[c]),
-                        &((*pvv_imgs_ct)[c][t]),
-                        x_start_px,
-                        y_start_px,
-                        w_crop_px,
-                        h_crop_px);
+        D_Img_Proc::Crop_Rect_Abs(
+                    &(vMA_Croped[c]),
+                    &((*pvv_imgs_ct)[c][t]),
+                    x_start_px,
+                    y_start_px,
+                    w_crop_px,
+                    h_crop_px);
+    }
 
-            if(err != ER_okay)
+    //Offset
+    Point P_Offset_px_scaled(x_start_px, y_start_px);
+
+    //merge
+    if(channel_count == 0)
+    {
+        *pMA_out = Mat::zeros(h_crop_px, w_crop_px, CV_8UC3);
+    }
+    else if(channel_count == 1)
+    {
+        for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
+        {
+            if(channels_use[c])
             {
-                vMA_Croped[c] = Mat::zeros(w_crop_px, h_crop_px, CV_8UC1);
+                D_Img_Proc::Duplicate2Channels(
+                            pMA_out,
+                            &(vMA_Croped[c]),
+                            3);
             }
         }
-        else
+    }
+    else
+    {
+        D_Img_Proc::Merge(
+                    pMA_out,
+                    &(vMA_Croped[MS5_MOSAIC_CH_RFP]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_GFP]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_DIC]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_DIC]),
+                    3,
+                    channels_use);
+    }
+
+    //draw contours and movement
+    for(size_t y = y_min_mosaic; y < y_min_mosaic + y_size_mosaic; y++)
+    {
+        for(size_t x = x_min_mosaic; x < x_min_mosaic + x_size_mosaic; x++)
         {
-            vMA_Croped[c] = Mat::zeros(w_crop_px, h_crop_px, CV_8UC1);
+            size_t ni = pPedigree->nuclei_blob_count(t, y, x);
+            for(size_t i = 0; i < ni; i++)
+            {
+                D_Bio_NucleusBlob* pNucDraw = pPedigree->get_pNucleus(t, y, x, i);
+
+                //------------------------------------- contour of itself ----------------------------
+
+                //qDebug() << "draw contour";
+                if(draw_contour_current)
+                {
+                    //color
+                    QColor col = color_info ? pNucDraw->matching_TypeColor(pPedigree->rect_RegularRange_px(), 0, pPedigree->size_T() - 1) : QColor(255, 255, 255);
+                    col = col == QColor(0, 0, 0) ? QColor(255, 255, 255) : col; //linear tracking to white for better contrast
+
+                    //draw
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->contour(scale, -P_Offset_px_scaled),
+                                thick2,
+                                col.red(), col.green(), col.blue());
+                }
+
+                //------------------------------------- contour of parent/childs ----------------------------
+
+                //qDebug() << "draw parent contour" << pNucDraw->matching_foundParent();
+                if(draw_contour_parent && pNucDraw->matching_foundParent())
+                {
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->matching_Parent()->contour(scale, -P_Offset_px_scaled),
+                                thick1,
+                                0, 0, 255);
+                }
+
+                //qDebug() << "draw child 1 contour" << pNucDraw->matching_foundChild1();
+                if(draw_contour_childs && pNucDraw->matching_foundChild1())
+                {
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->matching_Child1()->contour(scale, -P_Offset_px_scaled),
+                                thick1,
+                                255, 0, 0);
+                }
+
+                //qDebug() << "draw child 2 contour" << pNucDraw->matching_foundChild2();
+                if(draw_contour_childs && pNucDraw->matching_foundChild2())
+                {
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->matching_Child2()->contour(scale, -P_Offset_px_scaled),
+                                thick1,
+                                255, 0, 0);
+                }
+
+                //------------------------------------- shifts ----------------------------
+
+                //qDebug() << "draw parent shift" << pNucDraw->matching_foundParent();
+                if(draw_shift_parent && pNucDraw->matching_foundParent())
+                {
+                    D_Img_Proc::Draw_Line(
+                                pMA_out,
+                                pNucDraw->centroid(scale, -P_Offset_px_scaled),
+                                pNucDraw->matching_Parent()->centroid(scale, -P_Offset_px_scaled),
+                                thick1,
+                                0, 0, 255);
+                }
+
+                //qDebug() << "draw child 1 shift" << pNucDraw->matching_foundChild1();
+                if(draw_shift_childs && pNucDraw->matching_foundChild1())
+                {
+                    D_Img_Proc::Draw_Line(
+                                pMA_out,
+                                pNucDraw->centroid(scale, -P_Offset_px_scaled),
+                                pNucDraw->matching_Child1()->centroid(scale, -P_Offset_px_scaled),
+                                thick1,
+                                255, 0, 0);
+                }
+
+                //qDebug() << "draw child 2 shift" << pNucDraw->matching_foundChild2();
+                if(draw_shift_childs && pNucDraw->matching_foundChild2())
+                {
+                    D_Img_Proc::Draw_Line(
+                                pMA_out,
+                                pNucDraw->centroid(scale, -P_Offset_px_scaled),
+                                pNucDraw->matching_Child2()->centroid(scale, -P_Offset_px_scaled),
+                                thick1,
+                                255, 0, 0);
+                }
+
+                //------------------------------------- info text ----------------------------
+
+                //qDebug() << "age text";
+                if(age_text)
+                {
+                    //color
+                    qDebug() << "calc colors";
+                    QColor col_source       = color_info ? pNucDraw->matching_Source()->matching_TypeColor(pPedigree->rect_RegularRange_px(), 0, pPedigree->size_T() - 1) : QColor(255, 255, 255);
+                    QColor col_destination  = color_info ? pNucDraw->matching_Destinantion()->matching_TypeColor(pPedigree->rect_RegularRange_px(), 0, pPedigree->size_T() - 1) : QColor(255, 255, 255);
+
+                    col_source              = col_source == QColor(0, 0, 0) ? QColor(0, 255, 0) : col_source;               //leads back to 1 after mitosis
+                    col_destination         = col_destination == QColor(0, 0, 0) ? QColor(255, 255, 255) : col_destination; //should never happen
+
+                    //ages
+                    qDebug() << "calc ages";
+                    size_t age_source       = pNucDraw->matching_Age();
+                    size_t age_destination  = pNucDraw->matching_AgeToGo();
+
+                    //centroid
+                    qDebug() << "get centroid";
+                    Point center = pNucDraw->centroid(scale, -P_Offset_px_scaled);
+
+                    //write source text
+                    qDebug() << "draw aget text source";
+                    D_Img_Proc::Draw_Text(
+                                pMA_out,
+                                QString::number(age_source),
+                                center.x,
+                                center.y,
+                                thick1,
+                                0.5,
+                                col_source.red(),
+                                col_source.green(),
+                                col_source.blue());
+
+                    //write dest text
+                    qDebug() << "draw age text dest";
+                    D_Img_Proc::Draw_Text(
+                                pMA_out,
+                                QString::number(age_destination),
+                                center.x,
+                                center.y + 15,
+                                thick1,
+                                0.5,
+                                col_destination.red(),
+                                col_destination.green(),
+                                col_destination.blue());
+
+                    qDebug() << "text complete---------------------";
+                }
+
+                //------------------------------------- end of drawing ----------------------------
+            }
         }
     }
 
-    D_Img_Proc::Merge(
-                pMA_out,
-                &(vMA_Croped[MS5_MOSAIC_CH_RFP]),
-                &(vMA_Croped[MS5_MOSAIC_CH_GFP]),
-                &(vMA_Croped[MS5_MOSAIC_CH_DIC]));
-
-    pViewer->Update_Image(pMA_out);
+    pViewer->Set_Image(pMA_out);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS5_DataLoad_clicked()
 {
     MS5_LoadAll();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Y_size_valueChanged(int arg1)
+{
+    ui->spinBox_MS5_X_size->blockSignals(true);
+    ui->spinBox_MS5_X_size->setValue(arg1);
+    ui->spinBox_MS5_X_size->blockSignals(false);
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_X_size_valueChanged(int arg1)
+{
+    ui->spinBox_MS5_Y_size->blockSignals(true);
+    ui->spinBox_MS5_Y_size->setValue(arg1);
+    ui->spinBox_MS5_Y_size->blockSignals(false);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_DataSave_clicked()
+{
+    MS5_SaveData();
 }

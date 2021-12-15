@@ -111,7 +111,7 @@ public:
 
 private:
 
-    bool            load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel);
+    bool    load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_FociChannel);
 
     size_t m_time = 0;
     Point m_Offset_Coord = Point(0, 0);

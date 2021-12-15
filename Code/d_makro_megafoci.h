@@ -1384,11 +1384,11 @@ private slots:
 
     bool MS5_SaveData();
 
-    void MS5_ShowImages();
+    void MS5_UpdateImages();
 
 
 private:
-    static void MS5_ShowImage_Thread(D_Viewer* pViewer, Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, size_t ny_mosaic, size_t nx_mosaic);
+    static void MS5_CalcImage_Thread(D_Viewer* pViewer, Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
 
     //path
     QDir DIR_MS5_Load_Mosaics;
@@ -1398,15 +1398,15 @@ private:
 
     //data mosaics
     enum MS5_MOSAIC_CHANNELS {
-        MS5_MOSAIC_CH_DIC,
-        MS5_MOSAIC_CH_GFP,
         MS5_MOSAIC_CH_RFP,
+        MS5_MOSAIC_CH_GFP,
+        MS5_MOSAIC_CH_DIC,
         MS5_MOSAIC_CH_NUMBER_OF
     };
     const QStringList QSL_MS5_MosaicChannels = {
-        "DIC",
+        "RFP",
         "GFP",
-        "RFP"
+        "DIC"
     };
     vector<vector<Mat>> vv_MS5_Mosaics_CT;
 
@@ -1433,6 +1433,9 @@ private:
 
 private slots:
     void on_pushButton_MS5_DataLoad_clicked();
+    void on_spinBox_MS5_Y_size_valueChanged(int arg1);
+    void on_spinBox_MS5_X_size_valueChanged(int arg1);
+    void on_pushButton_MS5_DataSave_clicked();
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

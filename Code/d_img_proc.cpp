@@ -4253,7 +4253,7 @@ int D_Img_Proc::Duplicate2Channels(Mat *pMA_Out, Mat *pMA_In, int channels)
 
 int D_Img_Proc::Merge(Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2)
 {
-    bool channels_used[4] = {true, true, true};
+    bool channels_used[4] = {true, true, true, false};
 
     return Merge(
                 pMA_Out,
@@ -4273,7 +4273,7 @@ int D_Img_Proc::Merge(Mat *pMA_Out, vector<Mat> vMA_in, vector<int> v_R, vector<
     if(vMA_in.size() != v_G.size())            return ER_size_missmatch;
     if(vMA_in.size() != v_B.size())            return ER_size_missmatch;
     if(vMA_in.size() != v_A.size())            return ER_size_missmatch;
-    for(int i = 0; i < vMA_in.size(); i++)
+    for(size_t i = 0; i < vMA_in.size(); i++)
     {
         if(vMA_in[i].size != vMA_in[0].size)                                return ER_size_missmatch;
         if(vMA_in[i].type() != CV_64FC1 && vMA_in[i].type() != CV_8UC1)     return ER_type_bad;
@@ -4291,7 +4291,7 @@ int D_Img_Proc::Merge(Mat *pMA_Out, vector<Mat> vMA_in, vector<int> v_R, vector<
     v_R_Scale.resize(vMA_in.size());
     v_G_Scale.resize(vMA_in.size());
     v_B_Scale.resize(vMA_in.size());
-    for(int i = 0; i < vMA_in.size(); i++)
+    for(size_t i = 0; i < vMA_in.size(); i++)
     {
         v_R_Scale[i] = (v_R[i] * v_A[i]) / (255.0 * 255.0);
         v_G_Scale[i] = (v_G[i] * v_A[i]) / (255.0 * 255.0);
@@ -18698,6 +18698,35 @@ int D_Img_Proc::Draw_Contour(Mat *pMA_Target, vector<Point> vContour, int line_t
                 vContours,
                 line_thickness,
                 value);
+}
+
+int D_Img_Proc::Draw_Contour(Mat *pMA_Target, vector<Point> vContour, int line_thickness, double R, double G, double B)
+{
+    ///error checks
+    if(pMA_Target->empty())             return ER_empty;
+    if(pMA_Target->channels() != 3)     return ER_channel_bad;
+    if(vContour.empty())                return ER_okay;//no error, because no contour to draw is auto success
+
+    ///make sure variables make sense
+    //-1 means filled contour
+    if(line_thickness < 0)
+        line_thickness = -1;
+
+    ///contour to vector of contours
+    vector<vector<Point>> vContours = {vContour};
+
+    ///color
+    Scalar color(B, G, R);
+
+    ///draw contour
+    drawContours(
+                *pMA_Target,
+                vContours,
+                -1,
+                color,
+                line_thickness);
+
+    return ER_okay;
 }
 
 /*!

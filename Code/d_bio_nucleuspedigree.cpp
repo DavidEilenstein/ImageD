@@ -33,7 +33,16 @@ void D_Bio_NucleusPedigree::set_size_time_and_mosaik(size_t t_size, size_t y_siz
     vvvvNucBlobs_TYXI.resize(
                 size_time, vector<vector<vector<D_Bio_NucleusBlob>>>(
                     size_mosaik_y, vector<vector<D_Bio_NucleusBlob>>(
-                        size_mosaik_y, vector<D_Bio_NucleusBlob>())));
+                        size_mosaik_x, vector<D_Bio_NucleusBlob>())));
+}
+
+size_t D_Bio_NucleusPedigree::nuclei_blob_count(size_t t, size_t y, size_t x)
+{
+    if(t >= size_time)      return 0;
+    if(y >= size_mosaik_y)  return 0;
+    if(x >= size_mosaik_x)  return 0;
+
+    return vvvvNucBlobs_TYXI[t][y][x].size();
 }
 
 size_t D_Bio_NucleusPedigree::nuclei_blob_count(size_t t)
@@ -58,7 +67,17 @@ size_t D_Bio_NucleusPedigree::nuclei_blob_count()
     return nuclei_count_total;
 }
 
-bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx)
+D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y, size_t x, size_t i)
+{
+    if(t >= size_time)                          return 0;
+    if(y >= size_mosaik_y)                      return 0;
+    if(x >= size_mosaik_x)                      return 0;
+    if(i >= vvvvNucBlobs_TYXI[t][y][x].size())  return 0;
+
+    return &(vvvvNucBlobs_TYXI[t][y][x][i]);
+}
+
+bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour)
 {
     QDir DIR_LoadNucDataMaster(QS_path_NucDataMaster);
     QDir DIR_LoadNucData(QS_path_NucData);
@@ -78,7 +97,8 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                     &vvvvNucBlobs_TYXI,
                     DIR_LoadNucDataMaster,
                     DIR_LoadNucData,
-                    t);
+                    t,
+                    forget_contour);
 
     for(size_t t = 0; t < nt; t++)
         vThreadsData[t].join();
@@ -740,9 +760,9 @@ bool D_Bio_NucleusPedigree::match_save_results(QString QS_path)
     return true;
 }
 
-bool D_Bio_NucleusPedigree::match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx)
+bool D_Bio_NucleusPedigree::match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour)
 {    
-    if(!load_nuclei_data(QS_path_NucDataMaster, QS_path_NucData, nt, ny, nx))
+    if(!load_nuclei_data(QS_path_NucDataMaster, QS_path_NucData, nt, ny, nx, forget_contour))
         return false;
 
     if(!match_load_matches(QS_path_NucLifes))
@@ -861,7 +881,7 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
     return true;
 }
 
-bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread)
+bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour)
 {
     //sizes
     size_t nt = (*pvvvvNucsTYXI).size();
@@ -957,7 +977,8 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
                                         D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);
 
                                         //forget contour to save memory in this step
-                                        NucBlob.forget_contour_and_calc_feats();
+                                        if(forget_contour)
+                                            NucBlob.forget_contour_and_calc_feats();
 
                                         //set path (needed for beeing able to save the pedigree as relative paths lists after reconstruction)
                                         NucBlob.set_path_absolute(
@@ -978,6 +999,8 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
             }
         }
     }
+
+    return true;
 }
 
 bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread)
@@ -991,26 +1014,34 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
     //load dir for time
     QDir DirLoadTime;
     DirLoadTime.setPath(DirLoadNucLifes.path() + "/Time_" + QString::number(t_thread));
+    //if(t_thread == 0) qDebug() << "time dir    " << DirLoadTime.path();
 
     //Sub Dirs
-    QFileInfoList FIL_ImgDirs = DirLoadTime.entryInfoList();
+    QFileInfoList FIL_ImgDirs = DirLoadTime.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     for(int d = 0; d < FIL_ImgDirs.size(); d++)
     {
+        //entry in time dir
+        QFileInfo FI_ThingInTimeDir = FIL_ImgDirs[d];
+        //if(t_thread == 0) qDebug() << "Time entry  " << FI_ThingInTimeDir.absoluteFilePath() << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
         //check, if it is a dir
-        if(FIL_ImgDirs[d].isDir())
+        if(FI_ThingInTimeDir.isDir())
         {
             //Sub dir for img
-            QDir DIR_ImageYX(FIL_ImgDirs[d].absoluteFilePath());
+            QDir DIR_ImageYX(FI_ThingInTimeDir.absoluteFilePath());
+            //if(t_thread == 0) qDebug() << "Image Dir   " << DIR_ImageYX.path() << "========================================";
 
             //check existance
             if(DIR_ImageYX.exists())
             {
                 //nuc life files
-                QFileInfoList FIL_NucLifeTxts = DIR_ImageYX.entryInfoList();
+                QStringList QSl_NameFilterTxt = {"*txt", "*.TXT"};
+                QFileInfoList FIL_NucLifeTxts = DIR_ImageYX.entryInfoList(QSl_NameFilterTxt);
                 for(int f = 0; f < FIL_NucLifeTxts.size(); f++)
                 {
                     //file info
                     QFileInfo FI_NucLifeTxt = FIL_NucLifeTxts[f];
+                    //if(t_thread == 0) qDebug() << "Nuc Life txt" << FI_NucLifeTxt.absoluteFilePath() << "-------------------------";
 
                     //check, if txt
                     if(FI_NucLifeTxt.suffix() == "txt" || FI_NucLifeTxt.suffix() == "TXT")
@@ -1023,6 +1054,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                             {
                                 //File
                                 QFile F_NucLife(FI_NucLifeTxt.absoluteFilePath());
+                                //if(t_thread == 0) qDebug() << "open file" << F_NucLife;
                                 if(F_NucLife.open(QIODevice::ReadOnly))
                                 {
                                     //nucs found before (used to create a match, when nuc after this is found)
@@ -1038,6 +1070,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                     {
                                         //read line
                                         QString QS_Line = TS_NucLife.readLine();
+                                        //if(t_thread == 0) qDebug() << "Line" << QS_Line << "..............";
                                         //example of path line: "/DetectionsAssigned/Time_2/Image_T2_Y0_X1/Nucleus_T2_Y715_X2290.txt"
 
                                         //check for new section
@@ -1048,6 +1081,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                             {
                                                 section_indicator = s;
                                                 new_section_indicator_found = true;
+                                                //if(t_thread == 0) qDebug() << "Section" << QSL_NucLifeFileSections[s] << "found";
                                             }
                                         }
 
@@ -1057,6 +1091,8 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                             //section with paths
                                             if(section_indicator == NUC_LIFE_FILE_SECTION_PARENT || section_indicator == NUC_LIFE_FILE_SECTION_MEMBERS || section_indicator == NUC_LIFE_FILE_SECTION_CHILDS)
                                             {
+                                                //if(t_thread == 0) qDebug() << "Path section";
+
                                                 //is not empty?
                                                 if(!QS_Line.isEmpty())
                                                 {
@@ -1066,8 +1102,11 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                         //txt path?
                                                         if(QS_Line.endsWith(".txt") || QS_Line.endsWith(".TXT"))
                                                         {
+                                                            //if(t_thread == 0) qDebug() << "is rel path text file";
+
                                                             //dirs and file name blocks
                                                             QStringList QSL_Blocks = QS_Line.split("/");
+                                                            //if(t_thread == 0) qDebug() << "path blocks" << QSL_Blocks;
 
                                                             //enough blocs to find identifiers?
                                                             int n_blocks = QSL_Blocks.size();
@@ -1081,15 +1120,19 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
 
                                                                 //time blocks
                                                                 QStringList QSl_BlocksImg = QS_BlockImage.split("_");
+                                                                //if(t_thread == 0) qDebug() << "img name blocks" << QSl_BlocksImg;
                                                                 if(QSl_BlocksImg.size() == 4)
                                                                 {
                                                                     //get coordinates of image in mosaic
                                                                     bool ok_t;
-                                                                    size_t nuc_new_t = QSL_Blocks[1].toInt(&ok_t);
+                                                                    size_t nuc_new_t = QSl_BlocksImg[1].right(QSl_BlocksImg[1].size() - 1).toInt(&ok_t);
                                                                     bool ok_y;
-                                                                    size_t nuc_new_y = QSL_Blocks[2].toInt(&ok_y);
+                                                                    size_t nuc_new_y = QSl_BlocksImg[2].right(QSl_BlocksImg[2].size() - 1).toInt(&ok_y);
                                                                     bool ok_x;
-                                                                    size_t nuc_new_x = QSL_Blocks[3].toInt(&ok_x);
+                                                                    size_t nuc_new_x = QSl_BlocksImg[3].right(QSl_BlocksImg[3].size() - 1).toInt(&ok_x);
+
+                                                                    //if(t_thread == 0) qDebug() << "blocks croped t/y/x" << QSl_BlocksImg[1].right(QSl_BlocksImg[1].size() - 1) << QSl_BlocksImg[1].right(QSl_BlocksImg[2].size() - 2) << QSl_BlocksImg[3].right(QSl_BlocksImg[3].size() - 1);
+                                                                    //if(t_thread == 0) qDebug() << "pos t/y/x" << nuc_new_t << nuc_new_y << nuc_new_x;
 
                                                                     //pos ok?
                                                                     if(ok_t && ok_y && ok_x)
@@ -1106,6 +1149,8 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                 size_t nx = (*pvvvvNucsTYXI)[nuc_new_t][nuc_new_y].size();
                                                                                 if(nuc_new_x < nx)
                                                                                 {
+                                                                                    //if(t_thread == 0) qDebug() << "t/y/x ok";
+
                                                                                     //find nuc
                                                                                     D_Bio_NucleusBlob* pNucNew = nullptr;
                                                                                     bool nuc_new_found = false;
@@ -1115,6 +1160,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                         D_Bio_NucleusBlob* pNucNewCandidate = &((*pvvvvNucsTYXI)[nuc_new_t][nuc_new_y][nuc_new_x][i]);
                                                                                         if(pNucNewCandidate->is_path_relative(QS_Line))
                                                                                         {
+                                                                                            //if(t_thread == 0) qDebug() << "found nuc in pedigree";
                                                                                             nuc_new_found = true;
                                                                                             pNucNew = pNucNewCandidate;
                                                                                         }
@@ -1125,6 +1171,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                     {
                                                                                         //set new as child for old (reversed setting don internally)
                                                                                         nuc_before_ptr->matching_SetAsChild(pNucNew, 1);
+                                                                                        //if(t_thread == 0) qDebug() << "connected nuclei <3 <3 <3";
                                                                                     }
 
                                                                                     //save current new as old for next, if it is no child after mitosis
@@ -1132,6 +1179,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                     {
                                                                                         nuc_before_found = true;
                                                                                         nuc_before_ptr = pNucNew;
+                                                                                        //if(t_thread == 0) qDebug() << "saved nuc as new previous nuc";
                                                                                     }
                                                                                 }
                                                                             }

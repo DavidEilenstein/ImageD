@@ -688,6 +688,40 @@ Rect D_Bio_NucleusBlob::bounding_box()
     return boundingRect(m_contour);
 }
 
+vector<Point2f> D_Bio_NucleusBlob::contour_f(double scale, Point P_offset_scaled)
+{
+    size_t n = m_contour.size();
+
+    vector<Point2f> vContourOut(n);
+
+    for(size_t i = 0; i < n; i++)
+        vContourOut[i] = (m_contour[i] * scale) + P_offset_scaled;
+
+    return vContourOut;
+}
+
+vector<Point> D_Bio_NucleusBlob::contour(double scale, Point P_offset_scaled)
+{
+    size_t n = m_contour.size();
+
+    vector<Point> vContourOut(n);
+
+    for(size_t i = 0; i < n; i++)
+        vContourOut[i] = (m_contour[i] * scale) + P_offset_scaled;
+
+    return vContourOut;
+}
+
+Point2f D_Bio_NucleusBlob::centroid(double scale, Point P_offset_scaled)
+{
+    if(!state_feats_calced) CalcFeats();
+
+    return Point2f(
+                (scale * m_centroid.x) + P_offset_scaled.x,
+                (scale * m_centroid.y) + P_offset_scaled.y);
+}
+
+/*
 vector<vector<Point> > D_Bio_NucleusBlob::merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance)
 {
     ///calc merged bounding box
@@ -741,6 +775,7 @@ vector<vector<Point> > D_Bio_NucleusBlob::merge_contours_with_other_nucleus(D_Bi
 
     MA_Kernel.release();
 }
+*/
 
 bool D_Bio_NucleusBlob::is_duplicate(vector<D_Bio_NucleusBlob> v_other_nucs, double rel_overlap_for_duplicate)
 {
@@ -1101,11 +1136,6 @@ QColor D_Bio_NucleusBlob::matching_TypeColor(Rect FrameNotNearBorder, double t_b
     case NUC_TYPE_DISAPPEAR_BORDER:             return QColor(128, 0,   0  );
 
     default:                                    return QColor(255, 192, 200);}
-}
-
-size_t D_Bio_NucleusBlob::matching_Age()
-{
-    return time_index() - matching_TimeIndexOfOldestAncestor();
 }
 
 size_t D_Bio_NucleusBlob::matching_TimeIndexOfOldestAncestor()

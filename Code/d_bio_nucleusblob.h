@@ -89,7 +89,7 @@ public:
 
     Rect                            bounding_box();
 
-    vector<vector<Point>>           merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance);
+    //vector<vector<Point>>           merge_contours_with_other_nucleus(D_Bio_NucleusBlob nuc_merge, int merging_distance);
 
     //copied from D_BioFocus because inhering causes problems...
 
@@ -99,13 +99,16 @@ public:
   //void            set_value_median(size_t channel, double Median)     {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
   //void            set_value_dev2med(size_t channel, double MedDev)    {if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
-    vector<Point>   contour()                                           {                                       return m_contour;}
+    vector<Point>   contour()                                           {return m_contour;}
+    vector<Point2f> contour_f(double scale, Point P_offset_scaled);
+    vector<Point>   contour(double scale, Point P_offset_scaled);
     void            forget_contour_and_calc_feats()                     {if(!state_feats_calced) CalcFeats();   m_contour.clear();}
     double          dist2contour(Point2f point)                         {                                       return m_contour.empty() ? INFINITY :  - pointPolygonTest(m_contour, point, true);}
     double          dist2centroid(Point2f point)                        {if(!state_feats_calced) CalcFeats();   return m_contour.empty() ? INFINITY :  norm(point - m_centroid);}
     bool            contains_point(Point P, double margin = 0)          {return dist2contour(P) <= margin;}
 
     Point2f         centroid()                                          {if(!state_feats_calced) CalcFeats();   return m_centroid;}
+    Point2f         centroid(double scale, Point P_offset_scaled);
     double          area()                                              {if(!state_feats_calced) CalcFeats();   return m_area;}
     double          compactness()                                       {if(!state_feats_calced) CalcFeats();   return m_compactness;}
     double          convexity()                                         {if(!state_feats_calced) CalcFeats();   return m_convexity;}
@@ -150,6 +153,8 @@ public:
     D_Bio_NucleusBlob*  matching_Child2()                               {return state_FoundChild2 ? Nuc_Child2 : nullptr;}
     D_Bio_NucleusBlob*  matching_ChildFavorite()                        {return (state_FoundChild1 || state_FoundChild2) ? (Score_Child2 > Score_Child1 ? Nuc_Child2 : Nuc_Child1) : nullptr;}
     D_Bio_NucleusBlob*  matching_Parent()                               {return state_FoundParent ? Nuc_Parent : nullptr;}
+    D_Bio_NucleusBlob*  matching_Source()                               {return (matching_foundParent() && !matching_parent_isMitosis()) ? Nuc_Parent->matching_Source() : this;}
+    D_Bio_NucleusBlob*  matching_Destinantion()                         {return (matching_foundExactlyOneChild()) ? matching_ChildFavorite()->matching_Destinantion() : this;}
     bool                matching_foundChild1()                          {return state_FoundChild1;}
     bool                matching_foundChild2()                          {return state_FoundChild2;}
     bool                matching_foundParent()                          {return state_FoundParent;}
@@ -163,9 +168,12 @@ public:
     bool                matching_isLinear()                             {return state_FoundParent && ((state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2));}
     bool                matching_parent_isMitosis()                     {if(!state_FoundParent) return false; return Nuc_Parent->matching_isMitosis();}
 
+    size_t              matching_Age()                                  {return time_index()                            - matching_Source()->time_index();}
+    size_t              matching_AgeToGo()                              {return matching_Destinantion()->time_index()   - time_index();}
+    size_t              matching_AgeFull()                              {return matching_Destinantion()->time_index()   - matching_Source()->time_index();}
+
     int                 matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end);
     QColor              matching_TypeColor(Rect FrameNotNearBorder, double t_begin, double t_end);
-    size_t              matching_Age();
     size_t              matching_TimeIndexOfOldestAncestor();
     bool                matching_HasAncestorInRange(size_t t_oldest, double y_min_px, double y_max_px, double x_min_px, double x_max_px);
 
