@@ -1384,11 +1384,25 @@ private slots:
 
     bool MS5_SaveData();
 
-    void MS5_UpdateImages();
+    void MS5_UpdateImages_Basic();
+    void MS5_UpdateImages_Highlight();
+    bool MS5_CoordTransform_MosaicPx_2_OriginalPx(int* x, int* y);
+    void MS5_NucleiHighlight_Select_Viewer0(int x, int y);
+    void MS5_NucleiHighlight_Select_Viewer1(int x, int y);
+    void MS5_NucleiHighlight_Select_Viewer2(int x, int y);
+    void MS5_NucleiHighlight_Select_Viewer3(int x, int y);
+    void MS5_NucleiHighlight_Select_Viewer4(int x, int y);
+    void MS5_NucleiHighlight_Hover_Viewer0(int x, int y);
+    void MS5_NucleiHighlight_Hover_Viewer1(int x, int y);
+    void MS5_NucleiHighlight_Hover_Viewer2(int x, int y);
+    void MS5_NucleiHighlight_Hover_Viewer3(int x, int y);
+    void MS5_NucleiHighlight_Hover_Viewer4(int x, int y);
+    void MS5_NucleiHighlight_Select(int x, int y, size_t t);
+    void MS5_NucleiHighlight_Hover(int x, int y, size_t t);
 
 
 private:
-    static void MS5_CalcImage_Thread(D_Viewer* pViewer, Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
+    static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
 
     //path
     QDir DIR_MS5_Load_Mosaics;
@@ -1422,7 +1436,17 @@ private:
     D_Viewer            MS5_Viewer_T4;
     vector<D_Viewer*>   v_MS5_Viewers_T;
     vector<QLabel*>     v_MS5_ViewerLabels_T;
-    vector<Mat>         v_MS5_MAs_Show;
+    vector<Mat>         v_MS5_MAs_ShowBasic;
+    vector<Mat>         v_MS5_MAs_ShowHighlight;
+
+    //highlighted nuclei
+    vector<D_Bio_NucleusBlob*> v_MS5_pNuc_Highlighted;
+    enum MS5_NUC_HIGHLIGHT {
+        MS5_NUC_HIGHLIGHT_SELECT1,
+        MS5_NUC_HIGHLIGHT_SELECT2,
+        MS5_NUC_HIGHLIGHT_HOVERED,
+        MS5_NUC_HIGHLIGHT_NUMBER_OF
+    };
 
     //states
     bool                MS5_state_loaded_all = false;

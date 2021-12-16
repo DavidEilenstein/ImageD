@@ -10756,6 +10756,9 @@ QProgressBar::chunk {
                <verstretch>1</verstretch>
               </sizepolicy>
              </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="0" column="0">
@@ -10785,6 +10788,9 @@ QProgressBar::chunk {
                <verstretch>1</verstretch>
               </sizepolicy>
              </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="1" column="1">
@@ -10795,6 +10801,9 @@ QProgressBar::chunk {
                <verstretch>1</verstretch>
               </sizepolicy>
              </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="3" column="1">
@@ -10804,6 +10813,9 @@ QProgressBar::chunk {
                <horstretch>1</horstretch>
                <verstretch>1</verstretch>
               </sizepolicy>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -10833,6 +10845,9 @@ QProgressBar::chunk {
                <horstretch>1</horstretch>
                <verstretch>1</verstretch>
               </sizepolicy>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
              </property>
             </widget>
            </item>

@@ -67,14 +67,64 @@ size_t D_Bio_NucleusPedigree::nuclei_blob_count()
     return nuclei_count_total;
 }
 
-D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y, size_t x, size_t i)
+D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i)
 {
-    if(t >= size_time)                          return 0;
-    if(y >= size_mosaik_y)                      return 0;
-    if(x >= size_mosaik_x)                      return 0;
-    if(i >= vvvvNucBlobs_TYXI[t][y][x].size())  return 0;
+    if(t >= size_time)                                          return nullptr;
+    if(y_mosaic >= size_mosaik_y)                               return nullptr;
+    if(x_mosaic >= size_mosaik_x)                               return nullptr;
+    if(i >= vvvvNucBlobs_TYXI[t][y_mosaic][x_mosaic].size())    return nullptr;
 
-    return &(vvvvNucBlobs_TYXI[t][y][x][i]);
+    return &(vvvvNucBlobs_TYXI[t][y_mosaic][x_mosaic][i]);
+}
+
+D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y_mosaic_min, size_t x_mosaic_min, size_t y_mosaic_max, size_t x_mosaic_max, size_t y_pos_px, size_t x_pos_px)
+{
+    //time range
+    if(t >= size_time)
+        return nullptr;
+
+    //mosaic ROI
+    size_t ym_min = min(max(size_t(0), y_mosaic_min), size_mosaik_y);
+    size_t xm_min = min(max(size_t(0), x_mosaic_min), size_mosaik_x);
+    size_t ym_max = min(max(size_t(0), y_mosaic_max), size_mosaik_y);
+    size_t xm_max = min(max(size_t(0), x_mosaic_max), size_mosaik_x);
+
+    //Point to find
+    Point2f P_Find(x_pos_px, y_pos_px);
+
+    //best hit found
+    double dist_best = INFINITY;
+    D_Bio_NucleusBlob* pNucBest = nullptr;
+
+    //loop mosaic range
+    for(size_t ym = ym_min; ym < ym_max; ym++)
+    {
+        for(size_t xm = xm_min; xm < xm_max; xm++)
+        {
+            size_t ni = vvvvNucBlobs_TYXI[t][ym][xm].size();
+            for(size_t i = 0; i < ni; i++)
+            {
+                //nuc to be tested
+                D_Bio_NucleusBlob* pNucTest = &(vvvvNucBlobs_TYXI[t][ym][xm][i]);
+
+                //dist to contour
+                double dist = pNucTest->dist2contour(P_Find);
+
+                //point inside contour?
+                if(dist <= 0)
+                {
+                    //closer then previous best
+                    if(abs(dist) < dist_best)
+                    {
+                        dist_best = abs(dist);
+                        pNucBest = pNucTest;
+                    }
+                }
+            }
+        }
+    }
+
+    return pNucBest;
 }
 
 bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour)
