@@ -1068,6 +1068,19 @@ bool D_Bio_NucleusBlob::matching_RemoveChild(D_Bio_NucleusBlob *nuc_remove_child
     return false;
 }
 
+bool D_Bio_NucleusBlob::matching_RemoveParent(D_Bio_NucleusBlob *nuc_remove_parent)
+{
+    if(nuc_remove_parent == Nuc_Parent)
+    {
+        Nuc_Parent = nullptr;
+        Score_Parent = -INFINITY;
+        state_FoundParent = false;
+        return true;
+    }
+
+    return false;
+}
+
 int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end)
 {
     //check, if at border

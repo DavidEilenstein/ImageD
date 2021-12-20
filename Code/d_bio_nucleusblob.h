@@ -140,6 +140,7 @@ public:
     void                matching_SetAsParent(D_Bio_NucleusBlob *nuc_set_parent, double score);
 
     bool                matching_RemoveChild(D_Bio_NucleusBlob *nuc_remove_child);
+    bool                matching_RemoveParent(D_Bio_NucleusBlob *nuc_remove_parent);
 
     /*
     bool                matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh);
@@ -167,6 +168,7 @@ public:
     bool                matching_isMitosis()                            {return state_FoundChild1 && state_FoundChild2;}
     bool                matching_isLinear()                             {return state_FoundParent && ((state_FoundChild1 && !state_FoundChild2) || (!state_FoundChild1 && state_FoundChild2));}
     bool                matching_parent_isMitosis()                     {if(!state_FoundParent) return false; return Nuc_Parent->matching_isMitosis();}
+    bool                matching_isConnectedTo(D_Bio_NucleusBlob* nuc)  {return nuc == nullptr ? false : nuc == Nuc_Parent || nuc == Nuc_Child1 || nuc == Nuc_Child2;}
 
     size_t              matching_Age()                                  {return time_index()                            - matching_Source()->time_index();}
     size_t              matching_AgeToGo()                              {return matching_Destinantion()->time_index()   - time_index();}

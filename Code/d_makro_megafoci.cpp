@@ -8013,6 +8013,8 @@ void D_MAKRO_MegaFoci::MS5_UiInit()
    connect(ui->checkBox_MS5_Viewer_ContoursChilds,  SIGNAL(clicked(bool)),                  this,   SLOT(MS5_UpdateImages_Basic()));
    connect(ui->checkBox_MS5_Viewer_ShiftsParent,    SIGNAL(clicked(bool)),                  this,   SLOT(MS5_UpdateImages_Basic()));
    connect(ui->checkBox_MS5_Viewer_ShiftsChilds,    SIGNAL(clicked(bool)),                  this,   SLOT(MS5_UpdateImages_Basic()));
+   connect(ui->checkBox_MS5_Viewer_AgeText,         SIGNAL(clicked(bool)),                  this,   SLOT(MS5_UpdateImages_Basic()));
+   connect(ui->checkBox_MS5_Viewer_ColorInfo,       SIGNAL(clicked(bool)),                  this,   SLOT(MS5_UpdateImages_Basic()));
 
    //show img (change highlighting)
    connect(&MS5_Viewer_T0,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_NucleiHighlight_Select_Viewer0(int, int)));
@@ -8069,6 +8071,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadAll()
 
     //ui
     ui->pushButton_MS5_DataLoad->setEnabled(false);
+    ui->pushButton_MS5_DataSave->setEnabled(true);
     ui->pushButton_MS5_DataSave->setEnabled(true);
     ui->groupBox_MS5_Viewport->setEnabled(true);
     ui->groupBox_MS5_Events->setEnabled(true);
@@ -8410,6 +8413,7 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Basic()
         v_MS5_ViewerLabels_T[v]->setText("T=" + QString::number(ui->spinBox_MS5_T_start->value() + v));
     }
 
+    MS5_state_imgs_shown_at_lesast_once = true;
     MS5_UpdateImages_Highlight();
 }
 
@@ -8417,8 +8421,9 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
 {
     //qDebug() << "MS5_UpdateImages_Highlight" << "start";
 
-    if(v_MS5_MAs_ShowBasic.empty())     return;
-    if(v_MS5_MAs_ShowBasic[0].empty())  return;
+    if(!MS5_state_imgs_shown_at_lesast_once)    return;
+    if(v_MS5_MAs_ShowBasic.empty())             return;
+    if(v_MS5_MAs_ShowBasic[0].empty())          return;
     //qDebug() << "MS5_UpdateImages_Highlight" << "error checks passed";
 
     //copy base img
@@ -8443,102 +8448,97 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
     int thick2 = max(thick1 + 1, thickness);
 
     //highlight selected nuclei
-    int highlight_counter = 0;
     for(size_t h = 0; h < MS5_NUC_HIGHLIGHT_NUMBER_OF; h++)
     {
+        QColor col = h == MS5_NUC_HIGHLIGHT_HOVERED ? QColor(192, 192, 0) :  QColor(255, 255, 0);
+
         //qDebug() << "MS5_UpdateImages_Highlight" << "highlight nuc with highlight index" << h;
 
-        //max 2 nuclei highlighted
-        if(highlight_counter < 3) //always true at the moment
+        //nuc
+        D_Bio_NucleusBlob* pNucDraw = v_MS5_pNuc_Highlighted[h];
+
+        //found nuc to highlight?
+        if(pNucDraw != nullptr)
         {
-            //qDebug() << "MS5_UpdateImages_Highlight" << "highlight counter ok";
+            //qDebug() << "MS5_UpdateImages_Highlight" << "found a nuc to highlight here :-) center x/y" << pNucDraw->centroid(scale, -P_Offset_px_scaled).x << pNucDraw->centroid(scale, -P_Offset_px_scaled).y;
 
-            //nuc
-            D_Bio_NucleusBlob* pNucDraw = v_MS5_pNuc_Highlighted[h];
+            //calc time and viewer index
+            int t_main = pNucDraw->time_index();
+            int v_main = t_main - ui->spinBox_MS5_T_start->value();
+            //qDebug() << "MS5_UpdateImages_Highlight" << "main v/t" << v_main << t_main;
 
-            //found nuc to highlight?
-            if(pNucDraw != nullptr)
+            //seen in viewer?
+            if(v_main >= 0 && v_main < int(MS5_ViewersCount))
             {
-                //qDebug() << "MS5_UpdateImages_Highlight" << "found a nuc to highlight here :-) center x/y" << pNucDraw->centroid(scale, -P_Offset_px_scaled).x << pNucDraw->centroid(scale, -P_Offset_px_scaled).y;
+                //draw nuc
+                //qDebug() << "MS5_UpdateImages_Highlight" << "draw main";
+                D_Img_Proc::Draw_Contour(
+                            &(v_MS5_MAs_ShowHighlight[v_main]),
+                            pNucDraw->contour(scale, -P_Offset_px_scaled),
+                            h == MS5_NUC_HIGHLIGHT_HOVERED ? thick2 * 2 : thick2,
+                            col.red(), col.green(), col.blue());
+            }
 
+            //highlight parent
+            if(pNucDraw->matching_foundParent())
+            {
                 //calc time and viewer index
-                int t_main = pNucDraw->time_index();
-                int v_main = t_main - ui->spinBox_MS5_T_start->value();
-                //qDebug() << "MS5_UpdateImages_Highlight" << "main v/t" << v_main << t_main;
+                int t = pNucDraw->matching_Parent()->time_index();
+                int v = t - ui->spinBox_MS5_T_start->value();
+                //qDebug() << "MS5_UpdateImages_Highlight" << "parent v/t" << v << t;
 
                 //seen in viewer?
-                if(v_main >= 0 && v_main < int(MS5_ViewersCount))
+                if(v >= 0 && v < int(MS5_ViewersCount))
                 {
                     //draw nuc
-                    //qDebug() << "MS5_UpdateImages_Highlight" << "draw main";
+                    //qDebug() << "MS5_UpdateImages_Highlight" << "draw parent";
                     D_Img_Proc::Draw_Contour(
-                                &(v_MS5_MAs_ShowHighlight[v_main]),
+                                &(v_MS5_MAs_ShowHighlight[v]),
                                 pNucDraw->contour(scale, -P_Offset_px_scaled),
-                                thick2,
-                                255, 255, 0);
+                                h == MS5_NUC_HIGHLIGHT_HOVERED ? thick1 * 2 : thick1,
+                                col.red(), col.green(), col.blue());
                 }
+            }
 
-                //highlight parent
-                if(pNucDraw->matching_foundParent())
+            //highlight child1
+            if(pNucDraw->matching_foundChild1())
+            {
+                //calc time and viewer index
+                int t = pNucDraw->matching_Child1()->time_index();
+                int v = t - ui->spinBox_MS5_T_start->value();
+                //qDebug() << "MS5_UpdateImages_Highlight" << "child1 v/t" << v << t;
+
+                //seen in viewer?
+                if(v >= 0 && v < int(MS5_ViewersCount))
                 {
-                    //calc time and viewer index
-                    int t = pNucDraw->matching_Parent()->time_index();
-                    int v = t - ui->spinBox_MS5_T_start->value();
-                    //qDebug() << "MS5_UpdateImages_Highlight" << "parent v/t" << v << t;
-
-                    //seen in viewer?
-                    if(v >= 0 && v < int(MS5_ViewersCount))
-                    {
-                        //draw nuc
-                        //qDebug() << "MS5_UpdateImages_Highlight" << "draw parent";
-                        D_Img_Proc::Draw_Contour(
-                                    &(v_MS5_MAs_ShowHighlight[v]),
-                                    pNucDraw->contour(scale, -P_Offset_px_scaled),
-                                    thick1,
-                                    255, 255, 0);
-                    }
+                    //draw nuc
+                    //qDebug() << "MS5_UpdateImages_Highlight" << "draw child1";
+                    D_Img_Proc::Draw_Contour(
+                                &(v_MS5_MAs_ShowHighlight[v]),
+                                pNucDraw->contour(scale, -P_Offset_px_scaled),
+                                h == MS5_NUC_HIGHLIGHT_HOVERED ? thick1 * 2 : thick1,
+                                col.red(), col.green(), col.blue());
                 }
+            }
 
-                //highlight child1
-                if(pNucDraw->matching_foundChild1())
+            //highlight child2
+            if(pNucDraw->matching_foundChild2())
+            {
+                //calc time and viewer index
+                int t = pNucDraw->matching_Child2()->time_index();
+                int v = t - ui->spinBox_MS5_T_start->value();
+                //qDebug() << "MS5_UpdateImages_Highlight" << "child2 v/t" << v << t;
+
+                //seen in viewer?
+                if(v >= 0 && v < int(MS5_ViewersCount))
                 {
-                    //calc time and viewer index
-                    int t = pNucDraw->matching_Child1()->time_index();
-                    int v = t - ui->spinBox_MS5_T_start->value();
-                    //qDebug() << "MS5_UpdateImages_Highlight" << "child1 v/t" << v << t;
-
-                    //seen in viewer?
-                    if(v >= 0 && v < int(MS5_ViewersCount))
-                    {
-                        //draw nuc
-                        //qDebug() << "MS5_UpdateImages_Highlight" << "draw child1";
-                        D_Img_Proc::Draw_Contour(
-                                    &(v_MS5_MAs_ShowHighlight[v]),
-                                    pNucDraw->contour(scale, -P_Offset_px_scaled),
-                                    thick1,
-                                    255, 255, 0);
-                    }
-                }
-
-                //highlight child2
-                if(pNucDraw->matching_foundChild2())
-                {
-                    //calc time and viewer index
-                    int t = pNucDraw->matching_Child2()->time_index();
-                    int v = t - ui->spinBox_MS5_T_start->value();
-                    //qDebug() << "MS5_UpdateImages_Highlight" << "child2 v/t" << v << t;
-
-                    //seen in viewer?
-                    if(v >= 0 && v < int(MS5_ViewersCount))
-                    {
-                        //draw nuc
-                        //qDebug() << "MS5_UpdateImages_Highlight" << "draw child2";
-                        D_Img_Proc::Draw_Contour(
-                                    &(v_MS5_MAs_ShowHighlight[v]),
-                                    pNucDraw->contour(scale, -P_Offset_px_scaled),
-                                    thick1,
-                                    255, 255, 0);
-                    }
+                    //draw nuc
+                    //qDebug() << "MS5_UpdateImages_Highlight" << "draw child2";
+                    D_Img_Proc::Draw_Contour(
+                                &(v_MS5_MAs_ShowHighlight[v]),
+                                pNucDraw->contour(scale, -P_Offset_px_scaled),
+                                h == MS5_NUC_HIGHLIGHT_HOVERED ? thick1 * 2 : thick1,
+                                col.red(), col.green(), col.blue());
                 }
             }
         }
@@ -8552,11 +8552,17 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
     }
 
     //qDebug() << "MS5_UpdateImages_Highlight" << "end";
+
+    MS5_Editing_SelectionCheck();
+    MS5_Editing_ConnectionCheck();
 }
 
 bool D_MAKRO_MegaFoci::MS5_CoordTransform_MosaicPx_2_OriginalPx(int *x, int *y)
 {
     //qDebug() << "MS5_CoordTransform_MosaicPx_2_OriginalPx" << "x/y in" << *x << *y;
+
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
 
     if(vv_MS5_Mosaics_CT.empty())
         return false;
@@ -8649,6 +8655,9 @@ void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Hover_Viewer4(int x, int y)
 
 void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Select(int x, int y, size_t t)
 {
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return;
+
     if(!MS5_CoordTransform_MosaicPx_2_OriginalPx(&x, &y))
         return;
 
@@ -8669,7 +8678,14 @@ void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Select(int x, int y, size_t t)
         }
         else
         {
-            v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2] = pNucSelected;
+            if(v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1]->time_index() != pNucSelected->time_index())
+            {
+                v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2] = pNucSelected;
+            }
+            else
+            {
+                StatusSet("Can't select nucleus (both at T=" + QString::number(pNucSelected->time_index()) + ")");
+            }
         }
     }
 
@@ -8678,6 +8694,9 @@ void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Select(int x, int y, size_t t)
 
 void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Hover(int x, int y, size_t t)
 {
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return;
+
     if(!MS5_CoordTransform_MosaicPx_2_OriginalPx(&x, &y))
         return;
 
@@ -8691,6 +8710,110 @@ void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Hover(int x, int y, size_t t)
                 x);
 
     MS5_UpdateImages_Highlight();
+}
+
+bool D_MAKRO_MegaFoci::MS5_Editing_SelectionCheck()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    bool selected = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1] != nullptr || v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2] != nullptr;
+
+    ui->pushButton_MS5_Editing_ForgetSelection->setEnabled(selected);
+    return selected;
+}
+
+void D_MAKRO_MegaFoci::MS5_Editing_SelectionForget()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return;
+
+    v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1] = nullptr;
+    v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2] = nullptr;
+
+    MS5_Editing_SelectionCheck();
+    MS5_Editing_ConnectionCheck();
+
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::MS5_Editing_ConnectionCheck()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return;
+
+    D_Bio_NucleusBlob* pNuc1        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
+    D_Bio_NucleusBlob* pNuc2        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
+
+    if(pNuc1 == nullptr || pNuc2 == nullptr)
+    {
+        ui->pushButton_MS5_Editing_ConnectionCreate->setEnabled(false);
+        ui->pushButton_MS5_Editing_ConnectionDelete->setEnabled(false);
+        return;
+    }
+
+    D_Bio_NucleusBlob* pNucOlder    = pNuc1->time_index() < pNuc2->time_index() ? pNuc1 : pNuc2;
+    D_Bio_NucleusBlob* pNucYounger  = pNuc1->time_index() > pNuc2->time_index() ? pNuc1 : pNuc2;
+
+    bool connected = pNuc1->matching_isConnectedTo(pNuc2);
+    bool connection_possible = pNucOlder->matching_foundAtMostOneChild() && pNucYounger->matching_foundNoParent();
+
+    ui->pushButton_MS5_Editing_ConnectionCreate->setEnabled(!connected && connection_possible);
+    ui->pushButton_MS5_Editing_ConnectionDelete->setEnabled(connected);
+}
+
+bool D_MAKRO_MegaFoci::MS5_Editing_ConnectionCreate()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    D_Bio_NucleusBlob* pNuc1 = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
+    D_Bio_NucleusBlob* pNuc2 = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
+
+    if(pNuc1 == nullptr || pNuc2 == nullptr)
+        return false;
+
+    D_Bio_NucleusBlob* pNucOlder    = pNuc1->time_index() < pNuc2->time_index() ? pNuc1 : pNuc2;
+    D_Bio_NucleusBlob* pNucYounger  = pNuc1->time_index() > pNuc2->time_index() ? pNuc1 : pNuc2;
+
+    bool connected = pNuc1->matching_isConnectedTo(pNuc2);
+    bool connection_possible = !connected && pNucOlder->matching_foundAtMostOneChild() && pNucYounger->matching_foundNoParent();
+
+    if(!connection_possible)
+        return false;
+
+    pNucYounger->matching_SetAsParent(pNucOlder, 1);
+
+    MS5_Editing_SelectionForget();
+    MS5_UpdateImages_Basic();
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_Editing_ConnectionDelete()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    D_Bio_NucleusBlob* pNuc1 = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
+    D_Bio_NucleusBlob* pNuc2 = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
+
+    if(pNuc1 == nullptr || pNuc2 == nullptr)
+        return false;
+
+    D_Bio_NucleusBlob* pNucOlder    = pNuc1->time_index() < pNuc2->time_index() ? pNuc1 : pNuc2;
+    D_Bio_NucleusBlob* pNucYounger  = pNuc1->time_index() > pNuc2->time_index() ? pNuc1 : pNuc2;
+
+    bool connected = pNucOlder->matching_isConnectedTo(pNucYounger);
+
+    if(!connected)
+        return false;
+
+    pNucOlder->matching_RemoveChild(pNucYounger);
+    pNucYounger->matching_RemoveParent(pNucOlder);
+
+    MS5_Editing_SelectionForget();
+    MS5_UpdateImages_Basic();
+    return true;
 }
 
 void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale)
@@ -8941,4 +9064,24 @@ void D_MAKRO_MegaFoci::on_spinBox_MS5_X_size_valueChanged(int arg1)
 void D_MAKRO_MegaFoci::on_pushButton_MS5_DataSave_clicked()
 {
     MS5_SaveData();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ConnectionCreate_clicked()
+{
+    MS5_Editing_ConnectionCreate();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ConnectionDelete_clicked()
+{
+    MS5_Editing_ConnectionDelete();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ForgetSelection_clicked()
+{
+    MS5_Editing_SelectionForget();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_SaveViewportImageStack_clicked()
+{
+
 }

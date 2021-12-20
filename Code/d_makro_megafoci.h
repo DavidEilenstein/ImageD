@@ -1400,6 +1400,11 @@ private slots:
     void MS5_NucleiHighlight_Select(int x, int y, size_t t);
     void MS5_NucleiHighlight_Hover(int x, int y, size_t t);
 
+    bool MS5_Editing_SelectionCheck();
+    void MS5_Editing_SelectionForget();
+    void MS5_Editing_ConnectionCheck();
+    bool MS5_Editing_ConnectionCreate();
+    bool MS5_Editing_ConnectionDelete();
 
 private:
     static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
@@ -1442,9 +1447,9 @@ private:
     //highlighted nuclei
     vector<D_Bio_NucleusBlob*> v_MS5_pNuc_Highlighted;
     enum MS5_NUC_HIGHLIGHT {
+        MS5_NUC_HIGHLIGHT_HOVERED,
         MS5_NUC_HIGHLIGHT_SELECT1,
         MS5_NUC_HIGHLIGHT_SELECT2,
-        MS5_NUC_HIGHLIGHT_HOVERED,
         MS5_NUC_HIGHLIGHT_NUMBER_OF
     };
 
@@ -1454,12 +1459,17 @@ private:
     bool                MS5_state_loaded_mosaics = false;
     bool                MS5_state_loaded_nuc_data = false;
     bool                MS5_state_loaded_nuc_lifes = false;
+    bool                MS5_state_imgs_shown_at_lesast_once = false;
 
 private slots:
     void on_pushButton_MS5_DataLoad_clicked();
     void on_spinBox_MS5_Y_size_valueChanged(int arg1);
     void on_spinBox_MS5_X_size_valueChanged(int arg1);
     void on_pushButton_MS5_DataSave_clicked();
+    void on_pushButton_MS5_Editing_ConnectionCreate_clicked();
+    void on_pushButton_MS5_Editing_ConnectionDelete_clicked();
+    void on_pushButton_MS5_Editing_ForgetSelection_clicked();
+    void on_pushButton_MS5_SaveViewportImageStack_clicked();
 };
 
 #endif // D_MAKRO_MEGAFOCI_H
