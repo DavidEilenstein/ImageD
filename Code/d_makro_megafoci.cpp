@@ -8072,7 +8072,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadAll()
     //ui
     ui->pushButton_MS5_DataLoad->setEnabled(false);
     ui->pushButton_MS5_DataSave->setEnabled(true);
-    ui->pushButton_MS5_DataSave->setEnabled(true);
+    ui->pushButton_MS5_SaveViewportImageStack->setEnabled(true);
     ui->groupBox_MS5_Viewport->setEnabled(true);
     ui->groupBox_MS5_Events->setEnabled(true);
     ui->groupBox_MS5_Editing->setEnabled(true);
@@ -8329,7 +8329,7 @@ bool D_MAKRO_MegaFoci::MS5_SaveData()
     StatusSet("Please select directory to save step 5 results in");
     QString QS_Save = QFileDialog::getExistingDirectory(
                 this,
-                "Please select directory to save step 5 results in ('Results_5_* folder is created automatically')",
+                "Please select directory to save step 5 results in ('Results_5_*' folder is created automatically)",
                 pStore->dir_M_MegaFoci_Results()->path());
 
     //check if dir was selected
@@ -8367,6 +8367,66 @@ bool D_MAKRO_MegaFoci::MS5_SaveData()
         StatusSet("Failed saving data " + QS_Fun_Sad);
 
     return ok;
+}
+
+bool D_MAKRO_MegaFoci::MS5_SaveImgStack()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    if(mode_major_current != MODE_MAJOR_5_MANU_CORRECT_PEDIGREE)
+        return false;
+
+    StatusSet("Please select directory to save image stack in");
+    QString QS_Save = QFileDialog::getExistingDirectory(
+                this,
+                "Please select directory to save image stack in (subfolder is created automatically)",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_Save.isEmpty())
+    {
+        StatusSet("If you don't select a folder, i can't save the results i worked so hard for... " + QS_Fun_Sad);
+        return false;
+    }
+
+    //name of subfolder
+    QString QS_Name = QInputDialog::getText(
+                this,
+                "Name of Sunfolder",
+                "Please enter name of subfolder to save images in ('MosaikStack_Step5_' will be appended at the beginnig)",
+                QLineEdit::Normal,
+                "Name");
+    QS_Name = "MosaikStack_Step5_" + QS_Name;
+    QString QS_NameWithNumber = QS_Name;
+
+    //create sub dir
+    QDir DIR_Save(QS_Save + "/" + QS_Name);
+    size_t count = 1;
+    while(DIR_Save.exists())
+    {
+        QS_NameWithNumber = QS_Name + "_" + QString::number(count);
+        DIR_Save.setPath(QS_Save + "/" + QS_NameWithNumber);
+        count++;
+    }
+    while(DIR_Save.exists());
+    QDir().mkdir(DIR_Save.path());
+
+    //save data
+    StatusSet("Start saving image mosaic");
+    for(int t = 0; t <= ui->spinBox_MS5_T_start->maximum(); t++)
+    {
+        ui->spinBox_MS5_T_start->setValue(t);
+        Update_Ui();
+        MS5_Viewer_T0.Save_Image(DIR_Save.path() + "/" + QS_NameWithNumber + "_T" + QString::number(t) + ".png");
+    }
+    MS5_Viewer_T1.Save_Image(DIR_Save.path() + "/" + QS_NameWithNumber + "_T" + QString::number(ui->spinBox_MS5_T_start->maximum() + 1) + ".png");
+    MS5_Viewer_T2.Save_Image(DIR_Save.path() + "/" + QS_NameWithNumber + "_T" + QString::number(ui->spinBox_MS5_T_start->maximum() + 2) + ".png");
+    MS5_Viewer_T3.Save_Image(DIR_Save.path() + "/" + QS_NameWithNumber + "_T" + QString::number(ui->spinBox_MS5_T_start->maximum() + 3) + ".png");
+    MS5_Viewer_T4.Save_Image(DIR_Save.path() + "/" + QS_NameWithNumber + "_T" + QString::number(ui->spinBox_MS5_T_start->maximum() + 4) + ".png");
+    StatusSet("Saved image mosaic");
+
+    return true;
 }
 
 void D_MAKRO_MegaFoci::MS5_UpdateImages_Basic()
@@ -9083,5 +9143,5 @@ void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ForgetSelection_clicked()
 
 void D_MAKRO_MegaFoci::on_pushButton_MS5_SaveViewportImageStack_clicked()
 {
-
+    MS5_SaveImgStack();
 }

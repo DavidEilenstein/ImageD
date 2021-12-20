@@ -1383,6 +1383,7 @@ private slots:
     bool MS5_LoadNucleiLifes();
 
     bool MS5_SaveData();
+    bool MS5_SaveImgStack();
 
     void MS5_UpdateImages_Basic();
     void MS5_UpdateImages_Highlight();
