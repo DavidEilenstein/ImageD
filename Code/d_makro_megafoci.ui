@@ -10489,6 +10489,36 @@ QProgressBar::chunk {
                  <property name="spacing">
                   <number>1</number>
                  </property>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_58">
+                   <property name="text">
+                    <string>Infos:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="10">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ShiftsChilds">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255,0,0);</string>
+                   </property>
+                   <property name="text">
+                    <string>Childs</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="8" colspan="3">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ColorInfo">
+                   <property name="text">
+                    <string>Infos as color of number/contour</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="0" column="3">
                   <widget class="QCheckBox" name="checkBox_MS5_Viewer_RFP">
                    <property name="styleSheet">
@@ -10502,18 +10532,38 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_DIC">
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(255,0,0);</string>
-                   </property>
+                 <item row="1" column="6">
+                  <widget class="QLabel" name="label_54">
                    <property name="text">
-                    <string>DIC</string>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
+                    <string>Contours:</string>
                    </property>
                   </widget>
+                 </item>
+                 <item row="1" column="9">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ContoursParent">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0,0,255);</string>
+                   </property>
+                   <property name="text">
+                    <string>Parent</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="11" rowspan="2">
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item row="0" column="2">
                   <widget class="QCheckBox" name="checkBox_MS5_Viewer_GFP">
@@ -10528,63 +10578,10 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="10" rowspan="2">
-                  <spacer name="horizontalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="1" column="9">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ContoursChilds">
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(255,0,0);</string>
-                   </property>
-                   <property name="text">
-                    <string>Childs</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_56">
-                   <property name="text">
-                    <string>Channels:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_57">
-                   <property name="text">
-                    <string>Lines:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="7">
+                 <item row="1" column="8">
                   <widget class="QCheckBox" name="checkBox_MS5_Viewer_ContoursCurrent">
                    <property name="text">
                     <string>Current</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="8">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ShiftsParent">
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(0,0,255);</string>
-                   </property>
-                   <property name="text">
-                    <string>Parent</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -10610,48 +10607,15 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="4" rowspan="2">
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="1" column="5">
-                  <widget class="QLabel" name="label_54">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_57">
                    <property name="text">
-                    <string>Contours:</string>
+                    <string>Lines:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="8">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ContoursParent">
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(0,0,255);</string>
-                   </property>
-                   <property name="text">
-                    <string>Parent</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="5">
-                  <widget class="QLabel" name="label_55">
-                   <property name="text">
-                    <string>Shifts:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="9">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ShiftsChilds">
+                 <item row="1" column="10">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ContoursChilds">
                    <property name="styleSheet">
                     <string notr="true">color: rgb(255,0,0);</string>
                    </property>
@@ -10663,24 +10627,27 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_58">
+                 <item row="0" column="6">
+                  <widget class="QLabel" name="label_55">
                    <property name="text">
-                    <string>Infos:</string>
+                    <string>Shifts:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="5">
-                  <widget class="QLabel" name="label_111">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_56">
                    <property name="text">
-                    <string>Colors:</string>
+                    <string>Channels:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="7" colspan="3">
-                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ColorInfo">
+                 <item row="0" column="9">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_ShiftsParent">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0,0,255);</string>
+                   </property>
                    <property name="text">
-                    <string>Infos as color of number/contour</string>
+                    <string>Parent</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -10694,6 +10661,46 @@ QProgressBar::chunk {
                    </property>
                    <property name="checked">
                     <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_MS5_Viewer_DIC">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255,0,0);</string>
+                   </property>
+                   <property name="text">
+                    <string>DIC</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4" rowspan="2">
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="2" column="6">
+                  <widget class="QLabel" name="label_111">
+                   <property name="text">
+                    <string>Colors:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="5" rowspan="3">
+                  <widget class="Line" name="line_27">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
                    </property>
                   </widget>
                  </item>
