@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_2_9 (08.12.21)</span>
+   &#160;<span id="projectnumber">v2_3_1 (10.01.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -126,6 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a828dcf16c20cf3d8b64ca535639a6baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff6243f4d8ee4f270e3db735bcb22fbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aff6243f4d8ee4f270e3db735bcb22fbe">get_Focus</a> (size_t channel, size_t index)</td></tr>
 <tr class="separator:aff6243f4d8ee4f270e3db735bcb22fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6074942193fa81d5a9bea4d46d7288f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a6074942193fa81d5a9bea4d46d7288f4">get_pFocus</a> (size_t channel, size_t index)</td></tr>
+<tr class="separator:a6074942193fa81d5a9bea4d46d7288f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63f0be5b04cc83a5d1418b27f1632c33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a63f0be5b04cc83a5d1418b27f1632c33">get_Contours_append</a> (vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; *pvScaledContours, double scale)</td></tr>
 <tr class="separator:a63f0be5b04cc83a5d1418b27f1632c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8d788897fafa9fb712ab6ba440abd16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ae8d788897fafa9fb712ab6ba440abd16">get_Contours_append</a> (vector&lt; <a class="el" href="class_d___contour.html">D_Contour</a> &gt; *pvContours)</td></tr>
@@ -154,14 +156,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a08792f66bc35f9d897996752fc40e73c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a688f49e15ff116bacefc82372f0c44d7"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a688f49e15ff116bacefc82372f0c44d7">get_path_absolute_loaded_from</a> ()</td></tr>
 <tr class="separator:a688f49e15ff116bacefc82372f0c44d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acabdd119242d0be133e57a337252d6b2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#acabdd119242d0be133e57a337252d6b2">is_path_relative</a> (QString path_rel)</td></tr>
+<tr class="separator:acabdd119242d0be133e57a337252d6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b84e573e115a398a8db969dce7e6a39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5b84e573e115a398a8db969dce7e6a39">bounding_box</a> ()</td></tr>
 <tr class="separator:a5b84e573e115a398a8db969dce7e6a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c1e221fc793351e68dff40c47c8317c"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a6c1e221fc793351e68dff40c47c8317c">merge_contours_with_other_nucleus</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> nuc_merge, int merging_distance)</td></tr>
-<tr class="separator:a6c1e221fc793351e68dff40c47c8317c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24d26909d3f7653cdf704d094e664724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a24d26909d3f7653cdf704d094e664724">set_value_channels</a> (size_t <a class="el" href="class_d___bio___nucleus_blob.html#ad0dfcb3175bd97cf557b6ee99f1db9a4">channels</a>)</td></tr>
 <tr class="separator:a24d26909d3f7653cdf704d094e664724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9041253fbef60cec8e6b0af139658bca"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a9041253fbef60cec8e6b0af139658bca">contour</a> ()</td></tr>
 <tr class="separator:a9041253fbef60cec8e6b0af139658bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2a0a09dec0c46f5c4aa58f0a3382bab"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ad2a0a09dec0c46f5c4aa58f0a3382bab">contour_f</a> (double scale, <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P_offset_scaled)</td></tr>
+<tr class="separator:ad2a0a09dec0c46f5c4aa58f0a3382bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7104fe678a23079ddce47b5bb5496d30"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a7104fe678a23079ddce47b5bb5496d30">contour</a> (double scale, <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P_offset_scaled)</td></tr>
+<tr class="separator:a7104fe678a23079ddce47b5bb5496d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace5cf8504b818ea32252a4341b7cd344"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ace5cf8504b818ea32252a4341b7cd344">forget_contour_and_calc_feats</a> ()</td></tr>
 <tr class="separator:ace5cf8504b818ea32252a4341b7cd344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f182d5ba076abcc8bdec1728a9b02aa"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a1f182d5ba076abcc8bdec1728a9b02aa">dist2contour</a> (<a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> point)</td></tr>
@@ -172,6 +178,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afeb3469c5037474d4e5f7860b856cf20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a206337fe7e1b55ab5aa8b77ca6249cb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a206337fe7e1b55ab5aa8b77ca6249cb8">centroid</a> ()</td></tr>
 <tr class="separator:a206337fe7e1b55ab5aa8b77ca6249cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e0c3b2fa1c1b0758b1b66d6a9baa00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ab6e0c3b2fa1c1b0758b1b66d6a9baa00">centroid</a> (double scale, <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> P_offset_scaled)</td></tr>
+<tr class="separator:ab6e0c3b2fa1c1b0758b1b66d6a9baa00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab63b5d9e59d3d4937963d56043cbdfc9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ab63b5d9e59d3d4937963d56043cbdfc9">area</a> ()</td></tr>
 <tr class="separator:ab63b5d9e59d3d4937963d56043cbdfc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73b69b7b4a4b5e8e0cfe91638a704818"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a73b69b7b4a4b5e8e0cfe91638a704818">compactness</a> ()</td></tr>
@@ -210,6 +218,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a064659524dc3b9d8c230f757874d291b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a516946b82326b8ddf27e019a50a16f5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a516946b82326b8ddf27e019a50a16f5d">matching_RemoveChild</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *nuc_remove_child)</td></tr>
 <tr class="separator:a516946b82326b8ddf27e019a50a16f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb0cb590563d373a556e1d371429b725"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#acb0cb590563d373a556e1d371429b725">matching_RemoveParent</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *nuc_remove_parent)</td></tr>
+<tr class="separator:acb0cb590563d373a556e1d371429b725"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47af96c58e22b5764a3d014876b179b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a47af96c58e22b5764a3d014876b179b4">matching_Child1</a> ()</td></tr>
 <tr class="separator:a47af96c58e22b5764a3d014876b179b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae0440020bf0f88228ac51fee616908e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#aae0440020bf0f88228ac51fee616908e">matching_Child2</a> ()</td></tr>
@@ -218,6 +228,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0b268a1ee56e41c58fe63af383fbfacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add2c9aba25838cc450736340f7b6e422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#add2c9aba25838cc450736340f7b6e422">matching_Parent</a> ()</td></tr>
 <tr class="separator:add2c9aba25838cc450736340f7b6e422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5a0fc4513bba72cbf39e3a97f62ef30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#af5a0fc4513bba72cbf39e3a97f62ef30">matching_Source</a> ()</td></tr>
+<tr class="separator:af5a0fc4513bba72cbf39e3a97f62ef30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae01511a0e99d97a3c145f8c67157c3c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#ae01511a0e99d97a3c145f8c67157c3c1">matching_Destinantion</a> ()</td></tr>
+<tr class="separator:ae01511a0e99d97a3c145f8c67157c3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c426d2472267907d9f142bfd3d1782e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a7c426d2472267907d9f142bfd3d1782e">matching_foundChild1</a> ()</td></tr>
 <tr class="separator:a7c426d2472267907d9f142bfd3d1782e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4321b86e9c2190d060e1f280678692df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a4321b86e9c2190d060e1f280678692df">matching_foundChild2</a> ()</td></tr>
@@ -242,12 +256,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa5dc2fc51c17d71956fbb007e441de8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41e8c31231ca6b0ff862ad112b19ecc8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a41e8c31231ca6b0ff862ad112b19ecc8">matching_parent_isMitosis</a> ()</td></tr>
 <tr class="separator:a41e8c31231ca6b0ff862ad112b19ecc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbb8a16cf16984ac745d51b7980fa4e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#adbb8a16cf16984ac745d51b7980fa4e5">matching_isConnectedTo</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *nuc)</td></tr>
+<tr class="separator:adbb8a16cf16984ac745d51b7980fa4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a181cff63b89da145ad183dbb12259041"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a181cff63b89da145ad183dbb12259041">matching_Age</a> ()</td></tr>
+<tr class="separator:a181cff63b89da145ad183dbb12259041"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e4286782ecfda1ce760984a94f3a80b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a2e4286782ecfda1ce760984a94f3a80b">matching_AgeToGo</a> ()</td></tr>
+<tr class="separator:a2e4286782ecfda1ce760984a94f3a80b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c9680d36b27690f1c8c356996bb9893"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a0c9680d36b27690f1c8c356996bb9893">matching_AgeFull</a> ()</td></tr>
+<tr class="separator:a0c9680d36b27690f1c8c356996bb9893"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbc0a81c96249700168dc297dca2c827"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#afbc0a81c96249700168dc297dca2c827">matching_Type</a> (<a class="el" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a> FrameNotNearBorder, double t_begin, double t_end)</td></tr>
 <tr class="separator:afbc0a81c96249700168dc297dca2c827"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d54dd8933eb966e62ebe680699e2134"><td class="memItemLeft" align="right" valign="top">QColor&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a5d54dd8933eb966e62ebe680699e2134">matching_TypeColor</a> (<a class="el" href="d__opencv__typedefs_8h.html#ae9f64a335b58c3a305d21bccfbb30e1b">Rect</a> FrameNotNearBorder, double t_begin, double t_end)</td></tr>
 <tr class="separator:a5d54dd8933eb966e62ebe680699e2134"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a181cff63b89da145ad183dbb12259041"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a181cff63b89da145ad183dbb12259041">matching_Age</a> ()</td></tr>
-<tr class="separator:a181cff63b89da145ad183dbb12259041"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a909994032c1f4673851fd139cb022c0e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a909994032c1f4673851fd139cb022c0e">matching_TimeIndexOfOldestAncestor</a> ()</td></tr>
 <tr class="separator:a909994032c1f4673851fd139cb022c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59c96a87f7dec3145c8ae576481a09d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_blob.html#a59c96a87f7dec3145c8ae576481a09d6">matching_HasAncestorInRange</a> (size_t t_oldest, double y_min_px, double y_max_px, double x_min_px, double x_max_px)</td></tr>
@@ -543,7 +563,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a206337fe7e1b55ab5aa8b77ca6249cb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a206337fe7e1b55ab5aa8b77ca6249cb8">&#9670;&nbsp;</a></span>centroid()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a206337fe7e1b55ab5aa8b77ca6249cb8">&#9670;&nbsp;</a></span>centroid() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -563,6 +583,34 @@ Public Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab6e0c3b2fa1c1b0758b1b66d6a9baa00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e0c3b2fa1c1b0758b1b66d6a9baa00">&#9670;&nbsp;</a></span>centroid() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> D_Bio_NucleusBlob::centroid </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P_offset_scaled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -654,7 +702,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9041253fbef60cec8e6b0af139658bca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9041253fbef60cec8e6b0af139658bca">&#9670;&nbsp;</a></span>contour()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9041253fbef60cec8e6b0af139658bca">&#9670;&nbsp;</a></span>contour() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -674,6 +722,62 @@ Public Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7104fe678a23079ddce47b5bb5496d30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7104fe678a23079ddce47b5bb5496d30">&#9670;&nbsp;</a></span>contour() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; D_Bio_NucleusBlob::contour </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P_offset_scaled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad2a0a09dec0c46f5c4aa58f0a3382bab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2a0a09dec0c46f5c4aa58f0a3382bab">&#9670;&nbsp;</a></span>contour_f()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; D_Bio_NucleusBlob::contour_f </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a>&#160;</td>
+          <td class="paramname"><em>P_offset_scaled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -1086,6 +1190,42 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a6074942193fa81d5a9bea4d46d7288f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6074942193fa81d5a9bea4d46d7288f4">&#9670;&nbsp;</a></span>get_pFocus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a>* D_Bio_NucleusBlob::get_pFocus </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3d6a2753295e4bd10d83c9358ef857dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3d6a2753295e4bd10d83c9358ef857dc">&#9670;&nbsp;</a></span>get_ShapeInfo_append()</h2>
 
@@ -1174,6 +1314,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="acabdd119242d0be133e57a337252d6b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acabdd119242d0be133e57a337252d6b2">&#9670;&nbsp;</a></span>is_path_relative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusBlob::is_path_relative </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path_rel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5fb15023dcfe69d472b4bf88a9fc87bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5fb15023dcfe69d472b4bf88a9fc87bf">&#9670;&nbsp;</a></span>load_simple()</h2>
 
@@ -1207,6 +1373,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">size_t D_Bio_NucleusBlob::matching_Age </td>
@@ -1215,6 +1384,61 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c9680d36b27690f1c8c356996bb9893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c9680d36b27690f1c8c356996bb9893">&#9670;&nbsp;</a></span>matching_AgeFull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t D_Bio_NucleusBlob::matching_AgeFull </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2e4286782ecfda1ce760984a94f3a80b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e4286782ecfda1ce760984a94f3a80b">&#9670;&nbsp;</a></span>matching_AgeToGo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t D_Bio_NucleusBlob::matching_AgeToGo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -1280,6 +1504,31 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>* D_Bio_NucleusBlob::matching_ChildFavorite </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae01511a0e99d97a3c145f8c67157c3c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae01511a0e99d97a3c145f8c67157c3c1">&#9670;&nbsp;</a></span>matching_Destinantion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>* D_Bio_NucleusBlob::matching_Destinantion </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1557,6 +1806,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="adbb8a16cf16984ac745d51b7980fa4e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbb8a16cf16984ac745d51b7980fa4e5">&#9670;&nbsp;</a></span>matching_isConnectedTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusBlob::matching_isConnectedTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td>
+          <td class="paramname"><em>nuc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa5dc2fc51c17d71956fbb007e441de8f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5dc2fc51c17d71956fbb007e441de8f">&#9670;&nbsp;</a></span>matching_isLinear()</h2>
 
@@ -1693,6 +1968,24 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td>
           <td class="paramname"><em>nuc_remove_child</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb0cb590563d373a556e1d371429b725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb0cb590563d373a556e1d371429b725">&#9670;&nbsp;</a></span>matching_RemoveParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusBlob::matching_RemoveParent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *&#160;</td>
+          <td class="paramname"><em>nuc_remove_parent</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1915,6 +2208,31 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af5a0fc4513bba72cbf39e3a97f62ef30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5a0fc4513bba72cbf39e3a97f62ef30">&#9670;&nbsp;</a></span>matching_Source()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>* D_Bio_NucleusBlob::matching_Source </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a909994032c1f4673851fd139cb022c0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a909994032c1f4673851fd139cb022c0e">&#9670;&nbsp;</a></span>matching_TimeIndexOfOldestAncestor()</h2>
 
@@ -1997,39 +2315,6 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6c1e221fc793351e68dff40c47c8317c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c1e221fc793351e68dff40c47c8317c">&#9670;&nbsp;</a></span>merge_contours_with_other_nucleus()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; &gt; D_Bio_NucleusBlob::merge_contours_with_other_nucleus </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a>&#160;</td>
-          <td class="paramname"><em>nuc_merge</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>merging_distance</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>calc merged bounding box</p>
-<p>generate tmp img</p>
-<p>get and scale contours</p>
-<p>draw contours</p>
-<p>closing blobs</p>
 
 </div>
 </div>

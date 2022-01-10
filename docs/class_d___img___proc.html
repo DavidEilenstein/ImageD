@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_2_9 (08.12.21)</span>
+   &#160;<span id="projectnumber">v2_3_1 (10.01.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -700,6 +700,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:adb0f5bcfab0fb034fb472eb78dc08c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3bd1c06fa3840c80d0f072feb931d25"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#ac3bd1c06fa3840c80d0f072feb931d25">Draw_Contour</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; vContour, int line_thickness, double value)</td></tr>
 <tr class="separator:ac3bd1c06fa3840c80d0f072feb931d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a365c13b8777f724ad1388346fb3c4530"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#a365c13b8777f724ad1388346fb3c4530">Draw_Contour</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt; vContour, int line_thickness, double R, double G, double B)</td></tr>
+<tr class="separator:a365c13b8777f724ad1388346fb3c4530"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">Draw_ContourText</a> (<a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_Target, vector&lt; vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&gt; vContours, QStringList QSL_Texts, vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a388b4464285d6ce07a1d7ce5f9487f30">Point2f</a> &gt; vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value)</td></tr>
 <tr class="memdesc:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd" title="D_Img_Proc::Draw_ContourText draw contours in an image with added text at contours centers.">D_Img_Proc::Draw_ContourText</a> draw contours in an image with added text at contours centers.  <a href="class_d___img___proc.html#aeb6ac89d1d3af56f01c8a29401e7cddd">More...</a><br /></td></tr>
 <tr class="separator:aeb6ac89d1d3af56f01c8a29401e7cddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3394,8 +3396,73 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a365c13b8777f724ad1388346fb3c4530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a365c13b8777f724ad1388346fb3c4530">&#9670;&nbsp;</a></span>Draw_Contour() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Img_Proc::Draw_Contour </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *&#160;</td>
+          <td class="paramname"><em>pMA_Target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="d__opencv__typedefs_8h.html#a545aa5ca667d0d9b1d500ca7149eb323">Point</a> &gt;&#160;</td>
+          <td class="paramname"><em>vContour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line_thickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>R</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>G</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>B</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>error checks</p>
+<p>make sure variables make sense</p>
+<p>contour to vector of contours</p>
+<p>color</p>
+<p>draw contour</p>
+
+</div>
+</div>
 <a id="ac3bd1c06fa3840c80d0f072feb931d25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3bd1c06fa3840c80d0f072feb931d25">&#9670;&nbsp;</a></span>Draw_Contour()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3bd1c06fa3840c80d0f072feb931d25">&#9670;&nbsp;</a></span>Draw_Contour() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

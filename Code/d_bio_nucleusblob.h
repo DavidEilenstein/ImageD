@@ -64,6 +64,7 @@ public:
     size_t                          get_FociCount(size_t channel)                               {return channel < vvFoci.size() ? vvFoci[channel].size() : 0;}
     vector<D_Bio_Focus>             get_Foci(size_t channel)                                    {return channel < vvFoci.size() ? vvFoci[channel] : vector<D_Bio_Focus>{};}
     D_Bio_Focus                     get_Focus(size_t channel, size_t index)                     {return channel < vvFoci.size() ? (index < vvFoci[channel].size() ? vvFoci[channel][index] : D_Bio_Focus()) : D_Bio_Focus();}
+    D_Bio_Focus*                    get_pFocus(size_t channel, size_t index)                    {return channel < vvFoci.size() ? (index < vvFoci[channel].size() ? &(vvFoci[channel][index]) : nullptr) : nullptr;}
     int                             get_Contours_append(vector<vector<Point>> *pvScaledContours, double scale);
     int                             get_Contours_append(vector<D_Contour> *pvContours);
     int                             get_FociCount_append(QStringList *pQSL_FociCounts);

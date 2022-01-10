@@ -133,13 +133,15 @@ var menudata={children:[
 {text:"s",url:"globals_type.html#index_s"},
 {text:"v",url:"globals_type.html#index_v"}]},
 {text:"Enumerations",url:"globals_enum.html",children:[
+{text:"a",url:"globals_enum.html#index_a"},
 {text:"d",url:"globals_enum.html#index_d"},
 {text:"f",url:"globals_enum.html#index_f"},
 {text:"n",url:"globals_enum.html#index_n"},
 {text:"s",url:"globals_enum.html#index_s"},
 {text:"v",url:"globals_enum.html#index_v"}]},
 {text:"Enumerator",url:"globals_eval.html",children:[
-{text:"c",url:"globals_eval.html#index_c"},
+{text:"a",url:"globals_eval.html#index_a"},
+{text:"c",url:"globals_eval_c.html#index_c"},
 {text:"d",url:"globals_eval_d.html#index_d"},
 {text:"e",url:"globals_eval_e.html#index_e"},
 {text:"f",url:"globals_eval_f.html#index_f"},

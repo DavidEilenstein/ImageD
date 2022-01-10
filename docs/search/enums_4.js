@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5fstat_4615',['VALUE_STAT',['../d__bio__enum_8h.html#a0511e4e4c0814389abb91a50f75e7087',1,'d_bio_enum.h']]]
+  ['scores_4806',['SCORES',['../d__bio__enum_8h.html#ad64a702d7ca0647613a1556e1b31be8b',1,'d_bio_enum.h']]]
 ];
