@@ -1471,6 +1471,31 @@ private slots:
     void on_pushButton_MS5_Editing_ConnectionDelete_clicked();
     void on_pushButton_MS5_Editing_ForgetSelection_clicked();
     void on_pushButton_MS5_SaveViewportImageStack_clicked();
+    void on_pushButton_MS6_LoadData_clicked();
+
+    //-------------------------------------------------------------------- MS6 ----------------------------------------------------
+
+private slots:
+    void MS6_UiInit();
+    bool MS6_LoadAll();
+    bool MS6_LoadDirs();
+    bool MS6_LoadNucleiData();
+    bool MS6_LoadNucleiLifes();
+
+private:
+
+    //Data
+    D_Bio_NucleusPedigree MS6_NucPedigree_Results;
+
+    //Dirs
+    QDir            DIR_MS6_Load_NucleiData;
+    QDir            DIR_MS6_Load_NucleiLifes;
+
+    //States
+    bool            MS6_state_loaded_all = false;
+    bool            MS6_state_loaded_dirs = false;
+    bool            MS6_state_loaded_nuc_data = false;
+    bool            MS6_state_loaded_nuc_lifes = false;
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

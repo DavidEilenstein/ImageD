@@ -13,6 +13,7 @@
 #include <d_enum.h>
 #include <d_stat.h>
 #include <d_bio_enum.h>
+#include <d_bio_attribute_filter.h>
 #include <d_math.h>
 
 //Qt

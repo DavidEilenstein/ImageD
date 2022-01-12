@@ -721,6 +721,19 @@ int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj
     return true;
 }
 
+bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox *box_nucblobs, QGroupBox *box_nuclifes)
+{
+    if(state_AttribFiltersSet)
+        return false;
+
+    pAttribFilter_Foci      = new D_Bio_Attribute_Filter(box_foci);
+    pAttribFilter_NucBobs   = new D_Bio_Attribute_Filter(box_nucblobs);
+    pAttribFilter_NucLifes  = new D_Bio_Attribute_Filter(box_nuclifes);
+
+    state_AttribFiltersSet = true;
+    return true;
+}
+
 int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)
 {
     int err = setPedigreeViewer_Plot3D(viewer);

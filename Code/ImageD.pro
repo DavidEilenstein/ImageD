@@ -37,6 +37,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    d_bio_attribute_filter.cpp \
     d_bio_focus.cpp \
     d_bio_nucleusblob.cpp \
     d_bio_nucleusimage.cpp \
@@ -123,6 +124,7 @@ SOURCES += \
     d_makro_huangvisualization.cpp
 
 HEADERS += \
+    d_bio_attribute_filter.h \
     d_bio_enum.h \
     d_bio_enum.h \
     d_bio_focus.h \

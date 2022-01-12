@@ -3841,34 +3841,12 @@ void D_MAKRO_MegaFoci::set_ModeMajor_Current(size_t mode)
 
     switch (mode) {
 
-    case MODE_MAJOR_2_MANU_CORRECT_DETECTION:
-    {
-        MS2_init_ui();
-    }
-        break;
-
-    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:
-    {
-        MS3_UiInit();
-    }
-        break;
-
-    case MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE:
-        {
-            MS4_UiInit();
-        }
-            break;
-
-    case MODE_MAJOR_5_MANU_CORRECT_PEDIGREE:
-        {
-            MS5_UiInit();
-        }
-            break;
-
-    default:
-        return;
-    }
-
+    case MODE_MAJOR_2_MANU_CORRECT_DETECTION:       MS2_init_ui();  break;
+    case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:    MS3_UiInit();   break;
+    case MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE:    MS4_UiInit();   break;
+    case MODE_MAJOR_5_MANU_CORRECT_PEDIGREE:        MS5_UiInit();   break;
+    case MODE_MAJOR_6_EPIC_ANALYSIS:                MS6_UiInit();   break;
+    default:                                                        return;}
 }
 
 void D_MAKRO_MegaFoci::MS2_SetComboboxColor(QComboBox *CB_R, QComboBox *CB_G, QComboBox *CB_B, bool color_background_not_text)
@@ -8114,7 +8092,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
 
     //master dir in
     DIR_MS5_Load_Mosaics.setPath(QS_LoadMS1 + "/Mosaik");
-    if(!DIR_MS4_In_Master.exists())
+    if(!DIR_MS5_Load_Mosaics.exists())
     {
         StatusSet("The selected directory doesn't contain a 'Mosaik' directory. " + QS_Fun_Confused);
         return false;
@@ -8130,7 +8108,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
     StatusSet("Please select results directory from step 3 (for nuclei data).");
     QString QS_LoadMS3 = QFileDialog::getExistingDirectory(
                 this,
-                "Please select results folder of step 1 you want to load nuclei data from (must beginn with 'Results_Step3_').",
+                "Please select results folder of step 3 you want to load nuclei data from (must beginn with 'Results_Step3_').",
                 pStore->dir_M_MegaFoci_Results()->path());
 
     //check if dir was selected
@@ -8149,7 +8127,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
 
     //master dir in
     DIR_MS5_Load_NucleiData.setPath(QS_LoadMS3 + "/DetectionsAssigned");
-    if(!DIR_MS4_In_Master.exists())
+    if(!DIR_MS5_Load_NucleiData.exists())
     {
         StatusSet("The selected directory doesn't contain a 'DetectionsAssigned' directory. " + QS_Fun_Confused);
         return false;
@@ -8184,7 +8162,7 @@ bool D_MAKRO_MegaFoci::MS5_LoadDirs()
 
     //master dir in
     DIR_MS5_Load_NucleiLifes.setPath(QS_LoadMS4_5);
-    if(!DIR_MS4_In_Master.exists())
+    if(!DIR_MS5_Load_NucleiLifes.exists())
     {
         StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
         return false;
@@ -9144,4 +9122,183 @@ void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ForgetSelection_clicked()
 void D_MAKRO_MegaFoci::on_pushButton_MS5_SaveViewportImageStack_clicked()
 {
     MS5_SaveImgStack();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_LoadData_clicked()
+{
+    MS6_LoadAll();
+}
+
+void D_MAKRO_MegaFoci::MS6_UiInit()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return;
+
+    MS6_NucPedigree_Results.set_attrib_filter_ui(
+                ui->groupBox_MS6_Control_Filters_Foci,
+                ui->groupBox_MS6_Control_Filters_NucBlobs,
+                ui->groupBox_MS6_Control_Filters_NucLifes);
+}
+
+bool D_MAKRO_MegaFoci::MS6_LoadAll()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+
+    if(!MS6_LoadDirs())
+    {
+        StatusSet("Failed loading directories " + QS_Fun_Sad);
+        return false;
+    }
+
+    if(!MS6_LoadNucleiData())
+    {
+        StatusSet("Failed loading nuclei data " + QS_Fun_Sad);
+        return false;
+    }
+
+    if(!MS6_LoadNucleiLifes())
+    {
+        StatusSet("Failed loading nuclei lifes " + QS_Fun_Sad);
+        return false;
+    }
+
+    //states
+    MS6_state_loaded_all = true;
+    StatusSet("Loaded all needed data " + QS_Fun_Happy);
+
+    //ui
+    ui->groupBoxMS6_Control_Data->setEnabled(false);
+    ui->groupBox_MS6_View->setEnabled(true);
+
+    //show
+
+    //finish
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_LoadDirs()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+
+    //------------------ nuclei data ------------------------------------------------
+
+    StatusSet("Please select results directory from step 3 (for nuclei data).");
+    QString QS_LoadMS3 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 3 you want to load nuclei data from (must beginn with 'Results_Step3_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS3.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 3
+    if(!QS_LoadMS3.contains("Results_Step3"))
+    {
+        StatusSet("You should selct results from step 3...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS6_Load_NucleiData.setPath(QS_LoadMS3 + "/DetectionsAssigned");
+    if(!DIR_MS6_Load_NucleiData.exists())
+    {
+        StatusSet("The selected directory doesn't contain a 'DetectionsAssigned' directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    QDir DIR_parent(QS_LoadMS3);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //------------------ nuclei lifes ------------------------------------------------
+
+    StatusSet("Please select results directory from step 4 or 5 (for nuclei lifes).");
+    QString QS_LoadMS4_5 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 4 or 5 you want to load nuclei lifes from (must beginn with 'Results_Step4_' or 'Results_Step5_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS4_5.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 4 or 5
+    if(!QS_LoadMS4_5.contains("Results_Step4") && !QS_LoadMS4_5.contains("Results_Step5"))
+    {
+        StatusSet("You should selct results from step 4 or 5...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS6_Load_NucleiLifes.setPath(QS_LoadMS4_5);
+    if(!DIR_MS6_Load_NucleiLifes.exists())
+    {
+        StatusSet("With unknown dark magic you selected a not existing directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    DIR_parent.setPath(QS_LoadMS4_5);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
+
+    //------------------ finished ------------------------------------------------
+
+    MS6_state_loaded_dirs = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_LoadNucleiData()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+
+    if(!MS6_state_loaded_dirs)
+        return false;
+
+    StatusSet("Start loading nuclei data from step 3");
+
+    //parent dir of detections
+    QDir DIR_ParentMS3(DIR_MS6_Load_NucleiData);
+    DIR_ParentMS3.cdUp();
+
+    //load data
+    MS6_NucPedigree_Results.load_nuclei_data(
+                DIR_ParentMS3.path(),
+                DIR_MS6_Load_NucleiData.path(),
+                dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
+                false);
+
+    StatusSet("Finished loading nuclei data from step 3");
+
+    MS6_state_loaded_nuc_data = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+    if(!MS6_state_loaded_dirs || !MS6_state_loaded_nuc_data)
+        return false;
+
+    StatusSet("Start loading nuclei matches from step 4/5");
+
+    //load data
+    MS6_NucPedigree_Results.match_load_matches(DIR_MS6_Load_NucleiLifes.path());
+
+    StatusSet("Finished loading nuclei matches from step 4/5");
+
+    MS6_state_loaded_nuc_lifes = true;
+    return true;
 }

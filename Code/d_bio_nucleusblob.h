@@ -15,6 +15,7 @@
 #include <d_math.h>
 #include <d_bio_focus.h>
 #include <d_bio_enum.h>
+#include <d_bio_attribute_filter.h>
 #include <d_contour.h>
 
 //Qt

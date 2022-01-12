@@ -17,6 +17,7 @@
 #include <d_bio_nucleusblob.h>
 #include <d_bio_nucleusimage.h>
 #include <d_bio_enum.h>
+#include <d_bio_attribute_filter.h>
 #include <d_viewer_plot_3d.h>
 #include <d_viewer_3d.h>
 
@@ -87,6 +88,8 @@ public:
     void set_scale_edges(double scale)                              {if(scale > 0 && scale <= 1) scale_edges = scale;}
     void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) FrameInRegularRangeXY = Rect(x_min, y_min, w, h);}
     void set_earliest_mitoses_allowed(size_t t_earliest)            {match_earliest_mitosis_allowed = t_earliest;}
+
+    bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
 
     void match_all();
     void match_all_go1();
@@ -170,7 +173,14 @@ private:
     bool                            state_ScoreWeightsAndMaxSet = false;
     bool                            state_PedigreeViewer_Plot3D_Set = false;
     bool                            state_PedigreeViewer_Volumetric_Set = false;
+    bool                            state_AttribFiltersSet = false;
 
+    //attribute filter
+    D_Bio_Attribute_Filter*         pAttribFilter_Foci = nullptr;
+    D_Bio_Attribute_Filter*         pAttribFilter_NucBobs = nullptr;
+    D_Bio_Attribute_Filter*         pAttribFilter_NucLifes = nullptr;
+
+    //match attribs
     enum MATCH_ATTRIB_INDEX {
         MATCH_ATTRIB_INDEX_SCORE,
         MATCH_ATTRIB_INDEX_PARENT_T,
