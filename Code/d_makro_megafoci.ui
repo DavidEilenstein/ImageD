@@ -10862,6 +10862,9 @@ QProgressBar::chunk {
           <layout class="QGridLayout" name="gridLayout_86">
            <item row="2" column="0">
             <widget class="QGroupBox" name="groupBox_MS6_Control_Results">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="title">
               <string>Results</string>
              </property>
@@ -10888,17 +10891,57 @@ QProgressBar::chunk {
               <property name="spacing">
                <number>1</number>
               </property>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_0">
+              <item row="1" column="4">
+               <widget class="QLabel" name="label_113">
                 <property name="text">
-                 <string>DIC</string>
+                 <string>CH2</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="3">
-               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_1">
+              <item row="2" column="4" colspan="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1T ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>h</string>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="minimum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_0">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>GFP</string>
+                 <string>DIC</string>
                 </property>
                </widget>
               </item>
@@ -10909,13 +10952,6 @@ QProgressBar::chunk {
                 </property>
                </widget>
               </item>
-              <item row="1" column="4">
-               <widget class="QLabel" name="label_113">
-                <property name="text">
-                 <string>CH2</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_114">
                 <property name="text">
@@ -10923,10 +10959,85 @@ QProgressBar::chunk {
                 </property>
                </widget>
               </item>
+              <item row="1" column="3">
+               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_1">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>GFP</string>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="5">
                <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>RFP</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2" colspan="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_px2um">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1px ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>um</string>
+                </property>
+                <property name="decimals">
+                 <number>6</number>
+                </property>
+                <property name="minimum">
+                 <double>0.001000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.121212000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>irradiation at T=</string>
+                </property>
+                <property name="decimals">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <double>51.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>24.500000000000000</double>
                 </property>
                </widget>
               </item>
@@ -10942,6 +11053,9 @@ QProgressBar::chunk {
            </item>
            <item row="1" column="0">
             <widget class="QGroupBox" name="groupBox_MS6_Control_Filters">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="title">
               <string>Filters</string>
              </property>
@@ -11031,7 +11145,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

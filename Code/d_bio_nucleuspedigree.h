@@ -55,10 +55,11 @@ public:
     void clear();
 
     void set_size_time_and_mosaik(size_t t_size, size_t y_size, size_t x_size);
-    size_t size_T()             {return size_time;}
-    size_t size_Y()             {return size_mosaik_y;}
-    size_t size_X()             {return size_mosaik_x;}
-    Rect rect_RegularRange_px() {return FrameInRegularRangeXY;}
+    void set_time_irradiation(double t_irr)                 {time_irradiation = t_irr;}
+    size_t size_T()                                         {return size_time;}
+    size_t size_Y()                                         {return size_mosaik_y;}
+    size_t size_X()                                         {return size_mosaik_x;}
+    Rect rect_RegularRange_px()                             {return FrameInRegularRangeXY;}
     size_t nuclei_blob_count(size_t t, size_t y, size_t x);
     size_t nuclei_blob_count(size_t t);
     size_t nuclei_blob_count();
@@ -90,6 +91,8 @@ public:
     void set_earliest_mitoses_allowed(size_t t_earliest)            {match_earliest_mitosis_allowed = t_earliest;}
 
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
+    bool set_attrib_filter_channels(QStringList channels);
+    bool set_attrib_filter_scaling();
 
     void match_all();
     void match_all_go1();
@@ -138,6 +141,9 @@ private:
     size_t size_time = 0;
     size_t size_mosaik_y = 0;
     size_t size_mosaik_x = 0;
+
+    //irradiation
+    double time_irradiation = 0;
 
     //data
     vector<vector<vector<vector<D_Bio_NucleusBlob>>>> vvvvNucBlobs_TYXI;

@@ -726,11 +726,40 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
     if(state_AttribFiltersSet)
         return false;
 
-    pAttribFilter_Foci      = new D_Bio_Attribute_Filter(box_foci);
+    pAttribFilter_Foci = new D_Bio_Attribute_Filter(box_foci);
+    pAttribFilter_Foci->set_filter_mode(ATTRIB_FILTER_MODE_FOCI);
+
     pAttribFilter_NucBobs   = new D_Bio_Attribute_Filter(box_nucblobs);
+    pAttribFilter_NucBobs->set_filter_mode(ATTRIB_FILTER_MODE_NUC_BLOB);
+
     pAttribFilter_NucLifes  = new D_Bio_Attribute_Filter(box_nuclifes);
+    pAttribFilter_NucLifes->set_filter_mode(ATTRIB_FILTER_MODE_NUC_LIFE);
 
     state_AttribFiltersSet = true;
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::set_attrib_filter_channels(QStringList channels)
+{
+    if(!state_AttribFiltersSet)
+        return false;
+
+    pAttribFilter_Foci->set_channels(channels);
+    pAttribFilter_NucBobs->set_channels(channels);
+    pAttribFilter_NucLifes->set_channels(channels);
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::set_attrib_filter_scaling()
+{
+    if(!state_AttribFiltersSet)
+        return false;
+
+    pAttribFilter_Foci->set_ScalePx2Um(scale_px_to_um);
+    pAttribFilter_NucBobs->set_ScalePx2Um(scale_px_to_um);
+    pAttribFilter_NucLifes->set_ScalePx2Um(scale_px_to_um);
+
     return true;
 }
 

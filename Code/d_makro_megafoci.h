@@ -1481,21 +1481,27 @@ private slots:
     bool MS6_LoadDirs();
     bool MS6_LoadNucleiData();
     bool MS6_LoadNucleiLifes();
+    bool MS6_GetChannelsFromUi();
+    bool MS6_GetIrradiationTimeFromUi();
 
 private:
 
     //Data
-    D_Bio_NucleusPedigree MS6_NucPedigree_Results;
+    D_Bio_NucleusPedigree   MS6_NucPedigree_Results;
+
+    //channels
+    QStringList             MS6_QSL_Channels;
 
     //Dirs
-    QDir            DIR_MS6_Load_NucleiData;
-    QDir            DIR_MS6_Load_NucleiLifes;
+    QDir                    DIR_MS6_Load_NucleiData;
+    QDir                    DIR_MS6_Load_NucleiLifes;
 
     //States
-    bool            MS6_state_loaded_all = false;
-    bool            MS6_state_loaded_dirs = false;
-    bool            MS6_state_loaded_nuc_data = false;
-    bool            MS6_state_loaded_nuc_lifes = false;
+    bool                    MS6_state_ui_init = false;
+    bool                    MS6_state_loaded_all = false;
+    bool                    MS6_state_loaded_dirs = false;
+    bool                    MS6_state_loaded_nuc_data = false;
+    bool                    MS6_state_loaded_nuc_lifes = false;
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

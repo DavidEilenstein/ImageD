@@ -150,10 +150,10 @@ enum NUC_LIFE_FILE_SECTIONS {
 
  enum ATTRIB_FOC {
      ATTRIB_FOC_CENTER_X_PX,
-     ATTRIB_FOC_CENTER_Y_PX,
-     ATTRIB_FOC_AREA_PX,
      ATTRIB_FOC_CENTER_X_UM,
+     ATTRIB_FOC_CENTER_Y_PX,
      ATTRIB_FOC_CENTER_Y_UM,
+     ATTRIB_FOC_AREA_PX,
      ATTRIB_FOC_AREA_UM,
      ATTRIB_FOC_CONVEXITY,
      ATTRIB_FOC_COMPACTNESS,
@@ -166,6 +166,24 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_FOC_ABSDEVMED_CHX,
      ATTRIB_FOC_DETECTED_IN_CH,
      ATTRIB_FOC_NUMBER_OF
+ };
+ const QStringList QSL_Attrib_Foc = {
+     "Center x /px",
+     "Center x /um",
+     "Center y /px",
+     "Center y /um",
+     "Area /px",
+     "Area /um",
+     "Convexity",
+     "Compactness",
+     "Pixel count",
+     "Channel mean",
+     "Channel STD",
+     "Channel skewness",
+     "Channel kurtosis",
+     "Channel median",
+     "Channel abs. med. dev.",
+     "Detected in channel"
  };
 
  enum ATTRIB_NUC {
@@ -194,6 +212,29 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM,
      ATTRIB_NUC_NUMBER_OF
  };
+ const QStringList QSL_Attrib_Nuc = {
+     "Center x /px",
+     "Center x /um",
+     "Center y /px",
+     "Center y /um",
+     "Area /px",
+     "Area /um",
+     "Convexity",
+     "Compactness",
+     "Pixel count",
+     "Channel mean",
+     "Channel STD",
+     "Channel skewness",
+     "Channel kurtosis",
+     "Channel median",
+     "Channel abs. med. dev.",
+     "Foci in channel",
+     "Foci/Area /(1/px^2) in channel",
+     "Foci/Area /(1/um^2) in channel",
+     "Foci in all channels",
+     "Foci/Area /(1/px^2) in all channels",
+     "Foci/Area /(1/um^2) in all channels"
+ };
 
  enum ATTRIB_NUCLIFE {
      ATTRIB_NUCLIFE_AGE,
@@ -212,11 +253,37 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUCLIFE_AREA_GROWTH_PER_T,
      ATTRIB_NUCLIFE_FOCICOUNT_GROWTH,
      ATTRIB_NUCLIFE_FOCICOUNT_GROWTH_PER_T,
-     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_PX_GROWTH,
-     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_PX_GROWTH_PER_T,
-     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_UM_GROWTH,
-     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_UM_GROWTH_PER_T,
+     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH,
+     ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH_PER_T,
      ATTRIB_NUCLIFE_NUMBER_OF
+ };
+ const QStringList QSL_Attrib_NucLife = {
+     "Age /h",
+     "Time begin /h",
+     "Time end /h",
+     "Time mid /h",
+     "Shift /px",
+     "Shift /um",
+     "Pathlength /px",
+     "Pathlength /um",
+     "Shift/Time /(px/h)",
+     "Shift/Time /(um/h)",
+     "Pathlength/Time /(px/h)",
+     "Pathlength/Time /(um/h)",
+     "Area increase",
+     "Area increase/Time /(1/h)",
+     "Foci increase",
+     "Foci increase/Time /(1/h)",
+     "Foci/Area increase",
+     "Foci/Area increase/Time /(1/h)"
+ };
+
+ //filter modi
+ enum ATTRIB_FILTER_MODE {
+     ATTRIB_FILTER_MODE_FOCI,
+     ATTRIB_FILTER_MODE_NUC_BLOB,
+     ATTRIB_FILTER_MODE_NUC_LIFE,
+     ATTRIB_FILTER_MODE_NUMBER_OF
  };
 
 #endif // D_BIO_ENUM_H

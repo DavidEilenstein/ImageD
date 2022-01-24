@@ -48,20 +48,51 @@ D_Bio_Focus::D_Bio_Focus(vector<Point> contour_points, vector<vector<double> > S
     CalcFeats(countour_with_offset);
 }
 
-D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel)
+D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel, size_t ch_detected_in)
 {
     //save data
     if(SignalStats_StatChannel.size() == VAL_STAT_NUMBER_OF)
         vvSignalStats_StatChannel = SignalStats_StatChannel;
     else
         vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
+
     m_centroid      = centroid;
     m_area          = area;
     m_compactness   = compactness;
     m_convexity     = convexity;
 
+    m_channel_detected_in = ch_detected_in;
+
     //no stats need to be calced
     state_feats_calced = true;
+}
+
+double D_Bio_Focus::attribute(size_t i_attrib, size_t ch_val, double scale_px2um)
+{
+    if(i_attrib >= ATTRIB_FOC_NUMBER_OF)
+        return 0;
+
+    switch (i_attrib) {
+
+    case ATTRIB_FOC_CENTER_X_PX:    return centroid().x;
+    case ATTRIB_FOC_CENTER_Y_PX:    return centroid().y;
+    case ATTRIB_FOC_AREA_PX:        return area();
+    case ATTRIB_FOC_CENTER_X_UM:    return centroid().x * scale_px2um;
+    case ATTRIB_FOC_CENTER_Y_UM:    return centroid().y * scale_px2um;
+    case ATTRIB_FOC_AREA_UM:        return area() * scale_px2um * scale_px2um;
+    case ATTRIB_FOC_CONVEXITY:      return convexity();
+    case ATTRIB_FOC_COMPACTNESS:    return compactness();
+
+    case ATTRIB_FOC_COUNT_CHX:      return signal_stat(ch_val, VAL_STAT_COUNT);
+    case ATTRIB_FOC_MEAN_CHX:       return signal_stat(ch_val, VAL_STAT_MEAN);
+    case ATTRIB_FOC_STD_CHX:        return signal_stat(ch_val, VAL_STAT_STD);
+    case ATTRIB_FOC_SKEWNESS_CHX:   return signal_stat(ch_val, VAL_STAT_SKEW);
+    case ATTRIB_FOC_KURTOSIS_CHX:   return signal_stat(ch_val, VAL_STAT_KURTOSIS);
+    case ATTRIB_FOC_MEDIAN_CHX:     return signal_stat(ch_val, VAL_STAT_MEDIAN);
+    case ATTRIB_FOC_ABSDEVMED_CHX:  return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
+
+    case ATTRIB_FOC_DETECTED_IN_CH: return double(m_channel_detected_in);
+    default:                        return 0;}
 }
 
 size_t D_Bio_Focus::channels()

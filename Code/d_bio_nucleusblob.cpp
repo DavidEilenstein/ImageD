@@ -87,6 +87,54 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector
     CalcFeats();
 }
 
+double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale_px2um)
+{
+    if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
+        return 0;
+
+    size_t n_ch_val = channels();
+    if(ch_val >= n_ch_val)
+        return 0;
+
+    switch (i_attrib) {
+
+    case ATTRIB_NUC_CENTER_X_PX:                return centroid().x;
+    case ATTRIB_NUC_CENTER_Y_PX:                return centroid().y;
+    case ATTRIB_NUC_AREA_PX:                    return area();
+    case ATTRIB_NUC_CENTER_X_UM:                return centroid().x * scale_px2um;
+    case ATTRIB_NUC_CENTER_Y_UM:                return centroid().y * scale_px2um;
+    case ATTRIB_NUC_AREA_UM:                    return area() * scale_px2um * scale_px2um;
+    case ATTRIB_NUC_CONVEXITY:                  return convexity();
+    case ATTRIB_NUC_COMPACTNESS:                return compactness();
+
+    case ATTRIB_NUC_SHIFT_PX:                   return Nuc_Parent == nullptr ? 0 : D_Math::Distance(centroid(), Nuc_Parent->centroid());
+    case ATTRIB_NUC_SHIFT_UM:                   return Nuc_Parent == nullptr ? 0 : D_Math::Distance(centroid(), Nuc_Parent->centroid()) * scale_px2um;
+
+    case ATTRIB_NUC_COUNT_CHX:                  return signal_stat(ch_val, VAL_STAT_COUNT);
+    case ATTRIB_NUC_MEAN_CHX:                   return signal_stat(ch_val, VAL_STAT_MEAN);
+    case ATTRIB_NUC_STD_CHX:                    return signal_stat(ch_val, VAL_STAT_STD);
+    case ATTRIB_NUC_SKEWNESS_CHX:               return signal_stat(ch_val, VAL_STAT_SKEW);
+    case ATTRIB_NUC_KURTOSIS_CHX:               return signal_stat(ch_val, VAL_STAT_KURTOSIS);
+    case ATTRIB_NUC_MEDIAN_CHX:                 return signal_stat(ch_val, VAL_STAT_MEDIAN);
+    case ATTRIB_NUC_ABSDEVMED_CHX:              return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
+
+    case ATTRIB_NUC_FOCI_COUNT_CHX:             return get_FociCount(ch_val);
+    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX: return get_FociCount(ch_val) / area();
+    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM: return get_FociCount(ch_val) / (area() * scale_px2um * scale_px2um);
+    case ATTRIB_NUC_FOCI_COUNT_ALL:
+    {
+        double foci_sum = 0;
+        for(size_t ch = 0; ch < n_ch_val; ch++)
+            foci_sum += get_FociCount(ch);
+        return foci_sum;
+    }
+    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX: return attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / area();
+    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM: return attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / (area() * scale_px2um * scale_px2um);
+
+    default:                                    return 0;
+    }
+}
+
 int D_Bio_NucleusBlob::get_Contours_append(vector<vector<Point> > *pvScaledContours, double scale)
 {
     vector<Point> ContourScaled(m_contour.size());
@@ -618,12 +666,14 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                         }
 
                         //Add new focus
-                        vvFoci[foci_channel_current].push_back(D_Bio_Focus(
-                                                                   focus_centroid,
-                                                                   focus_area,
-                                                                   focus_compactness,
-                                                                   focus_convexity,
-                                                                   focus_StatsChannels));
+                        D_Bio_Focus FocNew(
+                                    focus_centroid,
+                                    focus_area,
+                                    focus_compactness,
+                                    focus_convexity,
+                                    focus_StatsChannels,
+                                    foci_channel_current);
+                        vvFoci[foci_channel_current].push_back(FocNew);
                     }
                         break;
 

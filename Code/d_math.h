@@ -54,6 +54,8 @@ public:
     static function<double (double x, double y, double z, double t, double s, double p)>            Function_6D_to_1D(int type, double sx, double ox, double sy, double oy, double sz, double oz, double st, double ot, double ss, double os, double sp, double op, double a = 1, double b = 0, double c = 1, double d = 0, double e = 0, double f = 0, double nan_val = 0, double inf_val = 0);
     static function<double (double x, double a, double b, double c, double d, double e, double f)>  Curve_Array(int prototype);
 
+    static bool Compare(size_t compare_index, double v1, double v2);
+
     static int                                      Distance_Transformation_1D  (vector<double> *v_edt, vector<double> v_line, double spacing = 1);
 
   //static double                                   RandomNumberDistribution(int type, double min, double max, double a, double b, double c, double d, double e, double f);

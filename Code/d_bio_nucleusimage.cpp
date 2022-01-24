@@ -625,6 +625,7 @@ int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
                         {
                             if(foci_channel_current >= 0 && foci_channel_current < static_cast<int>(vvFoci.size()))
                             {
+                                FocLoad.set_detected_in_channel(foci_channel_current);
                                 vvFoci[foci_channel_current].push_back(FocLoad);
                                 //qDebug() << "D_Bio_NucleusImage::load_foci" << "ADD NEW FOCUS :-)";
                             }
@@ -1294,7 +1295,8 @@ bool D_Bio_NucleusImage::load_focus(D_Bio_Focus *FocusLoad, QTextStream *pTS_Foc
                 focus_area,
                 focus_compactness,
                 focus_convexity,
-                focus_StatsChannels);
+                focus_StatsChannels,
+                0);//detection channel is set later when foc is pushed to container
 
     return true;
 }

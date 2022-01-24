@@ -15,7 +15,6 @@
 #include <d_math.h>
 #include <d_bio_nucleusblob.h>
 #include <d_bio_enum.h>
-#include <d_bio_attribute_filter.h>
 
 //Qt
 #include <QFileDialog>
@@ -53,7 +52,7 @@ class D_Bio_NucleusLife
     //                    |       |
     //              Child1         Child2
     //
-    //Existance of parent and childs ist optional
+    //Existance of parent and childs is optional
     //Only members are taken into account for calcs
 
 public:
@@ -63,6 +62,7 @@ public:
     void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) set_range_XY(Rect(x_min, y_min, w, h));}
     void set_range_XY(Rect FrameOk)                                 {FrameInRegularRangeXY = FrameOk;}
     void set_sizeTime(size_t t_size)                                {size_time = t_size;}
+    void set_time_irradiation(double t_irr)                         {time_irradiation = t_irr;}
 
     bool set_Parent(D_Bio_NucleusBlob* nuc_parent)                  {if(has_NoParent()) {pNucParent = nuc_parent; return true;} else {return false;}}
     bool set_Child1(D_Bio_NucleusBlob* nuc_child1)                  {if(has_Child1()) {pNucChild1 = nuc_child1; return true;} else {return false;}}
@@ -137,9 +137,10 @@ private:
     double                          scale_px2um = 1.0;
     double                          scale_um2px = 1.0;
 
-    //range
+    //range and context
     Rect                            FrameInRegularRangeXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);
     size_t                          size_time = 0;
+    double                          time_irradiation = 0;
 };
 
 #endif // D_BIO_NUCLEUSLIFE_H

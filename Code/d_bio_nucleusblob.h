@@ -15,7 +15,6 @@
 #include <d_math.h>
 #include <d_bio_focus.h>
 #include <d_bio_enum.h>
-#include <d_bio_attribute_filter.h>
 #include <d_contour.h>
 
 //Qt
@@ -57,7 +56,9 @@ public:
     void                            set_FociChannels(size_t channels)                           {vvFoci.resize(channels);}
     void                            set_Foci(size_t channel, vector<D_Bio_Focus> v_foci)        {if(channel < vvFoci.size()) vvFoci[channel] = v_foci;}
     void                            set_Foci(vector<vector<D_Bio_Focus>> vv_foci)               {vvFoci = vv_foci;}
-    void                            add_Focus(size_t channel, D_Bio_Focus focus)                {if(channel < vvFoci.size()) vvFoci[channel].push_back(focus);}
+    void                            add_Focus(size_t channel, D_Bio_Focus focus)                {focus.set_detected_in_channel(channel); if(channel < vvFoci.size()) vvFoci[channel].push_back(focus);}
+
+    double                          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
 
     //get foci or describing info
     size_t                          get_FociChannels()                                          {return vvFoci.size();}

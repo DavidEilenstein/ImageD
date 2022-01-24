@@ -9134,10 +9134,22 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return;
 
+    //time range for irradiation time
+    ui->doubleSpinBox_MS6_IrradiationTime->setMaximum(dataset_dim_t - 1);
+
+    //show channel name selectors
+    ui->lineEdit_MS6_Channel_Name_0->setEnabled(dataset_dim_p_exist > 0);
+    ui->lineEdit_MS6_Channel_Name_1->setEnabled(dataset_dim_p_exist > 1);
+    ui->lineEdit_MS6_Channel_Name_2->setEnabled(dataset_dim_p_exist > 2);
+
+    //init pedigree filter ui
     MS6_NucPedigree_Results.set_attrib_filter_ui(
                 ui->groupBox_MS6_Control_Filters_Foci,
                 ui->groupBox_MS6_Control_Filters_NucBlobs,
                 ui->groupBox_MS6_Control_Filters_NucLifes);
+
+    //change state
+    MS6_state_ui_init = true;
 }
 
 bool D_MAKRO_MegaFoci::MS6_LoadAll()
@@ -9170,6 +9182,12 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     //ui
     ui->groupBoxMS6_Control_Data->setEnabled(false);
     ui->groupBox_MS6_View->setEnabled(true);
+    ui->groupBox_MS6_Control_Filters->setEnabled(true);
+    ui->groupBox_MS6_Control_Results->setEnabled(true);
+
+    //channels list and irradiation time
+    MS6_GetChannelsFromUi();
+    MS6_GetIrradiationTimeFromUi();
 
     //show
 
@@ -9300,5 +9318,37 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
     StatusSet("Finished loading nuclei matches from step 4/5");
 
     MS6_state_loaded_nuc_lifes = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()
+{
+    if(!MS6_state_ui_init)
+        return false;
+
+    MS6_QSL_Channels.clear();
+
+    if(dataset_dim_p_exist > 0)
+        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_0->text());
+    if(dataset_dim_p_exist > 1)
+        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_1->text());
+    if(dataset_dim_p_exist > 2)
+        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_2->text());
+
+    MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels);
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_GetIrradiationTimeFromUi()
+{
+    if(!MS6_state_ui_init)
+        return false;
+
+    MS6_NucPedigree_Results.set_time_irradiation(ui->doubleSpinBox_MS6_IrradiationTime->value());
+    MS6_NucPedigree_Results.set_scale_px2um(ui->doubleSpinBox_MS6_Scale_px2um->value());
+    MS6_NucPedigree_Results.set_scale_T2h(ui->doubleSpinBox_MS6_Scale_T2h->value());
+    MS6_NucPedigree_Results.set_attrib_filter_scaling();
+
     return true;
 }

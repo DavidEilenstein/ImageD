@@ -1392,6 +1392,18 @@ function<double (double x, double a, double b, double c, double d, double e, dou
     }
 }
 
+bool D_Math::Compare(size_t compare_index, double v1, double v2)
+{
+    switch (compare_index) {
+    case c_COMPARE_EQUAL:           return v1 == v2;
+    case c_COMPARE_SMALLER:         return v1 <  v2;
+    case c_COMPARE_SMALLER_EQUAL:   return v1 <= v2;
+    case c_COMPARE_GREATER:         return v1 >  v2;
+    case c_COMPARE_GREATER_EQUAL:   return v1 >= v2;
+    case c_COMPARE_NOT_EQUAL:       return v1 != v2;
+    default:                        return false;}
+}
+
 /*double D_Math::RandomNumberDistribution(int type, double min, double max, double a, double b, double c, double d, double e, double f)
 {
     //seed

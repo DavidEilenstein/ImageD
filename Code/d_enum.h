@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_3_2";
-const QString           D_QS_Release  = "12.01.2022";
+const QString           D_QS_Version  = "v2_3_3";
+const QString           D_QS_Release  = "24.01.2022";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -1223,6 +1223,25 @@ const QStringList QSL_Conditions = {
     "[e <= (ax+b) <= f] | [g <= (cy+d) <= h]",
     "[e < (ax+b) < f] != [g < (cy+d) < h]",
     "[e <= (ax+b) <= f] != [g <= (cy+d) <= h]"
+};
+
+enum D_COMPARE_SIMPLE
+{
+    c_COMPARE_EQUAL,
+    c_COMPARE_SMALLER,
+    c_COMPARE_SMALLER_EQUAL,
+    c_COMPARE_GREATER,
+    c_COMPARE_GREATER_EQUAL,
+    c_COMPARE_NOT_EQUAL,
+    c_COMPARE_NUMBER_OF
+};
+const QStringList QSL_CompareSimple = {
+    "==",
+    "<",
+    "<=",
+    ">",
+    ">=",
+    "!="
 };
 
 enum D_STEREO

@@ -84,27 +84,7 @@ double D_Bio_NucleusLife::attrib_foc(size_t i_attrib, size_t ch_val, size_t ch_f
     if(pFoc == nullptr)
         return 0;
 
-    switch (i_attrib) {
-
-    case ATTRIB_FOC_CENTER_X_PX:    return pFoc->centroid().x;
-    case ATTRIB_FOC_CENTER_Y_PX:    return pFoc->centroid().y;
-    case ATTRIB_FOC_AREA_PX:        return pFoc->area();
-    case ATTRIB_FOC_CENTER_X_UM:    return pFoc->centroid().x * scale_px2um;
-    case ATTRIB_FOC_CENTER_Y_UM:    return pFoc->centroid().y * scale_px2um;
-    case ATTRIB_FOC_AREA_UM:        return pFoc->area() * scale_px2um * scale_px2um;
-    case ATTRIB_FOC_CONVEXITY:      return pFoc->convexity();
-    case ATTRIB_FOC_COMPACTNESS:    return pFoc->compactness();
-
-    case ATTRIB_FOC_COUNT_CHX:      return pFoc->signal_stat(ch_val, VAL_STAT_COUNT);
-    case ATTRIB_FOC_MEAN_CHX:       return pFoc->signal_stat(ch_val, VAL_STAT_MEAN);
-    case ATTRIB_FOC_STD_CHX:        return pFoc->signal_stat(ch_val, VAL_STAT_STD);
-    case ATTRIB_FOC_SKEWNESS_CHX:   return pFoc->signal_stat(ch_val, VAL_STAT_SKEW);
-    case ATTRIB_FOC_KURTOSIS_CHX:   return pFoc->signal_stat(ch_val, VAL_STAT_KURTOSIS);
-    case ATTRIB_FOC_MEDIAN_CHX:     return pFoc->signal_stat(ch_val, VAL_STAT_MEDIAN);
-    case ATTRIB_FOC_ABSDEVMED_CHX:  return pFoc->signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
-
-    case ATTRIB_FOC_DETECTED_IN_CH: return double(ch_foc);
-    default:                        return 0;}
+    return pFoc->attribute(i_attrib, ch_val, scale_px2um);
 }
 
 vector<double> D_Bio_NucleusLife::attrib_foc(size_t i_attrib, size_t ch_val, size_t ch_foc, size_t i_nuc)
@@ -192,47 +172,7 @@ double D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val, size_t i_nu
     if(ch_val >= n_ch_val)
         return 0;
 
-    switch (i_attrib) {
-
-    case ATTRIB_NUC_CENTER_X_PX:                return pNuc->centroid().x;
-    case ATTRIB_NUC_CENTER_Y_PX:                return pNuc->centroid().y;
-    case ATTRIB_NUC_AREA_PX:                    return pNuc->area();
-    case ATTRIB_NUC_CENTER_X_UM:                return pNuc->centroid().x * scale_px2um;
-    case ATTRIB_NUC_CENTER_Y_UM:                return pNuc->centroid().y * scale_px2um;
-    case ATTRIB_NUC_AREA_UM:                    return pNuc->area() * scale_px2um * scale_px2um;
-    case ATTRIB_NUC_CONVEXITY:                  return pNuc->convexity();
-    case ATTRIB_NUC_COMPACTNESS:                return pNuc->compactness();
-
-    case ATTRIB_NUC_SHIFT_PX:
-    {
-        D_Bio_NucleusBlob* pNucBefore = i_nuc > 0 && members_count() > 0 ? vpNucMembers[i_nuc - 1] : pNuc_parent();
-        return pNucBefore == nullptr ? 0 : D_Math::Distance(pNuc->centroid(), pNucBefore->centroid());
-    }
-    case ATTRIB_NUC_SHIFT_UM:                   return attrib_nuc(ATTRIB_NUC_SHIFT_PX, ch_val, i_nuc) * scale_px2um;
-
-    case ATTRIB_NUC_COUNT_CHX:                  return pNuc->signal_stat(ch_val, VAL_STAT_COUNT);
-    case ATTRIB_NUC_MEAN_CHX:                   return pNuc->signal_stat(ch_val, VAL_STAT_MEAN);
-    case ATTRIB_NUC_STD_CHX:                    return pNuc->signal_stat(ch_val, VAL_STAT_STD);
-    case ATTRIB_NUC_SKEWNESS_CHX:               return pNuc->signal_stat(ch_val, VAL_STAT_SKEW);
-    case ATTRIB_NUC_KURTOSIS_CHX:               return pNuc->signal_stat(ch_val, VAL_STAT_KURTOSIS);
-    case ATTRIB_NUC_MEDIAN_CHX:                 return pNuc->signal_stat(ch_val, VAL_STAT_MEDIAN);
-    case ATTRIB_NUC_ABSDEVMED_CHX:              return pNuc->signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
-
-    case ATTRIB_NUC_FOCI_COUNT_CHX:             return pNuc->get_FociCount(ch_val);
-    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX: return pNuc->get_FociCount(ch_val) / pNuc->area();
-    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM: return pNuc->get_FociCount(ch_val) / (pNuc->area() * scale_px2um * scale_px2um);
-    case ATTRIB_NUC_FOCI_COUNT_ALL:
-    {
-        double foci_sum = 0;
-        for(size_t ch = 0; ch < n_ch_val; ch++)
-            foci_sum += pNuc->get_FociCount(ch);
-        return foci_sum;
-    }
-    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX: return attrib_nuc(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, i_nuc) / pNuc->area();
-    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM: return attrib_nuc(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, i_nuc) / (pNuc->area() * scale_px2um * scale_px2um);
-
-    default:                                    return 0;
-    }
+    return pNuc->attribute(i_attrib, ch_val, scale_px2um);
 }
 
 vector<double> D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val)
@@ -283,10 +223,8 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     case ATTRIB_NUCLIFE_AREA_GROWTH_PER_T:                  return attrib_nuclife_growth_per_T  (ATTRIB_NUC_AREA_PX, 0);
     case ATTRIB_NUCLIFE_FOCICOUNT_GROWTH:                   return attrib_nuclife_growth        (ATTRIB_NUC_FOCI_COUNT_ALL, 0);
     case ATTRIB_NUCLIFE_FOCICOUNT_GROWTH_PER_T:             return attrib_nuclife_growth_per_T  (ATTRIB_NUC_FOCI_COUNT_ALL, 0);
-    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_PX_GROWTH:       return attrib_nuclife_growth        (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
-    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_PX_GROWTH_PER_T: return attrib_nuclife_growth_per_T  (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
-    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_UM_GROWTH:       return attrib_nuclife_growth        (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM, 0);
-    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_UM_GROWTH_PER_T: return attrib_nuclife_growth_per_T  (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM, 0);
+    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH:          return attrib_nuclife_growth        (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
+    case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH_PER_T:    return attrib_nuclife_growth_per_T  (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
 
     default:                                                return 0;
     }

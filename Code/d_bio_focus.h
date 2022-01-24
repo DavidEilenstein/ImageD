@@ -13,7 +13,6 @@
 #include <d_enum.h>
 #include <d_stat.h>
 #include <d_bio_enum.h>
-#include <d_bio_attribute_filter.h>
 #include <d_math.h>
 
 //Qt
@@ -49,14 +48,17 @@ public:
     //D_Bio_Focus(QString QS_PathLoad);
     D_Bio_Focus(vector<Point> contour_points, Point Offset = Point(0, 0));
     D_Bio_Focus(vector<Point> contour_points, vector<vector<double>> SignalStats_StatChannel, Point Offset = Point(0, 0));
-    D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel);
+    D_Bio_Focus(Point2f centroid, double area, double compactness, double convexity, vector<vector<double>> SignalStats_StatChannel, size_t ch_detected_in);
 
+    void            set_detected_in_channel(size_t ch_detected)     {m_channel_detected_in = ch_detected;}
     void            set_value_channels(size_t channels)             {vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF, vector<double>(channels, 0));}
   //void            set_values_stat(size_t stat_local_id, vector<double> vSignals_Stat);
   //void            set_values_medians(vector<double> vMedian)      {vvSignalStats[VAL_STAT_MEDIAN] = vMedian;}
   //void            set_values_devs2med(vector<double> vMedDev)     {vSignalMedDevs = vMedDev;}
   //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
   //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
+
+    double          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
 
     Point2f         centroid()                                      {return m_centroid;}
     double          area()                                          {return m_area;}
@@ -86,6 +88,8 @@ private:
     double          m_area          = 0;
     double          m_compactness   = 0;
     double          m_convexity     = 0;
+
+    size_t          m_channel_detected_in = 0;
 
     vector<vector<double>> vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 };
