@@ -333,6 +333,9 @@ void D_Bio_Attribute_Filter::Filter_CurrentFromUi()
         }
     ui_spinbox_activeFilters->setValue(int(active_filters_count));
 
+    //emit signal to trigger apllication of the filter externally
+    emit FilterParamsChanged();
+
     ui_grpbox_master->setEnabled(true);
 }
 

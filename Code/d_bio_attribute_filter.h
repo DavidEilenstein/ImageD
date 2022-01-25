@@ -77,7 +77,7 @@ private slots:
     void            Filter_CurrentFromUi();
 
 signals:
-
+    void            FilterParamsChanged();
 
 private:
     bool Populate_CB_Single(QComboBox *CB, QStringList QSL, int index_init = 0);

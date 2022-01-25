@@ -1336,7 +1336,7 @@ private:
     //states
     bool state_MS4_dirs_loaded = false;
     bool state_MS4_detections_loaded_to_pedigree = false;
-    bool state_MS4_pedigree_backup_created = false;
+  //bool state_MS4_pedigree_backup_created = false;
     bool state_MS4_pedigree_init = false;
     bool state_MS4_pedigree_init_1st_time = false;
     bool state_MS4_pedigree_reconstructed = false;
@@ -1348,8 +1348,8 @@ private slots:
     bool MS4_LoadDirs();
     bool MS4_LoadDetectionsToPedigree();
 
-    bool MS4_PedigreeBackup_Create();
-    bool MS4_PedigreeBackup_Load();
+    //bool MS4_PedigreeBackup_Create();
+    //bool MS4_PedigreeBackup_Load();
 
     bool MS4_SaveData();
 

@@ -24,28 +24,41 @@ bool D_Bio_NucleusLife::set_ScalePx2Um(double scale)
     return true;
 }
 
-bool D_Bio_NucleusLife::add_Member(D_Bio_NucleusBlob *nuc)
+bool D_Bio_NucleusLife::add_Member(D_Bio_NucleusBlob nuc)
 {
-    if(vpNucMembers.empty())
+    if(vNucMembers.empty())
     {
-        vpNucMembers.push_back(nuc);
+        //add nuc
+        vNucMembers.push_back(nuc);
+
+        //init time span
+        time_index_earliest = nuc.time_index();
+        time_index_latest   = nuc.time_index();
+
+        //finish
         return true;
     }
     else
     {
-        size_t n = vpNucMembers.size();
-        size_t t_add = nuc->time_index();
+        //nuc count added previously
+        size_t n = vNucMembers.size();
 
+        //time index
+        size_t t_add = nuc.time_index();
+        if(t_add < time_index_earliest)     time_index_earliest = t_add;
+        if(t_add > time_index_latest)       time_index_latest = t_add;
+
+        //find pos to add new nuc
         for(size_t i = 0; i < n; i++)
         {
-            size_t t_pos = vpNucMembers[i]->time_index();
+            size_t t_pos = vNucMembers[i].time_index();
 
             if(t_add == t_pos)
                 return false;
 
             if(t_add < t_pos || i == n - 1)
             {
-                vpNucMembers.insert(vpNucMembers.begin() + i, nuc);
+                vNucMembers.insert(vNucMembers.begin() + i, nuc);
                 return true;
             }
         }
@@ -60,7 +73,7 @@ D_Bio_Focus *D_Bio_NucleusLife::pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc
     if(i_nuc >= n_nuc)
         return nullptr;
 
-    D_Bio_NucleusBlob* pNuc = vpNucMembers[i_nuc];
+    D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
     if(pNuc == nullptr)
         return nullptr;
 
@@ -98,7 +111,7 @@ vector<double> D_Bio_NucleusLife::attrib_foc(size_t i_attrib, size_t ch_val, siz
     if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
         return vRes;
 
-    D_Bio_NucleusBlob* pNuc = vpNucMembers[i_nuc];
+    D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
     if(pNuc == nullptr)
         return vRes;
 
@@ -141,7 +154,7 @@ vector<vector<vector<double> > > D_Bio_NucleusLife::attrib_foc(size_t i_attrib, 
     if(n_nuc <= 0)
         return vvvRes;
 
-    D_Bio_NucleusBlob* pNuc = vpNucMembers[0];
+    D_Bio_NucleusBlob* pNuc = &(vNucMembers[0]);
     if(pNuc == nullptr)
         return vvvRes;
 
@@ -164,7 +177,7 @@ double D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val, size_t i_nu
     if(i_nuc >= n_nuc)
         return 0;
 
-    D_Bio_NucleusBlob* pNuc = vpNucMembers[i_nuc];
+    D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
     if(pNuc == nullptr)
         return 0;
 
@@ -194,10 +207,10 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     switch (i_attrib_nuclife)
     {
 
-    case ATTRIB_NUCLIFE_AGE:                                return members_count();
-    case ATTRIB_NUCLIFE_START:                              return members_count() > 0 ? vpNucMembers[0]->time_index() : 0;
-    case ATTRIB_NUCLIFE_END:                                return members_count() > 0 ? vpNucMembers[members_count() - 1]->time_index() : 0;
-    case ATTRIB_NUCLIFE_MID:                                return (attrib_nuclife(ATTRIB_NUCLIFE_START) + attrib_nuclife(ATTRIB_NUCLIFE_END)) / 2.0;
+    case ATTRIB_NUCLIFE_AGE:                                return time_index_latest - time_index_earliest;
+    case ATTRIB_NUCLIFE_START:                              return time_index_earliest;
+    case ATTRIB_NUCLIFE_END:                                return time_index_latest;
+    case ATTRIB_NUCLIFE_MID:                                return double(time_index_earliest + time_index_latest) / 2.0;
 
     case ATTRIB_NUCLIFE_SHIFT_PX:
     {
@@ -236,7 +249,7 @@ bool D_Bio_NucleusLife::nearBorderAtLeastOnce()
 
     for(size_t i = 0; i < n_nuc; i++)
     {
-        D_Bio_NucleusBlob* pNuc = vpNucMembers[i];
+        D_Bio_NucleusBlob* pNuc = &(vNucMembers[i]);
 
         if(pNuc == nullptr)
             return true;

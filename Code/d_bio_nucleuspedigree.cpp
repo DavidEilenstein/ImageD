@@ -140,9 +140,9 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
     set_size_time_and_mosaik(nt, ny, nx);
 
     //load data
-    vector<thread> vThreadsData(nt);
+    vector<std::thread> vThreadsData(nt);
     for(size_t t = 0; t < nt; t++)
-        vThreadsData[t] = thread(
+        vThreadsData[t] = std::thread(
                     load_time_nuclei_data_thread,
                     &vvvvNucBlobs_TYXI,
                     DIR_LoadNucDataMaster,
@@ -451,14 +451,14 @@ int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric(size_t size_volT_px, si
 
     ///create threads
     size_t nt_threads = vvvvNucBlobs_TYXI.size();
-    vector<thread> vThreads(nt_threads);
+    vector<std::thread> vThreads(nt_threads);
 
     ///start threads
     //qDebug() << "updatePedigreeView_Volumetric" << "start" << nt_threads << "threads";
     for(size_t t_thread = 0; t_thread < nt_threads; t_thread++)
     {
         //start the thread
-        vThreads[t_thread] = thread(
+        vThreads[t_thread] = std::thread(
                     updatePedigreeView_Volumetric_TimeThread,
                     &VD_PlotVol,
                     &vvvvNucBlobs_TYXI,
@@ -728,12 +728,15 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
 
     pAttribFilter_Foci = new D_Bio_Attribute_Filter(box_foci);
     pAttribFilter_Foci->set_filter_mode(ATTRIB_FILTER_MODE_FOCI);
+    connect(pAttribFilter_Foci, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
 
-    pAttribFilter_NucBobs   = new D_Bio_Attribute_Filter(box_nucblobs);
-    pAttribFilter_NucBobs->set_filter_mode(ATTRIB_FILTER_MODE_NUC_BLOB);
+    pAttribFilter_NucBlobs   = new D_Bio_Attribute_Filter(box_nucblobs);
+    pAttribFilter_NucBlobs->set_filter_mode(ATTRIB_FILTER_MODE_NUC_BLOB);
+    connect(pAttribFilter_NucBlobs, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
 
     pAttribFilter_NucLifes  = new D_Bio_Attribute_Filter(box_nuclifes);
     pAttribFilter_NucLifes->set_filter_mode(ATTRIB_FILTER_MODE_NUC_LIFE);
+    connect(pAttribFilter_NucLifes, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
 
     state_AttribFiltersSet = true;
     return true;
@@ -745,7 +748,7 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_channels(QStringList channels)
         return false;
 
     pAttribFilter_Foci->set_channels(channels);
-    pAttribFilter_NucBobs->set_channels(channels);
+    pAttribFilter_NucBlobs->set_channels(channels);
     pAttribFilter_NucLifes->set_channels(channels);
 
     return true;
@@ -757,10 +760,176 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_scaling()
         return false;
 
     pAttribFilter_Foci->set_ScalePx2Um(scale_px_to_um);
-    pAttribFilter_NucBobs->set_ScalePx2Um(scale_px_to_um);
+    pAttribFilter_NucBlobs->set_ScalePx2Um(scale_px_to_um);
     pAttribFilter_NucLifes->set_ScalePx2Um(scale_px_to_um);
 
     return true;
+}
+
+bool D_Bio_NucleusPedigree::calc_NucLifes()
+{
+    //clear nuc lifes
+    vNucLifes.clear();
+    state_NucLifesCalced = false;
+
+    // loop all nucs
+    for(size_t t = 0; t < size_time; t++)
+    {
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+        {
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+            {
+                for(size_t i = 0; i < vvvvNucBlobs_TYXI[t][y][x].size(); i++)
+                {
+                    D_Bio_NucleusBlob* pNuc = &(vvvvNucBlobs_TYXI[t][y][x][i]);
+
+                    //Nucleus is begin of new tracking?
+                    if(pNuc->matching_foundNoParent() || pNuc->matching_parent_isMitosis())
+                    {
+                        D_Bio_NucleusLife NewNucLife;
+
+                        if(pNuc->matching_foundParent())
+                            NewNucLife.set_Parent(pNuc->matching_Parent());
+
+                        //loop member nucs
+                        NewNucLife.add_Member(*pNuc);
+                        while(pNuc->matching_foundExactlyOneChild())
+                        {
+                            pNuc = pNuc->matching_ChildFavorite();
+                            NewNucLife.add_Member(*pNuc);
+                        }
+
+                        //childs
+                        if(pNuc->matching_isMitosis())
+                        {
+                            NewNucLife.set_Child1(pNuc->matching_Child1());
+                            NewNucLife.set_Child2(pNuc->matching_Child2());
+                        }
+
+                        //set other params
+                        NewNucLife.set_sizeTime(size_time);
+                        NewNucLife.set_range_XY(FrameInRegularRangeXY);
+                        NewNucLife.set_ScalePx2Um(scale_px_to_um);
+                        NewNucLife.set_time_irradiation(time_irradiation);
+
+                        //add nuc life to vector
+                        vNucLifes.push_back(NewNucLife);
+                    }
+                }
+            }
+        }
+    }
+
+    state_NucLifesCalced = true;
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
+{
+    //don't start new filtering, if old one is still running
+    if(state_NucLifeFilteringRunning)
+        return false;
+
+    //calc initial nuc lifes, if not done yet
+    if(!state_NucLifesCalced)
+        calc_NucLifes();
+    if(!state_NucLifesCalced)
+        return false;
+
+    //start filtering
+    state_NucLifeFilteringRunning = true;
+
+    //clear old filtered nuc lifes
+    vNucLifes_Filtered.clear();
+    state_NucLifesFilteredCalced = false;
+
+    //loop nuc lifes
+    for(size_t l = 0; l < vNucLifes.size(); l++)
+    {
+        //nuc life to be filtered
+        D_Bio_NucleusLife* pNucLifeOriginal = &(vNucLifes[l]);
+
+        //nuc life accepted?
+        if(pAttribFilter_NucLifes->accept_NucLife(pNucLifeOriginal))
+        {
+            //Filtered nuc life
+            D_Bio_NucleusLife NucLifeFiltered;
+
+            //copy parent/childs (these are not filtered because that would change the context of the nuc in the tracking)
+            if(pNucLifeOriginal->has_Parent())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_parent());
+            if(pNucLifeOriginal->has_Child1())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_child1());
+            if(pNucLifeOriginal->has_Child2())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_child2());
+
+            //loop nuc blobs (member nuc blobs only - from 1st after mistosis to end or mitosis)
+            for(size_t b = 0; b < pNucLifeOriginal->members_count(); b++)
+            {
+                //nuc blob to be filtered
+                D_Bio_NucleusBlob* pNucBlobOriginal = pNucLifeOriginal->pNuc_member(b);
+
+                //nuc blob accepted?
+                if(pAttribFilter_NucBlobs->accept_NucBlob(pNucBlobOriginal))
+                {
+                    //Filtered nuc blob (init with copy to preserve tracking context info etc.)
+                    D_Bio_NucleusBlob NucBlobFiltered = *pNucBlobOriginal;
+
+                    //clear origonal foci from copy (they are filtered next)
+                    NucBlobFiltered.clear_Foci();
+
+                    //loop foci channels
+                    for(size_t ch = 0; ch < pNucBlobOriginal->get_FociChannels(); ch++)
+                    {
+                        //loop foci
+                        for(size_t f = 0; f < pNucBlobOriginal->get_FociCount(ch); f++)
+                        {
+                            //foc to be filtered
+                            D_Bio_Focus* pFoc = pNucBlobOriginal->get_pFocus(ch, f);
+
+                            //foc accepted?
+                            if(pAttribFilter_Foci->accept_Foc(pFoc))
+                            {
+                                //add filtered focus to filtered nuc
+                                NucBlobFiltered.add_Focus(ch, *pFoc);
+                            }
+                        }
+                    }
+
+                    //add filtered nuc to nuc life
+                    NucLifeFiltered.add_Member(NucBlobFiltered);
+                }
+            }
+
+            //add filtered nuc life to list of filtered nuc lifes (only contains nuc blobs that passed and these only contain foci that passed)
+            vNucLifes_Filtered.push_back(NucLifeFiltered);
+        }
+    }
+
+    //finish
+    state_NucLifesFilteredCalced = true;
+    state_NucLifeFilteringRunning = false;
+    return true;
+}
+
+vector<double> D_Bio_NucleusPedigree::attrib_nuclife(size_t i_attrib)
+{
+    //resulting attribs
+    vector<double> vAttribs;
+
+    //attrib valid
+    if(i_attrib >= ATTRIB_NUCLIFE_NUMBER_OF)
+        return vAttribs;
+
+    //filter nuc lifes if needed
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return vAttribs;
+
+    //loop nuc lifes that passed the filter
+    for(size_t l = 0; l < vNucLifes_Filtered.size(); l++)
+        vAttribs.push_back(vNucLifes_Filtered[l].attrib_nuclife(i_attrib));
+
+    //finish
+    return vAttribs;
 }
 
 int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)
@@ -838,9 +1007,9 @@ bool D_Bio_NucleusPedigree::match_save_results(QString QS_path)
         return false;
 
     size_t nt = vvvvNucBlobs_TYXI.size();
-    vector<thread> vThreads(nt);
+    vector<std::thread> vThreads(nt);
     for(size_t t = 0; t < nt; t++)
-        vThreads[t] = thread(
+        vThreads[t] = std::thread(
                     match_save_results_time_thread,
                     &vvvvNucBlobs_TYXI,
                     DIR_SaveMaster,
@@ -870,9 +1039,9 @@ bool D_Bio_NucleusPedigree::match_load_matches(QString QS_path_NucLifes)
         return false;
 
     //load matches
-    vector<thread> vThreadsMatch(size_time);
+    vector<std::thread> vThreadsMatch(size_time);
     for(size_t t = 0; t < size_time; t++)
-        vThreadsMatch[t] = thread(
+        vThreadsMatch[t] = std::thread(
                     load_time_nuclei_matches_thread,
                     &vvvvNucBlobs_TYXI,
                     DIR_LoadNucLifes,
@@ -1355,13 +1524,13 @@ void D_Bio_NucleusPedigree::match_find_possible_matches(vector<vector<double> > 
     vector<vector<vector<double>>> vvvPossibleMatches_ThreadMatchAttrib(ny_threads);
 
     //threads
-    vector<thread> vThreads_FindPossibleMatches(ny_threads);
+    vector<std::thread> vThreads_FindPossibleMatches(ny_threads);
 
     //calc borders and start threads
     for(size_t y_thread = 0; y_thread < ny_threads; y_thread++)
     {
         //start the thread
-        vThreads_FindPossibleMatches[y_thread] = thread(
+        vThreads_FindPossibleMatches[y_thread] = std::thread(
                     match_find_possible_matches_thread,
                     &vvvvNucBlobs_TYXI,
                     &(vvvPossibleMatches_ThreadMatchAttrib[y_thread]),
@@ -1406,13 +1575,13 @@ void D_Bio_NucleusPedigree::match_find_possible_mitosis_corrections(vector<vecto
     vector<vector<vector<double>>> vvvPossibleMitosisCorrections_ThreadMatchAttrib(ny_threads);
 
     //threads
-    vector<thread> vThreads_FindPossibleMitosisCorrections(ny_threads);
+    vector<std::thread> vThreads_FindPossibleMitosisCorrections(ny_threads);
 
     //calc borders and start threads
     for(size_t y_thread = 0; y_thread < ny_threads; y_thread++)
     {
         //start the thread
-        vThreads_FindPossibleMitosisCorrections[y_thread] = thread(
+        vThreads_FindPossibleMitosisCorrections[y_thread] = std::thread(
                     match_find_possible_mitosis_corrections_thread,
                     &vvvvNucBlobs_TYXI,
                     &(vvvPossibleMitosisCorrections_ThreadMatchAttrib[y_thread]),

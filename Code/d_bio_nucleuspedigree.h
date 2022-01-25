@@ -22,6 +22,7 @@
 #include <d_viewer_3d.h>
 
 //Qt
+#include <QObject>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFileInfoList>
@@ -47,7 +48,7 @@ using namespace std;
 //using namespace cv; (prohibited because of abigous names with qtdatavisualization)
 #include <d_opencv_typedefs.h>
 
-class D_Bio_NucleusPedigree
+class D_Bio_NucleusPedigree : public QObject
 {
 public:
     D_Bio_NucleusPedigree();
@@ -81,8 +82,8 @@ public:
     int updatePedigreeView_Volumetric(D_Viewer_3D *viewer,  size_t size_volT_px, size_t size_volY_px, size_t size_volX_px, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original);
 private:
     static int updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj *pVD_Target, vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, double score_range, double score_min, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original, Rect frame_legit, size_t t_plane);
-
 public:
+
     void set_scale_px2um(double scale)                              {if(scale > 0) scale_px_to_um = scale;}
     void set_scale_T2h(double scale)                                {if(scale > 0) scale_t_to_h = scale;}
     void set_scale_nodes(double scale)                              {if(scale > 0 && scale <= 1) scale_nodes = scale;}
@@ -93,6 +94,11 @@ public:
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
     bool set_attrib_filter_channels(QStringList channels);
     bool set_attrib_filter_scaling();
+
+    bool calc_NucLifes();
+    bool calc_NucLifes_Filtered();
+
+    vector<double>  attrib_nuclife(size_t i_attrib);
 
     void match_all();
     void match_all_go1();
@@ -107,6 +113,8 @@ public:
     bool match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour);
     bool match_load_matches(QString QS_path_NucLifes);
 
+private slots:
+    void SetAttribFilterToNeedUpdate()  {state_NucLifesFilteredCalced = false;}
 
 private:
 
@@ -125,8 +133,6 @@ private:
 
     void        match_accept_matches(vector<vector<double>> *vvPossibleMatches, bool allow_new_mitosis);
     void        match_accept_mitosis_corrections(vector<vector<double>> *vvPossibleMitosisCorrections, bool allow_new_mitosis);
-
-
 
     void        calc_PlotVol(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, int size_T_px, int size_Y_px, int size_X_px, int size_nodes = 3, int size_edge = 1);
 
@@ -147,6 +153,8 @@ private:
 
     //data
     vector<vector<vector<vector<D_Bio_NucleusBlob>>>> vvvvNucBlobs_TYXI;
+    vector<D_Bio_NucleusLife> vNucLifes;
+    vector<D_Bio_NucleusLife> vNucLifes_Filtered;
 
     //weights for score calc
     vector<size_t>                  vScoreCriteria_Relevant;
@@ -180,10 +188,13 @@ private:
     bool                            state_PedigreeViewer_Plot3D_Set = false;
     bool                            state_PedigreeViewer_Volumetric_Set = false;
     bool                            state_AttribFiltersSet = false;
+    bool                            state_NucLifesCalced = false;
+    bool                            state_NucLifesFilteredCalced = false;
+    bool                            state_NucLifeFilteringRunning = false;
 
     //attribute filter
     D_Bio_Attribute_Filter*         pAttribFilter_Foci = nullptr;
-    D_Bio_Attribute_Filter*         pAttribFilter_NucBobs = nullptr;
+    D_Bio_Attribute_Filter*         pAttribFilter_NucBlobs = nullptr;
     D_Bio_Attribute_Filter*         pAttribFilter_NucLifes = nullptr;
 
     //match attribs

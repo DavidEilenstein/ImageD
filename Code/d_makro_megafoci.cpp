@@ -7466,10 +7466,12 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
     if(mode_major_current != MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE)
         return false;
 
+    /*
     //load backup instead of loading, if any exists
     bool backup_loaded = MS4_PedigreeBackup_Load();
     if(backup_loaded)
         return true;
+        */
 
     if(!state_MS4_dirs_loaded)
         return false;
@@ -7488,12 +7490,15 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
     state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
 
+    /*
     //create backup
     MS4_PedigreeBackup_Create();
+    */
 
     return true;
 }
 
+/*
 bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Create()
 {
     if(!state_MS4_detections_loaded_to_pedigree)
@@ -7516,6 +7521,7 @@ bool D_MAKRO_MegaFoci::MS4_PedigreeBackup_Load()
     state_MS4_detections_loaded_to_pedigree = true;
     return true;
 }
+*/
 
 bool D_MAKRO_MegaFoci::MS4_SaveData()
 {

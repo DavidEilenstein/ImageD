@@ -68,7 +68,7 @@ public:
     bool set_Child1(D_Bio_NucleusBlob* nuc_child1)                  {if(has_Child1()) {pNucChild1 = nuc_child1; return true;} else {return false;}}
     bool set_Child2(D_Bio_NucleusBlob* nuc_child2)                  {if(has_Child2()) {pNucChild2 = nuc_child2; return true;} else {return false;}}
     bool set_Child (D_Bio_NucleusBlob* nuc_child)                   {if(has_Child1()) {return set_Child1(nuc_child);} else {return set_Child2(nuc_child);}}
-    bool add_Member(D_Bio_NucleusBlob* nuc);
+    bool add_Member(D_Bio_NucleusBlob nuc);
 
     bool has_Parent()                                               {return pNucParent == nullptr;}
     bool has_Child1()                                               {return pNucChild1 == nullptr;}
@@ -91,10 +91,11 @@ public:
     D_Bio_NucleusBlob*              pNuc_parent()                   {return has_Parent() ? pNucParent : nullptr;}
     D_Bio_NucleusBlob*              pNuc_child1()                   {return has_Child1() ? pNucChild1 : nullptr;}
     D_Bio_NucleusBlob*              pNuc_child2()                   {return has_Child2() ? pNucChild2 : nullptr;}
-    vector<D_Bio_NucleusBlob*>      pNuc_members()                  {return vpNucMembers;}
-    D_Bio_NucleusBlob*              pNuc_member(size_t i)           {return i < members_count() ? vpNucMembers[i] : nullptr;}
+    vector<D_Bio_NucleusBlob>       Nuc_members()                   {return vNucMembers;}
+    D_Bio_NucleusBlob               Nuc_member(size_t i)            {return i < members_count() ? vNucMembers[i] : D_Bio_NucleusBlob();}
+    D_Bio_NucleusBlob*              pNuc_member(size_t i)           {return i < members_count() ? &(vNucMembers[i]) : nullptr;}
 
-    size_t                          members_count()                 {return vpNucMembers.size();}
+    size_t                          members_count()                 {return vNucMembers.size();}
 
     D_Bio_Focus*                    pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc);
 
@@ -129,9 +130,13 @@ public:
 private:
     //nuclei
     D_Bio_NucleusBlob*              pNucParent = nullptr;
-    vector<D_Bio_NucleusBlob*>      vpNucMembers;           //last one is possible end mitosis
+    vector<D_Bio_NucleusBlob>       vNucMembers;           //last one is possible end mitosis
     D_Bio_NucleusBlob*              pNucChild1 = nullptr;
     D_Bio_NucleusBlob*              pNucChild2 = nullptr;
+
+    //age
+    size_t                          time_index_earliest = 0;
+    size_t                          time_index_latest = 0;
 
     //scale
     double                          scale_px2um = 1.0;

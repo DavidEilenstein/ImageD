@@ -57,6 +57,7 @@ public:
     void                            set_Foci(size_t channel, vector<D_Bio_Focus> v_foci)        {if(channel < vvFoci.size()) vvFoci[channel] = v_foci;}
     void                            set_Foci(vector<vector<D_Bio_Focus>> vv_foci)               {vvFoci = vv_foci;}
     void                            add_Focus(size_t channel, D_Bio_Focus focus)                {focus.set_detected_in_channel(channel); if(channel < vvFoci.size()) vvFoci[channel].push_back(focus);}
+    void                            clear_Foci()                                                {vvFoci.clear();}
 
     double                          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
 
