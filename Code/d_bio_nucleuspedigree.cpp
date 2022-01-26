@@ -932,6 +932,75 @@ vector<double> D_Bio_NucleusPedigree::attrib_nuclife(size_t i_attrib)
     return vAttribs;
 }
 
+vector<double> D_Bio_NucleusPedigree::attrib_nucblob(size_t i_attrib, size_t ch_val)
+{
+    //resulting attribs
+    vector<double> vAttribs;
+
+    //attrib valid
+    if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
+        return vAttribs;
+
+    //filter nuc lifes if needed
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return vAttribs;
+
+    //loop nuc lifes that passed the filter
+    for(size_t l = 0; l < vNucLifes_Filtered.size(); l++)
+        vNucLifes_Filtered[l].attrib_nuc(&vAttribs, i_attrib, ch_val);
+
+    //finish
+    return vAttribs;
+}
+
+vector<double> D_Bio_NucleusPedigree::attrib_foci(size_t i_attrib, size_t ch_val)
+{
+    //resulting attribs
+    vector<double> vAttribs;
+
+    //attrib valid
+    if(i_attrib >= ATTRIB_FOC_NUMBER_OF)
+        return vAttribs;
+
+    //filter nuc lifes if needed
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return vAttribs;
+
+    //loop nuc lifes that passed the filter
+    for(size_t l = 0; l < vNucLifes_Filtered.size(); l++)
+        vNucLifes_Filtered[l].attrib_foc(&vAttribs, i_attrib, ch_val);
+
+    //finish
+    return vAttribs;
+}
+
+vector<double> D_Bio_NucleusPedigree::attrib_foci(size_t i_attrib, size_t ch_val, size_t ch_foc)
+{
+    //resulting attribs
+    vector<double> vAttribs;
+
+    //attrib valid
+    if(i_attrib >= ATTRIB_FOC_NUMBER_OF)
+        return vAttribs;
+
+    //filter nuc lifes if needed
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return vAttribs;
+
+    //loop nuc lifes that passed the filter
+    for(size_t l = 0; l < vNucLifes_Filtered.size(); l++)
+        vNucLifes_Filtered[l].attrib_foc(&vAttribs, i_attrib, ch_val, ch_foc);
+
+    //finish
+    return vAttribs;
+}
+
 int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)
 {
     int err = setPedigreeViewer_Plot3D(viewer);

@@ -99,6 +99,9 @@ public:
     bool calc_NucLifes_Filtered();
 
     vector<double>  attrib_nuclife(size_t i_attrib);
+    vector<double>  attrib_nucblob(size_t i_attrib, size_t ch_val);
+    vector<double>  attrib_foci(size_t i_attrib, size_t ch_val);
+    vector<double>  attrib_foci(size_t i_attrib, size_t ch_val, size_t ch_foc);
 
     void match_all();
     void match_all_go1();

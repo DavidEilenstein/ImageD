@@ -123,7 +123,7 @@ vector<double> D_Bio_NucleusLife::attrib_foc(size_t i_attrib, size_t ch_val, siz
     if(ch_foc >= n_ch_foc)
         return vRes;
 
-    size_t n_foc = pNuc->get_FociCount(n_ch_foc);
+    size_t n_foc = pNuc->get_FociCount(ch_foc);
     if(n_ch_foc >= n_foc)
         return vRes;
 
@@ -168,6 +168,57 @@ vector<vector<vector<double> > > D_Bio_NucleusLife::attrib_foc(size_t i_attrib, 
     return vvvRes;
 }
 
+bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val)
+{
+    if(i_attrib <= ATTRIB_FOC_NUMBER_OF)
+        return false;
+
+    size_t n_nuc = members_count();
+    for(size_t i_nuc = 0; i_nuc < n_nuc; i_nuc++)
+    {
+        D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
+        if(pNuc == nullptr)
+            return false;
+
+        size_t n_ch_foc = pNuc->get_FociChannels();
+
+        for(size_t ch_foc = 0; ch_foc < n_ch_foc; ch_foc++)
+        {
+            size_t n_foc = pNuc->get_FociCount(ch_foc);
+
+            for(size_t i_foc = 0; i_foc < n_foc; i_foc++)
+            {
+                pvAttribsToAppendTo->push_back(attrib_foc(i_attrib, ch_val, ch_foc, i_nuc, i_foc));
+            }
+        }
+    }
+
+    return true;
+}
+
+bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val, size_t ch_foc)
+{
+    if(i_attrib <= ATTRIB_FOC_NUMBER_OF)
+        return false;
+
+    size_t n_nuc = members_count();
+    for(size_t i_nuc = 0; i_nuc < n_nuc; i_nuc++)
+    {
+        D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
+        if(pNuc == nullptr)
+            return false;
+
+        size_t n_foc = pNuc->get_FociCount(ch_foc);
+
+        for(size_t i_foc = 0; i_foc < n_foc; i_foc++)
+        {
+            pvAttribsToAppendTo->push_back(attrib_foc(i_attrib, ch_val, ch_foc, i_nuc, i_foc));
+        }
+    }
+
+    return true;
+}
+
 double D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val, size_t i_nuc)
 {
     if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
@@ -197,6 +248,24 @@ vector<double> D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val)
         vRes[i] = attrib_nuc(i_attrib, ch_val, i);
 
     return vRes;
+}
+
+bool D_Bio_NucleusLife::attrib_nuc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val)
+{
+    if(i_attrib <= ATTRIB_NUC_NUMBER_OF)
+        return false;
+
+    size_t n_nuc = members_count();
+    for(size_t i_nuc = 0; i_nuc < n_nuc; i_nuc++)
+    {
+        D_Bio_NucleusBlob* pNuc = &(vNucMembers[i_nuc]);
+        if(pNuc == nullptr)
+            return false;
+
+        pvAttribsToAppendTo->push_back(attrib_nuc(i_attrib, ch_val,i_nuc));
+    }
+
+    return true;
 }
 
 double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)

@@ -105,12 +105,15 @@ public:
     vector<double>                  attrib_foc      (size_t i_attrib, size_t ch_val, size_t ch_foc, size_t i_nuc);
     vector<vector<double>>          attrib_foc      (size_t i_attrib, size_t ch_val, size_t ch_foc);
     vector<vector<vector<double>>>  attrib_foc      (size_t i_attrib, size_t ch_val);
+    bool                            attrib_foc      (vector<double>* pvAttribsToAppendTo, size_t i_attrib, size_t ch_val);
+    bool                            attrib_foc      (vector<double>* pvAttribsToAppendTo, size_t i_attrib, size_t ch_val, size_t ch_foc);
 
     //nuc attribs
     double                          attrib_nuc      (size_t i_attrib, size_t ch_val, size_t i_nuc);
     double                          attrib_nuc_begin(size_t i_attrib, size_t ch_val)                    {return attrib_nuc(i_attrib, ch_val, 0);}
     double                          attrib_nuc_end  (size_t i_attrib, size_t ch_val)                    {return attrib_nuc(i_attrib, ch_val, members_count() - 1);}
     vector<double>                  attrib_nuc      (size_t i_attrib, size_t ch_val);
+    bool                            attrib_nuc      (vector<double>* pvAttribsToAppendTo, size_t i_attrib, size_t ch_val);
 
     //nuc life attribs
     double                          attrib_nuclife(size_t i_attrib_nuclife);
