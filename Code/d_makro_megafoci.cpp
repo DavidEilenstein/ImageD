@@ -9154,6 +9154,57 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
                 ui->groupBox_MS6_Control_Filters_NucBlobs,
                 ui->groupBox_MS6_Control_Filters_NucLifes);
 
+
+
+    //res type
+    Populate_CB_Single(ui->comboBox_MS6_ResultTypes, QSL_MS6_ResultTypes, MS6_RES_TYP_HIST_SIMPLE);
+    connect(ui->comboBox_MS6_ResultTypes, SIGNAL(currentIndexChanged(int)), this, SLOT(MS6_ResAxis_UpdateModi()));
+
+    //datapoint level
+    Populate_CB_Single(ui->comboBox_MS6_ResultDatapointLevel, QSL_MS6_ResultDatapointLevel, MS6_RES_DATAPOINT_LEVEL_NUCLIFE);
+    connect(ui->comboBox_MS6_ResultDatapointLevel, SIGNAL(currentIndexChanged(int)), this, SLOT(MS6_ResAxis_UpdateModi()));
+
+    //containers for axis description
+    MS6_vL_ResAxis_Description      = {ui->label_MS6_Res_AxisDescription_0,         ui->label_MS6_Res_AxisDescription_1,        ui->label_MS6_Res_AxisDescription_2};
+
+    //containers for axis control comboboxes
+    MS6_vCB_ResAxis_Stat_low        = {ui->comboBox_MS6_ResAxis_Stat_low_0,         ui->comboBox_MS6_ResAxis_Stat_low_1,        ui->comboBox_MS6_ResAxis_Stat_low_2};
+    MS6_vCB_ResAxis_Stat_high       = {ui->comboBox_MS6_ResAxis_Stat_high_0,        ui->comboBox_MS6_ResAxis_Stat_high_1,       ui->comboBox_MS6_ResAxis_Stat_high_2};
+    MS6_vCB_ResAxis_Level_Foc       = {ui->comboBox_MS6_ResAxis_Level_Foc_0,        ui->comboBox_MS6_ResAxis_Level_Foc_1,       ui->comboBox_MS6_ResAxis_Level_Foc_2};
+    MS6_vCB_ResAxis_Level_NucBlob   = {ui->comboBox_MS6_ResAxis_Level_NucBlob_0,    ui->comboBox_MS6_ResAxis_Level_NucBlob_1,   ui->comboBox_MS6_ResAxis_Level_NucBlob_2};
+    MS6_vCB_ResAxis_Level_NucLife   = {ui->comboBox_MS6_ResAxis_Level_NucLife_0,    ui->comboBox_MS6_ResAxis_Level_NucLife_1,   ui->comboBox_MS6_ResAxis_Level_NucLife_2};
+    MS6_vCB_ResAxis_Attrib_Foc      = {ui->comboBox_MS6_ResAxis_Attrib_Foc_0,       ui->comboBox_MS6_ResAxis_Attrib_Foc_1,      ui->comboBox_MS6_ResAxis_Attrib_Foc_2};
+    MS6_vCB_ResAxis_Attrib_NucBlob  = {ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0,   ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1,  ui->comboBox_MS6_ResAxis_Attrib_NucBlob_2};
+    MS6_vCB_ResAxis_Attrib_NucLife  = {ui->comboBox_MS6_ResAxis_Attrib_NucLife_0,   ui->comboBox_MS6_ResAxis_Attrib_NucLife_1,  ui->comboBox_MS6_ResAxis_Attrib_NucLife_2};
+
+    //populate comboboxes
+    for(size_t i = 0; i < MS6_ResAxis_Count; i++)
+    {
+        Populate_CB_Single(MS6_vCB_ResAxis_Stat_low[i],         QSL_StatList,               c_STAT_MEAN_ARITMETIC);
+        Populate_CB_Single(MS6_vCB_ResAxis_Stat_high[i],        QSL_StatList,               c_STAT_MEAN_ARITMETIC);
+
+        Populate_CB_Single(MS6_vCB_ResAxis_Level_Foc[i],        QSL_MS6_DataLevel_Foc,      MS6_RES_DATA_LEVEL_FOC_ATTRIB);
+        Populate_CB_Single(MS6_vCB_ResAxis_Level_NucBlob[i],    QSL_MS6_DataLevel_NucBlob,  MS6_RES_DATA_LEVEL_NUCBLOB_ATTRIB);
+        Populate_CB_Single(MS6_vCB_ResAxis_Level_NucLife[i],    QSL_MS6_DataLevel_NucLife,  MS6_RES_DATA_LEVEL_NUCLIFE_ATTRIB);
+
+        Populate_CB_Single(MS6_vCB_ResAxis_Attrib_Foc[i],       QSL_Attrib_Foc,             ATTRIB_FOC_AREA_UM);
+        Populate_CB_Single(MS6_vCB_ResAxis_Attrib_NucBlob[i],   QSL_Attrib_Nuc,             ATTRIB_NUC_AREA_UM);
+        Populate_CB_Single(MS6_vCB_ResAxis_Attrib_NucLife[i],   QSL_Attrib_NucLife,         ATTRIB_NUCLIFE_AGE);
+
+        connect(MS6_vCB_ResAxis_Attrib_Foc[i],      SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS6_ResAxis_UpdateModi()));
+        connect(MS6_vCB_ResAxis_Level_NucBlob[i],   SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS6_ResAxis_UpdateModi()));
+        connect(MS6_vCB_ResAxis_Level_NucLife[i],   SIGNAL(currentIndexChanged(int)),   this,   SLOT(MS6_ResAxis_UpdateModi()));
+    }
+
+    //containers for axis control stacked widgets
+    MS6_cSW_ResAxis_Stat_low        = {ui->stackedWidget_MS6_ResAxis_Stat_low_0,    ui->stackedWidget_MS6_ResAxis_Stat_low_1,   ui->stackedWidget_MS6_ResAxis_Stat_low_2};
+    MS6_cSW_ResAxis_Stat_high       = {ui->stackedWidget_MS6_ResAxis_Stat_high_0,   ui->stackedWidget_MS6_ResAxis_Stat_high_1,  ui->stackedWidget_MS6_ResAxis_Stat_high_2};
+    MS6_cSW_ResAxis_Level           = {ui->stackedWidget_MS6_ResAxis_Level_0,       ui->stackedWidget_MS6_ResAxis_Level_1,      ui->stackedWidget_MS6_ResAxis_Level_2};
+    MS6_cSW_ResAxis_Attrib          = {ui->stackedWidget_MS6_ResAxis_Attrib_0,      ui->stackedWidget_MS6_ResAxis_Attrib_1,     ui->stackedWidget_MS6_ResAxis_Attrib_2};
+
+    //init axis controls
+    MS6_ResAxis_UpdateModi();
+
     //change state
     MS6_state_ui_init = true;
 }
@@ -9357,4 +9408,139 @@ bool D_MAKRO_MegaFoci::MS6_GetIrradiationTimeFromUi()
     MS6_NucPedigree_Results.set_attrib_filter_scaling();
 
     return true;
+}
+
+void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
+{
+    //axis data level
+    int axis_data_level;
+    switch (ui->comboBox_MS6_ResultDatapointLevel->currentIndex()) {
+    case MS6_RES_DATAPOINT_LEVEL_NUCLIFE:   axis_data_level = MS6_RES_AXIS_MODE_NUCLIFE;
+    case MS6_RES_DATAPOINT_LEVEL_NUCBLOB:   axis_data_level = MS6_RES_AXIS_MODE_NUCBLOB;
+    case MS6_RES_DATAPOINT_LEVEL_FOC:       axis_data_level = MS6_RES_AXIS_MODE_FOC;
+    default:                                axis_data_level = MS6_RES_AXIS_MODE_NONE;}
+
+    //defaults
+    MS6_ResAxis_SetMode(0, "-", MS6_RES_AXIS_MODE_NONE);
+    MS6_ResAxis_SetMode(1, "-", MS6_RES_AXIS_MODE_NONE);
+    MS6_ResAxis_SetMode(2, "-", MS6_RES_AXIS_MODE_NONE);
+
+    switch (ui->comboBox_MS6_ResultTypes->currentIndex()) {
+
+    case MS6_RES_TYP_HIST_SIMPLE:
+        MS6_ResAxis_SetMode(0, "X", axis_data_level);
+        break;
+
+    case MS6_RES_TYP_SCATTER_2D_SIMPLE:
+        MS6_ResAxis_SetMode(0, "X", axis_data_level);
+        MS6_ResAxis_SetMode(1, "Y", axis_data_level);
+        break;
+
+    case MS6_RES_TYP_SCATTER_HEATMAP:
+        MS6_ResAxis_SetMode(0, "X", axis_data_level);
+        MS6_ResAxis_SetMode(1, "Y", axis_data_level);
+        MS6_ResAxis_SetMode(2, "Color", axis_data_level);
+        break;
+
+    default:
+        return;
+    }
+}
+
+void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode)
+{
+    if(i_mode >= MS6_RES_AXIS_MODE_NUMBER_OF)
+        return;
+
+    if(i_axis >= MS6_ResAxis_Count)
+        return;
+
+    MS6_vL_ResAxis_Description[i_axis]->setText(axis_description);
+
+    MS6_cSW_ResAxis_Level[i_axis]->setCurrentIndex(i_mode);
+
+    //CONTINUE HERE
+
+    switch (i_mode)
+    {
+
+    case MS6_RES_AXIS_MODE_NONE://-------------------------------------------------------------------------------
+    {
+        MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+        MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+        MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_EMPTY);
+    }
+        break;
+
+    case MS6_RES_AXIS_MODE_NUCLIFE://-------------------------------------------------------------------------------
+    {
+        switch (MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentIndex()) {
+
+        case MS6_RES_DATA_LEVEL_NUCLIFE_ATTRIB:
+        {
+            MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCLIFE);
+        }
+            break;
+
+        case MS6_RES_DATA_LEVEL_NUCLIFE_STAT_NUCBLOB:
+        {
+            MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
+            MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCBLOB);
+        }
+            break;
+
+        case MS6_RES_DATA_LEVEL_NUCLIFE_STAT_STAT_FOC:
+        {
+            MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
+            MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
+            MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
+        }
+            break;
+
+        default:
+            return;
+        }
+    }
+        break;
+
+    case MS6_RES_AXIS_MODE_NUCBLOB://-------------------------------------------------------------------------------
+    {
+        switch (MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentIndex()) {
+
+        case MS6_RES_DATA_LEVEL_NUCBLOB_ATTRIB:
+        {
+            MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCBLOB);
+        }
+            break;
+
+        case MS6_RES_DATA_LEVEL_NUCBLOB_STAT_FOC:
+        {
+            MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+            MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
+            MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
+        }
+            break;
+
+        default:
+            return;
+        }
+    }
+        break;
+
+    case MS6_RES_AXIS_MODE_FOC://----------------------------------------------------------------------------------
+    {
+        MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+        MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
+        MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
+    }
+        break;
+
+    default://------------------------------------------------------------------------------------------------------
+        return;
+    }
 }

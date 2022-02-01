@@ -34,6 +34,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QComboBox>
+#include <QStackedWidget>
 #include <QCloseEvent>
 #include <QResizeEvent>
 #include <QInputDialog>
@@ -1477,12 +1478,17 @@ private slots:
 
 private slots:
     void MS6_UiInit();
+
     bool MS6_LoadAll();
     bool MS6_LoadDirs();
     bool MS6_LoadNucleiData();
     bool MS6_LoadNucleiLifes();
+
     bool MS6_GetChannelsFromUi();
     bool MS6_GetIrradiationTimeFromUi();
+
+    void MS6_ResAxis_UpdateModi();
+    void MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
 
 private:
 
@@ -1496,12 +1502,110 @@ private:
     QDir                    DIR_MS6_Load_NucleiData;
     QDir                    DIR_MS6_Load_NucleiLifes;
 
+    //ui elements for axis control
+    const size_t            MS6_ResAxis_Count = 3;
+    vector<QLabel*>         MS6_vL_ResAxis_Description;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Level_Foc;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Level_NucBlob;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Level_NucLife;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Attrib_Foc;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Attrib_NucBlob;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Attrib_NucLife;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Stat_low;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Stat_high;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_Level;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_Attrib;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_low;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_high;
+
     //States
     bool                    MS6_state_ui_init = false;
     bool                    MS6_state_loaded_all = false;
     bool                    MS6_state_loaded_dirs = false;
     bool                    MS6_state_loaded_nuc_data = false;
     bool                    MS6_state_loaded_nuc_lifes = false;
+
+    enum MS6_RESULT_TYPES {
+        MS6_RES_TYP_HIST_SIMPLE,
+        MS6_RES_TYP_SCATTER_2D_SIMPLE,
+        MS6_RES_TYP_SCATTER_HEATMAP,
+        MS6_RES_TYP_NUMBER_OF
+    };
+    const QStringList QSL_MS6_ResultTypes = {
+        "Histogram simple",
+        "Scatter 2D simple",
+        "Scatter heatmap"
+    };
+
+
+    enum MS6_RES_DATAPOINT_LEVEL {
+        MS6_RES_DATAPOINT_LEVEL_NUCLIFE,
+        MS6_RES_DATAPOINT_LEVEL_NUCBLOB,
+        MS6_RES_DATAPOINT_LEVEL_FOC,
+        MS6_RES_DATAPOINT_LEVEL_NUMBER_OF
+    };
+    const QStringList QSL_MS6_ResultDatapointLevel = {
+        "Nucleus lifes",
+        "Nucleus blobs",
+        "Foci"
+    };
+
+
+    enum MS6_RES_AXIS_MODE {
+        MS6_RES_AXIS_MODE_NONE,
+        MS6_RES_AXIS_MODE_NUCLIFE,
+        MS6_RES_AXIS_MODE_NUCBLOB,
+        MS6_RES_AXIS_MODE_FOC,
+        MS6_RES_AXIS_MODE_NUMBER_OF
+    };
+
+
+    enum MS6_RES_DATA_LEVEL_FOC {
+        MS6_RES_DATA_LEVEL_FOC_ATTRIB,
+        MS6_RES_DATA_LEVEL_FOC_NUMBER_OF
+    };
+    const QStringList QSL_MS6_DataLevel_Foc = {
+        "Focus"
+    };
+
+    enum MS6_RES_DATA_LEVEL_NUCBLOB {
+        MS6_RES_DATA_LEVEL_NUCBLOB_ATTRIB,
+        MS6_RES_DATA_LEVEL_NUCBLOB_STAT_FOC,
+        MS6_RES_DATA_LEVEL_NUCBLOB_NUMBER_OF
+    };
+    const QStringList QSL_MS6_DataLevel_NucBlob = {
+        "Nucleus blob",
+        "Focus"
+    };
+
+    enum MS6_RES_DATA_LEVEL_NUCLIFE {
+        MS6_RES_DATA_LEVEL_NUCLIFE_ATTRIB,
+        MS6_RES_DATA_LEVEL_NUCLIFE_STAT_NUCBLOB,
+        MS6_RES_DATA_LEVEL_NUCLIFE_STAT_STAT_FOC,
+        MS6_RES_DATA_LEVEL_NUCLIFE_NUMBER_OF
+    };
+    const QStringList QSL_MS6_DataLevel_NucLife = {
+        "Nucleus life",
+        "Nucleus blob",
+        "Focus"
+    };
+
+
+    enum MS6_RES_AXIS_STAT {
+        MS6_RES_AXIS_STAT_OFF,
+        MS6_RES_AXIS_STAT_ON,
+        MS6_RES_AXIS_STAT_NUMBER_OF
+    };
+
+
+    enum MS6_RES_AXIS_ATTRIB {
+        MS6_RES_AXIS_ATTRIB_EMPTY,
+        MS6_RES_AXIS_ATTRIB_NUCLIFE,
+        MS6_RES_AXIS_ATTRIB_NUCBLOB,
+        MS6_RES_AXIS_ATTRIB_FOC,
+        MS6_RES_AXIS_ATTRIB_NUMBER_OF
+    };
+
 };
 
 #endif // D_MAKRO_MEGAFOCI_H

@@ -50,6 +50,8 @@ using namespace std;
 
 class D_Bio_NucleusPedigree : public QObject
 {
+    Q_OBJECT
+
 public:
     D_Bio_NucleusPedigree();
 
@@ -116,8 +118,8 @@ public:
     bool match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour);
     bool match_load_matches(QString QS_path_NucLifes);
 
-private slots:
-    void SetAttribFilterToNeedUpdate()  {state_NucLifesFilteredCalced = false;}
+public slots:
+    void SetAttribFilterToNeedUpdate();
 
 private:
 

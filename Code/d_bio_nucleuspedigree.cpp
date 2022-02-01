@@ -728,15 +728,15 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
 
     pAttribFilter_Foci = new D_Bio_Attribute_Filter(box_foci);
     pAttribFilter_Foci->set_filter_mode(ATTRIB_FILTER_MODE_FOCI);
-    connect(pAttribFilter_Foci, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
+    connect(pAttribFilter_Foci, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
 
     pAttribFilter_NucBlobs   = new D_Bio_Attribute_Filter(box_nucblobs);
     pAttribFilter_NucBlobs->set_filter_mode(ATTRIB_FILTER_MODE_NUC_BLOB);
-    connect(pAttribFilter_NucBlobs, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
+    connect(pAttribFilter_NucBlobs, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
 
     pAttribFilter_NucLifes  = new D_Bio_Attribute_Filter(box_nuclifes);
     pAttribFilter_NucLifes->set_filter_mode(ATTRIB_FILTER_MODE_NUC_LIFE);
-    connect(pAttribFilter_NucLifes, SIGNAL(FilterParamsChanged), this, SLOT(SetAttribFilterToNeedUpdate()));
+    connect(pAttribFilter_NucLifes, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
 
     state_AttribFiltersSet = true;
     return true;
@@ -1120,6 +1120,11 @@ bool D_Bio_NucleusPedigree::match_load_matches(QString QS_path_NucLifes)
         vThreadsMatch[t].join();
 
     return true;
+}
+
+void D_Bio_NucleusPedigree::SetAttribFilterToNeedUpdate()
+{
+    state_NucLifesFilteredCalced = false;
 }
 
 bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirSaveMaster, size_t t_thread)
