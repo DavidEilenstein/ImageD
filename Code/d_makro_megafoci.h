@@ -1489,6 +1489,7 @@ private slots:
 
     void MS6_ResAxis_UpdateModi();
     void MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
+    vector<double> MS6_DataForAxis(size_t i_axis);
 
 private:
 
@@ -1513,12 +1514,14 @@ private:
     vector<QComboBox*>      MS6_vCB_ResAxis_Attrib_NucLife;
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_low;
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_high;
-    vector<QComboBox*>      MS6_vCB_ResAxis_Channel;
+    vector<QComboBox*>      MS6_vCB_ResAxis_FocChannel;
+    vector<QComboBox*>      MS6_vCB_ResAxis_AttribChannel;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Level;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Attrib;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_low;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_high;
-    vector<QStackedWidget*> MS6_cSW_ResAxis_Channel;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_FocChannel;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_AttribChannel;
 
     //viewer elements
     QChartView*             MS6_pChartView_Plot_2D;

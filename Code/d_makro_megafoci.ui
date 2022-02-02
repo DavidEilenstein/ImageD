@@ -11026,7 +11026,7 @@ color: red;</string>
               <item row="4" column="0" colspan="3">
                <widget class="QGroupBox" name="groupBox_MS6_ResParam_AxisMeaning">
                 <property name="title">
-                 <string>Axis meaning selection</string>
+                 <string>Axis definition</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_90">
                  <property name="leftMargin">
@@ -11767,309 +11767,6 @@ color: red;</string>
                    </widget>
                   </widget>
                  </item>
-                 <item row="0" column="2" colspan="3">
-                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_0">
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_empty"/>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_NucLife">
-                    <layout class="QGridLayout" name="gridLayout_107">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_124">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_0"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_NucBlob">
-                    <layout class="QGridLayout" name="gridLayout_108">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_125">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_0"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_Foc">
-                    <layout class="QGridLayout" name="gridLayout_109">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_126">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_0"/>
-                     </item>
-                    </layout>
-                   </widget>
-                  </widget>
-                 </item>
-                 <item row="6" column="2" colspan="3">
-                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_1">
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_empty"/>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_NucLife">
-                    <layout class="QGridLayout" name="gridLayout_110">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_127">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_1"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_NucBlob">
-                    <layout class="QGridLayout" name="gridLayout_111">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_128">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_1"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_Foc">
-                    <layout class="QGridLayout" name="gridLayout_112">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_129">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_1"/>
-                     </item>
-                    </layout>
-                   </widget>
-                  </widget>
-                 </item>
-                 <item row="12" column="2" colspan="3">
-                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_2">
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_empty"/>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_NucLife">
-                    <layout class="QGridLayout" name="gridLayout_113">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_130">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_2"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_NucBlob">
-                    <layout class="QGridLayout" name="gridLayout_114">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_131">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_2"/>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_Foc">
-                    <layout class="QGridLayout" name="gridLayout_115">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_132">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Data level</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_2"/>
-                     </item>
-                    </layout>
-                   </widget>
-                  </widget>
-                 </item>
                  <item row="8" column="3" colspan="2">
                   <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Stat_low_1">
                    <property name="minimumSize">
@@ -12229,6 +11926,447 @@ color: red;</string>
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2" colspan="2">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_0">
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_empty"/>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_NucLife">
+                    <layout class="QGridLayout" name="gridLayout_107">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_124">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_0"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_NucBlob">
+                    <layout class="QGridLayout" name="gridLayout_108">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_125">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_0"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_0_Foc">
+                    <layout class="QGridLayout" name="gridLayout_109">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_126">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_0"/>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item row="6" column="2" colspan="2">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_1">
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_empty"/>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_NucLife">
+                    <layout class="QGridLayout" name="gridLayout_110">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_127">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_1"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_NucBlob">
+                    <layout class="QGridLayout" name="gridLayout_111">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_128">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_1"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_1_Foc">
+                    <layout class="QGridLayout" name="gridLayout_112">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_129">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_1"/>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item row="12" column="2" colspan="2">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResAxis_Level_2">
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_empty"/>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_NucLife">
+                    <layout class="QGridLayout" name="gridLayout_113">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_130">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucLife_2"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_NucBlob">
+                    <layout class="QGridLayout" name="gridLayout_114">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_131">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_NucBlob_2"/>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResAxis_Level_2_Foc">
+                    <layout class="QGridLayout" name="gridLayout_115">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_132">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Data level</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResAxis_Level_Foc_2"/>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResParam_FocChannel_0">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Empty_0"/>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Select_0">
+                    <layout class="QGridLayout" name="gridLayout_127">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_FocChannel_0">
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>60</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item row="6" column="4">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResParam_FocChannel_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Empty_1"/>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Select_1">
+                    <layout class="QGridLayout" name="gridLayout_128">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_FocChannel_1">
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>60</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item row="12" column="4">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResParam_FocChannel_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Empty_2"/>
+                   <widget class="QWidget" name="page_MS6_ResParam_FocChannel_Select_2">
+                    <layout class="QGridLayout" name="gridLayout_129">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_FocChannel_2">
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>60</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>

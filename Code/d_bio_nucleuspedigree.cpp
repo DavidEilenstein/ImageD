@@ -909,6 +909,123 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
     return true;
 }
 
+vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
+{
+    vector<double> vRes;
+
+    //filter nuc lifes if needed
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return vRes;
+
+    switch (i_data_point_level) {
+
+    case DATA_LEVEL_NUCLIFE://------------------------------------------------------------------------
+    {
+        switch (i_attrib_level) {
+
+        case DATA_LEVEL_NUCLIFE://.....................................................
+            return attrib_nuclife(i_attrib);
+
+        case DATA_LEVEL_NUCBLOB://.....................................................
+        {
+            function<double (vector<double>)> F_stat_low = D_Stat::Function_SingleStat(int(stat_low));
+
+            size_t nl = vNucLifes_Filtered.size();
+            vRes.resize(nl);
+
+            for(size_t l = 0; l < nl; l++)
+                vRes[l] = F_stat_low(vNucLifes[l].attrib_nuc(i_attrib, ch_val));
+
+            return vRes;
+        }
+
+        case DATA_LEVEL_FOCI://.....................................................
+        {
+            function<double (vector<double>)> F_stat_low  = D_Stat::Function_SingleStat(int(stat_low));
+            function<double (vector<double>)> F_stat_high = D_Stat::Function_SingleStat(int(stat_high));
+
+            size_t nl = vNucLifes_Filtered.size();
+            vRes.resize(nl);
+
+            for(size_t l = 0; l < nl; l++)
+            {
+                D_Bio_NucleusLife* pNucLife = &(vNucLifes_Filtered[l]);
+                size_t nb = pNucLife->members_count();
+                vector<double> vDataNucBlobMembers(nb);
+
+                for(size_t b = 0; b < nb; b++)
+                {
+                    D_Bio_NucleusBlob* pNucBlob = pNucLife->pNuc_member(b);
+                    size_t nf = pNucBlob->get_FociCount(ch_foc);
+                    vector<double> vDataFoci(nf);
+
+                    for(size_t f = 0; f < nf; f++)
+                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_attrib, ch_val, scale_px_to_um);
+
+                    vDataNucBlobMembers[b] = F_stat_low(vDataFoci);
+                }
+
+                vRes[l] = F_stat_high(vDataNucBlobMembers);
+            }
+
+            return vRes;
+        }
+
+        default://.....................................................
+            return vRes;
+        }
+    }
+
+    case DATA_LEVEL_NUCBLOB://------------------------------------------------------------------------
+    {
+        switch (i_attrib_level) {
+
+        case DATA_LEVEL_NUCBLOB://.....................................................
+            return attrib_nucblob(i_attrib, ch_val);
+
+        case DATA_LEVEL_FOCI://.....................................................
+        {
+            function<double (vector<double>)> F_stat_low  = D_Stat::Function_SingleStat(int(stat_low));
+
+            size_t nl = vNucLifes_Filtered.size();
+
+            for(size_t l = 0; l < nl; l++)
+            {
+                D_Bio_NucleusLife* pNucLife = &(vNucLifes_Filtered[l]);
+                size_t nb = pNucLife->members_count();
+
+                for(size_t b = 0; b < nb; b++)
+                {
+                    D_Bio_NucleusBlob* pNucBlob = pNucLife->pNuc_member(b);
+                    size_t nf = pNucBlob->get_FociCount(ch_foc);
+                    vector<double> vDataFoci(nf);
+
+                    for(size_t f = 0; f < nf; f++)
+                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_attrib, ch_val, scale_px_to_um);
+
+                    vRes.push_back(F_stat_low(vDataFoci));
+                }
+            }
+
+            return vRes;
+        }
+
+        default://.....................................................
+            return vRes;
+        }
+    }
+
+    case DATA_LEVEL_FOCI://------------------------------------------------------------------------
+        return attrib_foci(i_attrib, ch_val, ch_foc);
+
+    default://------------------------------------------------------------------------
+        return vRes;
+
+    }
+}
+
 vector<double> D_Bio_NucleusPedigree::attrib_nuclife(size_t i_attrib)
 {
     //resulting attribs
