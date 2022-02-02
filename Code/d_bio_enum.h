@@ -188,10 +188,10 @@ enum NUC_LIFE_FILE_SECTIONS {
 
  enum ATTRIB_NUC {
      ATTRIB_NUC_CENTER_X_PX,
-     ATTRIB_NUC_CENTER_Y_PX,
-     ATTRIB_NUC_AREA_PX,
      ATTRIB_NUC_CENTER_X_UM,
+     ATTRIB_NUC_CENTER_Y_PX,
      ATTRIB_NUC_CENTER_Y_UM,
+     ATTRIB_NUC_AREA_PX,
      ATTRIB_NUC_AREA_UM,
      ATTRIB_NUC_CONVEXITY,
      ATTRIB_NUC_COMPACTNESS,
@@ -221,6 +221,8 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Area /um",
      "Convexity",
      "Compactness",
+     "Shift /px",
+     "Shift /um",
      "Pixel count",
      "Channel mean",
      "Channel STD",

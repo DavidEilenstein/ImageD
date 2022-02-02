@@ -135,6 +135,29 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     }
 }
 
+bool D_Bio_NucleusBlob::attribute_is_channel_dependent(size_t i_attrib)
+{
+    switch (i_attrib) {
+
+    //case ATTRIB_NUC_COUNT_CHX: formally, but not really dependent
+    case ATTRIB_NUC_MEAN_CHX:
+    case ATTRIB_NUC_STD_CHX:
+    case ATTRIB_NUC_SKEWNESS_CHX:
+    case ATTRIB_NUC_KURTOSIS_CHX:
+    case ATTRIB_NUC_MEDIAN_CHX:
+    case ATTRIB_NUC_ABSDEVMED_CHX:
+        return true;
+
+    case ATTRIB_NUC_FOCI_COUNT_CHX:
+    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX:
+    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
 int D_Bio_NucleusBlob::get_Contours_append(vector<vector<Point> > *pvScaledContours, double scale)
 {
     vector<Point> ContourScaled(m_contour.size());

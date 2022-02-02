@@ -28,13 +28,15 @@ int D_Plot::Plot_Empty(QChartView *pChartView, QString QS_Text)
 
     //Axis
     QValueAxis *X_axis = new QValueAxis();
-    X_axis->setTitleText("nordic fundament");
+    X_axis->setTitleText("imagination");
     X_axis->setTickCount(2);
+    X_axis->setLabelFormat("%f");
     chart->setAxisX(X_axis);
 
     QValueAxis *Y_axis = new QValueAxis();
     Y_axis->setTitleText("house of nikolaus");
     Y_axis->setTickCount(2);
+    Y_axis->setLabelFormat("%d");
     chart->setAxisY(Y_axis);
 
     //Series
@@ -42,15 +44,17 @@ int D_Plot::Plot_Empty(QChartView *pChartView, QString QS_Text)
     series->setName("childhood memories");
 
     //Data
-    series->append(0, 0);
-    series->append(2, 0);
-    series->append(2, 2);
-    series->append(1, 3);
-    series->append(0, 2);
-    series->append(0, 0);
-    series->append(2, 2);
-    series->append(0, 2);
-    series->append(2, 0);
+    double x_scale = PI_0_5;
+    double y_sacle = 42 / 3.0;
+    series->append(x_scale * 0, y_sacle * 0);
+    series->append(x_scale * 2, y_sacle * 0);
+    series->append(x_scale * 2, y_sacle * 2);
+    series->append(x_scale * 1, y_sacle * 3);
+    series->append(x_scale * 0, y_sacle * 2);
+    series->append(x_scale * 0, y_sacle * 0);
+    series->append(x_scale * 2, y_sacle * 2);
+    series->append(x_scale * 0, y_sacle * 2);
+    series->append(x_scale * 2, y_sacle * 0);
 
     //Attach
     chart->addSeries(series);

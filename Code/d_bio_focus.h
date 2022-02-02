@@ -59,6 +59,7 @@ public:
   //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
     double          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
+    static bool     attribute_is_channel_dependent(size_t i_attrib);
 
     Point2f         centroid()                                      {return m_centroid;}
     double          area()                                          {return m_area;}

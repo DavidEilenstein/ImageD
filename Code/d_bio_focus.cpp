@@ -95,6 +95,24 @@ double D_Bio_Focus::attribute(size_t i_attrib, size_t ch_val, double scale_px2um
     default:                        return 0;}
 }
 
+bool D_Bio_Focus::attribute_is_channel_dependent(size_t i_attrib)
+{
+    switch (i_attrib) {
+
+    //case ATTRIB_FOC_COUNT_CHX: formally dependent, but not really
+    case ATTRIB_FOC_MEAN_CHX:
+    case ATTRIB_FOC_STD_CHX:
+    case ATTRIB_FOC_SKEWNESS_CHX:
+    case ATTRIB_FOC_KURTOSIS_CHX:
+    case ATTRIB_FOC_MEDIAN_CHX:
+    case ATTRIB_FOC_ABSDEVMED_CHX:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
 size_t D_Bio_Focus::channels()
 {
     if(vvSignalStats_StatChannel.empty())

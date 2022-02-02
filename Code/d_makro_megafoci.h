@@ -1513,10 +1513,19 @@ private:
     vector<QComboBox*>      MS6_vCB_ResAxis_Attrib_NucLife;
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_low;
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_high;
+    vector<QComboBox*>      MS6_vCB_ResAxis_Channel;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Level;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Attrib;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_low;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_high;
+    vector<QStackedWidget*> MS6_cSW_ResAxis_Channel;
+
+    //viewer elements
+    QChartView*             MS6_pChartView_Plot_2D;
+    D_Viewer_Plot_3D        MS6_Viewer_Plot_3D;
+    D_Viewer                MS6_Viewer_Img_2D;
+    D_Viewer_3D             MS6_Viewer_Img_3D;
+    D_Table                 MS6_Viewer_Table_2D;
 
     //States
     bool                    MS6_state_ui_init = false;
@@ -1524,6 +1533,18 @@ private:
     bool                    MS6_state_loaded_dirs = false;
     bool                    MS6_state_loaded_nuc_data = false;
     bool                    MS6_state_loaded_nuc_lifes = false;
+
+
+    enum MS6_RES_VIEW_TYPE {
+        MS6_RES_VIEW_TYPE_PLOT_2D,
+        MS6_RES_VIEW_TYPE_PLOT_3D,
+        MS6_RES_VIEW_TYPE_IMAGE_2D,
+        MS6_RES_VIEW_TYPE_IMAGE_3D,
+        MS6_RES_VIEW_TYPE_TABLE_2D,
+        MS6_RES_VIEW_TYPE_ERROR,
+        MS6_RES_VIEW_TYPE_NUMBER_OF
+    };
+
 
     enum MS6_RESULT_TYPES {
         MS6_RES_TYP_HIST_SIMPLE,
@@ -1595,6 +1616,13 @@ private:
         MS6_RES_AXIS_STAT_OFF,
         MS6_RES_AXIS_STAT_ON,
         MS6_RES_AXIS_STAT_NUMBER_OF
+    };
+
+
+    enum MS6_RES_AXIS_CHANNEL {
+        MS6_RES_AXIS_CHANNEL_OFF,
+        MS6_RES_AXIS_CHANNEL_ON,
+        MS6_RES_AXIS_CHANNEL_NUMBER_OF
     };
 
 
