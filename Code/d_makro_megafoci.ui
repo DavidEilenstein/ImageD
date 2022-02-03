@@ -12437,7 +12437,7 @@ color: red;</string>
                         <number>100000</number>
                        </property>
                        <property name="value">
-                        <number>1000</number>
+                        <number>50</number>
                        </property>
                       </widget>
                      </item>

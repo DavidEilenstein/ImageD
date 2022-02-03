@@ -396,6 +396,33 @@ int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool
     return ER_okay;
 }
 
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<double> v_Data, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
+{
+    vector<vector<double>> vvData(1, v_Data);
+
+    double min = INFINITY;
+    double max = -INFINITY;
+    size_t n = v_Data.size();
+    for(size_t i = 0; i < n; i++)
+    {
+        double val = v_Data[i];
+        if(val > max)   max = val;
+        if(val < min)   min = val;
+    }
+
+    return Plot_Hist_WithStats(
+                pChartView,
+                vvData,
+                min,
+                max,
+                n_classes,
+                name_title,
+                name_x,
+                uni,
+                acc,
+                axe_tick_count);
+}
+
 int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
     function<double(vector<double>)> F_mean = D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC);
@@ -428,9 +455,6 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
 
 int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
-    //clear old content
-    Free_Memory(pChartView);
-
     //error checks
     if(vv_Data.empty())             return ER_empty;
     size_t n_sets = vv_Data.size();
@@ -441,6 +465,9 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
     if(v_std.size() != n_sets)      return ER_size_missmatch;
     if(min_x >= max_x)              return ER_parameter_missmatch;
     if(n_classes <= 1)              return ER_parameter_bad;
+
+    //clear old content
+    Free_Memory(pChartView);
 
     //Chart
     QChart *chart = new QChart();
@@ -601,9 +628,6 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
 
 int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_DataHist, vector<double> v_DataColor, function<double (vector<double>)> F_ColorStat_Hue, function<double (vector<double>)> F_ColorStat_Value, double min_x_hist, double max_x_hist, double min_x_color_hue, double max_x_color_hue, double min_x_color_value, double max_x_color_value, size_t n_classes, double mean_hist, double std_hist, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
 {
-    //clear old content
-    Free_Memory(pChartView);
-
     if(v_DataHist.empty())                          return ER_empty;
     if(v_DataColor.empty())                         return ER_empty;
     if(v_DataHist.size() != v_DataColor.size())     return ER_size_missmatch;
@@ -611,6 +635,9 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
     if(min_x_color_hue >= max_x_color_hue)          return ER_parameter_missmatch;
     if(min_x_color_value >= max_x_color_value)      return ER_parameter_missmatch;
     if(n_classes <= 1)                              return ER_parameter_bad;
+
+    //clear old content
+    Free_Memory(pChartView);
 
     //data count
     size_t n = v_DataHist.size();
@@ -916,10 +943,8 @@ int D_Plot::Plot_Hist_Any(QChartView *pChartView, Mat *pMA_In, int classes, QStr
     //error handler
     int ER;
 
-
     //clear old content
     Free_Memory(pChartView);
-
 
     //base data containers
     vector<vector<double>> vv_hist;
@@ -1047,14 +1072,11 @@ int D_Plot::Plot_Hist_Any(QChartView *pChartView, D_VisDat_Obj *pVD_In, int clas
     if(pVD_In->pMA_full()->channels() > 4)                          return ER_channel_bad;
     if(pVD_In->pMA_full()->channels() != qsl_name_series.size())    return ER_size_missmatch;
 
-
     //error handler
     int ER;
 
-
     //clear old content
     Free_Memory(pChartView);
-
 
     //base data containers
     vector<vector<double>> vv_hist;

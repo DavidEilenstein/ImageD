@@ -100,6 +100,7 @@ public:
     bool calc_NucLifes();
     bool calc_NucLifes_Filtered();
 
+    vector<double>  attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, size_t i_att_lvl_foc, size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
     vector<double>  attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
     vector<double>  attrib_nuclife(size_t i_attrib);
     vector<double>  attrib_nucblob(size_t i_attrib, size_t ch_val);

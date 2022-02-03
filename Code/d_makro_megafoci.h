@@ -1490,6 +1490,12 @@ private slots:
     void MS6_ResAxis_UpdateModi();
     void MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
     vector<double> MS6_DataForAxis(size_t i_axis);
+    QString MS6_DefaultTitle_Result();
+    QString MS6_DefaultTitle_Series();
+    QString MS6_DefaultTitle_Axis(size_t i_axis);
+
+    void MS6_Update_Results();
+    void MS6_Update_Result_HistSimple();
 
 private:
 
@@ -1562,19 +1568,6 @@ private:
     };
 
 
-    enum MS6_RES_DATAPOINT_LEVEL {
-        MS6_RES_DATAPOINT_LEVEL_NUCLIFE,
-        MS6_RES_DATAPOINT_LEVEL_NUCBLOB,
-        MS6_RES_DATAPOINT_LEVEL_FOC,
-        MS6_RES_DATAPOINT_LEVEL_NUMBER_OF
-    };
-    const QStringList QSL_MS6_ResultDatapointLevel = {
-        "Nucleus lifes",
-        "Nucleus blobs",
-        "Foci"
-    };
-
-
     enum MS6_RES_AXIS_MODE {
         MS6_RES_AXIS_MODE_NONE,
         MS6_RES_AXIS_MODE_NUCLIFE,
@@ -1582,36 +1575,11 @@ private:
         MS6_RES_AXIS_MODE_FOC,
         MS6_RES_AXIS_MODE_NUMBER_OF
     };
-
-
-    enum MS6_RES_DATA_LEVEL_FOC {
-        MS6_RES_DATA_LEVEL_FOC_ATTRIB,
-        MS6_RES_DATA_LEVEL_FOC_NUMBER_OF
-    };
-    const QStringList QSL_MS6_DataLevel_Foc = {
-        "Focus"
-    };
-
-    enum MS6_RES_DATA_LEVEL_NUCBLOB {
-        MS6_RES_DATA_LEVEL_NUCBLOB_ATTRIB,
-        MS6_RES_DATA_LEVEL_NUCBLOB_STAT_FOC,
-        MS6_RES_DATA_LEVEL_NUCBLOB_NUMBER_OF
-    };
-    const QStringList QSL_MS6_DataLevel_NucBlob = {
-        "Nucleus blob",
-        "Focus"
-    };
-
-    enum MS6_RES_DATA_LEVEL_NUCLIFE {
-        MS6_RES_DATA_LEVEL_NUCLIFE_ATTRIB,
-        MS6_RES_DATA_LEVEL_NUCLIFE_STAT_NUCBLOB,
-        MS6_RES_DATA_LEVEL_NUCLIFE_STAT_STAT_FOC,
-        MS6_RES_DATA_LEVEL_NUCLIFE_NUMBER_OF
-    };
-    const QStringList QSL_MS6_DataLevel_NucLife = {
-        "Nucleus life",
-        "Nucleus blob",
-        "Focus"
+    const QStringList QSL_MS6_ResAxisMode {
+        "None",
+        "Nuc Life",
+        "Nuc Blob",
+        "Foc"
     };
 
 
@@ -1620,6 +1588,10 @@ private:
         MS6_RES_AXIS_STAT_ON,
         MS6_RES_AXIS_STAT_NUMBER_OF
     };
+    const QStringList QSL_MS6_ResAxisStat = {
+        "on",
+        "off"
+    };
 
 
     enum MS6_RES_AXIS_CHANNEL {
@@ -1627,14 +1599,25 @@ private:
         MS6_RES_AXIS_CHANNEL_ON,
         MS6_RES_AXIS_CHANNEL_NUMBER_OF
     };
+    const QStringList QSL_MS6_ResAxisChannel = {
+        "on",
+        "off"
+    };
 
 
+    //attrib lvl
     enum MS6_RES_AXIS_ATTRIB {
         MS6_RES_AXIS_ATTRIB_EMPTY,
         MS6_RES_AXIS_ATTRIB_NUCLIFE,
         MS6_RES_AXIS_ATTRIB_NUCBLOB,
         MS6_RES_AXIS_ATTRIB_FOC,
         MS6_RES_AXIS_ATTRIB_NUMBER_OF
+    };
+    const QStringList QSL_MS6_ResAttribLevel = {
+        "None",
+        "Nuc life",
+        "Nuc blob",
+        "Foc"
     };
 
 };

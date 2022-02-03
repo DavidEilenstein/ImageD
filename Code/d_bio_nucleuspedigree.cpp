@@ -836,6 +836,8 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
     if(!state_NucLifesCalced)
         return false;
 
+    qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "start with unfiltered nuc lifes: n =" << vNucLifes.size();
+
     //start filtering
     state_NucLifeFilteringRunning = true;
 
@@ -903,13 +905,15 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
         }
     }
 
+    qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "end with filtered nuc lifes: n =" << vNucLifes_Filtered.size();
+
     //finish
     state_NucLifesFilteredCalced = true;
     state_NucLifeFilteringRunning = false;
     return true;
 }
 
-vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
+vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, size_t i_att_lvl_foc, size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
 {
     vector<double> vRes;
 
@@ -917,18 +921,22 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
     if(!state_NucLifesFilteredCalced)
         calc_NucLifes_Filtered();
     if(!state_NucLifesFilteredCalced)
-        return vRes;
-
-    switch (i_data_point_level) {
-
-    case DATA_LEVEL_NUCLIFE://------------------------------------------------------------------------
     {
-        switch (i_attrib_level) {
+        qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "failed to filter nuc lifes";
+        return vRes;
+    }
 
-        case DATA_LEVEL_NUCLIFE://.....................................................
-            return attrib_nuclife(i_attrib);
+    switch (i_data_pt_lvl) {
 
-        case DATA_LEVEL_NUCBLOB://.....................................................
+    case DATAPOINT_LEVEL_NUCLIFE://------------------------------------------------------------------------
+    {
+        switch (i_att_lvl_nuclife) {
+
+        case DATA_LEVEL_NUCLIFE_ATTRIB://.....................................................
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return nuc life attribs";
+            return attrib_nuclife(i_att_nuclife);
+
+        case DATA_LEVEL_NUCLIFE_STAT_NUCBLOB://.....................................................
         {
             function<double (vector<double>)> F_stat_low = D_Stat::Function_SingleStat(int(stat_low));
 
@@ -936,12 +944,13 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
             vRes.resize(nl);
 
             for(size_t l = 0; l < nl; l++)
-                vRes[l] = F_stat_low(vNucLifes[l].attrib_nuc(i_attrib, ch_val));
+                vRes[l] = F_stat_low(vNucLifes[l].attrib_nuc(i_att_nucblob, ch_val));
 
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return stat of nuc blob attribs";
             return vRes;
         }
 
-        case DATA_LEVEL_FOCI://.....................................................
+        case DATA_LEVEL_NUCLIFE_STAT_STAT_FOC://.....................................................
         {
             function<double (vector<double>)> F_stat_low  = D_Stat::Function_SingleStat(int(stat_low));
             function<double (vector<double>)> F_stat_high = D_Stat::Function_SingleStat(int(stat_high));
@@ -962,7 +971,7 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
                     vector<double> vDataFoci(nf);
 
                     for(size_t f = 0; f < nf; f++)
-                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_attrib, ch_val, scale_px_to_um);
+                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_att_foc, ch_val, scale_px_to_um);
 
                     vDataNucBlobMembers[b] = F_stat_low(vDataFoci);
                 }
@@ -970,22 +979,25 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
                 vRes[l] = F_stat_high(vDataNucBlobMembers);
             }
 
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return stat of stat of foci attribs";
             return vRes;
         }
 
         default://.....................................................
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "nuc life default case - ERROR";
             return vRes;
         }
     }
 
-    case DATA_LEVEL_NUCBLOB://------------------------------------------------------------------------
+    case DATAPOINT_LEVEL_NUCBLOB://------------------------------------------------------------------------
     {
-        switch (i_attrib_level) {
+        switch (i_att_lvl_nucblob) {
 
-        case DATA_LEVEL_NUCBLOB://.....................................................
-            return attrib_nucblob(i_attrib, ch_val);
+        case DATA_LEVEL_NUCBLOB_ATTRIB://.....................................................
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return nuc blob attribs";
+            return attrib_nucblob(i_att_nucblob, ch_val);
 
-        case DATA_LEVEL_FOCI://.....................................................
+        case DATA_LEVEL_NUCBLOB_STAT_FOC://.....................................................
         {
             function<double (vector<double>)> F_stat_low  = D_Stat::Function_SingleStat(int(stat_low));
 
@@ -1003,27 +1015,48 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
                     vector<double> vDataFoci(nf);
 
                     for(size_t f = 0; f < nf; f++)
-                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_attrib, ch_val, scale_px_to_um);
+                        vDataFoci[f] = pNucBlob->get_pFocus(ch_foc, f)->attribute(i_att_foc, ch_val, scale_px_to_um);
 
                     vRes.push_back(F_stat_low(vDataFoci));
                 }
             }
 
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return stat of foci attribs";
             return vRes;
         }
 
         default://.....................................................
+            qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "nuc blob default case - ERROR";
             return vRes;
         }
     }
 
-    case DATA_LEVEL_FOCI://------------------------------------------------------------------------
-        return attrib_foci(i_attrib, ch_val, ch_foc);
+    case DATAPOINT_LEVEL_FOC://------------------------------------------------------------------------
+        qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return foci attribs";
+        return attrib_foci(i_att_foc, ch_val, ch_foc);
 
     default://------------------------------------------------------------------------
+        qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "data level defaultz case - ERROR";
         return vRes;
 
     }
+}
+
+vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
+{
+    //in this function it is assumed, that the passed index params fit to each other - it needs to be managed out of this function
+    return attrib_data(
+                i_data_point_level,
+                i_attrib_level,
+                i_attrib_level,
+                i_attrib_level,
+                i_attrib,
+                i_attrib,
+                i_attrib,
+                ch_val,
+                ch_foc,
+                stat_low,
+                stat_high);
 }
 
 vector<double> D_Bio_NucleusPedigree::attrib_nuclife(size_t i_attrib)

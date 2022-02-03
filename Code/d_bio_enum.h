@@ -288,12 +288,52 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_FILTER_MODE_NUMBER_OF
  };
 
- //attrib level
- enum DATA_LEVEL {
-     DATA_LEVEL_FOCI,
-     DATA_LEVEL_NUCBLOB,
-     DATA_LEVEL_NUCLIFE,
-     DATA_LEVEL_NUMBER_OF
+ //data point level
+ enum DATAPOINT_LEVEL {
+     DATAPOINT_LEVEL_NUCLIFE,
+     DATAPOINT_LEVEL_NUCBLOB,
+     DATAPOINT_LEVEL_FOC,
+     DATAPOINT_LEVEL_NUMBER_OF
  };
+ const QStringList QSL_DatapointLevel = {
+     "Nucleus lifes",
+     "Nucleus blobs",
+     "Foci"
+ };
+
+ //data lvl nuc lifes
+ enum DATA_LEVEL_NUCLIFE {
+     DATA_LEVEL_NUCLIFE_ATTRIB,
+     DATA_LEVEL_NUCLIFE_STAT_NUCBLOB,
+     DATA_LEVEL_NUCLIFE_STAT_STAT_FOC,
+     DATA_LEVEL_NUCLIFE_NUMBER_OF
+ };
+ const QStringList QSL_DataLevel_NucLife = {
+     "Nucleus life",
+     "Nucleus blob",
+     "Focus"
+ };
+
+ //data lvl nuc blobs
+ enum DATA_LEVEL_NUCBLOB {
+     DATA_LEVEL_NUCBLOB_ATTRIB,
+     DATA_LEVEL_NUCBLOB_STAT_FOC,
+     DATA_LEVEL_NUCBLOB_NUMBER_OF
+ };
+ const QStringList QSL_DataLevel_NucBlob = {
+     "Nucleus blob",
+     "Focus"
+ };
+
+ //data lvl foci
+ enum DATA_LEVEL_FOC {
+     DATA_LEVEL_FOC_ATTRIB,
+     DATA_LEVEL_FOC_NUMBER_OF
+ };
+ const QStringList QSL_DataLevel_Foc = {
+     "Focus"
+ };
+
+
 
 #endif // D_BIO_ENUM_H
