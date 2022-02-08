@@ -1496,6 +1496,7 @@ private slots:
 
     void MS6_Update_Results();
     void MS6_Update_Result_HistSimple();
+    void MS6_Update_Result_DataTable_3Axis();
 
 private:
 
@@ -1534,7 +1535,7 @@ private:
     D_Viewer_Plot_3D        MS6_Viewer_Plot_3D;
     D_Viewer                MS6_Viewer_Img_2D;
     D_Viewer_3D             MS6_Viewer_Img_3D;
-    D_Table                 MS6_Viewer_Table_2D;
+    D_Table                 MS6_Viewer_Table;
 
     //States
     bool                    MS6_state_ui_init = false;
@@ -1549,7 +1550,7 @@ private:
         MS6_RES_VIEW_TYPE_PLOT_3D,
         MS6_RES_VIEW_TYPE_IMAGE_2D,
         MS6_RES_VIEW_TYPE_IMAGE_3D,
-        MS6_RES_VIEW_TYPE_TABLE_2D,
+        MS6_RES_VIEW_TYPE_TABLE,
         MS6_RES_VIEW_TYPE_ERROR,
         MS6_RES_VIEW_TYPE_NUMBER_OF
     };
@@ -1559,12 +1560,14 @@ private:
         MS6_RES_TYP_HIST_SIMPLE,
         MS6_RES_TYP_SCATTER_2D_SIMPLE,
         MS6_RES_TYP_SCATTER_HEATMAP,
+        MS6_RES_TYP_DATA_TABLE_3D,
         MS6_RES_TYP_NUMBER_OF
     };
     const QStringList QSL_MS6_ResultTypes = {
         "Histogram simple",
         "Scatter 2D simple",
-        "Scatter heatmap"
+        "Scatter heatmap",
+        "Data table 3 attributes"
     };
 
 

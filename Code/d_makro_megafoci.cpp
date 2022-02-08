@@ -3629,7 +3629,10 @@ void D_MAKRO_MegaFoci::ERR(int err, QString func, QString detail)
 {
     ER.ERR(err, "D_MAKRO_MegaFoci", func, detail);
     if(err != ER_okay)
-        StatusSet("ERROR " + QSL_Errors[err] + ", Function:" + func + ", Detail: " + detail);
+        StatusSet("ERROR:\n" +
+                  QSL_Errors[err] + ",\n"
+                  "Function: " + func + ",\n"
+                  "Detail:   " + detail);
 }
 
 size_t D_MAKRO_MegaFoci::get_index_of_image(size_t x, size_t y, size_t t)
@@ -9241,7 +9244,7 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     MS6_Viewer_Img_3D.Set_StoragePointer(pStore, dir_SAVE);
 
     //table
-    MS6_Viewer_Table_2D.set_TW(ui->tableWidget_MS6_ResView_Table_2D);
+    MS6_Viewer_Table.set_TW(ui->tableWidget_MS6_ResView_Table);
 
 
     //-------------------------------------------------------------------------------------- Results
@@ -9497,6 +9500,13 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         MS6_ResAxis_SetMode(2, "Color", axis_data_level);
         break;
 
+    case MS6_RES_TYP_DATA_TABLE_3D:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_TABLE);
+        MS6_ResAxis_SetMode(0, "X1", axis_data_level);
+        MS6_ResAxis_SetMode(1, "X2", axis_data_level);
+        MS6_ResAxis_SetMode(2, "X3", axis_data_level);
+        break;
+
     default:
         return;
     }
@@ -9683,8 +9693,9 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
 
     switch (ui->comboBox_MS6_ResultTypes->currentIndex())
     {
-    case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();     break;
-    default:                                                                    break;
+    case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();         break;
+    case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();    break;
+    default:                                                                        break;
     }
 }
 
@@ -9700,5 +9711,25 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
                 ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked()),
         "MS6_Update_Result_HistSimple",
         "D_Plot::Plot_Hist_WithStats");
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
+{
+    vector<vector<double>> vvData(3);
+    vvData[0] = MS6_DataForAxis(0);
+    vvData[1] = MS6_DataForAxis(1);
+    vvData[2] = MS6_DataForAxis(2);
+
+    QStringList QSL_cols = {MS6_DefaultTitle_Axis(0), MS6_DefaultTitle_Axis(1), MS6_DefaultTitle_Axis(2)};
+
+    size_t n_rows = vvData[0].size();
+    vector<double> vRows(n_rows);
+    for(size_t i = 0; i <= n_rows; i++)
+        vRows[i] = i;
+
+    MS6_Viewer_Table.set_data_d_2D_qsl_vd(
+            vvData,
+            QSL_cols,
+            vRows);
 }
 
