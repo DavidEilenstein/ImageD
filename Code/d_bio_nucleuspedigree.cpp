@@ -1044,7 +1044,7 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i
 
 vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
 {
-    //in this function it is assumed, that the passed index params fit to each other - it needs to be managed out of this function
+    //in this function it is assumed, that the passed index params fit to each other - it needs to be managed outside of this function
     return attrib_data(
                 i_data_point_level,
                 i_attrib_level,

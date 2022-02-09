@@ -9385,7 +9385,6 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiData()
 {
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return false;
-
     if(!MS6_state_loaded_dirs)
         return false;
 
@@ -9415,12 +9414,15 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
     if(!MS6_state_loaded_dirs || !MS6_state_loaded_nuc_data)
         return false;
 
-    StatusSet("Start loading nuclei matches from step 4/5");
-
     //load data
+    StatusSet("Start loading nuclei matches from step 4/5");
     MS6_NucPedigree_Results.match_load_matches(DIR_MS6_Load_NucleiLifes.path());
-
     StatusSet("Finished loading nuclei matches from step 4/5");
+
+    //split to nuc lifes
+    StatusSet("Start spearating linked nucleui into nucleus lifes");
+    MS6_NucPedigree_Results.calc_NucLifes();
+    StatusSet("Finished spearating linked nucleui into nucleus lifes");
 
     MS6_state_loaded_nuc_lifes = true;
     return true;
