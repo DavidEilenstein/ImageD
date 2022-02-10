@@ -836,7 +836,7 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
     if(!state_NucLifesCalced)
         return false;
 
-    qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "start with unfiltered nuc lifes: n =" << vNucLifes.size();
+    //qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "start with unfiltered nuc lifes: n =" << vNucLifes.size();
 
     //start filtering
     state_NucLifeFilteringRunning = true;
@@ -859,8 +859,8 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
 
             //copy parent/childs (these are not filtered because that would change the context of the nuc in the tracking)
             if(pNucLifeOriginal->has_Parent())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_parent());
-            if(pNucLifeOriginal->has_Child1())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_child1());
-            if(pNucLifeOriginal->has_Child2())  NucLifeFiltered.set_Parent(pNucLifeOriginal->pNuc_child2());
+            if(pNucLifeOriginal->has_Child1())  NucLifeFiltered.set_Child1(pNucLifeOriginal->pNuc_child1());
+            if(pNucLifeOriginal->has_Child2())  NucLifeFiltered.set_Child2(pNucLifeOriginal->pNuc_child2());
 
             //loop nuc blobs (member nuc blobs only - from 1st after mistosis to end or mitosis)
             for(size_t b = 0; b < pNucLifeOriginal->members_count(); b++)
@@ -900,12 +900,18 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
                 }
             }
 
+            //set other attribs
+            NucLifeFiltered.set_sizeTime(size_time);
+            NucLifeFiltered.set_range_XY(FrameInRegularRangeXY);
+            NucLifeFiltered.set_ScalePx2Um(scale_px_to_um);
+            NucLifeFiltered.set_time_irradiation(time_irradiation);
+
             //add filtered nuc life to list of filtered nuc lifes (only contains nuc blobs that passed and these only contain foci that passed)
             vNucLifes_Filtered.push_back(NucLifeFiltered);
         }
     }
 
-    qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "end with filtered nuc lifes: n =" << vNucLifes_Filtered.size();
+    //qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "end with filtered nuc lifes: n =" << vNucLifes_Filtered.size();
 
     //finish
     state_NucLifesFilteredCalced = true;

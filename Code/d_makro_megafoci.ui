@@ -6883,6 +6883,24 @@ QProgressBar::chunk {
            </property>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>160</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>160</height>
+              </size>
+             </property>
              <property name="title">
               <string>Position and shape</string>
              </property>
@@ -7261,6 +7279,24 @@ QProgressBar::chunk {
            </item>
            <item row="0" column="1">
             <widget class="QGroupBox" name="groupBox_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>160</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>160</height>
+              </size>
+             </property>
              <property name="title">
               <string>Values</string>
              </property>
@@ -9501,7 +9537,7 @@ QProgressBar::chunk {
                  <double>99999.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>500.000000000000000</double>
+                 <double>200.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -9561,7 +9597,7 @@ QProgressBar::chunk {
                  <double>99999.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>500.000000000000000</double>
+                 <double>200.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -12437,7 +12473,7 @@ color: red;</string>
                         <number>100000</number>
                        </property>
                        <property name="value">
-                        <number>50</number>
+                        <number>1000</number>
                        </property>
                       </widget>
                      </item>
@@ -12446,12 +12482,16 @@ color: red;</string>
                        <property name="text">
                         <string>Accumulated</string>
                        </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
                       </widget>
                      </item>
                     </layout>
                    </widget>
                    <widget class="QWidget" name="page_MS6_ResType_Params_Scatter_2D"/>
                    <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap"/>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_Table"/>
                   </widget>
                  </item>
                 </layout>
@@ -12769,7 +12809,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">
