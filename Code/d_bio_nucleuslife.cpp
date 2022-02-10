@@ -15,7 +15,7 @@ D_Bio_NucleusLife::D_Bio_NucleusLife()
 
 bool D_Bio_NucleusLife::set_ScalePx2Um(double scale)
 {
-    if(scale <= 0 || isnan(scale) || isinf(scale))
+    if(scale <= 0)
         return false;
 
     scale_px2um = scale;
@@ -170,7 +170,7 @@ vector<vector<vector<double> > > D_Bio_NucleusLife::attrib_foc(size_t i_attrib, 
 
 bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val)
 {
-    if(i_attrib <= ATTRIB_FOC_NUMBER_OF)
+    if(i_attrib >= ATTRIB_FOC_NUMBER_OF)
         return false;
 
     size_t n_nuc = members_count();
@@ -198,7 +198,7 @@ bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i
 
 bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val, size_t ch_foc)
 {
-    if(i_attrib <= ATTRIB_FOC_NUMBER_OF)
+    if(i_attrib >= ATTRIB_FOC_NUMBER_OF)
         return false;
 
     size_t n_nuc = members_count();
@@ -252,7 +252,7 @@ vector<double> D_Bio_NucleusLife::attrib_nuc(size_t i_attrib, size_t ch_val)
 
 bool D_Bio_NucleusLife::attrib_nuc(vector<double> *pvAttribsToAppendTo, size_t i_attrib, size_t ch_val)
 {
-    if(i_attrib <= ATTRIB_NUC_NUMBER_OF)
+    if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
         return false;
 
     size_t n_nuc = members_count();
@@ -270,7 +270,7 @@ bool D_Bio_NucleusLife::attrib_nuc(vector<double> *pvAttribsToAppendTo, size_t i
 
 double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
 {
-    if(i_attrib_nuclife <= ATTRIB_NUCLIFE_NUMBER_OF)
+    if(i_attrib_nuclife >= ATTRIB_NUCLIFE_NUMBER_OF)
         return 0;
 
     switch (i_attrib_nuclife)
@@ -284,7 +284,7 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     case ATTRIB_NUCLIFE_SHIFT_PX:
     {
         Point P0(attrib_nuc_begin(ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_begin(ATTRIB_NUC_CENTER_Y_PX, 0));
-        Point P1(attrib_nuc_begin(ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_begin(ATTRIB_NUC_CENTER_Y_PX, 0));
+        Point P1(attrib_nuc_end  (ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_end  (ATTRIB_NUC_CENTER_Y_PX, 0));
         return D_Math::Distance(P0, P1);
     }
     case ATTRIB_NUCLIFE_SHIFT_UM:                           return attrib_nuclife(ATTRIB_NUCLIFE_SHIFT_PX) * scale_px2um;

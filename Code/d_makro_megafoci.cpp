@@ -9274,6 +9274,10 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
         return false;
     }
 
+    //channels list and irradiation time
+    MS6_GetChannelsFromUi();
+    MS6_GetIrradiationTimeFromUi();
+
     if(!MS6_LoadNucleiLifes())
     {
         StatusSet("Failed loading nuclei lifes " + QS_Fun_Sad);
@@ -9282,7 +9286,6 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
 
     //states
     MS6_state_loaded_all = true;
-    StatusSet("Loaded all needed data " + QS_Fun_Happy);
 
     //ui
     ui->groupBoxMS6_Control_Data->setEnabled(false);
@@ -9290,13 +9293,13 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     ui->groupBox_MS6_Control_Filters->setEnabled(true);
     ui->groupBox_MS6_Control_Results->setEnabled(true);
 
-    //channels list and irradiation time
-    MS6_GetChannelsFromUi();
-    MS6_GetIrradiationTimeFromUi();
-
-    //show
+    //split to nuc lifes
+    StatusSet("Start spearating linked nucleui into nucleus lifes");
+    MS6_NucPedigree_Results.calc_NucLifes();
+    StatusSet("Finished spearating linked nucleui into nucleus lifes");
 
     //finish
+    StatusSet("Loaded all needed data " + QS_Fun_Happy);
     return true;
 }
 
@@ -9418,11 +9421,6 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
     StatusSet("Start loading nuclei matches from step 4/5");
     MS6_NucPedigree_Results.match_load_matches(DIR_MS6_Load_NucleiLifes.path());
     StatusSet("Finished loading nuclei matches from step 4/5");
-
-    //split to nuc lifes
-    StatusSet("Start spearating linked nucleui into nucleus lifes");
-    MS6_NucPedigree_Results.calc_NucLifes();
-    StatusSet("Finished spearating linked nucleui into nucleus lifes");
 
     MS6_state_loaded_nuc_lifes = true;
     return true;
