@@ -67,6 +67,8 @@ public:
     size_t nuclei_blob_count(size_t t);
     size_t nuclei_blob_count();
 
+    QString info();
+
     D_Bio_NucleusBlob* get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i);
     D_Bio_NucleusBlob *get_pNucleus(size_t t, size_t y_mosaic_min, size_t x_mosaic_min, size_t y_mosaic_max, size_t x_mosaic_max, size_t y_pos_px, size_t x_pos_px);
 
@@ -100,8 +102,8 @@ public:
     bool calc_NucLifes();
     bool calc_NucLifes_Filtered();
 
-    vector<double>  attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, size_t i_att_lvl_foc, size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
-    vector<double>  attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
+    vector<double>  attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, /*size_t i_att_lvl_foc,*/ size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
+    //vector<double>  attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high);
     vector<double>  attrib_nuclife(size_t i_attrib);
     vector<double>  attrib_nucblob(size_t i_attrib, size_t ch_val);
     vector<double>  attrib_foci(size_t i_attrib, size_t ch_val);

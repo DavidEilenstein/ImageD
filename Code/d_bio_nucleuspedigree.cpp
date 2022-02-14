@@ -67,6 +67,27 @@ size_t D_Bio_NucleusPedigree::nuclei_blob_count()
     return nuclei_count_total;
 }
 
+QString D_Bio_NucleusPedigree::info()
+{
+    //CONTINUE HERE
+    QString info = "D_Bio_NucleusPedigree::info\n";
+
+    if(state_NucLifesCalced && state_NucLifesFilteredCalced)
+    {
+        info.append("");
+    }
+    else if(state_NucLifesCalced)
+    {
+        info.append("");
+    }
+    else
+    {
+        info.append("");
+    }
+
+    return info;
+}
+
 D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i)
 {
     if(t >= size_time)                                          return nullptr;
@@ -919,7 +940,7 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
     return true;
 }
 
-vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, size_t i_att_lvl_foc, size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
+vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, /*size_t i_att_lvl_foc,*/ size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
 {
     vector<double> vRes;
 
@@ -994,6 +1015,7 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i
             return vRes;
         }
     }
+        break;
 
     case DATAPOINT_LEVEL_NUCBLOB://------------------------------------------------------------------------
     {
@@ -1036,18 +1058,19 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i
             return vRes;
         }
     }
+        break;
 
     case DATAPOINT_LEVEL_FOC://------------------------------------------------------------------------
         qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "return foci attribs";
         return attrib_foci(i_att_foc, ch_val, ch_foc);
 
     default://------------------------------------------------------------------------
-        qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "data level defaultz case - ERROR";
+        qDebug() << "D_Bio_NucleusPedigree::attrib_data" << "data level default case - ERROR";
         return vRes;
-
     }
 }
 
+/*
 vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, size_t i_attrib_level, size_t i_attrib, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
 {
     //in this function it is assumed, that the passed index params fit to each other - it needs to be managed outside of this function
@@ -1064,6 +1087,7 @@ vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_point_level, siz
                 stat_low,
                 stat_high);
 }
+*/
 
 vector<double> D_Bio_NucleusPedigree::attrib_nuclife(size_t i_attrib)
 {

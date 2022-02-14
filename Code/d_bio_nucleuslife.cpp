@@ -181,11 +181,9 @@ bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i
             return false;
 
         size_t n_ch_foc = pNuc->get_FociChannels();
-
         for(size_t ch_foc = 0; ch_foc < n_ch_foc; ch_foc++)
         {
             size_t n_foc = pNuc->get_FociCount(ch_foc);
-
             for(size_t i_foc = 0; i_foc < n_foc; i_foc++)
             {
                 pvAttribsToAppendTo->push_back(attrib_foc(i_attrib, ch_val, ch_foc, i_nuc, i_foc));
@@ -208,8 +206,14 @@ bool D_Bio_NucleusLife::attrib_foc(vector<double> *pvAttribsToAppendTo, size_t i
         if(pNuc == nullptr)
             return false;
 
-        size_t n_foc = pNuc->get_FociCount(ch_foc);
+        size_t n_ch_foc = pNuc->get_FociChannels();
+        if(ch_foc >= n_ch_foc)
+        {
+            qDebug() << "D_Bio_NucleusLife::attrib_foc - nuc" << i_nuc << " has no foci channels";
+            return false;
+        }
 
+        size_t n_foc = pNuc->get_FociCount(ch_foc);
         for(size_t i_foc = 0; i_foc < n_foc; i_foc++)
         {
             pvAttribsToAppendTo->push_back(attrib_foc(i_attrib, ch_val, ch_foc, i_nuc, i_foc));

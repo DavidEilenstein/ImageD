@@ -9628,7 +9628,7 @@ vector<double> D_MAKRO_MegaFoci::MS6_DataForAxis(size_t i_axis)
                 ui->comboBox_MS6_ResultDatapointLevel->currentIndex(),
                 MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentIndex(),
-                MS6_vCB_ResAxis_Level_Foc[i_axis]->currentIndex(),
+                //MS6_vCB_ResAxis_Level_Foc[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex(),
