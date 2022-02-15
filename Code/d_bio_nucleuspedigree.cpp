@@ -69,23 +69,182 @@ size_t D_Bio_NucleusPedigree::nuclei_blob_count()
 
 QString D_Bio_NucleusPedigree::info()
 {
-    //CONTINUE HERE
     QString info = "D_Bio_NucleusPedigree::info\n";
 
-    if(state_NucLifesCalced && state_NucLifesFilteredCalced)
+    if(state_NucLifesCalced)
     {
-        info.append("");
-    }
-    else if(state_NucLifesCalced)
-    {
-        info.append("");
+        const size_t n_max = 3;
+
+        if(state_NucLifesFilteredCalced)
+            info.append("Nuc lifes calced and filtered\n");
+        else
+            info.append("No nuc lifes calced\n");
+
+        info.append("Mosaic size: T=" + QString::number(size_T()) + ", Y=" + QString::number(size_Y()) + ", X=" + QString::number(size_X()) + "\n");
+
+        info.append("=============================================\n");
+        size_t nl = vNucLifes.size();
+        size_t nl_max = min(nl, n_max);
+        for(size_t l = 0; l < nl_max; l++)
+        {
+            D_Bio_NucleusLife* pNucLife = &(vNucLifes[l]);
+
+            if(pNucLife != nullptr)
+            {
+                info.append("::::::::::::::::::::::::::::::::::::: NucLife " + QString::number(l) + "/" + QString::number(nl) + "\n");
+
+                size_t nb = pNucLife->members_count();
+                size_t nb_max = min(nb, n_max);
+                for(size_t b = 0; b < nb_max; b++)
+                {
+                    D_Bio_NucleusBlob* pNucBlob = pNucLife->pNuc_member(b);
+
+                    if(pNucBlob != nullptr)
+                    {
+                        info.append("_____________________________ NucBlob " + QString::number(b) + "/" + QString::number(nb) + "\n");
+
+                        size_t nc = pNucBlob->get_FociChannels();
+                        for(size_t c = 0; c < nc; c++)
+                        {
+                            info.append("......................... Channel " + QString::number(c) + "/" + QString::number(nc) + "\n");
+
+                            size_t nf = pNucBlob->get_FociCount(c);
+                            size_t nf_max = min(nf, n_max);
+                            for(size_t f = 0; f < nf_max; f++)
+                            {
+                                D_Bio_Focus* pFoc = pNucBlob->get_pFocus(c, f);
+
+                                if(pFoc != nullptr)
+                                {
+                                    info.append("----------------- Focus " + QString::number(f) + "/" + QString::number(nf) + "\n");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        info.append("\n");
     }
     else
     {
-        info.append("");
+        info.append("No nuc lifes calced\n");
+        info.append("Mosaic size: T=" + QString::number(size_T()) + ", Y=" + QString::number(size_Y()) + ", X=" + QString::number(size_X()) + "\n");
     }
 
     return info;
+}
+
+void D_Bio_NucleusPedigree::info_debug()
+{
+    //qDebug() << info();
+
+    qDebug() << "D_Bio_NucleusPedigree::info() XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+    if(state_NucLifesCalced && state_NucLifesFilteredCalced)
+        qDebug() << "STATE: Nuc lifes calced and filtered";
+    else if(state_NucLifesCalced)
+        qDebug() << "STATE: Nuc lifes calced but not filtered";
+    else
+        qDebug() << "STATE: No nuc lifes calced\n";
+
+    qDebug() << "Mosaic size: T=" << size_T() << ", Y=" << size_Y() << ", X=" << size_X();
+    if(size_T() > 0 && size_Y() > 0 && size_X() > 0)
+    {
+        if(vvvvNucBlobs_TYXI[0][0][0].size() > 0)
+        {
+            qDebug() << "1st NucBlob of all (vvvvNucBlobs_TYXI[0][0][0][0])";
+            size_t nc = vvvvNucBlobs_TYXI[0][0][0][0].get_FociChannels();
+
+            qDebug() << "foci channels:" << nc;
+            for(size_t c = 0; c < nc; c++)
+                qDebug() << "focus channel" << c << "has" << vvvvNucBlobs_TYXI[0][0][0][0].get_FociCount(c) << "foci";
+        }
+        else
+        {
+            qDebug() << "1st mosaic cell is empty";
+        }
+    }
+    else
+    {
+        qDebug() << "Mosaic is not init with non empty size !!!!!!!!!!!!!!";
+    }
+
+    if(state_NucLifesCalced)
+    {
+        const size_t n_max = 3;
+
+        qDebug() << "=============================================";
+        size_t nl = vNucLifes.size();
+        size_t nl_max = min(nl, n_max);
+        for(size_t l = 0; l < nl_max; l++)
+        {
+            D_Bio_NucleusLife* pNucLife = &(vNucLifes[l]);
+
+            if(pNucLife == nullptr)
+            {
+                qDebug() << "::::::::::::::::::::::::::::::::::::: NucLife " << l << "/" << nl << "!!! NULLPTR !!!";
+            }
+            else
+            {
+                qDebug() << "::::::::::::::::::::::::::::::::::::: NucLife " << l << "/" << nl;
+
+                size_t nb = pNucLife->members_count();
+                size_t nb_max = min(nb, n_max);
+                for(size_t b = 0; b < nb_max; b++)
+                {
+                    D_Bio_NucleusBlob* pNucBlob = pNucLife->pNuc_member(b);
+
+                    if(pNucBlob == nullptr)
+                    {
+                        qDebug() << "_____________________________ NucBlob " << b << "/" << nb << "!!! NULLPTR !!!";
+                    }
+                    else
+                    {
+                        qDebug() << "_____________________________ NucBlob " << b << "/" << nb;
+
+                        size_t nc = pNucBlob->get_FociChannels();
+
+                        if(nc <= 0)
+                        {
+                            qDebug() << "......................... No foci channels exist";
+                        }
+                        else
+                        {
+                            for(size_t c = 0; c < nc; c++)
+                            {
+                                qDebug() << "......................... Channel " << c << "/" << nc;
+
+                                size_t nf = pNucBlob->get_FociCount(c);
+                                size_t nf_max = min(nf, n_max);
+                                for(size_t f = 0; f < nf_max; f++)
+                                {
+                                    D_Bio_Focus* pFoc = pNucBlob->get_pFocus(c, f);
+
+                                    if(pFoc == nullptr)
+                                    {
+                                        qDebug() << "----------------- Focus " << f << "/" << nf << "!!! NULLPTR !!!";
+                                    }
+                                    else
+                                    {
+                                        qDebug() << "----------------- Focus " << f << "/" << nf;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void D_Bio_NucleusPedigree::info_popup()
+{
+    QMessageBox::information(
+                nullptr,
+                "D_Bio_NucleusPedigree::info_popup()",
+                info());
 }
 
 D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i)
@@ -1398,6 +1557,8 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
 
 bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour)
 {
+    //CONTINUE HERE: Make this method load foci too and not only nuclei !!!
+
     //sizes
     size_t nt = (*pvvvvNucsTYXI).size();
     if(nt <= 0 || t_thread >= nt)

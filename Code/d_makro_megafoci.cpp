@@ -9300,6 +9300,8 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
 
     //finish
     StatusSet("Loaded all needed data " + QS_Fun_Happy);
+    //StatusSet(MS6_NucPedigree_Results.info());
+    MS6_NucPedigree_Results.info_debug();
     return true;
 }
 
