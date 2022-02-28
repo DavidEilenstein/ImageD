@@ -9251,6 +9251,8 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
 
     //-------------------------------------------------------------------------------------- Results
 
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat,        QSL_StatList,   c_STAT_MEAN_ARITMETIC);
+
     connect(ui->pushButton_MS6_UpdateResults,       SIGNAL(clicked(bool)),      this,       SLOT(MS6_Update_Results()));
 
     //-------------------------------------------------------------------------------------- end
@@ -9501,6 +9503,12 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         MS6_ResAxis_SetMode(0, "X", axis_data_level);
         break;
 
+    case MS6_RES_TYP_POOL_STAT_LINE_SINGLE:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_2D);
+        MS6_ResAxis_SetMode(0, "X Pool", axis_data_level);
+        MS6_ResAxis_SetMode(1, "Y Stat", axis_data_level);
+        break;
+
     case MS6_RES_TYP_SCATTER_2D_SIMPLE:
         ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_2D);
         MS6_ResAxis_SetMode(0, "X", axis_data_level);
@@ -9516,9 +9524,9 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
 
     case MS6_RES_TYP_DATA_TABLE_3D:
         ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_TABLE);
-        MS6_ResAxis_SetMode(0, "X1", axis_data_level);
-        MS6_ResAxis_SetMode(1, "X2", axis_data_level);
-        MS6_ResAxis_SetMode(2, "X3", axis_data_level);
+        MS6_ResAxis_SetMode(0, "Col1", axis_data_level);
+        MS6_ResAxis_SetMode(1, "Col2", axis_data_level);
+        MS6_ResAxis_SetMode(2, "Col3", axis_data_level);
         break;
 
     default:
@@ -9707,9 +9715,10 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
 
     switch (ui->comboBox_MS6_ResultTypes->currentIndex())
     {
-    case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();         break;
-    case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();    break;
-    default:                                                                        break;
+    case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();             break;
+    case MS6_RES_TYP_POOL_STAT_LINE_SINGLE: MS6_Update_Result_PoolStatLine_Single();    break;
+    case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
+    default:                                                                            break;
     }
 }
 
@@ -9725,6 +9734,25 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
                 ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked()),
         "MS6_Update_Result_HistSimple",
         "D_Plot::Plot_Hist_WithStats");
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_PoolStatLine_Single()
+{
+    ERR(D_Plot::Plot_Line_PoolStat_Single(
+                MS6_pChartView_Plot_2D,
+                MS6_DataForAxis(0),
+                MS6_DataForAxis(1),
+                ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX->value(),
+                ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MaxX->value(),
+                ui->spinBox_MS6_ResType_Param_PoolStatLine_Classes->value(),
+                ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat->currentIndex(),
+                MS6_DefaultTitle_Result(),
+                MS6_DefaultTitle_Series(),
+                MS6_DefaultTitle_Axis(0),
+                MS6_DefaultTitle_Axis(1),
+                ui->checkBox_MS6_ResType_Param_PoolStatLine_AutoRange->isChecked()),
+        "MS6_Update_Result_PoolStatLine_Single",
+        "D_Plot::Plot_Line_PoolStat_Single");
 }
 
 void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
@@ -9747,3 +9775,9 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
             vRows);
 }
 
+
+void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked)
+{
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX->setEnabled(!checked);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MaxX->setEnabled(!checked);
+}

@@ -98,6 +98,8 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
 
     switch (i_attrib) {
 
+    case ATTRIB_NUC_TIME_INDEX:                 return double(m_time);
+
     case ATTRIB_NUC_CENTER_X_PX:                return centroid().x;
     case ATTRIB_NUC_CENTER_Y_PX:                return centroid().y;
     case ATTRIB_NUC_AREA_PX:                    return area();

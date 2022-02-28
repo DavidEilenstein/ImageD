@@ -187,6 +187,7 @@ enum NUC_LIFE_FILE_SECTIONS {
  };
 
  enum ATTRIB_NUC {
+     ATTRIB_NUC_TIME_INDEX,
      ATTRIB_NUC_CENTER_X_PX,
      ATTRIB_NUC_CENTER_X_UM,
      ATTRIB_NUC_CENTER_Y_PX,
@@ -213,6 +214,7 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUC_NUMBER_OF
  };
  const QStringList QSL_Attrib_Nuc = {
+     "Time /h",
      "Center x /px",
      "Center x /um",
      "Center y /px",

@@ -3799,6 +3799,50 @@ double D_Stat::AxeTrans(double in_val, int trans_index)
     }
 }
 
+int D_Stat::Calc_MinMax(double *min, double *max, vector<double> vData)
+{
+    size_t n = vData.size();
+    if(n <= 0)
+        return ER_empty;
+
+    //init
+    *min = INFINITY;
+    *max = -INFINITY;
+
+    //loop data
+    for(size_t i = 0; i < n; i++)
+    {
+        double val = vData[i];
+
+        if(val < *min)  *min = val;
+        if(val > *max)  *max = val;
+    }
+
+    return ER_okay;
+}
+
+int D_Stat::Calc_MinMax(double *min, double *max, vector<double> *vData)
+{
+    size_t n = vData->size();
+    if(n <= 0)
+        return ER_empty;
+
+    //init
+    *min = INFINITY;
+    *max = -INFINITY;
+
+    //loop data
+    for(size_t i = 0; i < n; i++)
+    {
+        double val = (*vData)[i];
+
+        if(val < *min)  *min = val;
+        if(val > *max)  *max = val;
+    }
+
+    return ER_okay;
+}
+
 int D_Stat::Calc_MinMax(vector<double> v_y_data, double *x_min_ext, double *x_max_ext, double *y_min_ext, double *y_max_ext, int x_trans, int y_trans)
 {
     //define extrema (uninitalized)
@@ -4062,6 +4106,119 @@ double D_Stat::Optimize_Init(int opt_type)
     case c_OPT_1D_MAXIMUM:      return - INFINITY;
     case c_OPT_1D_MAXIMUM_ABS:  return - INFINITY;
     default:                    return NAN;}
+}
+
+size_t D_Stat::Value2PoolIndex(double val, double min, double range, size_t classes)
+{
+    if(classes < 2)
+        return 0;
+
+    if(range <= 0)
+        return 0;
+
+    double rel_pos = (val - min) / range;
+    double cla_pos = rel_pos * classes;
+
+    if(cla_pos < 0)
+        return 0;
+    else if(cla_pos >= double(classes))
+        return classes - 1;
+    else
+        return size_t(cla_pos);
+}
+
+double D_Stat::PoolCenter_From_Value(size_t class_index, double min, double range, size_t classes)
+{
+    if(classes < 2)
+        return min + (range / 2.0);
+
+    double rel_pos = double(class_index + 0.5) / double(classes);
+
+    return min + (rel_pos * range);
+}
+
+int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
+{
+    vector<double> vData_Out_x_Pools;
+    vector<double> vData_Out_y_Stats;
+
+    int err = PoolStat_Data(
+                &vData_Out_x_Pools,
+                &vData_Out_y_Stats,
+                vData_X_Pool,
+                vData_Y_Stat,
+                x_min,
+                x_max,
+                x_classes,
+                y_stat);
+
+    if(err != ER_okay)
+        return err;
+
+    size_t n = vData_Out_x_Pools.size();
+    if(vData_Out_y_Stats.size() != n)
+        return ER_size_missmatch;
+
+    vData_Out_PoolStat->clear();
+    vData_Out_PoolStat->reserve(n);
+    for(size_t c = 0; c < n; c++)
+        (*vData_Out_PoolStat)[c] = Point2d(
+                    vData_Out_x_Pools[c],
+                    vData_Out_y_Stats[c]);
+
+    return ER_okay;
+}
+
+int D_Stat::PoolStat_Data(vector<double> *vData_Out_x_Pools, vector<double> *vData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
+{
+    //errors
+    if(vData_X_Pool.empty())                                            return ER_empty;
+    if(vData_Y_Stat.empty())                                            return ER_empty;
+    if(vData_X_Pool.size() != vData_Y_Stat.size())                      return ER_size_missmatch;
+    if(x_min >= x_max)                                                  return ER_parameter_missmatch;
+    if(x_classes < 1)                                                   return ER_parameter_bad;
+    if(y_stat >= c_STAT_NUMBER_OF_STATS)                                return ER_parameter_bad;
+
+    //size of data
+    size_t n = vData_X_Pool.size();
+
+    //clear out
+    vData_Out_x_Pools->clear();
+    vData_Out_y_Stats->clear();
+    vData_Out_x_Pools->resize(x_classes);
+    vData_Out_y_Stats->resize(x_classes);
+
+    //range
+    double x_range = x_max - x_min;
+
+    //class sorted data
+    vector<vector<double>> vvData_ClaVal(x_classes);
+    for(size_t i = 0; i < n; i++)
+    {
+        double val_x = vData_X_Pool[i];
+        double val_y = vData_Y_Stat[i];
+
+        size_t i_x = Value2PoolIndex(
+                    val_x,
+                    x_min,
+                    x_range,
+                    x_classes);
+
+        vvData_ClaVal[i_x].push_back(val_y);
+    }
+
+    //calc stat
+    function<double (vector<double>)> F_Stat = Function_SingleStat(int(y_stat));
+    for(size_t c = 0; c < x_classes; c++)
+    {
+        //qDebug() << c;
+        double val_stat_y = F_Stat(vvData_ClaVal[c]);
+
+        (*vData_Out_x_Pools)[c] = PoolCenter_From_Value(c, x_min, x_range, x_classes);
+        (*vData_Out_y_Stats)[c] = val_stat_y;
+    }
+
+    return ER_okay;
 }
 
 double D_Stat::DistCircular_Rad(double angle1, double angle2)

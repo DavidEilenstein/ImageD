@@ -1496,7 +1496,10 @@ private slots:
 
     void MS6_Update_Results();
     void MS6_Update_Result_HistSimple();
+    void MS6_Update_Result_PoolStatLine_Single();
     void MS6_Update_Result_DataTable_3Axis();
+
+    void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
 
 private:
 
@@ -1558,6 +1561,7 @@ private:
 
     enum MS6_RESULT_TYPES {
         MS6_RES_TYP_HIST_SIMPLE,
+        MS6_RES_TYP_POOL_STAT_LINE_SINGLE,
         MS6_RES_TYP_SCATTER_2D_SIMPLE,
         MS6_RES_TYP_SCATTER_HEATMAP,
         MS6_RES_TYP_DATA_TABLE_3D,
@@ -1565,6 +1569,7 @@ private:
     };
     const QStringList QSL_MS6_ResultTypes = {
         "Histogram simple",
+        "Pooled statistic line single",
         "Scatter 2D simple",
         "Scatter heatmap",
         "Data table 3 attributes"

@@ -86,6 +86,7 @@ public:
     static int      Plot_Times_Step             (QChartView *pChartView, unsigned int *times, bool plot_time[4]);
     static int      Plot_Times_All              (QChartView *pChartView, D_Storage *pStore, bool plot_time[4], QLabel *L_total);
 
+    static int      Plot_Bar_PoolStat_Single    (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_BarCore_Single         (QChartView *pChartView, vector<double> v_data, QString name_title, QString name_series, QStringList name_categories, QString name_x, QString name_y);
     static int      Plot_BarCore_Multi          (QChartView *pChartView, vector<vector<double>> vv_data_SetVal, QString name_title, QStringList qsl_name_sets, QStringList name_categories, QString name_x, QString name_y);
     static int      Plot_BarCore_Start1_Single  (QChartView *pChartView, vector<double> *v_hist, QString name_title, QString name_series, QString name_x, QString name_y);
@@ -107,6 +108,10 @@ public:
     static int      Plot_Line_XY_Multi          (QChartView *pChartView, vector<double> v_X_Data, vector<vector<double>> vv_Y_Data, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool dots_visible = false, bool heat_color = false, bool heat_color_AllColors = false, Qt::Alignment legend_pos = Qt::AlignTop);
     static int      Plot_Line_XY_Multi          (QChartView *pChartView, vector<vector<double>> vv_X_Data, vector<vector<double>> vv_Y_Data, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool dots_visible = false, bool heat_color = false, bool heat_color_AllColors = false, Qt::Alignment legend_pos = Qt::AlignTop);
     static int      Plot_Line_XY_Multi          (QChartView *pChartView, vector<vector<double>> vv_X_Data, vector<vector<double>> vv_Y_Data, vector<vector<double>> vv_Y_Errors, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool dots_visible = false, bool heat_color = false, bool heat_color_AllColors = false, Qt::Alignment legend_pos = Qt::AlignTop);
+
+    static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range);
+    static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y);
+    static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y);
 
     static int      Plot_XY_Fit                 (QChartView *pChartView, vector<vector<vector<double>>> vvv_XY_Data_Measure, vector<vector<vector<double>>> vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y);
 

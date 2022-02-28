@@ -26,6 +26,8 @@
 
 //namespaces
 using namespace std;
+//using namespace cv; (prohibited because of abigous names with qtdatavisualization)
+#include <d_opencv_typedefs.h>
 
 /*!
  * \brief The D_Stat class Calculate statistical quantities of vectors of values.
@@ -46,27 +48,34 @@ public:
     static function<uchar  (vector<double>)>        Function_SingleStat_8bit(int stat);
     static function<double (vector<double>)>        Function_SingleStat_Circ_Rad(int stat);
 
-    static double       Mean                        (vector<double> v_data, double nan_value = NAN);
-    static double       MeanWeighted                (vector<double> v_data, vector<double> v_weights, double nan_value = NAN);
+    static double           Mean                        (vector<double> v_data, double nan_value = NAN);
+    static double           MeanWeighted                (vector<double> v_data, vector<double> v_weights, double nan_value = NAN);
 
-    static int          Calc_Vector2Hist_1          (vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
-    static int          Calc_Vector2Hist_2          (vector<vector<double>> *vv_hist, vector<vector<double>> *vv_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
+    static int              Calc_Vector2Hist_1          (vector<double> *v_hist, vector<double> *v_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
+    static int              Calc_Vector2Hist_2          (vector<vector<double>> *vv_hist, vector<vector<double>> *vv_data, unsigned int class_count, double *min_ext, double *max_ext, double *max_y_ext, double *step_ext, bool accumulate, bool uniform);
 
-    static double       AxeTrans                    (double in_val, int trans_index);
-    static int          Calc_MinMax                 (vector<double> v_y_data, double *x_min_ext, double *x_max_ext, double *y_min_ext, double *y_max_ext, int x_trans = c_AXE_TRANS_LIN, int y_trans = c_AXE_TRANS_LIN);
-    static int          Calc_MinMax                 (vector<vector<double>> vv_sy_data, double *x_min_ext, double *x_max_ext, double *y_min_ext, double *y_max_ext, int x_trans = c_AXE_TRANS_LIN, int y_trans = c_AXE_TRANS_LIN);
+    static double           AxeTrans                    (double in_val, int trans_index);
+    static int              Calc_MinMax                 (double* min, double* max, vector<double> vData);
+    static int              Calc_MinMax                 (double* min, double* max, vector<double>* vData);
+    static int              Calc_MinMax                 (vector<double> v_y_data, double *x_min_ext, double *x_max_ext, double *y_min_ext, double *y_max_ext, int x_trans = c_AXE_TRANS_LIN, int y_trans = c_AXE_TRANS_LIN);
+    static int              Calc_MinMax                 (vector<vector<double>> vv_sy_data, double *x_min_ext, double *x_max_ext, double *y_min_ext, double *y_max_ext, int x_trans = c_AXE_TRANS_LIN, int y_trans = c_AXE_TRANS_LIN);
 
-    static double       Quant                       (vector<double> *v_stats, unsigned int index);
-    static double       Quant_Norm                  (vector<double> *v_stats, unsigned int index);
-    static double       Quant_1stD                  (vector<double> *v_stats, unsigned int index, unsigned int step_width);
-    static double       Quant_1stD_Norm             (vector<double> *v_stats, unsigned int index, unsigned int step_width);
-    static double       Dist                        (vector<double> *v_stats, unsigned int index);
-    static double       Dist_Norm                   (vector<double> *v_stats, unsigned int index);
-    static double       Dist_1stD                   (vector<double> *v_stats, unsigned int index, unsigned int step_width);
-    static double       Dist_1stD_Norm              (vector<double> *v_stats, unsigned int index, unsigned int step_width);
+    static double           Quant                       (vector<double> *v_stats, unsigned int index);
+    static double           Quant_Norm                  (vector<double> *v_stats, unsigned int index);
+    static double           Quant_1stD                  (vector<double> *v_stats, unsigned int index, unsigned int step_width);
+    static double           Quant_1stD_Norm             (vector<double> *v_stats, unsigned int index, unsigned int step_width);
+    static double           Dist                        (vector<double> *v_stats, unsigned int index);
+    static double           Dist_Norm                   (vector<double> *v_stats, unsigned int index);
+    static double           Dist_1stD                   (vector<double> *v_stats, unsigned int index, unsigned int step_width);
+    static double           Dist_1stD_Norm              (vector<double> *v_stats, unsigned int index, unsigned int step_width);
 
-    static bool         Optimize(double val, double *opt, int opt_type);
-    static double       Optimize_Init(int opt_type);
+    static bool             Optimize(double val, double *opt, int opt_type);
+    static double           Optimize_Init(int opt_type);
+
+    static size_t           Value2PoolIndex(double val, double min, double range, size_t classes);
+    static double           PoolCenter_From_Value(size_t class_index, double min, double range, size_t classes);
+    static int              PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat);
+    static int              PoolStat_Data(vector<double>* vData_Out_x_Pools, vector<double>* vData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat);
 
 private:
     static double           DistCircular_Rad        (double angle1, double angle2);
