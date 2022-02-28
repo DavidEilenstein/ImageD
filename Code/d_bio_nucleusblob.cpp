@@ -433,7 +433,7 @@ int D_Bio_NucleusBlob::save_simple(QString path_of_dir_to_save_in, bool save_foc
     return ER_okay;
 }
 
-bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
+bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci_from_file)
 {
   //qDebug() << "D_Bio_NucleusBlob::load_simple - read:" << nucleus_file << "--------------------------------";
 
@@ -459,12 +459,11 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     vvSignalStats_StatChannel.clear();
     vvSignalStats_StatChannel.resize(VAL_STAT_NUMBER_OF);
     m_contour.clear();
-    if(load_foci)
+    if(load_foci_from_file)
         vvFoci.clear();
 
     //info needed for interpretation
     size_t section = FILE_SECTION_BEGIN;
-    int foci_channel_current = -1;
 
     //read line by line
   //qDebug() << "start loop";
@@ -496,14 +495,16 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
         if(new_section)
         {
             switch (section) {
-            case FILE_SECTION_END:      end_loop = true;        break;
-            case FILE_SECTION_FOCI:     end_loop = !load_foci;  break;
-            default:                                            break;}
+            case FILE_SECTION_END:      end_loop = true;                    break;
+            case FILE_SECTION_FOCI:     end_loop = !load_foci_from_file;    break;
+            default:                                                        break;}
           //qDebug() << "end loop?" << end_loop;
         }
         else
         {
             //not a new section but a new line
+
+
 
             //get subsection in this line
             bool subsection_found = false;
@@ -519,6 +520,8 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
             {
               //qDebug() << "No new subsection found";
             }
+
+
 
             //check section to select action
             switch (section)
@@ -581,129 +584,9 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                 break;
 
             case FILE_SECTION_FOCI:                 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-                if(load_foci)
+                if(load_foci_from_file)
                 {
-                  //qDebug() << "load foci";
-                    switch (subsection)
-                    {
-
-                    case FILE_SUBSECTION_NEW_FOCI_CHANNEL:
-                    {
-                        foci_channel_current++;
-                        vvFoci.push_back(vector<D_Bio_Focus>());
-                    }
-                        break;
-
-                    case FILE_SUBSECTION_FOCUS_BEGIN:
-                    {
-                        //data of new focus
-                        Point2f focus_centroid(0, 0);
-                        double focus_area = 0;
-                        double focus_compactness = 0;
-                        double focus_convexity = 0;
-                        vector<vector<double>> focus_StatsChannels;
-
-                        bool focus_end = false;
-                        while(!TS_Nucleus.atEnd() && !focus_end)
-                        {
-                            //line and entrys in line in focus
-                            QString QS_Line_focus = TS_Nucleus.readLine();
-                            QStringList QSL_LineEntrys_focus = QS_Line_focus.split(";");
-                            QString QS_LineFirst_focus = QSL_LineEntrys_focus.empty() ? "" : QSL_LineEntrys_focus.first();
-
-                            //get subsection in focus
-                            bool subsection_found_focus = false;
-                            size_t subsection_focus = FILE_SUBSECTION_DEFAULT;
-                            for(size_t i = 0; i < FILE_SECTION_NUMBER_OF && !subsection_found_focus; i++)
-                                if(QS_LineFirst_focus == QSL_FileSubsections[static_cast<int>(i)])
-                                {
-                                    subsection_focus = i;
-                                    subsection_found_focus = true;
-                                }
-
-                            //add data to focus
-                            switch (subsection_focus) {
-
-                            case FILE_SUBSECTION_POSITION:
-                            {
-                                if(QSL_LineEntrys_focus.size() == 3)
-                                {
-                                    bool ok_x;
-                                    double x = QSL_LineEntrys_focus[1].toDouble(&ok_x);
-                                    bool ok_y;
-                                    double y = QSL_LineEntrys_focus[2].toDouble(&ok_y);
-                                    if(ok_x && ok_y)
-                                        focus_centroid = Point2f(x, y);
-                                }
-                            }
-                                break;
-
-                            case FILE_SUBSECTION_SHAPE:
-                            {
-                                if(QSL_LineEntrys_focus.size() == 4)
-                                {
-                                    bool ok_area;
-                                    focus_area = QSL_LineEntrys_focus[1].toDouble(&ok_area);
-
-                                    bool ok_compactness;
-                                    focus_compactness = QSL_LineEntrys_focus[2].toDouble(&ok_compactness);
-
-                                    bool ok_convexity;
-                                    focus_convexity = QSL_LineEntrys_focus[3].toDouble(&ok_convexity);
-                                }
-                            }
-                                break;
-
-                            case FILE_SUBSECTION_VAL_COUNT:
-                            case FILE_SUBSECTION_MEAN:
-                            case FILE_SUBSECTION_STD:
-                            case FILE_SUBSECTION_SKEW:
-                            case FILE_SUBSECTION_KURTOSIS:
-                            case FILE_SUBSECTION_MEDIAN:
-                            case FILE_SUBSECTION_MEDIAN_DEVIATION:
-                            {
-                                size_t stat_index;
-                                switch (subsection_focus) {
-                                case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
-                                case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
-                                case FILE_SUBSECTION_STD:               stat_index = VAL_STAT_STD;              break;
-                                case FILE_SUBSECTION_SKEW:              stat_index = VAL_STAT_SKEW;             break;
-                                case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
-                                case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
-                                case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
-                                default:                                stat_index = VAL_STAT_NUMBER_OF;        break;}
-
-                                for(int ch = 1; ch < QSL_LineEntrys_focus.size(); ch++)
-                                {
-                                    bool ok;
-                                    double value = QSL_LineEntrys_focus[ch].toDouble(&ok);
-                                    focus_StatsChannels[stat_index].push_back(ok ? value : 0);
-                                }
-                            }
-                                break;
-
-                            case FILE_SUBSECTION_FOCUS_END:
-                            default:
-                                focus_end = true;
-                            }
-                        }
-
-                        //Add new focus
-                        D_Bio_Focus FocNew(
-                                    focus_centroid,
-                                    focus_area,
-                                    focus_compactness,
-                                    focus_convexity,
-                                    focus_StatsChannels,
-                                    foci_channel_current);
-                        vvFoci[foci_channel_current].push_back(FocNew);
-                    }
-                        break;
-
-                    default:
-                        //do nothing
-                        break;
-                    }
+                    load_foci(&TS_Nucleus);
                 }
                 else
                 {
@@ -720,11 +603,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
                 break;
             }
         }
-
     }
-
-
-
 
     //--------------------------------------------------- end
     F_Nucleus.close();
@@ -732,6 +611,227 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci)
     //calc features based on loaded data
     CalcFeats();
 
+    return true;
+}
+
+bool D_Bio_NucleusBlob::load_foci(QTextStream* pTS_NucTxtContent)
+{
+    //foci channel current
+    size_t foci_channel_current = -1;
+
+    //loop lines
+    while(!pTS_NucTxtContent->atEnd())
+    {
+        //line and entrys in line in focus
+        QString QS_Line = pTS_NucTxtContent->readLine();
+        //qDebug() << "Line in focus:" << QS_Line;
+        QStringList QSL_LineEntrys = QS_Line.split(";");
+        QString QS_LineFirst = QSL_LineEntrys.empty() ? "" : QSL_LineEntrys.first();
+
+        //get subsection in focus
+        bool subsection_found = false;
+        size_t subsection = FILE_SUBSECTION_DEFAULT;
+        for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found; i++)
+            if(QS_LineFirst == QSL_FileSubsections[static_cast<int>(i)])
+            {
+                subsection = i;
+                subsection_found = true;
+            }
+
+        //end?
+        if(QS_LineFirst == QSL_FileSections[FILE_SECTION_END])
+            return true;
+
+        if(subsection_found)
+        {
+            switch (subsection)
+            {
+
+            case FILE_SUBSECTION_NEW_FOCI_CHANNEL:
+            {
+                foci_channel_current++;
+                vvFoci.push_back(vector<D_Bio_Focus>());
+                //qDebug() << "D_Bio_NucleusBlob::load_simple" << "FILE_SUBSECTION_NEW_FOCI_CHANNEL increased foci channel index to:" << foci_channel_current << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+            }
+                break;
+
+            case FILE_SUBSECTION_FOCUS_BEGIN:
+            {
+                D_Bio_Focus FocRead;
+                if(load_focus(pTS_NucTxtContent, &FocRead, foci_channel_current))
+                    if(foci_channel_current < vvFoci.size())
+                        vvFoci[foci_channel_current].push_back(FocRead);
+            }
+                break;
+
+            case FILE_SUBSECTION_FOCUS_END:
+            {
+                //should not be reached in this loop
+            }
+                break;
+
+            default:
+            {
+                //do nothing
+            }
+                break;
+
+            }
+        }
+
+    }
+
+
+
+
+    return true;
+}
+
+bool D_Bio_NucleusBlob::load_focus(QTextStream *pTS_NucTxtContent, D_Bio_Focus *pFoc, size_t ch)
+{
+    //qDebug() << "D_Bio_NucleusBlob::load_focus" << "--------------------------------- new focus";
+
+    //data of new focus
+    Point2f focus_centroid(0, 0);
+    double focus_area = 0;
+    double focus_compactness = 0;
+    double focus_convexity = 0;
+    vector<vector<double>> focus_StatsChannels(VAL_STAT_NUMBER_OF);
+
+    //focus end
+    bool focus_end = false;
+
+    //loop lines
+    while(!pTS_NucTxtContent->atEnd() && !focus_end)
+    {
+        //line and entrys in line in focus
+        QString QS_Line = pTS_NucTxtContent->readLine();
+        //qDebug() << "Line in focus:" << QS_Line << ".........................";
+        QStringList QSL_LineEntrys = QS_Line.split(";");
+        QString QS_LineFirst = QSL_LineEntrys.empty() ? "" : QSL_LineEntrys.first();
+
+        //get subsection in focus
+        bool subsection_found = false;
+        size_t subsection = FILE_SUBSECTION_DEFAULT;
+        for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found; i++)
+            if(QS_LineFirst == QSL_FileSubsections[static_cast<int>(i)])
+            {
+                subsection = i;
+                subsection_found = true;
+                //qDebug() << QS_LineFirst << "matches subsection index" << subsection;
+            }
+
+        if(subsection_found)
+        {
+            switch (subsection)
+            {
+
+            case FILE_SUBSECTION_POSITION:
+            {
+                //qDebug() << "FILE_SUBSECTION_POSITION";
+                //example:
+                //Position;2582;328
+                //0        1    2       n=3
+
+                if(QSL_LineEntrys.size() == 3)
+                {
+                    bool ok_x;
+                    double x = QSL_LineEntrys[1].toDouble(&ok_x);
+                    bool ok_y;
+                    double y = QSL_LineEntrys[2].toDouble(&ok_y);
+                    if(ok_x && ok_y)
+                        focus_centroid = Point2f(x, y);
+                }
+            }
+                break;
+
+            case FILE_SUBSECTION_SHAPE:
+            {
+                //qDebug() << "FILE_SUBSECTION_SHAPE";
+                //example:
+                //ShapeAreaConvexCompact;66;0.93887;0.762959
+                //0                      1  2       3          n=4
+
+                if(QSL_LineEntrys.size() == 4)
+                {
+                    bool ok;
+                    double val;
+
+                    val = QSL_LineEntrys[1].toDouble(&ok);
+                    if(ok)
+                        focus_area = val;
+
+                    val = QSL_LineEntrys[2].toDouble(&ok);
+                    if(ok)
+                        focus_compactness = val;
+
+                    val = QSL_LineEntrys[3].toDouble(&ok);
+                    if(ok)
+                        focus_convexity = val;
+                }
+            }
+                break;
+
+            case FILE_SUBSECTION_VAL_COUNT:
+            case FILE_SUBSECTION_MEAN:
+            case FILE_SUBSECTION_STD:
+            case FILE_SUBSECTION_SKEW:
+            case FILE_SUBSECTION_KURTOSIS:
+            case FILE_SUBSECTION_MEDIAN:
+            case FILE_SUBSECTION_MEDIAN_DEVIATION:
+            {
+                //qDebug() << "FILE_SUBSECTION_<VALUE_STAT>" << subsection;
+                //example:
+                //Skewness;-0.0206295;0.762137;-0.0610303
+                //0        1          2        3          n=channel_count+1 (3 channels + 1 section = 4 entrys in this case)
+
+                size_t stat_index;
+                switch (subsection) {//found at index 0 ("Skewness"->FILE_SUBSECTION_SKEW->VAL_STAT_SKEW in example above)
+                case FILE_SUBSECTION_VAL_COUNT:         stat_index = VAL_STAT_COUNT;            break;
+                case FILE_SUBSECTION_MEAN:              stat_index = VAL_STAT_MEAN;             break;
+                case FILE_SUBSECTION_STD:               stat_index = VAL_STAT_STD;              break;
+                case FILE_SUBSECTION_SKEW:              stat_index = VAL_STAT_SKEW;             break;
+                case FILE_SUBSECTION_KURTOSIS:          stat_index = VAL_STAT_KURTOSIS;         break;
+                case FILE_SUBSECTION_MEDIAN:            stat_index = VAL_STAT_MEDIAN;           break;
+                case FILE_SUBSECTION_MEDIAN_DEVIATION:  stat_index = VAL_STAT_MEDIAN_DEVIATION; break;
+                default:                                stat_index = VAL_STAT_NUMBER_OF;        break;}
+
+                for(int i = 1; i < QSL_LineEntrys.size(); i++)//index 1 is 1st number, index 0 is subsection keyword -> start at 1
+                {
+                    bool ok;
+                    double val = QSL_LineEntrys[i].toDouble(&ok);
+                    focus_StatsChannels[stat_index].push_back(ok ? val : 0);
+                }
+            }
+                break;
+
+            case FILE_SUBSECTION_FOCUS_END:
+            {
+                focus_end = true;
+            }
+                break;
+
+            default:
+            {
+                //do nothing
+            }
+                break;
+
+            }
+        }
+    }
+
+    //create new focus
+    *pFoc = D_Bio_Focus(
+                focus_centroid,
+                focus_area,
+                focus_compactness,
+                focus_convexity,
+                focus_StatsChannels,
+                ch);
+
+    //finish
+    //qDebug() << "D_Bio_NucleusBlob::load_focus" << "--------------------------------- end focus";
     return true;
 }
 

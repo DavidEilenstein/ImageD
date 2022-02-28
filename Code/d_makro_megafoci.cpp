@@ -6223,7 +6223,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData_Detections(size_t t, bool error_when_no_dir,
 
                             //load nucleus image
                             D_Bio_NucleusImage NucImg;
-                            int ER = NucImg.load(DIR_ImageTYX.path());
+                            int ER = NucImg.load(DIR_ImageTYX.path(), false);
                             ERR(ER, "MS2_LoadData_Detections", "Load nucleus image");
 
                             //succsess?
@@ -7488,6 +7488,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
                 DIR_MS4_In_Master.path(),
                 DIR_MS4_In_DetectionsAssigned.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
+                true,
                 true);
 
     state_MS4_detections_loaded_to_pedigree = true;
@@ -8282,7 +8283,8 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiData()
                 DIR_ParentMS3.path(),
                 DIR_MS5_Load_NucleiData.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
-                false);
+                false,
+                true);
 
     StatusSet("Finished loading nuclei data from step 3");
 
@@ -9259,25 +9261,32 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
 
 bool D_MAKRO_MegaFoci::MS6_LoadAll()
 {
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "start ::::::::::::::::::::::::::::::::::::::::::::::::";
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return false;
 
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadDirs";
     if(!MS6_LoadDirs())
     {
         StatusSet("Failed loading directories " + QS_Fun_Sad);
         return false;
     }
 
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiData";
     if(!MS6_LoadNucleiData())
     {
         StatusSet("Failed loading nuclei data " + QS_Fun_Sad);
         return false;
     }
+    MS6_NucPedigree_Results.info_debug();
 
     //channels list and irradiation time
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetChannelsFromUi";
     MS6_GetChannelsFromUi();
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetIrradiationTimeFromUi";
     MS6_GetIrradiationTimeFromUi();
 
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiLifes";
     if(!MS6_LoadNucleiLifes())
     {
         StatusSet("Failed loading nuclei lifes " + QS_Fun_Sad);
@@ -9294,11 +9303,13 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     ui->groupBox_MS6_Control_Results->setEnabled(true);
 
     //split to nuc lifes
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
     StatusSet("Start spearating linked nucleui into nucleus lifes");
     MS6_NucPedigree_Results.calc_NucLifes();
     StatusSet("Finished spearating linked nucleui into nucleus lifes");
 
     //finish
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "finish ::::::::::::::::::::::::::::::::::::::::::::::::";
     StatusSet("Loaded all needed data " + QS_Fun_Happy);
     //StatusSet(MS6_NucPedigree_Results.info());
     MS6_NucPedigree_Results.info_debug();
@@ -9404,7 +9415,8 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiData()
                 DIR_ParentMS3.path(),
                 DIR_MS6_Load_NucleiData.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
-                false);
+                false,
+                true);
 
     StatusSet("Finished loading nuclei data from step 3");
 

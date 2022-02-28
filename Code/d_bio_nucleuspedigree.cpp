@@ -307,7 +307,7 @@ D_Bio_NucleusBlob *D_Bio_NucleusPedigree::get_pNucleus(size_t t, size_t y_mosaic
     return pNucBest;
 }
 
-bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour)
+bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files)
 {
     QDir DIR_LoadNucDataMaster(QS_path_NucDataMaster);
     QDir DIR_LoadNucData(QS_path_NucData);
@@ -328,11 +328,13 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                     DIR_LoadNucDataMaster,
                     DIR_LoadNucData,
                     t,
-                    forget_contour);
+                    forget_contour,
+                    foci_are_part_of_nuc_files);
 
     for(size_t t = 0; t < nt; t++)
         vThreadsData[t].join();
 
+    //qDebug() << "D_Bio_NucleusPedigree::load_nuclei_data" << "end";
     return true;
 }
 
@@ -1054,8 +1056,9 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
                     //Filtered nuc blob (init with copy to preserve tracking context info etc.)
                     D_Bio_NucleusBlob NucBlobFiltered = *pNucBlobOriginal;
 
-                    //clear origonal foci from copy (they are filtered next)
+                    //clear original foci from copy (they are filtered next)
                     NucBlobFiltered.clear_Foci();
+                    NucBlobFiltered.set_FociChannels(pNucBlobOriginal->get_FociChannels());
 
                     //loop foci channels
                     for(size_t ch = 0; ch < pNucBlobOriginal->get_FociChannels(); ch++)
@@ -1429,9 +1432,9 @@ bool D_Bio_NucleusPedigree::match_save_results(QString QS_path)
     return true;
 }
 
-bool D_Bio_NucleusPedigree::match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour)
+bool D_Bio_NucleusPedigree::match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files)
 {    
-    if(!load_nuclei_data(QS_path_NucDataMaster, QS_path_NucData, nt, ny, nx, forget_contour))
+    if(!load_nuclei_data(QS_path_NucDataMaster, QS_path_NucData, nt, ny, nx, forget_contour, foci_are_part_of_nuc_files))
         return false;
 
     if(!match_load_matches(QS_path_NucLifes))
@@ -1555,7 +1558,7 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
     return true;
 }
 
-bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour)
+bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files)
 {
     //CONTINUE HERE: Make this method load foci too and not only nuclei !!!
 
@@ -1606,8 +1609,8 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
 
                     //blocks in dir name
                     QStringList QSL_ImageDirBlocks = QS_ImageDirName.split("_");
-                    if(QSL_ImageDirBlocks.size() == 4)//Image_T*_Y*_X*
-                    {
+                    if(QSL_ImageDirBlocks.size() == 4)  //Image _ T* _ Y* _ X*
+                    {                                   //0       1    2    3
                         //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "correct block count of name" << QSL_ImageDirBlocks;
 
                         //get x
@@ -1638,7 +1641,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
 
                                 //load nucleus image
                                 D_Bio_NucleusImage NucImg;
-                                if(NucImg.load(DIR_ImageTYX.path()) == ER_okay)
+                                if(NucImg.load(DIR_ImageTYX.path(), foci_are_part_of_nuc_files) == ER_okay)
                                 {
                                     //set mosaic offset
                                     NucImg.set_OffsetMosaicGrid(Point(ix, iy));
@@ -1647,7 +1650,9 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
                                     //qDebug() << "D_MAKRO_MegaFoci::MS4_LoadDetections" << "Loaded x/y" << ix << iy << NucImg.info();
 
                                     //loop nuclei
-                                    for(size_t nuc = 0; nuc < NucImg.get_nuclei_count(); nuc++)
+                                    size_t n_nuc = NucImg.get_nuclei_count();
+                                    //qDebug() << "D_Bio_NucleusPedigree::load_time_nuclei_data_thread" << n_nuc << "nuclei in t/y/x" << t_thread << iy << ix;
+                                    for(size_t nuc = 0; nuc < n_nuc; nuc++)
                                     {
                                         //get Nuc
                                         D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);

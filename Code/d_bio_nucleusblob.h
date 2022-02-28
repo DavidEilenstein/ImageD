@@ -82,8 +82,12 @@ public:
     //int                           save(QString path, bool simple);
     //int                           save_detailed(QString path);
     int                             save_simple(QString path_of_dir_to_save_in, bool save_foci);
-    bool                            load_simple(QString nucleus_file, bool load_foci);
+    bool                            load_simple(QString nucleus_file, bool load_foci_from_file);
+private:
+    bool                            load_foci(QTextStream *pTS_NucTxtContent);
+    bool                            load_focus(QTextStream *pTS_NucTxtContent, D_Bio_Focus* pFoc, size_t ch);
 
+public:
     bool                            set_path_relative(QString path_rel);
     bool                            set_path_absolute(QString path_abs, QDir master_dir);
     bool                            has_path_relative()                                     {return !QS_path_relative.isEmpty();}

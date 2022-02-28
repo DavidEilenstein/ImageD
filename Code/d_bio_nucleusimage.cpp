@@ -483,7 +483,7 @@ int D_Bio_NucleusImage::calc_NucleiDecomposition(Mat *pMA_NucleiBinary, vector<M
     return ER_okay;
 }
 
-int D_Bio_NucleusImage::load(QString path)
+int D_Bio_NucleusImage::load(QString path, bool foci_are_part_of_nuc_files)
 {
     QDir DIR(path);
     if(!DIR.exists())
@@ -510,7 +510,7 @@ int D_Bio_NucleusImage::load(QString path)
             if(FI.baseName().contains("Nucleus_T"))
             {
                 D_Bio_NucleusBlob NucLoad;
-                if(NucLoad.load_simple(FI.absoluteFilePath(), false))
+                if(NucLoad.load_simple(FI.absoluteFilePath(), foci_are_part_of_nuc_files))
                 {
                     //qDebug() << NucLoad.info();
                     vNuclei.push_back(NucLoad);
@@ -518,7 +518,7 @@ int D_Bio_NucleusImage::load(QString path)
             }
 
             //foci?
-            if(FI.baseName().contains("Foci_T"))
+            if(FI.baseName().contains("Foci_T") && !foci_are_part_of_nuc_files)
             {
                 FIL_foci.push_back(FI);
             }
@@ -526,7 +526,10 @@ int D_Bio_NucleusImage::load(QString path)
     }
 
     //load foci
-    return load_foci(FIL_foci);
+    if(foci_are_part_of_nuc_files)
+        return ER_okay;
+    else
+        return load_foci(FIL_foci);
 }
 
 int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
