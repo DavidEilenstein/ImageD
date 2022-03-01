@@ -9760,6 +9760,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     {
     case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();             break;
     case MS6_RES_TYP_POOL_STAT_LINE_SINGLE: MS6_Update_Result_PoolStatLine_Single();    break;
+    case MS6_RES_TYP_SCATTER_2D_SIMPLE:     MS6_Update_Result_Scatter_2D();             break;
     case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
     default:                                                                            break;
     }
@@ -9796,6 +9797,20 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_PoolStatLine_Single()
                 ui->checkBox_MS6_ResType_Param_PoolStatLine_AutoRange->isChecked()),
         "MS6_Update_Result_PoolStatLine_Single",
         "D_Plot::Plot_Line_PoolStat_Single");
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_Scatter_2D()
+{
+    ERR(D_Plot::Plot_Scatter_2D_Single_Y(
+                MS6_pChartView_Plot_2D,
+                MS6_DataForAxis(0),
+                MS6_DataForAxis(1),
+                MS6_DefaultTitle_Result(),
+                MS6_DefaultTitle_Series(),
+                MS6_DefaultTitle_Axis(0),
+                MS6_DefaultTitle_Axis(1)),
+        "MS6_Update_Result_Scatter_2D",
+        "D_Plot::Plot_Hist_WithStats");
 }
 
 void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()

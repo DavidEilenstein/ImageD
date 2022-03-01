@@ -93,6 +93,7 @@ public:
 
     static int      Plot_Scatter_2D_Parameter   (QChartView *pChartView, vector<vector<vector<double>>> *vvv_ParSetVal, unsigned int set, unsigned int par_x, unsigned int par_y, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_Scatter_2D_Parameter   (QChartView *pChartView, vector<vector<double>> *vv_ParVal, unsigned int par_x, unsigned int par_y, QString name_title, QString name_series, QString name_x, QString name_y);
+    static int      Plot_Scatter_2D_Single_Y    (QChartView *pChartView, vector<double> v_X_Val, vector<double> v_Y_Val, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_Scatter_2D_Single_Y    (QChartView *pChartView, vector<double> *v_X_Val, vector<double> *v_Y_Val, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_Scatter_2D_Multi_Y     (QChartView *pChartView, vector<double> *v_X_Val, vector<vector<double>> *vv_Y_SerVal, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_Scatter_2D_Multi_Y     (QChartView *pChartView, vector<double> *v_X_Val, vector<vector<double>> *vv_Y_SerVal, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y);

@@ -1684,6 +1684,18 @@ int D_Plot::Plot_Scatter_2D_Parameter(QChartView *pChartView, vector<vector<doub
     */
 }
 
+int D_Plot::Plot_Scatter_2D_Single_Y(QChartView *pChartView, vector<double> v_X_Val, vector<double> v_Y_Val, QString name_title, QString name_series, QString name_x, QString name_y)
+{
+    return Plot_Scatter_2D_Single_Y(
+                pChartView,
+                &v_X_Val,
+                &v_Y_Val,
+                name_title,
+                name_series,
+                name_x,
+                name_y);
+}
+
 int D_Plot::Plot_Scatter_2D_Single_Y(QChartView *pChartView, vector<double> *v_X_Val, vector<double> *v_Y_Val, QString name_title, QString name_series, QString name_x, QString name_y)
 {
     if(v_X_Val->empty())                        return ER_empty;

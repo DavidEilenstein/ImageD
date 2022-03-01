@@ -1497,6 +1497,7 @@ private slots:
     void MS6_Update_Results();
     void MS6_Update_Result_HistSimple();
     void MS6_Update_Result_PoolStatLine_Single();
+    void MS6_Update_Result_Scatter_2D();
     void MS6_Update_Result_DataTable_3Axis();
 
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);

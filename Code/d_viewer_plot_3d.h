@@ -14,6 +14,7 @@
 #include <d_error_handler.h>
 #include <d_visdat_obj.h>
 #include <d_visdat_proc.h>
+#include <d_stat.h>
 
 //general
 #include <iostream>
@@ -84,6 +85,8 @@ public:
     int     plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe);
     int     plot_VD_Scatter(D_VisDat_Obj *pVD, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool called_internally = false);
     int     plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy, size_t dim_index_surfaces, size_t axis_z, size_t axis_v, size_t surface_mode, size_t texture_mode, size_t shadow, bool background, bool grid, bool draw_surface, bool draw_wireframe, bool called_internally = false);
+
+    int     plot_Heatmap(vector<double> vData_X, vector<double> vData_Y, vector<double> vData_Z, double min_x, double max_x, double classes_x, double min_y, double max_y, double classes_y, double min_z, double max_z, size_t stat_z, bool show_as_height, bool called_internally = false);
 
     int     plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally = false);
     int     plot_Tree(vector<Point3d> vNodesCoord, vector<Point3d> vEdgeCoordBegins, vector<Point3d> vEdgeCoordEnds, vector<QColor> vNodeColor, vector<QColor> vEdgeColor, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, size_t points_per_edge = 5, double size_nodes = 0.1, double size_edge = 0.05, bool called_internally = false);

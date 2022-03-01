@@ -510,6 +510,38 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_Y, vector<double> vData_Z, double min_x, double max_x, double classes_x, double min_y, double max_y, double classes_y, double min_z, double max_z, size_t stat_z, bool show_as_height, bool called_internally)
+{
+    //errors
+    if(vData_X.empty())                             return ER_empty;
+    if(vData_Y.empty())                             return ER_empty;
+    if(vData_Z.empty())                             return ER_empty;
+    if(vData_X.size() != vData_Y.size())            return ER_size_missmatch;
+    if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
+    if(min_x >= max_x)                              return ER_parameter_missmatch;
+    if(min_y >= max_y)                              return ER_parameter_missmatch;
+    if(min_z >= max_z)                              return ER_parameter_missmatch;
+    if(classes_x <= 1)                              return ER_parameter_bad;
+    if(classes_y <= 1)                              return ER_parameter_bad;
+    if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
+
+    //avoid thread issues
+    if(state_plotting && !called_internally)
+        return ER_ThreadIssue;
+    state_plotting = true;
+
+    //sizes
+    size_t n_data = vData_X.size();
+    //CONTINUE HERE
+
+    //data field
+    vector<vector<vector<double>>> vvvData_XYI(class);
+
+    //pooling
+    vector<
+    D_Stat::PoolStat_Data()
+}
+
 int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally)
 {
     if(!state_ui_init)                                              return ER_UiNotInit;

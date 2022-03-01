@@ -99,7 +99,6 @@ public:
     static int      Convert_toQImage4Ch_8bit    (QImage *pQI_Out, Mat *pMA_In_Value, Mat *pMA_In_Alpha, bool heat_color = false);
 
 
-
     static int      MinMax_of_Mat               (Mat *pMA_In, double *min_ext, double *max_ext);
     static int      MinMax_of_Mat_1C            (Mat *pMA_In, double *min_ext, double *max_ext);
     static int      ValAtPix                    (vector<double> *v_value, Mat *pMA_In, size_t x_pos, size_t y_pos);
