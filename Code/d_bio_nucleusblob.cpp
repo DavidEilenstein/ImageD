@@ -137,7 +137,7 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     }
 }
 
-bool D_Bio_NucleusBlob::attribute_is_channel_dependent(size_t i_attrib)
+bool D_Bio_NucleusBlob::attribute_is_value_channel_dependent(size_t i_attrib)
 {
     switch (i_attrib) {
 
@@ -149,6 +149,15 @@ bool D_Bio_NucleusBlob::attribute_is_channel_dependent(size_t i_attrib)
     case ATTRIB_NUC_MEDIAN_CHX:
     case ATTRIB_NUC_ABSDEVMED_CHX:
         return true;
+
+    default:
+        return false;
+    }
+}
+
+bool D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(size_t i_attrib)
+{
+    switch (i_attrib) {
 
     case ATTRIB_NUC_FOCI_COUNT_CHX:
     case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX:

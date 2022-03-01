@@ -9151,9 +9151,9 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     ui->doubleSpinBox_MS6_IrradiationTime->setMaximum(dataset_dim_t - 1);
 
     //show channel name selectors
-    ui->lineEdit_MS6_Channel_Name_0->setEnabled(dataset_dim_p_exist > 0);
-    ui->lineEdit_MS6_Channel_Name_1->setEnabled(dataset_dim_p_exist > 1);
-    ui->lineEdit_MS6_Channel_Name_2->setEnabled(dataset_dim_p_exist > 2);
+    ui->lineEdit_MS6_ValueChannel_Name_0->setEnabled(dataset_dim_p_exist > 0);
+    ui->lineEdit_MS6_ValueChannel_Name_1->setEnabled(dataset_dim_p_exist > 1);
+    ui->lineEdit_MS6_ValueChannel_Name_2->setEnabled(dataset_dim_p_exist > 2);
 
     //init pedigree filter ui
     MS6_NucPedigree_Results.set_attrib_filter_ui(
@@ -9176,19 +9176,20 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     //-------------------------------------------------------------------------------------- results viewer axis controls
 
     //containers for axis description
-    MS6_vL_ResAxis_Description      = {ui->label_MS6_Res_AxisDescription_0,         ui->label_MS6_Res_AxisDescription_1,        ui->label_MS6_Res_AxisDescription_2};
+    MS6_vL_ResAxis_Description          = {ui->label_MS6_Res_AxisDescription_0,         ui->label_MS6_Res_AxisDescription_1,        ui->label_MS6_Res_AxisDescription_2};
 
     //containers for axis control comboboxes
-    MS6_vCB_ResAxis_Stat_low        = {ui->comboBox_MS6_ResAxis_Stat_low_0,         ui->comboBox_MS6_ResAxis_Stat_low_1,        ui->comboBox_MS6_ResAxis_Stat_low_2};
-    MS6_vCB_ResAxis_Stat_high       = {ui->comboBox_MS6_ResAxis_Stat_high_0,        ui->comboBox_MS6_ResAxis_Stat_high_1,       ui->comboBox_MS6_ResAxis_Stat_high_2};
-    MS6_vCB_ResAxis_Level_Foc       = {ui->comboBox_MS6_ResAxis_Level_Foc_0,        ui->comboBox_MS6_ResAxis_Level_Foc_1,       ui->comboBox_MS6_ResAxis_Level_Foc_2};
-    MS6_vCB_ResAxis_Level_NucBlob   = {ui->comboBox_MS6_ResAxis_Level_NucBlob_0,    ui->comboBox_MS6_ResAxis_Level_NucBlob_1,   ui->comboBox_MS6_ResAxis_Level_NucBlob_2};
-    MS6_vCB_ResAxis_Level_NucLife   = {ui->comboBox_MS6_ResAxis_Level_NucLife_0,    ui->comboBox_MS6_ResAxis_Level_NucLife_1,   ui->comboBox_MS6_ResAxis_Level_NucLife_2};
-    MS6_vCB_ResAxis_Attrib_Foc      = {ui->comboBox_MS6_ResAxis_Attrib_Foc_0,       ui->comboBox_MS6_ResAxis_Attrib_Foc_1,      ui->comboBox_MS6_ResAxis_Attrib_Foc_2};
-    MS6_vCB_ResAxis_Attrib_NucBlob  = {ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0,   ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1,  ui->comboBox_MS6_ResAxis_Attrib_NucBlob_2};
-    MS6_vCB_ResAxis_Attrib_NucLife  = {ui->comboBox_MS6_ResAxis_Attrib_NucLife_0,   ui->comboBox_MS6_ResAxis_Attrib_NucLife_1,  ui->comboBox_MS6_ResAxis_Attrib_NucLife_2};
-    MS6_vCB_ResAxis_FocChannel      = {ui->comboBox_MS6_ResParam_FocChannel_0,      ui->comboBox_MS6_ResParam_FocChannel_1,     ui->comboBox_MS6_ResParam_FocChannel_2};
-    MS6_vCB_ResAxis_AttribChannel   = {ui->comboBox_MS6_ResParam_AttribChannel_0,   ui->comboBox_MS6_ResParam_AttribChannel_1,  ui->comboBox_MS6_ResParam_AttribChannel_2};
+    MS6_vCB_ResAxis_Stat_low            = {ui->comboBox_MS6_ResAxis_Stat_low_0,             ui->comboBox_MS6_ResAxis_Stat_low_1,            ui->comboBox_MS6_ResAxis_Stat_low_2};
+    MS6_vCB_ResAxis_Stat_high           = {ui->comboBox_MS6_ResAxis_Stat_high_0,            ui->comboBox_MS6_ResAxis_Stat_high_1,           ui->comboBox_MS6_ResAxis_Stat_high_2};
+    MS6_vCB_ResAxis_Level_Foc           = {ui->comboBox_MS6_ResAxis_Level_Foc_0,            ui->comboBox_MS6_ResAxis_Level_Foc_1,           ui->comboBox_MS6_ResAxis_Level_Foc_2};
+    MS6_vCB_ResAxis_Level_NucBlob       = {ui->comboBox_MS6_ResAxis_Level_NucBlob_0,        ui->comboBox_MS6_ResAxis_Level_NucBlob_1,       ui->comboBox_MS6_ResAxis_Level_NucBlob_2};
+    MS6_vCB_ResAxis_Level_NucLife       = {ui->comboBox_MS6_ResAxis_Level_NucLife_0,        ui->comboBox_MS6_ResAxis_Level_NucLife_1,       ui->comboBox_MS6_ResAxis_Level_NucLife_2};
+    MS6_vCB_ResAxis_Attrib_Foc          = {ui->comboBox_MS6_ResAxis_Attrib_Foc_0,           ui->comboBox_MS6_ResAxis_Attrib_Foc_1,          ui->comboBox_MS6_ResAxis_Attrib_Foc_2};
+    MS6_vCB_ResAxis_Attrib_NucBlob      = {ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0,       ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1,      ui->comboBox_MS6_ResAxis_Attrib_NucBlob_2};
+    MS6_vCB_ResAxis_Attrib_NucLife      = {ui->comboBox_MS6_ResAxis_Attrib_NucLife_0,       ui->comboBox_MS6_ResAxis_Attrib_NucLife_1,      ui->comboBox_MS6_ResAxis_Attrib_NucLife_2};
+    MS6_vCB_ResAxis_FocChannel          = {ui->comboBox_MS6_ResParam_FocChannel_0,          ui->comboBox_MS6_ResParam_FocChannel_1,         ui->comboBox_MS6_ResParam_FocChannel_2};
+    MS6_vCB_ResAxis_AttribChannel_Val   = {ui->comboBox_MS6_ResParam_AttribChannel_Val_0,   ui->comboBox_MS6_ResParam_AttribChannel_Val_1,  ui->comboBox_MS6_ResParam_AttribChannel_Val_2};
+    MS6_vCB_ResAxis_AttribChannel_Foc   = {ui->comboBox_MS6_ResParam_AttribChannel_Foc_0,   ui->comboBox_MS6_ResParam_AttribChannel_Foc_1,  ui->comboBox_MS6_ResParam_AttribChannel_Foc_2};
 
     //populate comboboxes
     for(size_t i = 0; i < MS6_ResAxis_Count; i++)
@@ -9299,6 +9300,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     MS6_state_loaded_all = true;
 
     //ui
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "Ui";
     ui->groupBoxMS6_Control_Data->setEnabled(false);
     ui->groupBox_MS6_View->setEnabled(true);
     ui->groupBox_MS6_Control_Filters->setEnabled(true);
@@ -9447,21 +9449,33 @@ bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()
     if(!MS6_state_ui_init)
         return false;
 
-    MS6_QSL_Channels.clear();
+    //----------------- values
+
+    MS6_QSL_Channels_Values.clear();
 
     if(dataset_dim_p_exist > 0)
-        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_0->text());
+        MS6_QSL_Channels_Values.append(ui->lineEdit_MS6_ValueChannel_Name_0->text());
     if(dataset_dim_p_exist > 1)
-        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_1->text());
+        MS6_QSL_Channels_Values.append(ui->lineEdit_MS6_ValueChannel_Name_1->text());
     if(dataset_dim_p_exist > 2)
-        MS6_QSL_Channels.append(ui->lineEdit_MS6_Channel_Name_2->text());
+        MS6_QSL_Channels_Values.append(ui->lineEdit_MS6_ValueChannel_Name_2->text());
 
-    MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels);
+    MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels_Values);
+
+    //----------------- foci
+
+    MS6_QSL_Channels_Foci.clear();
+    MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_0->text());
+    MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_1->text());
+    MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_2->text());
+
+    //----------------- populate dropdowns
 
     for(size_t i = 0; i < MS6_ResAxis_Count; i++)
     {
-        Populate_CB_Single(MS6_vCB_ResAxis_FocChannel[i],       MS6_QSL_Channels,   dataset_dim_p_exist > 1 ? 1 : 0);
-        Populate_CB_Single(MS6_vCB_ResAxis_AttribChannel[i],    MS6_QSL_Channels,   dataset_dim_p_exist > 1 ? 1 : 0);
+        Populate_CB_Single(MS6_vCB_ResAxis_FocChannel[i],           MS6_QSL_Channels_Foci,      0);
+        Populate_CB_Single(MS6_vCB_ResAxis_AttribChannel_Foc[i],    MS6_QSL_Channels_Foci,      0);
+        Populate_CB_Single(MS6_vCB_ResAxis_AttribChannel_Val[i],    MS6_QSL_Channels_Values,    MS6_QSL_Channels_Values.size() > 1 ? 1 : 0);
     }
 
     return true;
@@ -9554,8 +9568,8 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
         MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_EMPTY);
-        MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_OFF);
-        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_OFF);
+        MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_OFF);
+        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
     }
         break;
 
@@ -9568,18 +9582,26 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCLIFE);
-            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_OFF);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
         }
             break;
 
         case DATA_LEVEL_NUCLIFE_STAT_NUCBLOB:
         {
+            int att_ch_dependency;
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+            else
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCBLOB);
-            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_OFF);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_NucleusBlob::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
         }
             break;
 
@@ -9588,8 +9610,8 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
-            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_ON);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
         }
             break;
 
@@ -9605,11 +9627,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
         case DATA_LEVEL_NUCBLOB_ATTRIB:
         {
+            int att_ch_dependency;
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+            else
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCBLOB);
-            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_OFF);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_NucleusBlob::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
         }
             break;
 
@@ -9618,8 +9648,8 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
-            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_ON);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+            MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
         }
             break;
 
@@ -9634,8 +9664,8 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
         MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
-        MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_ON);
-        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ON : MS6_RES_AXIS_CHANNEL_OFF);
+        MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
+        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
     }
         break;
 
@@ -9646,6 +9676,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
 vector<double> D_MAKRO_MegaFoci::MS6_DataForAxis(size_t i_axis)
 {
+    bool att_is_foc_ch_depended = false;
+
+    if(ui->comboBox_MS6_ResultDatapointLevel->currentIndex() == MS6_RES_AXIS_MODE_NUCLIFE)
+        if(MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentIndex() == DATA_LEVEL_NUCLIFE_STAT_NUCBLOB)
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_is_foc_ch_depended = true;
+
+    if(ui->comboBox_MS6_ResultDatapointLevel->currentIndex() == MS6_RES_AXIS_MODE_NUCBLOB)
+        if(MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentIndex() == DATA_LEVEL_NUCBLOB_ATTRIB)
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex()))
+                att_is_foc_ch_depended = true;
+
+
     return MS6_NucPedigree_Results.attrib_data(
                 ui->comboBox_MS6_ResultDatapointLevel->currentIndex(),
                 MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentIndex(),
@@ -9654,7 +9697,7 @@ vector<double> D_MAKRO_MegaFoci::MS6_DataForAxis(size_t i_axis)
                 MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex(),
-                MS6_vCB_ResAxis_AttribChannel[i_axis]->currentIndex(),
+                att_is_foc_ch_depended ? MS6_vCB_ResAxis_AttribChannel_Foc[i_axis]->currentIndex() : MS6_vCB_ResAxis_AttribChannel_Val[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_FocChannel[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Stat_low[i_axis]->currentIndex(),
                 MS6_vCB_ResAxis_Stat_high[i_axis]->currentIndex());

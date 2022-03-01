@@ -558,6 +558,9 @@
            </item>
            <item row="3" column="1">
             <widget class="QSpinBox" name="spinBox_DataDim_P_exist">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
@@ -11027,37 +11030,8 @@ color: red;</string>
               <property name="spacing">
                <number>3</number>
               </property>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBox_MS6_ResultDatapointLevel"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_133">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Type</string>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="1">
                <widget class="QComboBox" name="comboBox_MS6_ResultTypes"/>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_134">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Datapoints</string>
-                </property>
-               </widget>
               </item>
               <item row="4" column="0" colspan="3">
                <widget class="QGroupBox" name="groupBox_MS6_ResParam_AxisMeaning">
@@ -11617,7 +11591,7 @@ color: red;</string>
                     </sizepolicy>
                    </property>
                    <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Empty_0"/>
-                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Select_0">
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Value_0">
                     <layout class="QGridLayout" name="gridLayout_120">
                      <property name="leftMargin">
                       <number>0</number>
@@ -11643,12 +11617,12 @@ color: red;</string>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>in</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_0">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Val_0">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -11671,6 +11645,41 @@ color: red;</string>
                      </item>
                     </layout>
                    </widget>
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Foci_0">
+                    <layout class="QGridLayout" name="gridLayout_135">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Foc_0"/>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_146">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>in</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                  <item row="10" column="4">
@@ -11682,7 +11691,7 @@ color: red;</string>
                     </sizepolicy>
                    </property>
                    <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Empty_1"/>
-                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Select_1">
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Value_1">
                     <layout class="QGridLayout" name="gridLayout_123">
                      <property name="leftMargin">
                       <number>0</number>
@@ -11708,12 +11717,12 @@ color: red;</string>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>in</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Val_1">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -11736,6 +11745,41 @@ color: red;</string>
                      </item>
                     </layout>
                    </widget>
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Foci_1">
+                    <layout class="QGridLayout" name="gridLayout_134">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Foc_1"/>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_147">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>in</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                  <item row="16" column="4">
@@ -11747,7 +11791,7 @@ color: red;</string>
                     </sizepolicy>
                    </property>
                    <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Empty_2"/>
-                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Select_2">
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Value_2">
                     <layout class="QGridLayout" name="gridLayout_126">
                      <property name="leftMargin">
                       <number>0</number>
@@ -11773,12 +11817,12 @@ color: red;</string>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>in</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_2">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Val_2">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -11796,6 +11840,41 @@ color: red;</string>
                          <width>60</width>
                          <height>16777215</height>
                         </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResParam_AttribChannel_Foci_2">
+                    <layout class="QGridLayout" name="gridLayout_133">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="comboBox_MS6_ResParam_AttribChannel_Foc_2"/>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_148">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>in</string>
                        </property>
                       </widget>
                      </item>
@@ -12408,6 +12487,48 @@ color: red;</string>
                 </layout>
                </widget>
               </item>
+              <item row="2" column="2" rowspan="2">
+               <widget class="QPushButton" name="pushButton_MS6_UpdateResults">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Update Results (F5)</string>
+                </property>
+                <property name="shortcut">
+                 <string>F5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_133">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Type</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_134">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Datapoints</string>
+                </property>
+               </widget>
+              </item>
               <item row="5" column="0" colspan="3">
                <widget class="QGroupBox" name="groupBox_MS6_ResParam_PlotTypeSecific">
                 <property name="title">
@@ -12542,8 +12663,17 @@ color: red;</string>
                      </item>
                      <item row="0" column="4">
                       <widget class="QSpinBox" name="spinBox_MS6_ResType_Param_PoolStatLine_Classes">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string> classes</string>
                        </property>
                        <property name="minimum">
                         <number>2</number>
@@ -12617,220 +12747,8 @@ color: red;</string>
                 </layout>
                </widget>
               </item>
-              <item row="2" column="2" rowspan="2">
-               <widget class="QPushButton" name="pushButton_MS6_UpdateResults">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Update Results (F5)</string>
-                </property>
-                <property name="shortcut">
-                 <string>F5</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBoxMS6_Control_Data">
-             <property name="title">
-              <string>Data</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_87">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="1" column="4">
-               <widget class="QLabel" name="label_113">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Channel 2 name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="4" colspan="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>1T ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>h</string>
-                </property>
-                <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="minimum">
-                 <double>1.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>1.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_0">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>DIC</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_112">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Channel 1 name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_114">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Channel 0 name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_1">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>GFP</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="5">
-               <widget class="QLineEdit" name="lineEdit_MS6_Channel_Name_2">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>RFP</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2" colspan="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_px2um">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>1px ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>um</string>
-                </property>
-                <property name="decimals">
-                 <number>6</number>
-                </property>
-                <property name="minimum">
-                 <double>0.001000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>0.121212000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" colspan="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>irradiation at T=</string>
-                </property>
-                <property name="decimals">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <double>51.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>24.500000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" colspan="6">
-               <widget class="QPushButton" name="pushButton_MS6_LoadData">
-                <property name="text">
-                 <string>Load Data</string>
-                </property>
-               </widget>
+              <item row="3" column="1">
+               <widget class="QComboBox" name="comboBox_MS6_ResultDatapointLevel"/>
               </item>
              </layout>
             </widget>
@@ -12914,6 +12832,290 @@ color: red;</string>
              </property>
             </spacer>
            </item>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBoxMS6_Control_Data">
+             <property name="title">
+              <string>Data</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_87">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item row="1" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_131">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_114">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_113">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_1">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_0">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>DIC</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_112">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>Managment</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_138">
+                <property name="text">
+                 <string>Value Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_132">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_143">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_145">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_144">
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
+                  <property name="text">
+                   <string>both</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_142">
+                <property name="text">
+                 <string>Foci Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>Special</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1" colspan="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>irradiation at T=</string>
+                </property>
+                <property name="decimals">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <double>51.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>24.500000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_141">
+                <property name="text">
+                 <string>Scaling</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_px2um">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1px ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>um</string>
+                </property>
+                <property name="decimals">
+                 <number>6</number>
+                </property>
+                <property name="minimum">
+                 <double>0.001000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.121212000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1T ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>h</string>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="minimum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButton_MS6_LoadData">
+                <property name="text">
+                 <string>Load Data</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -12929,7 +13131,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

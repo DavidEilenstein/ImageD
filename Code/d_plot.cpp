@@ -2666,12 +2666,12 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
 
 int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y)
 {
-    qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
 
     //Pool data and calc stat
     vector<double> vData_Pooled_x_Pools;
     vector<double> vData_Pooled_y_Stats;
-    qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "polling and stat calc";
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "polling and stat calc";
     int err_pooling = D_Stat::PoolStat_Data(
                 &vData_Pooled_x_Pools,
                 &vData_Pooled_y_Stats,
@@ -2685,21 +2685,21 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
         return err_pooling;
 
     //errors?
-    qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "check errors";
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "check errors";
     if(vData_Pooled_x_Pools.empty())                                return ER_empty;
     if(vData_Pooled_y_Stats.empty())                                return ER_empty;
     if(vData_Pooled_x_Pools.size() != vData_Pooled_y_Stats.size())  return ER_size_missmatch;
 
     //plot as line
-    qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "plot line";
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "plot line";
     return Plot_Line_XY_Single(
                 pChartView,
                 vData_Pooled_x_Pools,
                 vData_Pooled_y_Stats,
                 name_title,
                 qs_name_series,
-                name_x + "(pooled)",
-                QSL_StatList[int(y_stat)] + "of" + name_y);
+                name_x + " (pooled)",
+                QSL_StatList[int(y_stat)] + " of " + name_y);
 }
 
 int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > > vvv_XY_Data_Measure, vector<vector<vector<double> > > vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y)

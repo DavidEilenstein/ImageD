@@ -1507,7 +1507,8 @@ private:
     D_Bio_NucleusPedigree   MS6_NucPedigree_Results;
 
     //channels
-    QStringList             MS6_QSL_Channels;
+    QStringList             MS6_QSL_Channels_Values;
+    QStringList             MS6_QSL_Channels_Foci;
 
     //Dirs
     QDir                    DIR_MS6_Load_NucleiData;
@@ -1525,7 +1526,8 @@ private:
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_low;
     vector<QComboBox*>      MS6_vCB_ResAxis_Stat_high;
     vector<QComboBox*>      MS6_vCB_ResAxis_FocChannel;
-    vector<QComboBox*>      MS6_vCB_ResAxis_AttribChannel;
+    vector<QComboBox*>      MS6_vCB_ResAxis_AttribChannel_Val;
+    vector<QComboBox*>      MS6_vCB_ResAxis_AttribChannel_Foc;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Level;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Attrib;
     vector<QStackedWidget*> MS6_cSW_ResAxis_Stat_low;
@@ -1602,14 +1604,26 @@ private:
     };
 
 
-    enum MS6_RES_AXIS_CHANNEL {
-        MS6_RES_AXIS_CHANNEL_OFF,
-        MS6_RES_AXIS_CHANNEL_ON,
-        MS6_RES_AXIS_CHANNEL_NUMBER_OF
+    enum MS6_RES_AXIS_CHANNEL_FOC {
+        MS6_RES_AXIS_CHANNEL_FOC_OFF,
+        MS6_RES_AXIS_CHANNEL_FOC_ON,
+        MS6_RES_AXIS_CHANNEL_FOC_NUMBER_OF
     };
-    const QStringList QSL_MS6_ResAxisChannel = {
-        "on",
-        "off"
+    const QStringList QSL_MS6_ResAxisChannel_Foc = {
+        "off",
+        "on"
+    };
+
+    enum MS6_RES_AXIS_CHANNEL_ATTRIB {
+        MS6_RES_AXIS_CHANNEL_ATTRIB_OFF,
+        MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL,
+        MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC,
+        MS6_RES_AXIS_CHANNEL_ATTRIB_NUMBER_OF
+    };
+    const QStringList QSL_MS6_ResAxisChannel_Attrib = {
+        "off",
+        "value",
+        "foci"
     };
 
 

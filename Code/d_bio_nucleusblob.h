@@ -60,7 +60,8 @@ public:
     void                            clear_Foci()                                                {vvFoci.clear();}
 
     double                          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
-    static bool                     attribute_is_channel_dependent(size_t i_attrib);
+    static bool                     attribute_is_value_channel_dependent(size_t i_attrib);
+    static bool                     attribute_is_focus_channel_dependent(size_t i_attrib);
 
     //get foci or describing info
     size_t                          get_FociChannels()                                          {return vvFoci.size();}
