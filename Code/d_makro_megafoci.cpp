@@ -9253,6 +9253,7 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     //-------------------------------------------------------------------------------------- Results
 
     Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat,        QSL_StatList,   c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat,     QSL_StatList,   c_STAT_MEAN_ARITMETIC);
 
     connect(ui->pushButton_MS6_UpdateResults,       SIGNAL(clicked(bool)),      this,       SLOT(MS6_Update_Results()));
 
@@ -9530,7 +9531,7 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         break;
 
     case MS6_RES_TYP_SCATTER_HEATMAP:
-        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_2D);
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_3D);
         MS6_ResAxis_SetMode(0, "X", axis_data_level);
         MS6_ResAxis_SetMode(1, "Y", axis_data_level);
         MS6_ResAxis_SetMode(2, "Color", axis_data_level);
@@ -9761,6 +9762,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();             break;
     case MS6_RES_TYP_POOL_STAT_LINE_SINGLE: MS6_Update_Result_PoolStatLine_Single();    break;
     case MS6_RES_TYP_SCATTER_2D_SIMPLE:     MS6_Update_Result_Scatter_2D();             break;
+    case MS6_RES_TYP_SCATTER_HEATMAP:       MS6_Update_Result_Heatmap();                break;
     case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
     default:                                                                            break;
     }
@@ -9813,6 +9815,26 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_Scatter_2D()
         "D_Plot::Plot_Hist_WithStats");
 }
 
+void D_MAKRO_MegaFoci::MS6_Update_Result_Heatmap()
+{
+    ERR(MS6_Viewer_Plot_3D.plot_Heatmap(
+                MS6_DataForAxis(0),
+                MS6_DataForAxis(1),
+                MS6_DataForAxis(2),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x->value(),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x->value(),
+                !ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x->isChecked(),
+                ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x->value(),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y->value(),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y->value(),
+                !ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y->isChecked(),
+                ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y->value(),
+                ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat->currentIndex(),
+                false),
+        "MS6_Update_Result_Heatmap",
+        "MS6_Viewer_Plot_3D.plot_Heatmap");
+}
+
 void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
 {
     vector<vector<double>> vvData(3);
@@ -9839,3 +9861,16 @@ void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clic
     ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX->setEnabled(!checked);
     ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MaxX->setEnabled(!checked);
 }
+
+void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked)
+{
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x->setEnabled(!checked);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x->setEnabled(!checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked)
+{
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y->setEnabled(!checked);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y->setEnabled(!checked);
+}
+

@@ -1498,9 +1498,13 @@ private slots:
     void MS6_Update_Result_HistSimple();
     void MS6_Update_Result_PoolStatLine_Single();
     void MS6_Update_Result_Scatter_2D();
+    void MS6_Update_Result_Heatmap();
     void MS6_Update_Result_DataTable_3Axis();
 
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
+    void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);
+    void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked);
+
 
 private:
 

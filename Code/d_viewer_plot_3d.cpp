@@ -510,7 +510,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
-int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_Y, vector<double> vData_Z, double min_x, double max_x, double classes_x, double min_y, double max_y, double classes_y, double min_z, double max_z, size_t stat_z, bool show_as_height, bool called_internally)
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_Y, vector<double> vData_Z, double min_x, double max_x, bool auto_range_x, double classes_x, double min_y, double max_y, bool auto_range_y, double classes_y, size_t stat_z, bool called_internally)
 {
     //errors
     if(vData_X.empty())                             return ER_empty;
@@ -520,7 +520,7 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
     if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
     if(min_x >= max_x)                              return ER_parameter_missmatch;
     if(min_y >= max_y)                              return ER_parameter_missmatch;
-    if(min_z >= max_z)                              return ER_parameter_missmatch;
+  //if(min_z >= max_z)                              return ER_parameter_missmatch;
     if(classes_x <= 1)                              return ER_parameter_bad;
     if(classes_y <= 1)                              return ER_parameter_bad;
     if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
@@ -532,14 +532,83 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
 
     //sizes
     size_t n_data = vData_X.size();
-    //CONTINUE HERE
+    size_t n_x = classes_x;
+    size_t n_y = classes_y;
 
-    //data field
-    vector<vector<vector<double>>> vvvData_XYI(class);
+    //calc min/max x/y
+    if(auto_range_x)
+    {
+        min_x = INFINITY;
+        max_x = -INFINITY;
+        for(size_t i = 0; i < n_data; i++)
+        {
+            double val = vData_X[i];
+            if(val < min_x)     min_x = val;
+            if(val > max_x)     max_x = val;
+        }
+    }
+
+    if(auto_range_y)
+    {
+        min_y = INFINITY;
+        max_y = -INFINITY;
+        for(size_t i = 0; i < n_data; i++)
+        {
+            double val = vData_Y[i];
+            if(val < min_y)     min_y = val;
+            if(val > max_y)     max_y = val;
+        }
+    }
+
+    //ranges
+    double range_x = max_x - min_x;
+    double range_y = max_y - min_y;
+
+    //3D stacked data field
+    vector<vector<vector<double>>> vvvData_XYI(n_x, vector<vector<double>>(n_y, vector<double>(0)));
 
     //pooling
-    vector<
-    D_Stat::PoolStat_Data()
+    for(size_t i = 0; i < n_data; i++)
+    {
+        size_t i_x = D_Stat::Value2PoolIndex(vData_X[i], min_x, range_x, n_x);
+        size_t i_y = D_Stat::Value2PoolIndex(vData_Y[i], min_y, range_y, n_y);
+        double val = vData_Z[i];
+
+        vvvData_XYI[i_x][i_y].push_back(val);
+    }
+
+    //2D data field as VD
+    D_VisDat_Dim Dim(int(n_x), int(n_y), 1, 1, 1, 1);
+    D_VisDat_Obj VD_Data2D(Dim, CV_64FC1, 0);
+
+    //calc stat
+    function<double (vector<double>)> F_Stat = D_Stat::Function_SingleStat(int(stat_z));
+    for(size_t x = 0; x < n_x; x++)
+    {
+        for(size_t y = 0; y < n_y; y++)
+        {
+            Vec<int, 6> pos = {int(x), int(y), 0, 0, 0, 0};
+            if(!vvvData_XYI[x][y].empty())
+            {
+                VD_Data2D.pMA_full()->at<double>(pos) = F_Stat(vvvData_XYI[x][y]);
+            }
+        }
+    }
+
+    return plot_VD_Heightmap(
+                &VD_Data2D,
+                c_PLANE_XY,
+                0,
+                c_VIEWER_PLOT_3D_AXIS_CHANNEL_0,
+                c_VIEWER_PLOT_3D_AXIS_CHANNEL_0,
+                c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE,
+                c_VIEWER_PLOT_3D_TEXTURE_HUE,
+                0,
+                true,
+                true,
+                true,
+                true,
+                true);
 }
 
 int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally)
