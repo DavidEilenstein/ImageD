@@ -11006,6 +11006,72 @@ color: red;</string>
            <property name="spacing">
             <number>6</number>
            </property>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_MS6_Control_Filters">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="title">
+              <string>Filters</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_88">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_NucBlobs">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Nucleus blobs</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_Foci">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Foci</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_NucLifes">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Nucleus lifes</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="2" column="0">
             <widget class="QGroupBox" name="groupBox_MS6_Control_Results">
              <property name="enabled">
@@ -12757,8 +12823,8 @@ color: red;</string>
                      <property name="spacing">
                       <number>1</number>
                      </property>
-                     <item row="0" column="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x">
+                     <item row="1" column="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
                        </property>
@@ -12804,65 +12870,24 @@ color: red;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="label_151">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Y</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="3">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
+                     <item row="1" column="1">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>max=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>52.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
-                      <widget class="QLabel" name="label_149">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
                        <property name="text">
-                        <string>z</string>
+                        <string>auto</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="3">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x">
+                     <item row="1" column="3">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y">
                        <property name="enabled">
                         <bool>false</bool>
                        </property>
@@ -12920,21 +12945,24 @@ color: red;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_150">
+                     <item row="0" column="1">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>X</string>
+                        <string>auto</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y">
+                     <item row="0" column="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
                        </property>
@@ -12952,34 +12980,102 @@ color: red;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="1">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x">
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_151">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Y</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_149">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>z</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <property name="text">
-                        <string>auto</string>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>max=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>52.000000000000000</double>
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="1">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_150">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>auto</string>
+                        <string>X</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="1" colspan="4">
+                     <item row="2" column="1" colspan="3">
                       <widget class="QComboBox" name="comboBox_MS6_ResType_Params_ScatterHeatmap_Stat"/>
+                     </item>
+                     <item row="2" column="4">
+                      <layout class="QGridLayout" name="gridLayout_137">
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe">
+                         <property name="text">
+                          <string>Wireframe</string>
+                         </property>
+                         <property name="checked">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Height">
+                         <property name="text">
+                          <string>Height</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
                    </widget>
@@ -12995,73 +13091,7 @@ color: red;</string>
              </layout>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_MS6_Control_Filters">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="title">
-              <string>Filters</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_88">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="1" column="0">
-               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_NucBlobs">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="title">
-                 <string>Nucleus blobs</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_Foci">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="title">
-                 <string>Foci</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QGroupBox" name="groupBox_MS6_Control_Filters_NucLifes">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="title">
-                 <string>Nucleus lifes</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <spacer name="verticalSpacer_12">
              <property name="orientation">
               <enum>Qt::Vertical</enum>

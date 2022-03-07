@@ -36,6 +36,20 @@ void D_Bio_NucleusPedigree::set_size_time_and_mosaik(size_t t_size, size_t y_siz
                         size_mosaik_x, vector<D_Bio_NucleusBlob>())));
 }
 
+void D_Bio_NucleusPedigree::set_time_irradiation(double t_irr)
+{
+    time_irradiation = t_irr;
+
+    //existent nucs (not yet split into nuc lifes)
+    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+                for(size_t i = 0; i < vvvvNucBlobs_TYXI[t][y][x].size(); i++)
+                    vvvvNucBlobs_TYXI[t][y][x][i].set_time_irradiation(time_irradiation);
+
+
+}
+
 size_t D_Bio_NucleusPedigree::nuclei_blob_count(size_t t, size_t y, size_t x)
 {
     if(t >= size_time)      return 0;
@@ -1059,6 +1073,9 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
                     //clear original foci from copy (they are filtered next)
                     NucBlobFiltered.clear_Foci();
                     NucBlobFiltered.set_FociChannels(pNucBlobOriginal->get_FociChannels());
+
+                    //set filter independednt infos
+                    NucBlobFiltered.set_time_irradiation(time_irradiation);
 
                     //loop foci channels
                     for(size_t ch = 0; ch < pNucBlobOriginal->get_FociChannels(); ch++)

@@ -99,6 +99,10 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     switch (i_attrib) {
 
     case ATTRIB_NUC_TIME_INDEX:                 return double(m_time);
+    case ATTRIB_NUC_TIME_DIFF_TO_IRRADIATION:   return double(m_time) - double(m_time_irradiation);
+    case ATTRIB_NUC_TIME_AGE_PAST:              return matching_Age();
+    case ATTRIB_NUC_TIME_AGE_TOGO:              return matching_AgeToGo();
+    case ATTRIB_NUC_TIME_AGE_FULL:              return matching_AgeFull();
 
     case ATTRIB_NUC_CENTER_X_PX:                return centroid().x;
     case ATTRIB_NUC_CENTER_Y_PX:                return centroid().y;

@@ -510,8 +510,10 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
-int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_Y, vector<double> vData_Z, double min_x, double max_x, bool auto_range_x, double classes_x, double min_y, double max_y, bool auto_range_y, double classes_y, size_t stat_z, bool called_internally)
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, double classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, double classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool called_internally)
 {
+    //---------------------------------------------------------- errors
+
     //errors
     if(vData_X.empty())                             return ER_empty;
     if(vData_Y.empty())                             return ER_empty;
@@ -520,7 +522,6 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
     if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
     if(min_x >= max_x)                              return ER_parameter_missmatch;
     if(min_y >= max_y)                              return ER_parameter_missmatch;
-  //if(min_z >= max_z)                              return ER_parameter_missmatch;
     if(classes_x <= 1)                              return ER_parameter_bad;
     if(classes_y <= 1)                              return ER_parameter_bad;
     if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
@@ -530,10 +531,13 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
         return ER_ThreadIssue;
     state_plotting = true;
 
+    //---------------------------------------------------------- size and scale
+
     //sizes
     size_t n_data = vData_X.size();
     size_t n_x = classes_x;
     size_t n_y = classes_y;
+    //qDebug() << "size data/x/y" << n_data << n_x << n_y;
 
     //calc min/max x/y
     if(auto_range_x)
@@ -563,6 +567,9 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
     //ranges
     double range_x = max_x - min_x;
     double range_y = max_y - min_y;
+    //qDebug() << "min/max x" << min_x << max_x << "min/max y" << min_y << max_y;
+
+    //---------------------------------------------------------- data calculation
 
     //3D stacked data field
     vector<vector<vector<double>>> vvvData_XYI(n_x, vector<vector<double>>(n_y, vector<double>(0)));
@@ -577,38 +584,120 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, vector<double> vData_
         vvvData_XYI[i_x][i_y].push_back(val);
     }
 
-    //2D data field as VD
-    D_VisDat_Dim Dim(int(n_x), int(n_y), 1, 1, 1, 1);
-    D_VisDat_Obj VD_Data2D(Dim, CV_64FC1, 0);
+    //2D data field result
+    Mat MA_tmp_value = Mat::zeros(n_y, n_x, CV_64FC1);
 
     //calc stat
     function<double (vector<double>)> F_Stat = D_Stat::Function_SingleStat(int(stat_z));
     for(size_t x = 0; x < n_x; x++)
-    {
         for(size_t y = 0; y < n_y; y++)
-        {
-            Vec<int, 6> pos = {int(x), int(y), 0, 0, 0, 0};
             if(!vvvData_XYI[x][y].empty())
             {
-                VD_Data2D.pMA_full()->at<double>(pos) = F_Stat(vvvData_XYI[x][y]);
+                //qDebug() << "x/y/val" << y << x << F_Stat(vvvData_XYI[x][y]);
+                MA_tmp_value.at<double>(y, x) = F_Stat(vvvData_XYI[x][y]);
             }
+
+
+    //---------------------------------------------------------- surface
+
+    //clear old content
+    clear_graph_all();
+
+    //show correct graph
+    show_graph_type(c_VIEWER_PLOT_3D_MODE_HEIGHTMAP);
+
+    //series
+    QSurface3DSeries* pSeries;
+
+    //create series
+    pSeries = new QSurface3DSeries();//(texture_proxy);
+
+    //loop rows
+    for(size_t y = 0; y < n_y; y++)
+    {
+        //new row
+        QSurfaceDataRow *Row = new QSurfaceDataRow(n_x);
+
+        //loop cols in row
+        for(size_t x = 0; x < n_x; x++)
+        {
+            double val_x = ((double(x) / double(n_x)) * range_x) + min_x;
+            double val_y = ((double(y) / double(n_y)) * range_y) + min_y;
+            double val_h = draw_height ? MA_tmp_value.at<double>(y, x) : 0;
+            //qDebug() << "x/y/h" << val_x << val_y << val_h;
+
+            (*Row)[x].setPosition(QVector3D(val_x, val_h, val_y));
         }
+
+        //add row to array
+        pSeries->dataProxy()->addRow(Row);
     }
 
-    return plot_VD_Heightmap(
-                &VD_Data2D,
-                c_PLANE_XY,
-                0,
-                c_VIEWER_PLOT_3D_AXIS_CHANNEL_0,
-                c_VIEWER_PLOT_3D_AXIS_CHANNEL_0,
-                c_VIEWER_PLOT_3D_SURFACE_MODE_SINGLE,
-                c_VIEWER_PLOT_3D_TEXTURE_HUE,
-                0,
-                true,
-                true,
-                true,
-                true,
+    //---------------------------------------------------------- texture
+
+    //texture img
+    QImage QI_tmp_texture;
+
+    //calc texture as color heatmap
+    Mat MA_tmp_useless_alpha_img = Mat::zeros(MA_tmp_value.size(), CV_8UC1);
+    int err = D_Img_Proc::Convert_toQImage4Ch(
+                &QI_tmp_texture,
+                &MA_tmp_value,
+                &MA_tmp_useless_alpha_img,
                 true);
+    MA_tmp_useless_alpha_img.release();
+    if(err != ER_okay)
+    {
+        MA_tmp_value.release();
+        state_plotting = false;
+        return err;
+    }
+
+    //set texture
+    pSeries->setTexture(QI_tmp_texture);
+
+    //draw mode
+    if(draw_wireframe)
+        pSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
+    else
+        pSeries->setDrawMode(QSurface3DSeries::DrawSurface);
+
+    //add series to graph
+    graph_heightmap->addSeries(pSeries);
+
+    //---------------------------------------------------------- axis
+
+    graph_heightmap->axisX()->setTitle(name_x);                                     //default x axis
+    graph_heightmap->axisY()->setTitle(QSL_StatList[stat_z] + " of " + name_z);     //graph z axis is img y axis
+    graph_heightmap->axisZ()->setTitle(name_y);                                     //graph y axis is img z axis
+
+    graph_heightmap->axisX()->setTitleVisible(true);
+    graph_heightmap->axisY()->setTitleVisible(true);
+    graph_heightmap->axisZ()->setTitleVisible(true);
+
+    //graph_heightmap->axisX()->setReversed(true);
+    graph_heightmap->axisZ()->setReversed(true);                                    //graph z / img y axis is reversed (0,0 is in the top left of an img)
+
+    graph_heightmap->axisX()->setMin(min_x);
+    graph_heightmap->axisX()->setMax(max_x);
+    graph_heightmap->axisZ()->setMin(min_y);
+    graph_heightmap->axisZ()->setMax(max_y);
+
+    //---------------------------------------------------------- style
+
+    //style
+    graph_heightmap->activeTheme()->setGridEnabled(true);
+    graph_heightmap->activeTheme()->setBackgroundEnabled(true);
+    graph_heightmap->setShadowQuality(QAbstract3DGraph::ShadowQuality(0));
+    graph_heightmap->setReflection(false);
+
+
+    //---------------------------------------------------------- show
+
+
+    MA_tmp_value.release();
+    state_plotting = false;
+    return ER_okay;
 }
 
 int D_Viewer_Plot_3D::plot_ScatterData_Color(vector<double> vX, vector<double> vY, vector<double> vZ, vector<double> vV, size_t color_handle, size_t marker, size_t shadow, bool background, bool grid, bool smooth, QString axis_x, QString axis_y, QString axis_z, QString axis_v, bool called_internally)

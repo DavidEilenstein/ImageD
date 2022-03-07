@@ -58,7 +58,7 @@ public:
     void clear();
 
     void set_size_time_and_mosaik(size_t t_size, size_t y_size, size_t x_size);
-    void set_time_irradiation(double t_irr)                 {time_irradiation = t_irr;}
+    void set_time_irradiation(double t_irr);
     size_t size_T()                                         {return size_time;}
     size_t size_Y()                                         {return size_mosaik_y;}
     size_t size_X()                                         {return size_mosaik_x;}

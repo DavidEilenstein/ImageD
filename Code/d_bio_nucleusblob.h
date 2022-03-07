@@ -124,7 +124,9 @@ public:
     double          convexity()                                         {if(!state_feats_calced) CalcFeats();   return m_convexity;}
 
     size_t          time_index()                                        {return m_time;}
+    size_t          time_irradiation()                                  {return m_time_irradiation;}
     void            set_time_index(size_t t)                            {m_time = t;}
+    void            set_time_irradiation(double t)                      {m_time_irradiation = t;}
 
     size_t          channels()                                          {return vvSignalStats_StatChannel.empty() ? 0 : vvSignalStats_StatChannel[0].size();}
     double          signal_stat(size_t channel, size_t stat_local_id)   {return stat_local_id < vvSignalStats_StatChannel.size() ? (channel < vvSignalStats_StatChannel[stat_local_id].size() ? vvSignalStats_StatChannel[stat_local_id][channel] : 0) : 0;}
@@ -198,6 +200,7 @@ private:
     QString                         QS_path_abs_loaded_from;
 
     size_t                          m_time = 0;
+    double                          m_time_irradiation = 0;
     vector<vector<D_Bio_Focus>>     vvFoci;
 
     size_t                          leftmost();
