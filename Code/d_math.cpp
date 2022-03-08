@@ -1449,7 +1449,7 @@ double D_Math::Binomial_Coefficient(double n, double k)
     //init
     double b = 1;
 
-    //symmetrie
+    //symmetry
     if(2 * k > n)
         k = n - k;
 
@@ -1486,6 +1486,61 @@ double D_Math::Distance(Point2f pt1, Point2f pt2)
     double dx = pt1.x - pt2.x;
     double dy = pt1.y - pt2.y;
     return sqrt((dx * dx) + (dy * dy));
+}
+
+double D_Math::Distance(Point2d pt1, Point2d pt2)
+{
+    double dx = pt1.x - pt2.x;
+    double dy = pt1.y - pt2.y;
+    return sqrt((dx * dx) + (dy * dy));
+}
+
+double D_Math::Distance(Point2f pt, Rect r)
+{
+    double dist_min = INFINITY;
+    double dist = INFINITY;
+
+    dist = abs(pt.x - r.tl().x);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.x - r.br().x);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.y - r.tl().y);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.y - r.br().y);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    return dist_min;
+}
+
+double D_Math::Distance(Point pt, Rect r)
+{
+    double dist_min = INFINITY;
+    double dist = INFINITY;
+
+    dist = abs(pt.x - r.tl().x);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.x - r.br().x);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.y - r.tl().y);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    dist = abs(pt.y - r.br().y);
+    if(dist < dist_min)
+        dist_min = dist;
+
+    return dist_min;
 }
 
 double D_Math::AngleRad(Point2f pt1, Point2f pt2)

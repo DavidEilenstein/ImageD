@@ -62,10 +62,15 @@ public:
     size_t size_T()                                         {return size_time;}
     size_t size_Y()                                         {return size_mosaik_y;}
     size_t size_X()                                         {return size_mosaik_x;}
-    Rect rect_RegularRange_px()                             {return FrameInRegularRangeXY;}
+    Rect rect_RegularRange_px()                             {return FrameInMarginXY;}
     size_t nuclei_blob_count(size_t t, size_t y, size_t x);
     size_t nuclei_blob_count(size_t t);
     size_t nuclei_blob_count();
+
+    size_t mosaik_index_non_empty_min_x();
+    size_t mosaik_index_non_empty_max_x();
+    size_t mosaik_index_non_empty_min_y();
+    size_t mosaik_index_non_empty_max_y();
 
     QString info();
     void info_debug();
@@ -90,12 +95,14 @@ private:
     static int updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj *pVD_Target, vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, double score_range, double score_min, size_t size_Node_px, size_t size_Edge_px, size_t size_Y_px_original, size_t size_X_px_original, Rect frame_legit, size_t t_plane);
 public:
 
-    void set_scale_px2um(double scale)                              {if(scale > 0) scale_px_to_um = scale;}
-    void set_scale_T2h(double scale)                                {if(scale > 0) scale_t_to_h = scale;}
-    void set_scale_nodes(double scale)                              {if(scale > 0 && scale <= 1) scale_nodes = scale;}
-    void set_scale_edges(double scale)                              {if(scale > 0 && scale <= 1) scale_edges = scale;}
-    void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) FrameInRegularRangeXY = Rect(x_min, y_min, w, h);}
-    void set_earliest_mitoses_allowed(size_t t_earliest)            {match_earliest_mitosis_allowed = t_earliest;}
+    void set_scale_px2um(double scale)                                      {if(scale > 0) scale_px_to_um = scale;}
+    void set_scale_T2h(double scale)                                        {if(scale > 0) scale_t_to_h = scale;}
+    void set_scale_nodes(double scale)                                      {if(scale > 0 && scale <= 1) scale_nodes = scale;}
+    void set_scale_edges(double scale)                                      {if(scale > 0 && scale <= 1) scale_edges = scale;}
+    void set_FrameInMargin_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) set_FrameInMargin_XY(Rect(x_min, y_min, w, h));}
+    void set_FrameInMargin_XY(Rect FrameInRange)                            {FrameInMarginXY = FrameInRange;}
+    void set_FrameBorder_XY(Rect FrameBorder);
+    void set_earliest_mitoses_allowed(size_t t_earliest)                    {match_earliest_mitosis_allowed = t_earliest;}
 
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
     bool set_attrib_filter_channels(QStringList channels);
@@ -192,7 +199,8 @@ private:
     double                          scale_edges = 1;
 
     //XY range no border
-    Rect                            FrameInRegularRangeXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);
+    Rect                            FrameBorderXY = Rect(0, 0, INT_MAX, INT_MAX);
+    Rect                            FrameInMarginXY = Rect(0, 0, INT_MAX, INT_MAX);
 
     //states
     bool                            state_ScoreWeightsAndMaxSet = false;

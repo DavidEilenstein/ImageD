@@ -59,16 +59,19 @@ public:
     D_Bio_NucleusLife();
 
     bool set_ScalePx2Um(double scale);
-    void set_range_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) set_range_XY(Rect(x_min, y_min, w, h));}
-    void set_range_XY(Rect FrameOk)                                 {FrameInRegularRangeXY = FrameOk;}
-    void set_sizeTime(size_t t_size)                                {size_time = t_size;}
-    void set_time_irradiation(double t_irr)                         {time_irradiation = t_irr;}
+    void set_FrameInMargin_XY(int x_min, int x_max, int y_min, int y_max)   {int w = x_max - x_min; int h = y_max - y_min; if(w > 0 && h > 0) set_FrameInMargin_XY(Rect(x_min, y_min, w, h));}
+    void set_FrameInMargin_XY(Rect FrameOk)                                 {FrameInMarginXY = FrameOk;}
+    void set_FrameBorder_XY(Rect FrameBorder)                               {FrameBorderXY = FrameBorder;}
+    void set_sizeTime(size_t t_size)                                        {size_time = t_size;}
+    void set_time_irradiation(double t_irr)                                 {time_irradiation = t_irr;}
 
     bool set_Parent(D_Bio_NucleusBlob* nuc_parent)                  {if(has_NoParent()) {pNucParent = nuc_parent; return true;} else {return false;}}
     bool set_Child1(D_Bio_NucleusBlob* nuc_child1)                  {if(has_Child1()) {pNucChild1 = nuc_child1; return true;} else {return false;}}
     bool set_Child2(D_Bio_NucleusBlob* nuc_child2)                  {if(has_Child2()) {pNucChild2 = nuc_child2; return true;} else {return false;}}
     bool set_Child (D_Bio_NucleusBlob* nuc_child)                   {if(has_Child1()) {return set_Child1(nuc_child);} else {return set_Child2(nuc_child);}}
     bool add_Member(D_Bio_NucleusBlob nuc);
+
+    Rect frameBorder()                                              {return FrameBorderXY;}
 
     bool has_Parent()                                               {return pNucParent == nullptr;}
     bool has_Child1()                                               {return pNucChild1 == nullptr;}
@@ -121,6 +124,8 @@ public:
     double                          attrib_nuclife_growth_per_T(size_t i_attrib_nuc, size_t ch_val)     {double nt = members_count(); return nt > 0 ? attrib_nuclife_growth(i_attrib_nuc, ch_val) / nt : 0;}
     static bool                     attrib_nuclife_is_channel_dependent(size_t i_attrib);
 
+    double                          closestDist2Border();
+
     //thresholds
     bool                            nearBorderAtLeastOnce();
     bool                            inRangeAtAllTimes()             {return !nearBorderAtLeastOnce();}
@@ -147,7 +152,8 @@ private:
     double                          scale_um2px = 1.0;
 
     //range and context
-    Rect                            FrameInRegularRangeXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);
+    Rect                            FrameBorderXY = Rect(0, 0, INT_MAX/2, INT_MAX/2);
+    Rect                            FrameInMarginXY = Rect(-INT_MAX/2, -INT_MAX/2, INT_MAX, INT_MAX);
     size_t                          size_time = 0;
     double                          time_irradiation = 0;
 };

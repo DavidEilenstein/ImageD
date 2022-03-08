@@ -1486,6 +1486,7 @@ private slots:
 
     bool MS6_GetChannelsFromUi();
     bool MS6_GetIrradiationTimeFromUi();
+    bool MS6_GetRangeXYFromUi();
 
     void MS6_ResAxis_UpdateModi();
     void MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
@@ -1505,6 +1506,10 @@ private slots:
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked);
 
+
+    void on_spinBox_MS6_MarginToBorder_valueChanged(int arg1);
+
+    void on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1);
 
 private:
 

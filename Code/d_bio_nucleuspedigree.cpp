@@ -81,6 +81,62 @@ size_t D_Bio_NucleusPedigree::nuclei_blob_count()
     return nuclei_count_total;
 }
 
+size_t D_Bio_NucleusPedigree::mosaik_index_non_empty_min_x()
+{
+    size_t min_x = size_mosaik_x;
+
+    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+                if(!vvvvNucBlobs_TYXI[t][y][x].empty())
+                    if(x < min_x)
+                        min_x = x;
+
+    return min_x;
+}
+
+size_t D_Bio_NucleusPedigree::mosaik_index_non_empty_max_x()
+{
+    size_t max_x = 0;
+
+    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+                if(!vvvvNucBlobs_TYXI[t][y][x].empty())
+                    if(x > max_x)
+                        max_x = x;
+
+    return max_x;
+}
+
+size_t D_Bio_NucleusPedigree::mosaik_index_non_empty_min_y()
+{
+    size_t min_y = size_mosaik_y;
+
+    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+                if(!vvvvNucBlobs_TYXI[t][y][x].empty())
+                    if(y < min_y)
+                        min_y = y;
+
+    return min_y;
+}
+
+size_t D_Bio_NucleusPedigree::mosaik_index_non_empty_max_y()
+{
+    size_t max_y = 0;
+
+    for(size_t t = 0; t < vvvvNucBlobs_TYXI.size(); t++)
+        for(size_t y = 0; y < vvvvNucBlobs_TYXI[t].size(); y++)
+            for(size_t x = 0; x < vvvvNucBlobs_TYXI[t][y].size(); x++)
+                if(!vvvvNucBlobs_TYXI[t][y][x].empty())
+                    if(y > max_y)
+                        max_y = y;
+
+    return max_y;
+}
+
 QString D_Bio_NucleusPedigree::info()
 {
     QString info = "D_Bio_NucleusPedigree::info\n";
@@ -540,7 +596,7 @@ int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(size_t points_per_edge, siz
                         vNodesCoord.push_back(P_NucCoord);
 
                         //add node color
-                        vNodeColor.push_back(pNucChild->matching_TypeColor(FrameInRegularRangeXY, 0, vvvvNucBlobs_TYXI.size() - 1));
+                        vNodeColor.push_back(pNucChild->matching_TypeColor(FrameInMarginXY, 0, vvvvNucBlobs_TYXI.size() - 1));
 
                         //get Ancestor and calc edge
                         if(pNucChild->matching_foundParent())
@@ -664,7 +720,7 @@ int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric(size_t size_volT_px, si
                     size_Edge_px,
                     size_Y_px_original,
                     size_X_px_original,
-                    FrameInRegularRangeXY,
+                    FrameInMarginXY,
                     t_thread);
     }
 
@@ -917,6 +973,17 @@ int D_Bio_NucleusPedigree::updatePedigreeView_Volumetric_TimeThread(D_VisDat_Obj
     return true;
 }
 
+void D_Bio_NucleusPedigree::set_FrameBorder_XY(Rect FrameBorder)
+{
+    FrameBorderXY = FrameBorder;
+
+    for(size_t l = 0; l < vNucLifes.size(); l++)
+        vNucLifes[l].set_FrameBorder_XY(FrameBorderXY);
+
+    for(size_t l = 0; l < vNucLifes_Filtered.size(); l++)
+        vNucLifes_Filtered[l].set_FrameBorder_XY(FrameBorderXY);
+}
+
 bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox *box_nucblobs, QGroupBox *box_nuclifes)
 {
     if(state_AttribFiltersSet)
@@ -1004,7 +1071,8 @@ bool D_Bio_NucleusPedigree::calc_NucLifes()
 
                         //set other params
                         NewNucLife.set_sizeTime(size_time);
-                        NewNucLife.set_range_XY(FrameInRegularRangeXY);
+                        NewNucLife.set_FrameInMargin_XY(FrameInMarginXY);
+                        NewNucLife.set_FrameBorder_XY(FrameBorderXY);
                         NewNucLife.set_ScalePx2Um(scale_px_to_um);
                         NewNucLife.set_time_irradiation(time_irradiation);
 
@@ -1102,7 +1170,8 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
 
             //set other attribs
             NucLifeFiltered.set_sizeTime(size_time);
-            NucLifeFiltered.set_range_XY(FrameInRegularRangeXY);
+            NucLifeFiltered.set_FrameInMargin_XY(FrameInMarginXY);
+            NucLifeFiltered.set_FrameBorder_XY(FrameBorderXY);
             NucLifeFiltered.set_ScalePx2Um(scale_px_to_um);
             NucLifeFiltered.set_time_irradiation(time_irradiation);
 

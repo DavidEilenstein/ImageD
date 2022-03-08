@@ -65,6 +65,9 @@ public:
     static double                                   Distance                    (Point2f pt1, Point   pt2);
     static double                                   Distance                    (Point   pt1, Point2f pt2);
     static double                                   Distance                    (Point2f pt1, Point2f pt2);
+    static double                                   Distance                    (Point2d pt1, Point2d pt2);
+    static double                                   Distance                    (Point2f pt, Rect r);
+    static double                                   Distance                    (Point pt, Rect r);
     static double                                   AngleRad                    (Point2f pt1, Point2f pt2);
     static double                                   Pythagoras                  (double x, double y);
     static Point2f                                  Center                      (Point2f pt1, Point2f pt2);

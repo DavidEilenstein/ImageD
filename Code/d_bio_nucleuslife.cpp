@@ -287,8 +287,8 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
 
     case ATTRIB_NUCLIFE_SHIFT_PX:
     {
-        Point P0(attrib_nuc_begin(ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_begin(ATTRIB_NUC_CENTER_Y_PX, 0));
-        Point P1(attrib_nuc_end  (ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_end  (ATTRIB_NUC_CENTER_Y_PX, 0));
+        Point2d P0(attrib_nuc_begin(ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_begin(ATTRIB_NUC_CENTER_Y_PX, 0));
+        Point2d P1(attrib_nuc_end  (ATTRIB_NUC_CENTER_X_PX, 0), attrib_nuc_end  (ATTRIB_NUC_CENTER_Y_PX, 0));
         return D_Math::Distance(P0, P1);
     }
     case ATTRIB_NUCLIFE_SHIFT_UM:                           return attrib_nuclife(ATTRIB_NUCLIFE_SHIFT_PX) * scale_px2um;
@@ -312,6 +312,10 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH:          return attrib_nuclife_growth        (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
     case ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH_PER_T:    return attrib_nuclife_growth_per_T  (ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX, 0);
 
+    case ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX:         return closestDist2Border();
+    case ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_UM:         return closestDist2Border() * scale_px2um;
+    case ATTRIB_NUCLIFE_IN_RANGE_PERMANENT:                 return double(inRangeAtAllTimes());
+
     default:                                                return 0;
     }
 }
@@ -330,6 +334,20 @@ bool D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(size_t i_attrib)
     }
 }
 
+double D_Bio_NucleusLife::closestDist2Border()
+{
+    double dist_min = INFINITY;
+
+    for(size_t i = 0; i < vNucMembers.size(); i++)
+    {
+        double dist = D_Math::Distance(vNucMembers[i].centroid(), FrameBorderXY);
+        if(dist < dist_min)
+            dist_min = dist;
+    }
+
+    return dist_min;
+}
+
 bool D_Bio_NucleusLife::nearBorderAtLeastOnce()
 {
     size_t n_nuc = members_count();
@@ -341,16 +359,16 @@ bool D_Bio_NucleusLife::nearBorderAtLeastOnce()
         if(pNuc == nullptr)
             return true;
 
-        if(pNuc->centroid().x < FrameInRegularRangeXY.tl().x)
+        if(pNuc->centroid().x < FrameInMarginXY.tl().x)
             return true;
 
-        if(pNuc->centroid().x > FrameInRegularRangeXY.br().x)
+        if(pNuc->centroid().x > FrameInMarginXY.br().x)
             return true;
 
-        if(pNuc->centroid().y < FrameInRegularRangeXY.tl().y)
+        if(pNuc->centroid().y < FrameInMarginXY.tl().y)
             return true;
 
-        if(pNuc->centroid().y > FrameInRegularRangeXY.br().y)
+        if(pNuc->centroid().y > FrameInMarginXY.br().y)
             return true;
     }
 

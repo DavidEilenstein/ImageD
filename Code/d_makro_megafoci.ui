@@ -13125,6 +13125,121 @@ color: red;</string>
               <property name="spacing">
                <number>1</number>
               </property>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_138">
+                <property name="text">
+                 <string>Value Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButton_MS6_LoadData">
+                <property name="text">
+                 <string>Load Data</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_132">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_143">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_145">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_144">
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
+                  <property name="text">
+                   <string>both</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>Managment</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>Special</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_142">
+                <property name="text">
+                 <string>Foci Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1T ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>h</string>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="minimum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="1" colspan="2">
                <layout class="QGridLayout" name="gridLayout_131">
                 <item row="0" column="0">
@@ -13207,105 +13322,6 @@ color: red;</string>
                 </item>
                </layout>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_139">
-                <property name="text">
-                 <string>Managment</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_138">
-                <property name="text">
-                 <string>Value Channels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" colspan="2">
-               <layout class="QGridLayout" name="gridLayout_132">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_143">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
-                  <property name="text">
-                   <string>GFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
-                  <property name="text">
-                   <string>RFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="4">
-                 <widget class="QLabel" name="label_145">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_144">
-                  <property name="text">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="5">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
-                  <property name="text">
-                   <string>both</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_142">
-                <property name="text">
-                 <string>Foci Channels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_140">
-                <property name="text">
-                 <string>Special</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1" colspan="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>irradiation at T=</string>
-                </property>
-                <property name="decimals">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <double>51.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>24.500000000000000</double>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_141">
                 <property name="text">
@@ -13344,11 +13360,59 @@ color: red;</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
-                <property name="enabled">
-                 <bool>false</bool>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_152">
+                <property name="text">
+                 <string>Base img size</string>
                 </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_x">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="prefix">
+                 <string>x: </string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1004</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_y">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="prefix">
+                 <string>y: </string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1002</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>1</horstretch>
@@ -13359,29 +13423,35 @@ color: red;</string>
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="prefix">
-                 <string>1T ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>h</string>
+                 <string>irradiation at T=</string>
                 </property>
                 <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="minimum">
-                 <double>1.000000000000000</double>
+                 <number>1</number>
                 </property>
                 <property name="maximum">
-                 <double>1.000000000000000</double>
+                 <double>51.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>24.500000000000000</double>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButton_MS6_LoadData">
-                <property name="text">
-                 <string>Load Data</string>
+              <item row="5" column="2">
+               <widget class="QSpinBox" name="spinBox_MS6_MarginToBorder">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px (=24um)</string>
+                </property>
+                <property name="prefix">
+                 <string>Margin: </string>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>200</number>
                 </property>
                </widget>
               </item>
@@ -13403,7 +13473,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

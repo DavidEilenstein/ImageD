@@ -7646,7 +7646,7 @@ bool D_MAKRO_MegaFoci::MS4_InitPedigree()
 
     ///set border
     int border_px = ui->spinBox_MS4_PedigreeProp_TrackingBorderWidth->value();
-    MS4_NucPedigree_AutoReconstruct.set_range_XY(
+    MS4_NucPedigree_AutoReconstruct.set_FrameInMargin_XY(
                 border_px, ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X->value() - border_px,
                 border_px, ui->spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y->value() - border_px);
 
@@ -9289,6 +9289,8 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     MS6_GetChannelsFromUi();
     qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetIrradiationTimeFromUi";
     MS6_GetIrradiationTimeFromUi();
+    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetRangeXYFromUi";
+    MS6_GetRangeXYFromUi();
 
     qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiLifes";
     if(!MS6_LoadNucleiLifes())
@@ -9492,6 +9494,70 @@ bool D_MAKRO_MegaFoci::MS6_GetIrradiationTimeFromUi()
     MS6_NucPedigree_Results.set_scale_T2h(ui->doubleSpinBox_MS6_Scale_T2h->value());
     MS6_NucPedigree_Results.set_attrib_filter_scaling();
 
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_GetRangeXYFromUi()
+{
+    if(!MS6_state_ui_init)
+        return false;
+
+    //base size
+    size_t base_img_x = ui->spinBox_MS6_BaseImgSize_x->value();
+    size_t base_img_y = ui->spinBox_MS6_BaseImgSize_y->value();
+
+    //overlap
+    size_t overlap_x = ui->spinBox_ImgProc_Stitch_Overlap_x->value();
+    size_t overlap_y = ui->spinBox_ImgProc_Stitch_Overlap_y->value();
+
+    //stitching
+    double stitch_border_rel = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+
+    //index range
+    size_t ix_min = MS6_NucPedigree_Results.mosaik_index_non_empty_min_x();
+    size_t ix_max = MS6_NucPedigree_Results.mosaik_index_non_empty_max_x();
+    size_t iy_min = MS6_NucPedigree_Results.mosaik_index_non_empty_min_y();
+    size_t iy_max = MS6_NucPedigree_Results.mosaik_index_non_empty_max_y();
+
+    //img area
+    size_t x_min_px = ix_min * base_img_x;
+    if(ix_min > 0)
+        x_min_px -= overlap_x * ix_min;
+
+    size_t y_min_px = iy_min * base_img_y;
+    if(iy_min > 0)
+        y_min_px -= overlap_y * iy_min;
+
+    size_t x_max_px = (ix_max + 1) * base_img_x;
+    if(ix_max > 0)
+        x_max_px -= overlap_x * ix_max;
+    if(ix_max < dataset_dim_mosaic_x - 1)
+        x_max_px += size_t(stitch_border_rel * base_img_x);
+
+    size_t y_max_px = (iy_max + 1) * base_img_y;
+    if(iy_max > 0)
+        y_max_px -= overlap_y * iy_max;
+    if(iy_max < dataset_dim_mosaic_y - 1)
+        y_max_px += size_t(stitch_border_rel * base_img_y);
+
+    //margin
+    size_t margin_px = ui->spinBox_MS6_MarginToBorder->value();
+
+    //set full range
+    MS6_NucPedigree_Results.set_FrameBorder_XY(Rect(
+                int(x_min_px),
+                int(y_min_px),
+                int(x_max_px - x_min_px),
+                int(y_max_px - y_min_px)));
+
+    //set frame for in range with margin to border
+    MS6_NucPedigree_Results.set_FrameInMargin_XY(
+                int(x_min_px + margin_px),
+                int(x_max_px - margin_px),
+                int(y_min_px + margin_px),
+                int(y_max_px - margin_px));
+
+    //finish
     return true;
 }
 
@@ -9879,3 +9945,13 @@ void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange
     ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y->setEnabled(!checked);
 }
 
+
+void D_MAKRO_MegaFoci::on_spinBox_MS6_MarginToBorder_valueChanged(int arg1)
+{
+    ui->spinBox_MS6_MarginToBorder->setSuffix("px (=" + QString::number(int(arg1 * ui->doubleSpinBox_MS6_Scale_px2um->value())) + "um)");
+}
+
+void D_MAKRO_MegaFoci::on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1)
+{
+    ui->spinBox_MS6_MarginToBorder->setSuffix("px (=" + QString::number(int(ui->spinBox_MS6_MarginToBorder->value() * arg1)) + "um)");
+}

@@ -510,7 +510,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
-int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, double classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, double classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool called_internally)
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool called_internally)
 {
     //---------------------------------------------------------- errors
 
@@ -690,6 +690,9 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
     graph_heightmap->activeTheme()->setBackgroundEnabled(true);
     graph_heightmap->setShadowQuality(QAbstract3DGraph::ShadowQuality(0));
     graph_heightmap->setReflection(false);
+
+    //graph_heightmap->setAspectRatio(1);
+    graph_heightmap->setHorizontalAspectRatio(1);
 
 
     //---------------------------------------------------------- show

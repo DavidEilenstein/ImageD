@@ -267,6 +267,9 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUCLIFE_FOCICOUNT_GROWTH_PER_T,
      ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH,
      ATTRIB_NUCLIFE_FOCICOUNT_PER_AREA_GROWTH_PER_T,
+     ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX,
+     ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_UM,
+     ATTRIB_NUCLIFE_IN_RANGE_PERMANENT,
      ATTRIB_NUCLIFE_NUMBER_OF
  };
  const QStringList QSL_Attrib_NucLife = {
@@ -287,7 +290,10 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Foci increase",
      "Foci increase/Time /(1/h)",
      "Foci/Area increase",
-     "Foci/Area increase/Time /(1/h)"
+     "Foci/Area increase/Time /(1/h)",
+     "Closest distance to border /px",
+     "Closest distance to border /um",
+     "Is permanently in range"
  };
 
  //filter modi
