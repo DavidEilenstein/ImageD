@@ -67,6 +67,8 @@ public:
     bool set_channels(QStringList channels);
     bool set_ScalePx2Um(double scale);
 
+    bool set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
+
     bool accept_Foc(D_Bio_Focus * pFoc);
     bool accept_NucBlob(D_Bio_NucleusBlob * pNucBlob);
     bool accept_NucLife(D_Bio_NucleusLife * pNucLife);
@@ -75,6 +77,7 @@ private slots:
 
     void            Filter_CurrentToUi();
     void            Filter_CurrentFromUi();
+    void            Filter_UpdateUi_CurrentChannelDependency();
 
 signals:
     void            FilterParamsChanged();

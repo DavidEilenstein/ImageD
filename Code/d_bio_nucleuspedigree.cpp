@@ -989,14 +989,17 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
     if(state_AttribFiltersSet)
         return false;
 
+    //foci
     pAttribFilter_Foci = new D_Bio_Attribute_Filter(box_foci);
     pAttribFilter_Foci->set_filter_mode(ATTRIB_FILTER_MODE_FOCI);
     connect(pAttribFilter_Foci, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
 
+    //nuc blobs
     pAttribFilter_NucBlobs   = new D_Bio_Attribute_Filter(box_nucblobs);
     pAttribFilter_NucBlobs->set_filter_mode(ATTRIB_FILTER_MODE_NUC_BLOB);
     connect(pAttribFilter_NucBlobs, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
 
+    //nuc lifes
     pAttribFilter_NucLifes  = new D_Bio_Attribute_Filter(box_nuclifes);
     pAttribFilter_NucLifes->set_filter_mode(ATTRIB_FILTER_MODE_NUC_LIFE);
     connect(pAttribFilter_NucLifes, SIGNAL(FilterParamsChanged()), this, SLOT(SetAttribFilterToNeedUpdate()));
@@ -1027,6 +1030,28 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_scaling()
     pAttribFilter_NucLifes->set_ScalePx2Um(scale_px_to_um);
 
     return true;
+}
+
+bool D_Bio_NucleusPedigree::set_attrib_filter(size_t filter_mode, size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)
+{
+    D_Bio_Attribute_Filter* pAttFilter;
+
+    switch (filter_mode) {
+    case ATTRIB_FILTER_MODE_FOCI:       pAttFilter = pAttribFilter_Foci;        break;
+    case ATTRIB_FILTER_MODE_NUC_BLOB:   pAttFilter = pAttribFilter_NucBlobs;    break;
+    case ATTRIB_FILTER_MODE_NUC_LIFE:   pAttFilter = pAttribFilter_NucLifes;    break;
+    default:                                                                    return false;}
+
+    if(pAttFilter == nullptr)
+        return false;
+
+    return pAttFilter->set_filter(
+                i_filt,
+                is_active,
+                i_att,
+                i_comp,
+                i_ch,
+                thres_val);
 }
 
 bool D_Bio_NucleusPedigree::calc_NucLifes()

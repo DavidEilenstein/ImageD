@@ -71,6 +71,29 @@ bool D_Bio_Attribute_Filter::set_ScalePx2Um(double scale)
     return true;
 }
 
+bool D_Bio_Attribute_Filter::set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)
+{
+    //check indices
+    if(i_filt >= vFilters.size())                           return false;
+    if(i_att >= size_t(ui_combobox_Attribute->count()))     return false;
+    if(i_comp >= size_t(ui_combobox_Comparison->count()))   return false;
+    if(i_ch >= size_t(ui_combobox_Channels->count()))     return false;
+
+    //set filter
+    vFilters[i_filt].active     = is_active;
+    vFilters[i_filt].i_attrib   = i_att;
+    vFilters[i_filt].i_compare  = i_comp;
+    vFilters[i_filt].i_channel  = i_ch;
+    vFilters[i_filt].thres      = thres_val;
+
+    //show filter
+    Filter_CurrentToUi();
+    Filter_CurrentFromUi();
+
+    //end
+    return true;
+}
+
 bool D_Bio_Attribute_Filter::accept_Foc(D_Bio_Focus *pFoc)
 {
     for(size_t i = 0; i < vFilterIndicesActive.size(); i++)
@@ -197,21 +220,25 @@ bool D_Bio_Attribute_Filter::Ui_Init()
     //save button
     ui_button_Save = new QPushButton("Save", this);
     ui_button_Save->setFixedWidth(button_width);
+    ui_button_Save->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Save, 0, 1);
 
     //load button
     ui_button_Load = new QPushButton("Load", this);
     ui_button_Load->setFixedWidth(button_width);
+    ui_button_Load->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Load, 0, 2);
 
     //info button
     ui_button_Info = new QPushButton("Info", this);
     ui_button_Info->setFixedWidth(button_width);
+    ui_button_Info->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Info, 1, 1);
 
     //clear button
     ui_button_Clear = new QPushButton("Clear", this);
     ui_button_Clear->setFixedWidth(button_width);
+    ui_button_Clear->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Clear, 1, 2);
 
     //attribs
@@ -254,6 +281,8 @@ bool D_Bio_Attribute_Filter::Ui_Init()
 
     if(!state_filter_mode_2ui && state_filter_mode_set)
         Ui_Init_FilterMode();
+
+    Filter_UpdateUi_CurrentChannelDependency();
 
     return true;
 }
@@ -308,6 +337,8 @@ void D_Bio_Attribute_Filter::Filter_CurrentToUi()
     ui_doublespinbox_Thres->blockSignals(false);
 
     ui_grpbox_master->setEnabled(true);
+
+    Filter_UpdateUi_CurrentChannelDependency();
 }
 
 void D_Bio_Attribute_Filter::Filter_CurrentFromUi()
@@ -337,6 +368,27 @@ void D_Bio_Attribute_Filter::Filter_CurrentFromUi()
     emit FilterParamsChanged();
 
     ui_grpbox_master->setEnabled(true);
+
+    Filter_UpdateUi_CurrentChannelDependency();
+}
+
+void D_Bio_Attribute_Filter::Filter_UpdateUi_CurrentChannelDependency()
+{
+    size_t i_filter = size_t(ui_spinbox_selctedFilter->value());
+    if(i_filter >= vFilters.size())
+        return;
+
+    size_t attrib = vFilters[i_filter].i_attrib;
+
+    bool channel_dependent = false;
+
+    switch (filter_mode) {
+    case ATTRIB_FILTER_MODE_FOCI:       channel_dependent = D_Bio_Focus::attribute_is_channel_dependent(attrib);                break;
+    case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
+    case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_dependent = D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(attrib);     break;
+    default:                                                                                                                    return;}
+
+    ui_combobox_Channels->setEnabled(channel_dependent);
 }
 
 

@@ -107,6 +107,7 @@ public:
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
     bool set_attrib_filter_channels(QStringList channels);
     bool set_attrib_filter_scaling();
+    bool set_attrib_filter(size_t filter_mode, size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
 
     bool calc_NucLifes();
     bool calc_NucLifes_Filtered();

@@ -9463,7 +9463,13 @@ bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()
     if(dataset_dim_p_exist > 2)
         MS6_QSL_Channels_Values.append(ui->lineEdit_MS6_ValueChannel_Name_2->text());
 
+    //----------------- attrib filters
+
     MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels_Values);
+
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  0,   true,     ATTRIB_NUCLIFE_IN_RANGE_PERMANENT,   c_COMPARE_EQUAL,    0,   1.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  1,   true,     ATTRIB_NUCLIFE_AGE,                  c_COMPARE_GREATER,  0,   0.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  2,   true,     ATTRIB_NUCLIFE_START,                c_COMPARE_GREATER,  0,   0.0);
 
     //----------------- foci
 
