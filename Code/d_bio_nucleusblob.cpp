@@ -92,10 +92,6 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     if(i_attrib >= ATTRIB_NUC_NUMBER_OF)
         return 0;
 
-    size_t n_ch_val = channels();
-    if(ch_val >= n_ch_val)
-        return 0;
-
     switch (i_attrib) {
 
     case ATTRIB_NUC_TIME_INDEX:                 return double(m_time);
@@ -129,9 +125,12 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM: return get_FociCount(ch_val) / (area() * scale_px2um * scale_px2um);
     case ATTRIB_NUC_FOCI_COUNT_ALL:
     {
+        size_t n_ch_foc = get_FociChannels();
+
         double foci_sum = 0;
-        for(size_t ch = 0; ch < n_ch_val; ch++)
+        for(size_t ch = 0; ch < n_ch_foc; ch++)
             foci_sum += get_FociCount(ch);
+
         return foci_sum;
     }
     case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX: return attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / area();

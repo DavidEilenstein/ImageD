@@ -1213,7 +1213,7 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
     return true;
 }
 
-vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, /*size_t i_att_lvl_foc,*/ size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
+vector<double> D_Bio_NucleusPedigree::attrib_data(size_t i_data_pt_lvl, size_t i_att_lvl_nuclife, size_t i_att_lvl_nucblob, size_t i_att_nuclife, size_t i_att_nucblob, size_t i_att_foc, size_t ch_val, size_t ch_foc, size_t stat_low, size_t stat_high)
 {
     vector<double> vRes;
 

@@ -266,7 +266,7 @@ bool D_Bio_NucleusLife::attrib_nuc(vector<double> *pvAttribsToAppendTo, size_t i
         if(pNuc == nullptr)
             return false;
 
-        pvAttribsToAppendTo->push_back(attrib_nuc(i_attrib, ch_val,i_nuc));
+        pvAttribsToAppendTo->push_back(attrib_nuc(i_attrib, ch_val, i_nuc));
     }
 
     return true;
@@ -315,6 +315,10 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     case ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX:         return closestDist2Border();
     case ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_UM:         return closestDist2Border() * scale_px2um;
     case ATTRIB_NUCLIFE_IN_RANGE_PERMANENT:                 return double(inRangeAtAllTimes());
+
+    case ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH:                return double(has_MitosisStart());
+    case ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH:                  return double(has_MitosisEnd());
+    case ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH:           return double(has_MitosisStartEnd());
 
     default:                                                return 0;
     }

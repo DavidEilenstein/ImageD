@@ -270,6 +270,9 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX,
      ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_UM,
      ATTRIB_NUCLIFE_IN_RANGE_PERMANENT,
+     ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH,
+     ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH,
+     ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH,
      ATTRIB_NUCLIFE_NUMBER_OF
  };
  const QStringList QSL_Attrib_NucLife = {
@@ -293,7 +296,10 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Foci/Area increase/Time /(1/h)",
      "Closest distance to border /px",
      "Closest distance to border /um",
-     "Is permanently in range"
+     "Is permanently in range",
+     "Starts with mitosis",
+     "Ends with mitosis",
+     "Starts and ends with mitosis"
  };
 
  //filter modi

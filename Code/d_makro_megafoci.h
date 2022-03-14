@@ -1488,12 +1488,15 @@ private slots:
     bool MS6_GetIrradiationTimeFromUi();
     bool MS6_GetRangeXYFromUi();
 
-    void MS6_ResAxis_UpdateModi();
-    void MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
-    vector<double> MS6_DataForAxis(size_t i_axis);
-    QString MS6_DefaultTitle_Result();
-    QString MS6_DefaultTitle_Series();
-    QString MS6_DefaultTitle_Axis(size_t i_axis);
+    void            MS6_ResAxis_UpdateModi();
+    void            MS6_ResAxis_SetMode(size_t i_axis, QString axis_description, size_t i_mode);
+    vector<double>  MS6_DataForAxis(size_t i_axis);
+    size_t          MS6_Data_ChannelIndex(size_t i_axis);
+    QString         MS6_Data_ChannelSuffix(size_t i_axis);
+    QString         MS6_DefaultTitle_Result();
+    QString         MS6_DefaultTitle_Series();
+    QString         MS6_DefaultTitle_Axis_NoChanelSuffix(size_t i_axis);
+    QString         MS6_DefaultTitle_Axis(size_t i_axis);
 
     void MS6_Update_Results();
     void MS6_Update_Result_HistSimple();
