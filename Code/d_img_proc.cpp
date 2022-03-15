@@ -1721,13 +1721,55 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In, int alpha_mode,
             }
         }
             break;
-    default:
+        default:
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+            break;
+        }
+
+    }
+    break;
+
+    case c_VIEWER_3D_ALPHA_MODAL_IS_TRANSPARENT://-------------------------------------------------------------------------------------------------
     {
-        MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        //only supported for 1ch
+        if(pMA_In->channels() != 1)
+        {
+            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
+        }
+        else
+        {
+            //ptr in
+            uchar* ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
+
+            //calc hist
+            vector<size_t> hist(255,0);
+            for(int px = 0; px < area; px++, ptr_in++)
+                hist[*ptr_in]++;
+
+            //calc modal
+            uchar modal_value = 0;
+            size_t modal_count = 0;
+            for(size_t i = 0; i < 256; i++)
+            {
+                if(hist[i] > modal_count)
+                {
+                    modal_count = hist[i];
+                    modal_value = uchar(i);
+                }
+            }
+
+            //init out
+            MA_tmp_alpha = Mat(h, w, CV_8UC1);
+            uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
+
+            //set alpha
+            ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
+            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
+                *ptr_out = (*ptr_in == modal_value) ? 0 : 255;
+        }
     }
-        break;
-    }
-}
     break;
 
     default://-------------------------------------------------------------------------------------------------
