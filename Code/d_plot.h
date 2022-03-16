@@ -100,6 +100,8 @@ public:
     static int      Plot_Scatter_2D_Multi_XY    (QChartView *pChartView, vector<vector<double>> *vv_X_SerVal, vector<vector<double>> *vv_Y_SerVal, QString name_title, QString name_series, QString name_x, QString name_y);
     static int      Plot_Scatter_2D_Multi_XY    (QChartView *pChartView, vector<vector<double>> *vv_X_SerVal, vector<vector<double>> *vv_Y_SerVal, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y);
 
+    static int      Plot_Scatter_Heatmap        (QChartView *pChartView, vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, QString name_title);
+
     static int      Plot_Poincare_XY_Single     (QChartView *pChartView, vector<double> v_Data, QString name_title, QString name_series, QString name_x, QString name_y, size_t shift_elements = 1, bool show_dots = true, bool show_ellipse = true, bool show_line_YequalX = true, Qt::Alignment legend_pos = Qt::AlignTop);
 
     static int      Plot_Line_XY_Single         (QChartView *pChartView, vector<double> v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans = c_AXE_TRANS_LIN, int y_trans = c_AXE_TRANS_LIN, bool dots_visible = false);

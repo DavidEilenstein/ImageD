@@ -188,6 +188,7 @@ public:
     static int  Convert_UShort          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, int channels_count, bool channels_use[4]);
     static int  Channels_Merge          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
+    static int  Sign2Color              (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, bool norm = false);
     static int  Channels_Split          (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel);
     static int  Channel_Supression      (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static int  Convert_8UC1_binary     (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In);

@@ -125,6 +125,7 @@ public:
     static int      Channel_Supression          (Mat *pMA_Out, Mat *pMA_In, bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static int      Split                       (Mat *pMA_Out, Mat *pMA_In, unsigned int channel);
     static int      Merge                       (Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, unsigned int channels, bool channel_use[4]);
+    static int      Sign2Color                  (Mat *pMA_Out, Mat *pMA_In, bool norm = false);
     static int      Duplicate2Channels          (Mat *pMA_Out, Mat *pMA_In, int channels);
     static int      Merge                       (Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2);
     static int      Merge                       (Mat *pMA_Out, vector<Mat> vMA_in, vector<int> v_R, vector<int> v_G, vector<int> v_B, vector<int> v_A);

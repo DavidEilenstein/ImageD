@@ -189,6 +189,18 @@ function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Visualize_to8bit(int mode_cro
     };
 }
 
+function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Sign2Color(bool norm)
+{
+    return
+            [norm](Mat *pMA_Out, Mat *pMA_In)
+    {
+        return D_Img_Proc::Sign2Color(
+                    pMA_Out,
+                    pMA_In,
+                    norm);
+    };
+}
+
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Threshold_Auto(int mode, int max, int auto_type)
 {
     return

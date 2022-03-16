@@ -2503,6 +2503,11 @@
                </item>
                <item>
                 <property name="text">
+                 <string>Sign to Color</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>Combination</string>
                 </property>
                </item>
@@ -8604,7 +8609,7 @@
              <item row="0" column="0">
               <widget class="QStackedWidget" name="stackedWidget_Settings_02_Convert">
                <property name="currentIndex">
-                <number>0</number>
+                <number>3</number>
                </property>
                <widget class="QWidget" name="page_02_Color2Mono">
                 <layout class="QGridLayout" name="gridLayout_94">
@@ -9731,6 +9736,65 @@
                     <size>
                      <width>20</width>
                      <height>166</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_02_Sign2Color">
+                <layout class="QGridLayout" name="gridLayout_153">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_17">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Normalize</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_02_Sign2Color_Norm">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <spacer name="horizontalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>357</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="1">
+                  <spacer name="verticalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>182</height>
                     </size>
                    </property>
                   </spacer>

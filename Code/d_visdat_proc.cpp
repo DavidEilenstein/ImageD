@@ -4716,6 +4716,22 @@ int D_VisDat_Proc::Channels_Merge(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, 
                 pVD_In2);
 }
 
+int D_VisDat_Proc::Sign2Color(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, bool norm)
+{
+    *pVD_Out = D_VisDat_Obj(
+                pVD_In->Dim(),
+                D_Img_Proc::TypeIndex_of_Mat(
+                    3,
+                    norm ? CV_8U : CV_64F));
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Sign2Color(
+                    norm),
+                pVD_Out,
+                pVD_In);
+}
+
 int D_VisDat_Proc::Channels_Split(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int channel)
 {
     *pVD_Out = D_VisDat_Obj(

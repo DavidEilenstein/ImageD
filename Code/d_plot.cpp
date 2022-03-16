@@ -2091,6 +2091,189 @@ int D_Plot::Plot_Scatter_2D_Multi_XY(QChartView *pChartView, vector<vector<doubl
     return ER_okay;
 }
 
+int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, QString name_title)
+{
+    //---------------------------------------------------------- errors
+
+    //errors
+    if(vData_X.empty())                             return ER_empty;
+    if(vData_Y.empty())                             return ER_empty;
+    if(vData_Z.empty())                             return ER_empty;
+    if(vData_X.size() != vData_Y.size())            return ER_size_missmatch;
+    if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
+    if(min_x >= max_x)                              return ER_parameter_missmatch;
+    if(min_y >= max_y)                              return ER_parameter_missmatch;
+    if(classes_x <= 1)                              return ER_parameter_bad;
+    if(classes_y <= 1)                              return ER_parameter_bad;
+    if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
+
+
+    //---------------------------------------------------------- size and scale
+
+    //sizes
+    size_t n_data = vData_X.size();
+    size_t n_x = classes_x;
+    size_t n_y = classes_y;
+    //qDebug() << "size data/x/y" << n_data << n_x << n_y;
+
+    //calc min/max x/y
+    if(auto_range_x)
+    {
+        min_x = INFINITY;
+        max_x = -INFINITY;
+        for(size_t i = 0; i < n_data; i++)
+        {
+            double val = vData_X[i];
+            if(val < min_x)     min_x = val;
+            if(val > max_x)     max_x = val;
+        }
+    }
+
+    if(auto_range_y)
+    {
+        min_y = INFINITY;
+        max_y = -INFINITY;
+        for(size_t i = 0; i < n_data; i++)
+        {
+            double val = vData_Y[i];
+            if(val < min_y)     min_y = val;
+            if(val > max_y)     max_y = val;
+        }
+    }
+
+    //ranges
+    double range_x = max_x - min_x;
+    double range_y = max_y - min_y;
+    //qDebug() << "min/max x" << min_x << max_x << "min/max y" << min_y << max_y;
+
+    //---------------------------------------------------------- data calculation
+
+    //3D stacked data field
+    vector<vector<vector<double>>> vvvData_XYI(n_x, vector<vector<double>>(n_y, vector<double>(0)));
+
+    //pooling
+    for(size_t i = 0; i < n_data; i++)
+    {
+        size_t i_x = D_Stat::Value2PoolIndex(vData_X[i], min_x, range_x, n_x);
+        size_t i_y = D_Stat::Value2PoolIndex(vData_Y[i], min_y, range_y, n_y);
+        double val = vData_Z[i];
+
+        vvvData_XYI[i_x][i_y].push_back(val);
+    }
+
+    //2D data field result
+    Mat MA_tmp_value = Mat::zeros(n_y, n_x, CV_64FC1);
+
+    //calc stat
+    function<double (vector<double>)> F_Stat = D_Stat::Function_SingleStat(int(stat_z));
+    for(size_t x = 0; x < n_x; x++)
+        for(size_t y = 0; y < n_y; y++)
+            if(!vvvData_XYI[x][y].empty())
+            {
+                //qDebug() << "x/y/val" << y << x << F_Stat(vvvData_XYI[x][y]);
+                MA_tmp_value.at<double>(y, x) = F_Stat(vvvData_XYI[x][y]);
+            }
+
+    //---------------------------------------------------------- texture heatmap
+
+    //texture img
+    QImage QI_tmp_texture;
+
+    //calc texture as color heatmap
+    Mat MA_tmp_useless_alpha_img = Mat::zeros(MA_tmp_value.size(), CV_8UC1);
+    int err = D_Img_Proc::Convert_toQImage4Ch(
+                &QI_tmp_texture,
+                &MA_tmp_value,
+                &MA_tmp_useless_alpha_img,
+                true);
+    MA_tmp_useless_alpha_img.release();
+    if(err != ER_okay)
+    {
+        MA_tmp_value.release();
+        return err;
+    }
+
+    //---------------------------------------------------------- basic plot stuff
+
+    //clear old content
+    Free_Memory(pChartView);
+
+    //Chart
+    QChart *chart = new QChart();
+    chart->setTitle("<b>" + name_title + "</b><br>" + "Color: " + QSL_StatList[stat_z] + " of " + name_z);
+
+    //---------------------------------------------------------- axis
+
+    //Axis
+    //qDebug() << "Axis";
+    QValueAxis *x_axis = new QValueAxis();
+    x_axis->setTitleText(name_x);
+    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setRange(min_x, max_x);
+    chart->setAxisX(x_axis);
+
+    QValueAxis *y_axis = new QValueAxis();
+    y_axis->setTitleText(name_y);
+    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setRange(min_y, max_y);
+    y_axis->setReverse(true);
+    chart->setAxisY(y_axis);
+
+    //---------------------------------------------------------- data (frame)
+
+    /*
+    QLineSeries* series = new QLineSeries;
+    series->setColor(Qt::black);
+
+    series->append(min_x, min_y);
+    series->append(min_x, max_y);
+    series->append(max_x, max_y);
+    series->append(max_x, min_y);
+    series->append(min_x, min_y);
+
+    chart->addSeries(series);
+    series->attachAxis(x_axis);
+    series->attachAxis(y_axis);
+    */
+
+    //---------------------------------------------------------- show
+
+    pChartView->setChart(chart);
+    //pChartView->chart()->legend()->setVisible(false);
+
+    //---------------------------------------------------------- set heatmap as background image
+
+    //this section is inspired by: https://forum.qt.io/topic/108046/qchart-background-image
+
+    //Grab the size of the plot and view areas
+    int w_pa = static_cast<int>(chart->plotArea().width());
+    int h_pa = static_cast<int>(chart->plotArea().height());
+    int w_cv = static_cast<int>(pChartView->width());
+    int h_cv = static_cast<int>(pChartView->height());
+
+    //scale the image to fit plot area
+    QI_tmp_texture = QI_tmp_texture.scaled(QSize(w_pa, h_pa));
+
+    //We have to translate the image because setPlotAreaBackGround
+    //starts the image in the top left corner of the view not the
+    //plot area. So, to offset we will make a new image the size of
+    //view and offset our image within that image with white
+    QImage QI_tmp_padded(w_cv, h_cv, QI_tmp_texture.format());
+    QI_tmp_padded.fill(Qt::white);
+    QPainter painter(&QI_tmp_padded);
+    QPointF P_tl = chart->plotArea().topLeft();
+    painter.drawImage(P_tl, QI_tmp_texture);
+
+    //Display image in background
+    chart->setPlotAreaBackgroundBrush(QI_tmp_padded);
+    chart->setPlotAreaBackgroundVisible(true);
+
+    //---------------------------------------------------------- end
+
+    MA_tmp_value.release();
+    return ER_okay;
+}
+
 int D_Plot::Plot_Poincare_XY_Single(QChartView *pChartView, vector<double> v_Data, QString name_title, QString name_series, QString name_x, QString name_y, size_t shift_elements, bool show_dots, bool show_ellipse, bool show_line_YequalX, Qt::Alignment legend_pos)
 {
     if(v_Data.empty())                      return ER_empty;

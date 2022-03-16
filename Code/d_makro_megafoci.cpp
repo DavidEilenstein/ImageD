@@ -9603,11 +9603,18 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         MS6_ResAxis_SetMode(1, "Y", axis_data_level);
         break;
 
-    case MS6_RES_TYP_SCATTER_HEATMAP:
-        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_3D);
+    case MS6_RES_TYP_SCATTER_HEATMAP_2D:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_2D);
         MS6_ResAxis_SetMode(0, "X", axis_data_level);
         MS6_ResAxis_SetMode(1, "Y", axis_data_level);
         MS6_ResAxis_SetMode(2, "Color", axis_data_level);
+        break;
+
+    case MS6_RES_TYP_SCATTER_HEATMAP_3D:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_3D);
+        MS6_ResAxis_SetMode(0, "X", axis_data_level);
+        MS6_ResAxis_SetMode(1, "Y", axis_data_level);
+        MS6_ResAxis_SetMode(2, "Color/Height", axis_data_level);
         break;
 
     case MS6_RES_TYP_DATA_TABLE_3D:
@@ -9850,7 +9857,8 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();             break;
     case MS6_RES_TYP_POOL_STAT_LINE_SINGLE: MS6_Update_Result_PoolStatLine_Single();    break;
     case MS6_RES_TYP_SCATTER_2D_SIMPLE:     MS6_Update_Result_Scatter_2D();             break;
-    case MS6_RES_TYP_SCATTER_HEATMAP:       MS6_Update_Result_Heatmap();                break;
+    case MS6_RES_TYP_SCATTER_HEATMAP_2D:    MS6_Update_Result_Heatmap_2D();             break;
+    case MS6_RES_TYP_SCATTER_HEATMAP_3D:    MS6_Update_Result_Heatmap_3D();             break;
     case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
     default:                                                                            break;
     }
@@ -9903,7 +9911,31 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_Scatter_2D()
         "D_Plot::Plot_Hist_WithStats");
 }
 
-void D_MAKRO_MegaFoci::MS6_Update_Result_Heatmap()
+void D_MAKRO_MegaFoci::MS6_Update_Result_Heatmap_2D()
+{
+    ERR(D_Plot::Plot_Scatter_Heatmap(
+                MS6_pChartView_Plot_2D,
+                MS6_DataForAxis(0),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x->value(),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x->value(),
+                ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x->isChecked(),
+                ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x->value(),
+                MS6_DefaultTitle_Axis(0),
+                MS6_DataForAxis(1),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y->value(),
+                ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y->value(),
+                ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y->isChecked(),
+                ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y->value(),
+                MS6_DefaultTitle_Axis(1),
+                MS6_DataForAxis(2),
+                ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat->currentIndex(),
+                MS6_DefaultTitle_Axis(2),
+                MS6_DefaultTitle_Result()),
+        "MS6_Update_Result_Heatmap_2D",
+        "D_Plot::Plot_Scatter_Heatmap");
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_Heatmap_3D()
 {
     ERR(MS6_Viewer_Plot_3D.plot_Heatmap(
                 MS6_DataForAxis(0),
@@ -9924,7 +9956,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_Heatmap()
                 ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Height->isChecked(),
                 ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe->isChecked(),
                 false),
-        "MS6_Update_Result_Heatmap",
+        "MS6_Update_Result_Heatmap_3D",
         "MS6_Viewer_Plot_3D.plot_Heatmap");
 }
 
@@ -9967,7 +9999,6 @@ void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange
     ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y->setEnabled(!checked);
 }
 
-
 void D_MAKRO_MegaFoci::on_spinBox_MS6_MarginToBorder_valueChanged(int arg1)
 {
     ui->spinBox_MS6_MarginToBorder->setSuffix("px (=" + QString::number(int(arg1 * ui->doubleSpinBox_MS6_Scale_px2um->value())) + "um)");
@@ -9976,4 +10007,20 @@ void D_MAKRO_MegaFoci::on_spinBox_MS6_MarginToBorder_valueChanged(int arg1)
 void D_MAKRO_MegaFoci::on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1)
 {
     ui->spinBox_MS6_MarginToBorder->setSuffix("px (=" + QString::number(int(ui->spinBox_MS6_MarginToBorder->value() * arg1)) + "um)");
+}
+
+void D_MAKRO_MegaFoci::on_comboBox_MS6_ResultTypes_currentIndexChanged(int index)
+{
+    if(index == MS6_RES_TYP_SCATTER_HEATMAP_2D)
+    {
+        ui->stackedWidget_MS6_ResType_Params->setCurrentIndex(MS6_RES_TYP_SCATTER_HEATMAP_3D);
+        ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Height->setEnabled(false);
+        ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe->setEnabled(false);
+    }
+
+    if(index == MS6_RES_TYP_SCATTER_HEATMAP_3D)
+    {
+        ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Height->setEnabled(true);
+        ui->checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe->setEnabled(true);
+    }
 }

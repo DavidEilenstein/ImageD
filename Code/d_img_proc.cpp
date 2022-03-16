@@ -1731,47 +1731,6 @@ int D_Img_Proc::Convert_toMat4Ch_8bit(Mat *pMA_Out, Mat *pMA_In, int alpha_mode,
     }
     break;
 
-    case c_VIEWER_3D_ALPHA_MODAL_IS_TRANSPARENT://-------------------------------------------------------------------------------------------------
-    {
-        //only supported for 1ch
-        if(pMA_In->channels() != 1)
-        {
-            MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
-        }
-        else
-        {
-            //ptr in
-            uchar* ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
-
-            //calc hist
-            vector<size_t> hist(255,0);
-            for(int px = 0; px < area; px++, ptr_in++)
-                hist[*ptr_in]++;
-
-            //calc modal
-            uchar modal_value = 0;
-            size_t modal_count = 0;
-            for(size_t i = 0; i < 256; i++)
-            {
-                if(hist[i] > modal_count)
-                {
-                    modal_count = hist[i];
-                    modal_value = uchar(i);
-                }
-            }
-
-            //init out
-            MA_tmp_alpha = Mat(h, w, CV_8UC1);
-            uchar* ptr_out = reinterpret_cast<uchar*>(MA_tmp_alpha.data);
-
-            //set alpha
-            ptr_in = reinterpret_cast<uchar*>(pMA_In->data);
-            for(int px = 0; px < area; px++, ptr_in++, ptr_out++)
-                *ptr_out = (*ptr_in == modal_value) ? 0 : 255;
-        }
-    }
-    break;
-
     default://-------------------------------------------------------------------------------------------------
     {
         MA_tmp_alpha = Mat::zeros(h, w, CV_8UC1);
@@ -4226,6 +4185,209 @@ int D_Img_Proc::Merge(Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Ma
     }
 
     MA_tmp_0.release();
+    return ER_okay;
+}
+
+int D_Img_Proc::Sign2Color(Mat *pMA_Out, Mat *pMA_In, bool norm)
+{
+    if(pMA_In->empty())                 return ER_empty;
+    if(pMA_In->channels() != 1)         return ER_channel_bad;
+
+    //area
+    size_t area = pMA_In->cols * pMA_In->rows;
+
+    //norm?
+    if(norm)
+    {
+        //min/max
+        double min, max;
+        int err = MinMax_of_Mat(pMA_In, &min, &max);
+        if(err != ER_okay)
+            return err;
+
+        //norm factors
+        double f_neg = min < 0.0 ? 255.0 / abs(min) : 0.0;
+        double f_pos = max > 0.0 ? 255.0 / abs(max) : 0.0;
+
+        //init and ptr out
+        *pMA_Out = Mat(pMA_In->size(), CV_8UC3);
+        Vec3b* ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
+
+        //tpye switch
+        switch (pMA_In->type())
+        {
+
+        case CV_8SC1:
+        {
+            char* ptr_in = reinterpret_cast<char*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3b(uchar(abs(*ptr_in) * f_neg), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3b(0, 0, uchar(*ptr_in * f_pos));
+                else
+                    *ptr_out = Vec3b(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_16SC1:
+        {
+            short* ptr_in = reinterpret_cast<short*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3b(uchar(abs(*ptr_in) * f_neg), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3b(0, 0, uchar(*ptr_in * f_pos));
+                else
+                    *ptr_out = Vec3b(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_32SC1:
+        {
+            int* ptr_in = reinterpret_cast<int*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3b(uchar(abs(*ptr_in) * f_neg), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3b(0, 0, uchar(*ptr_in * f_pos));
+                else
+                    *ptr_out = Vec3b(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_32FC1:
+        {
+            float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3b(uchar(abs(*ptr_in) * f_neg), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3b(0, 0, uchar(*ptr_in * f_pos));
+                else
+                    *ptr_out = Vec3b(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_64FC1:
+        {
+            double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3b(uchar(abs(*ptr_in) * f_neg), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3b(0, 0, uchar(*ptr_in * f_pos));
+                else
+                    *ptr_out = Vec3b(0, 0, 0);
+            }
+        }
+            break;
+
+        default:
+            return ER_type_bad;
+
+        }
+    }
+    else
+    {
+        //init and ptr out
+        *pMA_Out = Mat(pMA_In->size(), CV_64FC3);
+        Vec3d* ptr_out = reinterpret_cast<Vec3d*>(pMA_Out->data);
+
+        //tpye switch
+        switch (pMA_In->type())
+        {
+
+        case CV_8SC1:
+        {
+            char* ptr_in = reinterpret_cast<char*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3d(abs(*ptr_in), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3d(0, 0, *ptr_in);
+                else
+                    *ptr_out = Vec3d(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_16SC1:
+        {
+            short* ptr_in = reinterpret_cast<short*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3d(abs(*ptr_in), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3d(0, 0, *ptr_in);
+                else
+                    *ptr_out = Vec3d(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_32SC1:
+        {
+            int* ptr_in = reinterpret_cast<int*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3d(abs(*ptr_in), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3d(0, 0, *ptr_in);
+                else
+                    *ptr_out = Vec3d(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_32FC1:
+        {
+            float* ptr_in = reinterpret_cast<float*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3d(abs(*ptr_in), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3d(0, 0, *ptr_in);
+                else
+                    *ptr_out = Vec3d(0, 0, 0);
+            }
+        }
+            break;
+
+        case CV_64FC1:
+        {
+            double* ptr_in = reinterpret_cast<double*>(pMA_In->data);
+            for(size_t px = 0; px < area; px++, ptr_in++, ptr_out++)
+            {
+                if(*ptr_in < 0)
+                    *ptr_out = Vec3d(abs(*ptr_in), 0, 0);
+                else if(*ptr_in > 0)
+                    *ptr_out = Vec3d(0, 0, *ptr_in);
+                else
+                    *ptr_out = Vec3d(0, 0, 0);
+            }
+        }
+            break;
+
+        default:
+            return ER_type_bad;
+
+        }
+    }
+
     return ER_okay;
 }
 

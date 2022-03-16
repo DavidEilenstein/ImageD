@@ -72,6 +72,7 @@ public:
     static function<int (Mat *, Mat *)>                         Channel_Supression                  (bool use_r = true, bool use_g = true, bool use_b = true, bool force_3ch = false);
     static function<int (Mat *, Mat *)>                         Convert_8UC1_binary                 ();
     static function<int (Mat *, Mat *)>                         Visualize_to8bit                    (int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
+    static function<int (Mat *, Mat *)>                         Sign2Color                          (bool norm = false);
 
     static function<int (Mat *, Mat *)>                         Threshold_Auto                      (int mode, int max, int auto_type);
     static function<int (Mat *, Mat *)>                         Threshold_Value                     (int mode, int max, int thresh);

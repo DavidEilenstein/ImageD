@@ -491,6 +491,7 @@ private:
         c_sT_CO_DEPTH,
         c_sT_CO_MERGE,
         c_sT_CO_SPLIT,
+        c_sT_CO_SIGN2COLOR,
         c_sT_CO_COMBI,
         c_sT_CO_ANGLE2COLOR
     };

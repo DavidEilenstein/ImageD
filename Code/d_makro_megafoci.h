@@ -1502,17 +1502,17 @@ private slots:
     void MS6_Update_Result_HistSimple();
     void MS6_Update_Result_PoolStatLine_Single();
     void MS6_Update_Result_Scatter_2D();
-    void MS6_Update_Result_Heatmap();
+    void MS6_Update_Result_Heatmap_2D();
+    void MS6_Update_Result_Heatmap_3D();
     void MS6_Update_Result_DataTable_3Axis();
 
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked);
 
-
     void on_spinBox_MS6_MarginToBorder_valueChanged(int arg1);
-
     void on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1);
+    void on_comboBox_MS6_ResultTypes_currentIndexChanged(int index);
 
 private:
 
@@ -1578,7 +1578,8 @@ private:
         MS6_RES_TYP_HIST_SIMPLE,
         MS6_RES_TYP_POOL_STAT_LINE_SINGLE,
         MS6_RES_TYP_SCATTER_2D_SIMPLE,
-        MS6_RES_TYP_SCATTER_HEATMAP,
+        MS6_RES_TYP_SCATTER_HEATMAP_2D,
+        MS6_RES_TYP_SCATTER_HEATMAP_3D,
         MS6_RES_TYP_DATA_TABLE_3D,
         MS6_RES_TYP_NUMBER_OF
     };
@@ -1586,7 +1587,8 @@ private:
         "Histogram simple",
         "Pooled statistic line single",
         "Scatter 2D simple",
-        "Scatter heatmap",
+        "Scatter 2D heatmap",
+        "Scatter 3D heatmap",
         "Data table 3 attributes"
     };
 

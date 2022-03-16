@@ -1119,6 +1119,17 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_CO_SIGN2COLOR:     //-------------------------------------------------------------------   sign to color
+        {
+            ERR(D_VisDat_Proc::Sign2Color(
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    ui->checkBox_02_Sign2Color_Norm->isChecked()),
+                "Update_Img_Proc",
+                "Sign2Color");
+        }
+            break;
+
         case c_sT_CO_COMBI:     //-------------------------------------------------------------------   combi
         {
             ERR(D_VisDat_Proc::Convert_8UC1_binary(
@@ -5446,6 +5457,8 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->checkBox_02_Merge_Ch3,                  SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Split
         connect(ui->spinBox_02_Split_Channel,               SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Sign2Channel
+        connect(ui->checkBox_02_Sign2Color_Norm,            SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Combi
         connect(ui->comboBox_02_Combi_Type,                 SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         //angle to color
@@ -6050,6 +6063,8 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->checkBox_02_Merge_Ch3,                  SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Split
         disconnect(ui->spinBox_02_Split_Channel,               SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        //Sign2Channel
+        disconnect(ui->checkBox_02_Sign2Color_Norm,            SIGNAL(clicked(bool)),              this,   SLOT(Update_Img_Proc()));
         //Combi
         disconnect(ui->comboBox_02_Combi_Type,                 SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
         //angle to color

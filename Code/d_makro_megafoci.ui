@@ -12806,7 +12806,18 @@ color: red;</string>
                     </layout>
                    </widget>
                    <widget class="QWidget" name="page_MS6_ResType_Params_Scatter_2D"/>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap">
+                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_2D">
+                    <layout class="QGridLayout" name="gridLayout_138">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_153">
+                       <property name="text">
+                        <string>Use same ui as for 3D version</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_3D">
                     <layout class="QGridLayout" name="gridLayout_136">
                      <property name="leftMargin">
                       <number>3</number>
@@ -12838,7 +12849,7 @@ color: red;</string>
                         <number>10000</number>
                        </property>
                        <property name="value">
-                        <number>52</number>
+                        <number>48</number>
                        </property>
                       </widget>
                      </item>
@@ -12976,7 +12987,7 @@ color: red;</string>
                         <number>10000</number>
                        </property>
                        <property name="value">
-                        <number>52</number>
+                        <number>49</number>
                        </property>
                       </widget>
                      </item>
@@ -13432,7 +13443,7 @@ color: red;</string>
                  <double>51.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>24.500000000000000</double>
+                 <double>24.000000000000000</double>
                 </property>
                </widget>
               </item>
