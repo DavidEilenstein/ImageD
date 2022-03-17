@@ -653,7 +653,15 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
         return err;
     }
 
-    //set texture
+    //pixels with no data to light gray
+    for(size_t x = 0; x < n_x; x++)
+        for(size_t y = 0; y < n_y; y++)
+            if(vvvData_XYI[x][y].empty())
+                QI_tmp_texture.setPixel(int(x), int(y), qRgb(224, 224, 224));
+
+    //scale and set texture
+    const int texture_scale = 1;
+    QI_tmp_texture = QI_tmp_texture.scaled(QI_tmp_texture.width() * texture_scale, QI_tmp_texture.height() * texture_scale);
     pSeries->setTexture(QI_tmp_texture);
 
     //draw mode
@@ -676,7 +684,7 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
     graph_heightmap->axisZ()->setTitleVisible(true);
 
     //graph_heightmap->axisX()->setReversed(true);
-    graph_heightmap->axisZ()->setReversed(true);                                    //graph z / img y axis is reversed (0,0 is in the top left of an img)
+    //graph_heightmap->axisZ()->setReversed(true);                                    //graph z / img y axis is reversed (0,0 is in the top left of an img)
 
     graph_heightmap->axisX()->setMin(min_x);
     graph_heightmap->axisX()->setMax(max_x);

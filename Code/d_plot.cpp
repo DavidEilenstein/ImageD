@@ -2193,6 +2193,12 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
         return err;
     }
 
+    //pixels with no data to white
+    for(size_t x = 0; x < n_x; x++)
+        for(size_t y = 0; y < n_y; y++)
+            if(vvvData_XYI[x][y].empty())
+                QI_tmp_texture.setPixel(int(x), int(y), Qt::white);
+
     //---------------------------------------------------------- basic plot stuff
 
     //clear old content
@@ -2200,7 +2206,7 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
 
     //Chart
     QChart *chart = new QChart();
-    chart->setTitle("<b>" + name_title + "</b><br>" + "Color: " + QSL_StatList[stat_z] + " of " + name_z);
+    chart->setTitle("<b>" + name_title + "</b><br>" + "Color: " + QSL_StatList[int(stat_z)] + " of " + name_z);
 
     //---------------------------------------------------------- axis
 
@@ -2216,10 +2222,39 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     y_axis->setTitleText(name_y);
     y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
     y_axis->setRange(min_y, max_y);
-    y_axis->setReverse(true);
+    //y_axis->setReverse(true);
     chart->setAxisY(y_axis);
 
-    //---------------------------------------------------------- data (frame)
+    //---------------------------------------------------------- data
+
+    vector<QScatterSeries*> vSeries;
+
+    for(size_t x = 0; x < n_x; x++)
+        for(size_t y = 0; y < n_y; y++)
+            if(!vvvData_XYI[x][y].empty())
+            {
+                //calc position
+                double x_rel = double(x) / double(n_x);
+                double y_rel = double(y) / double(n_y);
+                double x_pos = x_rel * range_x + min_x;
+                double y_pos = y_rel * range_y + min_y;
+
+                //create series
+                vSeries.push_back(new QScatterSeries);
+                size_t i = vSeries.size() - 1;
+
+                //set attribs and coords
+                vSeries[i]->setColor(QI_tmp_texture.pixelColor(x, y));
+                vSeries[i]->setBorderColor(vSeries[i]->color());
+                vSeries[i]->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+                vSeries[i]->append(x_pos, y_pos);
+
+                //attach
+                chart->addSeries(vSeries[i]);
+                vSeries[i]->attachAxis(x_axis);
+                vSeries[i]->attachAxis(y_axis);
+            }
+
 
     /*
     QLineSeries* series = new QLineSeries;
@@ -2239,10 +2274,11 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     //---------------------------------------------------------- show
 
     pChartView->setChart(chart);
-    //pChartView->chart()->legend()->setVisible(false);
+    pChartView->chart()->legend()->setVisible(false);
 
     //---------------------------------------------------------- set heatmap as background image
 
+    /*
     //this section is inspired by: https://forum.qt.io/topic/108046/qchart-background-image
 
     //Grab the size of the plot and view areas
@@ -2267,6 +2303,16 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     //Display image in background
     chart->setPlotAreaBackgroundBrush(QI_tmp_padded);
     chart->setPlotAreaBackgroundVisible(true);
+    */
+
+    //---------------------------------------------------------- scale markers
+
+    double marker_w = chart->plotArea().width()  / double(n_x);
+    double marker_h = chart->plotArea().height() / double(n_y);
+    double marker_s = max(marker_w, marker_h);
+
+    for(size_t i = 0; i < vSeries.size(); i++)
+        vSeries[i]->setMarkerSize(marker_s);
 
     //---------------------------------------------------------- end
 
