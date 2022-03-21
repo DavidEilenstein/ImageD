@@ -1372,6 +1372,8 @@ private slots:
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X_valueChanged(int arg1);
     void on_spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y_valueChanged(int arg1);
 
+    void on_checkBox_MS4_Score_AdvancedSettings_clicked(bool checked);
+
 
     //-------------------------------------------------------------------- MS5 ----------------------------------------------------
 
@@ -1388,6 +1390,8 @@ private slots:
 
     void MS5_UpdateImages_Basic();
     void MS5_UpdateImages_Highlight();
+    void MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob*>* pvpNucs, D_Bio_NucleusBlob* pNucCheck, size_t t_min, size_t t_max);
+
     bool MS5_CoordTransform_MosaicPx_2_OriginalPx(int* x, int* y);
     void MS5_NucleiHighlight_Select_Viewer0(int x, int y);
     void MS5_NucleiHighlight_Select_Viewer1(int x, int y);
@@ -1449,9 +1453,9 @@ private:
     //highlighted nuclei
     vector<D_Bio_NucleusBlob*> v_MS5_pNuc_Highlighted;
     enum MS5_NUC_HIGHLIGHT {
-        MS5_NUC_HIGHLIGHT_HOVERED,
         MS5_NUC_HIGHLIGHT_SELECT1,
         MS5_NUC_HIGHLIGHT_SELECT2,
+        MS5_NUC_HIGHLIGHT_HOVERED,
         MS5_NUC_HIGHLIGHT_NUMBER_OF
     };
 
@@ -1513,6 +1517,7 @@ private slots:
     void on_spinBox_MS6_MarginToBorder_valueChanged(int arg1);
     void on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1);
     void on_comboBox_MS6_ResultTypes_currentIndexChanged(int index);
+
 
 private:
 
