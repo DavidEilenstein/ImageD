@@ -41,6 +41,9 @@ using namespace std;
 //using namespace cv; (prohibited because of abigous names with qtdatavisualization)
 #include <d_opencv_typedefs.h>
 
+//forward declaration of nuc (needed for some attrib calculation)
+class D_Bio_NucleusBlob;
+
 class D_Bio_Focus
 {
 public:
@@ -58,6 +61,8 @@ public:
   //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
   //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
+    void            set_NucOwner(D_Bio_NucleusBlob* owner)          {pNucOwner = owner;}
+
     double          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
     static bool     attribute_is_channel_dependent(size_t i_attrib);
 
@@ -66,6 +71,10 @@ public:
     double          compactness()                                   {return m_compactness;}
     double          convexity()                                     {return m_convexity;}
     double          radius_circle_equivalent()                      {return sqrt(m_area / PI);}
+
+    double          overlap_area(D_Bio_Focus* pFocOther);
+    double          overlap_area_any_focus(size_t ch_foc);
+    double          overlap_area_any_focus();
 
     double          dist2centroid(Point2f point)                    {return norm(point - m_centroid);}
     double          dist2contour_circle_equivalent(Point2f point)   {return dist2centroid(point) - radius_circle_equivalent();}
@@ -93,6 +102,8 @@ private:
     size_t          m_channel_detected_in = 0;
 
     vector<vector<double>> vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
+
+    D_Bio_NucleusBlob* pNucOwner;
 };
 
 #endif // D_BIO_FOCUS_H

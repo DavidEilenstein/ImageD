@@ -8,6 +8,8 @@
 
 #include "d_bio_focus.h"
 
+#include "d_bio_nucleusblob.h" //(included here to avoid circular include in headers)
+
 D_Bio_Focus::D_Bio_Focus()
 {
 
@@ -74,25 +76,28 @@ double D_Bio_Focus::attribute(size_t i_attrib, size_t ch_val, double scale_px2um
 
     switch (i_attrib) {
 
-    case ATTRIB_FOC_CENTER_X_PX:    return centroid().x;
-    case ATTRIB_FOC_CENTER_Y_PX:    return centroid().y;
-    case ATTRIB_FOC_AREA_PX:        return area();
-    case ATTRIB_FOC_CENTER_X_UM:    return centroid().x * scale_px2um;
-    case ATTRIB_FOC_CENTER_Y_UM:    return centroid().y * scale_px2um;
-    case ATTRIB_FOC_AREA_UM:        return area() * scale_px2um * scale_px2um;
-    case ATTRIB_FOC_CONVEXITY:      return convexity();
-    case ATTRIB_FOC_COMPACTNESS:    return compactness();
+    case ATTRIB_FOC_CENTER_X_PX:                    return centroid().x;
+    case ATTRIB_FOC_CENTER_Y_PX:                    return centroid().y;
+    case ATTRIB_FOC_AREA_PX:                        return area();
+    case ATTRIB_FOC_CENTER_X_UM:                    return centroid().x * scale_px2um;
+    case ATTRIB_FOC_CENTER_Y_UM:                    return centroid().y * scale_px2um;
+    case ATTRIB_FOC_AREA_UM:                        return area() * scale_px2um * scale_px2um;
+    case ATTRIB_FOC_CONVEXITY:                      return convexity();
+    case ATTRIB_FOC_COMPACTNESS:                    return compactness();
 
-    case ATTRIB_FOC_COUNT_CHX:      return signal_stat(ch_val, VAL_STAT_COUNT);
-    case ATTRIB_FOC_MEAN_CHX:       return signal_stat(ch_val, VAL_STAT_MEAN);
-    case ATTRIB_FOC_STD_CHX:        return signal_stat(ch_val, VAL_STAT_STD);
-    case ATTRIB_FOC_SKEWNESS_CHX:   return signal_stat(ch_val, VAL_STAT_SKEW);
-    case ATTRIB_FOC_KURTOSIS_CHX:   return signal_stat(ch_val, VAL_STAT_KURTOSIS);
-    case ATTRIB_FOC_MEDIAN_CHX:     return signal_stat(ch_val, VAL_STAT_MEDIAN);
-    case ATTRIB_FOC_ABSDEVMED_CHX:  return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
+    case ATTRIB_FOC_COUNT_CHX:                      return signal_stat(ch_val, VAL_STAT_COUNT);
+    case ATTRIB_FOC_MEAN_CHX:                       return signal_stat(ch_val, VAL_STAT_MEAN);
+    case ATTRIB_FOC_STD_CHX:                        return signal_stat(ch_val, VAL_STAT_STD);
+    case ATTRIB_FOC_SKEWNESS_CHX:                   return signal_stat(ch_val, VAL_STAT_SKEW);
+    case ATTRIB_FOC_KURTOSIS_CHX:                   return signal_stat(ch_val, VAL_STAT_KURTOSIS);
+    case ATTRIB_FOC_MEDIAN_CHX:                     return signal_stat(ch_val, VAL_STAT_MEDIAN);
+    case ATTRIB_FOC_ABSDEVMED_CHX:                  return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
 
-    case ATTRIB_FOC_DETECTED_IN_CH: return double(m_channel_detected_in);
-    default:                        return 0;}
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL:           return overlap_area_any_focus(ch_val);
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER:    return overlap_area_any_focus();
+
+    case ATTRIB_FOC_DETECTED_IN_CH:                 return double(m_channel_detected_in);
+    default:                                        return 0;}
 }
 
 bool D_Bio_Focus::attribute_is_channel_dependent(size_t i_attrib)
@@ -111,6 +116,54 @@ bool D_Bio_Focus::attribute_is_channel_dependent(size_t i_attrib)
     default:
         return false;
     }
+}
+
+double D_Bio_Focus::overlap_area(D_Bio_Focus *pFocOther)
+{
+    if(pFocOther == nullptr)
+        return 0;
+
+    //distance
+    double d = D_Math::Distance(centroid(), pFocOther->centroid());
+
+    //radii
+    double r1 = radius_circle_equivalent();
+    double r2 = pFocOther->radius_circle_equivalent();
+
+    //overlap area
+    return D_Math::AreaOverlapCircles(r1, r2, d);
+}
+
+double D_Bio_Focus::overlap_area_any_focus(size_t ch_foc)
+{
+    //unkown ownder nuc
+    if(pNucOwner == nullptr)
+        return 0;
+
+    //same channel as this foc is detected in
+    if(ch_foc == m_channel_detected_in)
+        return 0;
+
+    //invalid focus channel
+    if(ch_foc >= pNucOwner->get_FociChannels())
+        return 0;
+
+    //loop foci
+    double overlap_sum = 0;
+    for(size_t i = 0; i < pNucOwner->get_FociCount(ch_foc); i++)
+        overlap_sum += pNucOwner->get_Focus(ch_foc, i).overlap_area(this);
+
+    //sum of overlap area
+    return overlap_sum;
+}
+
+double D_Bio_Focus::overlap_area_any_focus()
+{
+    double overlap_sum = 0;
+    for(size_t ch = 0; ch < pNucOwner->get_FociChannels(); ch++)
+        overlap_sum += overlap_area_any_focus(ch);
+
+    return overlap_sum;
 }
 
 size_t D_Bio_Focus::channels()

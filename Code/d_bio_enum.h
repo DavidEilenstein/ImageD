@@ -164,6 +164,8 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_FOC_KURTOSIS_CHX,
      ATTRIB_FOC_MEDIAN_CHX,
      ATTRIB_FOC_ABSDEVMED_CHX,
+     ATTRIB_FOC_OVERLAP_FOCI_CHANNEL,
+     ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER,
      ATTRIB_FOC_DETECTED_IN_CH,
      ATTRIB_FOC_NUMBER_OF
  };
@@ -183,6 +185,8 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Channel kurtosis",
      "Channel median",
      "Channel abs. med. dev.",
+     "Overlap Foci channel",
+     "Overlap Foci other channels",
      "Detected in channel"
  };
 

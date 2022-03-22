@@ -72,6 +72,11 @@ public:
     static double                                   Pythagoras                  (double x, double y);
     static Point2f                                  Center                      (Point2f pt1, Point2f pt2);
 
+    static double                                   AreaCircle                  (double r);
+    static double                                   AreaCircleSection_r_s       (double r, double s);
+    static double                                   AreaCircleSection_r_alpha   (double r, double alpha);
+    static double                                   AreaOverlapCircles          (double r1, double r2, double d);
+
     static double                                   Difference_AngleRad                 (double a1, double a2);
     static double                                   Distance_AngleRad_Shortest_Unsigned (double a1, double a2);
     static double                                   Distance_AngleRad_Shortest_Signed   (double a1, double a2);

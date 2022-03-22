@@ -1562,6 +1562,81 @@ Point2f D_Math::Center(Point2f pt1, Point2f pt2)
     return Point2f(x, y);
 }
 
+double D_Math::AreaCircle(double r)
+{
+    return PI * r * r;
+}
+
+double D_Math::AreaCircleSection_r_s(double r, double s)
+{
+    //empty circle
+    if(r <= 0)
+        return 0;
+
+    //no intersection of cutline and circle (empty intersection)
+    if(s >= r)
+        return 0;
+
+    //no intersection of cutline and circle (full intersection)
+    if(s <= -r)
+        return AreaCircle(r);
+
+    //opening angle of circle segment
+    double alpha = 2 * acos(s / r);
+
+    //section area
+    return AreaCircleSection_r_alpha(r, alpha);
+}
+
+double D_Math::AreaCircleSection_r_alpha(double r, double alpha)
+{
+    //section area
+    return (r * r * (alpha - sin(alpha))) / 2.0;
+}
+
+/*!
+ * \brief D_Math::AreaOverlapCircles
+ * \details Circle intersetion formula found <a href="chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/viewer.html?pdfurl=https%3A%2F%2Fkratochwill.lima-city.de%2FPDFLinAlg2%2FK06.pdf&clen=296918&chunk=true">here</a>
+ * \param r1 radius circle 1 (abs is used)
+ * \param r2 radius cirlce 2 (abs is used)
+ * \param d distance of circle centers (abs is used)
+ * \return area of circle intersections
+ */
+double D_Math::AreaOverlapCircles(double r1, double r2, double d)
+{
+    //make sure lengths are postive
+    r1 = abs(r1);
+    r2 = abs(r2);
+    d  = abs(d);
+
+    //empty circles
+    if(r1 <= 0 || r2 <= 0)
+        return 0;
+
+    //no overlap
+    if(r1 + r2 <= d)
+        return 0;
+
+    //smaller/bigger
+    double rs = r1 < r2 ? r1 : r2;
+    double rb = r1 < r2 ? r2 : r1;
+
+    //smaller included in bigger
+    if(rs + d <= rb)
+        return AreaCircle(rs);
+
+    //distance from center to intersection points s of circles parallel to line beqtween denters
+    double s1 = ((r1 * r1) + (r2 * r2) + (d * d)) / (2 * d);
+    double s2 = d - s1;
+
+    //circle sections
+    double A1 = AreaCircleSection_r_s(r1, s1);
+    double A2 = AreaCircleSection_r_s(r2, s2);
+
+    //sum of circle sections
+    return A1 + A2;
+}
+
 double D_Math::Difference_AngleRad(double a1, double a2)
 {
     double diff = a1-a2;
