@@ -9791,11 +9791,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
         case DATA_LEVEL_NUCLIFE_STAT_STAT_FOC:
         {
+            int att_ch_dependency;
+            if(D_Bio_Focus::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+            else if(D_Bio_Focus::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+            else
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
             MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
         }
             break;
 
@@ -9829,11 +9837,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
         case DATA_LEVEL_NUCBLOB_STAT_FOC:
         {
+            int att_ch_dependency;
+            if(D_Bio_Focus::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+            else if(D_Bio_Focus::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+            else
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_ON);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
             MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
         }
             break;
 
@@ -9845,11 +9861,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
     case MS6_RES_AXIS_MODE_FOC://----------------------------------------------------------------------------------
     {
+        int att_ch_dependency;
+        if(D_Bio_Focus::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+            att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+        else if(D_Bio_Focus::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()))
+            att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+        else
+            att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
         MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
         MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_FOC);
         MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_ON);
-        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_Focus::attribute_is_channel_dependent(MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
+        MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
     }
         break;
 

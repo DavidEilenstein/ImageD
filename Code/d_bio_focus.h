@@ -61,10 +61,12 @@ public:
   //void            set_value_median(size_t channel, double Median) {if(channel < vSignalMedians.size()) vSignalMedians[channel] = Median;}
   //void            set_value_dev2med(size_t channel, double MedDev){if(channel < vSignalMedDevs.size()) vSignalMedDevs[channel] = MedDev;}
 
-    void            set_NucOwner(D_Bio_NucleusBlob* owner)          {pNucOwner = owner;}
+    void                set_pNucOwner(D_Bio_NucleusBlob* owner)     {pNucOwner = owner;}
+    D_Bio_NucleusBlob*  get_pNucOwner()                             {return pNucOwner;}
 
     double          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
-    static bool     attribute_is_channel_dependent(size_t i_attrib);
+    static bool     attribute_is_value_channel_dependent(size_t i_attrib);
+    static bool     attribute_is_focus_channel_dependent(size_t i_attrib);
 
     Point2f         centroid()                                      {return m_centroid;}
     double          area()                                          {return m_area;}
@@ -103,7 +105,7 @@ private:
 
     vector<vector<double>> vvSignalStats_StatChannel = vector<vector<double>>(VAL_STAT_NUMBER_OF, vector<double>(1, 0));
 
-    D_Bio_NucleusBlob* pNucOwner;
+    D_Bio_NucleusBlob* pNucOwner = nullptr;
 };
 
 #endif // D_BIO_FOCUS_H

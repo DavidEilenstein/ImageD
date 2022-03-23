@@ -383,7 +383,7 @@ void D_Bio_Attribute_Filter::Filter_UpdateUi_CurrentChannelDependency()
     bool channel_dependent = false;
 
     switch (filter_mode) {
-    case ATTRIB_FILTER_MODE_FOCI:       channel_dependent = D_Bio_Focus::attribute_is_channel_dependent(attrib);                break;
+    case ATTRIB_FILTER_MODE_FOCI:       channel_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
     case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
     case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_dependent = D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(attrib);     break;
     default:                                                                                                                    return;}

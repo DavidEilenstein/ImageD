@@ -87,6 +87,32 @@ D_Bio_NucleusBlob::D_Bio_NucleusBlob(vector<Point> contour_points, vector<vector
     CalcFeats();
 }
 
+void D_Bio_NucleusBlob::set_Foci(size_t channel, vector<D_Bio_Focus> v_foci)
+{
+    if(channel < vvFoci.size())
+        vvFoci[channel] = v_foci;
+
+    for(size_t i = 0; i < vvFoci[channel].size(); i++)
+        vvFoci[channel][i].set_pNucOwner(this);
+}
+
+void D_Bio_NucleusBlob::set_Foci(vector<vector<D_Bio_Focus> > vv_foci)
+{
+    vvFoci = vv_foci;
+
+    for(size_t ch = 0; ch < vvFoci.size(); ch++)
+        for(size_t i = 0; i < vvFoci[ch].size(); i++)
+            vvFoci[ch][i].set_pNucOwner(this);
+}
+
+void D_Bio_NucleusBlob::add_Focus(size_t channel, D_Bio_Focus focus)
+{
+    focus.set_detected_in_channel(channel);
+    focus.set_pNucOwner(this);
+
+    if(channel < vvFoci.size())
+        vvFoci[channel].push_back(focus);}
+
 double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale_px2um)
 {
     if(i_attrib >= ATTRIB_NUC_NUMBER_OF)

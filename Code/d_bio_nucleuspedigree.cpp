@@ -1205,6 +1205,27 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
         }
     }
 
+    //set correct owner nucs of foci (needed to avoid adress of temporary)
+    size_t nl = vNucLifes_Filtered.size();
+    for(size_t l = 0; l < nl; l++)
+    {
+        D_Bio_NucleusLife* pNucLife = &(vNucLifes_Filtered[l]);
+        size_t nb = pNucLife->members_count();
+        for(size_t b = 0; b < nb; b++)
+        {
+            D_Bio_NucleusBlob* pNucBlob = pNucLife->pNuc_member(b);
+            size_t nc = pNucBlob->get_FociChannels();
+            for(size_t c = 0; c < nc; c++)
+            {
+                size_t nf = pNucBlob->get_FociCount(c);
+                for(size_t f = 0; f < nf; f++)
+                {
+                    pNucBlob->get_pFocus(c, f)->set_pNucOwner(pNucBlob);
+                }
+            }
+        }
+    }
+
     //qDebug() << "D_Bio_NucleusPedigree::calc_NucLifes_Filtered" << "end with filtered nuc lifes: n =" << vNucLifes_Filtered.size();
 
     //finish

@@ -93,14 +93,18 @@ double D_Bio_Focus::attribute(size_t i_attrib, size_t ch_val, double scale_px2um
     case ATTRIB_FOC_MEDIAN_CHX:                     return signal_stat(ch_val, VAL_STAT_MEDIAN);
     case ATTRIB_FOC_ABSDEVMED_CHX:                  return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
 
-    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL:           return overlap_area_any_focus(ch_val);
-    case ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER:    return overlap_area_any_focus();
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_PX:        return overlap_area_any_focus(ch_val);
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_UM:        return overlap_area_any_focus(ch_val) * scale_px2um * scale_px2um;
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_REL:       return overlap_area_any_focus(ch_val) / area();
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_PX: return overlap_area_any_focus();
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_UM: return overlap_area_any_focus() * scale_px2um * scale_px2um;
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_REL:return overlap_area_any_focus() / area();
 
     case ATTRIB_FOC_DETECTED_IN_CH:                 return double(m_channel_detected_in);
     default:                                        return 0;}
 }
 
-bool D_Bio_Focus::attribute_is_channel_dependent(size_t i_attrib)
+bool D_Bio_Focus::attribute_is_value_channel_dependent(size_t i_attrib)
 {
     switch (i_attrib) {
 
@@ -118,10 +122,28 @@ bool D_Bio_Focus::attribute_is_channel_dependent(size_t i_attrib)
     }
 }
 
+bool D_Bio_Focus::attribute_is_focus_channel_dependent(size_t i_attrib)
+{
+    switch (i_attrib) {
+
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_PX:
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_UM:
+    case ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_REL:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
 double D_Bio_Focus::overlap_area(D_Bio_Focus *pFocOther)
 {
+    qDebug() << "overlap_area" << "start";
+
     if(pFocOther == nullptr)
         return 0;
+
+    qDebug() << "overlap_area" << "try";
 
     //distance
     double d = D_Math::Distance(centroid(), pFocOther->centroid());
@@ -131,12 +153,15 @@ double D_Bio_Focus::overlap_area(D_Bio_Focus *pFocOther)
     double r2 = pFocOther->radius_circle_equivalent();
 
     //overlap area
+    qDebug() << "overlap_area" << "end";
     return D_Math::AreaOverlapCircles(r1, r2, d);
 }
 
 double D_Bio_Focus::overlap_area_any_focus(size_t ch_foc)
 {
-    //unkown ownder nuc
+    qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "start";
+
+    //unkown owner nuc
     if(pNucOwner == nullptr)
         return 0;
 
@@ -148,21 +173,38 @@ double D_Bio_Focus::overlap_area_any_focus(size_t ch_foc)
     if(ch_foc >= pNucOwner->get_FociChannels())
         return 0;
 
+    qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "try";
+
     //loop foci
     double overlap_sum = 0;
-    for(size_t i = 0; i < pNucOwner->get_FociCount(ch_foc); i++)
-        overlap_sum += pNucOwner->get_Focus(ch_foc, i).overlap_area(this);
+    qDebug() << pNucOwner << nullptr;
+    size_t n = pNucOwner->get_FociCount(ch_foc);
+    qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "start loop";
+    for(size_t i = 0; i < n; i++)
+    {
+        qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "get pFoc" << i;
+        D_Bio_Focus* pFocOther = pNucOwner->get_pFocus(ch_foc, i);
+        if(pFocOther != nullptr)
+        {
+            qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "pFoc is not nullptr";
+            overlap_sum += pFocOther->overlap_area(this);
+        }
+    }
 
     //sum of overlap area
+    qDebug() << "overlap_area_any_focus(" << ch_foc << ")" << "end";
     return overlap_sum;
 }
 
 double D_Bio_Focus::overlap_area_any_focus()
 {
+    qDebug() << "overlap_area_any_focus" << "start";
+
     double overlap_sum = 0;
     for(size_t ch = 0; ch < pNucOwner->get_FociChannels(); ch++)
         overlap_sum += overlap_area_any_focus(ch);
 
+    qDebug() << "overlap_area_any_focus" << "end";
     return overlap_sum;
 }
 
