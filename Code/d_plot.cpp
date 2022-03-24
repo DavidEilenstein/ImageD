@@ -396,7 +396,7 @@ int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool
     return ER_okay;
 }
 
-int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<double> v_Data, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<double> v_Data, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count, bool ignore_0)
 {
     vector<vector<double>> vvData(1, v_Data);
 
@@ -420,10 +420,11 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<double> v_Data, s
                 name_x,
                 uni,
                 acc,
-                axe_tick_count);
+                axe_tick_count,
+                ignore_0);
 }
 
-int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count, bool ignore_0)
 {
     function<double(vector<double>)> F_mean = D_Stat::Function_SingleStat(c_STAT_MEAN_ARITMETIC);
     function<double(vector<double>)> F_std  = D_Stat::Function_SingleStat(c_STAT_CIRC_STAN_DEV_TOTAL);
@@ -450,10 +451,11 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
                 name_x,
                 uni,
                 acc,
-                axe_tick_count);
+                axe_tick_count,
+                ignore_0);
 }
 
-int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count)
+int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > vv_Data, double min_x, double max_x, size_t n_classes, vector<double> v_mean, vector<double> v_std, QString name_title, QString name_x, bool uni, bool acc, size_t axe_tick_count, bool ignore_0)
 {
     //error checks
     if(vv_Data.empty())             return ER_empty;
@@ -526,8 +528,11 @@ int D_Plot::Plot_Hist_WithStats(QChartView *pChartView, vector<vector<double> > 
         //data
         for(size_t i_hist = 0; i_hist < n_classes; i_hist++)
         {
-            v_series_hist[i_set]->append(min_x + i_hist * step_x, vv_hist[i_set][i_hist]);
-            y_max = max(y_max, vv_hist[i_set][i_hist]);
+            if(min_x + i_hist * step_x != 0.0)
+            {
+                v_series_hist[i_set]->append(min_x + i_hist * step_x, vv_hist[i_set][i_hist]);
+                y_max = max(y_max, vv_hist[i_set][i_hist]);
+            }
         }
 
         //attach

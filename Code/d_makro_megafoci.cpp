@@ -10000,7 +10000,9 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
                 MS6_DefaultTitle_Result(),
                 MS6_DefaultTitle_Axis(0),
                 ui->checkBox_MS6_ResType_Param_Hist_Uni->isChecked(),
-                ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked()),
+                ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked(),
+                AXE_TICK_COUNT_DEFAULT,
+                ui->checkBox_MS6_ResType_Param_Hist_Ignore0->isChecked()),
         "MS6_Update_Result_HistSimple",
         "D_Plot::Plot_Hist_WithStats");
 }

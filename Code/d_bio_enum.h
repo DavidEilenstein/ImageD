@@ -189,11 +189,11 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Channel kurtosis",
      "Channel median",
      "Channel abs. med. dev.",
-     "Overlap Foci channel /px^2",
-     "Overlap Foci channel /um^2",
+     "Overlap Foci channel /(px^2)",
+     "Overlap Foci channel /(um^2)",
      "Overlap Foci channel relative",
-     "Overlap Foci other channels /px^2",
-     "Overlap Foci other channels /um^2",
+     "Overlap Foci other channels /(px^2)",
+     "Overlap Foci other channels /(um^2)",
      "Overlap Foci other channels relative",
      "Detected in channel"
  };
@@ -227,6 +227,15 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_NUC_FOCI_COUNT_ALL,
      ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX,
      ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM,
+     ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX,
+     ATTRIB_NUC_FOCI_AREA_SUM_CHX_UM,
+     ATTRIB_NUC_FOCI_AREA_SUM_CHX_REL_TO_NUC,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PX,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_UM,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PROB,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND,
+     ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND_INV,
      ATTRIB_NUC_NUMBER_OF
  };
  const QStringList QSL_Attrib_Nuc = {
@@ -257,7 +266,16 @@ enum NUC_LIFE_FILE_SECTIONS {
      "Foci/Area /(1/um^2) in channel",
      "Foci in all channels",
      "Foci/Area /(1/px^2) in all channels",
-     "Foci/Area /(1/um^2) in all channels"
+     "Foci/Area /(1/um^2) in all channels",
+     "Foci area sum /(px^2)",
+     "Foci area sum /(um^2)",
+     "Foci area sum relative to nucleus area",
+     "Foci area overlap ch0 and ch1 /(px^2)",
+     "Foci area overlap ch0 and ch1 /(um^2)",
+     "Foci area overlap ch0 and ch1 rel. to nuc area",
+     "Foci area overlap ch0 and ch1 probability",
+     "Foci area overlap ch0 and ch1 rel to rand",
+     "Foci area overlap ch0 and ch1 rel to rand inv"
  };
 
  enum ATTRIB_NUCLIFE {

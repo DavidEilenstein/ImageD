@@ -147,7 +147,7 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
     case ATTRIB_NUC_ABSDEVMED_CHX:              return signal_stat(ch_val, VAL_STAT_MEDIAN_DEVIATION);
 
     case ATTRIB_NUC_FOCI_COUNT_CHX:             return get_FociCount(ch_val);
-    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX: return get_FociCount(ch_val) / area();
+    case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX: return area() != 0.0 ? get_FociCount(ch_val) / area() : 0.0;
     case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM: return get_FociCount(ch_val) / (area() * scale_px2um * scale_px2um);
     case ATTRIB_NUC_FOCI_COUNT_ALL:
     {
@@ -159,8 +159,62 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
 
         return foci_sum;
     }
-    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX: return attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / area();
-    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM: return attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / (area() * scale_px2um * scale_px2um);
+    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX: return area() != 0.0 ? attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / area() : 0;
+    case ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM: return (area() != 0.0 && scale_px2um > 0) ? attribute(ATTRIB_NUC_FOCI_COUNT_ALL, ch_val, scale_px2um) / (area() * scale_px2um * scale_px2um) : 0;
+
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX:
+    {
+        size_t n_ch_foc = get_FociChannels();
+        if(ch_val >= n_ch_foc)
+            return 0;
+
+        double area_sum = 0;
+        for(size_t f = 0; f < get_FociCount(ch_val); f++)
+            area_sum += get_pFocus(ch_val, f)->area();
+
+        return area_sum;
+    }
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_UM:           return attribute(ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX, ch_val, scale_px2um) * scale_px2um * scale_px2um;
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_REL_TO_NUC:   return area() != 0.0 ? attribute(ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX, ch_val, scale_px2um) / area() : 0.0;
+
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PX:
+    {
+        const size_t ch0 = 0;
+        const size_t ch1 = 1;
+
+        if(get_FociChannels() <= ch1)
+            return 0;
+
+        double overlap_area_sum = 0;
+        for(size_t f = 0; f < get_FociCount(ch0); f++)
+            overlap_area_sum += get_pFocus(ch0, f)->overlap_area_any_focus(ch1);
+
+        return overlap_area_sum;
+    }
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_UM:            return attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PX, ch_val, scale_px2um) * scale_px2um * scale_px2um;
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC:    return area() != 0.0 ? attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PX, ch_val, scale_px2um) / area() : 0.0;
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PROB:
+    {
+        const size_t ch0 = 0;
+        const size_t ch1 = 1;
+
+        double A_ch0_rel = attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC, ch0, scale_px2um);
+        double A_ch1_rel = attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC, ch1, scale_px2um);
+
+        return A_ch0_rel * A_ch1_rel;
+    }
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND:
+    {
+        double overlap_rel  = attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC, 0, scale_px2um);
+        double overlap_prob = attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PROB, 0, scale_px2um);
+
+        return overlap_prob != 0.0 ? overlap_rel / overlap_prob : 0.0;
+    }
+    case ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND_INV:
+    {
+        double att = attribute(ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND, 0, scale_px2um);
+        return att != 0.0 ? 1.0 / att : 0;
+    }
 
     default:                                    return 0;
     }
@@ -191,6 +245,9 @@ bool D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(size_t i_attrib)
     case ATTRIB_NUC_FOCI_COUNT_CHX:
     case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_PX:
     case ATTRIB_NUC_FOCI_COUNT_CHX_PER_AREA_UM:
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX:
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_UM:
+    case ATTRIB_NUC_FOCI_AREA_SUM_CHX_REL_TO_NUC:
         return true;
 
     default:

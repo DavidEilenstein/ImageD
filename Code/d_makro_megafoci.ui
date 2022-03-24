@@ -324,7 +324,7 @@
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
@@ -11038,13 +11038,13 @@ color: red;</string>
          <widget class="QGroupBox" name="groupBox_MS6_Controls">
           <property name="minimumSize">
            <size>
-            <width>410</width>
+            <width>500</width>
             <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>410</width>
+            <width>500</width>
             <height>16777215</height>
            </size>
           </property>
@@ -12696,8 +12696,30 @@ color: red;</string>
                      <property name="spacing">
                       <number>1</number>
                      </property>
+                     <item row="0" column="3">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Acc">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Accumulated</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
                      <item row="0" column="2">
                       <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Uni">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
                        <property name="text">
                         <string>Uniformed</string>
                        </property>
@@ -12725,13 +12747,16 @@ color: red;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="3">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Acc">
-                       <property name="text">
-                        <string>Accumulated</string>
+                     <item row="0" column="4">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Ignore0">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
                        </property>
-                       <property name="checked">
-                        <bool>true</bool>
+                       <property name="text">
+                        <string>Ignore x=0</string>
                        </property>
                       </widget>
                      </item>
@@ -13545,7 +13570,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">
