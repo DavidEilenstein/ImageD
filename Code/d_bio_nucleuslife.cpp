@@ -324,7 +324,21 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     }
 }
 
-bool D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(size_t i_attrib)
+bool D_Bio_NucleusLife::attribute_is_focus_channel_dependent(size_t i_attrib)
+{
+    switch (i_attrib) {
+
+    /*
+    case DOES_NOT_EXIST_YET:
+        return true;
+        */
+
+    default:
+        return false;
+    }
+}
+
+bool D_Bio_NucleusLife::attribute_is_value_channel_dependent(size_t i_attrib)
 {
     switch (i_attrib) {
 

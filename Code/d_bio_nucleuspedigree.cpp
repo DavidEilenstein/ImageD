@@ -1008,14 +1008,14 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
     return true;
 }
 
-bool D_Bio_NucleusPedigree::set_attrib_filter_channels(QStringList channels)
+bool D_Bio_NucleusPedigree::set_attrib_filter_channels(QStringList channels_foc, QStringList channels_val)
 {
     if(!state_AttribFiltersSet)
         return false;
 
-    pAttribFilter_Foci->set_channels(channels);
-    pAttribFilter_NucBlobs->set_channels(channels);
-    pAttribFilter_NucLifes->set_channels(channels);
+    pAttribFilter_Foci->set_channels(channels_foc, channels_val);
+    pAttribFilter_NucBlobs->set_channels(channels_foc, channels_val);
+    pAttribFilter_NucLifes->set_channels(channels_foc, channels_val);
 
     return true;
 }
@@ -1473,6 +1473,228 @@ vector<double> D_Bio_NucleusPedigree::attrib_foci(size_t i_attrib, size_t ch_val
 
     //finish
     return vAttribs;
+}
+
+bool D_Bio_NucleusPedigree::save_analysis(QString QS_SavePath)
+{
+    if(QS_SavePath.isEmpty())
+        return false;
+
+    QDir DIR_SaveMaster(QS_SavePath);
+    if(DIR_SaveMaster.exists())
+        return false;
+    QDir().mkdir(DIR_SaveMaster.path());
+    if(!DIR_SaveMaster.exists())
+        return false;
+
+    if(!save_attribs_raw(DIR_SaveMaster))
+        return false;
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::data_filtered_exists(size_t data_level)
+{
+    switch (data_level) {
+
+    case DATAPOINT_LEVEL_FOC:
+    {
+        size_t nl = vNucLifes_Filtered.size();
+        if(nl == 0)
+            return false;
+
+        for(size_t l = 0; l < nl; l++)
+        {
+            size_t nb = vNucLifes_Filtered[l].members_count();
+            for(size_t b = 0; b < nb; b++)
+            {
+                size_t nc = vNucLifes_Filtered[l].pNuc_member(b)->get_FociChannels();
+                for(size_t c = 0; c < nc; c++)
+                {
+                    size_t nf = vNucLifes_Filtered[l].pNuc_member(b)->get_FociCount(c);
+                    if(nf > 0)
+                        return true;
+                }
+            }
+        }
+    }
+        return false;
+
+    case DATAPOINT_LEVEL_NUCBLOB:
+    {
+        size_t nl = vNucLifes_Filtered.size();
+        if(nl == 0)
+            return false;
+
+        for(size_t l = 0; l < nl; l++)
+        {
+            size_t nb = vNucLifes_Filtered[l].members_count();
+            if(nb > 0)
+                return true;
+        }
+    }
+        return false;
+
+    case DATAPOINT_LEVEL_NUCLIFE:
+    {
+        size_t nl = vNucLifes_Filtered.size();
+        if(nl > 0)
+            return true;
+    }
+        return false;
+
+    default:
+        return false;
+    }
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_raw(QDir DIR_SaveMaster)
+{
+    if(!DIR_SaveMaster.exists())
+        return false;
+
+    QDir DIR_SaveAttribsRaw(DIR_SaveMaster.path() + "/Attribs raw");
+    QDir().mkdir(DIR_SaveAttribsRaw.path());
+    if(!DIR_SaveAttribsRaw.exists())
+        return false;
+
+    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_Foci.csv"), DATAPOINT_LEVEL_FOC))
+        return false;
+
+    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_NucBlobs.csv"), DATAPOINT_LEVEL_NUCBLOB))
+        return false;
+
+    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_NucLifes.csv"), DATAPOINT_LEVEL_NUCLIFE))
+        return false;
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_level)
+{
+    if(data_level >= DATAPOINT_LEVEL_NUMBER_OF)
+        return false;
+
+    if(FI_SaveCsv.suffix() != "csv")
+        return false;
+
+    //filter data
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return false;
+
+    //stream
+    ofstream OS;
+    OS.open(FI_SaveCsv.absoluteFilePath().toStdString());
+    if(!OS.is_open())
+        return false;
+
+    //header
+    OS << "Raw Attributes;" << QSL_DatapointLevel[data_level].toStdString();
+    OS << "\n" << FI_SaveCsv.absoluteFilePath().toStdString();
+    OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+    OS << "\n" << "ImageD version;" << D_QS_Version.toStdString() << ";" << D_QS_Release.toStdString();
+    OS << "\n";
+
+    //data exists?
+    if(!data_filtered_exists(data_level))
+    {
+        OS << "\n" << "No " << QSL_DatapointLevel[data_level].toStdString() << " exists!!!";
+        OS.close();
+        return true;
+    }
+
+    //data
+    switch (data_level) {
+
+    case DATAPOINT_LEVEL_FOC:
+    {
+        //attribs (column headers)
+        OS << "\n";
+        size_t n_a = ATTRIB_FOC_NUMBER_OF;
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_Focus::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+            }
+            else if(D_Bio_Focus::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_Foc[a].toStdString();
+            }
+        }
+    }
+        break;
+
+    case DATAPOINT_LEVEL_NUCBLOB:
+    {
+        //attribs (column headers)
+        OS << "\n";
+        size_t n_a = ATTRIB_NUC_NUMBER_OF;
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+            }
+            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_Nuc[a].toStdString();
+            }
+        }
+    }
+        break;
+
+    case DATAPOINT_LEVEL_NUCLIFE:
+    {
+        //attribs (column headers)
+        OS << "\n";
+        size_t n_a = ATTRIB_NUCLIFE_NUMBER_OF;
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_NucleusLife::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+            }
+            else if(D_Bio_NucleusLife::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                    OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_NucLife[a].toStdString();
+            }
+        }
+    }
+        break;
+
+    default:
+        return false;
+    }
+
+    OS.close();
+    return true;
 }
 
 int D_Bio_NucleusPedigree::updatePedigreeView_Plot3D(D_Viewer_Plot_3D *viewer, size_t points_per_edge, size_t t_min, size_t t_max, double y_min_um, double y_max_um, double x_min_um, double x_max_um)

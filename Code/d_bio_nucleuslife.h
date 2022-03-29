@@ -122,7 +122,8 @@ public:
     double                          attrib_nuclife(size_t i_attrib_nuclife);
     double                          attrib_nuclife_growth(size_t i_attrib_nuc, size_t ch_val)           {double v0 = attrib_nuc_begin(i_attrib_nuc, ch_val); double v1 = attrib_nuc_end(i_attrib_nuc, ch_val); return v0 > 0 ? v1 / v0 : 0;}
     double                          attrib_nuclife_growth_per_T(size_t i_attrib_nuc, size_t ch_val)     {double nt = members_count(); return nt > 0 ? attrib_nuclife_growth(i_attrib_nuc, ch_val) / nt : 0;}
-    static bool                     attrib_nuclife_is_channel_dependent(size_t i_attrib);
+    static bool                     attribute_is_focus_channel_dependent(size_t i_attrib);
+    static bool                     attribute_is_value_channel_dependent(size_t i_attrib);
 
     double                          closestDist2Border();
 

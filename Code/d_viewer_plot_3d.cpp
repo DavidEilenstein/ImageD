@@ -659,6 +659,9 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
             if(vvvData_XYI[x][y].empty())
                 QI_tmp_texture.setPixel(int(x), int(y), qRgb(224, 224, 224));
 
+    //mirror image
+    QI_tmp_texture = QI_tmp_texture.mirrored(false, true);
+
     //scale and set texture
     const int texture_scale = 1;
     QI_tmp_texture = QI_tmp_texture.scaled(QI_tmp_texture.width() * texture_scale, QI_tmp_texture.height() * texture_scale);

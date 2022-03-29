@@ -141,7 +141,7 @@ private slots:
     void Stack_Attributes_Init();
     void Stack_Attributes_Calc();
     void Stack_Attributes_Calc_Stats();
-    void Stack_Attributes_Stream_Init();
+    bool Stack_Attributes_Stream_Init();
     void Stack_Attributes_Stream_Parameters();
 
     void Stack_Attributes_Stream_Cells();
@@ -206,10 +206,8 @@ private slots:
 
     void on_comboBox_FileName_currentIndexChanged(int index);
 
-
     void on_spinBox_SetCyto_Thresh_Size_valueChanged(int arg1);
     void on_doubleSpinBox_SetCyto_Thresh_Offset_valueChanged(double arg1);
-
 
     void on_checkBox_SetFoci_13_ExcludeBordered_clicked();
     void on_checkBox_SetCore_13_ExcludeBordered_clicked();
@@ -217,11 +215,8 @@ private slots:
     void on_pushButton_PresetActivate_clicked();
 
     void on_spinBox_SetCore_14_AreaDistMin_valueChanged(int arg1);
-
     void on_spinBox_SetCore_14_AreaDistMax_valueChanged(int arg1);
-
     void on_spinBox_SetCore_14_AreaMaxOfSmall_valueChanged(int arg1);
-
     void on_spinBox_SetCore_14_AreaMinOfBig_valueChanged(int arg1);
 
     void on_pushButton_ParamsLoad_clicked();

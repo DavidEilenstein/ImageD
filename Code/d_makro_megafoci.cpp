@@ -9566,21 +9566,25 @@ bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()
     if(dataset_dim_p_exist > 2)
         MS6_QSL_Channels_Values.append(ui->lineEdit_MS6_ValueChannel_Name_2->text());
 
-    //----------------- attrib filters
-
-    MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels_Values);
-
-    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  0,   true,     ATTRIB_NUCLIFE_IN_RANGE_PERMANENT,   c_COMPARE_EQUAL,    0,   1.0);
-    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  1,   true,     ATTRIB_NUCLIFE_AGE,                  c_COMPARE_GREATER,  0,   0.0);
-    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  2,   true,     ATTRIB_NUCLIFE_START,                c_COMPARE_GREATER,  0,   0.0);
-    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  3,   true,     ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH,  c_COMPARE_EQUAL,    0,   1.0);
-
     //----------------- foci
 
     MS6_QSL_Channels_Foci.clear();
     MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_0->text());
     MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_1->text());
     MS6_QSL_Channels_Foci.append(ui->lineEdit_MS6_FociChannel_Name_2->text());
+
+    //----------------- pedigree in gerenal
+
+    MS6_NucPedigree_Results.set_channels(MS6_QSL_Channels_Foci, MS6_QSL_Channels_Values);
+
+    //----------------- attrib filters
+
+    MS6_NucPedigree_Results.set_attrib_filter_channels(MS6_QSL_Channels_Foci, MS6_QSL_Channels_Values);
+
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  0,   true,     ATTRIB_NUCLIFE_IN_RANGE_PERMANENT,   c_COMPARE_EQUAL,    0,   1.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  1,   true,     ATTRIB_NUCLIFE_AGE,                  c_COMPARE_GREATER,  0,   0.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  2,   true,     ATTRIB_NUCLIFE_START,                c_COMPARE_GREATER,  0,   0.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  3,   true,     ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH,  c_COMPARE_EQUAL,    0,   1.0);
 
     //----------------- populate dropdowns
 
@@ -9763,11 +9767,19 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
 
         case DATA_LEVEL_NUCLIFE_ATTRIB:
         {
+            int att_ch_dependency;
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
+            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
+            else
+                att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;
+
             MS6_cSW_ResAxis_Stat_high[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Stat_low[i_axis]->setCurrentIndex(MS6_RES_AXIS_STAT_OFF);
             MS6_cSW_ResAxis_Attrib[i_axis]->setCurrentIndex(MS6_RES_AXIS_ATTRIB_NUCLIFE);
             MS6_cSW_ResAxis_FocChannel[i_axis]->setCurrentIndex(MS6_RES_AXIS_CHANNEL_FOC_OFF);
-            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()) ? MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL : MS6_RES_AXIS_CHANNEL_ATTRIB_OFF);
+            MS6_cSW_ResAxis_AttribChannel[i_axis]->setCurrentIndex(att_ch_dependency);
         }
             break;
 

@@ -64,7 +64,7 @@ public:
 
     bool set_ui_groupbox(QGroupBox *ui_box);
     bool set_filter_mode(size_t mode);
-    bool set_channels(QStringList channels);
+    bool set_channels(QStringList channels_foc, QStringList channels_val);
     bool set_ScalePx2Um(double scale);
 
     bool set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
@@ -136,7 +136,8 @@ private:
     size_t filter_mode = ATTRIB_FILTER_MODE_FOCI;
 
     //channels
-    QStringList QSL_Channels;
+    QStringList QSL_Channels_Val;
+    QStringList QSL_Channels_Foc;
 
     //scaling
     double scale_px2um = 1;

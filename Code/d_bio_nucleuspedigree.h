@@ -103,9 +103,10 @@ public:
     void set_FrameInMargin_XY(Rect FrameInRange)                            {FrameInMarginXY = FrameInRange;}
     void set_FrameBorder_XY(Rect FrameBorder);
     void set_earliest_mitoses_allowed(size_t t_earliest)                    {match_earliest_mitosis_allowed = t_earliest;}
+    void set_channels(QStringList channels_foc, QStringList channels_val)   {QSL_Channels_Foci = channels_foc; QSL_Channels_Values = channels_val;}
 
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
-    bool set_attrib_filter_channels(QStringList channels);
+    bool set_attrib_filter_channels(QStringList channels_foc, QStringList channels_val);
     bool set_attrib_filter_scaling();
     bool set_attrib_filter(size_t filter_mode, size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
 
@@ -119,6 +120,13 @@ public:
     vector<double>  attrib_foci(size_t i_attrib, size_t ch_val);
     vector<double>  attrib_foci(size_t i_attrib, size_t ch_val, size_t ch_foc);
 
+    bool save_analysis(QString QS_SavePath);
+private:
+    bool data_filtered_exists(size_t data_level);
+    bool save_attribs_raw(QDir DIR_SaveMaster);
+    bool save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_level);
+
+public:
     void match_all();
     void match_all_go1();
     void match_all_go2();
@@ -169,6 +177,10 @@ private:
 
     //irradiation
     double time_irradiation = 0;
+
+    //channels
+    QStringList QSL_Channels_Foci;
+    QStringList QSL_Channels_Values;
 
     //data
     vector<vector<vector<vector<D_Bio_NucleusBlob>>>> vvvvNucBlobs_TYXI;

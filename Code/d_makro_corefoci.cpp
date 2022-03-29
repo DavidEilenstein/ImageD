@@ -2351,12 +2351,13 @@ void D_MAKRO_CoreFoci::Stack_Attributes_AskUpdate()
 
 void D_MAKRO_CoreFoci::Stack_Attributes_Process()
 {
+    if(!Stack_Attributes_Stream_Init())
+        return;
+
     stack_processed = false;
     stack_processing = true;
     calced_AttCel_cel_stack = false;
     this->setEnabled(false);
-
-    Stack_Attributes_Stream_Init();
 
     Stack_Attributes_Init();
     Stack_Attributes_Stream_Parameters();
@@ -2434,17 +2435,17 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Calc_Stats()
     calced_AttSta_cel_stack = true;
 }
 
-void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Init()
+bool D_MAKRO_CoreFoci::Stack_Attributes_Stream_Init()
 {
     QString ST_Dir = QFileDialog::getExistingDirectory(
                 this,
-                "Select folder to stream the output to.",
+                "Select folder to stream the output to. (Not selecting a folder will quit stack processing)",
                 pStore->dir_M_dsDNA()->path());
 
-    if(ST_Dir == 0)
+    if(ST_Dir.isEmpty())
     {
         dont_stream = true;
-        return;
+        return false;
     }
     else
     {
@@ -2534,6 +2535,8 @@ void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Init()
     for(size_t i = 0; i < v_StreamStack_Images.size(); i++)
         if(v_StreamStack_Images[i])
             QDir().mkdir(DIR_Stream_Stack_Images.path() + "/" + QSL_ResColor_Presets[static_cast<int>(i)]);
+
+    return true;
 }
 
 void D_MAKRO_CoreFoci::Stack_Attributes_Stream_Parameters()

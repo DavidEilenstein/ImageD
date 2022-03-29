@@ -47,15 +47,17 @@ bool D_Bio_Attribute_Filter::set_filter_mode(size_t mode)
     return Ui_Init_FilterMode();
 }
 
-bool D_Bio_Attribute_Filter::set_channels(QStringList channels)
+bool D_Bio_Attribute_Filter::set_channels(QStringList channels_foc, QStringList channels_val)
 {
     if(state_channels_set)
         return false;
 
-    if(!Populate_CB_Single(ui_combobox_Channels, channels, 0))
-        return false;
+    QSL_Channels_Foc = channels_foc;
+    QSL_Channels_Val = channels_val;
 
-    QSL_Channels = channels;
+    if(state_ui_init)
+        Filter_UpdateUi_CurrentChannelDependency();
+
     state_channels_set = true;
     return true;
 }
@@ -380,15 +382,25 @@ void D_Bio_Attribute_Filter::Filter_UpdateUi_CurrentChannelDependency()
 
     size_t attrib = vFilters[i_filter].i_attrib;
 
-    bool channel_dependent = false;
-
+    bool channel_foc_dependent = false;
     switch (filter_mode) {
-    case ATTRIB_FILTER_MODE_FOCI:       channel_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
-    case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
-    case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_dependent = D_Bio_NucleusLife::attrib_nuclife_is_channel_dependent(attrib);     break;
-    default:                                                                                                                    return;}
+    case ATTRIB_FILTER_MODE_FOCI:       channel_foc_dependent = D_Bio_Focus::attribute_is_focus_channel_dependent(attrib);          break;
+    case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_foc_dependent = D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(attrib);    break;
+    case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_foc_dependent = D_Bio_NucleusLife::attribute_is_focus_channel_dependent(attrib);    break;
+    default:                                                                                                                        return;}
 
-    ui_combobox_Channels->setEnabled(channel_dependent);
+    bool channel_val_dependent = false;
+    switch (filter_mode) {
+    case ATTRIB_FILTER_MODE_FOCI:       channel_val_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
+    case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_val_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
+    case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_val_dependent = D_Bio_NucleusLife::attribute_is_value_channel_dependent(attrib);    break;
+    default:                                                                                                                        return;}
+
+    int i_old = ui_combobox_Channels->currentIndex();
+    QStringList QSL_new = channel_foc_dependent ? QSL_Channels_Foc : QSL_Channels_Val;
+    Populate_CB_Single(ui_combobox_Channels, QSL_new, min(QSL_new.size() - 1, i_old));
+
+    ui_combobox_Channels->setEnabled(channel_foc_dependent || channel_val_dependent);
 }
 
 
