@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_4 (08.03.22)</span>
+   &#160;<span id="projectnumber">v2_5_15 (30.03.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -161,6 +161,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a7581935c1cd002dde41dde9aeddb9d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af65c79f4e26e769ca86195bea077d666"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#af65c79f4e26e769ca86195bea077d666">Plot_Scatter_2D_Multi_XY</a> (QChartView *pChartView, vector&lt; vector&lt; double &gt;&gt; *vv_X_SerVal, vector&lt; vector&lt; double &gt;&gt; *vv_Y_SerVal, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y)</td></tr>
 <tr class="separator:af65c79f4e26e769ca86195bea077d666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5a0a00b96c52dc7b6940bc2d23e1d3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a2b5a0a00b96c52dc7b6940bc2d23e1d3">Plot_Scatter_Heatmap</a> (QChartView *pChartView, vector&lt; double &gt; vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector&lt; double &gt; vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector&lt; double &gt; vData_Z, size_t stat_z, QString name_z, QString name_title)</td></tr>
+<tr class="separator:a2b5a0a00b96c52dc7b6940bc2d23e1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb76f3b5804adfc6fb492fcf6e149625"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#acb76f3b5804adfc6fb492fcf6e149625">Plot_Poincare_XY_Single</a> (QChartView *pChartView, vector&lt; double &gt; v_Data, QString name_title, QString name_series, QString name_x, QString name_y, size_t shift_elements=1, bool show_dots=true, bool show_ellipse=true, bool show_line_YequalX=true, Qt::Alignment legend_pos=Qt::AlignTop)</td></tr>
 <tr class="separator:acb76f3b5804adfc6fb492fcf6e149625"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31f2e78d8729ee7b6eb513351d62c256"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___plot.html#a31f2e78d8729ee7b6eb513351d62c256">Plot_Line_XY_Single</a> (QChartView *pChartView, vector&lt; double &gt; v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans=<a class="el" href="d__enum_8h.html#afaf8c79aa12c250f37fa73e020f0c68da55def82f18edc93703965736119bb230">c_AXE_TRANS_LIN</a>, int y_trans=<a class="el" href="d__enum_8h.html#afaf8c79aa12c250f37fa73e020f0c68da55def82f18edc93703965736119bb230">c_AXE_TRANS_LIN</a>, bool dots_visible=false)</td></tr>
@@ -3330,6 +3332,132 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">QString&#160;</td>
           <td class="paramname"><em>name_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b5a0a00b96c52dc7b6940bc2d23e1d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b5a0a00b96c52dc7b6940bc2d23e1d3">&#9670;&nbsp;</a></span>Plot_Scatter_Heatmap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_Plot::Plot_Scatter_Heatmap </td>
+          <td>(</td>
+          <td class="paramtype">QChartView *&#160;</td>
+          <td class="paramname"><em>pChartView</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vData_X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>auto_range_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>classes_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vData_Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>auto_range_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>classes_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>vData_Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>stat_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name_title</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

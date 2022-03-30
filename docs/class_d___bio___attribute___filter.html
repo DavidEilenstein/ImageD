@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_4 (08.03.22)</span>
+   &#160;<span id="projectnumber">v2_5_15 (30.03.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -117,10 +117,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3aa4fbbbb3f16282d4698b1888c810ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39a51f9d9e8e14c112f8381218998dfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a39a51f9d9e8e14c112f8381218998dfc">set_filter_mode</a> (size_t mode)</td></tr>
 <tr class="separator:a39a51f9d9e8e14c112f8381218998dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44251f2415286c267a0f98eaa767d89a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a44251f2415286c267a0f98eaa767d89a">set_channels</a> (QStringList channels)</td></tr>
-<tr class="separator:a44251f2415286c267a0f98eaa767d89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85bbd13d68879c85dea1de724d7aeb80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a85bbd13d68879c85dea1de724d7aeb80">set_channels</a> (QStringList channels_foc, QStringList channels_val)</td></tr>
+<tr class="separator:a85bbd13d68879c85dea1de724d7aeb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe4c16c7430645904338ace798c8d792"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#abe4c16c7430645904338ace798c8d792">set_ScalePx2Um</a> (double scale)</td></tr>
 <tr class="separator:abe4c16c7430645904338ace798c8d792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a289b87378a3174afa7c338483ac5a4bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a289b87378a3174afa7c338483ac5a4bc">set_filter</a> (size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)</td></tr>
+<tr class="separator:a289b87378a3174afa7c338483ac5a4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a742d4ad5391a320858ceac6e1f64ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a4a742d4ad5391a320858ceac6e1f64ae">filter_is_active</a> (size_t i_filter)</td></tr>
+<tr class="separator:a4a742d4ad5391a320858ceac6e1f64ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45788e392b5e9572e8b426d84abfd33f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a45788e392b5e9572e8b426d84abfd33f">filter_inactive_1st</a> ()</td></tr>
+<tr class="separator:a45788e392b5e9572e8b426d84abfd33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a388b4698b4ebb9b52a6fa648634543df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a388b4698b4ebb9b52a6fa648634543df">accept_Foc</a> (<a class="el" href="class_d___bio___focus.html">D_Bio_Focus</a> *pFoc)</td></tr>
 <tr class="separator:a388b4698b4ebb9b52a6fa648634543df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92d1a653b4f80dbc3d06a0e2a4a05743"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a92d1a653b4f80dbc3d06a0e2a4a05743">accept_NucBlob</a> (<a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> *pNucBlob)</td></tr>
@@ -235,6 +241,41 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a45788e392b5e9572e8b426d84abfd33f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45788e392b5e9572e8b426d84abfd33f">&#9670;&nbsp;</a></span>filter_inactive_1st()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t D_Bio_Attribute_Filter::filter_inactive_1st </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a742d4ad5391a320858ceac6e1f64ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a742d4ad5391a320858ceac6e1f64ae">&#9670;&nbsp;</a></span>filter_is_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_Attribute_Filter::filter_is_active </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_filter</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab2ea8a6b488057787c30251c2286b148"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2ea8a6b488057787c30251c2286b148">&#9670;&nbsp;</a></span>FilterParamsChanged</h2>
 
@@ -260,8 +301,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a44251f2415286c267a0f98eaa767d89a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44251f2415286c267a0f98eaa767d89a">&#9670;&nbsp;</a></span>set_channels()</h2>
+<a id="a85bbd13d68879c85dea1de724d7aeb80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85bbd13d68879c85dea1de724d7aeb80">&#9670;&nbsp;</a></span>set_channels()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,8 +311,70 @@ Public Member Functions</h2></td></tr>
           <td class="memname">bool D_Bio_Attribute_Filter::set_channels </td>
           <td>(</td>
           <td class="paramtype">QStringList&#160;</td>
-          <td class="paramname"><em>channels</em></td><td>)</td>
+          <td class="paramname"><em>channels_foc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>channels_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a289b87378a3174afa7c338483ac5a4bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a289b87378a3174afa7c338483ac5a4bc">&#9670;&nbsp;</a></span>set_filter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_Attribute_Filter::set_filter </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_filt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_active</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_att</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_comp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thres_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

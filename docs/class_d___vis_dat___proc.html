@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_4 (08.03.22)</span>
+   &#160;<span id="projectnumber">v2_5_15 (30.03.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -275,6 +275,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a67abc03944129e2e0396519e0b1235fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f1988edb9bef826a4b21a2aaa1873a0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a6f1988edb9bef826a4b21a2aaa1873a0">Channels_Merge</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In0, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In1, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In2)</td></tr>
 <tr class="separator:a6f1988edb9bef826a4b21a2aaa1873a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7690cabe4459e953b32710ceed0e9f"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9c7690cabe4459e953b32710ceed0e9f">Sign2Color</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, bool norm=false)</td></tr>
+<tr class="separator:a9c7690cabe4459e953b32710ceed0e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac015951297e752413a09255e1ee372e7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#ac015951297e752413a09255e1ee372e7">Channels_Split</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int channel)</td></tr>
 <tr class="separator:ac015951297e752413a09255e1ee372e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25dbbe90be80328d9adeb0f00083eea9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a25dbbe90be80328d9adeb0f00083eea9">Channel_Supression</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, bool use_r=true, bool use_g=true, bool use_b=true, bool force_3ch=false)</td></tr>
@@ -10068,6 +10070,48 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
           <td class="paramname"><em>pVD_Ref</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c7690cabe4459e953b32710ceed0e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c7690cabe4459e953b32710ceed0e9f">&#9670;&nbsp;</a></span>Sign2Color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Sign2Color </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>norm</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

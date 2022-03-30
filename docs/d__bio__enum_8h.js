@@ -22,6 +22,12 @@ var d__bio__enum_8h =
       [ "ATTRIB_FOC_KURTOSIS_CHX", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39ac1bd123cd4436dc3adb5f07d9504f909", null ],
       [ "ATTRIB_FOC_MEDIAN_CHX", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a4976d4f3fba5033dadb68c7fdbf1498d", null ],
       [ "ATTRIB_FOC_ABSDEVMED_CHX", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a806472a39d84d7ee253bab4abc6623c2", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_PX", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39acf6001f5c4176640b60f204586139df0", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_UM", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a181c3b011381f7f1c9e83ea8d368d749", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNEL_REL", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a116d085cf4683b45308bea535e5c38e9", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_PX", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a3b425cb1b518b97a0e3c11767013cd1f", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_UM", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39aed25dbc12fc76859943c3987a5caba00", null ],
+      [ "ATTRIB_FOC_OVERLAP_FOCI_CHANNELS_OTHER_REL", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a52971bb191741f91d9db34b8adee8355", null ],
       [ "ATTRIB_FOC_DETECTED_IN_CH", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39a20951efd80dabbfc698b100280c65afc", null ],
       [ "ATTRIB_FOC_NUMBER_OF", "d__bio__enum_8h.html#a063edf202bb35f5f5a7965aadfa13d39aacf5f40139654a960579f67da311a2d3", null ]
     ] ],
@@ -65,6 +71,15 @@ var d__bio__enum_8h =
       [ "ATTRIB_NUC_FOCI_COUNT_ALL", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa0df70db7fa1141a87d221b290e1d464a", null ],
       [ "ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_PX", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa457d5cf277dae94d8d18e86a93769dcd", null ],
       [ "ATTRIB_NUC_FOCI_COUNT_ALL_PER_AREA_UM", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfacc686656eb783f13b127a452d7c83c87", null ],
+      [ "ATTRIB_NUC_FOCI_AREA_SUM_CHX_PX", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa4ce60b6c47ca1d9f4140baa3a07cd0c5", null ],
+      [ "ATTRIB_NUC_FOCI_AREA_SUM_CHX_UM", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa2c964ee9525796f759bf489c513a01c1", null ],
+      [ "ATTRIB_NUC_FOCI_AREA_SUM_CHX_REL_TO_NUC", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfaca9abd60be35bbe015f4201e3fa7268c", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PX", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfac08a902e05bc042f9a94f2b13ccd1ff7", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_UM", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa2573501b32cbd52d2549e1108db3ba49", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_NUC", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfabd5248637157a2764c34340c7c102b93", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PROB", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfac6516c71a3ca6ab241409dc14d0033eb", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfafd29bf0da873d897b1d65b62fa079d64", null ],
+      [ "ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND_INV", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa004dd4d505e078d2475477e510955ded", null ],
       [ "ATTRIB_NUC_NUMBER_OF", "d__bio__enum_8h.html#ab690af831074490cda3d3fc21f7448cfa5fb7ded8e1ebad1534c0336637936dfb", null ]
     ] ],
     [ "ATTRIB_NUCLIFE", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00", [
@@ -89,6 +104,9 @@ var d__bio__enum_8h =
       [ "ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a701572dd6c6062f9215229efde060bc0", null ],
       [ "ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_UM", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a771a29d5da579f71282e3184c18792cd", null ],
       [ "ATTRIB_NUCLIFE_IN_RANGE_PERMANENT", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a4e052a34c5185b0080b5c448e01f3ebb", null ],
+      [ "ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a3ace8d546d7aed19013c470a9593b1d8", null ],
+      [ "ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a961e3c263f5d2afc64c04f29c4e76844", null ],
+      [ "ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a1f23aebfa8337a08f7fb5a8fa32bcd59", null ],
       [ "ATTRIB_NUCLIFE_NUMBER_OF", "d__bio__enum_8h.html#ad86384de05ef1f2b29b2075d4b8c3d00a31be3b8f076e69ad66bbf0073c5a17ca", null ]
     ] ],
     [ "DATA_LEVEL_FOC", "d__bio__enum_8h.html#a0a74b254c24758125d8e07906259daa6", [

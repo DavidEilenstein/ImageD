@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_4 (08.03.22)</span>
+   &#160;<span id="projectnumber">v2_5_15 (30.03.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -182,12 +182,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abf142005f3a0d89a263b39479c890760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a436382ccd8460495aecb21dd624aa2ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a436382ccd8460495aecb21dd624aa2ad">set_earliest_mitoses_allowed</a> (size_t t_earliest)</td></tr>
 <tr class="separator:a436382ccd8460495aecb21dd624aa2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17a85f358653ae27883433fd639508a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a17a85f358653ae27883433fd639508a2">set_channels</a> (QStringList channels_foc, QStringList channels_val)</td></tr>
+<tr class="separator:a17a85f358653ae27883433fd639508a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e7ecb1746eca2610e9416a39fa4773d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a2e7ecb1746eca2610e9416a39fa4773d">set_attrib_filter_ui</a> (QGroupBox *box_foci, QGroupBox *box_nucblobs, QGroupBox *box_nuclifes)</td></tr>
 <tr class="separator:a2e7ecb1746eca2610e9416a39fa4773d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab98017a3761bbbb65334e88efa78da4c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#ab98017a3761bbbb65334e88efa78da4c">set_attrib_filter_channels</a> (QStringList channels)</td></tr>
-<tr class="separator:ab98017a3761bbbb65334e88efa78da4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6032ea3b3125afd45c5c22f2de9deb83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a6032ea3b3125afd45c5c22f2de9deb83">set_attrib_filter_channels</a> (QStringList channels_foc, QStringList channels_val)</td></tr>
+<tr class="separator:a6032ea3b3125afd45c5c22f2de9deb83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15a2c66b6acc3c3a662ec56c0e078ade"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a15a2c66b6acc3c3a662ec56c0e078ade">set_attrib_filter_scaling</a> ()</td></tr>
 <tr class="separator:a15a2c66b6acc3c3a662ec56c0e078ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a496ecad6e34da91a9e02d8911469c22a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a496ecad6e34da91a9e02d8911469c22a">set_attrib_filter</a> (size_t filter_mode, size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)</td></tr>
+<tr class="separator:a496ecad6e34da91a9e02d8911469c22a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a320601f21e89e863c4b6e5fc0fa8c62b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a320601f21e89e863c4b6e5fc0fa8c62b">calc_NucLifes</a> ()</td></tr>
 <tr class="separator:a320601f21e89e863c4b6e5fc0fa8c62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43ad2a5c1200c124379742c0428864ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a43ad2a5c1200c124379742c0428864ad">calc_NucLifes_Filtered</a> ()</td></tr>
@@ -202,6 +206,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a58073b4b96890ff47efa7a79c79f6ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dc79bc471d0b3ee8401807788432c59"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a3dc79bc471d0b3ee8401807788432c59">attrib_foci</a> (size_t i_attrib, size_t ch_val, size_t ch_foc)</td></tr>
 <tr class="separator:a3dc79bc471d0b3ee8401807788432c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10a4b3c9ed690a2616900128d190f860"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a10a4b3c9ed690a2616900128d190f860">save_analysis</a> (QString QS_SavePath)</td></tr>
+<tr class="separator:a10a4b3c9ed690a2616900128d190f860"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4780585e643979d134d2c7bd3bab61cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a4780585e643979d134d2c7bd3bab61cf">match_all</a> ()</td></tr>
 <tr class="separator:a4780585e643979d134d2c7bd3bab61cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19868ed5de4d7802f0ca83e2111251df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a19868ed5de4d7802f0ca83e2111251df">match_all_go1</a> ()</td></tr>
@@ -1209,8 +1215,84 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab98017a3761bbbb65334e88efa78da4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab98017a3761bbbb65334e88efa78da4c">&#9670;&nbsp;</a></span>set_attrib_filter_channels()</h2>
+<a id="a10a4b3c9ed690a2616900128d190f860"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10a4b3c9ed690a2616900128d190f860">&#9670;&nbsp;</a></span>save_analysis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusPedigree::save_analysis </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>QS_SavePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a496ecad6e34da91a9e02d8911469c22a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a496ecad6e34da91a9e02d8911469c22a">&#9670;&nbsp;</a></span>set_attrib_filter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusPedigree::set_attrib_filter </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>filter_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_filt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_active</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_att</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_comp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thres_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6032ea3b3125afd45c5c22f2de9deb83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6032ea3b3125afd45c5c22f2de9deb83">&#9670;&nbsp;</a></span>set_attrib_filter_channels()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1219,8 +1301,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname">bool D_Bio_NucleusPedigree::set_attrib_filter_channels </td>
           <td>(</td>
           <td class="paramtype">QStringList&#160;</td>
-          <td class="paramname"><em>channels</em></td><td>)</td>
+          <td class="paramname"><em>channels_foc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>channels_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1274,6 +1366,42 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17a85f358653ae27883433fd639508a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17a85f358653ae27883433fd639508a2">&#9670;&nbsp;</a></span>set_channels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Bio_NucleusPedigree::set_channels </td>
+          <td>(</td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>channels_foc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QStringList&#160;</td>
+          <td class="paramname"><em>channels_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
