@@ -69,6 +69,9 @@ public:
 
     bool set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
 
+    bool filter_is_active(size_t i_filter);
+    size_t filter_inactive_1st();
+
     bool accept_Foc(D_Bio_Focus * pFoc);
     bool accept_NucBlob(D_Bio_NucleusBlob * pNucBlob);
     bool accept_NucLife(D_Bio_NucleusLife * pNucLife);

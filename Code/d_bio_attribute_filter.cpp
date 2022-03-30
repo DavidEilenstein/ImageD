@@ -55,6 +55,7 @@ bool D_Bio_Attribute_Filter::set_channels(QStringList channels_foc, QStringList 
     QSL_Channels_Foc = channels_foc;
     QSL_Channels_Val = channels_val;
 
+    Populate_CB_Single(ui_combobox_Channels, channels_val, 0);
     if(state_ui_init)
         Filter_UpdateUi_CurrentChannelDependency();
 
@@ -79,7 +80,7 @@ bool D_Bio_Attribute_Filter::set_filter(size_t i_filt, bool is_active, size_t i_
     if(i_filt >= vFilters.size())                           return false;
     if(i_att >= size_t(ui_combobox_Attribute->count()))     return false;
     if(i_comp >= size_t(ui_combobox_Comparison->count()))   return false;
-    if(i_ch >= size_t(ui_combobox_Channels->count()))     return false;
+    if(i_ch >= size_t(ui_combobox_Channels->count()))       return false;
 
     //set filter
     vFilters[i_filt].active     = is_active;
@@ -94,6 +95,20 @@ bool D_Bio_Attribute_Filter::set_filter(size_t i_filt, bool is_active, size_t i_
 
     //end
     return true;
+}
+
+bool D_Bio_Attribute_Filter::filter_is_active(size_t i_filter)
+{
+    return i_filter >= vFilters.size() ? false : vFilters[i_filter].active;
+}
+
+size_t D_Bio_Attribute_Filter::filter_inactive_1st()
+{
+    for(size_t f = 0; f < vFilters.size(); f++)
+        if(!filter_is_active(f))
+            return f;
+
+    return vFilters.size() - 1;
 }
 
 bool D_Bio_Attribute_Filter::accept_Foc(D_Bio_Focus *pFoc)

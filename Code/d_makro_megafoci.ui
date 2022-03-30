@@ -11067,6 +11067,360 @@ color: red;</string>
            <property name="spacing">
             <number>6</number>
            </property>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBoxMS6_Control_Data">
+             <property name="title">
+              <string>Data</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_87">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_138">
+                <property name="text">
+                 <string>Value Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButton_MS6_LoadData">
+                <property name="text">
+                 <string>Load Data</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_132">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_143">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_145">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_144">
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
+                  <property name="text">
+                   <string>both</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>Managment</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>Special</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_142">
+                <property name="text">
+                 <string>Foci Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1T ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>h</string>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="minimum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_131">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_114">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_113">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_1">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_0">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>DIC</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_112">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_141">
+                <property name="text">
+                 <string>Scaling</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_px2um">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>1px ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>um</string>
+                </property>
+                <property name="decimals">
+                 <number>6</number>
+                </property>
+                <property name="minimum">
+                 <double>0.001000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.121212000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_152">
+                <property name="text">
+                 <string>Base img size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_x">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="prefix">
+                 <string>x: </string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1004</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_y">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="prefix">
+                 <string>y: </string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1002</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>irradiation at T=</string>
+                </property>
+                <property name="decimals">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <double>51.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>24.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2">
+               <widget class="QSpinBox" name="spinBox_MS6_MarginToBorder">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px (=24um)</string>
+                </property>
+                <property name="prefix">
+                 <string>Margin: </string>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>200</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QGroupBox" name="groupBox_MS6_Control_Filters">
              <property name="enabled">
@@ -11133,6 +11487,19 @@ color: red;</string>
              </layout>
             </widget>
            </item>
+           <item row="4" column="0">
+            <spacer name="verticalSpacer_12">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>697</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="2" column="0">
             <widget class="QGroupBox" name="groupBox_MS6_Control_Results">
              <property name="enabled">
@@ -11157,10 +11524,539 @@ color: red;</string>
               <property name="spacing">
                <number>3</number>
               </property>
-              <item row="2" column="1">
-               <widget class="QComboBox" name="comboBox_MS6_ResultTypes"/>
+              <item row="3" column="1">
+               <widget class="QComboBox" name="comboBox_MS6_ResultDatapointLevel"/>
               </item>
-              <item row="4" column="0" colspan="3">
+              <item row="5" column="0" colspan="4">
+               <widget class="QGroupBox" name="groupBox_MS6_ResParam_PlotTypeSecific">
+                <property name="title">
+                 <string>Plot type specific settings</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_91">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResType_Params">
+                   <widget class="QWidget" name="page_MS6_ResType_Params_Hist">
+                    <layout class="QGridLayout" name="gridLayout_116">
+                     <property name="leftMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="3">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Acc">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Accumulated</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="2">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Uni">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Uniformed</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0" colspan="2">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Param_Hist_Classes">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string> classes </string>
+                       </property>
+                       <property name="minimum">
+                        <number>2</number>
+                       </property>
+                       <property name="maximum">
+                        <number>100000</number>
+                       </property>
+                       <property name="value">
+                        <number>1000</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_PoolStatLine">
+                    <layout class="QGridLayout" name="gridLayout_130">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="2">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Param_PoolStatLine_MaxX">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>max=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="5">
+                      <widget class="QComboBox" name="comboBox_MS6_ResType_Param_PoolStatLine_Stat"/>
+                     </item>
+                     <item row="0" column="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Param_PoolStatLine_Classes">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string> classes</string>
+                       </property>
+                       <property name="minimum">
+                        <number>2</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000</number>
+                       </property>
+                       <property name="value">
+                        <number>100</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_PoolStatLine_AutoRange">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>min=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="Line" name="line_33">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_Scatter_2D"/>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_2D">
+                    <layout class="QGridLayout" name="gridLayout_138">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_153">
+                       <property name="text">
+                        <string>Use same ui as for 3D version</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_3D">
+                    <layout class="QGridLayout" name="gridLayout_136">
+                     <property name="leftMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="1" column="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string> classes</string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000</number>
+                       </property>
+                       <property name="value">
+                        <number>48</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="2">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>min=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>auto</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="3">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>max=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>52.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="2">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>min=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>auto</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string> classes</string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000</number>
+                       </property>
+                       <property name="value">
+                        <number>49</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_151">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Y</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_149">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>z</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>max=</string>
+                       </property>
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="minimum">
+                        <double>-999999.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>999999.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>52.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_150">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>X</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1" colspan="3">
+                      <widget class="QComboBox" name="comboBox_MS6_ResType_Params_ScatterHeatmap_Stat"/>
+                     </item>
+                     <item row="2" column="4">
+                      <layout class="QGridLayout" name="gridLayout_137">
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe">
+                         <property name="text">
+                          <string>Wireframe</string>
+                         </property>
+                         <property name="checked">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Height">
+                         <property name="text">
+                          <string>Height</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_Table"/>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QPushButton" name="pushButton_MS6_UpdateResults">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Update Results (F5)</string>
+                </property>
+                <property name="shortcut">
+                 <string>F5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="4">
                <widget class="QGroupBox" name="groupBox_MS6_ResParam_AxisMeaning">
                 <property name="title">
                  <string>Axis definition</string>
@@ -12614,8 +13510,8 @@ color: red;</string>
                 </layout>
                </widget>
               </item>
-              <item row="2" column="2" rowspan="2">
-               <widget class="QPushButton" name="pushButton_MS6_UpdateResults">
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_134">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -12623,10 +13519,7 @@ color: red;</string>
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Update Results (F5)</string>
-                </property>
-                <property name="shortcut">
-                 <string>F5</string>
+                 <string>Datapoints</string>
                 </property>
                </widget>
               </item>
@@ -12643,912 +13536,20 @@ color: red;</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_134">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+              <item row="3" column="3">
+               <widget class="QPushButton" name="pushButton_MS6_SaveAnalysis">
                 <property name="text">
-                 <string>Datapoints</string>
+                 <string>Save Analysis</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0" colspan="3">
-               <widget class="QGroupBox" name="groupBox_MS6_ResParam_PlotTypeSecific">
-                <property name="title">
-                 <string>Plot type specific settings</string>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_91">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item row="0" column="0">
-                  <widget class="QStackedWidget" name="stackedWidget_MS6_ResType_Params">
-                   <widget class="QWidget" name="page_MS6_ResType_Params_Hist">
-                    <layout class="QGridLayout" name="gridLayout_116">
-                     <property name="leftMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="spacing">
-                      <number>1</number>
-                     </property>
-                     <item row="0" column="3">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Acc">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Accumulated</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="2">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Uni">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Uniformed</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0" colspan="2">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Param_Hist_Classes">
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string> classes </string>
-                       </property>
-                       <property name="minimum">
-                        <number>2</number>
-                       </property>
-                       <property name="maximum">
-                        <number>100000</number>
-                       </property>
-                       <property name="value">
-                        <number>1000</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="4">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_Hist_Ignore0">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Ignore x=0</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_PoolStatLine">
-                    <layout class="QGridLayout" name="gridLayout_130">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="spacing">
-                      <number>1</number>
-                     </property>
-                     <item row="0" column="2">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Param_PoolStatLine_MaxX">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>max=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>1.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="5">
-                      <widget class="QComboBox" name="comboBox_MS6_ResType_Param_PoolStatLine_Stat"/>
-                     </item>
-                     <item row="0" column="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Param_PoolStatLine_Classes">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string> classes</string>
-                       </property>
-                       <property name="minimum">
-                        <number>2</number>
-                       </property>
-                       <property name="maximum">
-                        <number>10000</number>
-                       </property>
-                       <property name="value">
-                        <number>100</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Param_PoolStatLine_AutoRange">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>min=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="3">
-                      <widget class="Line" name="line_33">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_Scatter_2D"/>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_2D">
-                    <layout class="QGridLayout" name="gridLayout_138">
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_153">
-                       <property name="text">
-                        <string>Use same ui as for 3D version</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_ScatterHeatmap_3D">
-                    <layout class="QGridLayout" name="gridLayout_136">
-                     <property name="leftMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>3</number>
-                     </property>
-                     <property name="spacing">
-                      <number>1</number>
-                     </property>
-                     <item row="1" column="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y">
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string> classes</string>
-                       </property>
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="maximum">
-                        <number>10000</number>
-                       </property>
-                       <property name="value">
-                        <number>48</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="2">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>min=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>auto</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="3">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_y">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>max=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>52.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="2">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>min=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>auto</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x">
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string> classes</string>
-                       </property>
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="maximum">
-                        <number>10000</number>
-                       </property>
-                       <property name="value">
-                        <number>49</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="label_151">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Y</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
-                      <widget class="QLabel" name="label_149">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>z</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="3">
-                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Max_x">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string>max=</string>
-                       </property>
-                       <property name="decimals">
-                        <number>3</number>
-                       </property>
-                       <property name="minimum">
-                        <double>-999999.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>999999.000000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>52.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_150">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>X</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="1" colspan="3">
-                      <widget class="QComboBox" name="comboBox_MS6_ResType_Params_ScatterHeatmap_Stat"/>
-                     </item>
-                     <item row="2" column="4">
-                      <layout class="QGridLayout" name="gridLayout_137">
-                       <item row="0" column="1">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Wireframe">
-                         <property name="text">
-                          <string>Wireframe</string>
-                         </property>
-                         <property name="checked">
-                          <bool>false</bool>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="0">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_ScatterHeatmap_Height">
-                         <property name="text">
-                          <string>Height</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_Table"/>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
+              <item row="2" column="1">
+               <widget class="QComboBox" name="comboBox_MS6_ResultTypes"/>
               </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBox_MS6_ResultDatapointLevel"/>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <spacer name="verticalSpacer_12">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>697</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBoxMS6_Control_Data">
-             <property name="title">
-              <string>Data</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_87">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_138">
-                <property name="text">
-                 <string>Value Channels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButton_MS6_LoadData">
-                <property name="text">
-                 <string>Load Data</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" colspan="2">
-               <layout class="QGridLayout" name="gridLayout_132">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_143">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
-                  <property name="text">
-                   <string>GFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
-                  <property name="text">
-                   <string>RFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="4">
-                 <widget class="QLabel" name="label_145">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_144">
-                  <property name="text">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="5">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
-                  <property name="text">
-                   <string>both</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_139">
-                <property name="text">
-                 <string>Managment</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_140">
-                <property name="text">
-                 <string>Special</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_142">
-                <property name="text">
-                 <string>Foci Channels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>1T ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>h</string>
-                </property>
-                <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="minimum">
-                 <double>1.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>1.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" colspan="2">
-               <layout class="QGridLayout" name="gridLayout_131">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_114">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="4">
-                 <widget class="QLabel" name="label_113">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_1">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>GFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_0">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>DIC</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_112">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="5">
-                 <widget class="QLineEdit" name="lineEdit_MS6_ValueChannel_Name_2">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>RFP</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_141">
-                <property name="text">
-                 <string>Scaling</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_px2um">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>1px ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>um</string>
-                </property>
-                <property name="decimals">
-                 <number>6</number>
-                </property>
-                <property name="minimum">
-                 <double>0.001000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>0.121212000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_152">
-                <property name="text">
-                 <string>Base img size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_x">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-                <property name="prefix">
-                 <string>x: </string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-                <property name="value">
-                 <number>1004</number>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="2">
-               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_y">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-                <property name="prefix">
-                 <string>y: </string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-                <property name="value">
-                 <number>1002</number>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>irradiation at T=</string>
-                </property>
-                <property name="decimals">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <double>51.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>24.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2">
-               <widget class="QSpinBox" name="spinBox_MS6_MarginToBorder">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string>px (=24um)</string>
-                </property>
-                <property name="prefix">
-                 <string>Margin: </string>
-                </property>
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-                <property name="value">
-                 <number>200</number>
+              <item row="2" column="2" rowspan="2">
+               <widget class="Line" name="line_34">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
                 </property>
                </widget>
               </item>
@@ -13570,7 +13571,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

@@ -1481,13 +1481,18 @@ bool D_Bio_NucleusPedigree::save_analysis(QString QS_SavePath)
         return false;
 
     QDir DIR_SaveMaster(QS_SavePath);
-    if(DIR_SaveMaster.exists())
-        return false;
-    QDir().mkdir(DIR_SaveMaster.path());
+    if(!DIR_SaveMaster.exists())
+        QDir().mkdir(DIR_SaveMaster.path());
     if(!DIR_SaveMaster.exists())
         return false;
 
     if(!save_attribs_raw(DIR_SaveMaster))
+        return false;
+
+    if(!save_attribs_stats_1D(DIR_SaveMaster))
+        return false;
+
+    if(!save_attribs_stats_2D(DIR_SaveMaster))
         return false;
 
     return true;
@@ -1558,14 +1563,47 @@ bool D_Bio_NucleusPedigree::save_attribs_raw(QDir DIR_SaveMaster)
     if(!DIR_SaveAttribsRaw.exists())
         return false;
 
-    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_Foci.csv"), DATAPOINT_LEVEL_FOC))
+    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_NucLifes.csv"), DATAPOINT_LEVEL_NUCLIFE))
         return false;
 
     if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_NucBlobs.csv"), DATAPOINT_LEVEL_NUCBLOB))
         return false;
 
-    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_NucLifes.csv"), DATAPOINT_LEVEL_NUCLIFE))
+    if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_Foci_all.csv"), DATAPOINT_LEVEL_FOC))
         return false;
+
+    size_t i_filter = pAttribFilter_Foci->filter_inactive_1st();
+    size_t n_ch_foc = QSL_Channels_Foci.size();
+    for(size_t ch = 0; ch < n_ch_foc; ch++)
+    {
+        pAttribFilter_Foci->set_filter(
+                    i_filter,
+                    true,
+                    ATTRIB_FOC_DETECTED_IN_CH,
+                    c_COMPARE_EQUAL,
+                    0,
+                    ch);
+
+        if(!save_attribs_raw(QFileInfo(DIR_SaveAttribsRaw.path() + "/Attribs_raw_Foci_" + QSL_Channels_Foci[ch] + ".csv"), DATAPOINT_LEVEL_FOC))
+        {
+            pAttribFilter_Foci->set_filter(
+                        i_filter,
+                        false,
+                        ATTRIB_FOC_DETECTED_IN_CH,
+                        c_COMPARE_EQUAL,
+                        0,
+                        ch);
+            return false;
+        }
+    }
+
+    pAttribFilter_Foci->set_filter(
+                i_filter,
+                false,
+                ATTRIB_FOC_DETECTED_IN_CH,
+                c_COMPARE_EQUAL,
+                0,
+                0);
 
     return true;
 }
@@ -1610,26 +1648,48 @@ bool D_Bio_NucleusPedigree::save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_l
 
     case DATAPOINT_LEVEL_FOC:
     {
-        //attribs (column headers)
-        OS << "\n";
         size_t n_a = ATTRIB_FOC_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
         for(size_t a = 0; a < n_a; a++)
         {
             if(D_Bio_Focus::attribute_is_focus_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Foci.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_foci(a, ch));
+                }
             }
             else if(D_Bio_Focus::attribute_is_value_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Values.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_foci(a, ch));
+                }
             }
             else
             {
                 OS << ";" << QSL_Attrib_Foc[a].toStdString();
+                vvAttObj.push_back(attrib_foci(a, 0));
+            }
+        }
+
+        //loop foci (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        size_t n_f = vvAttObj[0].size();
+        for(size_t f = 0; f < n_f; f++)
+        {
+            OS << "\n";
+            OS << "Focus " << f;
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][f];
             }
         }
     }
@@ -1637,26 +1697,48 @@ bool D_Bio_NucleusPedigree::save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_l
 
     case DATAPOINT_LEVEL_NUCBLOB:
     {
-        //attribs (column headers)
-        OS << "\n";
         size_t n_a = ATTRIB_NUC_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
         for(size_t a = 0; a < n_a; a++)
         {
             if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Foci.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_nucblob(a, ch));
+                }
             }
             else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Values.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_nucblob(a, ch));
+                }
             }
             else
             {
                 OS << ";" << QSL_Attrib_Nuc[a].toStdString();
+                vvAttObj.push_back(attrib_nucblob(a, 0));
+            }
+        }
+
+        //loop nuc blobs (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        size_t n_b = vvAttObj[0].size();
+        for(size_t b = 0; b < n_b; b++)
+        {
+            OS << "\n";
+            OS << "Nucleus blob " << b;
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][b];
             }
         }
     }
@@ -1664,26 +1746,48 @@ bool D_Bio_NucleusPedigree::save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_l
 
     case DATAPOINT_LEVEL_NUCLIFE:
     {
-        //attribs (column headers)
-        OS << "\n";
         size_t n_a = ATTRIB_NUCLIFE_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
         for(size_t a = 0; a < n_a; a++)
         {
             if(D_Bio_NucleusLife::attribute_is_focus_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Foci.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_nuclife(a));
+                }
             }
             else if(D_Bio_NucleusLife::attribute_is_value_channel_dependent(a))
             {
                 size_t n_ch = QSL_Channels_Values.size();
                 for(size_t ch = 0; ch < n_ch; ch++)
+                {
                     OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+                    vvAttObj.push_back(attrib_nuclife(a));
+                }
             }
             else
             {
                 OS << ";" << QSL_Attrib_NucLife[a].toStdString();
+                vvAttObj.push_back(attrib_nuclife(a));
+            }
+        }
+
+        //loop nuc lifes (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        size_t n_l = vvAttObj[0].size();
+        for(size_t l = 0; l < n_l; l++)
+        {
+            OS << "\n";
+            OS << "Nucleus life " << l;
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][l];
             }
         }
     }
@@ -1694,6 +1798,651 @@ bool D_Bio_NucleusPedigree::save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_l
     }
 
     OS.close();
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_1D(QDir DIR_SaveMaster)
+{
+    if(!DIR_SaveMaster.exists())
+        return false;
+
+    QDir DIR_SaveAttribsStats(DIR_SaveMaster.path() + "/Attribs stats");
+    QDir().mkdir(DIR_SaveAttribsStats.path());
+    if(!DIR_SaveAttribsStats.exists())
+        return false;
+
+    if(!save_attribs_stats_1D(QFileInfo(DIR_SaveAttribsStats.path() + "/Attribs_stats_NucLifes.csv"), DATAPOINT_LEVEL_NUCLIFE))
+        return false;
+
+    if(!save_attribs_stats_1D(QFileInfo(DIR_SaveAttribsStats.path() + "/Attribs_stats_NucBlobs.csv"), DATAPOINT_LEVEL_NUCBLOB))
+        return false;
+
+    if(!save_attribs_stats_1D(QFileInfo(DIR_SaveAttribsStats.path() + "/Attribs_stats_Foci_all.csv"), DATAPOINT_LEVEL_FOC))
+        return false;
+
+    size_t i_filter = pAttribFilter_Foci->filter_inactive_1st();
+    size_t n_ch_foc = QSL_Channels_Foci.size();
+    for(size_t ch = 0; ch < n_ch_foc; ch++)
+    {
+        pAttribFilter_Foci->set_filter(
+                    i_filter,
+                    true,
+                    ATTRIB_FOC_DETECTED_IN_CH,
+                    c_COMPARE_EQUAL,
+                    0,
+                    ch);
+
+        if(!save_attribs_stats_1D(QFileInfo(DIR_SaveAttribsStats.path() + "/Attribs_stats_Foci_" + QSL_Channels_Foci[ch] + ".csv"), DATAPOINT_LEVEL_FOC))
+        {
+            pAttribFilter_Foci->set_filter(
+                        i_filter,
+                        false,
+                        ATTRIB_FOC_DETECTED_IN_CH,
+                        c_COMPARE_EQUAL,
+                        0,
+                        ch);
+            return false;
+        }
+    }
+
+    pAttribFilter_Foci->set_filter(
+                i_filter,
+                false,
+                ATTRIB_FOC_DETECTED_IN_CH,
+                c_COMPARE_EQUAL,
+                0,
+                0);
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_1D(QFileInfo FI_SaveCsv, size_t data_level)
+{
+    if(data_level >= DATAPOINT_LEVEL_NUMBER_OF)
+        return false;
+
+    if(FI_SaveCsv.suffix() != "csv")
+        return false;
+
+    //filter data
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return false;
+
+    //stream
+    ofstream OS;
+    OS.open(FI_SaveCsv.absoluteFilePath().toStdString());
+    if(!OS.is_open())
+        return false;
+
+    //header
+    OS << "Attribute statistics;" << QSL_DatapointLevel[data_level].toStdString();
+    OS << "\n" << FI_SaveCsv.absoluteFilePath().toStdString();
+    OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+    OS << "\n" << "ImageD version;" << D_QS_Version.toStdString() << ";" << D_QS_Release.toStdString();
+    OS << "\n";
+
+    //data exists?
+    if(!data_filtered_exists(data_level))
+    {
+        OS << "\n" << "No " << QSL_DatapointLevel[data_level].toStdString() << " exists!!!";
+        OS.close();
+        return true;
+    }
+
+    //data
+    switch (data_level) {
+
+    case DATAPOINT_LEVEL_FOC:
+    {
+        size_t n_a = ATTRIB_FOC_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_Focus::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_foci(a, ch);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else if(D_Bio_Focus::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_Foc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_foci(a, ch);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_Foc[a].toStdString();
+
+                vector<double> vAttribOfObjects = attrib_foci(a, 0);
+                vector<double> vAttribStats;
+                D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                vvAttObj.push_back(vAttribStats);
+            }
+        }
+
+        //loop stats (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        for(size_t s = 0; s < c_STAT_NUMBER_OF_STATS; s++)
+        {
+            OS << "\n";
+            OS << QSL_StatList[s].toStdString();
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][s];
+            }
+        }
+    }
+        break;
+
+    case DATAPOINT_LEVEL_NUCBLOB:
+    {
+        size_t n_a = ATTRIB_NUC_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_nucblob(a, ch);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_Nuc[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_nucblob(a, ch);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_Nuc[a].toStdString();
+
+                vector<double> vAttribOfObjects = attrib_nucblob(a, 0);
+                vector<double> vAttribStats;
+                D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                vvAttObj.push_back(vAttribStats);
+            }
+        }
+
+        //loop stats (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        for(size_t s = 0; s < c_STAT_NUMBER_OF_STATS; s++)
+        {
+            OS << "\n";
+            OS << QSL_StatList[s].toStdString();
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][s];
+            }
+        }
+    }
+        break;
+
+    case DATAPOINT_LEVEL_NUCLIFE:
+    {
+        size_t n_a = ATTRIB_NUCLIFE_NUMBER_OF;
+        vector<vector<double>> vvAttObj;
+
+        //colum headers (attrib names) and data gathering
+        OS << "\n";
+        for(size_t a = 0; a < n_a; a++)
+        {
+            if(D_Bio_NucleusLife::attribute_is_focus_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Foci.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Foci[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_nuclife(a);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else if(D_Bio_NucleusLife::attribute_is_value_channel_dependent(a))
+            {
+                size_t n_ch = QSL_Channels_Values.size();
+                for(size_t ch = 0; ch < n_ch; ch++)
+                {
+                    OS << ";" << QSL_Attrib_NucLife[a].toStdString() << " (" << QSL_Channels_Values[ch].toStdString() << ")";
+
+                    vector<double> vAttribOfObjects = attrib_nuclife(a);
+                    vector<double> vAttribStats;
+                    D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                    vvAttObj.push_back(vAttribStats);
+                }
+            }
+            else
+            {
+                OS << ";" << QSL_Attrib_NucLife[a].toStdString();
+
+                vector<double> vAttribOfObjects = attrib_nuclife(a);
+                vector<double> vAttribStats;
+                D_Stat::Calc_Stats(&vAttribStats, vAttribOfObjects, true);
+                vvAttObj.push_back(vAttribStats);
+            }
+        }
+
+        //loop stats (rows) and save attribs (cols)
+        size_t n_a_eff = vvAttObj.size();
+        for(size_t s = 0; s < c_STAT_NUMBER_OF_STATS; s++)
+        {
+            OS << "\n";
+            OS << QSL_StatList[s].toStdString();
+            for(size_t a_eff = 0; a_eff < n_a_eff; a_eff++)
+            {
+                OS << ";" << vvAttObj[a_eff][s];
+            }
+        }
+    }
+        break;
+
+    default:
+        return false;
+    }
+
+    OS.close();
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_2D(QDir DIR_SaveMaster)
+{
+    if(!DIR_SaveMaster.exists())
+        return false;
+
+    QDir DIR_SaveAttribsStats2D(DIR_SaveMaster.path() + "/Attribs stats 2D");
+    QDir().mkdir(DIR_SaveAttribsStats2D.path());
+    if(!DIR_SaveAttribsStats2D.exists())
+        return false;
+
+    if(!save_attribs_stats_2D_NucLifes(DIR_SaveAttribsStats2D))
+        return false;
+
+    if(!save_attribs_stats_2D_NucBlobs(DIR_SaveAttribsStats2D))
+        return false;
+
+    if(!save_attribs_stats_2D_Foci(DIR_SaveAttribsStats2D, "all"))
+        return false;
+
+    size_t i_filter = pAttribFilter_Foci->filter_inactive_1st();
+    size_t n_ch_foc = QSL_Channels_Foci.size();
+    for(size_t ch = 0; ch < n_ch_foc; ch++)
+    {
+        pAttribFilter_Foci->set_filter(
+                    i_filter,
+                    true,
+                    ATTRIB_FOC_DETECTED_IN_CH,
+                    c_COMPARE_EQUAL,
+                    0,
+                    ch);
+
+        if(!save_attribs_stats_2D_Foci(DIR_SaveAttribsStats2D, QSL_Channels_Foci[ch]))
+        {
+            pAttribFilter_Foci->set_filter(
+                        i_filter,
+                        false,
+                        ATTRIB_FOC_DETECTED_IN_CH,
+                        c_COMPARE_EQUAL,
+                        0,
+                        ch);
+            return false;
+        }
+    }
+
+    pAttribFilter_Foci->set_filter(
+                i_filter,
+                false,
+                ATTRIB_FOC_DETECTED_IN_CH,
+                c_COMPARE_EQUAL,
+                0,
+                0);
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_2D_NucLifes(QDir DIR_SaveAttribsStats2D)
+{
+    //nuc lifes
+    QDir DIR_SaveNucLifes(DIR_SaveAttribsStats2D.path() + "/NucLifes");
+    QDir().mkdir(DIR_SaveNucLifes.path());
+    if(!DIR_SaveNucLifes.exists())
+        return false;
+
+    //data exist?
+    if(!data_filtered_exists(DATAPOINT_LEVEL_NUCLIFE))
+        return true;
+
+    //data
+    size_t n_a = ATTRIB_NUCLIFE_NUMBER_OF;
+    vector<vector<double>> vvAttObj_NucLifes;
+    QStringList QSL_AttribsEffective_NucLifes;
+
+    //gather data and names
+    for(size_t a = 0; a < n_a; a++)
+    {
+        if(D_Bio_NucleusLife::attribute_is_focus_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Foci.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_NucLifes.append(QSL_Attrib_NucLife[a] + " (" + QSL_Channels_Foci[ch] + ")");
+                vvAttObj_NucLifes.push_back(attrib_nuclife(a));
+            }
+        }
+        else if(D_Bio_NucleusLife::attribute_is_value_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Values.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_NucLifes.append(QSL_Attrib_NucLife[a] + " (" + QSL_Channels_Values[ch] + ")");
+                vvAttObj_NucLifes.push_back(attrib_nuclife(a));
+            }
+        }
+        else
+        {
+            QSL_AttribsEffective_NucLifes.append(QSL_Attrib_NucLife[a]);
+            vvAttObj_NucLifes.push_back(attrib_nuclife(a));
+        }
+    }
+
+    //calc stats
+    size_t n_a_eff = vvAttObj_NucLifes.size();
+    vector<vector<vector<double>>> vvv_Attx_Atty_Stat2d(n_a_eff, vector<vector<double>>(n_a_eff));
+    for(size_t ax = 0; ax < n_a_eff; ax++)
+    {
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            D_Stat::Calc_Stats_2D(&(vvv_Attx_Atty_Stat2d[ax][ay]),
+                                  vvAttObj_NucLifes[ax],
+                                  vvAttObj_NucLifes[ay]);
+        }
+    }
+
+    //stats calc fail? (because of no objects found)
+    if(vvv_Attx_Atty_Stat2d[0][0].empty())
+        return true;
+
+    //save stats
+    for(size_t s = 0; s < c_STAT_2D_NUMBER_OF; s++)
+    {
+        //file
+        QFileInfo FI_SaveCsv(DIR_SaveNucLifes.path() + "/Attribs_stats_2D_NucLifes_" + QSL_StatList2D[s] + ".csv");
+
+        //stream
+        ofstream OS;
+        OS.open(FI_SaveCsv.absoluteFilePath().toStdString());
+        if(!OS.is_open())
+            return false;
+
+        //header
+        OS << "2D attribute statistics" << ";" << "Nucleus lifes";
+        OS << "\n" << FI_SaveCsv.absoluteFilePath().toStdString();
+        OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+        OS << "\n" << "ImageD version;" << D_QS_Version.toStdString() << ";" << D_QS_Release.toStdString();
+        OS << "\n";
+        OS << "\n";
+
+        //attribs x (column headers)
+        for(size_t ax = 0; ax < n_a_eff; ax++)
+            OS << ";" << QSL_AttribsEffective_NucLifes[ax].toStdString();
+
+        //attribs y (lines)
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            //row name
+            OS << "\n" << QSL_AttribsEffective_NucLifes[ay].toStdString();
+
+            //stats
+            for(size_t ax = 0; ax < n_a_eff; ax++)
+                OS << ";" << vvv_Attx_Atty_Stat2d[ax][ay][s];
+        }
+
+        OS.close();
+    }
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_2D_NucBlobs(QDir DIR_SaveAttribsStats2D)
+{
+    //nuc blobs
+    QDir DIR_SaveNucBlobs(DIR_SaveAttribsStats2D.path() + "/NucBlobs");
+    QDir().mkdir(DIR_SaveNucBlobs.path());
+    if(!DIR_SaveNucBlobs.exists())
+        return false;
+
+    //data exist?
+    if(!data_filtered_exists(DATAPOINT_LEVEL_NUCBLOB))
+        return true;
+
+    //data
+    size_t n_a = ATTRIB_NUC_NUMBER_OF;
+    vector<vector<double>> vvAttObj_NucBlobs;
+    QStringList QSL_AttribsEffective_NucBlobs;
+
+    //gather data and names
+    for(size_t a = 0; a < n_a; a++)
+    {
+        if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Foci.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_NucBlobs.append(QSL_Attrib_Nuc[a] + " (" + QSL_Channels_Foci[ch] + ")");
+                vvAttObj_NucBlobs.push_back(attrib_nucblob(a, ch));
+            }
+        }
+        else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Values.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_NucBlobs.append(QSL_Attrib_Nuc[a] + " (" + QSL_Channels_Values[ch] + ")");
+                vvAttObj_NucBlobs.push_back(attrib_nucblob(a, ch));
+            }
+        }
+        else
+        {
+            QSL_AttribsEffective_NucBlobs.append(QSL_Attrib_Nuc[a]);
+            vvAttObj_NucBlobs.push_back(attrib_nucblob(a, 0));
+        }
+    }
+
+    //calc stats
+    size_t n_a_eff = vvAttObj_NucBlobs.size();
+    vector<vector<vector<double>>> vvv_Attx_Atty_Stat2d(n_a_eff, vector<vector<double>>(n_a_eff));
+    for(size_t ax = 0; ax < n_a_eff; ax++)
+    {
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            D_Stat::Calc_Stats_2D(&(vvv_Attx_Atty_Stat2d[ax][ay]),
+                                  vvAttObj_NucBlobs[ax],
+                                  vvAttObj_NucBlobs[ay]);
+        }
+    }
+
+    //stats calc fail? (because of no objects found)
+    if(vvv_Attx_Atty_Stat2d[0][0].empty())
+        return true;
+
+    //save stats
+    for(size_t s = 0; s < c_STAT_2D_NUMBER_OF; s++)
+    {
+        //file
+        QFileInfo FI_SaveCsv(DIR_SaveNucBlobs.path() + "/Attribs_stats_2D_NucBlobs_" + QSL_StatList2D[s] + ".csv");
+
+        //stream
+        ofstream OS;
+        OS.open(FI_SaveCsv.absoluteFilePath().toStdString());
+        if(!OS.is_open())
+            return false;
+
+        //header
+        OS << "2D attribute statistics" << ";" << "Nucleus blobs";
+        OS << "\n" << FI_SaveCsv.absoluteFilePath().toStdString();
+        OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+        OS << "\n" << "ImageD version;" << D_QS_Version.toStdString() << ";" << D_QS_Release.toStdString();
+        OS << "\n";
+        OS << "\n";
+
+        //attribs x (column headers)
+        for(size_t ax = 0; ax < n_a_eff; ax++)
+            OS << ";" << QSL_AttribsEffective_NucBlobs[ax].toStdString();
+
+        //attribs y (lines)
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            //row name
+            OS << "\n" << QSL_AttribsEffective_NucBlobs[ay].toStdString();
+
+            //stats
+            for(size_t ax = 0; ax < n_a_eff; ax++)
+                OS << ";" << vvv_Attx_Atty_Stat2d[ax][ay][s];
+        }
+
+        OS.close();
+    }
+
+    return true;
+}
+
+bool D_Bio_NucleusPedigree::save_attribs_stats_2D_Foci(QDir DIR_SaveAttribsStats2D, QString subset_name)
+{
+    //foci
+    QDir DIR_SaveFoci(DIR_SaveAttribsStats2D.path() + "/Foci_" + subset_name);
+    QDir().mkdir(DIR_SaveFoci.path());
+    if(!DIR_SaveFoci.exists())
+        return false;
+
+    //data exist?
+    if(!data_filtered_exists(DATAPOINT_LEVEL_FOC))
+        return true;
+
+    //data
+    size_t n_a = ATTRIB_FOC_NUMBER_OF;
+    vector<vector<double>> vvAttObj_Foci;
+    QStringList QSL_AttribsEffective_Foci;
+
+    //gather data and names
+    for(size_t a = 0; a < n_a; a++)
+    {
+        if(D_Bio_Focus::attribute_is_focus_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Foci.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_Foci.append(QSL_Attrib_Foc[a] + " (" + QSL_Channels_Foci[ch] + ")");
+                vvAttObj_Foci.push_back(attrib_foci(a, ch));
+            }
+        }
+        else if(D_Bio_Focus::attribute_is_value_channel_dependent(a))
+        {
+            size_t n_ch = QSL_Channels_Values.size();
+            for(size_t ch = 0; ch < n_ch; ch++)
+            {
+                QSL_AttribsEffective_Foci.append(QSL_Attrib_Foc[a] + " (" + QSL_Channels_Values[ch] + ")");
+                vvAttObj_Foci.push_back(attrib_foci(a, ch));
+            }
+        }
+        else
+        {
+            QSL_AttribsEffective_Foci.append(QSL_Attrib_Foc[a]);
+            vvAttObj_Foci.push_back(attrib_foci(a, 0));
+        }
+    }
+
+    //calc stats
+    size_t n_a_eff = vvAttObj_Foci.size();
+    vector<vector<vector<double>>> vvv_Attx_Atty_Stat2d(n_a_eff, vector<vector<double>>(n_a_eff));
+    for(size_t ax = 0; ax < n_a_eff; ax++)
+    {
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            D_Stat::Calc_Stats_2D(&(vvv_Attx_Atty_Stat2d[ax][ay]),
+                                  vvAttObj_Foci[ax],
+                                  vvAttObj_Foci[ay]);
+        }
+    }
+
+    //stats calc fail? (because of no objects found)
+    if(vvv_Attx_Atty_Stat2d[0][0].empty())
+        return true;
+
+    //save stats
+    for(size_t s = 0; s < c_STAT_2D_NUMBER_OF; s++)
+    {
+        //file
+        QFileInfo FI_SaveCsv(DIR_SaveFoci.path() + "/Attribs_stats_2D_Foci_" + subset_name + "_" + QSL_StatList2D[s] + ".csv");
+
+        //stream
+        ofstream OS;
+        OS.open(FI_SaveCsv.absoluteFilePath().toStdString());
+        if(!OS.is_open())
+            return false;
+
+        //header
+        OS << "2D attribute statistics;" << "Foci " << subset_name.toStdString();
+        OS << "\n" << FI_SaveCsv.absoluteFilePath().toStdString();
+        OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+        OS << "\n" << "ImageD version;" << D_QS_Version.toStdString() << ";" << D_QS_Release.toStdString();
+        OS << "\n";
+        OS << "\n";
+
+        //attribs x (column headers)
+        for(size_t ax = 0; ax < n_a_eff; ax++)
+            OS << ";" << QSL_AttribsEffective_Foci[ax].toStdString();
+
+        //attribs y (lines)
+        for(size_t ay = 0; ay < n_a_eff; ay++)
+        {
+            //row name
+            OS << "\n" << QSL_AttribsEffective_Foci[ay].toStdString();
+
+            //stats
+            for(size_t ax = 0; ax < n_a_eff; ax++)
+                OS << ";" << vvv_Attx_Atty_Stat2d[ax][ay][s];
+        }
+
+        OS.close();
+    }
+
     return true;
 }
 

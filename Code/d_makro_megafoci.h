@@ -1510,6 +1510,8 @@ private slots:
     void MS6_Update_Result_Heatmap_3D();
     void MS6_Update_Result_DataTable_3Axis();
 
+    bool MS6_SaveAnalysis_Full();
+
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked);
@@ -1518,6 +1520,8 @@ private slots:
     void on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1);
     void on_comboBox_MS6_ResultTypes_currentIndexChanged(int index);
 
+
+    void on_pushButton_MS6_SaveAnalysis_clicked();
 
 private:
 
@@ -1531,6 +1535,7 @@ private:
     //Dirs
     QDir                    DIR_MS6_Load_NucleiData;
     QDir                    DIR_MS6_Load_NucleiLifes;
+    QDir                    DIR_MS6_Out_SaveAnalysisMaster;
 
     //ui elements for axis control
     const size_t            MS6_ResAxis_Count = 3;

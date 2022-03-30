@@ -125,6 +125,12 @@ private:
     bool data_filtered_exists(size_t data_level);
     bool save_attribs_raw(QDir DIR_SaveMaster);
     bool save_attribs_raw(QFileInfo FI_SaveCsv, size_t data_level);
+    bool save_attribs_stats_1D(QDir DIR_SaveMaster);
+    bool save_attribs_stats_1D(QFileInfo FI_SaveCsv, size_t data_level);
+    bool save_attribs_stats_2D(QDir DIR_SaveMaster);
+    bool save_attribs_stats_2D_NucLifes(QDir DIR_SaveAttribsStats2D);
+    bool save_attribs_stats_2D_NucBlobs(QDir DIR_SaveAttribsStats2D);
+    bool save_attribs_stats_2D_Foci(QDir DIR_SaveAttribsStats2D, QString subset_name);
 
 public:
     void match_all();
@@ -242,6 +248,7 @@ private:
         MATCH_ATTRIB_INDEX_CHILD_I,
         MATCH_ATTRIB_INDEX_NUMBER_OF
     };
+
 };
 
 #endif // D_BIO_NUCLEUSPEDIGREE_H

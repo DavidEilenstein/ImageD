@@ -8337,7 +8337,7 @@ bool D_MAKRO_MegaFoci::MS5_SaveData()
     //check if dir was selected
     if(QS_Save.isEmpty())
     {
-        StatusSet("If you don't select a folder, i can't save the results i worked so hard for... " + QS_Fun_Sad);
+        StatusSet("If you don't select a folder, i can't save the results we worked so hard for... " + QS_Fun_Sad);
         return false;
     }
 
@@ -10013,8 +10013,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
                 MS6_DefaultTitle_Axis(0),
                 ui->checkBox_MS6_ResType_Param_Hist_Uni->isChecked(),
                 ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked(),
-                AXE_TICK_COUNT_DEFAULT,
-                ui->checkBox_MS6_ResType_Param_Hist_Ignore0->isChecked()),
+                AXE_TICK_COUNT_DEFAULT),
         "MS6_Update_Result_HistSimple",
         "D_Plot::Plot_Hist_WithStats");
 }
@@ -10118,7 +10117,58 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
     MS6_Viewer_Table.set_data_d_2D_qsl_vd(
             vvData,
             QSL_cols,
-            vRows);
+                vRows);
+}
+
+bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+
+    StatusSet("Please select directory to save step 6 results in");
+    QString QS_Save = QFileDialog::getExistingDirectory(
+                this,
+                "Please select directory to save step 6 results in ('Results_6_*' folder is created automatically)",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_Save.isEmpty())
+    {
+        StatusSet("If you don't select a folder, i can't save the results we worked so hard for... " + QS_Fun_Sad);
+        return false;
+    }
+
+    //set master save dir and check existance
+    QDir DIR_Save(QS_Save);
+    if(!DIR_Save.exists())
+    {
+        StatusSet("With unknown dark magic you managed to select a non existent directory " +  QS_Fun_Confused);
+        return false;
+    }
+
+    //create sub dir
+    size_t count = 0;
+    do
+    {
+        DIR_MS6_Out_SaveAnalysisMaster.setPath(DIR_Save.path() + "/Results_Step6_" + QString::number(count));
+        count++;
+    }
+    while(DIR_MS6_Out_SaveAnalysisMaster.exists());
+    QDir().mkdir(DIR_MS6_Out_SaveAnalysisMaster.path());
+    StatusSet("Set as save directory:\n" + DIR_MS6_Out_SaveAnalysisMaster.path());
+
+    //save data
+    StatusSet("Start saving data");
+    bool ok = MS6_NucPedigree_Results.save_analysis(DIR_MS6_Out_SaveAnalysisMaster.path());
+
+    //success?
+    if(ok)
+        StatusSet("Saved data successfully " + QS_Fun_Happy);
+    else
+        StatusSet("Failed saving data " + QS_Fun_Sad);
+
+    //finish
+    return ok;
 }
 
 
@@ -10167,3 +10217,8 @@ void D_MAKRO_MegaFoci::on_comboBox_MS6_ResultTypes_currentIndexChanged(int index
 }
 
 
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveAnalysis_clicked()
+{
+    MS6_SaveAnalysis_Full();
+}
