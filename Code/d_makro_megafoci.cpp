@@ -9368,18 +9368,24 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
 
 bool D_MAKRO_MegaFoci::MS6_LoadAll()
 {
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "start ::::::::::::::::::::::::::::::::::::::::::::::::";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "start ::::::::::::::::::::::::::::::::::::::::::::::::";
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return false;
 
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadDirs";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadDirs";
     if(!MS6_LoadDirs())
     {
         StatusSet("Failed loading directories " + QS_Fun_Sad);
         return false;
     }
 
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiData";
+    if(!MS6_LoadMosaics())
+    {
+        StatusSet("Failed loading mosaics " + QS_Fun_Sad);
+        return false;
+    }
+
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiData";
     if(!MS6_LoadNucleiData())
     {
         StatusSet("Failed loading nuclei data " + QS_Fun_Sad);
@@ -9388,14 +9394,14 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     MS6_NucPedigree_Results.info_debug();
 
     //channels list and irradiation time
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetChannelsFromUi";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetChannelsFromUi";
     MS6_GetChannelsFromUi();
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetIrradiationTimeFromUi";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetIrradiationTimeFromUi";
     MS6_GetIrradiationTimeFromUi();
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetRangeXYFromUi";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_GetRangeXYFromUi";
     MS6_GetRangeXYFromUi();
 
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiLifes";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "MS6_LoadNucleiLifes";
     if(!MS6_LoadNucleiLifes())
     {
         StatusSet("Failed loading nuclei lifes " + QS_Fun_Sad);
@@ -9406,20 +9412,20 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     MS6_state_loaded_all = true;
 
     //ui
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "Ui";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "Ui";
     ui->groupBoxMS6_Control_Data->setEnabled(false);
     ui->groupBox_MS6_View->setEnabled(true);
     ui->groupBox_MS6_Control_Filters->setEnabled(true);
     ui->groupBox_MS6_Control_Results->setEnabled(true);
 
     //split to nuc lifes
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
     StatusSet("Start spearating linked nucleui into nucleus lifes");
     MS6_NucPedigree_Results.calc_NucLifes();
     StatusSet("Finished spearating linked nucleui into nucleus lifes");
 
     //finish
-    qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "finish ::::::::::::::::::::::::::::::::::::::::::::::::";
+    //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "finish ::::::::::::::::::::::::::::::::::::::::::::::::";
     StatusSet("Loaded all needed data " + QS_Fun_Happy);
     //StatusSet(MS6_NucPedigree_Results.info());
     MS6_NucPedigree_Results.info_debug();
@@ -9430,6 +9436,41 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
 {
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return false;
+
+    //------------------ mosaics ------------------------------------------------
+
+    StatusSet("Please select results directory from step 1 (for mosaics).");
+    QString QS_LoadMS1 = QFileDialog::getExistingDirectory(
+                this,
+                "Please select results folder of step 1 you want to load mosaics from (must beginn with 'Results_Step1_').",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check if dir was selected
+    if(QS_LoadMS1.isEmpty())
+    {
+        StatusSet("Well, you should select a folder... Wasn't that clear?");
+        return false;
+    }
+
+    //check, if dir is results from step 1
+    if(!QS_LoadMS1.contains("Results_Step1"))
+    {
+        StatusSet("You should selct results from step 1...\n" + QS_Fun_TableFlip);
+        return false;
+    }
+
+    //master dir in
+    DIR_MS6_Load_Mosaics.setPath(QS_LoadMS1 + "/Mosaik");
+    if(!DIR_MS6_Load_Mosaics.exists())
+    {
+        StatusSet("The selected directory doesn't contain a 'Mosaik' directory. " + QS_Fun_Confused);
+        return false;
+    }
+
+    //save input dir
+    QDir DIR_parent(QS_LoadMS1);
+    DIR_parent.cdUp();
+    pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
     //------------------ nuclei data ------------------------------------------------
 
@@ -9462,7 +9503,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
     }
 
     //save input dir
-    QDir DIR_parent(QS_LoadMS3);
+    DIR_parent.setPath(QS_LoadMS3);
     DIR_parent.cdUp();
     pStore->set_dir_M_MegaFoci_Results(DIR_parent.path());
 
@@ -9504,6 +9545,81 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
     //------------------ finished ------------------------------------------------
 
     MS6_state_loaded_dirs = true;
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_LoadMosaics()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return false;
+    if(!MS6_state_loaded_dirs)
+        return false;
+
+    StatusSet("Start loading mosaics");
+
+    //clear and resize container
+    vv_MS6_Mosaics_CT.clear();
+    vv_MS6_Mosaics_CT.resize(MS6_MOSAIC_CH_NUMBER_OF);
+
+    //loop mosaic channels
+    for(size_t c = 0; c < MS6_MOSAIC_CH_NUMBER_OF; c++)
+    {
+        //channel name
+        QString QS_ChName = QSL_MS6_MosaicChannels[int(c)];
+
+        //dir
+        QDir DIR_MosaicChannel(DIR_MS6_Load_Mosaics.path() + "/" + QS_ChName);
+        if(!DIR_MosaicChannel.exists())
+        {
+            StatusSet("Mosaic directory not found:\n" + DIR_MosaicChannel.path());
+            return false;
+        }
+
+        //imgs in dir
+        QFileInfoList FIL_Imgs = DIR_MosaicChannel.entryInfoList();
+        for(int i = 0; i < FIL_Imgs.size(); i++)
+        {
+            //img
+            QFileInfo FI_Img = FIL_Imgs[i];
+            //qDebug() << "------------------------------------------------";
+            //qDebug() << FI_Img;
+
+            //is png
+            if(FI_Img.suffix() == "png")
+            {
+                //qDebug() << "is .png";
+
+                //contains correct text in file name
+                if(FI_Img.baseName().contains("Mosaik_" + QS_ChName + "_T"))
+                {
+                    //qDebug() << "base name fits" << FI_Img.baseName();
+
+                    //get time index
+                    bool ok;
+                    //qDebug() << "looking for t index" << FI_Img.baseName().right(FI_Img.baseName().size() - 9 - QS_ChName.length());
+                    int t = FI_Img.baseName().right(FI_Img.baseName().size() - 9 - QS_ChName.length()).toInt(&ok);
+                    if(ok)
+                    {
+                        //qDebug() << "got t" << t;
+
+                        //correct size of container
+                        while(t >= int(vv_MS6_Mosaics_CT[c].size()))
+                            vv_MS6_Mosaics_CT[c].push_back(Mat::zeros(1, 1, CV_8UC1));
+
+                        //read img
+                        D_Img_Proc::Load_From_Path(
+                                    &(vv_MS6_Mosaics_CT[c][t]),
+                                    FI_Img.absoluteFilePath());
+
+                        //qDebug() << "read" << FI_Img;
+                    }
+                }
+            }
+        }
+    }
+
+    MS6_state_loaded_mosaics = true;
+    StatusSet("Successfully loaded mosaics");
     return true;
 }
 
@@ -9729,6 +9845,10 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         MS6_ResAxis_SetMode(0, "Col1", axis_data_level);
         MS6_ResAxis_SetMode(1, "Col2", axis_data_level);
         MS6_ResAxis_SetMode(2, "Col3", axis_data_level);
+        break;
+
+    case MS6_RES_TYP_MOSAIC_DATA:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_IMAGE_2D);
         break;
 
     default:
@@ -9999,6 +10119,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     case MS6_RES_TYP_SCATTER_HEATMAP_2D:    MS6_Update_Result_Heatmap_2D();             break;
     case MS6_RES_TYP_SCATTER_HEATMAP_3D:    MS6_Update_Result_Heatmap_3D();             break;
     case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
+    case MS6_RES_TYP_MOSAIC_DATA:           MS6_Update_Result_MosaicData();             break;
     default:                                                                            break;
     }
 }
@@ -10120,6 +10241,183 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_DataTable_3Axis()
                 vRows);
 }
 
+void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
+{
+    //t
+    ui->spinBox_MS6_ResType_Params_MosaicData_T->setMaximum(int(dataset_dim_t - 1));
+    size_t t = ui->spinBox_MS6_ResType_Params_MosaicData_T->value();
+
+    //size
+    ui->spinBox_MS6_ResType_Params_MosaicData_X_size->setMaximum(int(dataset_dim_mosaic_x - 1));
+    size_t x_size_mosaic = ui->spinBox_MS6_ResType_Params_MosaicData_X_size->value();
+
+    ui->spinBox_MS6_ResType_Params_MosaicData_Y_size->setMaximum(int(dataset_dim_mosaic_y - 1));
+    size_t y_size_mosaic = ui->spinBox_MS6_ResType_Params_MosaicData_Y_size->value();
+
+    //offset
+    ui->spinBox_MS6_ResType_Params_MosaicData_X_min->setMaximum(max(0, int(dataset_dim_mosaic_x - 1 - x_size_mosaic)));
+    size_t x_min_mosaic = ui->spinBox_MS6_ResType_Params_MosaicData_X_min->value();
+
+    ui->spinBox_MS6_ResType_Params_MosaicData_Y_min->setMaximum(max(0, int(dataset_dim_mosaic_y - 1 - y_size_mosaic)));
+    size_t y_min_mosaic = ui->spinBox_MS6_ResType_Params_MosaicData_Y_min->value();
+
+    //channels
+    bool use_RFP = ui->checkBox_MS6_ResType_Params_MosaicData_Ch_RFP->isChecked();
+    bool use_GFP = ui->checkBox_MS6_ResType_Params_MosaicData_Ch_GFP->isChecked();
+    bool use_DIC = ui->checkBox_MS6_ResType_Params_MosaicData_Ch_DIC->isChecked();
+    bool channels_use[4] = {use_RFP, use_GFP, use_DIC, false};
+    int channel_count = 0;
+    if(use_DIC) channel_count++;
+    if(use_GFP) channel_count++;
+    if(use_RFP) channel_count++;
+
+    //drawing thickness
+    int thickness = ui->spinBox_MS6_ResType_Params_MosaicData_Thickness->value();
+    int thick1 = max(1, thickness / 2);
+    int thick2 = max(thick1 + 1, thickness);
+
+    //text scale
+    double scale_text = ui->doubleSpinBox_MS6_ResType_Params_MosaicData_TextScale->value() / 100.0;
+
+    //scale
+    double scale_full2mosaic = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+
+    //errors
+    if(vv_MS6_Mosaics_CT.size() != MS6_MOSAIC_CH_NUMBER_OF)     return;
+    if(t >= vv_MS6_Mosaics_CT[0].size())                        return;
+
+    //crop
+    size_t w_full_px    = vv_MS6_Mosaics_CT[0][0].cols;
+    size_t h_full_px    = vv_MS6_Mosaics_CT[0][0].rows;
+    double x_mosaic2px  = double(w_full_px) / double(dataset_dim_mosaic_x);
+    double y_mosaic2px  = double(h_full_px) / double(dataset_dim_mosaic_y);
+    size_t w_crop_px    = x_size_mosaic * x_mosaic2px;
+    size_t h_crop_px    = y_size_mosaic * y_mosaic2px;
+    size_t x_start_px   = x_min_mosaic * x_mosaic2px;
+    size_t y_start_px   = y_min_mosaic * y_mosaic2px;
+    vector<Mat> vMA_Croped(MS5_MOSAIC_CH_NUMBER_OF);
+    for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
+    {
+        D_Img_Proc::Crop_Rect_Abs(
+                    &(vMA_Croped[c]),
+                    &(vv_MS6_Mosaics_CT[c][t]),
+                    x_start_px,
+                    y_start_px,
+                    w_crop_px,
+                    h_crop_px);
+    }
+
+    //Offset
+    Point P_Offset_px_scaled(x_start_px, y_start_px);
+
+    //merge
+    if(channel_count == 0)
+    {
+        MS6_MosaicImgShow = Mat::zeros(h_crop_px, w_crop_px, CV_8UC3);
+    }
+    else if(channel_count == 1)
+    {
+        for(size_t c = 0; c < MS5_MOSAIC_CH_NUMBER_OF; c++)
+        {
+            if(channels_use[c])
+            {
+                D_Img_Proc::Duplicate2Channels(
+                            &MS6_MosaicImgShow,
+                            &(vMA_Croped[c]),
+                            3);
+            }
+        }
+    }
+    else
+    {
+        D_Img_Proc::Merge(
+                    &MS6_MosaicImgShow,
+                    &(vMA_Croped[MS5_MOSAIC_CH_RFP]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_GFP]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_DIC]),
+                    &(vMA_Croped[MS5_MOSAIC_CH_DIC]),
+                    3,
+                    channels_use);
+    }
+
+    //draw stuff
+
+    //darw nuc contours (filtered out)
+    vector<D_Bio_NucleusBlob*> vpNucBlobs_all = MS6_NucPedigree_Results.get_pNuclei_FromNucLifes(false);
+    size_t nb_all = vpNucBlobs_all.size();
+    for(size_t b = 0; b < nb_all; b++)
+    {
+        //nuc
+        D_Bio_NucleusBlob* pNucDraw = vpNucBlobs_all[b];
+
+        if(pNucDraw->time_index() == t)
+        {
+            /*
+            //draw dark gray big
+            D_Img_Proc::Draw_Contour(
+                        &MS6_MosaicImgShow,
+                        pNucDraw->contour(scale_full2mosaic, -P_Offset_px_scaled),
+                        thick2,
+                        64, 64, 64);
+                        */
+
+            //draw light gray small
+            D_Img_Proc::Draw_Contour(
+                        &MS6_MosaicImgShow,
+                        pNucDraw->contour(scale_full2mosaic, -P_Offset_px_scaled),
+                        thick1,
+                        192, 192, 192);
+        }
+    }
+
+    //darw nuc contours and foci count (filter passed)
+    vector<D_Bio_NucleusBlob*> vpNucBlobs_ok = MS6_NucPedigree_Results.get_pNuclei_FromNucLifes(true);
+    size_t nb_ok = vpNucBlobs_ok.size();
+    for(size_t b = 0; b < nb_ok; b++)
+    {
+        //nuc
+        D_Bio_NucleusBlob* pNucDraw = vpNucBlobs_ok[b];
+
+        if(pNucDraw->time_index() == t)
+        {
+            //color
+            QColor col = pNucDraw->matching_TypeColor(MS6_NucPedigree_Results.rect_RegularRange_px(), 0, MS6_NucPedigree_Results.size_T() - 1);
+            if(col.red() == 0 && col.green() == 0 && col.blue() == 0)
+                col = Qt::white;
+
+            //draw
+            D_Img_Proc::Draw_Contour(
+                        &MS6_MosaicImgShow,
+                        pNucDraw->contour(scale_full2mosaic, -P_Offset_px_scaled),
+                        thick2,
+                        col.red(), col.green(), col.blue());
+
+            //foci count
+            QString QS_FociCount;
+            size_t nch = MS6_QSL_Channels_Foci.size();
+            for(size_t ch = 0; ch < nch; ch++)
+            {
+                if(ch != 0)
+                    QS_FociCount.append("/");
+                QS_FociCount.append(QString::number(pNucDraw->get_FociCount(ch)));
+            }
+
+            //write foci count
+            D_Img_Proc::Draw_Text(
+                        &MS6_MosaicImgShow,
+                        QS_FociCount,
+                        int(pNucDraw->centroid(scale_full2mosaic, -P_Offset_px_scaled).x),
+                        int(pNucDraw->centroid(scale_full2mosaic, -P_Offset_px_scaled).y),
+                        thick1,
+                        scale_text,
+                        col.red(), col.green(), col.blue());
+        }
+    }
+
+    //show
+    MS6_Viewer_Img_2D.Update_Image(&MS6_MosaicImgShow);
+}
+
 bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()
 {
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
@@ -10216,9 +10514,12 @@ void D_MAKRO_MegaFoci::on_comboBox_MS6_ResultTypes_currentIndexChanged(int index
     }
 }
 
-
-
 void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveAnalysis_clicked()
 {
     MS6_SaveAnalysis_Full();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1)
+{
+    MS6_Update_Results();
 }

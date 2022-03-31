@@ -1485,6 +1485,7 @@ private slots:
 
     bool MS6_LoadAll();
     bool MS6_LoadDirs();
+    bool MS6_LoadMosaics();
     bool MS6_LoadNucleiData();
     bool MS6_LoadNucleiLifes();
 
@@ -1509,6 +1510,7 @@ private slots:
     void MS6_Update_Result_Heatmap_2D();
     void MS6_Update_Result_Heatmap_3D();
     void MS6_Update_Result_DataTable_3Axis();
+    void MS6_Update_Result_MosaicData();
 
     bool MS6_SaveAnalysis_Full();
 
@@ -1523,6 +1525,8 @@ private slots:
 
     void on_pushButton_MS6_SaveAnalysis_clicked();
 
+    void on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1);
+
 private:
 
     //Data
@@ -1533,9 +1537,25 @@ private:
     QStringList             MS6_QSL_Channels_Foci;
 
     //Dirs
+    QDir                    DIR_MS6_Load_Mosaics;
     QDir                    DIR_MS6_Load_NucleiData;
     QDir                    DIR_MS6_Load_NucleiLifes;
     QDir                    DIR_MS6_Out_SaveAnalysisMaster;
+
+    //mosaics
+    enum MS6_MOSAIC_CHANNELS {
+        MS6_MOSAIC_CH_RFP,
+        MS6_MOSAIC_CH_GFP,
+        MS6_MOSAIC_CH_DIC,
+        MS6_MOSAIC_CH_NUMBER_OF
+    };
+    const QStringList QSL_MS6_MosaicChannels = {
+        "RFP",
+        "GFP",
+        "DIC"
+    };
+    vector<vector<Mat>>     vv_MS6_Mosaics_CT;
+    Mat                     MS6_MosaicImgShow;
 
     //ui elements for axis control
     const size_t            MS6_ResAxis_Count = 3;
@@ -1569,6 +1589,7 @@ private:
     bool                    MS6_state_ui_init = false;
     bool                    MS6_state_loaded_all = false;
     bool                    MS6_state_loaded_dirs = false;
+    bool                    MS6_state_loaded_mosaics = false;
     bool                    MS6_state_loaded_nuc_data = false;
     bool                    MS6_state_loaded_nuc_lifes = false;
 
@@ -1591,6 +1612,7 @@ private:
         MS6_RES_TYP_SCATTER_HEATMAP_2D,
         MS6_RES_TYP_SCATTER_HEATMAP_3D,
         MS6_RES_TYP_DATA_TABLE_3D,
+        MS6_RES_TYP_MOSAIC_DATA,
         MS6_RES_TYP_NUMBER_OF
     };
     const QStringList QSL_MS6_ResultTypes = {
@@ -1599,7 +1621,8 @@ private:
         "Scatter 2D simple",
         "Scatter 2D heatmap",
         "Scatter 3D heatmap",
-        "Data table 3 attributes"
+        "Data table 3 attributes",
+        "Mosaic with foci counts"
     };
 
 

@@ -33,6 +33,7 @@ int D_Stat::Calc_Stats(vector<double> *v_stats, vector<double> v_data, bool calc
 
     //sum
     int n_non_zero      = 0;
+    int n_naninf        = 0;
     double sum          = 0;
     double sum_abs      = 0;
     double sum_non_zero = 0;
@@ -44,15 +45,22 @@ int D_Stat::Calc_Stats(vector<double> *v_stats, vector<double> v_data, bool calc
         sum_abs         += abs(val);
         sum_squares     += val * val;
 
-        if(val != 0)
+        if(val != 0.0)
         {
             n_non_zero++;
             sum_non_zero += val;
+        }
+
+        if(isnan(val) || isinf(val))
+        {
+            n_naninf++;
         }
     }
     (*v_stats)[c_STAT_SUM]                  = sum;
     (*v_stats)[c_STAT_SUM_OF_ABS]           = sum_abs;
     (*v_stats)[c_STAT_SUM_OF_SQUARES]       = sum_squares;
+    (*v_stats)[c_STAT_COUNT_NANINF]         = n_naninf;
+    (*v_stats)[c_STAT_COUNT_NON_NANINF]     = n - n_naninf;
 
     //mean
     double mean = sum / n;
@@ -670,6 +678,29 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
         return [](vector<double> v_x)
         {
             return static_cast<double>(v_x.size());
+        };
+
+    case c_STAT_COUNT_NANINF:
+        return [](vector<double> v_x)
+        {
+            size_t n = 0;
+            for(size_t i = 0; i < v_x.size(); i++)
+                if(isnan(v_x[i]) || isinf(v_x[i]))
+                    n++;
+
+            return static_cast<double>(n);
+        };
+
+    case c_STAT_COUNT_NON_NANINF:
+        return [](vector<double> v_x)
+        {
+            size_t n = 0;
+            for(size_t i = 0; i < v_x.size(); i++)
+                if(!isnan(v_x[i]) || !
+                        isinf(v_x[i]))
+                    n++;
+
+            return static_cast<double>(n);
         };
 
     case c_STAT_SUM:
@@ -1725,19 +1756,43 @@ function<uchar (vector<double>)> D_Stat::Function_SingleStat_8bit(int stat)
             return static_cast<uchar>(v_x.size());
         };
 
+    case c_STAT_COUNT_NANINF:
+        return [](vector<double> v_x)
+        {
+            size_t n = 0;
+            for(size_t i = 0; i < v_x.size(); i++)
+                if(isnan(v_x[i]) || isinf(v_x[i]))
+                    n++;
+
+            return static_cast<uchar>(n);
+        };
+
+    case c_STAT_COUNT_NON_NANINF:
+        return [](vector<double> v_x)
+        {
+            size_t n = 0;
+            for(size_t i = 0; i < v_x.size(); i++)
+                if(!isnan(v_x[i]) || !
+                        isinf(v_x[i]))
+                    n++;
+
+            return static_cast<uchar>(n);
+        };
+
     case c_STAT_SUM:
         return [](vector<double> v_x)
         {
-            unsigned int sum = 0;
+            double sum = 0;
             for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i];
+
             return static_cast<uchar>(sum);
         };
 
     case c_STAT_SUM_OF_SQUARES:
         return [](vector<double> v_x)
         {
-            unsigned int sum = 0;
+            double sum = 0;
             for(size_t i = 0; i < v_x.size(); i++)
                 sum += v_x[i] * v_x[i];
             return static_cast<uchar>(sum);

@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_5_15";
-const QString           D_QS_Release  = "30.03.2022";
+const QString           D_QS_Version  = "v2_5_16";
+const QString           D_QS_Release  = "31.03.2022";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -730,9 +730,10 @@ const QStringList QSL_VisTrafo_Range = {
 };
 
 
-
 enum D_STATISTIC_ENUM {
     c_STAT_COUNT,
+    c_STAT_COUNT_NANINF,
+    c_STAT_COUNT_NON_NANINF,
     c_STAT_SUM,
     c_STAT_SUM_OF_ABS,
     c_STAT_SUM_OF_SQUARES,
@@ -794,6 +795,8 @@ enum D_STATISTIC_ENUM {
 };
 const QStringList QSL_StatList = {
     "Count",
+    "Count nan or inf",
+    "Count non nan or inf",
     "Sum",
     "Sum of Absolutes",
     "Sum of Squares",

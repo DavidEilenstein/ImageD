@@ -12035,6 +12035,196 @@ color: red;</string>
                     </layout>
                    </widget>
                    <widget class="QWidget" name="page_MS6_ResType_Params_Table"/>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_MosaicData">
+                    <layout class="QGridLayout" name="gridLayout_139">
+                     <property name="leftMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <item row="0" column="3">
+                      <layout class="QGridLayout" name="gridLayout_141">
+                       <property name="spacing">
+                        <number>1</number>
+                       </property>
+                       <item row="0" column="1">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_X_min">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>min X = </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="4">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_Y_size">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>size Y = </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="value">
+                          <number>3</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="2">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_Y_min">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>min Y = </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_T">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="suffix">
+                          <string/>
+                         </property>
+                         <property name="prefix">
+                          <string>T = </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="3">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_X_size">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>size X = </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="value">
+                          <number>3</number>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="1" column="3">
+                      <layout class="QGridLayout" name="gridLayout_140">
+                       <property name="spacing">
+                        <number>1</number>
+                       </property>
+                       <item row="0" column="2">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_MosaicData_Ch_RFP">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="text">
+                          <string>RFP</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="3">
+                        <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_MosaicData_Thickness">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>thickness = </string>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="value">
+                          <number>2</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_MosaicData_Ch_GFP">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="text">
+                          <string>GFP</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_MosaicData_Ch_DIC">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="text">
+                          <string>DIC</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="4">
+                        <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_MosaicData_TextScale">
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::NoButtons</enum>
+                         </property>
+                         <property name="prefix">
+                          <string>text scale = </string>
+                         </property>
+                         <property name="suffix">
+                          <string>%</string>
+                         </property>
+                         <property name="decimals">
+                          <number>0</number>
+                         </property>
+                         <property name="minimum">
+                          <double>1.000000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>1000.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>1.000000000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>50.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -13571,7 +13761,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">
