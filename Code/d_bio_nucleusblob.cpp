@@ -601,8 +601,6 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci_from_fi
         {
             //not a new section but a new line
 
-
-
             //get subsection in this line
             bool subsection_found = false;
             size_t subsection = FILE_SUBSECTION_DEFAULT;
@@ -714,7 +712,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci_from_fi
 bool D_Bio_NucleusBlob::load_foci(QTextStream* pTS_NucTxtContent)
 {
     //foci channel current
-    size_t foci_channel_current = -1;
+    int foci_channel_current = 0;
 
     //loop lines
     while(!pTS_NucTxtContent->atEnd())
@@ -729,11 +727,13 @@ bool D_Bio_NucleusBlob::load_foci(QTextStream* pTS_NucTxtContent)
         bool subsection_found = false;
         size_t subsection = FILE_SUBSECTION_DEFAULT;
         for(size_t i = 0; i < FILE_SUBSECTION_NUMBER_OF && !subsection_found; i++)
-            if(QS_LineFirst == QSL_FileSubsections[static_cast<int>(i)])
+        {
+            if(QS_LineFirst == QSL_FileSubsections[int(i)])
             {
                 subsection = i;
                 subsection_found = true;
             }
+        }
 
         //end?
         if(QS_LineFirst == QSL_FileSections[FILE_SECTION_END])
@@ -746,18 +746,28 @@ bool D_Bio_NucleusBlob::load_foci(QTextStream* pTS_NucTxtContent)
 
             case FILE_SUBSECTION_NEW_FOCI_CHANNEL:
             {
-                foci_channel_current++;
-                vvFoci.push_back(vector<D_Bio_Focus>());
-                //qDebug() << "D_Bio_NucleusBlob::load_simple" << "FILE_SUBSECTION_NEW_FOCI_CHANNEL increased foci channel index to:" << foci_channel_current << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+                if(QSL_LineEntrys.size() == 2)
+                {
+                    bool ok;
+                    int ch = QSL_LineEntrys[1].toInt(&ok);
+                    if(ok)
+                        foci_channel_current = ch;
+
+                    //qDebug() << "D_Bio_NucleusBlob::load_simple" << "FILE_SUBSECTION_NEW_FOCI_CHANNEL increased foci channel index to:" << foci_channel_current << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+                }
             }
                 break;
 
             case FILE_SUBSECTION_FOCUS_BEGIN:
-            {
+            {                
+                //dirty fix: FILE_SUBSECTION_NEW_FOCI_CHANNEL is not executed for ch=0. This way it is made sure that every loaded focus is stored in correct channel (as long as file starts with ch=0).
+                while(size_t(foci_channel_current) >= vvFoci.size())
+                    vvFoci.push_back(vector<D_Bio_Focus>());
+
+                //load focus
                 D_Bio_Focus FocRead;
                 if(load_focus(pTS_NucTxtContent, &FocRead, foci_channel_current))
-                    if(foci_channel_current < vvFoci.size())
-                        vvFoci[foci_channel_current].push_back(FocRead);
+                    vvFoci[size_t(foci_channel_current)].push_back(FocRead);
             }
                 break;
 

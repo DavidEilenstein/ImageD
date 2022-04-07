@@ -552,6 +552,8 @@ var d__enum_8h =
     ] ],
     [ "D_STATISTIC_ENUM", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367", [
       [ "c_STAT_COUNT", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a0297b6c7d51ff81427ec86abc5462822", null ],
+      [ "c_STAT_COUNT_NANINF", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a94c5783980c694af455ed93094211f43", null ],
+      [ "c_STAT_COUNT_NON_NANINF", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367af074eb6faa4e4b8dd4b5bd96e1c0d01a", null ],
       [ "c_STAT_SUM", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a412e934b561d08ddf427f4213a0ed9d1", null ],
       [ "c_STAT_SUM_OF_ABS", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367a39743bcd1f87a143f3df926c623d319f", null ],
       [ "c_STAT_SUM_OF_SQUARES", "d__enum_8h.html#a38763cbca4086c70d9bca29a593dd367af91e32521b117575429f524585dbd590", null ],

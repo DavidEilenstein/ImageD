@@ -249,5 +249,5 @@ var NAVTREEINDEX0 =
 "class_d___bio___nucleus_life.html#afb46fee0ddd5bcbefb7436c0240e6142":[4,0,5,18],
 "class_d___bio___nucleus_life.html#aff616b1fbf0cc6f7c702fee76b889fcb":[4,0,5,9],
 "class_d___bio___nucleus_pedigree.html":[4,0,6],
-"class_d___bio___nucleus_pedigree.html#a06e4100f9014ddbfce82d5725b4d921e":[4,0,6,59]
+"class_d___bio___nucleus_pedigree.html#a06e4100f9014ddbfce82d5725b4d921e":[4,0,6,60]
 };

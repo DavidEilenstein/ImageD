@@ -1,5 +1,8 @@
 var NAVTREEINDEX12 =
 {
+"functions_q.html":[4,3,0,15],
+"functions_r.html":[4,3,0,16],
+"functions_s.html":[4,3,0,17],
 "functions_t.html":[4,3,0,18],
 "functions_u.html":[4,3,0,19],
 "functions_v.html":[4,3,0,20],
@@ -43,8 +46,8 @@ var NAVTREEINDEX12 =
 "group__proc.html":[2,0],
 "group__proc___m_a__2___q_i.html":[2,0,0],
 "hierarchy.html":[4,2],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "index.html#doc_sec":[0,3],
 "index.html#intro_sec":[0,0],
 "index.html#istall_sec":[0,1],

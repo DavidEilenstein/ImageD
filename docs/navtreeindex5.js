@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"class_d___vis_dat___dim.html#a4c78731c7b6e6ed4736068a403163f84":[4,0,73,16],
 "class_d___vis_dat___dim.html#a51ca40056789a983493d7b6e916af924":[4,0,73,24],
 "class_d___vis_dat___dim.html#a53561afb22110c3d940cfc8e2c778665":[4,0,73,41],
 "class_d___vis_dat___dim.html#a53eb716fe57758246be131bdca80f0a0":[4,0,73,62],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "class_scene_mouse_track.html#a2d7efca55298e0b4896d22da215152cf":[4,0,84,27],
 "class_scene_mouse_track.html#a3189a6f37bbe118ae377108193d9993a":[4,0,84,23],
 "class_scene_mouse_track.html#a33e75e9c30e2b7504916c72f1c7fec19":[4,0,84,28],
-"class_scene_mouse_track.html#a3446cf2f6cae010f4eea8821d6754129":[4,0,84,25],
-"class_scene_mouse_track.html#a3dafa631a897e12134a0d248b39f7855":[4,0,84,26]
+"class_scene_mouse_track.html#a3446cf2f6cae010f4eea8821d6754129":[4,0,84,25]
 };

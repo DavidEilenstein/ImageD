@@ -421,6 +421,7 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
     //load data
     vector<std::thread> vThreadsData(nt);
     for(size_t t = 0; t < nt; t++)
+    {
         vThreadsData[t] = std::thread(
                     load_time_nuclei_data_thread,
                     &vvvvNucBlobs_TYXI,
@@ -430,8 +431,9 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                     forget_contour,
                     foci_are_part_of_nuc_files);
 
-    for(size_t t = 0; t < nt; t++)
+    //for(size_t t = 0; t < nt; t++)
         vThreadsData[t].join();
+    }
 
     //qDebug() << "D_Bio_NucleusPedigree::load_nuclei_data" << "end";
     return true;
@@ -2692,8 +2694,6 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
 
 bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files)
 {
-    //CONTINUE HERE: Make this method load foci too and not only nuclei !!!
-
     //sizes
     size_t nt = (*pvvvvNucsTYXI).size();
     if(nt <= 0 || t_thread >= nt)

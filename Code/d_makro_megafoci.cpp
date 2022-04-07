@@ -10342,7 +10342,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
 
     //draw stuff
 
-    //darw nuc contours (filtered out)
+    //darw nuc contours (all)
     vector<D_Bio_NucleusBlob*> vpNucBlobs_all = MS6_NucPedigree_Results.get_pNuclei_FromNucLifes(false);
     size_t nb_all = vpNucBlobs_all.size();
     for(size_t b = 0; b < nb_all; b++)
@@ -10370,8 +10370,8 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
         }
     }
 
-    //darw nuc contours and foci count (filter passed)
-    vector<D_Bio_NucleusBlob*> vpNucBlobs_ok = MS6_NucPedigree_Results.get_pNuclei_FromNucLifes(true);
+    //darw nuc contours and foci count (filter passed or all)
+    vector<D_Bio_NucleusBlob*> vpNucBlobs_ok = MS6_NucPedigree_Results.get_pNuclei_FromNucLifes(ui->checkBox_MS6_ResType_Params_MosaicData_Filtered->isChecked());
     size_t nb_ok = vpNucBlobs_ok.size();
     for(size_t b = 0; b < nb_ok; b++)
     {

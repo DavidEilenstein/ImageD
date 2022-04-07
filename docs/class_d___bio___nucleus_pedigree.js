@@ -10,6 +10,7 @@ var class_d___bio___nucleus_pedigree =
     [ "calc_NucLifes", "class_d___bio___nucleus_pedigree.html#a320601f21e89e863c4b6e5fc0fa8c62b", null ],
     [ "calc_NucLifes_Filtered", "class_d___bio___nucleus_pedigree.html#a43ad2a5c1200c124379742c0428864ad", null ],
     [ "clear", "class_d___bio___nucleus_pedigree.html#a2364d24275721e44dd5684a6069bb080", null ],
+    [ "get_pNuclei_FromNucLifes", "class_d___bio___nucleus_pedigree.html#a717401c7765193667e59ccc25c7d9fec", null ],
     [ "get_pNucleus", "class_d___bio___nucleus_pedigree.html#a5130e2940f9531debb8462732e07af65", null ],
     [ "get_pNucleus", "class_d___bio___nucleus_pedigree.html#a3f37dd04b870b57044532861b85e4fec", null ],
     [ "info", "class_d___bio___nucleus_pedigree.html#afdfdc2382ea00e1c5f3fbbf175e49dc2", null ],

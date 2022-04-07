@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"class_d___geo___point__2_d.html#a448b9f4ef8dae305cf284b5408cf88d1":[4,0,20,37],
 "class_d___geo___point__2_d.html#a4c42e5b6fcd5b67279753ae73a3df1a9":[4,0,20,22],
 "class_d___geo___point__2_d.html#a4dd85e3ae6f52c4df300f6e19754806f":[4,0,20,3],
 "class_d___geo___point__2_d.html#a5741772938a30369b8888d639d582c63":[4,0,20,15],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "class_d___popup___list_edit.html":[4,0,55],
 "class_d___popup___list_edit.html#a0ea3550fe78c631678ab9cfef02383b1":[4,0,55,0],
 "class_d___popup___list_edit.html#afc37b8cbaaa15a68ba7617ab55645be7":[4,0,55,1],
-"class_d___popup___list_edit___numbers.html":[4,0,56],
-"class_d___popup___list_edit___numbers.html#a1157ef29b93eca19f4e83df4374a44d9":[4,0,56,2]
+"class_d___popup___list_edit___numbers.html":[4,0,56]
 };

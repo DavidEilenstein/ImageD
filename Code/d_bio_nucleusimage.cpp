@@ -535,6 +535,7 @@ int D_Bio_NucleusImage::load(QString path, bool foci_are_part_of_nuc_files)
 int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
 {
     //FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME FIX ME
+    //seems to be fixed allready... not 100% sure
 
     //foci channels
     size_t n_foci_channels = FIL_foci.size();
@@ -545,7 +546,7 @@ int D_Bio_NucleusImage::load_foci(QFileInfoList FIL_foci)
     //loop channels
     for(size_t ch = 0; ch < n_foci_channels; ch++)
     {
-        QFileInfo FI = FIL_foci[static_cast<int>(ch)];
+        QFileInfo FI = FIL_foci[int(ch)];
         //qDebug() << "D_Bio_NucleusImage::load_foci" << "channel" << ch << ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::";
 
         if(FI.suffix() == "txt")
