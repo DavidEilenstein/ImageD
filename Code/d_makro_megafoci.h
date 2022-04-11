@@ -802,13 +802,13 @@ private:
         MODE_MAJOR_NUMBER_OF
     };
     const QStringList QSL_ModeMajor = {
-        "Dataset definition",
-        "Automatic detection",
-        "Manuel correction of detetctions",
-        "Automatic matching foci to nuclei",
-        "Automatic pedigree reconstruction",
-        "Manual pedigree correction",
-        "Epic analysis"
+        "S0 Dataset definition",
+        "S1 Automatic detection",
+        "S2 Manuel correction of detetctions",
+        "S3 Automatic matching foci to nuclei",
+        "S4 Automatic pedigree reconstruction",
+        "S5 Manual pedigree correction",
+        "S6 Epic analysis"
     };
 
     size_t mode_major_current = MODE_MAJOR_0_DATASET_DIM;

@@ -37,6 +37,8 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QMessageBox>
+#include <QFileDialog>
 
 //general
 #include <iostream>
@@ -75,6 +77,13 @@ public:
     bool accept_Foc(D_Bio_Focus * pFoc);
     bool accept_NucBlob(D_Bio_NucleusBlob * pNucBlob);
     bool accept_NucLife(D_Bio_NucleusLife * pNucLife);
+
+public slots:
+
+    void            Filters_Info();
+    void            Filters_Clear();
+    void            Filters_Save();
+    void            Filters_Load();
 
 private slots:
 
@@ -141,6 +150,9 @@ private:
     //channels
     QStringList QSL_Channels_Val;
     QStringList QSL_Channels_Foc;
+
+    //Attribs
+    QStringList QSL_Attributes;
 
     //scaling
     double scale_px2um = 1;

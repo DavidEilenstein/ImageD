@@ -172,6 +172,70 @@ bool D_Bio_Attribute_Filter::accept_NucLife(D_Bio_NucleusLife *pNucLife)
     return true;
 }
 
+void D_Bio_Attribute_Filter::Filters_Info()
+{
+    QString QS_Info;
+
+    size_t n = vFilterIndicesActive.size();
+    for(size_t i = 0; i < n; i++)
+    {
+        size_t i_f = vFilterIndicesActive[i];
+        Filter F = vFilters[i_f];
+
+        QS_Info.append("<br>");
+        QS_Info.append("Filter " + QString::number(i_f) + ": ");
+
+        size_t attrib = F.i_attrib;
+        QS_Info.append(QSL_Attributes[attrib]);
+
+        bool channel_foc_dependent = false;
+        switch (filter_mode) {
+        case ATTRIB_FILTER_MODE_FOCI:       channel_foc_dependent = D_Bio_Focus::attribute_is_focus_channel_dependent(attrib);          break;
+        case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_foc_dependent = D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(attrib);    break;
+        case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_foc_dependent = D_Bio_NucleusLife::attribute_is_focus_channel_dependent(attrib);    break;
+        default:                                                                                                                        return;}
+
+        bool channel_val_dependent = false;
+        switch (filter_mode) {
+        case ATTRIB_FILTER_MODE_FOCI:       channel_val_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
+        case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_val_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
+        case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_val_dependent = D_Bio_NucleusLife::attribute_is_value_channel_dependent(attrib);    break;
+        default:                                                                                                                        return;}
+
+        size_t ch = F.i_channel;
+        if(channel_foc_dependent)
+            QS_Info.append("(" + QSL_Channels_Foc[ch] + ")");
+        else if(channel_val_dependent)
+            QS_Info.append("(" + QSL_Channels_Val[ch] + ")");
+
+        QS_Info.append(" " + QSL_CompareSimple[F.i_compare]);
+        QS_Info.append(" " + QString::number(F.thres));
+    }
+
+    if(n == 0)
+        QS_Info.append("No active filters");
+
+    QMessageBox::information(
+                this,
+                "Attribute Filters (" + QSL_FilterMode[filter_mode] + ")",
+                QS_Info);
+}
+
+void D_Bio_Attribute_Filter::Filters_Clear()
+{
+
+}
+
+void D_Bio_Attribute_Filter::Filters_Save()
+{
+
+}
+
+void D_Bio_Attribute_Filter::Filters_Load()
+{
+
+}
+
 bool D_Bio_Attribute_Filter::Populate_CB_Single(QComboBox *CB, QStringList QSL, int index_init)
 {
     if(!state_ui_init)
@@ -249,8 +313,8 @@ bool D_Bio_Attribute_Filter::Ui_Init()
     //info button
     ui_button_Info = new QPushButton("Info", this);
     ui_button_Info->setFixedWidth(button_width);
-    ui_button_Info->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Info, 1, 1);
+    connect(ui_button_Info, SIGNAL(clicked()), this, SLOT(Filters_Info()));
 
     //clear button
     ui_button_Clear = new QPushButton("Clear", this);
@@ -312,10 +376,12 @@ bool D_Bio_Attribute_Filter::Ui_Init_FilterMode()
     Populate_CB_Single(ui_combobox_Comparison, QSL_CompareSimple, c_COMPARE_EQUAL);
 
     switch (filter_mode) {
-    case ATTRIB_FILTER_MODE_FOCI:       Populate_CB_Single(ui_combobox_Attribute, QSL_Attrib_Foc);          break;
-    case ATTRIB_FILTER_MODE_NUC_BLOB:   Populate_CB_Single(ui_combobox_Attribute, QSL_Attrib_Nuc);          break;
-    case ATTRIB_FILTER_MODE_NUC_LIFE:   Populate_CB_Single(ui_combobox_Attribute, QSL_Attrib_NucLife);      break;
-    default:                                                                                                return false;}
+    case ATTRIB_FILTER_MODE_FOCI:       QSL_Attributes = QSL_Attrib_Foc;        break;
+    case ATTRIB_FILTER_MODE_NUC_BLOB:   QSL_Attributes = QSL_Attrib_Nuc;        break;
+    case ATTRIB_FILTER_MODE_NUC_LIFE:   QSL_Attributes = QSL_Attrib_NucLife;    break;
+    default:                                                                    return false;}
+
+    Populate_CB_Single(ui_combobox_Attribute, QSL_Attributes);
 
     return true;
 }

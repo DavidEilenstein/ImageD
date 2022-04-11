@@ -339,6 +339,11 @@ enum NUC_LIFE_FILE_SECTIONS {
      ATTRIB_FILTER_MODE_NUC_LIFE,
      ATTRIB_FILTER_MODE_NUMBER_OF
  };
+ const QStringList QSL_FilterMode = {
+     "Foci",
+     "Nucleus Blob",
+     "Nucleus Life"
+ };
 
  //data point level
  enum DATAPOINT_LEVEL {
