@@ -1039,6 +1039,18 @@ bool D_Bio_NucleusPedigree::set_attrib_filter_ui(QGroupBox *box_foci, QGroupBox 
     return true;
 }
 
+bool D_Bio_NucleusPedigree::set_attrib_filter_path(QDir *pDir_Save)
+{
+    if(!state_AttribFiltersSet)
+        return false;
+
+    bool l = pAttribFilter_NucLifes->set_SaveDir(pDir_Save);
+    bool b = pAttribFilter_NucBlobs->set_SaveDir(pDir_Save);
+    bool f = pAttribFilter_Foci->set_SaveDir(pDir_Save);
+
+    return (l && b) && f;
+}
+
 bool D_Bio_NucleusPedigree::set_attrib_filter_channels(QStringList channels_foc, QStringList channels_val)
 {
     if(!state_AttribFiltersSet)

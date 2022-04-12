@@ -68,6 +68,7 @@ public:
     bool set_filter_mode(size_t mode);
     bool set_channels(QStringList channels_foc, QStringList channels_val);
     bool set_ScalePx2Um(double scale);
+    bool set_SaveDir(QDir* pDirSave);
 
     bool set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);
 
@@ -82,14 +83,15 @@ public slots:
 
     void            Filters_Info();
     void            Filters_Clear();
-    void            Filters_Save();
-    void            Filters_Load();
+    bool            Filters_Save();
+    bool            Filters_Load();
 
 private slots:
 
     void            Filter_CurrentToUi();
     void            Filter_CurrentFromUi();
     void            Filter_UpdateUi_CurrentChannelDependency();
+    void            Check_ClearButtonPossible();
 
 signals:
     void            FilterParamsChanged();
@@ -128,7 +130,7 @@ private:
     struct Filter {
         bool    active      = false;
         size_t  i_attrib    = 0;
-        size_t  i_compare   = 0;
+        size_t  i_compare   = c_COMPARE_EQUAL;
         size_t  i_channel   = 0;
         double  thres       = 0;
     };
@@ -143,6 +145,7 @@ private:
     bool            state_filter_mode_set = false;
     bool            state_filter_mode_2ui = false;
     bool            state_channels_set = false;
+    bool            state_save_dir_set = false;
 
     //filter mode
     size_t filter_mode = ATTRIB_FILTER_MODE_FOCI;
@@ -157,6 +160,9 @@ private:
     //scaling
     double scale_px2um = 1;
     double scale_um2px = 1;
+
+    //save dir
+    QDir* pDIR_Save;
 };
 
 #endif // D_BIO_ATTRIBUTE_FILTER_H

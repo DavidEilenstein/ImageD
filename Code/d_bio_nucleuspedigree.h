@@ -107,6 +107,7 @@ public:
     void set_channels(QStringList channels_foc, QStringList channels_val)   {QSL_Channels_Foci = channels_foc; QSL_Channels_Values = channels_val;}
 
     bool set_attrib_filter_ui(QGroupBox* box_foci, QGroupBox* box_nucblobs, QGroupBox* box_nuclifes);
+    bool set_attrib_filter_path(QDir* pDir_Save);
     bool set_attrib_filter_channels(QStringList channels_foc, QStringList channels_val);
     bool set_attrib_filter_scaling();
     bool set_attrib_filter(size_t filter_mode, size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val);

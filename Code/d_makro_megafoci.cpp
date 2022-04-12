@@ -9264,6 +9264,8 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
                 ui->groupBox_MS6_Control_Filters_NucBlobs,
                 ui->groupBox_MS6_Control_Filters_NucLifes);
 
+    //save dir of attrib filters
+    MS6_NucPedigree_Results.set_attrib_filter_path(pStore->dir_M_MegaFoci_Results());
 
     //-------------------------------------------------------------------------------------- result type controls
 

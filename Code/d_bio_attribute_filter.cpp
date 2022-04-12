@@ -74,6 +74,18 @@ bool D_Bio_Attribute_Filter::set_ScalePx2Um(double scale)
     return true;
 }
 
+bool D_Bio_Attribute_Filter::set_SaveDir(QDir *pDirSave)
+{
+    if(!pDirSave->exists())
+        QDir().mkdir(pDirSave->path());
+    if(!pDirSave->exists())
+        return false;
+
+    pDIR_Save = pDirSave;
+    state_save_dir_set = true;
+    return true;
+}
+
 bool D_Bio_Attribute_Filter::set_filter(size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)
 {
     //check indices
@@ -208,8 +220,8 @@ void D_Bio_Attribute_Filter::Filters_Info()
         else if(channel_val_dependent)
             QS_Info.append("(" + QSL_Channels_Val[ch] + ")");
 
-        QS_Info.append(" " + QSL_CompareSimple[F.i_compare]);
-        QS_Info.append(" " + QString::number(F.thres));
+        QS_Info.append("  " + QSL_CompareSimple[F.i_compare]);
+        QS_Info.append("  " + QString::number(F.thres));
     }
 
     if(n == 0)
@@ -223,17 +235,276 @@ void D_Bio_Attribute_Filter::Filters_Info()
 
 void D_Bio_Attribute_Filter::Filters_Clear()
 {
+    if(QMessageBox::question(
+                this,
+                "Clear all filters?",
+                "Do you want to clear all " + QSL_FilterMode[filter_mode] + " filters?")
+            != QMessageBox::Yes)
+        return;
 
+    Filter_Init();
+    Filter_CurrentToUi();
 }
 
-void D_Bio_Attribute_Filter::Filters_Save()
+bool D_Bio_Attribute_Filter::Filters_Save()
 {
+    if(!state_save_dir_set)
+        *pDIR_Save = QDir::home();
 
+    QString QS_Save = QFileDialog::getSaveFileName(
+                this,
+                "Save " + QSL_FilterMode[filter_mode] + " filters",
+                QString(pDIR_Save->path() + "/") +
+                QString("Filters_" + QSL_FilterMode[filter_mode] + "_" + QDateTime::currentDateTime().toString() + ".txt").replace(":", "_").replace(" ", "_"),
+                tr("Text files (*.txt *.TXT)"));
+    if(QS_Save.isEmpty())
+        return false;
+
+    ofstream OS;
+    OS.open(QS_Save.toStdString());
+    if(!OS.is_open())
+        return false;
+
+    OS << QS_Save.toStdString();
+    OS << "\n" << QDateTime::currentDateTime().toString().toStdString();
+
+    size_t n = vFilters.size();
+    for(size_t i = 0; i < n; i++)
+    {
+        Filter F = vFilters[i];
+
+        //index
+        OS << "\n" << i;
+
+        //activ?
+        if(F.active)
+            OS << ";" << "active";
+        else
+            OS << ";" << "inactive";
+
+        //attrib
+        size_t attrib = F.i_attrib;
+        OS << ";" << QSL_Attributes[attrib].toStdString();
+
+        //channel
+
+        bool channel_foc_dependent = false;
+        switch (filter_mode) {
+        case ATTRIB_FILTER_MODE_FOCI:       channel_foc_dependent = D_Bio_Focus::attribute_is_focus_channel_dependent(attrib);          break;
+        case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_foc_dependent = D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(attrib);    break;
+        case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_foc_dependent = D_Bio_NucleusLife::attribute_is_focus_channel_dependent(attrib);    break;
+        default:                            OS.close();                                                                                 return false;}
+
+        bool channel_val_dependent = false;
+        switch (filter_mode) {
+        case ATTRIB_FILTER_MODE_FOCI:       channel_val_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
+        case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_val_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
+        case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_val_dependent = D_Bio_NucleusLife::attribute_is_value_channel_dependent(attrib);    break;
+        default:                            OS.close();                                                                                 return false;}
+
+        size_t ch = F.i_channel;
+        if(channel_foc_dependent)
+            OS << ";" << QSL_Channels_Foc[int(ch)].toStdString();
+        else if(channel_val_dependent)
+            OS << ";" << QSL_Channels_Val[int(ch)].toStdString();
+        else
+            OS << ";---";
+
+        //compare
+        OS << ";" << QSL_CompareSimple[int(F.i_compare)].toStdString();
+
+        //thres
+        OS << ";" << F.thres;
+    }
+
+    OS.close();
+    return true;
 }
 
-void D_Bio_Attribute_Filter::Filters_Load()
+bool D_Bio_Attribute_Filter::Filters_Load()
 {
+    if(!state_save_dir_set)
+        *pDIR_Save = QDir::home();
 
+    QString QS_Load = QFileDialog::getOpenFileName(
+                this,
+                "Load " + QSL_FilterMode[filter_mode] + " filters",
+                pDIR_Save->path(),
+                tr("Text files (*.txt *.TXT)"));
+    if(QS_Load.isEmpty())
+        return false;
+
+    QFileInfo FI_Load(QS_Load);
+    if(!FI_Load.exists())
+        return false;
+
+    QFile F_Load(FI_Load.absoluteFilePath());
+    if(!F_Load.open(QIODevice::ReadOnly))
+        return false;
+
+    QTextStream TS_Load(&F_Load);
+
+    ifstream IS;
+    IS.open(QS_Load.toStdString());
+    if(!IS.is_open())
+        return false;
+
+    Filter_Init();
+
+    bool ok;
+    size_t line = 0;
+    size_t filter_loads_failed = 0;
+    size_t filter_loads_ok = 0;
+    while(!TS_Load.atEnd())
+    {
+        QString QS_Line = TS_Load.readLine();
+        qDebug() << QS_Line;
+
+        if(line >= 2)//line 0 and 1 are meta infos
+        {
+            bool filter_load_failed = false;
+            int i_filter = 0;
+            Filter Fil;
+
+            //blocks
+            QStringList QSL_Blocks = QS_Line.split(";");
+            if(QSL_Blocks.size() != 6)
+                filter_load_failed = true;
+
+            //index
+            if(!filter_load_failed)
+            {
+                i_filter = QSL_Blocks[0].toUInt(&ok);
+                if(!ok)
+                {
+                    filter_load_failed = true;
+                }
+                else
+                {
+                    if(i_filter >= int(vFilters.size()))
+                        filter_load_failed = true;
+                }
+            }
+
+            //active
+            if(!filter_load_failed)
+            {
+                if(QSL_Blocks[1] == "active")
+                    Fil.active = true;
+                else if(QSL_Blocks[1] == "inactive")
+                    Fil.active = false;
+                else
+                    filter_load_failed = true;
+            }
+
+            //attrib
+            if(!filter_load_failed)
+            {
+                QString QS_Attrib = QSL_Blocks[2];
+                bool attrib_found = false;
+                for(int a = 0; a < QSL_Attributes.size() && !attrib_found; a++)
+                    if(QS_Attrib == QSL_Attributes[a])
+                    {
+                        Fil.i_attrib = a;
+                        attrib_found = true;
+                    }
+
+                if(!attrib_found)
+                    filter_load_failed = true;
+            }
+
+            //channel
+            if(!filter_load_failed)
+            {
+                size_t attrib = Fil.i_attrib;
+
+                bool channel_foc_dependent = false;
+                switch (filter_mode) {
+                case ATTRIB_FILTER_MODE_FOCI:       channel_foc_dependent = D_Bio_Focus::attribute_is_focus_channel_dependent(attrib);          break;
+                case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_foc_dependent = D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(attrib);    break;
+                case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_foc_dependent = D_Bio_NucleusLife::attribute_is_focus_channel_dependent(attrib);    break;
+                default:                                                                                                                        return false;}
+
+                bool channel_val_dependent = false;
+                switch (filter_mode) {
+                case ATTRIB_FILTER_MODE_FOCI:       channel_val_dependent = D_Bio_Focus::attribute_is_value_channel_dependent(attrib);          break;
+                case ATTRIB_FILTER_MODE_NUC_BLOB:   channel_val_dependent = D_Bio_NucleusBlob::attribute_is_value_channel_dependent(attrib);    break;
+                case ATTRIB_FILTER_MODE_NUC_LIFE:   channel_val_dependent = D_Bio_NucleusLife::attribute_is_value_channel_dependent(attrib);    break;
+                default:                                                                                                                        return false;}
+
+                if(channel_foc_dependent || channel_val_dependent)
+                {
+                    QStringList QSL_Channels = channel_foc_dependent ? QSL_Channels_Foc : QSL_Channels_Val;
+
+                    QString QS_Channel = QSL_Blocks[3];
+                    bool channel_found = false;
+                    for(int ch = 0; ch < QSL_Channels.size() && !channel_found; ch++)
+                        if(QS_Channel == QSL_Channels[ch])
+                        {
+                            Fil.i_channel = ch;
+                            channel_found = true;
+                        }
+
+                    if(!channel_found)
+                        filter_load_failed = true;
+                }
+            }
+
+            //comparator
+            if(!filter_load_failed)
+            {
+                QString QS_Compare = QSL_Blocks[4];
+                bool comparator_found = false;
+                for(int c = 0; c < QSL_CompareSimple.size() && !comparator_found; c++)
+                    if(QS_Compare == QSL_CompareSimple[c])
+                    {
+                        Fil.i_compare = c;
+                        comparator_found = true;
+                    }
+
+                if(!comparator_found)
+                    filter_load_failed = true;
+            }
+
+            //thres
+            if(!filter_load_failed)
+            {
+                Fil.thres = QSL_Blocks[5].toUInt(&ok);
+                if(!ok)
+                    filter_load_failed = true;
+            }
+
+            //save filter
+            if(!filter_load_failed)
+                filter_load_failed = !set_filter(
+                            i_filter,
+                            Fil.active,
+                            Fil.i_attrib,
+                            Fil.i_compare,
+                            Fil.i_channel,
+                            Fil.thres);
+
+            //count ok filters
+            if(!filter_load_failed)
+                filter_loads_ok++;
+            else
+                filter_loads_failed++;
+        }
+
+        line++;
+    }
+
+    Filter_CurrentToUi();
+
+    qDebug() << "ok" << filter_loads_ok << "nok" << filter_loads_failed;
+    if(filter_loads_failed > 0)
+        QMessageBox::warning(
+                    this,
+                    "Load fail",
+                    "Failed loading " + QString::number(filter_loads_failed) + " filters."
+                     "<br>Succsessful filter loads: " + QString::number(filter_loads_ok));
+
+    return true;
 }
 
 bool D_Bio_Attribute_Filter::Populate_CB_Single(QComboBox *CB, QStringList QSL, int index_init)
@@ -292,7 +563,7 @@ bool D_Bio_Attribute_Filter::Ui_Init()
     ui_spinbox_activeFilters = new QSpinBox(this);
     ui_spinbox_activeFilters->setRange(0, int(filter_count - 1));
     ui_spinbox_activeFilters->setPrefix("");
-    ui_spinbox_activeFilters->setSuffix("/" + QString::number(ui_spinbox_activeFilters->maximum()) + " active");
+    ui_spinbox_activeFilters->setSuffix("/" + QString::number(ui_spinbox_activeFilters->maximum() + 1) + " active");
     ui_spinbox_activeFilters->setButtonSymbols(QSpinBox::ButtonSymbols::NoButtons);
     ui_spinbox_activeFilters->setFixedWidth(spinbox_width);
     ui_spinbox_activeFilters->setReadOnly(true);
@@ -301,14 +572,14 @@ bool D_Bio_Attribute_Filter::Ui_Init()
     //save button
     ui_button_Save = new QPushButton("Save", this);
     ui_button_Save->setFixedWidth(button_width);
-    ui_button_Save->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Save, 0, 1);
+    connect(ui_button_Save, SIGNAL(clicked()), this, SLOT(Filters_Save()));
 
     //load button
     ui_button_Load = new QPushButton("Load", this);
     ui_button_Load->setFixedWidth(button_width);
-    ui_button_Load->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Load, 0, 2);
+    connect(ui_button_Load, SIGNAL(clicked()), this, SLOT(Filters_Load()));
 
     //info button
     ui_button_Info = new QPushButton("Info", this);
@@ -319,8 +590,9 @@ bool D_Bio_Attribute_Filter::Ui_Init()
     //clear button
     ui_button_Clear = new QPushButton("Clear", this);
     ui_button_Clear->setFixedWidth(button_width);
-    ui_button_Clear->setEnabled(false);
     ui_layout_master->addWidget(ui_button_Clear, 1, 2);
+    ui_button_Clear->setEnabled(false);
+    connect(ui_button_Clear, SIGNAL(clicked()), this, SLOT(Filters_Clear()));
 
     //attribs
     ui_combobox_Attribute = new QComboBox(this);
@@ -392,6 +664,7 @@ void D_Bio_Attribute_Filter::Filter_Init()
     vFilters.resize(filter_count);
 
     vFilterIndicesActive.clear();
+    Check_ClearButtonPossible();
 }
 
 void D_Bio_Attribute_Filter::Filter_CurrentToUi()
@@ -422,6 +695,7 @@ void D_Bio_Attribute_Filter::Filter_CurrentToUi()
     ui_grpbox_master->setEnabled(true);
 
     Filter_UpdateUi_CurrentChannelDependency();
+    Check_ClearButtonPossible();
 }
 
 void D_Bio_Attribute_Filter::Filter_CurrentFromUi()
@@ -453,6 +727,7 @@ void D_Bio_Attribute_Filter::Filter_CurrentFromUi()
     ui_grpbox_master->setEnabled(true);
 
     Filter_UpdateUi_CurrentChannelDependency();
+    Check_ClearButtonPossible();
 }
 
 void D_Bio_Attribute_Filter::Filter_UpdateUi_CurrentChannelDependency()
@@ -482,6 +757,12 @@ void D_Bio_Attribute_Filter::Filter_UpdateUi_CurrentChannelDependency()
     Populate_CB_Single(ui_combobox_Channels, QSL_new, min(QSL_new.size() - 1, i_old));
 
     ui_combobox_Channels->setEnabled(channel_foc_dependent || channel_val_dependent);
+}
+
+void D_Bio_Attribute_Filter::Check_ClearButtonPossible()
+{
+    if(state_ui_init)
+        ui_button_Clear->setEnabled(!vFilterIndicesActive.empty());
 }
 
 
