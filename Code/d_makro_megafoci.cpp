@@ -9639,17 +9639,25 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiData()
     DIR_ParentMS3.cdUp();
 
     //load data
-    MS6_NucPedigree_Results.load_nuclei_data(
+    bool ok = MS6_NucPedigree_Results.load_nuclei_data(
                 DIR_ParentMS3.path(),
                 DIR_MS6_Load_NucleiData.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
                 false,
                 true);
 
-    StatusSet("Finished loading nuclei data from step 3");
-
-    MS6_state_loaded_nuc_data = true;
-    return true;
+    if(ok)
+    {
+        StatusSet("Finished loading nuclei data from step 3");
+        MS6_state_loaded_nuc_data = true;
+        return true;
+    }
+    else
+    {
+        StatusSet("FAILED loading nuclei data from step 3");
+        MS6_state_loaded_nuc_data = false;
+        return false;
+    }
 }
 
 bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
@@ -9661,11 +9669,20 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiLifes()
 
     //load data
     StatusSet("Start loading nuclei matches from step 4/5");
-    MS6_NucPedigree_Results.match_load_matches(DIR_MS6_Load_NucleiLifes.path());
-    StatusSet("Finished loading nuclei matches from step 4/5");
+    bool ok = MS6_NucPedigree_Results.match_load_matches(DIR_MS6_Load_NucleiLifes.path());
 
-    MS6_state_loaded_nuc_lifes = true;
-    return true;
+    if(ok)
+    {
+        StatusSet("Finished loading nuclei matches from step 4/5");
+        MS6_state_loaded_nuc_lifes = true;
+        return true;
+    }
+    else
+    {
+        StatusSet("FAILED loading nuclei matches from step 4/5");
+        MS6_state_loaded_nuc_lifes = false;
+        return false;
+    }
 }
 
 bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()

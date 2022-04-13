@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QInputDialog>
+#include <QMessageBox>
 
 //general
 #include <iostream>
@@ -154,8 +155,8 @@ public slots:
 private:
 
     static bool match_save_results_time_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirSaveMaster, size_t t_thread);
-    static bool load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files);
-    static bool load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread);
+    static bool load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err);
+    static bool load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread, int *err);
 
     void        match_correct_mitosis(  size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitosis);
     void        match_times(            size_t t_parents, size_t t_childs, double score_thresh,     bool allow_new_mitosis);

@@ -419,9 +419,11 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
     set_size_time_and_mosaik(nt, ny, nx);
 
     //load data
+    vector<int> vErrors(nt, ER_okay);
+
+    //try threaded
     vector<std::thread> vThreadsData(nt);
     for(size_t t = 0; t < nt; t++)
-    {
         vThreadsData[t] = std::thread(
                     load_time_nuclei_data_thread,
                     &vvvvNucBlobs_TYXI,
@@ -429,10 +431,42 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                     DIR_LoadNucData,
                     t,
                     forget_contour,
-                    foci_are_part_of_nuc_files);
+                    foci_are_part_of_nuc_files,
+                    &(vErrors[t]));
 
-    //for(size_t t = 0; t < nt; t++)
+    //join threds
+    for(size_t t = 0; t < nt; t++)
         vThreadsData[t].join();
+
+    //check thread sucess and try non multithreaded, if unsuccsessful
+    for(size_t t = 0; t < nt; t++)
+        if(vErrors[t] != ER_okay)
+            load_time_nuclei_data_thread(
+                        &vvvvNucBlobs_TYXI,
+                        DIR_LoadNucDataMaster,
+                        DIR_LoadNucData,
+                        t,
+                        forget_contour,
+                        foci_are_part_of_nuc_files,
+                        &(vErrors[t]));
+
+    //check again and count remaining errors
+    size_t fails = 0;
+    QString QS_Fails = "Failed loading nuclei data:";
+    for(size_t t = 0; t < nt; t++)
+        if(vErrors[t] != ER_okay)
+        {
+            fails++;
+            QS_Fails.append("<br>T=" + QString::number(t) + ": " + QSL_Errors[vErrors[t]]);
+        }
+
+    if(fails != 0)
+    {
+        qDebug() << QS_Fails;
+        QMessageBox msg;
+        msg.setText(QS_Fails);
+        msg.exec();
+        return false;
     }
 
     //qDebug() << "D_Bio_NucleusPedigree::load_nuclei_data" << "end";
@@ -2596,16 +2630,49 @@ bool D_Bio_NucleusPedigree::match_load_matches(QString QS_path_NucLifes)
         return false;
 
     //load matches
+    vector<int> vErrors(size_time, ER_okay);
+
+    //try threaded
     vector<std::thread> vThreadsMatch(size_time);
     for(size_t t = 0; t < size_time; t++)
         vThreadsMatch[t] = std::thread(
                     load_time_nuclei_matches_thread,
                     &vvvvNucBlobs_TYXI,
                     DIR_LoadNucLifes,
-                    t);
+                    t,
+                    &(vErrors[t]));
 
+    //join threads
     for(size_t t = 0; t < size_time; t++)
         vThreadsMatch[t].join();
+
+    //check thread sucess and try non multithreaded, if unsuccsessful
+    for(size_t t = 0; t < size_time; t++)
+        if(vErrors[t] != ER_okay)
+            load_time_nuclei_matches_thread(
+                        &vvvvNucBlobs_TYXI,
+                        DIR_LoadNucLifes,
+                        t,
+                        &(vErrors[t]));
+
+    //check again and count remaining errors
+    size_t fails = 0;
+    QString QS_Fails = "Failed loading nuclei lifes:";
+    for(size_t t = 0; t < size_time; t++)
+        if(vErrors[t] != ER_okay)
+        {
+            fails++;
+            QS_Fails.append("<br>T=" + QString::number(t) + ": " + QSL_Errors[vErrors[t]]);
+        }
+
+    if(fails != 0)
+    {
+        qDebug() << QS_Fails;
+        QMessageBox msg;
+        msg.setText(QS_Fails);
+        msg.exec();
+        return false;
+    }
 
     return true;
 }
@@ -2704,29 +2771,44 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
     return true;
 }
 
-bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files)
+bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err)
 {
     //sizes
     size_t nt = (*pvvvvNucsTYXI).size();
     if(nt <= 0 || t_thread >= nt)
+    {
+        *err = ER_size_missmatch;
         return false;
+    }
 
     size_t ny = (*pvvvvNucsTYXI)[0].size();
     if(ny <= 0)
+    {
+        *err = ER_size_missmatch;
         return false;
+    }
 
     size_t nx = (*pvvvvNucsTYXI)[0][0].size();
     if(nx <= 0)
+    {
+        *err = ER_size_missmatch;
         return false;
+    }
 
     //dirs exist?
     if(!DirLoadMaster.exists())
+    {
+        *err = ER_file_not_exist;
         return false;
+    }
 
     //detections dir time t
     QDir DIR_t(DirLoadNucs.path() + "/Time_" + QString::number(t_thread));
     if(!DIR_t.exists())
+    {
+        *err = ER_file_not_exist;
         return false;
+    }
 
     if(DIR_t.exists())
     {
@@ -2825,16 +2907,23 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
         }
     }
 
+    *err = ER_okay;
     return true;
 }
 
-bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread)
+bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread, int* err)
 {
     if(!DirLoadNucLifes.exists())
-            return false;
+    {
+        *err = ER_file_not_exist;
+        return false;
+    }
 
     if(t_thread >= pvvvvNucsTYXI->size())
+    {
+        *err = ER_size_missmatch;
         return false;
+    }
 
     //load dir for time
     QDir DirLoadTime;
@@ -3027,6 +3116,7 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
         }
     }
 
+    *err = ER_okay;
     return true;
 }
 
