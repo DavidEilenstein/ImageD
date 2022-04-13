@@ -16871,7 +16871,44 @@ int D_Img_Proc::Hysteresis(Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hyst
     return ER_okay;
 }
 
+int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int thickness, double scale, int line_height)
+{
+    size_t n_img = pvMA_In->size();
+    if(n_img <= 0)                                  return ER_empty;
+    if(vvQS_LabelText_Img_Line.size() != n_img)     return ER_size_missmatch;
 
+    for(size_t i = 0; i < n_img; i++)
+        if((*pvMA_In)[i].type() != (*pvMA_In)[0].type())
+            return ER_type_missmatch;
+
+    size_t n_lines = vvQS_LabelText_Img_Line[0].size();
+    for(size_t i = 0; i < n_img; i++)
+        if(vvQS_LabelText_Img_Line[i].size() != n_lines)
+            return ER_size_missmatch;
+
+    int w_max = 0;
+    int h_max = 0;
+    for(size_t i = 0; i < n_img; i++)
+    {
+        int w = (*pvMA_In)[i].cols;
+        int h = (*pvMA_In)[i].rows;
+
+        if(w > w_max)
+            w = w_max;
+
+        if(h > h_max)
+            h = h_max;
+    }
+
+    //img out
+    int w_out = w_max * n_img;
+    int h_out = h_max + n_lines * line_height;
+    *pMA_Out = Mat::zeros(h_out, w_out, (*pvMA_In)[0].type());
+
+    //CONTINUE HERE
+
+    return ER_okay;
+}
 
 int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int d, uchar val)
 {

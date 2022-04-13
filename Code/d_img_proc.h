@@ -381,6 +381,8 @@ public:
     static bool     Floodfill_Delta_Step        (Mat *pMA_Target, Mat *pMA_Check, int x, int y, int dx, int dy, int val_new, int val_delta, int val_origin);
     static int      Hysteresis                  (Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hysteresis, bool labeling = false);
 
+    static int      ImgStackToRow               (Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int thickness = 1, double scale = 1.0, int line_height = 10);
+
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int d, uchar val);
     static int      Draw_Dots                   (Mat *pMA_Target, vector<Point2f> vCenters, vector<double> vDiameters, uchar val);
     static int      Draw_Dots                   (Mat *pMA_Target, vector<Point> vCenters, vector<double> vDiameters, uchar val);
