@@ -77,9 +77,12 @@ public:
     void info_debug();
     void info_popup();
 
-    D_Bio_NucleusBlob* get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i);
-    D_Bio_NucleusBlob *get_pNucleus(size_t t, size_t y_mosaic_min, size_t x_mosaic_min, size_t y_mosaic_max, size_t x_mosaic_max, size_t y_pos_px, size_t x_pos_px);
-    vector<D_Bio_NucleusBlob*> get_pNuclei_FromNucLifes(bool filtered_only);
+    D_Bio_NucleusBlob*          get_pNucleus(size_t t, size_t y_mosaic, size_t x_mosaic, size_t i);
+    D_Bio_NucleusBlob*          get_pNucleus(size_t t, size_t y_mosaic_min, size_t x_mosaic_min, size_t y_mosaic_max, size_t x_mosaic_max, size_t y_pos_px, size_t x_pos_px);
+    vector<D_Bio_NucleusBlob*>  get_pNuclei_FromNucLifes(bool filtered_only);
+
+    size_t                      get_NucleusLifesCount(bool filtered);
+    D_Bio_NucleusLife*          get_pNucleusLife(size_t index, bool filtered);
 
     bool load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files);
     bool add_nucleus_blob(size_t t, size_t y, size_t x, D_Bio_NucleusBlob nuc);

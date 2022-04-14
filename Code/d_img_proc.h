@@ -424,6 +424,8 @@ public:
     static int      Draw_Contours               (Mat *pMA_Target, vector<vector<Point>> vContours, int line_thickness, double value);
     static int      Draw_Contour                (Mat *pMA_Target, vector<Point> vContour, int line_thickness, double value);
     static int      Draw_Contour                (Mat *pMA_Target, vector<Point> vContour, int line_thickness, double R, double G, double B);
+    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B);
+    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value);
     static int      Draw_ContourText            (Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     static int      Draw_ContourText            (Mat *pMA_Out, Mat *pMA_In, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);

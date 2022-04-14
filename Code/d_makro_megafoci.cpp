@@ -9870,6 +9870,10 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_IMAGE_2D);
         break;
 
+    case MS6_RES_TYP_NUC_LIFE_IMG:
+        ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_IMAGE_2D);
+        break;
+
     default:
         return;
     }
@@ -10139,6 +10143,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     case MS6_RES_TYP_SCATTER_HEATMAP_3D:    MS6_Update_Result_Heatmap_3D();             break;
     case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
     case MS6_RES_TYP_MOSAIC_DATA:           MS6_Update_Result_MosaicData();             break;
+    case MS6_RES_TYP_NUC_LIFE_IMG:          MS6_Update_Result_NucLifeImg();             break;
     default:                                                                            break;
     }
 }
@@ -10332,7 +10337,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
     //merge
     if(channel_count == 0)
     {
-        MS6_MosaicImgShow = Mat::zeros(h_crop_px, w_crop_px, CV_8UC3);
+        MS6_ResultImgShow = Mat::zeros(h_crop_px, w_crop_px, CV_8UC3);
     }
     else if(channel_count == 1)
     {
@@ -10341,7 +10346,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
             if(channels_use[c])
             {
                 D_Img_Proc::Duplicate2Channels(
-                            &MS6_MosaicImgShow,
+                            &MS6_ResultImgShow,
                             &(vMA_Croped[c]),
                             3);
             }
@@ -10350,7 +10355,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
     else
     {
         D_Img_Proc::Merge(
-                    &MS6_MosaicImgShow,
+                    &MS6_ResultImgShow,
                     &(vMA_Croped[MS5_MOSAIC_CH_RFP]),
                     &(vMA_Croped[MS5_MOSAIC_CH_GFP]),
                     &(vMA_Croped[MS5_MOSAIC_CH_DIC]),
@@ -10382,7 +10387,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
 
             //draw light gray small
             D_Img_Proc::Draw_Contour(
-                        &MS6_MosaicImgShow,
+                        &MS6_ResultImgShow,
                         pNucDraw->contour(scale_full2mosaic, -P_Offset_px_scaled),
                         thick1,
                         192, 192, 192);
@@ -10406,7 +10411,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
 
             //draw
             D_Img_Proc::Draw_Contour(
-                        &MS6_MosaicImgShow,
+                        &MS6_ResultImgShow,
                         pNucDraw->contour(scale_full2mosaic, -P_Offset_px_scaled),
                         thick2,
                         col.red(), col.green(), col.blue());
@@ -10423,7 +10428,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
 
             //write foci count
             D_Img_Proc::Draw_Text(
-                        &MS6_MosaicImgShow,
+                        &MS6_ResultImgShow,
                         QS_FociCount,
                         int(pNucDraw->centroid(scale_full2mosaic, -P_Offset_px_scaled).x),
                         int(pNucDraw->centroid(scale_full2mosaic, -P_Offset_px_scaled).y),
@@ -10434,7 +10439,74 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_MosaicData()
     }
 
     //show
-    MS6_Viewer_Img_2D.Update_Image(&MS6_MosaicImgShow);
+    MS6_Viewer_Img_2D.Update_Image(&MS6_ResultImgShow);
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
+{
+    if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
+        return;
+
+    //CONTINUE HERE DEBUGGING
+
+    //adapt ui (set max
+    size_t nl = MS6_NucPedigree_Results.get_NucleusLifesCount(true);
+    //set max
+
+    //get params
+    size_t l = 0;
+    size_t contour_thickness = 2;
+    uchar contour_value = 255;
+    size_t text_thickness = 1;
+    double text_scale = 1.0;
+    size_t text_height = 1;
+    double mosaic_scale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+
+    //nuc life
+    D_Bio_NucleusLife* pNucLife = MS6_NucPedigree_Results.get_pNucleusLife(l, true);
+    if(pNucLife == nullptr)
+        return;
+
+    //img stack (blobs) and texts
+    size_t nb = pNucLife->members_count();
+    vector<vector<QString>> vvQS_Texts(nb, vector<QString>(3));
+    vector<Mat> vMA_Cropped(nb);
+    for(size_t b = 0; b < nb; b++)
+    {
+        D_Bio_NucleusBlob* pNuc = pNucLife->pNuc_member(b);
+        size_t t = pNuc->time_index();
+
+        //img and contour
+        int err = D_Img_Proc::Draw_ContourCrop(
+                    &(vMA_Cropped[b]),
+                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_RFP][t]),
+                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_GFP][t]),
+                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_DIC][t]),
+                    pNuc->contour(mosaic_scale, Point(0, 0)),
+                    contour_thickness,
+                    contour_value, contour_value, contour_value);
+        if(err != ER_okay)
+            return;
+
+        //texts
+        vvQS_Texts[b][0] = "T=" + QString::number(t);
+        vvQS_Texts[b][1] = "Y=" + QString::number(pNuc->centroid().y);
+        vvQS_Texts[b][2] = "X=" + QString::number(pNuc->centroid().x);
+    }
+
+    //merge stack to out img
+    int err = D_Img_Proc::ImgStackToRow(
+                &MS6_ResultImgShow,
+                &vMA_Cropped,
+                vvQS_Texts,
+                text_thickness,
+                text_scale,
+                text_height);
+    if(err != ER_okay)
+        return;
+
+    //show
+    MS6_Viewer_Img_2D.Update_Image(&MS6_ResultImgShow);
 }
 
 bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()

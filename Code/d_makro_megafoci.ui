@@ -12244,6 +12244,7 @@ color: red;</string>
                      </item>
                     </layout>
                    </widget>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_NucLifeImg"/>
                   </widget>
                  </item>
                 </layout>

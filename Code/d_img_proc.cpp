@@ -16886,6 +16886,7 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
         if(vvQS_LabelText_Img_Line[i].size() != n_lines)
             return ER_size_missmatch;
 
+    //calc out size
     int w_max = 0;
     int h_max = 0;
     for(size_t i = 0; i < n_img; i++)
@@ -16900,12 +16901,62 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
             h = h_max;
     }
 
+    //max
+    double max_all = -INFINITY;
+    for(size_t i = 0; i < n_img; i++)
+    {
+        double min_val;
+        double max_val;
+
+        int err = MinMax_of_Mat(
+                    &((*pvMA_In)[i]),
+                    &min_val,
+                    &max_val);
+        if(err != ER_okay)
+            return err;
+
+        if(max_val > max_all)
+            max_all = max_val;
+    }
+    if((*pvMA_In)[0].depth() == CV_8U)
+        max_all = 255;
+
     //img out
     int w_out = w_max * n_img;
     int h_out = h_max + n_lines * line_height;
-    *pMA_Out = Mat::zeros(h_out, w_out, (*pvMA_In)[0].type());
+    *pMA_Out = Mat(
+                h_out,
+                w_out,
+                (*pvMA_In)[0].type(),
+                Scalar_EqualInAllChannels((*pvMA_In)[0].channels(), max_all));
 
-    //CONTINUE HERE
+    //insert imgs
+    for(size_t i = 0; i < n_img; i++)
+    {
+        int err = Insert(
+                    pMA_Out,
+                    &((*pvMA_In)[i]),
+                    i * w_max,
+                    n_lines * line_height);
+        if(err != ER_okay)
+            return err;
+    }
+
+    //write text
+    for(size_t i = 0; i < n_img; i++)
+        for(size_t l = 0; l < n_lines; l++)
+        {
+            int err = Draw_Text(
+                        pMA_Out,
+                        vvQS_LabelText_Img_Line[i][l],
+                        i * w_max,
+                        l * line_height,
+                        thickness,
+                        scale,
+                        0);
+            if(err != ER_okay)
+                return err;
+        }
 
     return ER_okay;
 }
@@ -18968,6 +19019,88 @@ int D_Img_Proc::Draw_Contour(Mat *pMA_Target, vector<Point> vContour, int line_t
                 line_thickness);
 
     return ER_okay;
+}
+
+int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B)
+{
+    //errors
+    if(pMA_In_R->empty())                       return ER_empty;
+    if(pMA_In_G->empty())                       return ER_empty;
+    if(pMA_In_B->empty())                       return ER_empty;
+    if(pMA_In_R->channels() != 1)               return ER_channel_bad;
+    if(pMA_In_G->channels() != 1)               return ER_channel_bad;
+    if(pMA_In_B->channels() != 1)               return ER_channel_bad;
+    if(pMA_In_R->type() != pMA_In_G->type())    return ER_type_missmatch;
+    if(pMA_In_R->type() != pMA_In_B->type())    return ER_type_missmatch;
+    if(pMA_In_R->size != pMA_In_G->size)        return ER_size_missmatch;
+    if(pMA_In_R->size != pMA_In_B->size)        return ER_size_missmatch;
+    int err;
+
+    //R
+    Mat MA_tmp_R;
+    err = Draw_ContourCrop(pMA_Out, pMA_In_R, vContour, line_thickness, R);
+    if(err != ER_okay)
+    {
+        MA_tmp_R.release();
+        return err;
+    }
+
+    //G
+    Mat MA_tmp_G;
+    err = Draw_ContourCrop(pMA_Out, pMA_In_G, vContour, line_thickness, G);
+    if(err != ER_okay)
+    {
+        MA_tmp_R.release();
+        MA_tmp_G.release();
+        return err;
+    }
+
+    //B
+    Mat MA_tmp_B;
+    err = Draw_ContourCrop(pMA_Out, pMA_In_B, vContour, line_thickness, B);
+    if(err != ER_okay)
+    {
+        MA_tmp_R.release();
+        MA_tmp_G.release();
+        MA_tmp_B.release();
+        return err;
+    }
+
+    //merge
+    err = Merge(pMA_Out, &MA_tmp_B, &MA_tmp_G, &MA_tmp_R);
+
+    //clear and return
+    MA_tmp_R.release();
+    MA_tmp_G.release();
+    MA_tmp_B.release();
+    return err;
+}
+
+int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value)
+{
+    if(pMA_In->empty())                 return ER_empty;
+    int err;
+
+    D_Contour C(vContour);
+
+    //crop
+    err = Crop_Rect_Abs(
+                pMA_Out,
+                pMA_In,
+                C.l(),
+                C.t(),
+                C.w(),
+                C.h());
+    if(err != ER_okay)
+        return err;
+
+    //draw
+    err = Draw_Contour(
+                pMA_Out,
+                C.contour(-C.tl()),
+                line_thickness,
+                value);
+    return err;
 }
 
 /*!

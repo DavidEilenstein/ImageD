@@ -406,6 +406,34 @@ vector<D_Bio_NucleusBlob *> D_Bio_NucleusPedigree::get_pNuclei_FromNucLifes(bool
     return vResNucBlobs;
 }
 
+size_t D_Bio_NucleusPedigree::get_NucleusLifesCount(bool filtered)
+{
+    if(!state_NucLifesCalced)
+        calc_NucLifes();
+    if(!state_NucLifesCalced)
+        return 0;
+
+    if(!filtered)
+        return vNucLifes.size();
+
+    if(!state_NucLifesFilteredCalced)
+        calc_NucLifes_Filtered();
+    if(!state_NucLifesFilteredCalced)
+        return 0;
+
+    return vNucLifes_Filtered.size();
+}
+
+D_Bio_NucleusLife *D_Bio_NucleusPedigree::get_pNucleusLife(size_t index, bool filtered)
+{
+    size_t n = get_NucleusLifesCount(filtered);
+
+    if(index >= n)
+        return nullptr;
+
+    return filtered ? &(vNucLifes_Filtered[index]) : &(vNucLifes[index]);
+}
+
 bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files)
 {
     QDir DIR_LoadNucDataMaster(QS_path_NucDataMaster);

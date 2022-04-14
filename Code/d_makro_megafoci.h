@@ -1511,6 +1511,7 @@ private slots:
     void MS6_Update_Result_Heatmap_3D();
     void MS6_Update_Result_DataTable_3Axis();
     void MS6_Update_Result_MosaicData();
+    void MS6_Update_Result_NucLifeImg();
 
     bool MS6_SaveAnalysis_Full();
 
@@ -1555,7 +1556,6 @@ private:
         "DIC"
     };
     vector<vector<Mat>>     vv_MS6_Mosaics_CT;
-    Mat                     MS6_MosaicImgShow;
 
     //ui elements for axis control
     const size_t            MS6_ResAxis_Count = 3;
@@ -1584,6 +1584,7 @@ private:
     D_Viewer                MS6_Viewer_Img_2D;
     D_Viewer_3D             MS6_Viewer_Img_3D;
     D_Table                 MS6_Viewer_Table;
+    Mat                     MS6_ResultImgShow;
 
     //States
     bool                    MS6_state_ui_init = false;
@@ -1613,6 +1614,7 @@ private:
         MS6_RES_TYP_SCATTER_HEATMAP_3D,
         MS6_RES_TYP_DATA_TABLE_3D,
         MS6_RES_TYP_MOSAIC_DATA,
+        MS6_RES_TYP_NUC_LIFE_IMG,
         MS6_RES_TYP_NUMBER_OF
     };
     const QStringList QSL_MS6_ResultTypes = {
@@ -1622,7 +1624,8 @@ private:
         "Scatter 2D heatmap",
         "Scatter 3D heatmap",
         "Data table 3 attributes",
-        "Mosaic with foci counts"
+        "Mosaic with foci counts",
+        "Nucleus life image"
     };
 
 

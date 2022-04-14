@@ -53,6 +53,8 @@ public:
     int                 r();
     int                 b();
     int                 t();
+    int                 w()                                     {return r() - l();}
+    int                 h()                                     {return b() - t();}
     Point               tl()                                    {return Point(t(), l());}
     Point               tr()                                    {return Point(t(), r());}
     Point               bl()                                    {return Point(b(), l());}
