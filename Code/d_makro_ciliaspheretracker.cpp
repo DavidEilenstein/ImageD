@@ -228,7 +228,8 @@ D_MAKRO_CiliaSphereTracker::D_MAKRO_CiliaSphereTracker(D_Storage *pStorage, QWid
     connect(ui->comboBox_Res_FieldSumary_StatIndex_Grid,            SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_FieldSumary_StatIndex_Cells_Linear,    SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
     connect(ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular,   SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
-    connect(ui->checkBox_Res_FieldSumary_Weighted,                  SIGNAL(stateChanged(int)),                  this,                   SLOT(Update_Results()));
+    connect(ui->comboBox_Res_FieldSumary_WeightType,                SIGNAL(currentIndexChanged(int)),           this,                   SLOT(Update_Results()));
+    connect(ui->spinBox_Res_FieldSummary_DetectionsThresh,          SIGNAL(valueChanged(int)),                  this,                   SLOT(Update_Results()));
     //status bar
     connect(&View_Results,                                          SIGNAL(MouseMoved_Value(QString)),          L_SB_ValAtPos,          SLOT(setText(QString)));
     connect(&View_Proc,                                             SIGNAL(MouseMoved_Value(QString)),          L_SB_ValAtPos,          SLOT(setText(QString)));
@@ -1191,6 +1192,10 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
     bool angular = data_type == DATA_TYPE_ANGLE;
     int stat_cell = angular ? ui->comboBox_Res_FieldSumary_StatIndex_Cells_Angular->currentIndex() : ui->comboBox_Res_FieldSumary_StatIndex_Cells_Linear->currentIndex();
 
+    //detections count thres and weight type
+    size_t detections_count_thres   = ui->spinBox_Res_FieldSummary_DetectionsThresh->value();
+    size_t weight_type              = ui->comboBox_Res_FieldSumary_WeightType->currentIndex();
+
     //stat function
     function<double (vector<double>)> F_StatCell = angular ? D_Stat::Function_SingleStat_Circ_Rad(stat_cell) : D_Stat::Function_SingleStat(stat_cell);
 
@@ -1216,11 +1221,13 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
     //containers of data to be shown
     vector<vector<double>> vv_XY_WeightCount(nx);
     vector<vector<double>> vv_XY_WeightSpeed(nx);
+    vector<vector<double>> vv_XY_WeightUse(nx);
     vector<vector<double>> vv_XY_Value(nx);
     for(size_t gx = 0; gx < nx; gx++)
     {
         vv_XY_WeightCount[gx].resize(ny, 0);
         vv_XY_WeightSpeed[gx].resize(ny, 0);
+        vv_XY_WeightUse[gx].resize(ny, 0);
         vv_XY_Value[gx].resize(ny, 0);
     }
 
@@ -1272,7 +1279,19 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
             vv_XY_Value[gx][gy]         = F_StatCell(v_Cell_Values);
             vv_XY_WeightCount[gx][gy]   = v_Cell_Values.size();
             vv_XY_WeightSpeed[gx][gy]   = D_Stat::Mean(v_Cell_Speeds);
-            qDebug() << "cell x/y" << gx << gy << "val" << vv_XY_Value[gx][gy] << "mean speed" << vv_XY_WeightSpeed[gx][gy] << "count" << vv_XY_WeightCount[gx][gy];
+
+            //calc weight
+            switch (weight_type) {
+            case FIELD_SUMMARY_WEIGHT_1:     vv_XY_WeightUse[gx][gy] = 1.0;                             break;
+            case FIELD_SUMMARY_WEIGHT_COUNT: vv_XY_WeightUse[gx][gy] = vv_XY_WeightCount[gx][gy];       break;
+            case FIELD_SUMMARY_WEIGHT_SPEED: vv_XY_WeightUse[gx][gy] = vv_XY_WeightSpeed[gx][gy];       break;
+            default:                                                                                    return;}
+
+            //detections thres
+            if(vv_XY_WeightCount[gx][gy] <= detections_count_thres)
+                vv_XY_WeightUse[gx][gy] = 0.0;
+
+            qDebug() << "cell x/y" << gx << gy << "val" << vv_XY_Value[gx][gy] << "count" << vv_XY_WeightCount[gx][gy] << "speed" << vv_XY_WeightSpeed[gx][gy] << "weight" << vv_XY_WeightUse[gx][gy];
         }
     }
 
@@ -1289,7 +1308,7 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
         for(size_t gy = 0; gy < ny; gy++)
         {
             double val = vv_XY_Value[gx][gy];
-            double weight = vv_XY_WeightSpeed[gx][gy];
+            double weight = vv_XY_WeightUse[gx][gy];
 
             if(isfinite(val) && isfinite(weight))
             {
@@ -1299,8 +1318,8 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
         }
     }
 
-    qDebug() << "values" << vValues;
-    qDebug() << "weights" << vWeights;
+    //qDebug() << "values" << vValues;
+    //qDebug() << "weights" << vWeights;
     double result_grid_stat = D_Stat::MeanWeighted(vValues, vWeights);
     qDebug() << "weighted mean" << result_grid_stat;
 
@@ -1312,10 +1331,49 @@ void D_MAKRO_CiliaSphereTracker::Update_Result_GridSummary()
     //show background graphic
     Update_Result_GraphicsTimeProjectSum();
 
+    //get grid texts
+    size_t nl = 4;
+    vector<vector<vector<QString>>> vvv_XYL_GridTexts(nx, vector<vector<QString>>(ny, vector<QString>(nl, "")));
+    for(size_t gx = 0; gx < nx; gx++)
+    {
+        for(size_t gy = 0; gy < ny; gy++)
+        {
+            vvv_XYL_GridTexts[gx][gy][0] = QString::number(vv_XY_Value[gx][gy]);
+            vvv_XYL_GridTexts[gx][gy][1] = "n=" + QString::number(vv_XY_WeightCount[gx][gy]);
+            vvv_XYL_GridTexts[gx][gy][2] = "v=" + QString::number(vv_XY_WeightSpeed[gx][gy]);
+            vvv_XYL_GridTexts[gx][gy][3] = "w=" + QString::number(vv_XY_WeightUse[gx][gy]);
+        }
+    }
+
+    //draw red X when thres is nok
+    for(size_t gx = 0; gx < nx; gx++)
+        for(size_t gy = 0; gy < ny; gy++)
+            if(vv_XY_WeightUse[gx][gy] == 0.0)
+            {
+                double w        = MA_Result.cols;
+                double h        = MA_Result.rows;
+                double x1_rel   = double(gx    ) / nx;
+                double y1_rel   = double(gy    ) / ny;
+                double x2_rel   = double(gx + 1) / nx;
+                double y2_rel   = double(gy + 1) / ny;
+                double x1       = x1_rel * w;
+                double y1       = y1_rel * h;
+                double x2       = min(x2_rel * w, w - 1);
+                double y2       = min(y2_rel * h, h - 1);
+
+                D_Img_Proc::Draw_MarkerSymbol(
+                            &MA_Result,
+                            int(x1), int(y1),
+                            int(x2), int(y2),
+                            c_MARKER_SYMBOL_CROSS,
+                            255, 0, 0,
+                            0.50);
+            }
+
     //draw grid
     D_Img_Proc::Draw_Grid(
                 &MA_Result,
-                vv_XY_WeightSpeed,
+                vvv_XYL_GridTexts,
                 nx,
                 ny,
                 true,
@@ -5519,13 +5577,14 @@ void D_MAKRO_CiliaSphereTracker::Populate_CB_Single(QComboBox *CB, QStringList Q
 void D_MAKRO_CiliaSphereTracker::Populate_CB_Start()
 {
     //specific
-    Populate_CB_Single(ui->comboBox_Proc_Step,                                  QSL_ProcSteps,      STEP_LOAD);
-    Populate_CB_Single(ui->comboBox_Res_Type,                                   QSL_ResTypes,       RES_GRAPHICS_TIME_SUM_PROJ);
-    Populate_CB_Single(ui->comboBox_Res_MovAv_Background,                       QSL_Background,     BACKGR_PROJECTION);
-    Populate_CB_Single(ui->comboBox_Res_MovAv_TimeWindow,                       QSL_TimeWindow,     TIME_WINDOW_FULL_VIDEO);
-    Populate_CB_Single(ui->comboBox_Res_PlotLine_FixRange_T,                    QSL_PlotTime,       PLOT_TIME_VIDEO_LENGTH);
-    Populate_CB_Single(ui->comboBox_Res_Heat_Mode,                              QSL_HeatmapTypes,   HEAT_SPEED_LINEAR);
-    Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatType,                   QSL_DataTypes,      DATA_TYPE_ANGLE);
+    Populate_CB_Single(ui->comboBox_Proc_Step,                                  QSL_ProcSteps,              STEP_LOAD);
+    Populate_CB_Single(ui->comboBox_Res_Type,                                   QSL_ResTypes,               RES_GRAPHICS_TIME_SUM_PROJ);
+    Populate_CB_Single(ui->comboBox_Res_MovAv_Background,                       QSL_Background,             BACKGR_PROJECTION);
+    Populate_CB_Single(ui->comboBox_Res_MovAv_TimeWindow,                       QSL_TimeWindow,             TIME_WINDOW_FULL_VIDEO);
+    Populate_CB_Single(ui->comboBox_Res_PlotLine_FixRange_T,                    QSL_PlotTime,               PLOT_TIME_VIDEO_LENGTH);
+    Populate_CB_Single(ui->comboBox_Res_Heat_Mode,                              QSL_HeatmapTypes,           HEAT_SPEED_LINEAR);
+    Populate_CB_Single(ui->comboBox_Res_FieldSumary_StatType,                   QSL_DataTypes,              DATA_TYPE_ANGLE);
+    Populate_CB_Single(ui->comboBox_Res_FieldSumary_WeightType,                 QSL_FieldSummaryWeights,    FIELD_SUMMARY_WEIGHT_1);
 
     //stats
     Populate_CB_Single(ui->comboBox_Res_VectorFieldParam_Length_Value,          QSL_StatList,       c_STAT_MEAN_ARITMETIC);

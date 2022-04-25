@@ -492,6 +492,17 @@ private:
         "Overview New"
     };
 
+    enum FIELD_SUMMARY_WEIGHTS {
+        FIELD_SUMMARY_WEIGHT_1,
+        FIELD_SUMMARY_WEIGHT_COUNT,
+        FIELD_SUMMARY_WEIGHT_SPEED,
+        FIELD_SUMMARY_WEIGHT_NUMBER_OF
+    };
+    const QStringList QSL_FieldSummaryWeights = {
+        "1",
+        "Count",
+        "Speed"
+    };
 };
 
 #endif // D_MAKRO_CILIASPHERETRACKER_H

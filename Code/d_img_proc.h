@@ -404,6 +404,7 @@ public:
     static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value);
     static int      Draw_Grid                   (Mat *pMA_Target, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b);
     static int      Draw_Grid                   (Mat *pMA_Target, vector<vector<double>> vvNumbers_xy, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b);
+    static int      Draw_Grid                   (Mat *pMA_Target, vector<vector<vector<QString> > > vvvTexts_xyl, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b);
     static int      Draw_Boundaries             (Mat *pMA_Target, int width = 1, int val = 255);
     static int      Draw_Circle                 (Mat *pMA_Out, Mat *pMA_In, int x, int y, int r, int val = 255, int thickness = 1, bool filled = false);
     static int      Draw_Circle                 (Mat *pMA_Target, int x, int y, int r, int val, int thickness = 1, bool filled = false);

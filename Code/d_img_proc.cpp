@@ -18045,6 +18045,100 @@ int D_Img_Proc::Draw_Grid(Mat *pMA_Target, vector<vector<double> > vvNumbers_xy,
     return ER_okay;
 }
 
+int D_Img_Proc::Draw_Grid(Mat *pMA_Target, vector<vector<vector<QString>>> vvvTexts_xyl, int nx, int ny, bool lines_add, int grid_thickness, bool label_add, int label_thickness, double label_scale, double value_r, double value_g, double value_b)
+{
+    if(pMA_Target->empty())                                                 return ER_empty;
+    if(grid_thickness < 1)                                                  return ER_parameter_bad;
+    if(label_thickness < 1)                                                 return ER_parameter_bad;
+    if(label_scale <= 0)                                                    return ER_parameter_bad;
+    if(pMA_Target->depth() != CV_8U)                                        return ER_bitdepth_bad;
+    if(pMA_Target->channels() != 3)                                         return ER_channel_bad;
+    if(nx <= 0)                                                             return ER_parameter_bad;
+    if(nx != vvvTexts_xyl.size())                                           return ER_size_missmatch;
+    if(ny <= 0)                                                             return ER_parameter_bad;
+    for(int ix = 0; ix < nx; ix++)
+        if(ny != vvvTexts_xyl[ix].size())                                   return ER_size_missmatch;
+
+    //size
+    double w = pMA_Target->cols;
+    double h = pMA_Target->rows;
+
+    if(w < nx)                                                              return ER_parameter_bad;
+    if(h < ny)                                                              return ER_parameter_bad;
+
+    //grid
+    if(lines_add)
+    {
+        //vertical lines
+        for(int ix = 1; ix < nx; ix++)
+        {
+            int x = static_cast<int>((static_cast<double>(ix) / nx) * w);
+            Draw_Line(
+                        pMA_Target,
+                        x, 0,
+                        x, static_cast<unsigned int>(h-1),
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+
+        //horizontal lines
+        for(int iy = 1; iy < ny; iy++)
+        {
+            int y = static_cast<int>((static_cast<double>(iy) / ny) * h);
+            Draw_Line(
+                        pMA_Target,
+                        0, y,
+                        static_cast<unsigned int>(w-1), y,
+                        grid_thickness,
+                        value_r,
+                        value_g,
+                        value_b);
+        }
+    }
+
+    //labels
+    if(label_add)
+    {
+        //vertical lines
+        for(int iy = 0; iy < ny; iy++)
+        {
+            //text area min/max
+            int y_min   = int((double(iy    ) / double(ny)) * h) + 3 * grid_thickness;
+            int y_max   = int((double(iy + 1) / double(ny)) * h) - 3 * grid_thickness;
+            int y_range = y_max - y_min;
+
+            for(int ix = 0; ix < nx; ix++)
+            {
+                //pos for number offset
+                int x = static_cast<int>((static_cast<double>(ix) / nx) * w) + 2 * grid_thickness;
+
+                //number of lines
+                size_t nl = vvvTexts_xyl[ix][iy].size();
+                for(size_t l = 0; l < nl; l++)
+                {
+                    int y = int((double(l + 1) / double(nl + 1)) * y_range) + y_min;
+
+                    Draw_Text(
+                                pMA_Target,
+                                vvvTexts_xyl[ix][iy][l],
+                                x,
+                                y,
+                                label_thickness,
+                                label_scale,
+                                value_r,
+                                value_g,
+                                value_b);
+                }
+            }
+        }
+    }
+
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Draw_Boundaries(Mat *pMA_Target, int width, int val)
 {
     if(pMA_Target->empty())             return ER_empty;
