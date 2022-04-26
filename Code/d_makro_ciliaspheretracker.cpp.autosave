@@ -3538,7 +3538,7 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
                 "Chaos 10x8 n>1000 n " + QString::number(chaos_10x8_wCount * 100.0, 'g', 4) + "%\n"
                 "Chaos 10x8 n>1000 v " + QString::number(chaos_10x8_wSpeed * 100.0, 'g', 4) + "%",
                 x_4elem_3l, x_4elem_3r, y_text_t, y_text_b,
-                10,
+                9,
                 Qt::AlignCenter);
 
     //Graphics (again)---------------------------------------------------------------

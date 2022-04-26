@@ -240,7 +240,7 @@ private:
     QDir                                DIR_SaveStackGraphics;
     QDir                                DIR_SaveStackGraphics_Heatmap;
     QDir                                DIR_SaveStackGraphics_Vortex;
-    QDir                                DIR_SaveStackGraphics_MovementsCount;
+    QDir                                DIR_SaveStackGraphics_Chaos;
     QDir                                DIR_SaveStackGraphics_Vector;
     QDir                                DIR_SaveStackGraphics_Angle;
     QDir                                DIR_SaveStackGraphics_Speed;
@@ -253,6 +253,7 @@ private:
     QDir                                DIR_SaveStackOverview;
     QDir                                DIR_SaveSingles;
     QDir                                DIR_SaveCurrent;
+    QDir                                DIR_SaveCurrentTables;
     QDir                                DIR_SaveCurrentGraphics;
     QDir                                DIR_SaveCurrentPlot;
 
