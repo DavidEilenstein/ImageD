@@ -30,11 +30,11 @@ void D_Contour::set_contour(vector<Point> contour)
     state_contour_set = true;
 }
 
-vector<Point> D_Contour::contour(Point PO)
+vector<Point> D_Contour::contour(Point P_Offset)
 {
     vector<Point> vContourWithOffset(m_contour_points.size());
     for(size_t i = 0; i < m_contour_points.size(); i++)
-        vContourWithOffset[i] = m_contour_points[i] + PO;
+        vContourWithOffset[i] = m_contour_points[i] + P_Offset;
 
     return vContourWithOffset;
 }

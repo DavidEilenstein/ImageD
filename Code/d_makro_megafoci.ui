@@ -12244,7 +12244,120 @@ color: red;</string>
                      </item>
                     </layout>
                    </widget>
-                   <widget class="QWidget" name="page_MS6_ResType_Params_NucLifeImg"/>
+                   <widget class="QWidget" name="page_MS6_ResType_Params_NucLifeImg">
+                    <layout class="QGridLayout" name="gridLayout_142">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>3</number>
+                     </property>
+                     <item row="2" column="0">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_ContourThickness">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string>px</string>
+                       </property>
+                       <property name="prefix">
+                        <string>contour thickness = </string>
+                       </property>
+                       <property name="maximum">
+                        <number>10</number>
+                       </property>
+                       <property name="value">
+                        <number>2</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0" colspan="4">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_NucLife">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string/>
+                       </property>
+                       <property name="prefix">
+                        <string>nucleus life index = </string>
+                       </property>
+                       <property name="maximum">
+                        <number>999999999</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextHeight">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string>px</string>
+                       </property>
+                       <property name="prefix">
+                        <string>line height = </string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>99</number>
+                       </property>
+                       <property name="value">
+                        <number>20</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="3">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_NucLifeImg_TextScale">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>text scale = </string>
+                       </property>
+                       <property name="suffix">
+                        <string>%</string>
+                       </property>
+                       <property name="decimals">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <double>100.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>40.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="2">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextThickness">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string>px</string>
+                       </property>
+                       <property name="prefix">
+                        <string>text thickness = </string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -13781,7 +13894,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1667</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

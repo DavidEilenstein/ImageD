@@ -16867,12 +16867,11 @@ int D_Img_Proc::Hysteresis(Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hyst
         MA_tmp_Labels.release();
         return ER;
     }
-
-    return ER_okay;
 }
 
 int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int thickness, double scale, int line_height)
 {
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "start";
     size_t n_img = pvMA_In->size();
     if(n_img <= 0)                                  return ER_empty;
     if(vvQS_LabelText_Img_Line.size() != n_img)     return ER_size_missmatch;
@@ -16886,6 +16885,8 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
         if(vvQS_LabelText_Img_Line[i].size() != n_lines)
             return ER_size_missmatch;
 
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "error checks passed";
+
     //calc out size
     int w_max = 0;
     int h_max = 0;
@@ -16895,11 +16896,13 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
         int h = (*pvMA_In)[i].rows;
 
         if(w > w_max)
-            w = w_max;
+            w_max = w;
 
         if(h > h_max)
-            h = h_max;
+            h_max = h;
     }
+
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "out sized calced w/h max" << w_max << h_max;
 
     //max
     double max_all = -INFINITY;
@@ -16921,6 +16924,8 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
     if((*pvMA_In)[0].depth() == CV_8U)
         max_all = 255;
 
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "calced max" << max_all;
+
     //img out
     int w_out = w_max * n_img;
     int h_out = h_max + n_lines * line_height;
@@ -16929,6 +16934,8 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
                 w_out,
                 (*pvMA_In)[0].type(),
                 Scalar_EqualInAllChannels((*pvMA_In)[0].channels(), max_all));
+
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "init img out";
 
     //insert imgs
     for(size_t i = 0; i < n_img; i++)
@@ -16942,6 +16949,8 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
             return err;
     }
 
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "inserted imgs";
+
     //write text
     for(size_t i = 0; i < n_img; i++)
         for(size_t l = 0; l < n_lines; l++)
@@ -16950,7 +16959,7 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
                         pMA_Out,
                         vvQS_LabelText_Img_Line[i][l],
                         i * w_max,
-                        l * line_height,
+                        (l + 1) * line_height,
                         thickness,
                         scale,
                         0);
@@ -16958,6 +16967,9 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
                 return err;
         }
 
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "wrote texts";
+
+    qDebug() << "D_Img_Proc::ImgStackToRow" << "end";
     return ER_okay;
 }
 
@@ -19132,36 +19144,40 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat
 
     //R
     Mat MA_tmp_R;
-    err = Draw_ContourCrop(pMA_Out, pMA_In_R, vContour, line_thickness, R);
+    err = Draw_ContourCrop(&MA_tmp_R, pMA_In_R, vContour, line_thickness, R);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
+        qDebug() << "D_Img_Proc::Draw_ContourCrop" << "Failed croping R";
         return err;
     }
 
     //G
     Mat MA_tmp_G;
-    err = Draw_ContourCrop(pMA_Out, pMA_In_G, vContour, line_thickness, G);
+    err = Draw_ContourCrop(&MA_tmp_G, pMA_In_G, vContour, line_thickness, G);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
         MA_tmp_G.release();
+        qDebug() << "D_Img_Proc::Draw_ContourCrop" << "Failed croping G";
         return err;
     }
 
     //B
     Mat MA_tmp_B;
-    err = Draw_ContourCrop(pMA_Out, pMA_In_B, vContour, line_thickness, B);
+    err = Draw_ContourCrop(&MA_tmp_B, pMA_In_B, vContour, line_thickness, B);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
         MA_tmp_G.release();
         MA_tmp_B.release();
+        qDebug() << "D_Img_Proc::Draw_ContourCrop" << "Failed croping B";
         return err;
     }
 
     //merge
-    err = Merge(pMA_Out, &MA_tmp_B, &MA_tmp_G, &MA_tmp_R);
+    err = Merge(pMA_Out, &MA_tmp_R, &MA_tmp_G, &MA_tmp_B);
+    //qDebug() << "D_Img_Proc::Draw_ContourCrop" << "croped img size x/y" << pMA_Out->cols << pMA_Out->rows;
 
     //clear and return
     MA_tmp_R.release();
@@ -19176,6 +19192,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vConto
     int err;
 
     D_Contour C(vContour);
+    //qDebug() << "D_Img_Proc::Draw_ContourCrop" << "Countour l/t/w/h" << C.l() << C.t() << C.w() << C.h();
 
     //crop
     err = Crop_Rect_Abs(
@@ -19187,6 +19204,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vConto
                 C.h());
     if(err != ER_okay)
         return err;
+    //qDebug() << "D_Img_Proc::Draw_ContourCrop" << "croped img size x/y" << pMA_Out->cols << pMA_Out->rows;
 
     //draw
     err = Draw_Contour(

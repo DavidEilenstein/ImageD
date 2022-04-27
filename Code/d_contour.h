@@ -46,7 +46,7 @@ public:
     void                set_contour(vector<Point> contour);
 
     vector<Point>       contour()                               {return m_contour_points;}
-    vector<Point>       contour(Point PO);
+    vector<Point>       contour(Point P_Offset);
     QString             contour_string();
 
     int                 l();

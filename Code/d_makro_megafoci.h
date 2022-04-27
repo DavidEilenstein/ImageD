@@ -1528,6 +1528,8 @@ private slots:
 
     void on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1);
 
+    void on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueChanged(int arg1);
+
 private:
 
     //Data

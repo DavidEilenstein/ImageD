@@ -10132,7 +10132,7 @@ QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Axis(size_t i_axis)
 
 void D_MAKRO_MegaFoci::MS6_Update_Results()
 {
-    qDebug() << "MS6_Update_Results--------------------------------------------------------------";
+    //qDebug() << "MS6_Update_Results--------------------------------------------------------------";
 
     switch (ui->comboBox_MS6_ResultTypes->currentIndex())
     {
@@ -10447,28 +10447,40 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return;
 
-    //CONTINUE HERE DEBUGGING
-
-    //adapt ui (set max
+    //adapt ui (set max)
     size_t nl = MS6_NucPedigree_Results.get_NucleusLifesCount(true);
-    //set max
+    if(nl <= 0)
+    {
+        ERR(ER_empty, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "No nucleus lifes");
+        return;
+    }
+    ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->setMaximum(nl - 1);
 
     //get params
-    size_t l = 0;
-    size_t contour_thickness = 2;
+    size_t l = ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->value();
+    size_t contour_thickness = ui->spinBox_MS6_ResType_Params_NucLifeImg_ContourThickness->value();
     uchar contour_value = 255;
-    size_t text_thickness = 1;
-    double text_scale = 1.0;
-    size_t text_height = 1;
+    size_t text_thickness = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextThickness->value();
+    double text_scale = ui->doubleSpinBox_MS6_ResType_Params_NucLifeImg_TextScale->value() / 100.0;
+    size_t text_height = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextHeight->value();
     double mosaic_scale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
 
     //nuc life
     D_Bio_NucleusLife* pNucLife = MS6_NucPedigree_Results.get_pNucleusLife(l, true);
     if(pNucLife == nullptr)
+    {
+        ERR(ER_empty, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "pNucLife == nullptr");
         return;
+    }
 
     //img stack (blobs) and texts
     size_t nb = pNucLife->members_count();
+    if(nb <= 0)
+    {
+        ERR(ER_empty, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "No nucleus blobs in nucleus life");
+        return;
+    }
+
     vector<vector<QString>> vvQS_Texts(nb, vector<QString>(3));
     vector<Mat> vMA_Cropped(nb);
     for(size_t b = 0; b < nb; b++)
@@ -10486,12 +10498,16 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
                     contour_thickness,
                     contour_value, contour_value, contour_value);
         if(err != ER_okay)
+        {
+            ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop");
             return;
+        }
+        //qDebug() << "croped img size x/y" << vMA_Cropped[b].cols << vMA_Cropped[b].rows;
 
         //texts
         vvQS_Texts[b][0] = "T=" + QString::number(t);
-        vvQS_Texts[b][1] = "Y=" + QString::number(pNuc->centroid().y);
-        vvQS_Texts[b][2] = "X=" + QString::number(pNuc->centroid().x);
+        vvQS_Texts[b][1] = "Y=" + QString::number(int(pNuc->centroid().y));
+        vvQS_Texts[b][2] = "X=" + QString::number(int(pNuc->centroid().x));
     }
 
     //merge stack to out img
@@ -10503,7 +10519,10 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
                 text_scale,
                 text_height);
     if(err != ER_okay)
+    {
+        ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::ImgStackToRow");
         return;
+    }
 
     //show
     MS6_Viewer_Img_2D.Update_Image(&MS6_ResultImgShow);
@@ -10611,6 +10630,11 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveAnalysis_clicked()
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1)
+{
+    MS6_Update_Results();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueChanged(int arg1)
 {
     MS6_Update_Results();
 }
