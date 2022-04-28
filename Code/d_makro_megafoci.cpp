@@ -10457,13 +10457,33 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
     ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->setMaximum(nl - 1);
 
     //get params
-    size_t l = ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->value();
-    size_t contour_thickness = ui->spinBox_MS6_ResType_Params_NucLifeImg_ContourThickness->value();
-    uchar contour_value = 255;
-    size_t text_thickness = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextThickness->value();
-    double text_scale = ui->doubleSpinBox_MS6_ResType_Params_NucLifeImg_TextScale->value() / 100.0;
-    size_t text_height = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextHeight->value();
-    double mosaic_scale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+    size_t l                    = ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->value();
+    double scale_px2um          = ui->doubleSpinBox_MS6_Scale_px2um->value();
+    double scale_t2h            = ui->doubleSpinBox_MS6_Scale_T2h->value();
+
+    bool use_R                  = ui->checkBox_MS6_ResType_Params_NucLifeImg_R->isChecked();
+    bool use_G                  = ui->checkBox_MS6_ResType_Params_NucLifeImg_G->isChecked();
+    bool use_B                  = ui->checkBox_MS6_ResType_Params_NucLifeImg_B->isChecked();
+    size_t frame_thickness      = ui->spinBox_MS6_ResType_Params_NucLifeImg_FrameThickness->value();
+    size_t contour_thickness    = ui->spinBox_MS6_ResType_Params_NucLifeImg_ContourThickness->value();
+    uchar contour_value         = 255;
+
+    size_t text_thickness       = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextThickness->value();
+    double text_scale           = ui->doubleSpinBox_MS6_ResType_Params_NucLifeImg_TextScale->value() / 100.0;
+    size_t text_height          = ui->spinBox_MS6_ResType_Params_NucLifeImg_TextHeight->value();
+    double mosaic_scale         = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+
+    bool text_time              = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_Time->isChecked();
+    bool text_pos               = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_Position->isChecked();
+    bool text_spatial           = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_SizeShift->isChecked();
+    bool text_foci              = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_Foci->isChecked();
+
+    //line counts for texts
+    size_t line_count_time      = text_time     ? 3 + 1 : 0;
+    size_t line_count_pos       = text_pos      ? 2 + 1 : 0;
+    size_t line_count_spatial   = text_spatial  ? 2 + 1 : 0;
+    size_t line_count_foci      = text_foci     ? 2 + 1 : 0;
+    size_t line_count_all       = line_count_time + line_count_pos + line_count_spatial + line_count_foci;
 
     //nuc life
     D_Bio_NucleusLife* pNucLife = MS6_NucPedigree_Results.get_pNucleusLife(l, true);
@@ -10481,34 +10501,108 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
         return;
     }
 
-    vector<vector<QString>> vvQS_Texts(nb, vector<QString>(3));
-    vector<Mat> vMA_Cropped(nb);
-    for(size_t b = 0; b < nb; b++)
+    //age
+    size_t t_first = pNucLife->pNuc_member(0)->time_index();
+    size_t t_last = pNucLife->pNuc_member(nb - 1)->time_index();
+    size_t nt = t_last - t_first + 1;
+
+    Mat MA_tmp_MosaicSizedBlack = Mat::zeros(vv_MS6_Mosaics_CT[0][0].size(), vv_MS6_Mosaics_CT[0][0].type());
+    vector<vector<QString>> vvQS_Texts(nt, vector<QString>(line_count_all));
+    vector<Mat> vMA_Cropped(nt);
+    for(size_t it = 0; it < nt; it++)
     {
-        D_Bio_NucleusBlob* pNuc = pNucLife->pNuc_member(b);
-        size_t t = pNuc->time_index();
+        size_t t_tuc = t_first + it;
+        D_Bio_NucleusBlob* pNuc = pNucLife->pNuc_member_byTime(t_tuc);
 
-        //img and contour
-        int err = D_Img_Proc::Draw_ContourCrop(
-                    &(vMA_Cropped[b]),
-                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_RFP][t]),
-                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_GFP][t]),
-                    &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_DIC][t]),
-                    pNuc->contour(mosaic_scale, Point(0, 0)),
-                    contour_thickness,
-                    contour_value, contour_value, contour_value);
-        if(err != ER_okay)
+        if(pNuc == nullptr)
         {
-            ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop");
-            return;
-        }
-        //qDebug() << "croped img size x/y" << vMA_Cropped[b].cols << vMA_Cropped[b].rows;
+            //img
+            vMA_Cropped[it] = Mat::zeros(1, 1, D_Img_Proc::TypeIndex_of_Mat(3, vv_MS6_Mosaics_CT[0][0].depth()));
 
-        //texts
-        vvQS_Texts[b][0] = "T=" + QString::number(t);
-        vvQS_Texts[b][1] = "Y=" + QString::number(int(pNuc->centroid().y));
-        vvQS_Texts[b][2] = "X=" + QString::number(int(pNuc->centroid().x));
+            //text
+            if(line_count_all > 0)
+                vvQS_Texts[it][0] = "???";
+        }
+        else
+        {
+            //img and contour
+            int err = D_Img_Proc::Draw_ContourCrop(
+                        &(vMA_Cropped[it]),
+                        use_B ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_RFP][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                        use_G ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_GFP][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                        use_R ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_DIC][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                        pNuc->contour(mosaic_scale, Point(0, 0)),
+                        contour_thickness,
+                        contour_value, contour_value, contour_value);
+            if(err != ER_okay)
+            {
+                ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop");
+                return;
+            }
+            //qDebug() << "croped img size x/y" << vMA_Cropped[b].cols << vMA_Cropped[b].rows;
+
+            //texts
+            int line = 0;
+
+            if(text_time)
+            {
+                vvQS_Texts[it][line] = "age=" + QString::number(int(pNuc->attribute(ATTRIB_NUC_TIME_AGE_PAST, 0, scale_px2um))) + "h";
+                line++;
+
+                vvQS_Texts[it][line] = "t=" + QString::number(t_tuc * scale_t2h, 'g', 2) + "h";
+                line++;
+
+                double t_irr_diff = pNuc->attribute(ATTRIB_NUC_TIME_DIFF_TO_IRRADIATION, 0, scale_px2um);
+                if(abs(t_irr_diff) <= 0.5)
+                    vvQS_Texts[it][line] = "bzzzt";
+                else
+                    vvQS_Texts[it][line] = "(" + QString::number(int(t_irr_diff * 10) / 10.0) + "h)";
+                line++;
+
+                line++;
+            }
+
+            if(text_pos)
+            {
+                vvQS_Texts[it][line] = "x=" + QString::number(int(pNuc->centroid().x)) + "px";
+                line++;
+
+                vvQS_Texts[it][line] = "y=" + QString::number(int(pNuc->centroid().y)) + "px";
+                line++;
+
+                line++;
+            }
+
+            if(text_spatial)
+            {
+                vvQS_Texts[it][line] = QString::number(int(pNuc->attribute(ATTRIB_NUC_AREA_UM, 0, scale_px2um))) + "um^2";
+                line++;
+
+                vvQS_Texts[it][line] = "s=" + QString::number(int(pNuc->attribute(ATTRIB_NUC_SHIFT_UM, 0, scale_px2um))) + "um";
+                line++;
+
+                line++;
+            }
+
+            if(text_foci)
+            {
+                if(MS6_QSL_Channels_Foci.size() >= 1)
+                {
+                    vvQS_Texts[it][line] = MS6_QSL_Channels_Foci[0] + ": " + QString::number(pNuc->get_FociCount(0));
+                    line++;
+                }
+
+                if(MS6_QSL_Channels_Foci.size() >= 2)
+                {
+                    vvQS_Texts[it][line] = MS6_QSL_Channels_Foci[1] + ": " + QString::number(pNuc->get_FociCount(1));
+                    line++;
+                }
+
+                line++;
+            }
+        }
     }
+    MA_tmp_MosaicSizedBlack.release();
 
     //merge stack to out img
     int err = D_Img_Proc::ImgStackToRow(
@@ -10517,7 +10611,8 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
                 vvQS_Texts,
                 text_thickness,
                 text_scale,
-                text_height);
+                text_height,
+                frame_thickness);
     if(err != ER_okay)
     {
         ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::ImgStackToRow");

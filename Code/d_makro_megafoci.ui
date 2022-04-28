@@ -11395,7 +11395,7 @@ color: red;</string>
                  <double>51.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>24.000000000000000</double>
+                 <double>27.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -12261,7 +12261,23 @@ color: red;</string>
                      <property name="spacing">
                       <number>3</number>
                      </property>
-                     <item row="2" column="0">
+                     <item row="0" column="0">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_NucLife">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string/>
+                       </property>
+                       <property name="prefix">
+                        <string>nucleus life index = </string>
+                       </property>
+                       <property name="maximum">
+                        <number>999999999</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
                       <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_ContourThickness">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
@@ -12280,23 +12296,54 @@ color: red;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="0" colspan="4">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_NucLife">
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_FrameThickness">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
                        </property>
                        <property name="suffix">
-                        <string/>
+                        <string>px</string>
                        </property>
                        <property name="prefix">
-                        <string>nucleus life index = </string>
+                        <string>frame thickness = </string>
                        </property>
-                       <property name="maximum">
-                        <number>999999999</number>
+                       <property name="value">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="1">
+                     <item row="1" column="2">
+                      <layout class="QGridLayout" name="gridLayout_143">
+                       <item row="0" column="0">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_R">
+                         <property name="text">
+                          <string>R</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_G">
+                         <property name="text">
+                          <string>G</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="2">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_B">
+                         <property name="text">
+                          <string>B</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="2" column="0">
                       <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextHeight">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
@@ -12314,11 +12361,27 @@ color: red;</string>
                         <number>99</number>
                        </property>
                        <property name="value">
-                        <number>20</number>
+                        <number>15</number>
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="3">
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextThickness">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string>px</string>
+                       </property>
+                       <property name="prefix">
+                        <string>text thickness = </string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="2">
                       <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_ResType_Params_NucLifeImg_TextScale">
                        <property name="buttonSymbols">
                         <enum>QAbstractSpinBox::NoButtons</enum>
@@ -12336,25 +12399,73 @@ color: red;</string>
                         <double>100.000000000000000</double>
                        </property>
                        <property name="value">
-                        <double>40.000000000000000</double>
+                        <double>35.000000000000000</double>
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="2">
-                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextThickness">
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string>px</string>
-                       </property>
-                       <property name="prefix">
-                        <string>text thickness = </string>
-                       </property>
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                      </widget>
+                     <item row="0" column="1" colspan="2">
+                      <layout class="QGridLayout" name="gridLayout_144">
+                       <item row="0" column="2">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Position">
+                         <property name="text">
+                          <string>Position</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="3">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_SizeShift">
+                         <property name="text">
+                          <string>Size/Shift</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="4">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Foci">
+                         <property name="text">
+                          <string>Foci</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Time">
+                         <property name="text">
+                          <string>Time</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="5">
+                        <spacer name="horizontalSpacer_5">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QLabel" name="label_154">
+                         <property name="text">
+                          <string>Info:</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
                    </widget>

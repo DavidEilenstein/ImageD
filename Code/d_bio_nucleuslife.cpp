@@ -41,30 +41,51 @@ bool D_Bio_NucleusLife::add_Member(D_Bio_NucleusBlob nuc)
     else
     {
         //nuc count added previously
-        size_t n = vNucMembers.size();
+        size_t n_old = vNucMembers.size();
 
         //time index
         size_t t_add = nuc.time_index();
-        if(t_add < time_index_earliest)     time_index_earliest = t_add;
-        if(t_add > time_index_latest)       time_index_latest = t_add;
 
-        //find pos to add new nuc
-        for(size_t i = 0; i < n; i++)
+        //add front/end/mid
+        if(t_add < time_index_earliest)
         {
-            size_t t_pos = vNucMembers[i].time_index();
-
-            if(t_add == t_pos)
-                return false;
-
-            if(t_add < t_pos || i == n - 1)
+            time_index_earliest = t_add;
+            vNucMembers.insert(vNucMembers.begin(), nuc);
+        }
+        else if (t_add > time_index_latest)
+        {
+            time_index_latest = t_add;
+            vNucMembers.push_back(nuc);
+        }
+        else
+        {
+            //find pos to add new nuc
+            for(size_t i = 0; i < n_old; i++)
             {
-                vNucMembers.insert(vNucMembers.begin() + i, nuc);
-                return true;
+                size_t t_pos = vNucMembers[i].time_index();
+
+                if(t_add == t_pos)
+                    return false;
+
+                if(t_add < t_pos || i == n_old - 1)
+                {
+                    vNucMembers.insert(vNucMembers.begin() + i, nuc);
+                    return true;
+                }
             }
         }
     }
 
     return false; //should never happen
+}
+
+D_Bio_NucleusBlob *D_Bio_NucleusLife::pNuc_member_byTime(size_t t)
+{
+    for(size_t b = 0; b < vNucMembers.size(); b++)
+        if(vNucMembers[b].time_index() == t)
+            return &(vNucMembers[b]);
+
+    return nullptr;
 }
 
 D_Bio_Focus *D_Bio_NucleusLife::pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc)

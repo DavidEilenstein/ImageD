@@ -16869,9 +16869,9 @@ int D_Img_Proc::Hysteresis(Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hyst
     }
 }
 
-int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int thickness, double scale, int line_height)
+int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int text_thickness, double text_scale, int line_height, int frame_thickness)
 {
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "start";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "start";
     size_t n_img = pvMA_In->size();
     if(n_img <= 0)                                  return ER_empty;
     if(vvQS_LabelText_Img_Line.size() != n_img)     return ER_size_missmatch;
@@ -16885,7 +16885,7 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
         if(vvQS_LabelText_Img_Line[i].size() != n_lines)
             return ER_size_missmatch;
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "error checks passed";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "error checks passed";
 
     //calc out size
     int w_max = 0;
@@ -16902,7 +16902,7 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
             h_max = h;
     }
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "out sized calced w/h max" << w_max << h_max;
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "out sized calced w/h max" << w_max << h_max;
 
     //max
     double max_all = -INFINITY;
@@ -16924,18 +16924,33 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
     if((*pvMA_In)[0].depth() == CV_8U)
         max_all = 255;
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "calced max" << max_all;
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "calced max" << max_all;
 
     //img out
-    int w_out = w_max * n_img;
-    int h_out = h_max + n_lines * line_height;
+    int w_out = frame_thickness * 3 * (n_img + 1) +  w_max * n_img;
+    int h_out = frame_thickness * 7 + h_max + n_lines * line_height;
     *pMA_Out = Mat(
                 h_out,
                 w_out,
                 (*pvMA_In)[0].type(),
                 Scalar_EqualInAllChannels((*pvMA_In)[0].channels(), max_all));
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "init img out";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "init img out";
+
+    //draw frames
+    for(size_t i = 0; i < n_img; i++)
+    {
+        int err = Draw_Rect(
+                    pMA_Out,
+                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * i,
+                    uint(frame_thickness * 1.5),
+                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * (i + 1),
+                    h_out - 1 - uint(frame_thickness * 1.5),
+                    frame_thickness,
+                    0);
+        if(err != ER_okay)
+            return err;
+    }
 
     //insert imgs
     for(size_t i = 0; i < n_img; i++)
@@ -16943,13 +16958,13 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
         int err = Insert(
                     pMA_Out,
                     &((*pvMA_In)[i]),
-                    i * w_max,
-                    n_lines * line_height);
+                    (frame_thickness * 3 * (i + 1)) + (i * w_max) + (w_max - (*pvMA_In)[i].cols)/2,
+                    (frame_thickness * 4) + (n_lines * line_height) + (h_max - (*pvMA_In)[i].rows)/2);
         if(err != ER_okay)
             return err;
     }
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "inserted imgs";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "inserted imgs";
 
     //write text
     for(size_t i = 0; i < n_img; i++)
@@ -16958,18 +16973,18 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
             int err = Draw_Text(
                         pMA_Out,
                         vvQS_LabelText_Img_Line[i][l],
-                        i * w_max,
-                        (l + 1) * line_height,
-                        thickness,
-                        scale,
+                        (frame_thickness * 3 * (i + 1)) + (i * w_max),
+                        (frame_thickness * 3) + ((l + 1) * line_height),
+                        text_thickness,
+                        text_scale,
                         0);
             if(err != ER_okay)
                 return err;
         }
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "wrote texts";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "wrote texts";
 
-    qDebug() << "D_Img_Proc::ImgStackToRow" << "end";
+    //qDebug() << "D_Img_Proc::ImgStackToRow" << "end";
     return ER_okay;
 }
 
@@ -16982,7 +16997,7 @@ int D_Img_Proc::Draw_Dot(Mat *pMA_Target, int x, int y, int d, uchar val)
                 *pMA_Target,
                 Point(x, y),
                 Point(x, y),
-                Scalar((uchar) val),
+                Scalar(uchar(val)),
                 max(1, d),
                 8);
 
@@ -19198,10 +19213,10 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vConto
     err = Crop_Rect_Abs(
                 pMA_Out,
                 pMA_In,
-                C.l(),
-                C.t(),
-                C.w(),
-                C.h());
+                max(0, C.l() - line_thickness),
+                max(0, C.t() - line_thickness),
+                min(pMA_In->cols - 1, C.w() + 2 * line_thickness),
+                min(pMA_In->rows - 1, C.h() + 2 * line_thickness));
     if(err != ER_okay)
         return err;
     //qDebug() << "D_Img_Proc::Draw_ContourCrop" << "croped img size x/y" << pMA_Out->cols << pMA_Out->rows;

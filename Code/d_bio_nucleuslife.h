@@ -97,6 +97,7 @@ public:
     vector<D_Bio_NucleusBlob>       Nuc_members()                   {return vNucMembers;}
     D_Bio_NucleusBlob               Nuc_member(size_t i)            {return i < members_count() ? vNucMembers[i] : D_Bio_NucleusBlob();}
     D_Bio_NucleusBlob*              pNuc_member(size_t i)           {return i < members_count() ? &(vNucMembers[i]) : nullptr;}
+    D_Bio_NucleusBlob*              pNuc_member_byTime(size_t t);
 
     size_t                          members_count()                 {return vNucMembers.size();}
 
