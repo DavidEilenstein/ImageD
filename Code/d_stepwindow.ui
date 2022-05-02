@@ -2718,6 +2718,11 @@
                  <string>4 Image Simple</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Matrix Product</string>
+                </property>
+               </item>
               </widget>
              </item>
             </layout>
@@ -18478,6 +18483,7 @@
                  </item>
                 </layout>
                </widget>
+               <widget class="QWidget" name="page_06_MatMult"/>
               </widget>
              </item>
             </layout>

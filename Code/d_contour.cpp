@@ -18,6 +18,33 @@ D_Contour::D_Contour(vector<Point> contour)
     set_contour(contour);
 }
 
+D_Contour::D_Contour(Rect box)
+{
+    vector<Point> vContour;
+
+    size_t bl = box.tl().x;
+    size_t br = box.br().x;
+    size_t bt = box.tl().y;
+    size_t bb = box.br().y;
+
+    size_t x = bl;
+    size_t y = bt;
+
+    for(x = bl; x < br - 1; x++)
+        vContour.push_back(Point(x, y));
+
+    for(y = bt; y < bb - 1; y++)
+        vContour.push_back(Point(x, y));
+
+    for(x = br; x > bl; x--)
+        vContour.push_back(Point(x, y));
+
+    for(y = bb; y > bt; y--)
+        vContour.push_back(Point(x, y));
+
+    set_contour(vContour);
+}
+
 D_Contour D_Contour::offset(Point PO)
 {
     return D_Contour(contour(PO));
@@ -94,6 +121,18 @@ int D_Contour::t()
         calc_top_bottom();
 
     return m_top;
+}
+
+Rect D_Contour::bounding_box(D_Contour contour_merge)
+{
+    //box corrds
+    int box_t = min(t(), contour_merge.t());
+    int box_b = max(b(), contour_merge.b());
+    int box_l = min(l(), contour_merge.l());
+    int box_r = max(r(), contour_merge.r());
+
+    //box
+    return Rect(box_l, box_t, box_r - box_l, box_b - box_t);
 }
 
 double D_Contour::area()

@@ -178,6 +178,7 @@ public:
     static function<int (Mat *, Mat *, Mat *)>                  Math_2img_Function              (function<double (double x, double y)> function_img1_img2);
     static function<int (Mat *, Mat *, Mat *)>                  Math_2img_Function_8bit         (function<uchar  (double x, double y)> function_img1_img2);
     static function<int (Mat *, Mat *, Mat *)>                  Math_2img_Function_Complex      (function<complex<double> (complex<double> x, complex<double> y)> function_img1_img2);
+    static function<int (Mat *, Mat *, Mat *)>                  Matrix_Product                  ();
 
     static function<int (Mat *, Mat *, Mat *)>                  Transformation_Fourier          (bool complex_input = true, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
     static function<int (Mat *, Mat *, Mat *)>                  Transformation_Watershed        ();

@@ -10478,6 +10478,8 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
     bool text_spatial           = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_SizeShift->isChecked();
     bool text_foci              = ui->checkBox_MS6_ResType_Params_NucLifeImg_Info_Foci->isChecked();
 
+    int maxImgPerRow            = ui->spinBox_MS6_ResType_Params_NucLifeImg_maxImgsPerRow->value();
+
     //line counts for texts
     size_t line_count_time      = text_time     ? 3 + 1 : 0;
     size_t line_count_pos       = text_pos      ? 2 + 1 : 0;
@@ -10516,12 +10518,86 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
 
         if(pNuc == nullptr)
         {
-            //img
-            vMA_Cropped[it] = Mat::zeros(1, 1, D_Img_Proc::TypeIndex_of_Mat(3, vv_MS6_Mosaics_CT[0][0].depth()));
+            D_Contour C_before;
+            D_Contour C_after;
+
+            //seek contour before
+            bool found_b = false;
+            for(int it_b = int(it) - 1; it_b >= 0 && !found_b; it_b--)
+            {
+                size_t t_tuc_b = t_first + it_b;
+                D_Bio_NucleusBlob* pNuc_b = pNucLife->pNuc_member_byTime(t_tuc_b);
+                if(pNuc_b != nullptr)
+                {
+                    found_b = true;
+                    C_before.set_contour(pNuc_b->contour(mosaic_scale, Point(0, 0)));
+                }
+            }
+
+            //seek contour after
+            bool found_a = false;
+            for(int it_a = int(it) + 1; it_a < int(nt) && !found_a; it_a--)
+            {
+                size_t t_tuc_a = t_first + it_a;
+                D_Bio_NucleusBlob* pNuc_a = pNucLife->pNuc_member_byTime(t_tuc_a);
+                if(pNuc_a != nullptr)
+                {
+                    found_a = true;
+                    C_after.set_contour(pNuc_a->contour(mosaic_scale, Point(0, 0)));
+                }
+            }
+
+            //bounding box of merging
+            D_Contour C_box;
+            if(found_a && found_b)
+                C_box = D_Contour(C_before.bounding_box(C_after));
+            else if(found_a)
+                C_box = D_Contour(C_after.bounding_box());
+            else if(found_b)
+                C_box = D_Contour(C_before.bounding_box());
+
+            if(found_a || found_b)
+            {
+                //img and contour
+                int err = D_Img_Proc::Draw_ContourCrop(
+                            &(vMA_Cropped[it]),
+                            use_B ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_RFP][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                            use_G ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_GFP][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                            use_R ? &(vv_MS6_Mosaics_CT[MS6_MOSAIC_CH_DIC][t_tuc]) : &MA_tmp_MosaicSizedBlack,
+                            C_box.contour(),
+                            contour_thickness,
+                            contour_value, contour_value, contour_value,
+                            false);
+                if(err != ER_okay)
+                {
+                    ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop - gap");
+                    return;
+                }
+            }
+            else
+            {
+                //no img (should never happen)
+                vMA_Cropped[it] = Mat::zeros(1, 1, D_Img_Proc::TypeIndex_of_Mat(3, vv_MS6_Mosaics_CT[0][0].depth()));
+            }
 
             //text
-            if(line_count_all > 0)
+            if(line_count_all >= 4)
+            {
+                vvQS_Texts[it][0] = "no";
+                vvQS_Texts[it][1] = "nucleus";
+                vvQS_Texts[it][2] = "found";
+                vvQS_Texts[it][3] = "here";
+            }
+            else if(line_count_all >= 3)
+            {
+                vvQS_Texts[it][0] = "invisible";
+                vvQS_Texts[it][1] = "ninja";
+                vvQS_Texts[it][2] = "nucleus";
+            }
+            else if(line_count_all >= 1)
+            {
                 vvQS_Texts[it][0] = "???";
+            }
         }
         else
         {
@@ -10536,7 +10612,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
                         contour_value, contour_value, contour_value);
             if(err != ER_okay)
             {
-                ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop");
+                ERR(err, "D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg", "D_Img_Proc::Draw_ContourCrop - nuc");
                 return;
             }
             //qDebug() << "croped img size x/y" << vMA_Cropped[b].cols << vMA_Cropped[b].rows;
@@ -10605,10 +10681,11 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
     MA_tmp_MosaicSizedBlack.release();
 
     //merge stack to out img
-    int err = D_Img_Proc::ImgStackToRow(
+    int err = D_Img_Proc::ImgStackToGrid(
                 &MS6_ResultImgShow,
                 &vMA_Cropped,
                 vvQS_Texts,
+                maxImgPerRow,
                 text_thickness,
                 text_scale,
                 text_height,

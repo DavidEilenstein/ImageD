@@ -326,6 +326,8 @@ public:
     static int      Math_Special_IncreaseIfSet  (Mat *pMA_Count, Mat *pMA_Check);
     //old complicated math function names (until here)
 
+    static int      Matrix_Product              (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
+
     static int      Shading_Correct             (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Reference);
 
     static int      Mask                        (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask);
@@ -382,6 +384,7 @@ public:
     static int      Hysteresis                  (Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hysteresis, bool labeling = false);
 
     static int      ImgStackToRow               (Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int text_thickness = 1, double text_scale = 1.0, int line_height = 10, int frame_thickness = 2);
+    static int      ImgStackToGrid              (Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, size_t maxPerRow, int text_thickness = 1, double text_scale = 1.0, int line_height = 10, int frame_thickness = 2);
 
     static int      Draw_Dot                    (Mat *pMA_Target, int x, int y, int d, uchar val);
     static int      Draw_Dots                   (Mat *pMA_Target, vector<Point2f> vCenters, vector<double> vDiameters, uchar val);
@@ -425,8 +428,8 @@ public:
     static int      Draw_Contours               (Mat *pMA_Target, vector<vector<Point>> vContours, int line_thickness, double value);
     static int      Draw_Contour                (Mat *pMA_Target, vector<Point> vContour, int line_thickness, double value);
     static int      Draw_Contour                (Mat *pMA_Target, vector<Point> vContour, int line_thickness, double R, double G, double B);
-    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B);
-    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value);
+    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B, bool draw_contour = true);
+    static int      Draw_ContourCrop            (Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value, bool draw_contour = true);
     static int      Draw_ContourText            (Mat *pMA_Target, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     static int      Draw_ContourText            (Mat *pMA_Out, Mat *pMA_In, vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
     //static int    Draw_Contours               (Mat *pMA_Out, Mat *pMA_In, int thickness = 1, uchar value = 255);

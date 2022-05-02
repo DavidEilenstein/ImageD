@@ -2309,7 +2309,6 @@ void D_StepWindow::Update_Img_Proc()
             }
         }
             break;
-
         case c_sT_MA_4IMG:  //-------------------------------------------------------------------   4Img math
         {
             switch (ui->comboBox_06_4Img_Type->currentIndex()) {
@@ -2383,6 +2382,18 @@ void D_StepWindow::Update_Img_Proc()
             default:
                 break;
             }
+        }
+            break;
+
+        case c_sT_MA_MAT_MULT:  //-------------------------------------------------------------------   matrix multiplcation
+        {
+            ERR(D_VisDat_Proc::Matrix_Product(
+                    SlicingFromUi(),
+                    pStore->get_pVD(pos_Dest),
+                    pStore->get_pVD(pos_Source1),
+                    pStore->get_pVD(pos_Source2)),
+                "Update_Img_Proc",
+                "Matrix_Product");
         }
             break;
 
@@ -6962,6 +6973,10 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
             source_2 = true;
             source_3 = true;
             source_4 = true;
+            break;
+
+        case c_sT_MA_MAT_MULT:
+            source_2 = true;
             break;
 
         default:

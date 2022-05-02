@@ -14055,6 +14055,18 @@ int D_Img_Proc::Math_Special_IncreaseIfSet(Mat *pMA_Count, Mat *pMA_Check)
     return ER_okay;
 }
 
+int D_Img_Proc::Matrix_Product(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)
+{
+    if(pMA_In1->empty())                    return ER_empty;
+    if(pMA_In2->empty())                    return ER_empty;
+    if(pMA_In1->type() != pMA_In2->type())  return ER_type_missmatch;
+    if(pMA_In1->rows != pMA_In2->cols)      return ER_size_missmatch;
+
+    *pMA_Out = *pMA_In1 * *pMA_In2;
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Shading_Correct(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Reference)
 {
     return Math_ImgImg_Div(
@@ -16871,6 +16883,20 @@ int D_Img_Proc::Hysteresis(Mat *pMA_Out, Mat *pMA_In_Indicator, Mat *pMA_In_Hyst
 
 int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString>> vvQS_LabelText_Img_Line, int text_thickness, double text_scale, int line_height, int frame_thickness)
 {
+    size_t maxPerRow = pvMA_In->size();
+    return ImgStackToGrid(
+                pMA_Out,
+                pvMA_In,
+                vvQS_LabelText_Img_Line,
+                maxPerRow,
+                text_thickness,
+                text_scale,
+                line_height,
+                frame_thickness);
+}
+
+int D_Img_Proc::ImgStackToGrid(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<QString> > vvQS_LabelText_Img_Line, size_t maxPerRow, int text_thickness, double text_scale, int line_height, int frame_thickness)
+{
     //qDebug() << "D_Img_Proc::ImgStackToRow" << "start";
     size_t n_img = pvMA_In->size();
     if(n_img <= 0)                                  return ER_empty;
@@ -16884,6 +16910,9 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
     for(size_t i = 0; i < n_img; i++)
         if(vvQS_LabelText_Img_Line[i].size() != n_lines)
             return ER_size_missmatch;
+
+    if(maxPerRow <= 0)
+        return ER_parameter_bad;
 
     //qDebug() << "D_Img_Proc::ImgStackToRow" << "error checks passed";
 
@@ -16926,26 +16955,39 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
 
     //qDebug() << "D_Img_Proc::ImgStackToRow" << "calced max" << max_all;
 
+    //calc rows/cols of imgs in grid
+    size_t n_img_cols = min(maxPerRow, n_img);
+    size_t n_img_rows = size_t(ceil(double(n_img) / double(n_img_cols)));
+
     //img out
-    int w_out = frame_thickness * 3 * (n_img + 1) +  w_max * n_img;
-    int h_out = frame_thickness * 7 + h_max + n_lines * line_height;
+    int w_out = frame_thickness * 3 * (n_img_cols + 1) + w_max * n_img_cols;
+    int h_out = frame_thickness * 3 * (n_img_rows + 1) + (h_max + n_lines * line_height + frame_thickness) * n_img_rows;
     *pMA_Out = Mat(
                 h_out,
                 w_out,
                 (*pvMA_In)[0].type(),
                 Scalar_EqualInAllChannels((*pvMA_In)[0].channels(), max_all));
 
+    /*
+    //draw outer frame (just for debugging)
+    D_Img_Proc::Draw_Rect(pMA_Out,
+                          0, 0,
+                          w_out - 1, h_out - 1,
+                          1, 128);
+                          */
+
     //qDebug() << "D_Img_Proc::ImgStackToRow" << "init img out";
 
     //draw frames
     for(size_t i = 0; i < n_img; i++)
     {
+        size_t ic = i % n_img_cols;
+        size_t ir = i / n_img_cols;
+
         int err = Draw_Rect(
                     pMA_Out,
-                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * i,
-                    uint(frame_thickness * 1.5),
-                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * (i + 1),
-                    h_out - 1 - uint(frame_thickness * 1.5),
+                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * (ic    ),     uint(frame_thickness * 1.5) + (frame_thickness * 4 + h_max + n_lines * line_height) * (ir    ),
+                    uint(frame_thickness * 1.5) + (frame_thickness * 3 + w_max) * (ic + 1),     uint(frame_thickness * 1.5) + (frame_thickness * 4 + h_max + n_lines * line_height) * (ir + 1),
                     frame_thickness,
                     0);
         if(err != ER_okay)
@@ -16955,11 +16997,14 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
     //insert imgs
     for(size_t i = 0; i < n_img; i++)
     {
+        size_t ic = i % n_img_cols;
+        size_t ir = i / n_img_cols;
+
         int err = Insert(
                     pMA_Out,
                     &((*pvMA_In)[i]),
-                    (frame_thickness * 3 * (i + 1)) + (i * w_max) + (w_max - (*pvMA_In)[i].cols)/2,
-                    (frame_thickness * 4) + (n_lines * line_height) + (h_max - (*pvMA_In)[i].rows)/2);
+                    ((ic + 1) * (frame_thickness * 3                        )) + (ic * (w_max)) + (w_max - (*pvMA_In)[i].cols)/2,
+                    ((ir + 1) * (frame_thickness * 4 + n_lines * line_height)) + (ir * (h_max)) + (h_max - (*pvMA_In)[i].rows)/2);
         if(err != ER_okay)
             return err;
     }
@@ -16968,19 +17013,24 @@ int D_Img_Proc::ImgStackToRow(Mat *pMA_Out, vector<Mat> *pvMA_In, vector<vector<
 
     //write text
     for(size_t i = 0; i < n_img; i++)
+    {
         for(size_t l = 0; l < n_lines; l++)
         {
+            size_t ic = i % n_img_cols;
+            size_t ir = i / n_img_cols;
+
             int err = Draw_Text(
                         pMA_Out,
                         vvQS_LabelText_Img_Line[i][l],
-                        (frame_thickness * 3 * (i + 1)) + (i * w_max),
-                        (frame_thickness * 3) + ((l + 1) * line_height),
+                        ((frame_thickness * 3) * (ic + 1)) + (ic * (w_max                        )),
+                        ((frame_thickness * 4) * (ir + 1)) + (ir * (h_max + n_lines * line_height)) + (l + 1) * line_height,
                         text_thickness,
                         text_scale,
                         0);
             if(err != ER_okay)
                 return err;
         }
+    }
 
     //qDebug() << "D_Img_Proc::ImgStackToRow" << "wrote texts";
 
@@ -19142,7 +19192,7 @@ int D_Img_Proc::Draw_Contour(Mat *pMA_Target, vector<Point> vContour, int line_t
     return ER_okay;
 }
 
-int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B)
+int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat *pMA_In_B, vector<Point> vContour, int line_thickness, double R, double G, double B, bool draw_contour)
 {
     //errors
     if(pMA_In_R->empty())                       return ER_empty;
@@ -19159,7 +19209,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat
 
     //R
     Mat MA_tmp_R;
-    err = Draw_ContourCrop(&MA_tmp_R, pMA_In_R, vContour, line_thickness, R);
+    err = Draw_ContourCrop(&MA_tmp_R, pMA_In_R, vContour, line_thickness, R, draw_contour);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
@@ -19169,7 +19219,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat
 
     //G
     Mat MA_tmp_G;
-    err = Draw_ContourCrop(&MA_tmp_G, pMA_In_G, vContour, line_thickness, G);
+    err = Draw_ContourCrop(&MA_tmp_G, pMA_In_G, vContour, line_thickness, G, draw_contour);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
@@ -19180,7 +19230,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat
 
     //B
     Mat MA_tmp_B;
-    err = Draw_ContourCrop(&MA_tmp_B, pMA_In_B, vContour, line_thickness, B);
+    err = Draw_ContourCrop(&MA_tmp_B, pMA_In_B, vContour, line_thickness, B, draw_contour);
     if(err != ER_okay)
     {
         MA_tmp_R.release();
@@ -19201,7 +19251,7 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In_R, Mat *pMA_In_G, Mat
     return err;
 }
 
-int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value)
+int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vContour, int line_thickness, double value, bool draw_contour)
 {
     if(pMA_In->empty())                 return ER_empty;
     int err;
@@ -19221,12 +19271,32 @@ int D_Img_Proc::Draw_ContourCrop(Mat *pMA_Out, Mat *pMA_In, vector<Point> vConto
         return err;
     //qDebug() << "D_Img_Proc::Draw_ContourCrop" << "croped img size x/y" << pMA_Out->cols << pMA_Out->rows;
 
+    /*
+    //draw contour
+    size_t n = C.size();
+    for(size_t i = 1; i < n; i++)
+    {
+        Point P0 = C.point(i - 1, -C.tl());
+        Point P1 = C.point(i    , -C.tl());
+        Draw_Line(
+                    pMA_Out,
+                    P0.x, P0.y,
+                    P1.x, P1.y,
+                    line_thickness,
+                    value);
+    }
+    */
+
     //draw
-    err = Draw_Contour(
-                pMA_Out,
-                C.contour(-C.tl()),
-                line_thickness,
-                value);
+    if(draw_contour && line_thickness > 0)
+    {
+        err = Draw_Contour(
+                    pMA_Out,
+                    C.contour(-C.tl()),
+                    line_thickness,
+                    value);
+    }
+
     return err;
 }
 

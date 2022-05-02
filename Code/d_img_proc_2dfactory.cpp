@@ -1420,6 +1420,18 @@ function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_2img_Function_Com
     };
 }
 
+function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Matrix_Product()
+{
+    return
+            [](Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1)
+    {
+        return D_Img_Proc::Matrix_Product(
+                    pMA_Out,
+                    pMA_In0,
+                    pMA_In1);
+    };
+}
+
 function<int (Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Transformation_Fourier(bool complex_input, bool invers, bool force_fft, bool out_real, int out_complex_mode, bool out_scale, bool out_center, bool out_nof0)
 {
     return

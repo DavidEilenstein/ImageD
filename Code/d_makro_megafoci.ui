@@ -12292,7 +12292,7 @@ color: red;</string>
                         <number>10</number>
                        </property>
                        <property name="value">
-                        <number>2</number>
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -12311,37 +12311,6 @@ color: red;</string>
                         <number>2</number>
                        </property>
                       </widget>
-                     </item>
-                     <item row="1" column="2">
-                      <layout class="QGridLayout" name="gridLayout_143">
-                       <item row="0" column="0">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_R">
-                         <property name="text">
-                          <string>R</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="1">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_G">
-                         <property name="text">
-                          <string>G</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="2">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_B">
-                         <property name="text">
-                          <string>B</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
                      </item>
                      <item row="2" column="0">
                       <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_TextHeight">
@@ -12405,10 +12374,13 @@ color: red;</string>
                      </item>
                      <item row="0" column="1" colspan="2">
                       <layout class="QGridLayout" name="gridLayout_144">
-                       <item row="0" column="2">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Position">
+                       <property name="spacing">
+                        <number>1</number>
+                       </property>
+                       <item row="0" column="5">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Time">
                          <property name="text">
-                          <string>Position</string>
+                          <string>T</string>
                          </property>
                          <property name="checked">
                           <bool>true</bool>
@@ -12416,36 +12388,16 @@ color: red;</string>
                         </widget>
                        </item>
                        <item row="0" column="3">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_SizeShift">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_B">
                          <property name="text">
-                          <string>Size/Shift</string>
+                          <string>B</string>
                          </property>
                          <property name="checked">
                           <bool>true</bool>
                          </property>
                         </widget>
                        </item>
-                       <item row="0" column="4">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Foci">
-                         <property name="text">
-                          <string>Foci</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="1">
-                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Time">
-                         <property name="text">
-                          <string>Time</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="5">
+                       <item row="0" column="9">
                         <spacer name="horizontalSpacer_5">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -12458,14 +12410,90 @@ color: red;</string>
                          </property>
                         </spacer>
                        </item>
-                       <item row="0" column="0">
+                       <item row="0" column="4">
                         <widget class="QLabel" name="label_154">
                          <property name="text">
                           <string>Info:</string>
                          </property>
                         </widget>
                        </item>
+                       <item row="0" column="2">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_G">
+                         <property name="text">
+                          <string>G</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_R">
+                         <property name="text">
+                          <string>R</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="7">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_SizeShift">
+                         <property name="text">
+                          <string>Space</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="8">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Foci">
+                         <property name="text">
+                          <string>Foci</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="6">
+                        <widget class="QCheckBox" name="checkBox_MS6_ResType_Params_NucLifeImg_Info_Position">
+                         <property name="text">
+                          <string>Pos</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QLabel" name="label_155">
+                         <property name="text">
+                          <string>Color:</string>
+                         </property>
+                        </widget>
+                       </item>
                       </layout>
+                     </item>
+                     <item row="1" column="2">
+                      <widget class="QSpinBox" name="spinBox_MS6_ResType_Params_NucLifeImg_maxImgsPerRow">
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="suffix">
+                        <string/>
+                       </property>
+                       <property name="prefix">
+                        <string>max images per row: </string>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>999</number>
+                       </property>
+                       <property name="value">
+                        <number>10</number>
+                       </property>
+                      </widget>
                      </item>
                     </layout>
                    </widget>

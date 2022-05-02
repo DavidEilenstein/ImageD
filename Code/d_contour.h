@@ -40,26 +40,36 @@ class D_Contour
 public:
     D_Contour();
     D_Contour(vector<Point> contour);
+    D_Contour(Rect box);
 
     D_Contour           offset(Point PO);
 
     void                set_contour(vector<Point> contour);
 
-    vector<Point>       contour()                               {return m_contour_points;}
+    vector<Point>       contour()                                   {return m_contour_points;}
     vector<Point>       contour(Point P_Offset);
     QString             contour_string();
+
+    bool                empty()                                     {return m_n <= 0;}
+    size_t              size()                                      {return m_n;}
 
     int                 l();
     int                 r();
     int                 b();
     int                 t();
-    int                 w()                                     {return r() - l();}
-    int                 h()                                     {return b() - t();}
-    Point               tl()                                    {return Point(t(), l());}
-    Point               tr()                                    {return Point(t(), r());}
-    Point               bl()                                    {return Point(b(), l());}
-    Point               br()                                    {return Point(b(), r());}
-    Rect                bounding_box()                          {return Rect(tl(), br());}
+    int                 w()                                         {return r() - l();}
+    int                 h()                                         {return b() - t();}
+    Point               tl()                                        {return Point(l(), t());}
+    Point               tr()                                        {return Point(r(), t());}
+    Point               bl()                                        {return Point(l(), b());}
+    Point               br()                                        {return Point(r(), b());}
+    Point               point(size_t i)                             {return i < m_n ? m_contour_points[i] : Point(0, 0);}
+    Point               point(size_t i, Point offset)               {return point(i) + offset;}
+    Point               point(size_t i, double scale)               {return point(i) * scale;}
+    Point               point(size_t i, double scale, Point offset) {return point(i, scale) + offset;}
+
+    Rect                bounding_box()                              {return Rect(tl(), br());}
+    Rect                bounding_box(D_Contour contour_merge);
 
     double              area();
     double              perimeter();

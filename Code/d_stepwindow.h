@@ -541,7 +541,8 @@ private:
         c_sT_MA_2IMG_FUNCTION,
         c_sT_MA_2IMG_FUNCTION_COMPLEX,
         c_sT_MA_3IMG,
-        c_sT_MA_4IMG
+        c_sT_MA_4IMG,
+        c_sT_MA_MAT_MULT
     };
 
     //Subtypes: Transformation

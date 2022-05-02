@@ -6381,6 +6381,29 @@ int D_VisDat_Proc::Math_4img_BitwiseOr(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_
                 pVD_In3);
 }
 
+int D_VisDat_Proc::Matrix_Product(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1)
+{
+    if(!slice.is_2D())
+        return ER_dim_2D_only;
+
+    D_VisDat_Dim DimOut = pVD_In0->Dim();
+    size_t pd0 = slice.ProcDim(0);
+    size_t pd1 = slice.ProcDim(1);
+    DimOut.set_size_Dim(pd0, pVD_In1->pDim()->size_Dim(pd0));
+    DimOut.set_size_Dim(pd1, pVD_In0->pDim()->size_Dim(pd1));
+
+    *pVD_Out = D_VisDat_Obj(
+                DimOut,
+                pVD_In0->type());
+
+    return Wrap_VD(
+                slice,
+                D_Img_Proc_2dFactory::Matrix_Product(),
+                pVD_Out,
+                pVD_In0,
+                pVD_In1);
+}
+
 int D_VisDat_Proc::Transformation_Distance(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int metric, int precision, double spacing_x3d, double spacing_y3d, double spacing_z3d)
 {
     if(slice.is_2D())
