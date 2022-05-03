@@ -172,7 +172,7 @@ void D_MAKRO_MegaFoci::resizeEvent(QResizeEvent *event)
     case MODE_MAJOR_3_AUTO_MATCHING_FOCI_NUCLEI:                            break;
     case MODE_MAJOR_4_AUTO_RECONSTRUCT_PEDIGREE:                            break;
     case MODE_MAJOR_5_MANU_CORRECT_PEDIGREE:                                break;
-    case MODE_MAJOR_6_EPIC_ANALYSIS:                                        break;
+    case MODE_MAJOR_6_EPIC_ANALYSIS:                MS6_UpdateViews();      break;
     default:                                                                break;}
 }
 
@@ -9368,6 +9368,11 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
     MS6_state_ui_init = true;
 }
 
+void D_MAKRO_MegaFoci::MS6_UpdateViews()
+{
+    MS6_Viewer_Img_2D.Update_View();
+}
+
 bool D_MAKRO_MegaFoci::MS6_LoadAll()
 {
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "start ::::::::::::::::::::::::::::::::::::::::::::::::";
@@ -9415,10 +9420,11 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
 
     //ui
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "Ui";
-    ui->groupBoxMS6_Control_Data->setEnabled(false);
+    ui->groupBox_MS6_Control_Data->setEnabled(false);
     ui->groupBox_MS6_View->setEnabled(true);
     ui->groupBox_MS6_Control_Filters->setEnabled(true);
     ui->groupBox_MS6_Control_Results->setEnabled(true);
+    ui->groupBox_MS6_Save->setEnabled(true);
 
     //split to nuc lifes
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
@@ -10581,14 +10587,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
             }
 
             //text
-            if(line_count_all >= 4)
-            {
-                vvQS_Texts[it][0] = "no";
-                vvQS_Texts[it][1] = "nucleus";
-                vvQS_Texts[it][2] = "found";
-                vvQS_Texts[it][3] = "here";
-            }
-            else if(line_count_all >= 3)
+            if(line_count_all >= 3)
             {
                 vvQS_Texts[it][0] = "invisible";
                 vvQS_Texts[it][1] = "ninja";
@@ -10698,6 +10697,106 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
 
     //show
     MS6_Viewer_Img_2D.Update_Image(&MS6_ResultImgShow);
+}
+
+bool D_MAKRO_MegaFoci::MS6_SaveResult_Current()
+{
+    QString QS_Save_Suffix;
+    switch (ui->stackedWidget_MS6_ResView->currentIndex())
+    {
+    case MS6_RES_VIEW_TYPE_PLOT_2D:
+    case MS6_RES_VIEW_TYPE_PLOT_3D:
+    case MS6_RES_VIEW_TYPE_IMAGE_2D:
+    case MS6_RES_VIEW_TYPE_IMAGE_3D:
+        QS_Save_Suffix = "png";
+        break;
+
+    case MS6_RES_VIEW_TYPE_TABLE:
+        QS_Save_Suffix = "csv";
+        break;
+
+    default:
+        return false;
+    }
+
+    QString QS_Save_Default =
+            pStore->dir_M_MegaFoci_Results()->path() +
+            "/" + QDateTime::currentDateTime().toString().replace(".", "_").replace(":", "_") + " " + MS6_DefaultTitle_Result() + "." + QS_Save_Suffix;
+
+    //get save name
+    QString QS_Save = QFileDialog::getSaveFileName(
+                this,
+                "Please select save file name for result",
+                QS_Save_Default,
+                "(*." + QS_Save_Suffix + ")");
+
+    //check, if save name is valid
+    if(QS_Save.isEmpty())
+        return false;
+    else
+        pStore->set_dir_M_MegaFoci_Results(QS_Save);
+
+    //save
+    switch (ui->stackedWidget_MS6_ResView->currentIndex()) {
+    case MS6_RES_VIEW_TYPE_PLOT_2D:     MS6_pChartView_Plot_2D->grab().save(QS_Save);       break;
+    case MS6_RES_VIEW_TYPE_PLOT_3D:     MS6_Viewer_Plot_3D.save(QS_Save);                   break;
+    case MS6_RES_VIEW_TYPE_IMAGE_2D:    MS6_Viewer_Img_2D.Save_Image(QS_Save);              break;
+    case MS6_RES_VIEW_TYPE_IMAGE_3D:    MS6_Viewer_Img_3D.Save(QS_Save);                    break;
+    case MS6_RES_VIEW_TYPE_TABLE:       MS6_Viewer_Table.Save_Table(QS_Save);               break;
+    default:                                                                                return false;}
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS6_Save_NucLifes()
+{
+    //get save name
+    QString QS_Save = QFileDialog::getExistingDirectory(
+                this,
+                "Please select directory to save nuc life images in ('NucLifeImgs <DateTime>' Folder is aitomatically created)",
+                pStore->dir_M_MegaFoci_Results()->path());
+
+    //check, if save name is valid
+    if(QS_Save.isEmpty())
+        return false;
+    else
+        pStore->set_dir_M_MegaFoci_Results(QS_Save);
+
+    //main save dir
+    QDir DIR_SaveMain(QS_Save + "/NucLifeImgs " + QDateTime::currentDateTime().toString().replace(".", "_").replace(":", "_"));
+    if(!DIR_SaveMain.exists())
+        QDir().mkdir(DIR_SaveMain.path());
+    if(!DIR_SaveMain.exists())
+        return false;
+
+    //loop all nuclifes
+    this->setEnabled(false);
+    ui->comboBox_MS6_ResultTypes->setCurrentIndex(MS6_RES_TYP_NUC_LIFE_IMG);
+    ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->blockSignals(true);
+    size_t nl = MS6_NucPedigree_Results.get_NucleusLifesCount(true);
+    for(size_t l = 0; l < nl; l++)
+    {
+        ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->setValue(l);
+        MS6_Update_Results();
+        Update_Ui();
+
+        D_Bio_NucleusLife* pNucLife = MS6_NucPedigree_Results.get_pNucleusLife(l, true);
+        if(pNucLife != nullptr)
+        {
+            D_Bio_NucleusBlob* pNucFirst = pNucLife->pNuc_member(0);
+            if(pNucFirst != nullptr)
+            {
+                size_t nuc_t    = pNucFirst->time_index();
+                int nuc_x       = int(pNucFirst->centroid().x);
+                int nuc_y       = int(pNucFirst->centroid().y);
+                MS6_Viewer_Img_2D.Save_Image(DIR_SaveMain.path() + "/NucLifeImg_T" + QString::number(nuc_t) + "_Y" + QString::number(nuc_y) + "_X" + QString::number(nuc_x) + ".png");
+            }
+        }
+    }
+    ui->spinBox_MS6_ResType_Params_NucLifeImg_NucLife->blockSignals(false);
+
+    this->setEnabled(true);
+    return ER_okay;
 }
 
 bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()
@@ -10810,3 +10909,14 @@ void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueCha
 {
     MS6_Update_Results();
 }
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveResult_clicked()
+{
+    MS6_SaveResult_Current();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
+{
+    MS6_Save_NucLifes();
+}
+

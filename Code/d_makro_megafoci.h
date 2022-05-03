@@ -1483,6 +1483,8 @@ private slots:
 private slots:
     void MS6_UiInit();
 
+    void MS6_UpdateViews();
+
     bool MS6_LoadAll();
     bool MS6_LoadDirs();
     bool MS6_LoadMosaics();
@@ -1513,6 +1515,8 @@ private slots:
     void MS6_Update_Result_MosaicData();
     void MS6_Update_Result_NucLifeImg();
 
+    bool MS6_SaveResult_Current();
+    bool MS6_Save_NucLifes();
     bool MS6_SaveAnalysis_Full();
 
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
@@ -1529,6 +1533,10 @@ private slots:
     void on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1);
 
     void on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueChanged(int arg1);
+
+    void on_pushButton_MS6_SaveResult_clicked();
+
+    void on_pushButton_MS6_SaveNucLifes_clicked();
 
 private:
 

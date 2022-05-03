@@ -81,6 +81,9 @@ public:
     void    clear_graph_scatter();
     void    clear_graph_heightmap();
 
+    //save
+    bool save(QString QS_Save);
+
     //plot cool
     int     plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe);
     int     plot_VD_Scatter(D_VisDat_Obj *pVD, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool called_internally = false);

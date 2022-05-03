@@ -357,6 +357,11 @@ int D_Viewer_3D::set_VisDat(D_VisDat_Obj *pVD_toShow)
     return ER_okay;
 }
 
+int D_Viewer_3D::Save(QString QS_Save)
+{
+    return graph_scatter->renderToImage(4).save(QS_Save) ? ER_okay : ER_other;
+}
+
 int D_Viewer_3D::SaveVideo_SliceDim()
 {
     if(!state_VD_set || v_dims_extended.empty())

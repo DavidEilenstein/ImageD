@@ -125,14 +125,18 @@ int D_Contour::t()
 
 Rect D_Contour::bounding_box(D_Contour contour_merge)
 {
-    //box corrds
+    //box coords
     int box_t = min(t(), contour_merge.t());
     int box_b = max(b(), contour_merge.b());
     int box_l = min(l(), contour_merge.l());
     int box_r = max(r(), contour_merge.r());
 
     //box
-    return Rect(box_l, box_t, box_r - box_l, box_b - box_t);
+    return Rect(
+                box_l,
+                box_t,
+                box_r - box_l,
+                box_b - box_t);
 }
 
 double D_Contour::area()

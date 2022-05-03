@@ -142,6 +142,7 @@ public slots:
     int         Plane_SliceXZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended0(), Dim_extended2());}
     int         Plane_SliceYZ()                                                     {return D_VisDat_Proc::PlaneFromDims(Dim_extended1(), Dim_extended2());}
 
+    int         Save(QString QS_Save);
     int         SaveVideo_SliceDim();
     int         SaveVideo_CameraRotationFull();
     int         TakeFrames_CameraRotationFull(vector<Mat> *pvMA_ViewsOut, size_t n_frames = 360);

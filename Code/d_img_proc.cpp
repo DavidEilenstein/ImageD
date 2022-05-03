@@ -14060,9 +14060,29 @@ int D_Img_Proc::Matrix_Product(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2)
     if(pMA_In1->empty())                    return ER_empty;
     if(pMA_In2->empty())                    return ER_empty;
     if(pMA_In1->type() != pMA_In2->type())  return ER_type_missmatch;
-    if(pMA_In1->rows != pMA_In2->cols)      return ER_size_missmatch;
+    if(pMA_In1->cols != pMA_In2->rows)      return ER_size_missmatch;
 
     *pMA_Out = *pMA_In1 * *pMA_In2;
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Matrix_Inversion(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->empty())                     return ER_empty;
+    if(pMA_In->cols != pMA_In->rows)        return ER_size_bad;
+    if(cv::determinant(*pMA_In) == 0.0)     return ER_MatrixNotInvertable;
+
+    *pMA_Out = pMA_In->inv();
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Matrix_Transpose(Mat *pMA_Out, Mat *pMA_In)
+{
+    if(pMA_In->empty())                     return ER_empty;
+
+    cv::transpose(*pMA_In, *pMA_Out);
 
     return ER_okay;
 }

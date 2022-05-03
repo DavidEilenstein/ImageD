@@ -327,6 +327,8 @@ public:
     //old complicated math function names (until here)
 
     static int      Matrix_Product              (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
+    static int      Matrix_Inversion            (Mat *pMA_Out, Mat *pMA_In);
+    static int      Matrix_Transpose            (Mat *pMA_Out, Mat *pMA_In);
 
     static int      Shading_Correct             (Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Reference);
 

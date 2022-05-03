@@ -80,6 +80,19 @@ void D_Viewer_Plot_3D::clear_graph_heightmap()
     }
 }
 
+bool D_Viewer_Plot_3D::save(QString QS_Save)
+{
+    if(container_widget_scatter != nullptr)
+        if(container_widget_scatter->isVisible())
+            return graph_scatter->renderToImage(4).save(QS_Save);
+
+    if(container_widget_heightmap != nullptr)
+        if(container_widget_heightmap->isVisible())
+            return graph_heightmap->renderToImage(4).save(QS_Save);
+
+    return false;
+}
+
 int D_Viewer_Plot_3D::plot_VD_custom(D_VisDat_Obj *pVD, size_t mode, size_t cond, size_t val_handle, size_t axis_x, size_t axis_y, size_t axis_z, size_t axis_v, size_t plane_index_xy, size_t dim_index_surfaces, size_t surface_mode, size_t texture_mode, size_t marker, size_t shadow, bool background, bool grid, bool smooth, bool draw_surface, bool draw_wireframe)
 {
     /*
