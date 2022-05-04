@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_18 (07.04.22)</span>
+   &#160;<span id="projectnumber">v2_6_8 (04.05.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -150,6 +150,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3f37dd04b870b57044532861b85e4fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a717401c7765193667e59ccc25c7d9fec"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a717401c7765193667e59ccc25c7d9fec">get_pNuclei_FromNucLifes</a> (bool filtered_only)</td></tr>
 <tr class="separator:a717401c7765193667e59ccc25c7d9fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02779a46cf8cb05152998df88a5f4db4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a02779a46cf8cb05152998df88a5f4db4">get_NucleusLifesCount</a> (bool filtered)</td></tr>
+<tr class="separator:a02779a46cf8cb05152998df88a5f4db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a000414d00a41502b2c678a4a3eab9b1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d___bio___nucleus_life.html">D_Bio_NucleusLife</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a000414d00a41502b2c678a4a3eab9b1a">get_pNucleusLife</a> (size_t index, bool filtered)</td></tr>
+<tr class="separator:a000414d00a41502b2c678a4a3eab9b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c8680e9c2cc035ff6fd8b06a39266dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a1c8680e9c2cc035ff6fd8b06a39266dc">load_nuclei_data</a> (QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files)</td></tr>
 <tr class="separator:a1c8680e9c2cc035ff6fd8b06a39266dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0ec8e791137275d371a3f3348f88cf5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#ad0ec8e791137275d371a3f3348f88cf5">add_nucleus_blob</a> (size_t t, size_t y, size_t x, <a class="el" href="class_d___bio___nucleus_blob.html">D_Bio_NucleusBlob</a> nuc)</td></tr>
@@ -188,6 +192,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a17a85f358653ae27883433fd639508a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e7ecb1746eca2610e9416a39fa4773d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a2e7ecb1746eca2610e9416a39fa4773d">set_attrib_filter_ui</a> (QGroupBox *box_foci, QGroupBox *box_nucblobs, QGroupBox *box_nuclifes)</td></tr>
 <tr class="separator:a2e7ecb1746eca2610e9416a39fa4773d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaedc9bdba348383a9b6adbc425068bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#abaedc9bdba348383a9b6adbc425068bf">set_attrib_filter_path</a> (QDir *pDir_Save)</td></tr>
+<tr class="separator:abaedc9bdba348383a9b6adbc425068bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6032ea3b3125afd45c5c22f2de9deb83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a6032ea3b3125afd45c5c22f2de9deb83">set_attrib_filter_channels</a> (QStringList channels_foc, QStringList channels_val)</td></tr>
 <tr class="separator:a6032ea3b3125afd45c5c22f2de9deb83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15a2c66b6acc3c3a662ec56c0e078ade"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___nucleus_pedigree.html#a15a2c66b6acc3c3a662ec56c0e078ade">set_attrib_filter_scaling</a> ()</td></tr>
@@ -525,6 +531,24 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a02779a46cf8cb05152998df88a5f4db4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02779a46cf8cb05152998df88a5f4db4">&#9670;&nbsp;</a></span>get_NucleusLifesCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t D_Bio_NucleusPedigree::get_NucleusLifesCount </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>filtered</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a717401c7765193667e59ccc25c7d9fec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a717401c7765193667e59ccc25c7d9fec">&#9670;&nbsp;</a></span>get_pNuclei_FromNucLifes()</h2>
 
@@ -630,6 +654,34 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>x_pos_px</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a000414d00a41502b2c678a4a3eab9b1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a000414d00a41502b2c678a4a3eab9b1a">&#9670;&nbsp;</a></span>get_pNucleusLife()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d___bio___nucleus_life.html">D_Bio_NucleusLife</a> * D_Bio_NucleusPedigree::get_pNucleusLife </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>filtered</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1333,6 +1385,24 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abaedc9bdba348383a9b6adbc425068bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaedc9bdba348383a9b6adbc425068bf">&#9670;&nbsp;</a></span>set_attrib_filter_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_NucleusPedigree::set_attrib_filter_path </td>
+          <td>(</td>
+          <td class="paramtype">QDir *&#160;</td>
+          <td class="paramname"><em>pDir_Save</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

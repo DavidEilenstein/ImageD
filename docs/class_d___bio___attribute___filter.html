@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_18 (07.04.22)</span>
+   &#160;<span id="projectnumber">v2_6_8 (04.05.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('class_d___bio___attribute___filter.htm
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-slots">Public Slots</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_d___bio___attribute___filter-members.html">List of all members</a>  </div>
@@ -102,6 +103,17 @@ Inheritance diagram for D_Bio_Attribute_Filter:</div>
   <img src="class_d___bio___attribute___filter.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
+Public Slots</h2></td></tr>
+<tr class="memitem:a2918bd1202a64c406466b5920eab83ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a2918bd1202a64c406466b5920eab83ee">Filters_Info</a> ()</td></tr>
+<tr class="separator:a2918bd1202a64c406466b5920eab83ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd9080a50a1dc729de7a235a63b37533"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#afd9080a50a1dc729de7a235a63b37533">Filters_Clear</a> ()</td></tr>
+<tr class="separator:afd9080a50a1dc729de7a235a63b37533"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae45c30d0a391717729377e4d8ea16cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#aae45c30d0a391717729377e4d8ea16cc">Filters_Save</a> ()</td></tr>
+<tr class="separator:aae45c30d0a391717729377e4d8ea16cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeecc948b8c4b695e2341915a31c1fcb8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#aeecc948b8c4b695e2341915a31c1fcb8">Filters_Load</a> ()</td></tr>
+<tr class="separator:aeecc948b8c4b695e2341915a31c1fcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:ab2ea8a6b488057787c30251c2286b148"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#ab2ea8a6b488057787c30251c2286b148">FilterParamsChanged</a> ()</td></tr>
@@ -121,6 +133,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a85bbd13d68879c85dea1de724d7aeb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe4c16c7430645904338ace798c8d792"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#abe4c16c7430645904338ace798c8d792">set_ScalePx2Um</a> (double scale)</td></tr>
 <tr class="separator:abe4c16c7430645904338ace798c8d792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44238eecc0f2c14d11a1df9a0980c80a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a44238eecc0f2c14d11a1df9a0980c80a">set_SaveDir</a> (QDir *pDirSave)</td></tr>
+<tr class="separator:a44238eecc0f2c14d11a1df9a0980c80a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a289b87378a3174afa7c338483ac5a4bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a289b87378a3174afa7c338483ac5a4bc">set_filter</a> (size_t i_filt, bool is_active, size_t i_att, size_t i_comp, size_t i_ch, double thres_val)</td></tr>
 <tr class="separator:a289b87378a3174afa7c338483ac5a4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a742d4ad5391a320858ceac6e1f64ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___bio___attribute___filter.html#a4a742d4ad5391a320858ceac6e1f64ae">filter_is_active</a> (size_t i_filter)</td></tr>
@@ -301,6 +315,106 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afd9080a50a1dc729de7a235a63b37533"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd9080a50a1dc729de7a235a63b37533">&#9670;&nbsp;</a></span>Filters_Clear</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Bio_Attribute_Filter::Filters_Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2918bd1202a64c406466b5920eab83ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2918bd1202a64c406466b5920eab83ee">&#9670;&nbsp;</a></span>Filters_Info</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void D_Bio_Attribute_Filter::Filters_Info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeecc948b8c4b695e2341915a31c1fcb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeecc948b8c4b695e2341915a31c1fcb8">&#9670;&nbsp;</a></span>Filters_Load</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_Attribute_Filter::Filters_Load </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae45c30d0a391717729377e4d8ea16cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae45c30d0a391717729377e4d8ea16cc">&#9670;&nbsp;</a></span>Filters_Save</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_Attribute_Filter::Filters_Save </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a85bbd13d68879c85dea1de724d7aeb80"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85bbd13d68879c85dea1de724d7aeb80">&#9670;&nbsp;</a></span>set_channels()</h2>
 
@@ -392,6 +506,24 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44238eecc0f2c14d11a1df9a0980c80a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44238eecc0f2c14d11a1df9a0980c80a">&#9670;&nbsp;</a></span>set_SaveDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool D_Bio_Attribute_Filter::set_SaveDir </td>
+          <td>(</td>
+          <td class="paramtype">QDir *&#160;</td>
+          <td class="paramname"><em>pDirSave</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

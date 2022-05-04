@@ -46,6 +46,7 @@ var class_d___bio___nucleus_life =
     [ "pNuc_child1", "class_d___bio___nucleus_life.html#a703d7202a9272ccbe57c7bc7ce56ba17", null ],
     [ "pNuc_child2", "class_d___bio___nucleus_life.html#abacc24bfc0f3fa1d40059e40b6bb9b6f", null ],
     [ "pNuc_member", "class_d___bio___nucleus_life.html#a1b05bcc7af3d82b5bfeb344b4d3eee6a", null ],
+    [ "pNuc_member_byTime", "class_d___bio___nucleus_life.html#a8b6fa669134e44759ae9134631d9f687", null ],
     [ "pNuc_parent", "class_d___bio___nucleus_life.html#a508fc3e97da5b319436e5911d5667b6a", null ],
     [ "set_Child", "class_d___bio___nucleus_life.html#a54498d2ee98d9373e9ad20266330fc98", null ],
     [ "set_Child1", "class_d___bio___nucleus_life.html#ae018047e89fd69e0d0459fe28ab3b792", null ],

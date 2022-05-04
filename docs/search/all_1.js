@@ -13,6 +13,6 @@ var searchData=
   ['border_5freflect101_170',['BORDER_REFLECT101',['../d__opencv__typedefs_8h.html#a93423e39e2ba1e7b3df3bc3f92b6f637',1,'d_opencv_typedefs.h']]],
   ['border_5freflect_5f101_171',['BORDER_REFLECT_101',['../d__opencv__typedefs_8h.html#a3df88865a9b44cb7d5d1d57d08407088',1,'d_opencv_typedefs.h']]],
   ['border_5freplicate_172',['BORDER_REPLICATE',['../d__opencv__typedefs_8h.html#a4264f985491b3b939a83dbe9fed5c980',1,'d_opencv_typedefs.h']]],
-  ['bounding_5fbox_173',['bounding_box',['../class_d___bio___nucleus_blob.html#a5b84e573e115a398a8db969dce7e6a39',1,'D_Bio_NucleusBlob::bounding_box()'],['../class_d___contour.html#a123e5252d2d6e984afa275f52be94502',1,'D_Contour::bounding_box()']]],
+  ['bounding_5fbox_173',['bounding_box',['../class_d___bio___nucleus_blob.html#a5b84e573e115a398a8db969dce7e6a39',1,'D_Bio_NucleusBlob::bounding_box()'],['../class_d___contour.html#a123e5252d2d6e984afa275f52be94502',1,'D_Contour::bounding_box()'],['../class_d___contour.html#a5e840a600637881f080251b419074707',1,'D_Contour::bounding_box(D_Contour contour_merge)']]],
   ['br_174',['br',['../class_d___contour.html#aca3597e6489d41b00f849f95223692bc',1,'D_Contour']]]
 ];

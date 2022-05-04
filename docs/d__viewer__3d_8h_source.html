@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_18 (07.04.22)</span>
+   &#160;<span id="projectnumber">v2_6_8 (04.05.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -232,185 +232,187 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="class_d___viewer__3_d.html#af2a6df91699fcc2b19d9e460a20faf5f">  142</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="class_d___viewer__3_d.html#af2a6df91699fcc2b19d9e460a20faf5f">Plane_SliceXZ</a>()                                                     {<span class="keywordflow">return</span> <a class="code" href="class_d___vis_dat___proc.html#a4f1ab21203e1e3db6387885e7a28de68">D_VisDat_Proc::PlaneFromDims</a>(Dim_extended0(), Dim_extended2());}</div>
 <div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="class_d___viewer__3_d.html#a56e3b184a1df12e0332d0891df8611e8">  143</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="class_d___viewer__3_d.html#a56e3b184a1df12e0332d0891df8611e8">Plane_SliceYZ</a>()                                                     {<span class="keywordflow">return</span> <a class="code" href="class_d___vis_dat___proc.html#a4f1ab21203e1e3db6387885e7a28de68">D_VisDat_Proc::PlaneFromDims</a>(Dim_extended1(), Dim_extended2());}</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">int</span>         SaveVideo_SliceDim();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">int</span>         SaveVideo_CameraRotationFull();</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">int</span>         TakeFrames_CameraRotationFull(vector&lt;Mat&gt; *pvMA_ViewsOut, <span class="keywordtype">size_t</span> n_frames = 360);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">int</span>         TakeFrames_SliceDim(vector&lt;Mat&gt; *pvMA_ViewsOut, <span class="keywordtype">int</span> dim2loop);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">void</span>        Update_Ui();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">void</span>            on_VolumeCurrent_Changed(<span class="keywordtype">int</span> vol);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="comment">//texture</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">int</span>             TextureData_CalcNew();</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">int</span>             Slice_2D_Mat_from_VD(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_SliceOut, <a class="code" href="class_d___vis_dat___slice__2_d.html">D_VisDat_Slice_2D</a> slice, <span class="keywordtype">double</span> min_global, <span class="keywordtype">double</span> max_global);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">int</span>             TextureData_AppendSlice(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_toAppend, <span class="keywordtype">size_t</span> slice_number);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">int</span>             Show_Texture();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">void</span>            set_VolumeScalingAndPosition();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span>            set_TextureSize();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordtype">void</span>            set_HD_shader(<span class="keywordtype">bool</span> hd);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">void</span>            set_preserve_opacity(<span class="keywordtype">bool</span> preserve);</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordtype">void</span>            set_draw_slices(<span class="keywordtype">bool</span> draw);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">void</span>            set_alpha_multiplier(<span class="keywordtype">double</span> factor);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span>            set_shadow_quality(<span class="keywordtype">int</span> shadow_quality_id);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordtype">void</span>            change_graph_background_color();</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">void</span>            change_graph_background_color(QColor color);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">void</span>            check_volume_changes_and_trigger_slots();</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">void</span>            adapt_alpha_multiplier_step(<span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">void</span>            adapt_depth_scale_step(<span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;signals:</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">int</span>         Save(QString QS_Save);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">int</span>         SaveVideo_SliceDim();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">int</span>         SaveVideo_CameraRotationFull();</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">int</span>         TakeFrames_CameraRotationFull(vector&lt;Mat&gt; *pvMA_ViewsOut, <span class="keywordtype">size_t</span> n_frames = 360);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">int</span>         TakeFrames_SliceDim(vector&lt;Mat&gt; *pvMA_ViewsOut, <span class="keywordtype">int</span> dim2loop);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">void</span>        Update_Ui();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">void</span>            on_VolumeCurrent_Changed(<span class="keywordtype">int</span> vol);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">//texture</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">int</span>             TextureData_CalcNew();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">int</span>             Slice_2D_Mat_from_VD(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_SliceOut, <a class="code" href="class_d___vis_dat___slice__2_d.html">D_VisDat_Slice_2D</a> slice, <span class="keywordtype">double</span> min_global, <span class="keywordtype">double</span> max_global);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">int</span>             TextureData_AppendSlice(<a class="code" href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a> *pMA_toAppend, <span class="keywordtype">size_t</span> slice_number);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">int</span>             Show_Texture();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span>            set_VolumeScalingAndPosition();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">void</span>            set_TextureSize();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">void</span>            set_HD_shader(<span class="keywordtype">bool</span> hd);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordtype">void</span>            set_preserve_opacity(<span class="keywordtype">bool</span> preserve);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">void</span>            set_draw_slices(<span class="keywordtype">bool</span> draw);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span>            set_alpha_multiplier(<span class="keywordtype">double</span> factor);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordtype">void</span>            set_shadow_quality(<span class="keywordtype">int</span> shadow_quality_id);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">void</span>            change_graph_background_color();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">void</span>            change_graph_background_color(QColor color);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">void</span>            check_volume_changes_and_trigger_slots();</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">void</span>            adapt_alpha_multiplier_step(<span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span>            adapt_depth_scale_step(<span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;signals:</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;   <span class="comment">//error handler</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a> ER;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">void</span> ERR(<span class="keywordtype">int</span> err, QString func, QString detail);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">//Storage (needed for save dir defaults)</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <a class="code" href="class_d___storage.html">D_Storage</a> *pStore;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">int</span> default_dir_index = 0;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">//populate CB</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordtype">void</span> Populate_CB_Single(QComboBox *CB, QStringList QSL, <span class="keywordtype">int</span> init_index = 0);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">//ui elements</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">//layouts</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    QGridLayout             *ui_layout_target;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    QGroupBox               *ui_GroupBox_3D_graph;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    QGroupBox               *ui_GroupBox_2D_slices;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    QGroupBox               *ui_GroupBox_Settings;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Volume;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="comment">//QGroupBox               *ui_GroupBox_Settings_DrawCondition;</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Alpha;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Graphics;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    QGroupBox               *ui_GroupBox_SaveAnimationVideo;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="comment">//volume and slicing</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    QComboBox               *ui_ComboBox_Volume;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    vector&lt;QSpinBox*&gt;       vui_SpinBox_DimIndices;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="comment">//slices</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_XY;</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_XZ;</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_YZ;</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">    vector&lt;QLabel*&gt;         vui_Label_2dSlices;</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">    */</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    vector&lt;QGraphicsView*&gt;  vui_GraphicsView_Slices2D;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_X;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_Y;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_Z;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    vector&lt;D_Viewer*&gt;       vViewer_Slices2D;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">enum</span> SLICE_2D {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        SLICE_2D_X,</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        SLICE_2D_Y,</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        SLICE_2D_Z,</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        SLICE_2D_NUMBER_OF</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    };</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;   <span class="comment">//error handler</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <a class="code" href="class_d___error___handler.html">D_Error_Handler</a> ER;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">void</span> ERR(<span class="keywordtype">int</span> err, QString func, QString detail);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="comment">//Storage (needed for save dir defaults)</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <a class="code" href="class_d___storage.html">D_Storage</a> *pStore;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">int</span> default_dir_index = 0;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">//populate CB</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">void</span> Populate_CB_Single(QComboBox *CB, QStringList QSL, <span class="keywordtype">int</span> init_index = 0);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">//ui elements</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">//layouts</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    QGridLayout             *ui_layout_target;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    QGroupBox               *ui_GroupBox_3D_graph;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    QGroupBox               *ui_GroupBox_2D_slices;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    QGroupBox               *ui_GroupBox_Settings;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Volume;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <span class="comment">//QGroupBox               *ui_GroupBox_Settings_DrawCondition;</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Alpha;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    QGroupBox               *ui_GroupBox_Settings_Graphics;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    QGroupBox               *ui_GroupBox_SaveAnimationVideo;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="comment">//volume and slicing</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    QComboBox               *ui_ComboBox_Volume;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    vector&lt;QSpinBox*&gt;       vui_SpinBox_DimIndices;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">//slices</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_XY;</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_XZ;</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">    QLabel                  *ui_Label_2dSlice_YZ;</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">    vector&lt;QLabel*&gt;         vui_Label_2dSlices;</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">    */</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    vector&lt;QGraphicsView*&gt;  vui_GraphicsView_Slices2D;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_X;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_Y;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <a class="code" href="class_d___viewer.html">D_Viewer</a>                Viewer_Slice2D_Z;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    vector&lt;D_Viewer*&gt;       vViewer_Slices2D;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">enum</span> SLICE_2D {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        SLICE_2D_X,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        SLICE_2D_Y,</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        SLICE_2D_Z,</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        SLICE_2D_NUMBER_OF</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    };</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="comment">//settings</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="comment">//draw conditions</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="comment">//alpha</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    QComboBox               *ui_ComboBox_AlphaMode;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    QDoubleSpinBox          *ui_DoubleSpinBox_AlphaMultiplier;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">//graphics</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    QPushButton             *ui_PushButton_BackgroundColor;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    QDoubleSpinBox          *ui_DoubleSpinBox_ScaleDepth;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    QCheckBox               *ui_CheckBox_HeatColor;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    QCheckBox               *ui_CheckBox_Slices_Show;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    QCheckBox               *ui_CheckBox_Slices_SliceVolume;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    QCheckBox               *ui_CheckBox_Slices_KeepAspectRatio;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    QCheckBox               *ui_CheckBox_Shader_HD;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    QCheckBox               *ui_CheckBox_OpacityPreserve;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    QComboBox               *ui_ComboBox_ShadowQuality;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    QSpacerItem             *ui_spacer_Settings;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    QPushButton             *ui_PushButton_SaveAnimationVideo_Rotation;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    QPushButton             *ui_PushButton_SaveAnimationVideo_Slice;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment">//VD to be displayed</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a>            *pVD_Data;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment">//selected volume</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">int</span>                     volume_index_current = <a class="code" href="d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a6e3de90936615242c371f4fc38a251bd">c_VOLUME_XYZ</a>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    vector&lt;int&gt;             v_dim_indeces_last = {0, 0, 0, 0, 0, 0};</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    vector&lt;int&gt;             v_dims_extended = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a>};</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    vector&lt;int&gt;             v_dims_fix = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a>};</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="comment">//settings</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="comment">//draw conditions</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="comment">//alpha</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    QComboBox               *ui_ComboBox_AlphaMode;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    QDoubleSpinBox          *ui_DoubleSpinBox_AlphaMultiplier;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="comment">//graphics</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    QPushButton             *ui_PushButton_BackgroundColor;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    QDoubleSpinBox          *ui_DoubleSpinBox_ScaleDepth;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    QCheckBox               *ui_CheckBox_HeatColor;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    QCheckBox               *ui_CheckBox_Slices_Show;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    QCheckBox               *ui_CheckBox_Slices_SliceVolume;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    QCheckBox               *ui_CheckBox_Slices_KeepAspectRatio;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    QCheckBox               *ui_CheckBox_Shader_HD;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    QCheckBox               *ui_CheckBox_OpacityPreserve;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    QComboBox               *ui_ComboBox_ShadowQuality;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    QSpacerItem             *ui_spacer_Settings;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    QPushButton             *ui_PushButton_SaveAnimationVideo_Rotation;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    QPushButton             *ui_PushButton_SaveAnimationVideo_Slice;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="comment">//VD to be displayed</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <a class="code" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a>            *pVD_Data;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">//selected volume</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordtype">int</span>                     volume_index_current = <a class="code" href="d__enum_8h.html#a718a98bf09925381af58107f9e93ad26a6e3de90936615242c371f4fc38a251bd">c_VOLUME_XYZ</a>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    vector&lt;int&gt;             v_dim_indeces_last = {0, 0, 0, 0, 0, 0};</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    vector&lt;int&gt;             v_dims_extended = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a>};</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    vector&lt;int&gt;             v_dims_fix = {<a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca6b3d93069c1fc7eeaaf878aa8cad3898">c_DIM_S</a>, <a class="code" href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca5b9baa64dcfb1f52e46dd666e150175b">c_DIM_P</a>};</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//graph elements</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    Q3DScatter              *graph_scatter;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    QWidget                 *container_widget_scatter;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    QCustom3DVolume         *volume_item;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="comment">//texture data</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    QVector&lt;uchar&gt;          vTextureData;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    QVector&lt;QRgb&gt;           vColorTable;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="comment">//vis trafo</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordtype">bool</span>                    vis_trafo_active       = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_min       = 0;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_max       = 255;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_gamma        = 1.0;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_center       = 0.0;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_divisor      = 1.0;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_anchor       = 0;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_range        = 1;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_crop    = <a class="code" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_trafo   = <a class="code" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_anchor  = <a class="code" href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a>;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_range   = <a class="code" href="d__enum_8h.html#ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55">c_VIS_TRAFO_RANGE_DYNAMIC</a>;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_complex = <a class="code" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="comment">//states</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordtype">bool</span>            state_ui_init = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordtype">bool</span>            state_VD_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keywordtype">bool</span>            state_texture_set = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordtype">bool</span>            state_graph_up2date = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordtype">bool</span>            state_graph_updating = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordtype">bool</span>            state_default_dir = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;};</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="comment">//graph elements</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    Q3DScatter              *graph_scatter;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    QWidget                 *container_widget_scatter;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    QCustom3DVolume         *volume_item;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment">//texture data</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    QVector&lt;uchar&gt;          vTextureData;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    QVector&lt;QRgb&gt;           vColorTable;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="comment">//vis trafo</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordtype">bool</span>                    vis_trafo_active       = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_min       = 0;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_in_max       = 255;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_gamma        = 1.0;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_center       = 0.0;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_divisor      = 1.0;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_anchor       = 0;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordtype">double</span>                  vis_trafo_range        = 1;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_crop    = <a class="code" href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a>;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_trafo   = <a class="code" href="d__enum_8h.html#a58ac28af1b9527477ae6f7d7d66f078aa229b5b732892795f479638ae42f5a1b2">c_VIS_TRAFO_LINEAR</a>;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_anchor  = <a class="code" href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a>;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_range   = <a class="code" href="d__enum_8h.html#ab319110af650c4717e7f51f240404964aa23be202d7311fbca1f82564504cfe55">c_VIS_TRAFO_RANGE_DYNAMIC</a>;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordtype">int</span>                     vis_trafo_mode_complex = <a class="code" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aafc8e0187b663b638a4f85d40957957c8">c_COMPLEX2REAL_RE_IM</a>;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="comment">//states</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordtype">bool</span>            state_ui_init = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keywordtype">bool</span>            state_VD_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordtype">bool</span>            state_texture_set = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordtype">bool</span>            state_graph_up2date = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordtype">bool</span>            state_graph_updating = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordtype">bool</span>            state_default_dir = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;};</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor">#endif // D_VIEWER_3D_H</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="preprocessor">#endif // D_VIEWER_3D_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ad__opencv__typedefs_8h_html_a1f8633c25b831b9a16e5ee792f985a6e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a1f8633c25b831b9a16e5ee792f985a6e">Mat</a></div><div class="ttdeci">cv::Mat Mat</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:28</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561acf471bea1c100e11c83078528d7533cd">ER_okay</a></div><div class="ttdeci">@ ER_okay</div><div class="ttdef"><b>Definition:</b> d_enum.h:133</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_a86fe8abe2e57e86c0de93f4058842c76"><div class="ttname"><a href="class_d___viewer__3_d.html#a86fe8abe2e57e86c0de93f4058842c76">D_Viewer_3D::TakeFrames_CameraRotationFull</a></div><div class="ttdeci">int TakeFrames_CameraRotationFull(vector&lt; Mat &gt; *pvMA_ViewsOut, size_t n_frames=360)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:582</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a86fe8abe2e57e86c0de93f4058842c76"><div class="ttname"><a href="class_d___viewer__3_d.html#a86fe8abe2e57e86c0de93f4058842c76">D_Viewer_3D::TakeFrames_CameraRotationFull</a></div><div class="ttdeci">int TakeFrames_CameraRotationFull(vector&lt; Mat &gt; *pvMA_ViewsOut, size_t n_frames=360)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:587</div></div>
 <div class="ttc" id="ad__enum_8h_html_abbe912c95bc120eac9c8c7d593dd7fb0adbcdd607c91b6ab014361323e89320a8"><div class="ttname"><a href="d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0adbcdd607c91b6ab014361323e89320a8">c_VIEWER_3D_ALPHA_NUMBER_OF</a></div><div class="ttdeci">@ c_VIEWER_3D_ALPHA_NUMBER_OF</div><div class="ttdef"><b>Definition:</b> d_enum.h:492</div></div>
 <div class="ttc" id="aclass_d___img___proc_html_ae1397956ae15b4aa10e0790c0141a809"><div class="ttname"><a href="class_d___img___proc.html#ae1397956ae15b4aa10e0790c0141a809">D_Img_Proc::Visualize_to8bit</a></div><div class="ttdeci">static int Visualize_to8bit(Mat *pMA_Out, Mat *pMA_In, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max=false, int mode_complex=c_COMPLEX2REAL_RE_IM)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:5082</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a32968483d8dcc4c1d71cb13527875625"><div class="ttname"><a href="class_d___viewer__3_d.html#a32968483d8dcc4c1d71cb13527875625">D_Viewer_3D::Set_VisTrafo_Anchor</a></div><div class="ttdeci">void Set_VisTrafo_Anchor(double anchor=127.5)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:116</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_a1285c58da3d93c98d4d870d238f1e277"><div class="ttname"><a href="class_d___viewer__3_d.html#a1285c58da3d93c98d4d870d238f1e277">D_Viewer_3D::TakeFrames_SliceDim</a></div><div class="ttdeci">int TakeFrames_SliceDim(vector&lt; Mat &gt; *pvMA_ViewsOut, int dim2loop)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:540</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a1285c58da3d93c98d4d870d238f1e277"><div class="ttname"><a href="class_d___viewer__3_d.html#a1285c58da3d93c98d4d870d238f1e277">D_Viewer_3D::TakeFrames_SliceDim</a></div><div class="ttdeci">int TakeFrames_SliceDim(vector&lt; Mat &gt; *pvMA_ViewsOut, int dim2loop)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:545</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca272408485b468756b5ea51fcad7e7f77">c_DIM_X</a></div><div class="ttdeci">@ c_DIM_X</div><div class="ttdef"><b>Definition:</b> d_enum.h:235</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_aa7b0e62b32279937f2e471f0e843cf67"><div class="ttname"><a href="class_d___viewer__3_d.html#aa7b0e62b32279937f2e471f0e843cf67">D_Viewer_3D::Dim_extended0</a></div><div class="ttdeci">int Dim_extended0()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:131</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a855ce28a9068b12b02afd49ea3d67aaf"><div class="ttname"><a href="class_d___viewer__3_d.html#a855ce28a9068b12b02afd49ea3d67aaf">D_Viewer_3D::Save</a></div><div class="ttdeci">int Save(QString QS_Save)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:360</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a1c97f8ae54a3ea1ea3fe19fe290aab6f"><div class="ttname"><a href="class_d___viewer__3_d.html#a1c97f8ae54a3ea1ea3fe19fe290aab6f">D_Viewer_3D::Dims_fix</a></div><div class="ttdeci">vector&lt; int &gt; Dims_fix()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:139</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca2ea6778bc046d2af260f5fd5b1ffb8a2">c_DIM_Z</a></div><div class="ttdeci">@ c_DIM_Z</div><div class="ttdef"><b>Definition:</b> d_enum.h:237</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_ae0ea46ea19b38de74072149ce271e3f1"><div class="ttname"><a href="class_d___viewer__3_d.html#ae0ea46ea19b38de74072149ce271e3f1">D_Viewer_3D::Set_VisTrafo_SpreadInMin</a></div><div class="ttdeci">void Set_VisTrafo_SpreadInMin(double spread_min=0)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:112</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca824737a999ee97c4823d57c45a0636a1">c_DIM_T</a></div><div class="ttdeci">@ c_DIM_T</div><div class="ttdef"><b>Definition:</b> d_enum.h:238</div></div>
 <div class="ttc" id="ad__viewer_8h_html"><div class="ttname"><a href="d__viewer_8h.html">d_viewer.h</a></div></div>
-<div class="ttc" id="ad__enum_8h_html_ab229d2a78f7bbb34f7945c1e86b40945"><div class="ttname"><a href="d__enum_8h.html#ab229d2a78f7bbb34f7945c1e86b40945">PI_2_0</a></div><div class="ttdeci">const double PI_2_0</div><div class="ttdef"><b>Definition:</b> d_enum.h:2530</div></div>
+<div class="ttc" id="ad__enum_8h_html_ab229d2a78f7bbb34f7945c1e86b40945"><div class="ttname"><a href="d__enum_8h.html#ab229d2a78f7bbb34f7945c1e86b40945">PI_2_0</a></div><div class="ttdeci">const double PI_2_0</div><div class="ttdef"><b>Definition:</b> d_enum.h:2534</div></div>
 <div class="ttc" id="aclass_d___vis_dat___proc_html_a4f1ab21203e1e3db6387885e7a28de68"><div class="ttname"><a href="class_d___vis_dat___proc.html#a4f1ab21203e1e3db6387885e7a28de68">D_VisDat_Proc::PlaneFromDims</a></div><div class="ttdeci">static int PlaneFromDims(int d1, int d2)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:146</div></div>
 <div class="ttc" id="aclass_d___viewer_html"><div class="ttname"><a href="class_d___viewer.html">D_Viewer</a></div><div class="ttdoc">The D_Viewer class Display images (Mat) in QGraphicsView in the user interface.</div><div class="ttdef"><b>Definition:</b> d_viewer.h:58</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a68723260e2bbacbfd6bdec9e6fe98146"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a68723260e2bbacbfd6bdec9e6fe98146">ER_MemSizeToBig</a></div><div class="ttdeci">@ ER_MemSizeToBig</div><div class="ttdef"><b>Definition:</b> d_enum.h:180</div></div>
 <div class="ttc" id="aclass_d___storage_html"><div class="ttname"><a href="class_d___storage.html">D_Storage</a></div><div class="ttdoc">The D_Storage class Used for storing data. There is only one instance in D_MainWindow .</div><div class="ttdef"><b>Definition:</b> d_storage.h:49</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a368b660b88e0d5de0969567af28904fa"><div class="ttname"><a href="class_d___viewer__3_d.html#a368b660b88e0d5de0969567af28904fa">D_Viewer_3D::Set_VisTrafo_Mode_Anchor</a></div><div class="ttdeci">void Set_VisTrafo_Mode_Anchor(int mode=c_VIS_TRAFO_ANCHOR_DYNAMIC)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:120</div></div>
 <div class="ttc" id="ad__enum_8h_html_abbe912c95bc120eac9c8c7d593dd7fb0a1e37c62af5972df262d36a1cfbf5a3fb"><div class="ttname"><a href="d__enum_8h.html#abbe912c95bc120eac9c8c7d593dd7fb0a1e37c62af5972df262d36a1cfbf5a3fb">c_VIEWER_3D_ALPHA_CHANNEL_MEAN</a></div><div class="ttdeci">@ c_VIEWER_3D_ALPHA_CHANNEL_MEAN</div><div class="ttdef"><b>Definition:</b> d_enum.h:489</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_a58202040e29634b77a7cbf9326dce4c8"><div class="ttname"><a href="class_d___viewer__3_d.html#a58202040e29634b77a7cbf9326dce4c8">D_Viewer_3D::SaveVideo_SliceDim</a></div><div class="ttdeci">int SaveVideo_SliceDim()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:360</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a58202040e29634b77a7cbf9326dce4c8"><div class="ttname"><a href="class_d___viewer__3_d.html#a58202040e29634b77a7cbf9326dce4c8">D_Viewer_3D::SaveVideo_SliceDim</a></div><div class="ttdeci">int SaveVideo_SliceDim()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:365</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a656d3ac0f9898e221aefd69d3480ef08"><div class="ttname"><a href="class_d___viewer__3_d.html#a656d3ac0f9898e221aefd69d3480ef08">D_Viewer_3D::Set_VisTrafo_Gamma</a></div><div class="ttdeci">void Set_VisTrafo_Gamma(double gamma=1)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:111</div></div>
 <div class="ttc" id="ad__enum_8h_html_aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455"><div class="ttname"><a href="d__enum_8h.html#aa0c92bcc23c62cbc18b8a86992b5d78ca9085376272e4ca7596dbe3e08c1a3455">c_DIM_Y</a></div><div class="ttdeci">@ c_DIM_Y</div><div class="ttdef"><b>Definition:</b> d_enum.h:236</div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561a98dd0abe73fad23272d2db7268b296a2"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561a98dd0abe73fad23272d2db7268b296a2">ER_UiNotInit</a></div><div class="ttdeci">@ ER_UiNotInit</div><div class="ttdef"><b>Definition:</b> d_enum.h:177</div></div>
@@ -440,8 +442,8 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="ttc" id="aclass_d___viewer__3_d_html_a7795296bb1c0c73247484aab31a0a712"><div class="ttname"><a href="class_d___viewer__3_d.html#a7795296bb1c0c73247484aab31a0a712">D_Viewer_3D::D_Viewer_3D</a></div><div class="ttdeci">D_Viewer_3D()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:11</div></div>
 <div class="ttc" id="aclass_d___vis_dat___dim_html_a5dd1092a709e5c2a5312ddacd2225527"><div class="ttname"><a href="class_d___vis_dat___dim.html#a5dd1092a709e5c2a5312ddacd2225527">D_VisDat_Dim::size_PixelCount</a></div><div class="ttdeci">int size_PixelCount()</div><div class="ttdef"><b>Definition:</b> d_visdat_dim.cpp:56</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_aea1769353dda600702c20aedcfd5cf3c"><div class="ttname"><a href="class_d___viewer__3_d.html#aea1769353dda600702c20aedcfd5cf3c">D_Viewer_3D::Set_VisTrafo_Center</a></div><div class="ttdeci">void Set_VisTrafo_Center(double center=0)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:114</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_a0a0b70fbd6817e57de88368fbdd6d136"><div class="ttname"><a href="class_d___viewer__3_d.html#a0a0b70fbd6817e57de88368fbdd6d136">D_Viewer_3D::Update_Ui</a></div><div class="ttdeci">void Update_Ui()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:637</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_a0b1fb695f413a722ce15c63ce16089a2"><div class="ttname"><a href="class_d___viewer__3_d.html#a0b1fb695f413a722ce15c63ce16089a2">D_Viewer_3D::Update_Graph</a></div><div class="ttdeci">int Update_Graph()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:685</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a0a0b70fbd6817e57de88368fbdd6d136"><div class="ttname"><a href="class_d___viewer__3_d.html#a0a0b70fbd6817e57de88368fbdd6d136">D_Viewer_3D::Update_Ui</a></div><div class="ttdeci">void Update_Ui()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:642</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_a0b1fb695f413a722ce15c63ce16089a2"><div class="ttname"><a href="class_d___viewer__3_d.html#a0b1fb695f413a722ce15c63ce16089a2">D_Viewer_3D::Update_Graph</a></div><div class="ttdeci">int Update_Graph()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:690</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_ab4baee8e52b4ea0bdf19b47ec79d187e"><div class="ttname"><a href="class_d___viewer__3_d.html#ab4baee8e52b4ea0bdf19b47ec79d187e">D_Viewer_3D::Dims_extended</a></div><div class="ttdeci">vector&lt; int &gt; Dims_extended()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:134</div></div>
 <div class="ttc" id="aclass_d___vis_dat___obj_html_a9b255993f402cca1b61ca82beae51b20"><div class="ttname"><a href="class_d___vis_dat___obj.html#a9b255993f402cca1b61ca82beae51b20">D_VisDat_Obj::Dim</a></div><div class="ttdeci">D_VisDat_Dim Dim()</div><div class="ttdef"><b>Definition:</b> d_visdat_obj.h:72</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_abe2aa50c072e58e11930eb68be97cc42"><div class="ttname"><a href="class_d___viewer__3_d.html#abe2aa50c072e58e11930eb68be97cc42">D_Viewer_3D::Set_VisTrafo_Divisor</a></div><div class="ttdeci">void Set_VisTrafo_Divisor(double divisor=0)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:115</div></div>
@@ -464,6 +466,7 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="ttc" id="aclass_d___viewer__3_d_html_a8ed0f47c8fcc4734be70bc068ef21c96"><div class="ttname"><a href="class_d___viewer__3_d.html#a8ed0f47c8fcc4734be70bc068ef21c96">D_Viewer_3D::Set_VisTrafo_SpreadInMax</a></div><div class="ttdeci">void Set_VisTrafo_SpreadInMax(double spread_max=255)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:113</div></div>
 <div class="ttc" id="aclass_d___popup___list_select_html"><div class="ttname"><a href="class_d___popup___list_select.html">D_Popup_ListSelect</a></div><div class="ttdoc">The D_Popup_ListSelect class Lets the user choose an entry from a QStringList</div><div class="ttdef"><b>Definition:</b> d_popup_listselect.h:37</div></div>
 <div class="ttc" id="ad__viewer__3d_8h_html"><div class="ttname"><a href="d__viewer__3d_8h.html">d_viewer_3d.h</a></div></div>
+<div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aaf19dc88671f77b2edeaaf96541a4242">ER_other</a></div><div class="ttdeci">@ ER_other</div><div class="ttdef"><b>Definition:</b> d_enum.h:134</div></div>
 <div class="ttc" id="ad__enum_8h_html_ab05552d1926cf5c23f2ab0729df559d7a564e62d1b75dbd97eb66189f26b43ffb"><div class="ttname"><a href="d__enum_8h.html#ab05552d1926cf5c23f2ab0729df559d7a564e62d1b75dbd97eb66189f26b43ffb">c_VIEWER_PLOT_3D_SHADOW_MEDIUM</a></div><div class="ttdeci">@ c_VIEWER_PLOT_3D_SHADOW_MEDIUM</div><div class="ttdef"><b>Definition:</b> d_enum.h:556</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a3650e6c5db1c2b70967baac84dc7bd54"><div class="ttname"><a href="class_d___viewer__3_d.html#a3650e6c5db1c2b70967baac84dc7bd54">D_Viewer_3D::Set_AlphaMode</a></div><div class="ttdeci">void Set_AlphaMode(size_t alpha_mode)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:128</div></div>
 <div class="ttc" id="ad__enum_8h_html_a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c"><div class="ttname"><a href="d__enum_8h.html#a35d10a2854b8d01b5a4535944884f692a40d6b7af97e33b09c5f5553e98d0f62c">c_VIS_TRAFO_ANCHOR_DYNAMIC</a></div><div class="ttdeci">@ c_VIS_TRAFO_ANCHOR_DYNAMIC</div><div class="ttdef"><b>Definition:</b> d_enum.h:709</div></div>
@@ -479,16 +482,16 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="ttc" id="aclass_d___viewer__3_d_html_a2b0a7506f087af9b0bb4afde9ddaa8df"><div class="ttname"><a href="class_d___viewer__3_d.html#a2b0a7506f087af9b0bb4afde9ddaa8df">D_Viewer_3D::init</a></div><div class="ttdeci">void init(QGridLayout *target_layout)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:26</div></div>
 <div class="ttc" id="ad__enum_8h_html_ad8b4d5a443efd80591929c579b3bce0da08333d0657f0cce9bc4a32b377e80979"><div class="ttname"><a href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0da08333d0657f0cce9bc4a32b377e80979">c_VIS_TRAFO_CROP_FIXED</a></div><div class="ttdeci">@ c_VIS_TRAFO_CROP_FIXED</div><div class="ttdef"><b>Definition:</b> d_enum.h:688</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a321c9d76efd62a1c3182e1208c0c34e4"><div class="ttname"><a href="class_d___viewer__3_d.html#a321c9d76efd62a1c3182e1208c0c34e4">D_Viewer_3D::Set_VisTrafo_Mode_Range</a></div><div class="ttdeci">void Set_VisTrafo_Mode_Range(int mode=c_VIS_TRAFO_RANGE_DYNAMIC)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:121</div></div>
-<div class="ttc" id="aclass_d___img___proc_html_a2fd8862d5f97053f11fc3fc0abb7813b"><div class="ttname"><a href="class_d___img___proc.html#a2fd8862d5f97053f11fc3fc0abb7813b">D_Img_Proc::Contrast_Color</a></div><div class="ttdeci">static QColor Contrast_Color(QColor col_in, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:19002</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_a2fd8862d5f97053f11fc3fc0abb7813b"><div class="ttname"><a href="class_d___img___proc.html#a2fd8862d5f97053f11fc3fc0abb7813b">D_Img_Proc::Contrast_Color</a></div><div class="ttdeci">static QColor Contrast_Color(QColor col_in, bool force_black_and_white=true, bool mirror_hue=true, bool force_light2blue=true)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:19389</div></div>
 <div class="ttc" id="ad__popup__listselect_8h_html"><div class="ttname"><a href="d__popup__listselect_8h.html">d_popup_listselect.h</a></div></div>
 <div class="ttc" id="ad__enum_8h_html_af7b8b602b1f7e03c477deb92963e3561aef680794ad6d6efe730d5ffea7e1dd3f"><div class="ttname"><a href="d__enum_8h.html#af7b8b602b1f7e03c477deb92963e3561aef680794ad6d6efe730d5ffea7e1dd3f">ER_dim_missmatch</a></div><div class="ttdeci">@ ER_dim_missmatch</div><div class="ttdef"><b>Definition:</b> d_enum.h:148</div></div>
 <div class="ttc" id="ad__visdat__obj_8h_html"><div class="ttname"><a href="d__visdat__obj_8h.html">d_visdat_obj.h</a></div></div>
 <div class="ttc" id="ad__enum_8h_html"><div class="ttname"><a href="d__enum_8h.html">d_enum.h</a></div></div>
 <div class="ttc" id="aclass_d___storage_html_a38ce8f70509916f902c756a86ad48408"><div class="ttname"><a href="class_d___storage.html#a38ce8f70509916f902c756a86ad48408">D_Storage::set_dir_byIndex</a></div><div class="ttdeci">void set_dir_byIndex(QString path, int dir_index)</div><div class="ttdef"><b>Definition:</b> d_storage.h:95</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a061012a0cbb9a2acd703197603eefbea"><div class="ttname"><a href="class_d___viewer__3_d.html#a061012a0cbb9a2acd703197603eefbea">D_Viewer_3D::Dim_is_extended</a></div><div class="ttdeci">bool Dim_is_extended(int d)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:135</div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_afee53dd38f230d8baffe1ceaf518f0fa"><div class="ttname"><a href="class_d___viewer__3_d.html#afee53dd38f230d8baffe1ceaf518f0fa">D_Viewer_3D::SaveVideo_CameraRotationFull</a></div><div class="ttdeci">int SaveVideo_CameraRotationFull()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:464</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_afee53dd38f230d8baffe1ceaf518f0fa"><div class="ttname"><a href="class_d___viewer__3_d.html#afee53dd38f230d8baffe1ceaf518f0fa">D_Viewer_3D::SaveVideo_CameraRotationFull</a></div><div class="ttdeci">int SaveVideo_CameraRotationFull()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:469</div></div>
 <div class="ttc" id="ad__enum_8h_html_a8ca69dca6b0dce2e8ee0ab266fd63fa9"><div class="ttname"><a href="d__enum_8h.html#a8ca69dca6b0dce2e8ee0ab266fd63fa9">QSL_DimIndices</a></div><div class="ttdeci">const QStringList QSL_DimIndices</div><div class="ttdef"><b>Definition:</b> d_enum.h:251</div></div>
-<div class="ttc" id="aclass_d___vis_dat___proc_html_ad5ac3a4e00d85ebb3a6dd98cebc95820"><div class="ttname"><a href="class_d___vis_dat___proc.html#ad5ac3a4e00d85ebb3a6dd98cebc95820">D_VisDat_Proc::Calc_MinMax</a></div><div class="ttdeci">static int Calc_MinMax(D_VisDat_Obj *pVD_In, double *min_ext, double *max_ext)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:7643</div></div>
+<div class="ttc" id="aclass_d___vis_dat___proc_html_ad5ac3a4e00d85ebb3a6dd98cebc95820"><div class="ttname"><a href="class_d___vis_dat___proc.html#ad5ac3a4e00d85ebb3a6dd98cebc95820">D_VisDat_Proc::Calc_MinMax</a></div><div class="ttdeci">static int Calc_MinMax(D_VisDat_Obj *pVD_In, double *min_ext, double *max_ext)</div><div class="ttdef"><b>Definition:</b> d_visdat_proc.cpp:7666</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a11b7f59e0e65e053579c0e6482d4ccde"><div class="ttname"><a href="class_d___viewer__3_d.html#a11b7f59e0e65e053579c0e6482d4ccde">D_Viewer_3D::Set_StoragePointer</a></div><div class="ttdeci">void Set_StoragePointer(D_Storage *pStorage, int index_dir2use)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:124</div></div>
 <div class="ttc" id="ad__opencv__typedefs_8h_html_a0939b87817f9b97e22e69319d1ca651e"><div class="ttname"><a href="d__opencv__typedefs_8h.html#a0939b87817f9b97e22e69319d1ca651e">Vec</a></div><div class="ttdeci">cv::Vec&lt; T, N &gt; Vec</div><div class="ttdef"><b>Definition:</b> d_opencv_typedefs.h:44</div></div>
 <div class="ttc" id="ad__error__handler_8h_html"><div class="ttname"><a href="d__error__handler_8h.html">d_error_handler.h</a></div></div>
@@ -497,8 +500,8 @@ $(document).ready(function(){initNavTree('d__viewer__3d_8h_source.html',''); ini
 <div class="ttc" id="aclass_d___viewer__3_d_html_a77334b454f005c2bf8c97580f27c30ed"><div class="ttname"><a href="class_d___viewer__3_d.html#a77334b454f005c2bf8c97580f27c30ed">D_Viewer_3D::Dim_fix2</a></div><div class="ttdeci">int Dim_fix2()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:138</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a46c9a1164ff4907c5e8194f96935539f"><div class="ttname"><a href="class_d___viewer__3_d.html#a46c9a1164ff4907c5e8194f96935539f">D_Viewer_3D::Set_Volume</a></div><div class="ttdeci">void Set_Volume(size_t volume_index)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:126</div></div>
 <div class="ttc" id="ad__videowriter_8h_html"><div class="ttname"><a href="d__videowriter_8h.html">d_videowriter.h</a></div></div>
-<div class="ttc" id="aclass_d___viewer__3_d_html_aa1cebbf0d00463625f56eba9652a37af"><div class="ttname"><a href="class_d___viewer__3_d.html#aa1cebbf0d00463625f56eba9652a37af">D_Viewer_3D::Update_Slices</a></div><div class="ttdeci">int Update_Slices()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:729</div></div>
-<div class="ttc" id="aclass_d___img___proc_html_a91950905b6e0cac3d6df819ffef2bb49"><div class="ttname"><a href="class_d___img___proc.html#a91950905b6e0cac3d6df819ffef2bb49">D_Img_Proc::Color2Text4StyleSheet</a></div><div class="ttdeci">static QString Color2Text4StyleSheet(QColor col_in)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:19059</div></div>
+<div class="ttc" id="aclass_d___viewer__3_d_html_aa1cebbf0d00463625f56eba9652a37af"><div class="ttname"><a href="class_d___viewer__3_d.html#aa1cebbf0d00463625f56eba9652a37af">D_Viewer_3D::Update_Slices</a></div><div class="ttdeci">int Update_Slices()</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.cpp:734</div></div>
+<div class="ttc" id="aclass_d___img___proc_html_a91950905b6e0cac3d6df819ffef2bb49"><div class="ttname"><a href="class_d___img___proc.html#a91950905b6e0cac3d6df819ffef2bb49">D_Img_Proc::Color2Text4StyleSheet</a></div><div class="ttdeci">static QString Color2Text4StyleSheet(QColor col_in)</div><div class="ttdef"><b>Definition:</b> d_img_proc.cpp:19446</div></div>
 <div class="ttc" id="aclass_d___vis_dat___slice___nd_html_a60798ca57e8cd279cfce51d4da5f6da2"><div class="ttname"><a href="class_d___vis_dat___slice___nd.html#a60798ca57e8cd279cfce51d4da5f6da2">D_VisDat_Slice_Nd::set_Pos_Dim</a></div><div class="ttdeci">void set_Pos_Dim(int d, int pos)</div><div class="ttdef"><b>Definition:</b> d_visdat_slice_nd.h:74</div></div>
 <div class="ttc" id="aclass_d___viewer__3_d_html_a5450adfc3a5756d9293e326fc1024770"><div class="ttname"><a href="class_d___viewer__3_d.html#a5450adfc3a5756d9293e326fc1024770">D_Viewer_3D::Set_backgroundColor</a></div><div class="ttdeci">void Set_backgroundColor(QColor color)</div><div class="ttdef"><b>Definition:</b> d_viewer_3d.h:127</div></div>
 <div class="ttc" id="ad__enum_8h_html_ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d"><div class="ttname"><a href="d__enum_8h.html#ad8b4d5a443efd80591929c579b3bce0daa24e21c012b1d65baa4f8a0cbc77574d">c_VIS_TRAFO_CROP_DYNAMIC</a></div><div class="ttdeci">@ c_VIS_TRAFO_CROP_DYNAMIC</div><div class="ttdef"><b>Definition:</b> d_enum.h:687</div></div>

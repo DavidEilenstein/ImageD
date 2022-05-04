@@ -215,6 +215,7 @@ var d__bio__enum_8h =
     [ "QSL_DatapointLevel", "d__bio__enum_8h.html#aa2838d4f8c8643c96c06712f05b61bd1", null ],
     [ "QSL_FileSections", "d__bio__enum_8h.html#ada7973eb72010d807733a4235932bcc0", null ],
     [ "QSL_FileSubsections", "d__bio__enum_8h.html#a50f86767b379acabf26208d8f8c469e6", null ],
+    [ "QSL_FilterMode", "d__bio__enum_8h.html#aa04c0bcaf50f90330c7f1ea0422eda10", null ],
     [ "QSL_NucLifeFileSections", "d__bio__enum_8h.html#ab850a4ec886c04ba9ab6029445ec6b99", null ],
     [ "QSL_ValueStat_Subsection", "d__bio__enum_8h.html#a1419a45e352a5bc8fff8bb7a8c66ab44", null ]
 ];

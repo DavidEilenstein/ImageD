@@ -18,6 +18,7 @@ var class_d___viewer__3_d =
     [ "Plane_SliceXY", "class_d___viewer__3_d.html#aa481b7a28fc7695e3798abdf8e7efe26", null ],
     [ "Plane_SliceXZ", "class_d___viewer__3_d.html#af2a6df91699fcc2b19d9e460a20faf5f", null ],
     [ "Plane_SliceYZ", "class_d___viewer__3_d.html#a56e3b184a1df12e0332d0891df8611e8", null ],
+    [ "Save", "class_d___viewer__3_d.html#a855ce28a9068b12b02afd49ea3d67aaf", null ],
     [ "SaveVideo_CameraRotationFull", "class_d___viewer__3_d.html#afee53dd38f230d8baffe1ceaf518f0fa", null ],
     [ "SaveVideo_SliceDim", "class_d___viewer__3_d.html#a58202040e29634b77a7cbf9326dce4c8", null ],
     [ "Set_AlphaMode", "class_d___viewer__3_d.html#a3650e6c5db1c2b70967baac84dc7bd54", null ],

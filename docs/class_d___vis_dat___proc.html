@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="ImageD_Logo_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ImageD
-   &#160;<span id="projectnumber">v2_5_18 (07.04.22)</span>
+   &#160;<span id="projectnumber">v2_6_8 (04.05.22)</span>
    </div>
    <div id="projectbrief">ImageD is an image processing software designed for rapid prototyping and implementing algorithms and solutions for science, research and teaching.</div>
   </td>
@@ -457,6 +457,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3409dbb1bffafc38a2b30773d5b687e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa93147be5d3ad307945f698b983cf08b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#aa93147be5d3ad307945f698b983cf08b">Math_4img_BitwiseOr</a> (<a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In0, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In1, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In2, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In3)</td></tr>
 <tr class="separator:aa93147be5d3ad307945f698b983cf08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a739a7e098cbe5ac016776a4d522cb40a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a739a7e098cbe5ac016776a4d522cb40a">Matrix_Product</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In0, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In1)</td></tr>
+<tr class="separator:a739a7e098cbe5ac016776a4d522cb40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a78a66e99cdda5effba9769a6726750"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a3a78a66e99cdda5effba9769a6726750">Transformation_Distance</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In, int metric, int precision, double spacing_x3d=1.0, double spacing_y3d=1.0, double spacing_z3d=1.0)</td></tr>
 <tr class="separator:a3a78a66e99cdda5effba9769a6726750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cbe4a58e100c91ac6805a1ef4929dee"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d___vis_dat___proc.html#a9cbe4a58e100c91ac6805a1ef4929dee">Transformation_Fourier</a> (<a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a> slice, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_Out, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In_Re, <a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *pVD_In_Im, bool complex_input=true, bool invers=false, bool force_fft=true, bool out_real=false, int out_complex_mode=<a class="el" href="d__enum_8h.html#a079150d96d56514a443083e3d7c4653aa73ea6ef57f01efdb6cf9612bbc1399cf">c_COMPLEX2REAL_ABS</a>, bool out_scale=false, bool out_center=true, bool out_nof0=true)</td></tr>
@@ -8354,6 +8356,54 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>factor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a739a7e098cbe5ac016776a4d522cb40a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a739a7e098cbe5ac016776a4d522cb40a">&#9670;&nbsp;</a></span>Matrix_Product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int D_VisDat_Proc::Matrix_Product </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___slicing.html">D_VisDat_Slicing</a>&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_Out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d___vis_dat___obj.html">D_VisDat_Obj</a> *&#160;</td>
+          <td class="paramname"><em>pVD_In1</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

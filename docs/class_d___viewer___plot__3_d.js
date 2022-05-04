@@ -13,5 +13,6 @@ var class_d___viewer___plot__3_d =
     [ "plot_Tree", "class_d___viewer___plot__3_d.html#a948159121b78a4adab46d968665ae150", null ],
     [ "plot_VD_custom", "class_d___viewer___plot__3_d.html#a6ccc1c154bcd2e9e7f84f5444c7dec91", null ],
     [ "plot_VD_Heightmap", "class_d___viewer___plot__3_d.html#ac05b146aaf5d3f7d0a3591685221ed1f", null ],
-    [ "plot_VD_Scatter", "class_d___viewer___plot__3_d.html#a0d7b4526329260258c79923034790e5c", null ]
+    [ "plot_VD_Scatter", "class_d___viewer___plot__3_d.html#a0d7b4526329260258c79923034790e5c", null ],
+    [ "save", "class_d___viewer___plot__3_d.html#a6ded74422ee9d2b703280e2e0e5e0181", null ]
 ];
