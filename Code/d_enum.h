@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_6_7";
-const QString           D_QS_Release  = "03.05.2022";
+const QString           D_QS_Version  = "v2_6_8";
+const QString           D_QS_Release  = "May the focre 2022";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -2511,6 +2511,10 @@ const QStringList QSL_Counties = {
     "Zimbabwe"
 };
 
+//QString Format
+const QString QS_DateTimeFormat_YearToSec = "yyyy_MM_dd hh_mm_ss";
+
+//Fun
 const QString QS_Fun_TableFlip = "(┛ಠ_ಠ)┛彡┻━┻";
 const QString QS_Fun_Confused = "ಠಿ_ಠ";
 const QString QS_Fun_IDontKnow = "¯\(◉‿◉)/¯";

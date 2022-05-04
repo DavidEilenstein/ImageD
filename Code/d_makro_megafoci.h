@@ -1515,9 +1515,9 @@ private slots:
     void MS6_Update_Result_MosaicData();
     void MS6_Update_Result_NucLifeImg();
 
-    bool MS6_SaveResult_Current();
+    bool MS6_Save_Result_Current();
     bool MS6_Save_NucLifes();
-    bool MS6_SaveAnalysis_Full();
+    bool MS6_Save_StatisticAnalysis();
 
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);

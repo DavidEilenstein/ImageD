@@ -10699,7 +10699,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_NucLifeImg()
     MS6_Viewer_Img_2D.Update_Image(&MS6_ResultImgShow);
 }
 
-bool D_MAKRO_MegaFoci::MS6_SaveResult_Current()
+bool D_MAKRO_MegaFoci::MS6_Save_Result_Current()
 {
     QString QS_Save_Suffix;
     switch (ui->stackedWidget_MS6_ResView->currentIndex())
@@ -10721,7 +10721,7 @@ bool D_MAKRO_MegaFoci::MS6_SaveResult_Current()
 
     QString QS_Save_Default =
             pStore->dir_M_MegaFoci_Results()->path() +
-            "/" + QDateTime::currentDateTime().toString().replace(".", "_").replace(":", "_") + " " + MS6_DefaultTitle_Result() + "." + QS_Save_Suffix;
+            "/" + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec).replace(".", "_").replace(":", "_") + " " + MS6_DefaultTitle_Result() + "." + QS_Save_Suffix;
 
     //get save name
     QString QS_Save = QFileDialog::getSaveFileName(
@@ -10753,7 +10753,7 @@ bool D_MAKRO_MegaFoci::MS6_Save_NucLifes()
     //get save name
     QString QS_Save = QFileDialog::getExistingDirectory(
                 this,
-                "Please select directory to save nuc life images in ('NucLifeImgs <DateTime>' Folder is aitomatically created)",
+                "Please select directory to save nuc life images in ('NucLifeImgs <DateTime>' Folder is automatically created)",
                 pStore->dir_M_MegaFoci_Results()->path());
 
     //check, if save name is valid
@@ -10763,7 +10763,7 @@ bool D_MAKRO_MegaFoci::MS6_Save_NucLifes()
         pStore->set_dir_M_MegaFoci_Results(QS_Save);
 
     //main save dir
-    QDir DIR_SaveMain(QS_Save + "/NucLifeImgs " + QDateTime::currentDateTime().toString().replace(".", "_").replace(":", "_"));
+    QDir DIR_SaveMain(QS_Save + "/NucLifeImgs " + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec));
     if(!DIR_SaveMain.exists())
         QDir().mkdir(DIR_SaveMain.path());
     if(!DIR_SaveMain.exists())
@@ -10799,42 +10799,32 @@ bool D_MAKRO_MegaFoci::MS6_Save_NucLifes()
     return ER_okay;
 }
 
-bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()
+bool D_MAKRO_MegaFoci::MS6_Save_StatisticAnalysis()
 {
     if(mode_major_current != MODE_MAJOR_6_EPIC_ANALYSIS)
         return false;
 
-    StatusSet("Please select directory to save step 6 results in");
+    //get save name
     QString QS_Save = QFileDialog::getExistingDirectory(
                 this,
-                "Please select directory to save step 6 results in ('Results_6_*' folder is created automatically)",
+                "Please select directory to save statistical analysis in ('StatisticAnalysis <DateTime>' Folder is automatically created)",
                 pStore->dir_M_MegaFoci_Results()->path());
 
-    //check if dir was selected
+    //check, if save name is valid
     if(QS_Save.isEmpty())
     {
         StatusSet("If you don't select a folder, i can't save the results we worked so hard for... " + QS_Fun_Sad);
         return false;
     }
 
-    //set master save dir and check existance
-    QDir DIR_Save(QS_Save);
-    if(!DIR_Save.exists())
-    {
-        StatusSet("With unknown dark magic you managed to select a non existent directory " +  QS_Fun_Confused);
-        return false;
-    }
+    pStore->set_dir_M_MegaFoci_Results(QS_Save);
 
-    //create sub dir
-    size_t count = 0;
-    do
-    {
-        DIR_MS6_Out_SaveAnalysisMaster.setPath(DIR_Save.path() + "/Results_Step6_" + QString::number(count));
-        count++;
-    }
-    while(DIR_MS6_Out_SaveAnalysisMaster.exists());
-    QDir().mkdir(DIR_MS6_Out_SaveAnalysisMaster.path());
-    StatusSet("Set as save directory:\n" + DIR_MS6_Out_SaveAnalysisMaster.path());
+    //main save dir
+    QDir DIR_SaveMain(QS_Save + "/StatisticAnalysis " + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec));
+    if(!DIR_SaveMain.exists())
+        QDir().mkdir(DIR_SaveMain.path());
+    if(!DIR_SaveMain.exists())
+        return false;
 
     //save data
     StatusSet("Start saving data");
@@ -10849,7 +10839,6 @@ bool D_MAKRO_MegaFoci::MS6_SaveAnalysis_Full()
     //finish
     return ok;
 }
-
 
 void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked)
 {
@@ -10897,7 +10886,7 @@ void D_MAKRO_MegaFoci::on_comboBox_MS6_ResultTypes_currentIndexChanged(int index
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveAnalysis_clicked()
 {
-    MS6_SaveAnalysis_Full();
+    MS6_Save_StatisticAnalysis();
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1)
@@ -10912,11 +10901,10 @@ void D_MAKRO_MegaFoci::on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueCha
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveResult_clicked()
 {
-    MS6_SaveResult_Current();
+    MS6_Save_Result_Current();
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
-
