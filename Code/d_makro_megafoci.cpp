@@ -8029,6 +8029,13 @@ void D_MAKRO_MegaFoci::MS5_UiInit()
    connect(&MS5_Viewer_T3,                          SIGNAL(MouseMoved_Pos(int, int)),       this,   SLOT(MS5_NucleiHighlight_Hover_Viewer3(int, int)));
    connect(&MS5_Viewer_T4,                          SIGNAL(MouseMoved_Pos(int, int)),       this,   SLOT(MS5_NucleiHighlight_Hover_Viewer4(int, int)));
 
+   //event recording
+   connect(&MS5_Viewer_T0,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_EventToS2_GetClick_v0(int, int)));
+   connect(&MS5_Viewer_T1,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_EventToS2_GetClick_v1(int, int)));
+   connect(&MS5_Viewer_T2,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_EventToS2_GetClick_v2(int, int)));
+   connect(&MS5_Viewer_T3,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_EventToS2_GetClick_v3(int, int)));
+   connect(&MS5_Viewer_T4,                          SIGNAL(MouseClicked_Pos(int, int)),     this,   SLOT(MS5_EventToS2_GetClick_v4(int, int)));
+
    //connected zoom in viewers
    for(size_t v = 1; v < MS5_ViewersCount; v++)
        v_MS5_Viewers_T[0]->connect_Zoom(v_MS5_Viewers_T[v]);
@@ -8075,7 +8082,8 @@ bool D_MAKRO_MegaFoci::MS5_LoadAll()
     ui->pushButton_MS5_DataSave->setEnabled(true);
     ui->pushButton_MS5_SaveViewportImageStack->setEnabled(true);
     ui->groupBox_MS5_Viewport->setEnabled(true);
-    ui->groupBox_MS5_Events->setEnabled(true);
+    ui->groupBox_MS5_Events_toS2->setEnabled(true);
+    ui->groupBox_MS5_Events_S5intern->setEnabled(true);
     ui->groupBox_MS5_Editing->setEnabled(true);
     ui->groupBox_MS5_ViewersSettings->setEnabled(true);
 
@@ -8810,6 +8818,9 @@ void D_MAKRO_MegaFoci::MS5_NucleiHighlight_Select(int x, int y, size_t t)
     if(!MS5_state_imgs_shown_at_lesast_once)
         return;
 
+    if(MS5_EventToS2_Recording)
+        return;
+
     if(!MS5_CoordTransform_MosaicPx_2_OriginalPx(&x, &y))
         return;
 
@@ -8966,6 +8977,197 @@ bool D_MAKRO_MegaFoci::MS5_Editing_ConnectionDelete()
     MS5_Editing_SelectionForget();
     MS5_UpdateImages_Basic();
     return true;
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_SetList()
+{
+    if(MS5_EventToS2_FileSet)
+        return;
+
+    QString QS_Save = QFileDialog::getSaveFileName(
+                this,
+                "Save location event list",
+                pStore->dir_M_MegaFoci_Results()->path() + "/EventList_S5toS2_" + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec) + ".txt",
+                "Textfiles (*.txt)");
+
+    if(QS_Save.isEmpty())
+        return;
+
+    pStore->set_dir_M_MegaFoci_Results(QS_Save);
+    MS5_EventToS2_File.setFile(QS_Save);
+    MS5_EventToS2_FileSet = true;
+
+    MS5_EventToS2_Events.clear();
+
+    if(MS5_EventToS2_File.exists())
+    {
+        QFile F_EventList(MS5_EventToS2_File.absoluteFilePath());
+        if(!F_EventList.open(QIODevice::ReadOnly))
+            return;
+
+        QTextStream TS_EventList(&F_EventList);
+
+        while(!TS_EventList.atEnd())
+            MS5_EventToS2_Events.append(TS_EventList.readLine());
+
+
+        StatusSet("Event list file read:\n" + MS5_EventToS2_File.absoluteFilePath());
+    }
+    else
+    {
+        //init
+        MS5_EventToS2_Events.append("Event list S5->S2");
+        MS5_EventToS2_Events.append("Path;"             + MS5_EventToS2_File.absoluteFilePath());
+        MS5_EventToS2_Events.append("ImageD version;"   + D_QS_Version + "(" + D_QS_Release + ")");
+        MS5_EventToS2_Events.append("Saved;"            + QDateTime::currentDateTime().toString());
+        MS5_EventToS2_Events.append("");
+        MS5_EventToS2_Events.append("t;y;x;r;comment");
+
+
+        StatusSet("Event list file set:\n" + MS5_EventToS2_File.absoluteFilePath());
+    }
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_Start()
+{
+    if(!MS5_EventToS2_FileSet)
+        MS5_EventToS2_SetList();
+    if(!MS5_EventToS2_FileSet)
+        return;
+
+    if(MS5_EventToS2_Recording)
+        return;
+
+    MS5_EventToS2_Recording = true;
+    MS5_EventToS2_ClicksRecorded = 0;
+    ui->pushButton_MS5_EventS2_RecordStart->setEnabled(false);
+    ui->pushButton_MS5_EventS2_RecordStop->setEnabled(true);
+
+     StatusSet("Click to select event center");
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_Stop()
+{
+    if(!MS5_EventToS2_FileSet)
+        return;
+
+    MS5_EventToS2_Recording = false;
+    MS5_EventToS2_ClicksRecorded = 0;
+    ui->pushButton_MS5_EventS2_RecordStart->setEnabled(true);
+    ui->pushButton_MS5_EventS2_RecordStop->setEnabled(false);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick_v0(int x, int y)
+{
+    MS5_EventToS2_GetClick(x, y, ui->spinBox_MS5_T_start->value() + 0);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick_v1(int x, int y)
+{
+    MS5_EventToS2_GetClick(x, y, ui->spinBox_MS5_T_start->value() + 1);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick_v2(int x, int y)
+{
+    MS5_EventToS2_GetClick(x, y, ui->spinBox_MS5_T_start->value() + 2);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick_v3(int x, int y)
+{
+    MS5_EventToS2_GetClick(x, y, ui->spinBox_MS5_T_start->value() + 3);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick_v4(int x, int y)
+{
+    MS5_EventToS2_GetClick(x, y, ui->spinBox_MS5_T_start->value() + 4);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_GetClick(int x, int y, size_t t)
+{
+    if(!MS5_EventToS2_FileSet)
+        return;
+
+    if(!MS5_EventToS2_Recording)
+        return;
+
+    if(!MS5_CoordTransform_MosaicPx_2_OriginalPx(&x, &y))
+        return;
+
+    if(MS5_EventToS2_ClicksRecorded == 0)
+    {
+        MS5_EventToS2_Click_Point       = Point(x, y);
+        MS5_EventToS2_Click_Time        = t;
+        MS5_EventToS2_ClicksRecorded    = 1;
+        StatusSet("Click to select event radius");
+    }
+    else if(MS5_EventToS2_ClicksRecorded == 1)
+    {
+        MS5_EventToS2_Click_Radius      = D_Math::Distance(Point(x, y), MS5_EventToS2_Click_Point);
+        MS5_EventToS2_ClicksRecorded    = 2;
+        MS5_EventToS2_AddEvent();
+    }
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_AddEvent()
+{
+    if(!MS5_EventToS2_FileSet)
+        MS5_EventToS2_SetList();
+    if(!MS5_EventToS2_FileSet)
+        return;
+
+    if(!MS5_EventToS2_Recording)
+        return;
+
+    QString QS_Comment = "S5_manually_recorded";
+    if(ui->checkBox_MS5_EventS2_AddComment->isChecked())
+        QS_Comment = QInputDialog::getText(
+                    this,
+                    "Enter event comment",
+                    "Comment:",
+                    QLineEdit::EchoMode::Normal,
+                    QS_Comment);
+
+    MS5_EventToS2_Events.append(
+                QString::number(MS5_EventToS2_Click_Time) + ";" +
+                QString::number(MS5_EventToS2_Click_Point.y) + ";" +
+                QString::number(MS5_EventToS2_Click_Point.x) + ";" +
+                QString::number(int(MS5_EventToS2_Click_Radius)) + ";" +
+                QS_Comment);
+
+    MS5_EventToS2_SaveEventList();
+    MS5_EventToS2_Stop();
+
+    StatusSet("Event saved:\n"
+              "T=" + QString::number(MS5_EventToS2_Click_Time) +
+              " Y=" + QString::number(MS5_EventToS2_Click_Point.y) +
+              " X=" + QString::number(MS5_EventToS2_Click_Point.x) +
+              " R=" + QString::number(int(MS5_EventToS2_Click_Radius)) +
+              " " + QS_Comment);
+}
+
+void D_MAKRO_MegaFoci::MS5_EventToS2_SaveEventList()
+{
+    if(!MS5_EventToS2_FileSet)
+        MS5_EventToS2_SetList();
+    if(!MS5_EventToS2_FileSet)
+        return;
+
+    if(!MS5_EventToS2_Recording)
+        return;
+
+    ofstream OS;
+    OS.open(MS5_EventToS2_File.absoluteFilePath().toStdString());
+    if(!OS.is_open())
+        return;
+
+    for(int l = 0; l < MS5_EventToS2_Events.size(); l++)
+    {
+        if(l > 0)
+            OS << "\n";
+        OS << MS5_EventToS2_Events[l].toStdString();
+    }
+
+    OS.close();
 }
 
 void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale)
@@ -9237,6 +9439,18 @@ void D_MAKRO_MegaFoci::on_pushButton_MS5_SaveViewportImageStack_clicked()
 {
     MS5_SaveImgStack();
 }
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_EventS2_RecordStart_clicked()
+{
+    MS5_EventToS2_Start();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_EventS2_RecordStop_clicked()
+{
+    MS5_EventToS2_Start();
+}
+
+
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_LoadData_clicked()
 {
@@ -10908,3 +11122,5 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+

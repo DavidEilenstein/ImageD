@@ -1412,6 +1412,18 @@ private slots:
     bool MS5_Editing_ConnectionCreate();
     bool MS5_Editing_ConnectionDelete();
 
+    void MS5_EventToS2_SetList();
+    void MS5_EventToS2_Start();
+    void MS5_EventToS2_Stop();
+    void MS5_EventToS2_GetClick_v0(int x, int y);
+    void MS5_EventToS2_GetClick_v1(int x, int y);
+    void MS5_EventToS2_GetClick_v2(int x, int y);
+    void MS5_EventToS2_GetClick_v3(int x, int y);
+    void MS5_EventToS2_GetClick_v4(int x, int y);
+    void MS5_EventToS2_GetClick(int x, int y, size_t t);
+    void MS5_EventToS2_AddEvent();
+    void MS5_EventToS2_SaveEventList();
+
 private:
     static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
 
@@ -1459,6 +1471,16 @@ private:
         MS5_NUC_HIGHLIGHT_NUMBER_OF
     };
 
+    //EventToS2
+    bool                MS5_EventToS2_FileSet           = false;
+    bool                MS5_EventToS2_Recording         = false;
+    int                 MS5_EventToS2_ClicksRecorded    = 0;
+    double              MS5_EventToS2_Click_Time        = 0;
+    Point               MS5_EventToS2_Click_Point       = Point(0,0);
+    double              MS5_EventToS2_Click_Radius      = 0;
+    QFileInfo           MS5_EventToS2_File;
+    QStringList         MS5_EventToS2_Events;
+
     //states
     bool                MS5_state_loaded_all = false;
     bool                MS5_state_loaded_dirs = false;
@@ -1476,7 +1498,9 @@ private slots:
     void on_pushButton_MS5_Editing_ConnectionDelete_clicked();
     void on_pushButton_MS5_Editing_ForgetSelection_clicked();
     void on_pushButton_MS5_SaveViewportImageStack_clicked();
-    void on_pushButton_MS6_LoadData_clicked();
+
+    void on_pushButton_MS5_EventS2_RecordStart_clicked();
+    void on_pushButton_MS5_EventS2_RecordStop_clicked();
 
     //-------------------------------------------------------------------- MS6 ----------------------------------------------------
 
@@ -1519,6 +1543,8 @@ private slots:
     bool MS6_Save_NucLifes();
     bool MS6_Save_StatisticAnalysis();
 
+    void on_pushButton_MS6_LoadData_clicked();
+
     void on_checkBox_MS6_ResType_Param_PoolStatLine_AutoRange_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x_clicked(bool checked);
     void on_checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y_clicked(bool checked);
@@ -1537,6 +1563,7 @@ private slots:
     void on_pushButton_MS6_SaveResult_clicked();
 
     void on_pushButton_MS6_SaveNucLifes_clicked();
+
 
 private:
 

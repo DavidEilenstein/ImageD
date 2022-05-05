@@ -543,7 +543,7 @@ bool D_Bio_NucleusBlob::load_simple(QString nucleus_file, bool load_foci_from_fi
 
     //file
     QFile F_Nucleus(FI_Nucleus.absoluteFilePath());
-    if (!F_Nucleus.open(QIODevice::ReadOnly))
+    if(!F_Nucleus.open(QIODevice::ReadOnly))
         return false;
 
     //save load file name
