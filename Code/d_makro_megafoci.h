@@ -866,6 +866,10 @@ private slots:
 
     void on_comboBox_MS2_ViewportBackground_currentIndexChanged(int index);
 
+    void on_pushButton_MS2_EventList_Load_clicked();
+    void on_pushButton_MS2_EventList_Close_clicked();
+    void on_pushButton_MS2_EventList_Move_clicked();
+
     void MS2_ViewerMaximize(int v2max);
     void MS2_ViewerPointColor(size_t v2col);
     void MS2_ViewerPointDiameter(size_t v, double d);
@@ -917,7 +921,11 @@ private slots:
 
     void MS2_ChangeMode(int mode);
 
-
+    void MS2_EventList_Load();
+    void MS2_EventList_Close();
+    void MS2_EventList_Save();
+    bool MS2_EventList_ReadAtCursor();
+    void MS2_EventList_Move();
 
     void on_groupBox_VisTrafo_clicked();
 
@@ -1077,6 +1085,14 @@ private:
     void                                MS2_ToDo_SetFinished(int x, int y);
     void                                MS2_ToDo_SetToBeEdited();
     void                                MS2_ToDo_SetToBeEdited(int x, int y);
+
+    //Event List
+    bool                MS2_EventList_FileSet           = false;
+    QFileInfo           MS2_EventList_File;
+    QStringList         MS2_EventList_Events;
+    int                 MS2_EventList_Cursor            = 6;
+    bool                MS2_EventList_ReadEventValid    = false;
+
 
     //states
     bool                        state_MS2_data_loaded = false;
@@ -1553,16 +1569,15 @@ private slots:
     void on_doubleSpinBox_MS6_Scale_px2um_valueChanged(double arg1);
     void on_comboBox_MS6_ResultTypes_currentIndexChanged(int index);
 
-
-    void on_pushButton_MS6_SaveAnalysis_clicked();
-
     void on_spinBox_MS6_ResType_Params_MosaicData_T_valueChanged(int arg1);
 
     void on_spinBox_MS6_ResType_Params_NucLifeImg_NucLife_valueChanged(int arg1);
 
     void on_pushButton_MS6_SaveResult_clicked();
-
+    void on_pushButton_MS6_SaveAnalysis_clicked();
     void on_pushButton_MS6_SaveNucLifes_clicked();
+
+
 
 
 private:

@@ -6265,6 +6265,7 @@ void D_MAKRO_MegaFoci::MS2_ChangeMode(int mode)
     ui->groupBox_MS2_Viewer_4->setVisible(mode == MS2_MODE_DETAILED);
 
     ui->tabWidget_MS2_Control->setEnabled(mode == MS2_MODE_DETAILED);
+    ui->groupBox_MS2_EventList->setEnabled(mode == MS2_MODE_DETAILED);
     ui->spinBox_MS2_Viewport_X->setEnabled(mode == MS2_MODE_DETAILED);
     ui->spinBox_MS2_Viewport_Y->setEnabled(mode == MS2_MODE_DETAILED);
     ui->pushButton_MS2_Viewport_Up->setEnabled(mode == MS2_MODE_DETAILED);
@@ -6275,6 +6276,190 @@ void D_MAKRO_MegaFoci::MS2_ChangeMode(int mode)
 
     if(mode == MS2_MODE_TO_DO)
         MS2_UpdateImage_ToDo_Static();
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Load()
+{
+    if(MS2_EventList_FileSet)
+        return;
+
+    QString QS_Load = QFileDialog::getOpenFileName(
+                this,
+                "Load event list",
+                pStore->dir_M_MegaFoci_Results()->path(),
+                "Textfiles (*.txt)");
+
+    if(QS_Load.isEmpty())
+        return;
+
+    MS2_EventList_File.setFile(QS_Load);
+    if(!MS2_EventList_File.exists())
+    {
+        StatusSet("Selected file does not exist:\n" + MS2_EventList_File.absoluteFilePath());
+        return;
+    }
+
+    QFile F_EventList(MS2_EventList_File.absoluteFilePath());
+    if(!F_EventList.open(QIODevice::ReadOnly))
+        return;
+    QTextStream TS_EventList(&F_EventList);
+    MS2_EventList_Events.clear();
+    while(!TS_EventList.atEnd())
+        MS2_EventList_Events.append(TS_EventList.readLine());
+
+    pStore->set_dir_M_MegaFoci_Results(QS_Load);
+    MS2_EventList_FileSet = true;
+    StatusSet("Event list file read:\n" + MS2_EventList_File.absoluteFilePath());
+
+    ui->pushButton_MS2_EventList_Load->setEnabled(false);
+    ui->pushButton_MS2_EventList_Close->setEnabled(true);
+    ui->pushButton_MS2_EventList_Move->setEnabled(true);
+    ui->groupBox_MS2_EventList_Event->setEnabled(true);
+
+    MS2_EventList_Cursor = 6;
+    MS2_EventList_ReadAtCursor();
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Close()
+{
+    if(!MS2_EventList_FileSet)
+        return;
+
+    MS2_EventList_Events.clear();
+    MS2_EventList_FileSet = false;
+
+    ui->pushButton_MS2_EventList_Load->setEnabled(true);
+    ui->pushButton_MS2_EventList_Close->setEnabled(false);
+    ui->pushButton_MS2_EventList_Move->setEnabled(false);
+    ui->groupBox_MS2_EventList_Event->setEnabled(false);
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Save()
+{
+    if(!MS2_EventList_FileSet)
+        return;
+
+    ofstream OS;
+    OS.open(MS2_EventList_File.absoluteFilePath().toStdString());
+    if(!OS.is_open())
+        return;
+    for(int l = 0; l < MS2_EventList_Events.size(); l++)
+    {
+        if(l > 0)
+            OS << "\n";
+        OS << MS2_EventList_Events[l].toStdString();
+    }
+    OS.close();
+}
+
+bool D_MAKRO_MegaFoci::MS2_EventList_ReadAtCursor()
+{
+    MS2_EventList_ReadEventValid = false;
+
+    if(MS2_EventList_Events.size() < 7)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
+        ERR(ER_empty, "MS2_EventList_ReadAtCursor", "Event list empty");
+        return false;
+    }
+
+    if(MS2_EventList_Cursor >= MS2_EventList_Events.size())
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Cursor behind event list");
+        ERR(ER_index_out_of_range, "MS2_EventList_ReadAtCursor", "Event cursor behind end of event list");
+        return false;
+    }
+
+    //event
+    QString QS_Event = MS2_EventList_Events[MS2_EventList_Cursor];
+    QStringList QSL_Blocks = QS_Event.split(";");
+    if(QSL_Blocks.size() != 6)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Ivalid number of elements in event");
+        ERR(ER_size_missmatch, "MS2_EventList_ReadAtCursor", "Event has wrong number of text elements to be decoded");
+        return false;
+    }
+
+    bool ok;
+
+    //t
+    int t = QSL_Blocks[0].toInt(&ok);
+    if(!ok)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Read error: t");
+        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading t");
+        return false;
+    }
+    ui->spinBox_MS2_EventList_Event_T->setValue(t);
+
+    //y
+    int y = QSL_Blocks[1].toInt(&ok);
+    if(!ok)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Read error: y");
+        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading y: " + QSL_Blocks[1]);
+        return false;
+    }
+    ui->spinBox_MS2_EventList_Event_Y->setValue(y);
+
+    //x
+    int x = QSL_Blocks[2].toInt(&ok);
+    if(!ok)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Read error: x");
+        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading x: " + QSL_Blocks[2]);
+        return false;
+    }
+    ui->spinBox_MS2_EventList_Event_X->setValue(x);
+
+    //r
+    int r = QSL_Blocks[3].toInt(&ok);
+    if(!ok)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Read error: r");
+        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading r: " + QSL_Blocks[3]);
+        return false;
+    }
+    ui->spinBox_MS2_EventList_Event_R->setValue(r);
+
+    //status
+    QString QS_Status = QSL_Blocks[5];
+    if(QS_Status == "ToDo")
+        ui->checkBox_MS2_EventList_Event_Solved->setChecked(false);
+    else if(QS_Status == "Done")
+        ui->checkBox_MS2_EventList_Event_Solved->setChecked(true);
+    else
+        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading status: " + QS_Status);
+
+    ui->label_MS2_EventList_Event_Comment->setText(QSL_Blocks[4]);
+
+    Update_Ui();
+    MS2_EventList_ReadEventValid = true;
+    return true;
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Move()
+{
+    if(!MS2_EventList_FileSet)
+        return;
+
+    if(MS2_EventList_Cursor < MS2_EventList_Events.size() - 1)
+    {
+        MS2_EventList_Cursor++;
+        MS2_EventList_ReadAtCursor();
+    }
+    else
+    {
+        if(QMessageBox::question(
+                    this,
+                    "End of event list",
+                    "Reached end of event list. Do you want to jump back to the beginning?")
+                == QMessageBox::Yes)
+        {
+            MS2_EventList_Cursor = 6;
+            MS2_EventList_ReadAtCursor();
+        }
+    }
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -7001,6 +7186,23 @@ void D_MAKRO_MegaFoci::on_comboBox_MS2_ViewportBackground_currentIndexChanged(in
 
     index++;//useless opration to supress warning
 }
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_Load_clicked()
+{
+    MS2_EventList_Load();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_Close_clicked()
+{
+    MS2_EventList_Close();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_Move_clicked()
+{
+    MS2_EventList_Move();
+}
+
+
 
 void D_MAKRO_MegaFoci::on_groupBox_VisTrafo_clicked()
 {
@@ -9010,19 +9212,17 @@ void D_MAKRO_MegaFoci::MS5_EventToS2_SetList()
         while(!TS_EventList.atEnd())
             MS5_EventToS2_Events.append(TS_EventList.readLine());
 
-
         StatusSet("Event list file read:\n" + MS5_EventToS2_File.absoluteFilePath());
     }
     else
     {
         //init
-        MS5_EventToS2_Events.append("Event list S5->S2");
-        MS5_EventToS2_Events.append("Path;"             + MS5_EventToS2_File.absoluteFilePath());
-        MS5_EventToS2_Events.append("ImageD version;"   + D_QS_Version + "(" + D_QS_Release + ")");
-        MS5_EventToS2_Events.append("Saved;"            + QDateTime::currentDateTime().toString());
-        MS5_EventToS2_Events.append("");
-        MS5_EventToS2_Events.append("t;y;x;r;comment");
-
+        MS5_EventToS2_Events.append("Event list S5->S2");                                               //0
+        MS5_EventToS2_Events.append("Path;"             + MS5_EventToS2_File.absoluteFilePath());       //1
+        MS5_EventToS2_Events.append("ImageD version;"   + D_QS_Version + "(" + D_QS_Release + ")");     //2
+        MS5_EventToS2_Events.append("Saved;"            + QDateTime::currentDateTime().toString());     //3
+        MS5_EventToS2_Events.append("");                                                                //4
+        MS5_EventToS2_Events.append("t;y;x;r;comment;status");                                          //5
 
         StatusSet("Event list file set:\n" + MS5_EventToS2_File.absoluteFilePath());
     }
@@ -9132,7 +9332,8 @@ void D_MAKRO_MegaFoci::MS5_EventToS2_AddEvent()
                 QString::number(MS5_EventToS2_Click_Point.y) + ";" +
                 QString::number(MS5_EventToS2_Click_Point.x) + ";" +
                 QString::number(int(MS5_EventToS2_Click_Radius)) + ";" +
-                QS_Comment);
+                QS_Comment + ";" +
+                "ToDo");
 
     MS5_EventToS2_SaveEventList();
     MS5_EventToS2_Stop();
@@ -11122,5 +11323,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+
 
 
