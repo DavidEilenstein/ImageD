@@ -869,6 +869,7 @@ private slots:
     void on_pushButton_MS2_EventList_Load_clicked();
     void on_pushButton_MS2_EventList_Close_clicked();
     void on_pushButton_MS2_EventList_Move_clicked();
+    void on_checkBox_MS2_EventList_Event_Solved_stateChanged(int arg1);
 
     void MS2_ViewerMaximize(int v2max);
     void MS2_ViewerPointColor(size_t v2col);
@@ -923,8 +924,11 @@ private slots:
 
     void MS2_EventList_Load();
     void MS2_EventList_Close();
-    void MS2_EventList_Save();
+    void MS2_EventList_SaveList();
+    void MS2_EventList_SaveCurrent();
     bool MS2_EventList_ReadAtCursor();
+    bool MS2_EventList_MoveToEvent();
+    bool MS2_EventList_DrawEvent();
     void MS2_EventList_Move();
 
     void on_groupBox_VisTrafo_clicked();
@@ -1090,7 +1094,7 @@ private:
     bool                MS2_EventList_FileSet           = false;
     QFileInfo           MS2_EventList_File;
     QStringList         MS2_EventList_Events;
-    int                 MS2_EventList_Cursor            = 6;
+    const int           MS2_EventList_CursorOffset       = 6;
     bool                MS2_EventList_ReadEventValid    = false;
 
 
@@ -1576,6 +1580,7 @@ private slots:
     void on_pushButton_MS6_SaveResult_clicked();
     void on_pushButton_MS6_SaveAnalysis_clicked();
     void on_pushButton_MS6_SaveNucLifes_clicked();
+
 
 
 

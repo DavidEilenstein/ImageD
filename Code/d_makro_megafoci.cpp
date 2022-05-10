@@ -5713,6 +5713,11 @@ bool D_MAKRO_MegaFoci::MS2_LoadData()
     MS2_ViewersSelectDefaultCBs();
     MS2_UpdateImages();
 
+    //enable ui
+    ui->groupBox_MS2_EventList->setEnabled(true);
+    ui->groupBox_MS2_Viewport->setEnabled(true);
+    ui->tabWidget_MS2_Control->setEnabled(true);
+
     state_MS2_data_loaded = true;
     return true;
 }
@@ -6309,6 +6314,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
 
     pStore->set_dir_M_MegaFoci_Results(QS_Load);
     MS2_EventList_FileSet = true;
+    ui->spinBox_MS2_EventList_Event_Line->setMaximum(MS2_EventList_Events.size() - 1);
     StatusSet("Event list file read:\n" + MS2_EventList_File.absoluteFilePath());
 
     ui->pushButton_MS2_EventList_Load->setEnabled(false);
@@ -6316,7 +6322,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     ui->pushButton_MS2_EventList_Move->setEnabled(true);
     ui->groupBox_MS2_EventList_Event->setEnabled(true);
 
-    MS2_EventList_Cursor = 6;
+    ui->spinBox_MS2_EventList_Event_Line->setValue(MS2_EventList_CursorOffset);
     MS2_EventList_ReadAtCursor();
 }
 
@@ -6334,7 +6340,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Close()
     ui->groupBox_MS2_EventList_Event->setEnabled(false);
 }
 
-void D_MAKRO_MegaFoci::MS2_EventList_Save()
+void D_MAKRO_MegaFoci::MS2_EventList_SaveList()
 {
     if(!MS2_EventList_FileSet)
         return;
@@ -6352,18 +6358,37 @@ void D_MAKRO_MegaFoci::MS2_EventList_Save()
     OS.close();
 }
 
+void D_MAKRO_MegaFoci::MS2_EventList_SaveCurrent()
+{
+    if(!MS2_EventList_FileSet)
+        return;
+
+    if(ui->spinBox_MS2_EventList_Event_Line->value() >= MS2_EventList_Events.size() || ui->spinBox_MS2_EventList_Event_Line->value() < MS2_EventList_CursorOffset)
+        return;
+
+    MS2_EventList_Events[ui->spinBox_MS2_EventList_Event_Line->value()] = QString(
+            QString::number(ui->spinBox_MS2_EventList_Event_T->value()) + ";" +
+            QString::number(ui->spinBox_MS2_EventList_Event_Y->value()) + ";" +
+            QString::number(ui->spinBox_MS2_EventList_Event_X->value()) + ";" +
+            QString::number(ui->spinBox_MS2_EventList_Event_R->value()) + ";" +
+            ui->label_MS2_EventList_Event_Comment->text() + ";" +
+            QString(ui->checkBox_MS2_EventList_Event_Solved->isChecked() ? "Done" : "ToDo"));
+
+    MS2_EventList_SaveList();
+}
+
 bool D_MAKRO_MegaFoci::MS2_EventList_ReadAtCursor()
 {
     MS2_EventList_ReadEventValid = false;
 
-    if(MS2_EventList_Events.size() < 7)
+    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
     {
         ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
         ERR(ER_empty, "MS2_EventList_ReadAtCursor", "Event list empty");
         return false;
     }
 
-    if(MS2_EventList_Cursor >= MS2_EventList_Events.size())
+    if(ui->spinBox_MS2_EventList_Event_Line->value() >= MS2_EventList_Events.size())
     {
         ui->label_MS2_EventList_Event_Comment->setText("Cursor behind event list");
         ERR(ER_index_out_of_range, "MS2_EventList_ReadAtCursor", "Event cursor behind end of event list");
@@ -6371,7 +6396,7 @@ bool D_MAKRO_MegaFoci::MS2_EventList_ReadAtCursor()
     }
 
     //event
-    QString QS_Event = MS2_EventList_Events[MS2_EventList_Cursor];
+    QString QS_Event = MS2_EventList_Events[ui->spinBox_MS2_EventList_Event_Line->value()];
     QStringList QSL_Blocks = QS_Event.split(";");
     if(QSL_Blocks.size() != 6)
     {
@@ -6438,28 +6463,103 @@ bool D_MAKRO_MegaFoci::MS2_EventList_ReadAtCursor()
     return true;
 }
 
+bool D_MAKRO_MegaFoci::MS2_EventList_MoveToEvent()
+{
+    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
+        ERR(ER_empty, "MS2_EventList_MoveToEvent", "Event list empty");
+        return false;
+    }
+
+    if(ui->spinBox_MS2_EventList_Event_Line->value() >= MS2_EventList_Events.size())
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Cursor behind event list");
+        ERR(ER_index_out_of_range, "MS2_EventList_MoveToEvent", "Event cursor behind end of event list");
+        return false;
+    }
+
+    //size x/y
+    size_t sx_full = size_t(v_MS2_MA_ChannelsImage_Full[0].cols * (1.0 / MS2_MosaikImageScale));
+    size_t sy_full = size_t(v_MS2_MA_ChannelsImage_Full[0].rows * (1.0 / MS2_MosaikImageScale));
+
+    //rel pos of event
+    double rel_pos_x = double(ui->spinBox_MS2_EventList_Event_X->value()) / double(sx_full);
+    double rel_pos_y = double(ui->spinBox_MS2_EventList_Event_Y->value()) / double(sy_full);
+
+    //mosaik pos of event
+    int mosaic_x = min(int(dataset_dim_mosaic_x - 1), int(rel_pos_x * dataset_dim_mosaic_x));
+    int mosaic_y = min(int(dataset_dim_mosaic_y - 1), int(rel_pos_y * dataset_dim_mosaic_y));
+
+    //move to viewport
+    ui->spinBox_MS2_Viewport_T->setValue(ui->spinBox_MS2_EventList_Event_T->value());
+    ui->spinBox_MS2_Viewport_Y->setValue(mosaic_y);
+    ui->spinBox_MS2_Viewport_X->setValue(mosaic_x);
+
+    return MS2_EventList_DrawEvent();
+}
+
+bool D_MAKRO_MegaFoci::MS2_EventList_DrawEvent()
+{
+    return true;
+}
+
 void D_MAKRO_MegaFoci::MS2_EventList_Move()
 {
     if(!MS2_EventList_FileSet)
         return;
 
-    if(MS2_EventList_Cursor < MS2_EventList_Events.size() - 1)
+    //params
+    bool move_forward   = ui->radioButton_MS2_EventList_Direction_Forward->isChecked();
+    bool unsolved_only  = ui->radioButton_MS2_EventList_Events_Unsolved->isChecked();
+    bool order_list     = ui->radioButton_MS2_EventList_Order_List->isChecked();
+    bool solve_on_move  = ui->radioButton_MS2_EventList_SolveOnMove_Yes->isChecked();
+
+    //solve on move
+    if(solve_on_move)
     {
-        MS2_EventList_Cursor++;
-        MS2_EventList_ReadAtCursor();
+        ui->checkBox_MS2_EventList_Event_Solved->blockSignals(true);
+        ui->checkBox_MS2_EventList_Event_Solved->setChecked(true);
+        ui->checkBox_MS2_EventList_Event_Solved->blockSignals(false);
+        Update_Ui();
+        MS2_EventList_SaveCurrent();
+    }
+
+    //order
+    if(order_list)
+    {
+        //LIST ORDER
+
+        //direction
+        if(move_forward)
+        {
+            //FORWARD
+            do
+            {
+                ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() + 1);
+                MS2_EventList_ReadAtCursor();
+            }
+            while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() < MS2_EventList_Events.size() - 1);
+        }
+        else
+        {
+            //BACKWARD
+            do
+            {
+                ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() - 1);
+                MS2_EventList_ReadAtCursor();
+            }
+            while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() > MS2_EventList_CursorOffset);
+        }
     }
     else
     {
-        if(QMessageBox::question(
-                    this,
-                    "End of event list",
-                    "Reached end of event list. Do you want to jump back to the beginning?")
-                == QMessageBox::Yes)
-        {
-            MS2_EventList_Cursor = 6;
-            MS2_EventList_ReadAtCursor();
-        }
+        //COORDINATE ORDER
+
+
     }
+
+    MS2_EventList_MoveToEvent();
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -7202,6 +7302,10 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_Move_clicked()
     MS2_EventList_Move();
 }
 
+void D_MAKRO_MegaFoci::on_checkBox_MS2_EventList_Event_Solved_stateChanged(int arg1)
+{
+    MS2_EventList_SaveCurrent();
+}
 
 
 void D_MAKRO_MegaFoci::on_groupBox_VisTrafo_clicked()
@@ -11323,6 +11427,8 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+
 
 
 

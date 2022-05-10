@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1725</width>
-    <height>970</height>
+    <width>1686</width>
+    <height>971</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,74 +30,6 @@
     <property name="spacing">
      <number>6</number>
     </property>
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="groupBox_Other">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>60</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>350</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Status</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_9">
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_ImageReward">
-         <property name="minimumSize">
-          <size>
-           <width>342</width>
-           <height>342</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>342</width>
-           <height>342</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QPlainTextEdit" name="plainTextEdit_Status">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox_VisTrafo">
       <property name="enabled">
@@ -5283,47 +5215,13 @@ background-color: rgb(0,0,0);</string>
            <property name="spacing">
             <number>3</number>
            </property>
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_MS2_Files">
-             <property name="title">
-              <string>Files</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_27">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_MS2_FileDialog">
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="text">
-                 <string>File management dialog</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="1" column="0">
+           <item row="1" column="1">
             <widget class="QGroupBox" name="groupBox_MS2_Mode">
              <property name="enabled">
               <bool>false</bool>
              </property>
              <property name="title">
-              <string>Mode</string>
+              <string>Editing Mode</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_49">
               <property name="leftMargin">
@@ -5357,14 +5255,14 @@ background-color: rgb(0,0,0);</string>
               <item row="0" column="1">
                <widget class="QRadioButton" name="radioButton_MS2_Mode_ToDo">
                 <property name="text">
-                 <string>Edit to do list for detailed editing</string>
+                 <string>To do list</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="2">
                <widget class="QRadioButton" name="radioButton_MS2_Mode_Detailed">
                 <property name="text">
-                 <string>Detailed editing</string>
+                 <string>Detailed</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -5374,15 +5272,12 @@ background-color: rgb(0,0,0);</string>
              </layout>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QGroupBox" name="groupBox_MS2_EventList">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_MS2_Files">
              <property name="title">
-              <string>Event list</string>
+              <string>Files</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_146">
+             <layout class="QGridLayout" name="gridLayout_27">
               <property name="leftMargin">
                <number>3</number>
               </property>
@@ -5398,365 +5293,20 @@ background-color: rgb(0,0,0);</string>
               <property name="spacing">
                <number>1</number>
               </property>
-              <item row="3" column="0" colspan="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <property name="spacing">
-                 <number>1</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_158">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Order</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Order_List">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>list</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Order_Coordinates">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>coordinates</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="5" column="0" colspan="3">
-               <widget class="QGroupBox" name="groupBox_MS2_EventList_Event">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="title">
-                 <string/>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_149">
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="spacing">
-                  <number>1</number>
-                 </property>
-                 <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_Y">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="suffix">
-                    <string>px</string>
-                   </property>
-                   <property name="prefix">
-                    <string>y=</string>
-                   </property>
-                   <property name="maximum">
-                    <number>99999</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
-                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_R">
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>r=</string>
-                   </property>
-                   <property name="minimum">
-                    <number>0</number>
-                   </property>
-                   <property name="maximum">
-                    <number>9999</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0" colspan="5">
-                  <widget class="QLabel" name="label_MS2_EventList_Event_Comment">
-                   <property name="text">
-                    <string>Comment</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_T">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="suffix">
-                    <string>h</string>
-                   </property>
-                   <property name="prefix">
-                    <string>t=</string>
-                   </property>
-                   <property name="maximum">
-                    <number>99</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="4">
-                  <widget class="QCheckBox" name="checkBox_MS2_EventList_Event_Solved">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>solved</string>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_X">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="suffix">
-                    <string>px</string>
-                   </property>
-                   <property name="prefix">
-                    <string>x=</string>
-                   </property>
-                   <property name="maximum">
-                    <number>99999</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_MS2_EventList_Close">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Close list</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" colspan="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
-                <property name="spacing">
-                 <number>1</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_157">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Events</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Events_Unsolved">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>unsolved</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Events_All">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>all</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="2">
-               <widget class="QPushButton" name="pushButton_MS2_EventList_Move">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Move (M)</string>
-                </property>
-                <property name="shortcut">
-                 <string>M</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
-                <property name="spacing">
-                 <number>1</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_156">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Direction</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Direction_Forward">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>forward</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_Direction_Backward">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>1</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>backward</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="4" column="0" colspan="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <property name="spacing">
-                 <number>1</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_159">
-                  <property name="text">
-                   <string>Solve on move</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_SolveOnMove_Yes">
-                  <property name="text">
-                   <string>yes</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_MS2_EventList_SolveOnMove_No">
-                  <property name="text">
-                   <string>no</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
               <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_MS2_EventList_Load">
+               <widget class="QPushButton" name="pushButton_MS2_FileDialog">
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
                 <property name="text">
-                 <string>Load list</string>
+                 <string>File management dialog</string>
                 </property>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="2" column="0" colspan="2">
             <widget class="QGroupBox" name="groupBox_MS2_Viewport">
              <property name="enabled">
               <bool>false</bool>
@@ -5786,6 +5336,50 @@ background-color: rgb(0,0,0);</string>
               <property name="spacing">
                <number>1</number>
               </property>
+              <item row="6" column="2">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Next to correct (G)</string>
+                </property>
+                <property name="shortcut">
+                 <string>G</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Next">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Next (N)</string>
+                </property>
+                <property name="shortcut">
+                 <string>N</string>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="2">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Left">
                 <property name="enabled">
@@ -5800,7 +5394,7 @@ background-color: rgb(0,0,0);</string>
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="text">
@@ -5811,31 +5405,74 @@ background-color: rgb(0,0,0);</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QSpinBox" name="spinBox_MS2_Viewport_Y">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
+              <item row="6" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextSegment">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
                 </property>
-                <property name="suffix">
-                 <string/>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>20</height>
+                 </size>
                 </property>
-                <property name="prefix">
-                 <string>Y (mosaic) = </string>
+                <property name="text">
+                 <string>Next viewport (V)</string>
+                </property>
+                <property name="shortcut">
+                 <string>V</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QSpinBox" name="spinBox_MS2_Viewport_T">
+              <item row="3" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Down">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Down (🠗)</string>
+                </property>
+                <property name="shortcut">
+                 <string>Down</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QSpinBox" name="spinBox_MS2_Viewport_X">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="prefix">
-                 <string>T (frames) = </string>
+                 <string>X (mosaic) = </string>
                 </property>
                </widget>
               </item>
               <item row="6" column="0">
                <widget class="QProgressBar" name="progressBar_MS2_CorrectionProgress">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">QProgressBar {
     font-color: rgb(0,0,0);
@@ -5858,103 +5495,6 @@ QProgressBar::chunk {
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" colspan="4">
-               <widget class="QGraphicsView" name="graphicsView_MS2_Viewport">
-                <property name="mouseTracking">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Down">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Down (🠗)</string>
-                </property>
-                <property name="shortcut">
-                 <string>Down</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" colspan="4">
-               <layout class="QGridLayout" name="gridLayout_35">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_7">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Background:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QCheckBox" name="checkBox_MS2_ViewportOverlay">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Overlay</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBox_MS2_ViewportBackground"/>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <widget class="QSpinBox" name="spinBox_MS2_Viewport_X">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="prefix">
-                 <string>X (mosaic) = </string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Right">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Right (🠒)</string>
-                </property>
-                <property name="shortcut">
-                 <string>Right</string>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="2">
                <widget class="QPushButton" name="pushButton_MS2_Viewport_Up">
                 <property name="enabled">
@@ -5969,7 +5509,7 @@ QProgressBar::chunk {
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="text">
@@ -5980,8 +5520,63 @@ QProgressBar::chunk {
                 </property>
                </widget>
               </item>
-              <item row="5" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_Next">
+              <item row="0" column="0" colspan="4">
+               <layout class="QGridLayout" name="gridLayout_35">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_7">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Background:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QCheckBox" name="checkBox_MS2_ViewportOverlay">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Overlay</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBox_MS2_ViewportBackground">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="3">
+               <widget class="QPushButton" name="pushButton_MS2_Viewport_Right">
                 <property name="minimumSize">
                  <size>
                   <width>100</width>
@@ -5991,14 +5586,37 @@ QProgressBar::chunk {
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="text">
-                 <string>Next (N)</string>
+                 <string>Right (🠒)</string>
                 </property>
                 <property name="shortcut">
-                 <string>N</string>
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="4">
+               <widget class="QGraphicsView" name="graphicsView_MS2_Viewport">
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QSpinBox" name="spinBox_MS2_Viewport_T">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>T (frames) = </string>
                 </property>
                </widget>
               </item>
@@ -6016,7 +5634,7 @@ QProgressBar::chunk {
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="text">
@@ -6027,55 +5645,568 @@ QProgressBar::chunk {
                 </property>
                </widget>
               </item>
-              <item row="6" column="2">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextToCorrect">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
+              <item row="3" column="0">
+               <widget class="QSpinBox" name="spinBox_MS2_Viewport_Y">
                 <property name="maximumSize">
                  <size>
-                  <width>100</width>
-                  <height>16777215</height>
+                  <width>16777215</width>
+                  <height>20</height>
                  </size>
                 </property>
-                <property name="text">
-                 <string>Next to correct (G)</string>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
-                <property name="shortcut">
-                 <string>G</string>
+                <property name="suffix">
+                 <string/>
                 </property>
-               </widget>
-              </item>
-              <item row="6" column="3">
-               <widget class="QPushButton" name="pushButton_MS2_Viewport_NextSegment">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Next viewport (V)</string>
-                </property>
-                <property name="shortcut">
-                 <string>V</string>
+                <property name="prefix">
+                 <string>Y (mosaic) = </string>
                 </property>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="3" column="0" colspan="2">
+            <widget class="QGroupBox" name="groupBox_MS2_EventList">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="title">
+              <string>Event list</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_146">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item row="2" column="0" colspan="3">
+               <widget class="QGroupBox" name="groupBox_MS2_EventList_Event">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="title">
+                 <string>current event</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_149">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="spacing">
+                  <number>1</number>
+                 </property>
+                 <item row="0" column="5">
+                  <widget class="QCheckBox" name="checkBox_MS2_EventList_Event_Solved">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>solved</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_X">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>x=</string>
+                   </property>
+                   <property name="maximum">
+                    <number>99999</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_R">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>r=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>0</number>
+                   </property>
+                   <property name="maximum">
+                    <number>9999</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_Y">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>y=</string>
+                   </property>
+                   <property name="maximum">
+                    <number>99999</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1" colspan="5">
+                  <widget class="QLabel" name="label_MS2_EventList_Event_Comment">
+                   <property name="text">
+                    <string>Comment</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_T">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>h</string>
+                   </property>
+                   <property name="prefix">
+                    <string>t=</string>
+                   </property>
+                   <property name="maximum">
+                    <number>99</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QSpinBox" name="spinBox_MS2_EventList_Event_Line">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>line=</string>
+                   </property>
+                   <property name="minimum">
+                    <number>6</number>
+                   </property>
+                   <property name="maximum">
+                    <number>99999</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_MS2_EventList_Close">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Close list</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="3">
+               <layout class="QGridLayout" name="gridLayout_147">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <item row="1" column="1">
+                 <widget class="QGroupBox" name="groupBox">
+                  <property name="title">
+                   <string>solve on move to next</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_148">
+                   <property name="leftMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="spacing">
+                    <number>1</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_SolveOnMove_Yes">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>yes</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_SolveOnMove_No">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>no</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QGroupBox" name="groupBox_2">
+                  <property name="title">
+                   <string>move to event</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_151">
+                   <property name="leftMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="spacing">
+                    <number>1</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Events_Unsolved">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>unsolved</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Events_Any">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>any</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QGroupBox" name="groupBox_3">
+                  <property name="title">
+                   <string>movement direction</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_150">
+                   <property name="leftMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="spacing">
+                    <number>1</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Direction_Forward">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>forward</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Direction_Backward">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>backward</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QGroupBox" name="groupBox_4">
+                  <property name="title">
+                   <string>movement order</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_152">
+                   <property name="leftMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>1</number>
+                   </property>
+                   <property name="spacing">
+                    <number>1</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Order_List">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>list</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QRadioButton" name="radioButton_MS2_EventList_Order_Coordinates">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>coordinates</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="2">
+               <widget class="QPushButton" name="pushButton_MS2_EventList_Move">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Move (M)</string>
+                </property>
+                <property name="shortcut">
+                 <string>M</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QPushButton" name="pushButton_MS2_EventList_Load">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Load list</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="2">
             <widget class="QTabWidget" name="tabWidget_MS2_Control">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
@@ -6105,192 +6236,6 @@ QProgressBar::chunk {
                <property name="spacing">
                 <number>3</number>
                </property>
-               <item row="1" column="0">
-                <widget class="QGroupBox" name="groupBox_MS2_ViewerControls">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="title">
-                  <string>Viewers</string>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_36">
-                  <property name="leftMargin">
-                   <number>3</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>3</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>3</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>3</number>
-                  </property>
-                  <property name="spacing">
-                   <number>1</number>
-                  </property>
-                  <item row="1" column="0">
-                   <layout class="QGridLayout" name="gridLayout_29">
-                    <property name="spacing">
-                     <number>1</number>
-                    </property>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_14">
-                      <property name="minimumSize">
-                       <size>
-                        <width>80</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>80</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Show settings</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QCheckBox" name="checkBox_MS2_ViewerShowSettings">
-                      <property name="text">
-                       <string>(I)</string>
-                      </property>
-                      <property name="shortcut">
-                       <string>I</string>
-                      </property>
-                      <property name="checked">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_39">
-                    <property name="spacing">
-                     <number>1</number>
-                    </property>
-                    <item row="0" column="1">
-                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_1">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Top Left (F1)</string>
-                      </property>
-                      <property name="shortcut">
-                       <string>F1</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="2">
-                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_4">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Bottom Right (F4)</string>
-                      </property>
-                      <property name="shortcut">
-                       <string>F4</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0" rowspan="2">
-                     <widget class="QLabel" name="label_13">
-                      <property name="minimumSize">
-                       <size>
-                        <width>80</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>80</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Maximize</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_2">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Top Right (F2)</string>
-                      </property>
-                      <property name="shortcut">
-                       <string>F2</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_3">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Bottom Left (F3)</string>
-                      </property>
-                      <property name="shortcut">
-                       <string>F3</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBox_MS2_Tools">
                  <property name="enabled">
@@ -6328,6 +6273,12 @@ QProgressBar::chunk {
                     </property>
                     <item row="1" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPandRFP">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>GFP and RFP (4)</string>
                       </property>
@@ -6357,6 +6308,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_GFPonly">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>GFP (2)</string>
                       </property>
@@ -6367,6 +6324,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="0" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_Nuclei">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">font-weight: bold</string>
                       </property>
@@ -6380,6 +6343,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="1" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Channel_RFPonly">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>RFP (3)</string>
                       </property>
@@ -6397,6 +6366,12 @@ QProgressBar::chunk {
                     </property>
                     <item row="0" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Corrected">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Corrected (C)</string>
                       </property>
@@ -6407,6 +6382,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="0" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_ToCorrect">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>To correct (Y)</string>
                       </property>
@@ -6417,6 +6398,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="1" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Clear">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Clear (P)</string>
                       </property>
@@ -6427,6 +6414,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="1" column="2">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_Progress_Reset">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Reset to input (O)</string>
                       </property>
@@ -6485,6 +6478,12 @@ QProgressBar::chunk {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Cancel (Esc)</string>
                       </property>
@@ -6495,6 +6494,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="0" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_RecordPoints_Start">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Start (Space)</string>
                       </property>
@@ -6515,6 +6520,12 @@ QProgressBar::chunk {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Separate (F)</string>
                       </property>
@@ -6534,6 +6545,12 @@ QProgressBar::chunk {
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Polygon (Q)</string>
                       </property>
@@ -6552,6 +6569,12 @@ QProgressBar::chunk {
                         <horstretch>1</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
                       </property>
                       <property name="text">
                        <string>Ellipse (E)</string>
@@ -6582,6 +6605,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="0" column="3">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_ConvexHull">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Convex Hull (W)</string>
                       </property>
@@ -6601,6 +6630,12 @@ QProgressBar::chunk {
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Remove (R)</string>
                       </property>
@@ -6614,6 +6649,12 @@ QProgressBar::chunk {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Merge (D)</string>
                       </property>
@@ -6624,6 +6665,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="2" column="3">
                      <widget class="QSpinBox" name="spinBox_MS2_Tools_AllplyPoints_DrawSize">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
                       </property>
@@ -6646,6 +6693,12 @@ QProgressBar::chunk {
                     </item>
                     <item row="2" column="1">
                      <widget class="QPushButton" name="pushButton_MS2_Tools_ApplyPoints_Points">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Points (T)</string>
                       </property>
@@ -6676,7 +6729,7 @@ QProgressBar::chunk {
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>16777215</height>
+                          <height>20</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -6707,7 +6760,7 @@ QProgressBar::chunk {
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>16777215</height>
+                          <height>20</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -6734,6 +6787,12 @@ QProgressBar::chunk {
                      <widget class="QPushButton" name="pushButton_MS2_Tools_History_Undo">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
                       </property>
                       <property name="text">
                        <string>Undo (A)</string>
@@ -6767,6 +6826,12 @@ QProgressBar::chunk {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Redo (S)</string>
                       </property>
@@ -6780,18 +6845,197 @@ QProgressBar::chunk {
                  </layout>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <spacer name="verticalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
+               <item row="1" column="0">
+                <widget class="QGroupBox" name="groupBox_MS2_ViewerControls">
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
-                </spacer>
+                 <property name="title">
+                  <string>Viewers</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_36">
+                  <property name="leftMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
+                  <item row="1" column="0">
+                   <layout class="QGridLayout" name="gridLayout_29">
+                    <property name="spacing">
+                     <number>1</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_14">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Show settings</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QCheckBox" name="checkBox_MS2_ViewerShowSettings">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>(I)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>I</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_39">
+                    <property name="spacing">
+                     <number>1</number>
+                    </property>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Top Left (F1)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F1</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_4">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Bottom Right (F4)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F4</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" rowspan="2">
+                     <widget class="QLabel" name="label_13">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>80</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Maximize</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_2">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Top Right (F2)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F2</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QPushButton" name="pushButton_MS2_ViewerMaximize_3">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Bottom Left (F3)</string>
+                      </property>
+                      <property name="shortcut">
+                       <string>F3</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -14529,6 +14773,74 @@ color: red;</string>
       </widget>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBox_Other">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>350</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Status</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_9">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_ImageReward">
+         <property name="minimumSize">
+          <size>
+           <width>342</width>
+           <height>342</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>342</width>
+           <height>342</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPlainTextEdit" name="plainTextEdit_Status">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -14536,7 +14848,7 @@ color: red;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1725</width>
+     <width>1686</width>
      <height>22</height>
     </rect>
    </property>
