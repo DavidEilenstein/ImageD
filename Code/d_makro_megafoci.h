@@ -870,6 +870,8 @@ private slots:
     void on_pushButton_MS2_EventList_Close_clicked();
     void on_pushButton_MS2_EventList_Move_clicked();
     void on_checkBox_MS2_EventList_Event_Solved_stateChanged(int arg1);
+    void on_pushButton_MS2_EventList_ToBegin_clicked();
+    void on_pushButton_MS2_EventList_ToEnd_clicked();
 
     void MS2_ViewerMaximize(int v2max);
     void MS2_ViewerPointColor(size_t v2col);
@@ -924,12 +926,22 @@ private slots:
 
     void MS2_EventList_Load();
     void MS2_EventList_Close();
+    bool MS2_EventList_Sort();
     void MS2_EventList_SaveList();
     void MS2_EventList_SaveCurrent();
     bool MS2_EventList_ReadAtCursor();
     bool MS2_EventList_MoveToEvent();
     bool MS2_EventList_DrawEvent();
     void MS2_EventList_Move();
+    void MS2_EventList_Move_ToBegin();
+    void MS2_EventList_Move_ToEnd();
+    int     MS2_EventList_Decode_Number_Current(char number_name, bool *ok);
+    int     MS2_EventList_Decode_Number(int line, char number_name, bool *ok);
+    int     MS2_EventList_Decode_Number(QStringList QSL_List, int line, char number_name, bool *ok);
+    QString MS2_EventList_Decode_Comment_Current(bool *ok);
+    QString MS2_EventList_Decode_Comment(int line, bool *ok);
+    bool    MS2_EventList_Decode_Status_Current(bool *ok);
+    bool    MS2_EventList_Decode_Status(int line, bool *ok);
 
     void on_groupBox_VisTrafo_clicked();
 
@@ -1580,6 +1592,8 @@ private slots:
     void on_pushButton_MS6_SaveResult_clicked();
     void on_pushButton_MS6_SaveAnalysis_clicked();
     void on_pushButton_MS6_SaveNucLifes_clicked();
+
+
 
 
 

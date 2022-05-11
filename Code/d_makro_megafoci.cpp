@@ -6288,6 +6288,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     if(MS2_EventList_FileSet)
         return;
 
+    //get file path
     QString QS_Load = QFileDialog::getOpenFileName(
                 this,
                 "Load event list",
@@ -6297,6 +6298,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     if(QS_Load.isEmpty())
         return;
 
+    //save file info
     MS2_EventList_File.setFile(QS_Load);
     if(!MS2_EventList_File.exists())
     {
@@ -6304,6 +6306,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
         return;
     }
 
+    //read file
     QFile F_EventList(MS2_EventList_File.absoluteFilePath());
     if(!F_EventList.open(QIODevice::ReadOnly))
         return;
@@ -6315,14 +6318,19 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     pStore->set_dir_M_MegaFoci_Results(QS_Load);
     MS2_EventList_FileSet = true;
     ui->spinBox_MS2_EventList_Event_Line->setMaximum(MS2_EventList_Events.size() - 1);
+    ui->spinBox_MS2_EventList_Event_Line->setValue(MS2_EventList_CursorOffset);
     StatusSet("Event list file read:\n" + MS2_EventList_File.absoluteFilePath());
+    Update_Ui();
+
+    MS2_EventList_Sort();
 
     ui->pushButton_MS2_EventList_Load->setEnabled(false);
     ui->pushButton_MS2_EventList_Close->setEnabled(true);
+    ui->pushButton_MS2_EventList_ToBegin->setEnabled(true);
+    ui->pushButton_MS2_EventList_ToEnd->setEnabled(true);
     ui->pushButton_MS2_EventList_Move->setEnabled(true);
     ui->groupBox_MS2_EventList_Event->setEnabled(true);
 
-    ui->spinBox_MS2_EventList_Event_Line->setValue(MS2_EventList_CursorOffset);
     MS2_EventList_ReadAtCursor();
 }
 
@@ -6336,8 +6344,114 @@ void D_MAKRO_MegaFoci::MS2_EventList_Close()
 
     ui->pushButton_MS2_EventList_Load->setEnabled(true);
     ui->pushButton_MS2_EventList_Close->setEnabled(false);
+    ui->pushButton_MS2_EventList_ToBegin->setEnabled(false);
+    ui->pushButton_MS2_EventList_ToEnd->setEnabled(false);
     ui->pushButton_MS2_EventList_Move->setEnabled(false);
     ui->groupBox_MS2_EventList_Event->setEnabled(false);
+}
+
+bool D_MAKRO_MegaFoci::MS2_EventList_Sort()
+{
+    if(!MS2_EventList_FileSet)
+        return false;
+
+    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
+        ERR(ER_empty, "MS2_EventList_Sort", "Event list empty");
+        return false;
+    }
+
+    //buffer list
+    QStringList QLS_SortedList;
+
+    //copy header
+    for(int l = 0; l < MS2_EventList_CursorOffset; l++)
+        QLS_SortedList.append(MS2_EventList_Events[l]);
+
+    //sort
+    int n_l_sort = MS2_EventList_Events.size();
+    for(int l_sort = MS2_EventList_CursorOffset; l_sort < n_l_sort; l_sort++)
+    {
+        QString QS_Event2Sort = MS2_EventList_Events[l_sort];
+
+        bool ok;
+
+        //read t
+        int t_sort = MS2_EventList_Decode_Number(MS2_EventList_Events, l_sort, 't', &ok);
+        if(!ok)
+            return false;
+
+        //read y
+        int y_sort = MS2_EventList_Decode_Number(MS2_EventList_Events, l_sort, 'y', &ok);
+        if(!ok)
+            return false;
+
+        //read x
+        int x_sort = MS2_EventList_Decode_Number(MS2_EventList_Events, l_sort, 'x', &ok);
+        if(!ok)
+            return false;
+
+        int n_l_check           = QLS_SortedList.size();
+        bool found_insert_pos   = false;
+        int insert_pos          = 0;
+        for(int l_check = MS2_EventList_CursorOffset; l_check < n_l_check && !found_insert_pos; l_check++)
+        {
+            //read t
+            int t_check = MS2_EventList_Decode_Number(QLS_SortedList, l_check, 't', &ok);
+            if(!ok)
+                return false;
+
+            //read y
+            int y_check = MS2_EventList_Decode_Number(QLS_SortedList, l_check, 'y', &ok);
+            if(!ok)
+                return false;
+
+            //read x
+            int x_check = MS2_EventList_Decode_Number(QLS_SortedList, l_check, 'x', &ok);
+            if(!ok)
+                return false;
+
+            //compare t
+            if(t_sort < t_check)
+            {
+                insert_pos = l_check;
+                found_insert_pos = true;
+            }
+            else if(t_sort == t_check)
+            {
+                //compare y
+                if(y_sort < y_check)
+                {
+                    insert_pos = l_check;
+                    found_insert_pos = true;
+                }
+                else if(y_sort == y_check)
+                {
+                    //compare x
+                    if(x_sort <= x_check)
+                    {
+                        insert_pos = l_check;
+                        found_insert_pos = true;
+                    }
+                }
+            }
+        }
+
+        //insert event to sorted list
+        if(found_insert_pos)
+            QLS_SortedList.insert(insert_pos, QS_Event2Sort);
+        else
+            QLS_SortedList.append(QS_Event2Sort);
+    }
+
+    StatusSet("Sorted event list by t>y>x (increasing)");
+
+    //save sorted list
+    MS2_EventList_Events = QLS_SortedList;
+    MS2_EventList_SaveList();
+    Update_Ui();
+    return true;
 }
 
 void D_MAKRO_MegaFoci::MS2_EventList_SaveList()
@@ -6381,82 +6495,45 @@ bool D_MAKRO_MegaFoci::MS2_EventList_ReadAtCursor()
 {
     MS2_EventList_ReadEventValid = false;
 
-    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
-        ERR(ER_empty, "MS2_EventList_ReadAtCursor", "Event list empty");
-        return false;
-    }
-
-    if(ui->spinBox_MS2_EventList_Event_Line->value() >= MS2_EventList_Events.size())
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Cursor behind event list");
-        ERR(ER_index_out_of_range, "MS2_EventList_ReadAtCursor", "Event cursor behind end of event list");
-        return false;
-    }
-
-    //event
-    QString QS_Event = MS2_EventList_Events[ui->spinBox_MS2_EventList_Event_Line->value()];
-    QStringList QSL_Blocks = QS_Event.split(";");
-    if(QSL_Blocks.size() != 6)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Ivalid number of elements in event");
-        ERR(ER_size_missmatch, "MS2_EventList_ReadAtCursor", "Event has wrong number of text elements to be decoded");
-        return false;
-    }
-
     bool ok;
 
     //t
-    int t = QSL_Blocks[0].toInt(&ok);
+    int t = MS2_EventList_Decode_Number_Current('t', &ok);
     if(!ok)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Read error: t");
-        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading t");
         return false;
-    }
     ui->spinBox_MS2_EventList_Event_T->setValue(t);
 
     //y
-    int y = QSL_Blocks[1].toInt(&ok);
+    int y = MS2_EventList_Decode_Number_Current('y', &ok);
     if(!ok)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Read error: y");
-        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading y: " + QSL_Blocks[1]);
         return false;
-    }
     ui->spinBox_MS2_EventList_Event_Y->setValue(y);
 
     //x
-    int x = QSL_Blocks[2].toInt(&ok);
+    int x = MS2_EventList_Decode_Number_Current('x', &ok);
     if(!ok)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Read error: x");
-        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading x: " + QSL_Blocks[2]);
         return false;
-    }
     ui->spinBox_MS2_EventList_Event_X->setValue(x);
 
     //r
-    int r = QSL_Blocks[3].toInt(&ok);
+    int r = MS2_EventList_Decode_Number_Current('r', &ok);
     if(!ok)
-    {
-        ui->label_MS2_EventList_Event_Comment->setText("Read error: r");
-        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading r: " + QSL_Blocks[3]);
         return false;
-    }
     ui->spinBox_MS2_EventList_Event_R->setValue(r);
 
-    //status
-    QString QS_Status = QSL_Blocks[5];
-    if(QS_Status == "ToDo")
-        ui->checkBox_MS2_EventList_Event_Solved->setChecked(false);
-    else if(QS_Status == "Done")
-        ui->checkBox_MS2_EventList_Event_Solved->setChecked(true);
-    else
-        ERR(ER_type_bad, "MS2_EventList_ReadAtCursor", "Failed reading status: " + QS_Status);
+    //comment
+    QString QS_Comment = MS2_EventList_Decode_Comment_Current(&ok);
+    if(!ok)
+        return false;
+    ui->label_MS2_EventList_Event_Comment->setText(QS_Comment);
 
-    ui->label_MS2_EventList_Event_Comment->setText(QSL_Blocks[4]);
+    //status
+    bool status = MS2_EventList_Decode_Status_Current(&ok);
+    if(!ok)
+        return false;
+    ui->checkBox_MS2_EventList_Event_Solved->blockSignals(true);
+    ui->checkBox_MS2_EventList_Event_Solved->setChecked(status);
+    ui->checkBox_MS2_EventList_Event_Solved->blockSignals(false);
 
     Update_Ui();
     MS2_EventList_ReadEventValid = true;
@@ -6512,7 +6589,6 @@ void D_MAKRO_MegaFoci::MS2_EventList_Move()
     //params
     bool move_forward   = ui->radioButton_MS2_EventList_Direction_Forward->isChecked();
     bool unsolved_only  = ui->radioButton_MS2_EventList_Events_Unsolved->isChecked();
-    bool order_list     = ui->radioButton_MS2_EventList_Order_List->isChecked();
     bool solve_on_move  = ui->radioButton_MS2_EventList_SolveOnMove_Yes->isChecked();
 
     //solve on move
@@ -6525,41 +6601,196 @@ void D_MAKRO_MegaFoci::MS2_EventList_Move()
         MS2_EventList_SaveCurrent();
     }
 
-    //order
-    if(order_list)
-    {
-        //LIST ORDER
 
-        //direction
-        if(move_forward)
+    //direction
+    if(move_forward)
+    {
+        //FORWARD
+        do
         {
-            //FORWARD
-            do
-            {
-                ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() + 1);
-                MS2_EventList_ReadAtCursor();
-            }
-            while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() < MS2_EventList_Events.size() - 1);
+            ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() + 1);
+            MS2_EventList_ReadAtCursor();
         }
-        else
-        {
-            //BACKWARD
-            do
-            {
-                ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() - 1);
-                MS2_EventList_ReadAtCursor();
-            }
-            while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() > MS2_EventList_CursorOffset);
-        }
+        while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() < MS2_EventList_Events.size() - 1);
     }
     else
     {
-        //COORDINATE ORDER
-
-
+        //BACKWARD
+        do
+        {
+            ui->spinBox_MS2_EventList_Event_Line->setValue(ui->spinBox_MS2_EventList_Event_Line->value() - 1);
+            MS2_EventList_ReadAtCursor();
+        }
+        while(unsolved_only && ui->checkBox_MS2_EventList_Event_Solved->isChecked() && ui->spinBox_MS2_EventList_Event_Line->value() > MS2_EventList_CursorOffset);
     }
 
     MS2_EventList_MoveToEvent();
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Move_ToBegin()
+{
+    ui->spinBox_MS2_EventList_Event_Line->setValue(MS2_EventList_CursorOffset);
+    MS2_EventList_ReadAtCursor();
+    MS2_EventList_MoveToEvent();
+}
+
+void D_MAKRO_MegaFoci::MS2_EventList_Move_ToEnd()
+{
+    ui->spinBox_MS2_EventList_Event_Line->setValue(MS2_EventList_Events.size() - 1);
+    MS2_EventList_ReadAtCursor();
+    MS2_EventList_MoveToEvent();
+}
+
+int D_MAKRO_MegaFoci::MS2_EventList_Decode_Number_Current(char number_name, bool *ok)
+{
+    return MS2_EventList_Decode_Number(
+                ui->spinBox_MS2_EventList_Event_Line->value(),
+                number_name,
+                ok);
+}
+
+int D_MAKRO_MegaFoci::MS2_EventList_Decode_Number(int line, char number_name, bool* ok)
+{
+    return MS2_EventList_Decode_Number(
+                MS2_EventList_Events,
+                line,
+                number_name,
+                ok);
+}
+
+int D_MAKRO_MegaFoci::MS2_EventList_Decode_Number(QStringList QSL_List, int line, char number_name, bool *ok)
+{
+    *ok = false;
+
+    size_t i;
+    if(number_name == 't' || number_name == 'T')
+        i = 0;
+    else if(number_name == 'y' || number_name == 'Y')
+        i = 1;
+    else if(number_name == 'x' || number_name == 'X')
+        i = 2;
+    else if(number_name == 'r' || number_name == 'R')
+        i = 3;
+    else
+        return 0;
+
+    if(QSL_List.size() <= MS2_EventList_CursorOffset)
+    {
+        ERR(ER_empty, "MS2_EventList_Decode_Number", "Event list empty");
+        return false;
+    }
+
+    if(line >= QSL_List.size())
+    {
+        ERR(ER_index_out_of_range, "MS2_EventList_Decode_Number", "Event cursor behind end of event list");
+        return false;
+    }
+
+    QString QS_Event = QSL_List[line];
+    QStringList QSL_Blocks = QS_Event.split(";");
+    if(QSL_Blocks.size() != 6)
+    {
+        ERR(ER_size_missmatch, "MS2_EventList_Decode_Number", "Event has wrong number of text elements to be decoded");
+        return 0;
+    }
+
+    int val = QSL_Blocks[i].toInt(ok);
+
+    if(!(*ok))
+    {
+        ERR(ER_type_bad, "MS2_EventList_Decode_Number", "Failed reading " + QString(number_name));
+        return 0;
+    }
+
+    *ok = true;
+    return val;
+}
+
+QString D_MAKRO_MegaFoci::MS2_EventList_Decode_Comment_Current(bool *ok)
+{
+    return MS2_EventList_Decode_Comment(
+                ui->spinBox_MS2_EventList_Event_Line->value(),
+                ok);
+}
+
+QString D_MAKRO_MegaFoci::MS2_EventList_Decode_Comment(int line, bool* ok)
+{
+    *ok = false;
+
+    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
+    {
+        ERR(ER_empty, "MS2_EventList_Decode_Comment", "Event list empty");
+        return "";
+    }
+
+    if(line >= MS2_EventList_Events.size())
+    {
+        ERR(ER_index_out_of_range, "MS2_EventList_Decode_Comment", "Event cursor behind end of event list");
+        return "";
+    }
+
+    QString QS_Event = MS2_EventList_Events[line];
+    QStringList QSL_Blocks = QS_Event.split(";");
+    if(QSL_Blocks.size() != 6)
+    {
+        ERR(ER_size_missmatch, "MS2_EventList_Decode_Comment", "Event has wrong number of text elements to be decoded");
+        return "";
+    }
+
+    *ok = true;
+    return QSL_Blocks[4];
+}
+
+bool D_MAKRO_MegaFoci::MS2_EventList_Decode_Status_Current(bool *ok)
+{
+    return MS2_EventList_Decode_Status(
+                ui->spinBox_MS2_EventList_Event_Line->value(),
+                ok);
+}
+
+bool D_MAKRO_MegaFoci::MS2_EventList_Decode_Status(int line, bool* ok)
+{
+    *ok = false;
+
+    if(MS2_EventList_Events.size() <= MS2_EventList_CursorOffset)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Event list empty");
+        ERR(ER_empty, "MS2_EventList_Decode_Status", "Event list empty");
+        return false;
+    }
+
+    if(line >= MS2_EventList_Events.size())
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Cursor behind event list");
+        ERR(ER_index_out_of_range, "MS2_EventList_Decode_Status", "Event cursor behind end of event list");
+        return false;
+    }
+
+    QString QS_Event = MS2_EventList_Events[line];
+    QStringList QSL_Blocks = QS_Event.split(";");
+    if(QSL_Blocks.size() != 6)
+    {
+        ui->label_MS2_EventList_Event_Comment->setText("Ivalid number of elements in event");
+        ERR(ER_size_missmatch, "MS2_EventList_Decode_Status", "Event has wrong number of text elements to be decoded");
+        return false;
+    }
+
+    QString QS_Status = QSL_Blocks[5];
+    if(QS_Status == "ToDo")
+    {
+        *ok = true;
+        return false;
+    }
+    else if(QS_Status == "Done")
+    {
+        *ok = true;
+        return true;
+    }
+    else
+    {
+        ERR(ER_type_bad, "MS2_EventList_Decode_Status", "Failed reading status: " + QS_Status);
+        return false;
+    }
 }
 
 void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_CropMode_currentIndexChanged(int index)
@@ -7307,6 +7538,15 @@ void D_MAKRO_MegaFoci::on_checkBox_MS2_EventList_Event_Solved_stateChanged(int a
     MS2_EventList_SaveCurrent();
 }
 
+void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_ToBegin_clicked()
+{
+    MS2_EventList_Move_ToBegin();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_ToEnd_clicked()
+{
+    MS2_EventList_Move_ToEnd();
+}
 
 void D_MAKRO_MegaFoci::on_groupBox_VisTrafo_clicked()
 {
@@ -11427,9 +11667,3 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
-
-
-
-
-
-
