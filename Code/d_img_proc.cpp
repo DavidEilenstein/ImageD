@@ -18282,7 +18282,7 @@ int D_Img_Proc::Draw_Circle(Mat *pMA_Target, int x, int y, int r, int val, int t
                     x, y,
                     r,
                     val, val, val,
-                    1, filled);
+                    thickness, filled);
 
     if(filled)
         return Draw_Dot(
@@ -18315,7 +18315,7 @@ int D_Img_Proc::Draw_Circle(Mat *pMA_Target, int x, int y, int r, int val_r, int
                     x, y,
                     r,
                     (val_r + val_g + val_b) / 3.0,
-                    1, filled);
+                    thickness, filled);
 
     if(filled)
         return Draw_Dot(

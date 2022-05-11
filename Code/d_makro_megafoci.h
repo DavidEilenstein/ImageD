@@ -931,7 +931,6 @@ private slots:
     void MS2_EventList_SaveCurrent();
     bool MS2_EventList_ReadAtCursor();
     bool MS2_EventList_MoveToEvent();
-    bool MS2_EventList_DrawEvent();
     void MS2_EventList_Move();
     void MS2_EventList_Move_ToBegin();
     void MS2_EventList_Move_ToEnd();

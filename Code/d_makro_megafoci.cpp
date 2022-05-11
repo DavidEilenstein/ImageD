@@ -5610,6 +5610,54 @@ void D_MAKRO_MegaFoci::MS2_UpdateOverlay(size_t overlay_index)
         break;
     }
 
+    //draw events, if active
+    if(MS2_EventList_FileSet)
+    {
+        //event params
+        int et  = ui->spinBox_MS2_EventList_Event_T->value();
+        int ey  = ui->spinBox_MS2_EventList_Event_Y->value();
+        int ex  = ui->spinBox_MS2_EventList_Event_X->value();
+        int er  = ui->spinBox_MS2_EventList_Event_R->value();
+        bool es = ui->checkBox_MS2_EventList_Event_Solved->isChecked();
+
+        //t fits?
+        if(et == ui->spinBox_MS2_Viewport_T->value())
+        {
+            //size x/y
+            size_t sx_full = size_t(v_MS2_MA_ChannelsImage_Full[0].cols * (1.0 / MS2_MosaikImageScale));
+            size_t sy_full = size_t(v_MS2_MA_ChannelsImage_Full[0].rows * (1.0 / MS2_MosaikImageScale));
+
+            //rel pos of event
+            double rel_pos_x = double(ex) / double(sx_full);
+            double rel_pos_y = double(ey) / double(sy_full);
+
+            //mosaik pos of event
+            int ex_mosaic = min(int(dataset_dim_mosaic_x - 1), int(rel_pos_x * dataset_dim_mosaic_x));
+            int ey_mosaic = min(int(dataset_dim_mosaic_y - 1), int(rel_pos_y * dataset_dim_mosaic_y));
+
+            //x and y in range?
+            if(ey_mosaic == ui->spinBox_MS2_Viewport_Y->value() && ex_mosaic == ui->spinBox_MS2_Viewport_X->value())
+            {
+                //event is in range of displayed viewport
+
+                //color
+                QColor e_col = es ? QColor(0, 255, 255) : QColor(255, 0, 0);
+
+                //px coordinates in img
+                int ex_px_viewport = min(v_MS2_MA_ChannelsOverlay_Croped[overlay_index].cols - 1, max(0, int((ex - MS2_ViewportOffset_NotScaled.x) * MS2_MosaikImageScale)));
+                int ey_px_viewport = min(v_MS2_MA_ChannelsOverlay_Croped[overlay_index].rows - 1, max(0, int((ey - MS2_ViewportOffset_NotScaled.y) * MS2_MosaikImageScale)));
+
+                //draw cirlce
+                ERR(D_Img_Proc::Draw_Circle(
+                        &(v_MS2_MA_ChannelsOverlay_Croped[overlay_index]),
+                        ex_px_viewport, ey_px_viewport,
+                        int(er * MS2_MosaikImageScale),
+                        e_col.red(), e_col.green(), e_col.blue(),
+                        2));
+            }
+        }
+    }
+
     //qDebug() << "MS2_UpdateOverlay" << overlay_index << "finish";
 }
 
@@ -6332,6 +6380,7 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     ui->groupBox_MS2_EventList_Event->setEnabled(true);
 
     MS2_EventList_ReadAtCursor();
+    MS2_EventList_MoveToEvent();
 }
 
 void D_MAKRO_MegaFoci::MS2_EventList_Close()
@@ -6573,11 +6622,6 @@ bool D_MAKRO_MegaFoci::MS2_EventList_MoveToEvent()
     ui->spinBox_MS2_Viewport_Y->setValue(mosaic_y);
     ui->spinBox_MS2_Viewport_X->setValue(mosaic_x);
 
-    return MS2_EventList_DrawEvent();
-}
-
-bool D_MAKRO_MegaFoci::MS2_EventList_DrawEvent()
-{
     return true;
 }
 
