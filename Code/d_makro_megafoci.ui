@@ -5703,6 +5703,9 @@ QProgressBar::chunk {
               </item>
               <item row="0" column="0">
                <widget class="QPushButton" name="pushButton_MS2_EventList_Load">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -5948,7 +5951,10 @@ QProgressBar::chunk {
                  <number>1</number>
                 </property>
                 <item row="1" column="0">
-                 <widget class="QGroupBox" name="groupBox_2">
+                 <widget class="QGroupBox" name="groupBox_MS2_EventList_MoveToEvent">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="title">
                    <string/>
                   </property>
@@ -6038,7 +6044,10 @@ QProgressBar::chunk {
                  </widget>
                 </item>
                 <item row="0" column="0">
-                 <widget class="QGroupBox" name="groupBox_3">
+                 <widget class="QGroupBox" name="groupBox_MS2_EventList_MovementDirection">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="title">
                    <string/>
                   </property>
@@ -6128,7 +6137,10 @@ QProgressBar::chunk {
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QGroupBox" name="groupBox">
+                 <widget class="QGroupBox" name="groupBox_MS2_EventList_SolveOnMove">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="title">
                    <string/>
                   </property>
@@ -14897,7 +14909,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1686</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">

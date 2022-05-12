@@ -904,7 +904,6 @@ private slots:
     void MS2_UpdateOverlays();
     void MS2_UpdateOverlay(size_t overlay_index);
 
-
     void MS2_DrawMode_Set(size_t mode);
     void MS2_Draw_RecordedClicks_UpdateAvailiableDrawModi();
     void MS2_Draw_RecordedClicksChanged(size_t point_count);

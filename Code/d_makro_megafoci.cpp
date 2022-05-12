@@ -5052,6 +5052,7 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage(size_t img2update)
             "MS2_UpdateImage",
             "D_Img_Proc::OverlayImage");
 
+    //Box
     if(v_MS2_CHB_Viewer_SegmentBox[img2update]->isChecked())
     {
         double overlap = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
@@ -5075,6 +5076,78 @@ void D_MAKRO_MegaFoci::MS2_UpdateImage(size_t img2update)
                 196),
             "MS2_UpdateImage",
             "D_Img_Proc::Draw_Rect - segment box");
+    }
+
+    //draw events, if active
+    if(MS2_EventList_FileSet)
+    {
+        //mosaic coordinates
+        size_t mx = ui->spinBox_MS2_Viewport_X->value();
+        size_t my = ui->spinBox_MS2_Viewport_Y->value();
+
+        //size x/y
+        int sx_full = int(v_MS2_MA_ChannelsImage_Full[0].cols * (1.0 / MS2_MosaikImageScale));
+        int sy_full = int(v_MS2_MA_ChannelsImage_Full[0].rows * (1.0 / MS2_MosaikImageScale));
+
+        //min viewport
+        int vp_min_x_px = (double(mx) / double(dataset_dim_mosaic_x)) * sx_full;
+        int vp_min_y_px = (double(my) / double(dataset_dim_mosaic_y)) * sy_full;
+
+        //max viewport
+        int vp_max_x_px = min(double(sx_full - 1), vp_min_x_px + (v_MS2_MA_Images2Show[img2update].cols / MS2_MosaikImageScale));
+        int vp_max_y_px = min(double(sy_full - 1), vp_min_y_px + (v_MS2_MA_Images2Show[img2update].rows / MS2_MosaikImageScale));
+
+        for(int l = MS2_EventList_CursorOffset; l < MS2_EventList_Events.size(); l++)
+        {
+            bool ok;
+            int et = MS2_EventList_Decode_Number(l, 't', &ok);
+
+            if(ok)
+            {
+                if(et == ui->spinBox_MS2_Viewport_T->value())
+                {
+                    int ey = MS2_EventList_Decode_Number(l, 'y', &ok);
+                    if(ok)
+                    {
+                        int ex = MS2_EventList_Decode_Number(l, 'x', &ok);
+                        if(ok)
+                        {
+                            int er = MS2_EventList_Decode_Number(l, 'r', &ok);
+                            if(ok)
+                            {
+                                bool es = MS2_EventList_Decode_Status(l, &ok);
+                                if(ok)
+                                {
+                                    //x and y in range?
+                                    if(ex >= vp_min_x_px && ex <= vp_max_x_px && ey >= vp_min_y_px && ey <= vp_max_y_px)
+                                    {
+                                        //event is in range of displayed viewport
+
+                                        //color
+                                        QColor e_col = es ? QColor(0, 255, 255) : QColor(255, 0, 0);
+
+                                        //px coordinates in img
+                                        int ex_px_viewport = min(v_MS2_MA_Images2Show[img2update].cols - 1, max(0, int((ex - MS2_ViewportOffset_NotScaled.x) * MS2_MosaikImageScale)));
+                                        int ey_px_viewport = min(v_MS2_MA_Images2Show[img2update].rows - 1, max(0, int((ey - MS2_ViewportOffset_NotScaled.y) * MS2_MosaikImageScale)));
+
+                                        //event active
+                                        bool ea = (ex == ui->spinBox_MS2_EventList_Event_X->value()) && (ey == ui->spinBox_MS2_EventList_Event_Y->value() && (er == ui->spinBox_MS2_EventList_Event_R->value()));
+
+                                        //draw cirlce
+                                        ERR(D_Img_Proc::Draw_Circle(
+                                                &(v_MS2_MA_Images2Show[img2update]),
+                                                ex_px_viewport, ey_px_viewport,
+                                                int(er * MS2_MosaikImageScale),
+                                                e_col.red(), e_col.green(), e_col.blue(),
+                                                ea ? 2 : 1));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     v_MS2_Viewer[img2update]->Update_Image(&(v_MS2_MA_Images2Show[img2update]));
@@ -5610,54 +5683,6 @@ void D_MAKRO_MegaFoci::MS2_UpdateOverlay(size_t overlay_index)
         break;
     }
 
-    //draw events, if active
-    if(MS2_EventList_FileSet)
-    {
-        //event params
-        int et  = ui->spinBox_MS2_EventList_Event_T->value();
-        int ey  = ui->spinBox_MS2_EventList_Event_Y->value();
-        int ex  = ui->spinBox_MS2_EventList_Event_X->value();
-        int er  = ui->spinBox_MS2_EventList_Event_R->value();
-        bool es = ui->checkBox_MS2_EventList_Event_Solved->isChecked();
-
-        //t fits?
-        if(et == ui->spinBox_MS2_Viewport_T->value())
-        {
-            //size x/y
-            size_t sx_full = size_t(v_MS2_MA_ChannelsImage_Full[0].cols * (1.0 / MS2_MosaikImageScale));
-            size_t sy_full = size_t(v_MS2_MA_ChannelsImage_Full[0].rows * (1.0 / MS2_MosaikImageScale));
-
-            //rel pos of event
-            double rel_pos_x = double(ex) / double(sx_full);
-            double rel_pos_y = double(ey) / double(sy_full);
-
-            //mosaik pos of event
-            int ex_mosaic = min(int(dataset_dim_mosaic_x - 1), int(rel_pos_x * dataset_dim_mosaic_x));
-            int ey_mosaic = min(int(dataset_dim_mosaic_y - 1), int(rel_pos_y * dataset_dim_mosaic_y));
-
-            //x and y in range?
-            if(ey_mosaic == ui->spinBox_MS2_Viewport_Y->value() && ex_mosaic == ui->spinBox_MS2_Viewport_X->value())
-            {
-                //event is in range of displayed viewport
-
-                //color
-                QColor e_col = es ? QColor(0, 255, 255) : QColor(255, 0, 0);
-
-                //px coordinates in img
-                int ex_px_viewport = min(v_MS2_MA_ChannelsOverlay_Croped[overlay_index].cols - 1, max(0, int((ex - MS2_ViewportOffset_NotScaled.x) * MS2_MosaikImageScale)));
-                int ey_px_viewport = min(v_MS2_MA_ChannelsOverlay_Croped[overlay_index].rows - 1, max(0, int((ey - MS2_ViewportOffset_NotScaled.y) * MS2_MosaikImageScale)));
-
-                //draw cirlce
-                ERR(D_Img_Proc::Draw_Circle(
-                        &(v_MS2_MA_ChannelsOverlay_Croped[overlay_index]),
-                        ex_px_viewport, ey_px_viewport,
-                        int(er * MS2_MosaikImageScale),
-                        e_col.red(), e_col.green(), e_col.blue(),
-                        2));
-            }
-        }
-    }
-
     //qDebug() << "MS2_UpdateOverlay" << overlay_index << "finish";
 }
 
@@ -5765,6 +5790,7 @@ bool D_MAKRO_MegaFoci::MS2_LoadData()
     ui->groupBox_MS2_EventList->setEnabled(true);
     ui->groupBox_MS2_Viewport->setEnabled(true);
     ui->tabWidget_MS2_Control->setEnabled(true);
+    ui->pushButton_MS2_EventList_Load->setEnabled(true);
 
     state_MS2_data_loaded = true;
     return true;
@@ -6378,6 +6404,9 @@ void D_MAKRO_MegaFoci::MS2_EventList_Load()
     ui->pushButton_MS2_EventList_ToEnd->setEnabled(true);
     ui->pushButton_MS2_EventList_Move->setEnabled(true);
     ui->groupBox_MS2_EventList_Event->setEnabled(true);
+    ui->groupBox_MS2_EventList_MovementDirection->setEnabled(true);
+    ui->groupBox_MS2_EventList_SolveOnMove->setEnabled(true);
+    ui->groupBox_MS2_EventList_MoveToEvent->setEnabled(true);
 
     MS2_EventList_ReadAtCursor();
     MS2_EventList_MoveToEvent();
@@ -6397,6 +6426,11 @@ void D_MAKRO_MegaFoci::MS2_EventList_Close()
     ui->pushButton_MS2_EventList_ToEnd->setEnabled(false);
     ui->pushButton_MS2_EventList_Move->setEnabled(false);
     ui->groupBox_MS2_EventList_Event->setEnabled(false);
+    ui->groupBox_MS2_EventList_MovementDirection->setEnabled(false);
+    ui->groupBox_MS2_EventList_SolveOnMove->setEnabled(false);
+    ui->groupBox_MS2_EventList_MoveToEvent->setEnabled(false);
+
+    MS2_UpdateImages_Editing();
 }
 
 bool D_MAKRO_MegaFoci::MS2_EventList_Sort()
@@ -6609,9 +6643,22 @@ bool D_MAKRO_MegaFoci::MS2_EventList_MoveToEvent()
     size_t sx_full = size_t(v_MS2_MA_ChannelsImage_Full[0].cols * (1.0 / MS2_MosaikImageScale));
     size_t sy_full = size_t(v_MS2_MA_ChannelsImage_Full[0].rows * (1.0 / MS2_MosaikImageScale));
 
+    //event pos
+    int event_x = ui->spinBox_MS2_EventList_Event_X->value();
+    int event_y = ui->spinBox_MS2_EventList_Event_Y->value();
+
+    //offest to editable area
+    double overlap_rel  = ui->doubleSpinBox_ImgProc_Stitch_Border->value() / 100.0;
+    int overlap_abs_x   = int(overlap_rel * (double(sx_full) / double(dataset_dim_mosaic_x)));
+    int overlap_abs_y   = int(overlap_rel * (double(sy_full) / double(dataset_dim_mosaic_y)));
+
+    //dummy target pos
+    int target_x = max(0, event_x - overlap_abs_x);
+    int target_y = max(0, event_y - overlap_abs_y);
+
     //rel pos of event
-    double rel_pos_x = double(ui->spinBox_MS2_EventList_Event_X->value()) / double(sx_full);
-    double rel_pos_y = double(ui->spinBox_MS2_EventList_Event_Y->value()) / double(sy_full);
+    double rel_pos_x = double(target_x) / double(sx_full);
+    double rel_pos_y = double(target_y) / double(sy_full);
 
     //mosaik pos of event
     int mosaic_x = min(int(dataset_dim_mosaic_x - 1), int(rel_pos_x * dataset_dim_mosaic_x));
@@ -6622,6 +6669,7 @@ bool D_MAKRO_MegaFoci::MS2_EventList_MoveToEvent()
     ui->spinBox_MS2_Viewport_Y->setValue(mosaic_y);
     ui->spinBox_MS2_Viewport_X->setValue(mosaic_x);
 
+    MS2_UpdateImages_Editing();
     return true;
 }
 
@@ -7580,6 +7628,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_Move_clicked()
 void D_MAKRO_MegaFoci::on_checkBox_MS2_EventList_Event_Solved_stateChanged(int arg1)
 {
     MS2_EventList_SaveCurrent();
+    MS2_UpdateImages_Editing();
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_MS2_EventList_ToBegin_clicked()
