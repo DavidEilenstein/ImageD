@@ -256,7 +256,7 @@
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
@@ -11235,34 +11235,37 @@ QProgressBar::chunk {
                  <property name="spacing">
                   <number>1</number>
                  </property>
-                 <item row="4" column="1">
-                  <widget class="QSpinBox" name="spinBox_7">
+                 <item row="3" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_LargeDist_Dist">
                    <property name="buttonSymbols">
                     <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
                    <property name="prefix">
-                    <string>T &lt;= </string>
+                    <string>distance &gt;= </string>
+                   </property>
+                   <property name="maximum">
+                    <number>999999</number>
                    </property>
                    <property name="value">
-                    <number>2</number>
+                    <number>150</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_ShortTracking_Isolated">
+                   <property name="text">
+                    <string>Short tracking (isolated)</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QSpinBox" name="spinBox_8">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>T difference &lt;= </string>
-                   </property>
-                   <property name="value">
-                    <number>10</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QSpinBox" name="spinBox_10">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration">
                    <property name="buttonSymbols">
                     <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
@@ -11280,74 +11283,31 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
-                  <widget class="QCheckBox" name="checkBox_6">
+                 <item row="7" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses">
                    <property name="text">
-                    <string>Short continous tracking isolated</string>
+                    <string>Short tracking (between mitoses)</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="0" colspan="2">
-                  <widget class="QCheckBox" name="checkBox">
-                   <property name="text">
-                    <string>Isolated nucleus</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QCheckBox" name="checkBox_2">
-                   <property name="text">
-                    <string>Low score connection</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QCheckBox" name="checkBox_5">
-                   <property name="text">
-                    <string>Mitosis soon after another</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="7" column="0" colspan="2">
-                  <widget class="QPushButton" name="pushButton">
-                   <property name="text">
-                    <string>Jump to next event</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                 <item row="7" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration">
                    <property name="buttonSymbols">
                     <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
                    <property name="prefix">
-                    <string>score &lt;= </string>
-                   </property>
-                   <property name="suffix">
-                    <string>%</string>
-                   </property>
-                   <property name="decimals">
-                    <number>0</number>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
+                    <string>T difference &lt;= </string>
                    </property>
                    <property name="value">
-                    <double>30.000000000000000</double>
+                    <number>10</number>
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="1">
-                  <widget class="QSpinBox" name="spinBox_9">
+                 <item row="6" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_AfterMitosis_Duration">
                    <property name="buttonSymbols">
                     <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
@@ -11363,17 +11323,86 @@ QProgressBar::chunk {
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QCheckBox" name="checkBox_3">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_LargeDist">
                    <property name="text">
-                    <string>Short continous tracking after mitosis</string>
+                    <string>Large distance between nuclei</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
                    </property>
                   </widget>
                  </item>
+                 <item row="11" column="0" colspan="2">
+                  <widget class="QPushButton" name="pushButton_MS5_Events_S5intern_JumpToNextEvent">
+                   <property name="text">
+                    <string>Jump to next event</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_BeginningNotAtBorderOrStart_Border">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="suffix">
+                    <string>px</string>
+                   </property>
+                   <property name="prefix">
+                    <string>border </string>
+                   </property>
+                   <property name="maximum">
+                    <number>999999</number>
+                   </property>
+                   <property name="value">
+                    <number>200</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_BeginningNotAtBorderOrStart">
+                   <property name="text">
+                    <string>Beginning not at start or border</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_ShortTracking_AfterMitosis">
+                   <property name="text">
+                    <string>Short tracking (after mitosis)</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_Isolated">
+                   <property name="text">
+                    <string>Isolated nucleus</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_EarlyMitosis_Time">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>at T &lt;= </string>
+                   </property>
+                   <property name="value">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="4" column="0">
-                  <widget class="QCheckBox" name="checkBox_4">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_EarlyMitosis">
                    <property name="text">
                     <string>Early mitosis</string>
                    </property>
@@ -14909,7 +14938,7 @@ color: red;</string>
      <x>0</x>
      <y>0</y>
      <width>1686</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">
