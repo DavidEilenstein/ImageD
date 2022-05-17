@@ -152,6 +152,17 @@ public:
     bool match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files);
     bool match_load_matches(QString QS_path_NucLifes);
 
+    bool event_find(QString* QS_FoundEventType, int* t_found, int* y_found, int* x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than);
+    bool event_find(int* t_found, int* y_found, int* x_found, int type, int param, int t_min, int y_min, int x_greater_than);
+    bool event_check(int* t_event, int* y_event, int* event_x, D_Bio_NucleusLife* pNucLifeTest, int type, int param);
+    bool event_find_isolatedNuc             (int *t_found, int *y_found, int *x_found,              int t_min, int y_min, int x_greater_than);
+    bool event_find_beginNotAtBorderOrStart (int *t_found, int *y_found, int *x_found, int border,  int t_min, int y_min, int x_greater_than);
+    bool event_find_largeDistBetweenNuc     (int *t_found, int *y_found, int *x_found, int dist,    int t_min, int y_min, int x_greater_than);
+    bool event_find_earlyMitosis            (int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than);
+    bool event_find_shortLifeIsolated       (int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than);
+    bool event_find_shortLifeAfterMitosis   (int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than);
+    bool event_find_shortLifeBetweenMitosis (int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than);
+
 public slots:
     void SetAttribFilterToNeedUpdate();
 
@@ -255,6 +266,25 @@ private:
         MATCH_ATTRIB_INDEX_NUMBER_OF
     };
 
+    enum EVENT_TYPE {
+        EVENT_TYPE_ISOLATED_NUC,
+        EVENT_TYPE_SPAWN_NOT_AT_BORDER_OR_START,
+        EVENT_TYPE_LARGE_DIST_BETWEEN_NUC,
+        EVENT_TYPE_EARLY_MITOSIS,
+        EVENT_TYPE_SHORT_LIFE_ISOLATED,
+        EVENT_TYPE_SHORT_LIFE_AFTER_MITOSIS,
+        EVENT_TYPE_SHORT_LIFE_BETWEEN_MITOSES,
+        EVENT_TYPE_NUMBER_OF
+    };
+    const QStringList QSL_EventType = {
+        "isolated nucleus",
+        "begin not at border or start",
+        "large dist between nuclei",
+        "early mitosis",
+        "short life (isolated)",
+        "short life (after mitosis)",
+        "short life (between mitoses)"
+    };
 };
 
 #endif // D_BIO_NUCLEUSPEDIGREE_H

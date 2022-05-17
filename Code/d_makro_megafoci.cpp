@@ -9808,6 +9808,71 @@ void D_MAKRO_MegaFoci::MS5_EventToS2_SaveEventList()
     OS.close();
 }
 
+void D_MAKRO_MegaFoci::MS5_EventS5intern_JumToNext()
+{
+    vector<int> vType_Search = {
+        ui->checkBox_MS5_Events_S5intern_Isolated->isChecked()                      ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_BeginningNotAtBorderOrStart->isChecked()   ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_LargeDist->isChecked()                     ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_EarlyMitosis->isChecked()                  ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_ShortTracking_Isolated->isChecked()        ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_ShortTracking_AfterMitosis->isChecked()    ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses->isChecked()  ? 1 : 0
+    };
+
+    vector<int> vType_Param = {
+        0,
+        ui->spinBox_MS5_Events_S5intern_BeginningNotAtBorderOrStart_Border->value(),
+        ui->spinBox_MS5_Events_S5intern_LargeDist_Dist->value(),
+        ui->spinBox_MS5_Events_S5intern_EarlyMitosis_Time->value(),
+        ui->spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration->value(),
+        ui->spinBox_MS5_Events_S5intern_ShortTracking_AfterMitosis_Duration->value(),
+        ui->spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration->value()
+    };
+
+    int search_t = ui->spinBox_MS5_Events_S5intern_Pos_T->value();
+    int search_y = ui->spinBox_MS5_Events_S5intern_Pos_Y->value();
+    int search_x = ui->spinBox_MS5_Events_S5intern_Pos_X->value();
+
+    //search for event
+    QString QS_EventText;
+    int pos_t;
+    int pos_y;
+    int pos_x;
+    bool found_event = MS5_NucPedigree_Editing.event_find(
+                &QS_EventText,
+                &pos_t,
+                &pos_y,
+                &pos_x,
+                vType_Search,
+                vType_Param,
+                search_t,
+                search_y,
+                search_x);
+
+    if(!found_event)
+    {
+        QMessageBox::information(
+                    this,
+                    "No event found",
+                    "No more events found after"
+                    "<br>t=" + QString::number(search_t) + "h"
+                    "<br>y=" + QString::number(search_y) + "px"
+                    "<br>x=" + QString::number(search_x) + "px");
+        return;
+    }
+
+    //set pos to ui
+    ui->spinBox_MS5_Events_S5intern_Pos_T->setValue(pos_t);
+    ui->spinBox_MS5_Events_S5intern_Pos_Y->setValue(pos_y);
+    ui->spinBox_MS5_Events_S5intern_Pos_X->setValue(pos_x);
+    ui->label_MS5_Events_S5intern_EventTypeText->setText(QS_EventText);
+
+    //draw
+
+    //TO DO
+}
+
 void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale)
 {
     //qDebug() << "scale" << scale;
@@ -10088,6 +10153,25 @@ void D_MAKRO_MegaFoci::on_pushButton_MS5_EventS2_RecordStop_clicked()
     MS5_EventToS2_Start();
 }
 
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Pos_T_valueChanged(int arg1)
+{
+    ui->label_MS5_Events_S5intern_EventTypeText->setText("manually changed T");
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Pos_Y_valueChanged(int arg1)
+{
+    ui->label_MS5_Events_S5intern_EventTypeText->setText("manually changed Y");
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Pos_X_valueChanged(int arg1)
+{
+    ui->label_MS5_Events_S5intern_EventTypeText->setText("manually changed X");
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Events_S5intern_JumpToNextEvent_clicked()
+{
+    MS5_EventS5intern_JumToNext();
+}
 
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_LoadData_clicked()
@@ -11760,3 +11844,5 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+

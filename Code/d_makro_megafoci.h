@@ -1454,6 +1454,8 @@ private slots:
     void MS5_EventToS2_AddEvent();
     void MS5_EventToS2_SaveEventList();
 
+    void MS5_EventS5intern_JumToNext();
+
 private:
     static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
 
@@ -1532,6 +1534,11 @@ private slots:
     void on_pushButton_MS5_EventS2_RecordStart_clicked();
     void on_pushButton_MS5_EventS2_RecordStop_clicked();
 
+    void on_spinBox_MS5_Events_S5intern_Pos_T_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_Pos_Y_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_Pos_X_valueChanged(int arg1);
+    void on_pushButton_MS5_Events_S5intern_JumpToNextEvent_clicked();
+
     //-------------------------------------------------------------------- MS6 ----------------------------------------------------
 
 private slots:
@@ -1590,12 +1597,6 @@ private slots:
     void on_pushButton_MS6_SaveResult_clicked();
     void on_pushButton_MS6_SaveAnalysis_clicked();
     void on_pushButton_MS6_SaveNucLifes_clicked();
-
-
-
-
-
-
 
 private:
 
