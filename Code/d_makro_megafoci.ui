@@ -11269,8 +11269,47 @@ QProgressBar::chunk {
                    <property name="maximum">
                     <number>999999</number>
                    </property>
+                   <property name="singleStep">
+                    <number>10</number>
+                   </property>
                    <property name="value">
                     <number>200</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_ShortTracking_Isolated">
+                   <property name="text">
+                    <string>Short tracking (isolated)</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_EarlyMitosis_Time">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>at T &lt;= </string>
+                   </property>
+                   <property name="value">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration">
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="prefix">
+                    <string>T difference &lt;= </string>
+                   </property>
+                   <property name="value">
+                    <number>10</number>
                    </property>
                   </widget>
                  </item>
@@ -11298,60 +11337,11 @@ QProgressBar::chunk {
                    <property name="maximum">
                     <number>999999</number>
                    </property>
-                   <property name="value">
-                    <number>150</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_EarlyMitosis">
-                   <property name="text">
-                    <string>Early mitosis</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_EarlyMitosis_Time">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>at T &lt;= </string>
+                   <property name="singleStep">
+                    <number>10</number>
                    </property>
                    <property name="value">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_ShortTracking_Isolated">
-                   <property name="text">
-                    <string>Short tracking (isolated)</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration">
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="prefix">
-                    <string>T continous &lt;= </string>
-                   </property>
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>999</number>
-                   </property>
-                   <property name="value">
-                    <number>3</number>
+                    <number>200</number>
                    </property>
                   </widget>
                  </item>
@@ -11391,21 +11381,37 @@ QProgressBar::chunk {
                    </property>
                   </widget>
                  </item>
-                 <item row="6" column="1">
-                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration">
+                 <item row="3" column="0">
+                  <widget class="QCheckBox" name="checkBox_MS5_Events_S5intern_EarlyMitosis">
+                   <property name="text">
+                    <string>Early mitosis</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration">
                    <property name="buttonSymbols">
                     <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
                    <property name="prefix">
-                    <string>T difference &lt;= </string>
+                    <string>T continous &lt;= </string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>999</number>
                    </property>
                    <property name="value">
-                    <number>10</number>
+                    <number>3</number>
                    </property>
                   </widget>
                  </item>
                  <item row="7" column="0" colspan="2">
-                  <widget class="QGroupBox" name="groupBox">
+                  <widget class="QGroupBox" name="groupBox_MS5_Events_S5intern_Event">
                    <property name="title">
                     <string/>
                    </property>
@@ -11457,6 +11463,20 @@ QProgressBar::chunk {
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_160">
+                      <property name="text">
+                       <string>event:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1" colspan="4">
+                     <widget class="QLabel" name="label_MS5_Events_S5intern_EventTypeText">
+                      <property name="text">
+                       <string>&lt;event type text&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="1" column="4">
                      <widget class="QPushButton" name="pushButton_MS5_Events_S5intern_JumpToNextEvent">
                       <property name="text">
@@ -11493,17 +11513,129 @@ QProgressBar::chunk {
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_160">
-                      <property name="text">
-                       <string>event:</string>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="8" column="0" colspan="2">
+                  <widget class="QGroupBox" name="groupBox_MS5_Events_S5intern_DrawParams">
+                   <property name="title">
+                    <string/>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_153">
+                    <property name="leftMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="spacing">
+                     <number>1</number>
+                    </property>
+                    <item row="0" column="3">
+                     <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_Draw_Green">
+                      <property name="buttonSymbols">
+                       <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="prefix">
+                       <string>G=</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="value">
+                       <number>192</number>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1" colspan="4">
-                     <widget class="QLabel" name="label_MS5_Events_S5intern_EventTypeText">
+                    <item row="0" column="0">
+                     <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_Draw_Radius">
+                      <property name="buttonSymbols">
+                       <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="suffix">
+                       <string>px</string>
+                      </property>
+                      <property name="prefix">
+                       <string>r=</string>
+                      </property>
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>999</number>
+                      </property>
+                      <property name="value">
+                       <number>75</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="5">
+                     <widget class="QPushButton" name="pushButton_MS5_Events_S5intern_Draw_SelectColor">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255,192,203);</string>
+                      </property>
                       <property name="text">
-                       <string>&lt;event type text&gt;</string>
+                       <string>Select color</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_Draw_Thickness">
+                      <property name="buttonSymbols">
+                       <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="suffix">
+                       <string>px</string>
+                      </property>
+                      <property name="prefix">
+                       <string>thickness=</string>
+                      </property>
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>99</number>
+                      </property>
+                      <property name="value">
+                       <number>3</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_Draw_Red">
+                      <property name="buttonSymbols">
+                       <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="prefix">
+                       <string>R=</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="value">
+                       <number>255</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="4">
+                     <widget class="QSpinBox" name="spinBox_MS5_Events_S5intern_Draw_Blue">
+                      <property name="buttonSymbols">
+                       <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="prefix">
+                       <string>B=</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="value">
+                       <number>203</number>
                       </property>
                      </widget>
                     </item>

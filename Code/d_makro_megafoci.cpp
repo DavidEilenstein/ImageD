@@ -9311,6 +9311,104 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
         }
     }
 
+    //Event
+    if(MS5_EventS5intern_EventActive)
+    {
+        //qDebug() << "---------------------------------------------";
+
+        //draw params
+        QColor event_color(
+                    ui->spinBox_MS5_Events_S5intern_Draw_Red->value(),
+                    ui->spinBox_MS5_Events_S5intern_Draw_Green->value(),
+                    ui->spinBox_MS5_Events_S5intern_Draw_Blue->value());
+        int event_radius = ui->spinBox_MS5_Events_S5intern_Draw_Radius->value();
+        int event_thickness = ui->spinBox_MS5_Events_S5intern_Draw_Thickness->value();
+
+        //event pos
+        int event_t_h           = ui->spinBox_MS5_Events_S5intern_Pos_T->value();
+        int event_y_px_original = ui->spinBox_MS5_Events_S5intern_Pos_Y->value();
+        int event_x_px_original = ui->spinBox_MS5_Events_S5intern_Pos_X->value();
+        //qDebug() << "event pos" << event_x_px_original << event_y_px_original;
+
+        //size mosaic
+        int sx_mosaic = vv_MS5_Mosaics_CT[0][0].cols;
+        int sy_mosaic = vv_MS5_Mosaics_CT[0][0].rows;
+        //qDebug() << "size mosaic" << sx_mosaic << sy_mosaic;
+
+        //size original
+        int sx_original = int(sx_mosaic / scale);
+        int sy_original = int(sy_mosaic / scale);
+        //qDebug() << "size original" << sx_original << sy_original;
+
+        //event pos rel
+        double event_x_rel = double(event_x_px_original) / double(sx_original);
+        double event_y_rel = double(event_y_px_original) / double(sy_original);
+        //qDebug() << "event pos rel" << event_x_rel << event_y_rel;
+
+        //event mosaic coords
+        int event_mx = min(int(event_x_rel * dataset_dim_mosaic_x), int(dataset_dim_mosaic_x));
+        int event_my = min(int(event_y_rel * dataset_dim_mosaic_y), int(dataset_dim_mosaic_y));
+        //qDebug() << "event mosaic coords" << event_mx << event_my;
+
+        //vp min
+        int vp_min_mx = ui->spinBox_MS5_X_start->value();
+        int vp_min_my = ui->spinBox_MS5_Y_start->value();
+        //qDebug() << "vp min" << vp_min_mx << vp_min_my;
+
+        //vp size
+        int vp_size_mx = ui->spinBox_MS5_X_size->value();
+        int vp_size_my = ui->spinBox_MS5_Y_size->value();
+        //qDebug() << "vp size" << vp_size_mx << vp_size_my;
+
+        //vp max
+        int vp_max_mx = vp_min_mx + vp_size_mx - 1;
+        int vp_max_my = vp_min_my + vp_size_my - 1;
+        //qDebug() << "vp max" << vp_max_mx << vp_max_my;
+
+        if(event_mx >= vp_min_mx && event_mx <= vp_max_mx)
+        {
+            if(event_my >= vp_min_my && event_my <= vp_max_my)
+            {
+                for(size_t v = 0; v < MS5_ViewersCount; v++)
+                {
+                    //viewer time
+                    int viewer_t = ui->spinBox_MS5_T_start->value() + v;
+
+                    if(viewer_t == event_t_h)
+                    {
+                        //event pos in mosaic px coordinates
+                        int event_x_px_mosaic = int(event_x_rel * sx_mosaic);
+                        int event_y_px_mosaic = int(event_y_rel * sy_mosaic);
+                        //qDebug() << "event pos in mosaic px coordinates" << event_x_px_mosaic << event_y_px_mosaic;
+
+                        //offset vp
+                        int vp_px_offset_x = int((double(vp_min_mx) / double(dataset_dim_mosaic_x)) * sx_mosaic);
+                        int vp_px_offset_y = int((double(vp_min_my) / double(dataset_dim_mosaic_y)) * sy_mosaic);
+                        //qDebug() << "offset vp" << vp_px_offset_x << vp_px_offset_y;
+
+                        //event pos in vp
+                        int event_x_px_vp = min(v_MS5_MAs_ShowHighlight[v].cols - 1, max(0, event_x_px_mosaic - vp_px_offset_x));
+                        int event_y_px_vp = min(v_MS5_MAs_ShowHighlight[v].rows - 1, max(0, event_y_px_mosaic - vp_px_offset_y));
+                        //qDebug() << "event pos in vp" << event_x_px_vp << event_y_px_vp;
+
+                        D_Img_Proc::Draw_Circle(
+                                    &(v_MS5_MAs_ShowHighlight[v]),
+                                    event_x_px_vp,
+                                    event_y_px_vp,
+                                    event_radius,
+                                    event_color.red(),
+                                    event_color.green(),
+                                    event_color.blue(),
+                                    event_thickness,
+                                    false);
+
+                        //qDebug() << "---------------------------------------------";
+                    }
+                }
+            }
+        }
+    }
+
     //show
     //qDebug() << "MS5_UpdateImages_Highlight" << "show";
     for(size_t v = 0; v < MS5_ViewersCount; v++)
@@ -9808,7 +9906,7 @@ void D_MAKRO_MegaFoci::MS5_EventToS2_SaveEventList()
     OS.close();
 }
 
-void D_MAKRO_MegaFoci::MS5_EventS5intern_JumToNext()
+void D_MAKRO_MegaFoci::MS5_EventS5intern_JumpToNext()
 {
     vector<int> vType_Search = {
         ui->checkBox_MS5_Events_S5intern_Isolated->isChecked()                      ? 1 : 0,
@@ -9839,7 +9937,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumToNext()
     int pos_t;
     int pos_y;
     int pos_x;
-    bool found_event = MS5_NucPedigree_Editing.event_find(
+    MS5_EventS5intern_EventActive = MS5_NucPedigree_Editing.event_find(
                 &QS_EventText,
                 &pos_t,
                 &pos_y,
@@ -9850,7 +9948,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumToNext()
                 search_y,
                 search_x);
 
-    if(!found_event)
+    if(!MS5_EventS5intern_EventActive)
     {
         QMessageBox::information(
                     this,
@@ -9868,9 +9966,62 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumToNext()
     ui->spinBox_MS5_Events_S5intern_Pos_X->setValue(pos_x);
     ui->label_MS5_Events_S5intern_EventTypeText->setText(QS_EventText);
 
-    //draw
+    //jump to viewport
+    MS5_EventS5intern_MoveToVP();
 
-    //TO DO
+    //draw
+}
+
+void D_MAKRO_MegaFoci::MS5_EventS5intern_MoveToVP()
+{
+    if(!MS5_EventS5intern_EventActive)
+        return;
+
+    //event pos
+    int event_t_h           = ui->spinBox_MS5_Events_S5intern_Pos_T->value();
+    int event_y_px_original = ui->spinBox_MS5_Events_S5intern_Pos_Y->value();
+    int event_x_px_original = ui->spinBox_MS5_Events_S5intern_Pos_X->value();
+
+    //size mosaic
+    int sx_mosaic = vv_MS5_Mosaics_CT[0][0].cols;
+    int sy_mosaic = vv_MS5_Mosaics_CT[0][0].rows;
+
+    //size original
+    double scale = ui->doubleSpinBox_OverviewQuality->value() / 100.0;
+    int sx_original = int(sx_mosaic / scale);
+    int sy_original = int(sy_mosaic / scale);
+
+    //event pos rel
+    double event_x_rel = double(event_x_px_original) / double(sx_original);
+    double event_y_rel = double(event_y_px_original) / double(sy_original);
+
+    //event pos in mosaic px coordinates
+    //int event_x_px_mosaic = int(event_x_rel * sx_mosaic);
+    //int event_x_py_mosaic = int(event_y_rel * sy_mosaic);
+
+    //event mosaic coords
+    int event_mx = min(int(event_x_rel * dataset_dim_mosaic_x), int(dataset_dim_mosaic_x));
+    int event_my = min(int(event_y_rel * dataset_dim_mosaic_y), int(dataset_dim_mosaic_y));
+
+    //vp size
+    int vp_size_x = ui->spinBox_MS5_X_size->value();
+    int vp_size_y = ui->spinBox_MS5_Y_size->value();
+    int vp_size_t = int(MS5_ViewersCount);
+
+    //vp offset to center
+    int vp_offset_x = vp_size_x / 2;
+    int vp_offset_y = vp_size_y / 2;
+    int vp_offset_t = vp_size_t / 2;
+
+    //target event pos
+    int target_start_mx = min(max(event_mx  - vp_offset_x, 0), int(dataset_dim_mosaic_x - 1 - vp_size_x));
+    int target_start_my = min(max(event_my  - vp_offset_y, 0), int(dataset_dim_mosaic_y - 1 - vp_size_y));
+    int target_start_t  = min(max(event_t_h - vp_offset_t, 0), int(dataset_dim_t        - 1 - vp_size_t));
+
+    //move to vp
+    ui->spinBox_MS5_X_start->setValue(target_start_mx);
+    ui->spinBox_MS5_Y_start->setValue(target_start_my);
+    ui->spinBox_MS5_T_start->setValue(target_start_t);
 }
 
 void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(Mat* pMA_out, vector<vector<Mat>>* pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale)
@@ -10170,9 +10321,73 @@ void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Pos_X_valueChanged(int arg
 
 void D_MAKRO_MegaFoci::on_pushButton_MS5_Events_S5intern_JumpToNextEvent_clicked()
 {
-    MS5_EventS5intern_JumToNext();
+    MS5_EventS5intern_JumpToNext();
 }
 
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Draw_Radius_valueChanged(int arg1)
+{
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Draw_Thickness_valueChanged(int arg1)
+{
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Draw_Red_valueChanged(int arg1)
+{
+    QColor col(
+                ui->spinBox_MS5_Events_S5intern_Draw_Red->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Green->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Blue->value());
+
+    ui->pushButton_MS5_Events_S5intern_Draw_SelectColor->setStyleSheet("background-color: rgb(" + QString::number(col.red()) + "," + QString::number(col.green()) + "," +QString::number(col.blue()) + ");");
+
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Draw_Green_valueChanged(int arg1)
+{
+    QColor col(
+                ui->spinBox_MS5_Events_S5intern_Draw_Red->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Green->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Blue->value());
+
+    ui->pushButton_MS5_Events_S5intern_Draw_SelectColor->setStyleSheet("background-color: rgb(" + QString::number(col.red()) + "," + QString::number(col.green()) + "," +QString::number(col.blue()) + ");");
+
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_Draw_Blue_valueChanged(int arg1)
+{
+    QColor col(
+                ui->spinBox_MS5_Events_S5intern_Draw_Red->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Green->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Blue->value());
+
+    ui->pushButton_MS5_Events_S5intern_Draw_SelectColor->setStyleSheet("background-color: rgb(" + QString::number(col.red()) + "," + QString::number(col.green()) + "," +QString::number(col.blue()) + ");");
+
+    MS5_UpdateImages_Highlight();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Events_S5intern_Draw_SelectColor_clicked()
+{
+    QColor col(
+                ui->spinBox_MS5_Events_S5intern_Draw_Red->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Green->value(),
+                ui->spinBox_MS5_Events_S5intern_Draw_Blue->value());
+
+    col = QColorDialog::getColor(
+                col,
+                this,
+                "Select event highlight color");
+
+    ui->spinBox_MS5_Events_S5intern_Draw_Red->setValue(col.red());
+    ui->spinBox_MS5_Events_S5intern_Draw_Green->setValue(col.green());
+    ui->spinBox_MS5_Events_S5intern_Draw_Blue->setValue(col.blue());
+
+    ui->pushButton_MS5_Events_S5intern_Draw_SelectColor->setStyleSheet("background-color: rgb(" + QString::number(col.red()) + "," + QString::number(col.green()) + "," +QString::number(col.blue()) + ");");
+}
 
 void D_MAKRO_MegaFoci::on_pushButton_MS6_LoadData_clicked()
 {
@@ -11844,5 +12059,7 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+
 
 
