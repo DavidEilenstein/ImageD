@@ -1456,6 +1456,7 @@ private slots:
 
     void MS5_EventS5intern_JumpToNext();
     void MS5_EventS5intern_MoveToVP();
+    void MS5_EventS5intern_CountEvents();
 
     void on_pushButton_MS5_DataLoad_clicked();
     void on_spinBox_MS5_Y_size_valueChanged(int arg1);
@@ -1479,6 +1480,24 @@ private slots:
     void on_spinBox_MS5_Events_S5intern_Draw_Green_valueChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_Draw_Blue_valueChanged(int arg1);
     void on_pushButton_MS5_Events_S5intern_Draw_SelectColor_clicked();
+    void on_pushButton_MS5_Events_S5intern_BackToZero_clicked();
+    void on_pushButton_MS5_Events_S5intern_CountEvents_clicked();
+    void on_checkBox_MS5_Events_S5intern_AutoUpdateCount_stateChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_LargeDist_Dist_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_EarlyMitosis_Time_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Duration_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_ShortTracking_LooseEnd_Duration_valueChanged(int arg1);
+    void on_spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration_valueChanged(int arg1);
+    void on_checkBox_Events_S5intern_EventConstraints_AfterT_clicked();
+    void on_spinBox_Events_S5intern_EventConstraints_AfterT_Time_valueChanged(int arg1);
+    void on_checkBox_Events_S5intern_EventConstraints_BeforeT_clicked();
+    void on_spinBox_Events_S5intern_EventConstraints_BeforeT_Time_valueChanged(int arg1);
+    void on_checkBox_Events_S5intern_EventConstraints_NotBorder_stateChanged(int arg1);
+    void on_spinBox_Events_S5intern_EventConstraints_NotBorder_Size_valueChanged(int arg1);
+    void on_checkBox_Events_S5intern_EventConstraints_Mosaik_stateChanged(int arg1);
+    void on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxX_valueChanged(int arg1);
+    void on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxY_valueChanged(int arg1);
 
 private:
     static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);

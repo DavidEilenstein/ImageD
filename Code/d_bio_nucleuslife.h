@@ -66,16 +66,16 @@ public:
     void set_time_irradiation(double t_irr)                                 {time_irradiation = t_irr;}
 
     bool set_Parent(D_Bio_NucleusBlob* nuc_parent)                  {if(has_NoParent()) {pNucParent = nuc_parent; return true;} else {return false;}}
-    bool set_Child1(D_Bio_NucleusBlob* nuc_child1)                  {if(has_Child1()) {pNucChild1 = nuc_child1; return true;} else {return false;}}
-    bool set_Child2(D_Bio_NucleusBlob* nuc_child2)                  {if(has_Child2()) {pNucChild2 = nuc_child2; return true;} else {return false;}}
-    bool set_Child (D_Bio_NucleusBlob* nuc_child)                   {if(has_Child1()) {return set_Child1(nuc_child);} else {return set_Child2(nuc_child);}}
+    bool set_Child1(D_Bio_NucleusBlob* nuc_child1)                  {if(has_NoChild1()) {pNucChild1 = nuc_child1; return true;} else {return false;}}
+    bool set_Child2(D_Bio_NucleusBlob* nuc_child2)                  {if(has_NoChild2()) {pNucChild2 = nuc_child2; return true;} else {return false;}}
+    bool set_Child (D_Bio_NucleusBlob* nuc_child)                   {if(has_NoChild1()) {return set_Child1(nuc_child);}         else {return set_Child2(nuc_child);}}
     bool add_Member(D_Bio_NucleusBlob nuc);
 
     Rect frameBorder()                                              {return FrameBorderXY;}
 
-    bool has_Parent()                                               {return pNucParent == nullptr;}
-    bool has_Child1()                                               {return pNucChild1 == nullptr;}
-    bool has_Child2()                                               {return pNucChild2 == nullptr;}
+    bool has_Parent()                                               {return pNucParent != nullptr;}
+    bool has_Child1()                                               {return pNucChild1 != nullptr;}
+    bool has_Child2()                                               {return pNucChild2 != nullptr;}
     bool has_NoParent()                                             {return !has_Parent();}
     bool has_NoChild()                                              {return !has_Child1() && !has_Child2();}
     bool has_NoChild1()                                             {return !has_Child1();}
@@ -88,8 +88,11 @@ public:
     bool has_NoSibbling()                                           {return !has_Sibbling();}
 
     bool has_MitosisStart()                                         {return has_Parent();}
+    bool has_NoMitosisStart()                                       {return !has_MitosisStart();}
     bool has_MitosisEnd()                                           {return has_AtLeastOneChild();}
-    bool has_MitosisStartEnd()                                      {return has_MitosisStart() && has_MitosisEnd();}
+    bool has_NoMitosisEnd()                                         {return !has_MitosisEnd();}
+    bool has_MitosisStartAndEnd()                                   {return has_MitosisStart() && has_MitosisEnd();}
+    bool has_NeitherMitosisStartNorEnd()                            {return !has_MitosisStart() && !has_MitosisEnd();}
 
     D_Bio_NucleusBlob*              pNuc_parent()                   {return has_Parent() ? pNucParent : nullptr;}
     D_Bio_NucleusBlob*              pNuc_child1()                   {return has_Child1() ? pNucChild1 : nullptr;}

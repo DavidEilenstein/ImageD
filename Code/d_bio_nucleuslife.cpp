@@ -339,7 +339,7 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
 
     case ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH:                return double(has_MitosisStart());
     case ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH:                  return double(has_MitosisEnd());
-    case ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH:           return double(has_MitosisStartEnd());
+    case ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH:           return double(has_MitosisStartAndEnd());
 
     default:                                                return 0;
     }

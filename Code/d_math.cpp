@@ -1404,6 +1404,54 @@ bool D_Math::Compare(size_t compare_index, double v1, double v2)
     default:                        return false;}
 }
 
+bool D_Math::Smaller_3D(double x0, double x1, double x2, double y0, double y1, double y2)
+{
+    if(x0 < y0)     return true;
+    if(x0 > y0)     return false;
+
+    if(x1 < y1)     return true;
+    if(x1 > y1)     return false;
+
+    if(x2 < y2)     return true;
+    return false;
+}
+
+bool D_Math::SmallerOrEqual_3D(double x0, double x1, double x2, double y0, double y1, double y2)
+{
+    if(x0 < y0)     return true;
+    if(x0 > y0)     return false;
+
+    if(x1 < y1)     return true;
+    if(x1 > y1)     return false;
+
+    if(x2 <= y2)    return true;
+    return false;
+}
+
+bool D_Math::Greater_3D(double x0, double x1, double x2, double y0, double y1, double y2)
+{
+    if(x0 > y0)     return true;
+    if(x0 < y0)     return false;
+
+    if(x1 > y1)     return true;
+    if(x1 < y1)     return false;
+
+    if(x2 > y2)     return true;
+    return false;
+}
+
+bool D_Math::GreaterOrEqual_3D(double x0, double x1, double x2, double y0, double y1, double y2)
+{
+    if(x0 > y0)     return true;
+    if(x0 < y0)     return false;
+
+    if(x1 > y1)     return true;
+    if(x1 < y1)     return false;
+
+    if(x2 >= y2)    return true;
+    return false;
+}
+
 /*double D_Math::RandomNumberDistribution(int type, double min, double max, double a, double b, double c, double d, double e, double f)
 {
     //seed

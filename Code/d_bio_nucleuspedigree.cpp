@@ -2705,18 +2705,20 @@ bool D_Bio_NucleusPedigree::match_load_matches(QString QS_path_NucLifes)
     return true;
 }
 
-bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found, int *y_found, int *x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than)
+bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found, int *y_found, int *x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
 {
     //init found event
     bool found_event_all = false;
     *t_found = INT_MAX;
     *y_found = INT_MAX;
     *x_found = INT_MAX;
-    *QS_FoundEventType = "";
+    QS_FoundEventType->clear();
 
     //loop event types
     for(size_t et = 0; et < EVENT_TYPE_NUMBER_OF; et++)
     {
+        //qDebug() << "D_Bio_NucleusPedigree::event_find search for" << QSL_EventType[et] << "events ---------------------------------------";
+
         if(vType_Search[et])
         {
             int t_test, y_test, x_test;
@@ -2728,41 +2730,33 @@ bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found,
                         vType_Param[et],
                         t_min,
                         y_min,
-                        x_greater_than);
-
-            found_event_all = true;
+                        x_greater_than,
+                        filter_use_t_after,
+                        filter_param_t_after,
+                        filter_use_t_before,
+                        filter_param_t_before,
+                        filter_use_range,
+                        filter_param_x_min,
+                        filter_param_x_max,
+                        filter_param_y_min,
+                        filter_param_y_max);
 
             if(found_event_test)
             {
-                bool earlier_nearer = false;
-                if(t_test < *t_found)
-                {
-                    earlier_nearer = true;
-                }
-                else if(t_test == *t_found)
-                {
-                    if(y_test < *y_found)
-                    {
-                        earlier_nearer = true;
-                    }
-                    else if(y_test == *y_found)
-                    {
-                        if(x_test < *x_found)
-                        {
-                            earlier_nearer = true;
-                        }
-                    }
-                }
+                found_event_all = true;
 
-                if(earlier_nearer)
+                //event erlier/nearer?
+                if(D_Math::Smaller_3D(t_test, y_test, x_test, *t_found, *y_found, *x_found))
                 {
                     *t_found = t_test;
                     *y_found = y_test;
                     *x_found = x_test;
 
                     if(!QS_FoundEventType->isEmpty())
-                        QS_FoundEventType->append(" and ");
+                        QS_FoundEventType->append(" AND ");
                     QS_FoundEventType->append(QSL_EventType[et]);
+
+                    //qDebug() << "D_Bio_NucleusPedigree::event_find" << "event is earlier/nearer -" << QS_FoundEventType << " - !!!!!!!!!!!!!!!!!!!!!!!!";
                 }
             }
         }
@@ -2771,7 +2765,7 @@ bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found,
     return found_event_all;
 }
 
-bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found, int type, int param, int t_min, int y_min, int x_greater_than)
+bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found, int type, int param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
 {
     if(!state_NucLifesCalced)
         calc_NucLifes();
@@ -2788,70 +2782,49 @@ bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found,
     size_t nl = vNucLifes.size();
     for(size_t l = 0; l < nl; l++)
     {
+        //qDebug() << "D_Bio_NucleusPedigree::event_find" << QSL_EventType[type] << "check nuclife" << l;
+
         //get and check nuc life
         D_Bio_NucleusLife* pNucLife = &(vNucLifes[l]);
         if(pNucLife != nullptr)
         {
+            //qDebug() << "D_Bio_NucleusPedigree::event_find" << QSL_EventType[type] << "nuclife valid" << l;
+
             //check, if event
             int event_t = INT_MAX;
             int event_y = INT_MAX;
             int event_x = INT_MAX;
             if(event_check(&event_t, &event_y, &event_x, pNucLife, type, param))
             {
-                //check, if event is in range
-                bool in_range = false;
-                if(event_t > t_min)
-                {
-                    in_range = true;
-                }
-                else if(event_t == t_min)
-                {
-                    if(event_y > y_min)
-                    {
-                        in_range = true;
-                    }
-                    else if(event_y == y_min)
-                    {
-                        if(event_x > x_greater_than)
-                        {
-                            in_range = true;
-                        }
-                    }
-                }
+                //qDebug() << "D_Bio_NucleusPedigree::event_find found event" << QSL_EventType[type] << "t/y/x" << event_t << event_y << event_x;
 
-                //in range?
-                if(in_range)
+                //in range? (behind min coords)
+                if(D_Math::Greater_3D(event_t, event_y, event_x, t_min, y_min, x_greater_than))
                 {
-                    //valid event found
-                    found_event = true;
+                    //qDebug() << "D_Bio_NucleusPedigree::event_find found event is in range";
 
-                    //check, if event is in range
-                    bool earlier_closer = false;
-                    if(event_t < *t_found)
+                    if(!filter_use_t_after || event_t > filter_param_t_after)
                     {
-                        earlier_closer = true;
-                    }
-                    else if(event_t == *t_found)
-                    {
-                        if(event_y > *y_found)
+                        if(!filter_use_t_before || event_t < filter_param_t_before)
                         {
-                            earlier_closer = true;
-                        }
-                        else if(event_y == *y_found)
-                        {
-                            if(event_x > *x_found)
+                            if(!filter_use_range || (event_x > filter_param_x_min && event_x < filter_param_x_max))
                             {
-                                earlier_closer = true;
+                                if(!filter_use_range || (event_y > filter_param_y_min && event_y < filter_param_y_max))
+                                {
+                                    //valid event found
+                                    found_event = true;
+
+                                    //event erlier/nearer?
+                                    if(D_Math::Smaller_3D(event_t, event_y, event_x, *t_found, *y_found, *x_found))
+                                    {
+                                        //qDebug() << "D_Bio_NucleusPedigree::event_find found event is earlier/closer then t/y/x" << *t_found << *y_found << *x_found;
+                                        *t_found = event_t;
+                                        *y_found = event_y;
+                                        *x_found = event_x;
+                                    }
+                                }
                             }
                         }
-                    }
-
-                    //better candidate?
-                    if(earlier_closer)
-                    {
-                        *t_found = event_t;
-                        *y_found = event_y;
-                        *x_found = event_x;
                     }
                 }
             }
@@ -2866,6 +2839,7 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
     if(pNucLifeTest == nullptr)
         return false;
 
+    bool event_valid = false;
     D_Bio_NucleusBlob* pNucBlob_Event = nullptr;
     *event_t = 0;
     *event_y = 0;
@@ -2873,73 +2847,107 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
 
     switch (type) {
 
+    /*
     case EVENT_TYPE_ISOLATED_NUC:
     {
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > 0.0)      return false;
-        if(pNucLifeTest->has_AtLeastOneChild())                         return false;
-        if(pNucLifeTest->has_Parent())                                  return false;
-        pNucBlob_Event = pNucLifeTest->pNuc_member_first();
+        if(pNucLifeTest->has_NoMitosisStart())
+            if(pNucLifeTest->has_NoMitosisEnd())
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) == 0.0)
+                    event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_first();
     }
         break;
+        */
 
+        /*
     case EVENT_TYPE_SPAWN_NOT_AT_BORDER_OR_START:
     {
-        if(pNucLifeTest->has_Parent())                                                          return false;
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_START) <= 0.0)                           return false;
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX) <= param)    return false;
+        if(pNucLifeTest->has_NoMitosisStart())
+            //if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > 0.0)
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_START) > 0.0)
+                    if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX) > param)
+                        event_valid = true;
+
         pNucBlob_Event = pNucLifeTest->pNuc_member_first();
     }
         break;
+        */
 
     case EVENT_TYPE_LARGE_DIST_BETWEEN_NUC:
     {
-        bool found_large_dist = false;
         size_t nb = pNucLifeTest->members_count();
-        for(size_t b = 0; b < nb && !found_large_dist; b++)
+        for(size_t b = 0; b < nb && !event_valid; b++)
         {
             D_Bio_NucleusBlob* pNucBlob_Test = pNucLifeTest->pNuc_member(b);
             double dist = pNucBlob_Test->attribute(ATTRIB_NUC_SHIFT_PX, 0, scale_px_to_um);
             if(dist >= param)
             {
-                found_large_dist = true;
+                event_valid = true;
                 pNucBlob_Event = pNucBlob_Test;
             }
         }
     }
         break;
 
-    case EVENT_TYPE_EARLY_MITOSIS:
+    case EVENT_TYPE_MITOSIS:
     {
-        if(pNucLifeTest->has_NoParent())                                return false;
-        pNucBlob_Event = pNucLifeTest->pNuc_parent();
-        if(int(pNucBlob_Event->time_index()) > param)                   return false;
+        if(pNucLifeTest->has_MitosisEnd())
+            event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_last();
     }
         break;
 
     case EVENT_TYPE_SHORT_LIFE_ISOLATED:
     {
-        if(pNucLifeTest->has_Parent())                                  return false;
-        if(pNucLifeTest->has_AtLeastOneChild())                         return false;
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > param)    return false;
-        pNucBlob_Event = pNucLifeTest->pNuc_member_last();
+        if(pNucLifeTest->has_NoMitosisStart())
+            if(pNucLifeTest->has_NoMitosisEnd())
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > 0.0)
+                    if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
+                        event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_last();
     }
         break;
 
-    case EVENT_TYPE_SHORT_LIFE_AFTER_MITOSIS:
+    case EVENT_TYPE_SHORT_LIFE_LOOSE_START:
     {
-        if(pNucLifeTest->has_NoParent())                                return false;
-        if(pNucLifeTest->has_AtLeastOneChild())                         return false;
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > param)    return false;
-        pNucBlob_Event = pNucLifeTest->pNuc_member_last();
+
+        if(pNucLifeTest->has_MitosisEnd())
+            if(pNucLifeTest->has_NoMitosisStart())
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
+                    event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_first();
+    }
+        break;
+
+    case EVENT_TYPE_SHORT_LIFE_LOOSE_END:
+    {
+        if(pNucLifeTest->has_MitosisStart())
+            if(pNucLifeTest->has_NoMitosisEnd())
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
+                    event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_last();
     }
         break;
 
     case EVENT_TYPE_SHORT_LIFE_BETWEEN_MITOSES:
     {
-        if(pNucLifeTest->has_NoParent())                                return false;
-        if(pNucLifeTest->has_NoChild())                                 return false;
-        if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > param)    return false;
-        pNucBlob_Event = pNucLifeTest->pNuc_member_last();
+        if(pNucLifeTest->has_MitosisStart())
+            if(pNucLifeTest->has_MitosisEnd())
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
+                    event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_member_last();
     }
         break;
 
@@ -2947,48 +2955,81 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
         return false;
     }
 
-    if(pNucBlob_Event == nullptr)
+    if(!event_valid)
         return false;
 
-    *event_t = pNucBlob_Event->time_index();
+    *event_t = int(pNucBlob_Event->time_index());
     *event_y = int(pNucBlob_Event->centroid().y);
     *event_x = int(pNucBlob_Event->centroid().x);
+    //qDebug() << "D_Bio_NucleusPedigree::event_check" << "event valid:" << QSL_EventType[type];
     return true;
 }
 
-bool D_Bio_NucleusPedigree::event_find_isolatedNuc(int *t_found, int *y_found, int *x_found, int t_min, int y_min, int x_greater_than)
+vector<size_t> D_Bio_NucleusPedigree::event_counts(vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
 {
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_ISOLATED_NUC, 0, t_min, y_min, x_greater_than);
-}
+    vector<size_t> vEventCounts(EVENT_TYPE_NUMBER_OF, 0);
 
-bool D_Bio_NucleusPedigree::event_find_beginNotAtBorderOrStart(int *t_found, int *y_found, int *x_found, int border, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_SPAWN_NOT_AT_BORDER_OR_START, border, t_min, y_min, x_greater_than);
-}
+    if(!state_NucLifesCalced)
+        calc_NucLifes();
+    if(!state_NucLifesCalced)
+        return vEventCounts;
 
-bool D_Bio_NucleusPedigree::event_find_largeDistBetweenNuc(int *t_found, int *y_found, int *x_found, int dist, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_LARGE_DIST_BETWEEN_NUC, dist, t_min, y_min, x_greater_than);
-}
+    if(vType_Param.size() != EVENT_TYPE_NUMBER_OF)
+        return vEventCounts;
 
-bool D_Bio_NucleusPedigree::event_find_earlyMitosis(int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_EARLY_MITOSIS, t_thres, t_min, y_min, x_greater_than);
-}
+    //loop nuc lifes
+    size_t nl = vNucLifes.size();
+    for(size_t l = 0; l < nl; l++)
+    {
+        //get and check nuc life
+        D_Bio_NucleusLife* pNucLife = &(vNucLifes[l]);
+        if(pNucLife != nullptr)
+        {
+            for(size_t et = 0; et < EVENT_TYPE_NUMBER_OF; et++)
+            {
+                int event_t = INT_MAX;
+                int event_y = INT_MAX;
+                int event_x = INT_MAX;
+                if(event_check(&event_t, &event_y, &event_x, pNucLife, et, vType_Param[et]))
+                {
+                    if(D_Math::Greater_3D(event_t, event_y, event_x, t_min, y_min, x_greater_than))
+                    {
+                        if(!filter_use_t_after || event_t > filter_param_t_after)
+                        {
+                            if(!filter_use_t_before || event_t < filter_param_t_before)
+                            {
+                                if(!filter_use_range || (event_x > filter_param_x_min && event_x < filter_param_x_max))
+                                {
+                                    if(!filter_use_range || (event_y > filter_param_y_min && event_y < filter_param_y_max))
+                                    {
+                                        size_t events_found = 1;
+                                        if(et == EVENT_TYPE_LARGE_DIST_BETWEEN_NUC)
+                                        {
+                                            events_found = 0;
+                                            size_t nb = pNucLife->members_count();
+                                            for(size_t b = 0; b < nb; b++)
+                                            {
+                                                D_Bio_NucleusBlob* pNucBlob_Test = pNucLife->pNuc_member(b);
+                                                double dist = pNucBlob_Test->attribute(ATTRIB_NUC_SHIFT_PX, 0, scale_px_to_um);
+                                                if(dist >= vType_Param[et])
+                                                {
+                                                    events_found++;
+                                                }
+                                            }
+                                        }
 
-bool D_Bio_NucleusPedigree::event_find_shortLifeIsolated(int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_SHORT_LIFE_ISOLATED, t_thres, t_min, y_min, x_greater_than);
-}
+                                        vEventCounts[et] += events_found;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-bool D_Bio_NucleusPedigree::event_find_shortLifeAfterMitosis(int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_SHORT_LIFE_AFTER_MITOSIS, t_thres, t_min, y_min, x_greater_than);
-}
-
-bool D_Bio_NucleusPedigree::event_find_shortLifeBetweenMitosis(int *t_found, int *y_found, int *x_found, int t_thres, int t_min, int y_min, int x_greater_than)
-{
-    return event_find(t_found, y_found, x_found, EVENT_TYPE_SHORT_LIFE_BETWEEN_MITOSES, t_thres, t_min, y_min, x_greater_than);
+    return vEventCounts;
 }
 
 void D_Bio_NucleusPedigree::SetAttribFilterToNeedUpdate()
