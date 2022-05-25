@@ -139,6 +139,7 @@ public:
 
 
 
+
     //matching with other nucleus
     void                matching_InitMatching();
 
@@ -153,6 +154,18 @@ public:
 
     bool                matching_RemoveChild(D_Bio_NucleusBlob *nuc_remove_child);
     bool                matching_RemoveParent(D_Bio_NucleusBlob *nuc_remove_parent);
+
+    void                matching_set_excluded(bool exclude)             {nuc_exclude = exclude;}
+    bool                matching_excluded_this()                        {return nuc_exclude;}
+    bool                matching_excluded_life()                        {return matching_excluded_check_forward() || matching_excluded_check_backward();}
+    bool                matching_excluded_life_time()                   {return matching_excluded_life() ? matching_excluded_pNucMarked()->time_index() : -1;}
+    D_Bio_NucleusBlob*  matching_excluded_pNucMarked()                  {return matching_excluded_check_forward() ? matching_excluded_seek_pNucMarked_forward() : matching_excluded_seek_pNucMarked_backward();}
+private:
+    bool                matching_excluded_check_forward();
+    bool                matching_excluded_check_backward();
+    D_Bio_NucleusBlob*  matching_excluded_seek_pNucMarked_forward();
+    D_Bio_NucleusBlob*  matching_excluded_seek_pNucMarked_backward();
+public:
 
     /*
     bool                matching_TestAsChild_Candidate(D_Bio_NucleusBlob *nuc_test_child, double score_thresh);
@@ -235,6 +248,7 @@ private:
     bool                            state_FoundChild1 = false;
     bool                            state_FoundChild2 = false;
     bool                            state_triedAtLeastOnceToMatch = false;
+    bool                            nuc_exclude = false;
 };
 
 #endif // D_BIO_NUCLEUSBLOB_H

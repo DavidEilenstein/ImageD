@@ -1361,6 +1361,62 @@ bool D_Bio_NucleusBlob::matching_RemoveParent(D_Bio_NucleusBlob *nuc_remove_pare
     return false;
 }
 
+bool D_Bio_NucleusBlob::matching_excluded_check_forward()
+{
+    if(matching_excluded_this())
+        return true;
+
+    if(matching_foundNoChild())
+        return false;
+
+    if(matching_isMitosis())
+        return false;
+
+    return matching_ChildFavorite()->matching_excluded_check_forward();
+}
+
+bool D_Bio_NucleusBlob::matching_excluded_check_backward()
+{
+    if(matching_excluded_this())
+        return true;
+
+    if(matching_foundNoParent())
+        return false;
+
+    if(matching_parent_isMitosis())
+        return false;
+
+    return matching_Parent()->matching_excluded_check_backward();
+}
+
+D_Bio_NucleusBlob *D_Bio_NucleusBlob::matching_excluded_seek_pNucMarked_forward()
+{
+    if(matching_excluded_this())
+        return this;
+
+    if(matching_foundNoChild())
+        return nullptr;
+
+    if(matching_isMitosis())
+        return nullptr;
+
+    return matching_ChildFavorite()->matching_excluded_seek_pNucMarked_forward();
+}
+
+D_Bio_NucleusBlob *D_Bio_NucleusBlob::matching_excluded_seek_pNucMarked_backward()
+{
+    if(matching_excluded_this())
+        return this;
+
+    if(matching_foundNoParent())
+        return nullptr;
+
+    if(matching_parent_isMitosis())
+        return nullptr;
+
+    return matching_Parent()->matching_excluded_seek_pNucMarked_backward();
+}
+
 int D_Bio_NucleusBlob::matching_Type(Rect FrameNotNearBorder, double t_begin, double t_end)
 {
     //check, if at border

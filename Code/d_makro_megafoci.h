@@ -1420,7 +1420,7 @@ private slots:
 
     void MS5_UpdateImages_Basic();
     void MS5_UpdateImages_Highlight();
-    void MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob*>* pvpNucs, D_Bio_NucleusBlob* pNucCheck, size_t t_min, size_t t_max);
+    void MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob*>* pvpNucs, vector<size_t> *pvKinshipDegrees, D_Bio_NucleusBlob* pNucCheck, size_t t_min, size_t t_max, size_t kinship_degree = 0);
 
     bool MS5_CoordTransform_MosaicPx_2_OriginalPx(int* x, int* y);
     void MS5_NucleiHighlight_Select_Viewer0(int x, int y);
@@ -1441,6 +1441,8 @@ private slots:
     void MS5_Editing_ConnectionCheck();
     bool MS5_Editing_ConnectionCreate();
     bool MS5_Editing_ConnectionDelete();
+    bool MS5_Editing_Include();
+    bool MS5_Editing_Exclude();
 
     void MS5_EventToS2_SetList();
     void MS5_EventToS2_Start();
@@ -1464,7 +1466,10 @@ private slots:
     void on_pushButton_MS5_DataSave_clicked();
     void on_pushButton_MS5_Editing_ConnectionCreate_clicked();
     void on_pushButton_MS5_Editing_ConnectionDelete_clicked();
+    void on_pushButton_MS5_Editing_Exclude_clicked();
+    void on_pushButton_MS5_Editing_Include_clicked();
     void on_pushButton_MS5_Editing_ForgetSelection_clicked();
+
     void on_pushButton_MS5_SaveViewportImageStack_clicked();
 
     void on_pushButton_MS5_EventS2_RecordStart_clicked();
@@ -1484,11 +1489,11 @@ private slots:
     void on_pushButton_MS5_Events_S5intern_CountEvents_clicked();
     void on_checkBox_MS5_Events_S5intern_AutoUpdateCount_stateChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_LargeDist_Dist_valueChanged(int arg1);
-    void on_spinBox_MS5_Events_S5intern_EarlyMitosis_Time_valueChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration_valueChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Duration_valueChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_ShortTracking_LooseEnd_Duration_valueChanged(int arg1);
     void on_spinBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_Duration_valueChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_Excluded_stateChanged(int arg1);
     void on_checkBox_Events_S5intern_EventConstraints_AfterT_clicked();
     void on_spinBox_Events_S5intern_EventConstraints_AfterT_Time_valueChanged(int arg1);
     void on_checkBox_Events_S5intern_EventConstraints_BeforeT_clicked();
@@ -1498,6 +1503,13 @@ private slots:
     void on_checkBox_Events_S5intern_EventConstraints_Mosaik_stateChanged(int arg1);
     void on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxX_valueChanged(int arg1);
     void on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxY_valueChanged(int arg1);
+    void on_checkBox_Events_S5intern_EventConstraints_NoExcluded_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_LargeDist_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_Mitosis_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_ShortTracking_Isolated_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_ShortTracking_LooseStart_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_ShortTracking_LooseEnd_stateChanged(int arg1);
+    void on_checkBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_stateChanged(int arg1);
 
 private:
     static void MS5_CalcImage_Thread(Mat *pMA_out, vector<vector<Mat> > *pvv_imgs_ct, D_Bio_NucleusPedigree *pPedigree, size_t t, size_t y_min_mosaic, size_t y_size_mosaic, size_t x_min_mosaic, size_t x_size_mosaic, bool use_DIC, bool use_GFP, bool use_RFP, bool draw_contour_parent, bool draw_contour_current, bool draw_contour_childs, bool draw_shift_parent, bool draw_shift_childs, bool age_text, bool color_info, size_t ny_mosaic, size_t nx_mosaic, int thickness, double scale);
@@ -1627,6 +1639,8 @@ private slots:
     void on_pushButton_MS6_SaveResult_clicked();
     void on_pushButton_MS6_SaveAnalysis_clicked();
     void on_pushButton_MS6_SaveNucLifes_clicked();
+
+
 
 
 

@@ -152,10 +152,10 @@ public:
     bool match_load_data_and_matches(QString QS_path_NucDataMaster, QString QS_path_NucData, QString QS_path_NucLifes, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files);
     bool match_load_matches(QString QS_path_NucLifes);
 
-    bool event_find(QString* QS_FoundEventType, int* t_found, int* y_found, int* x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max);
-    bool event_find(int* t_found, int* y_found, int* x_found, int type, int param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max);
+    bool event_find(QString* QS_FoundEventType, int* t_found, int* y_found, int* x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded);
+    bool event_find(int* t_found, int* y_found, int* x_found, int type, int param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded);
     bool event_check(int* t_event, int* y_event, int* event_x, D_Bio_NucleusLife* pNucLifeTest, int type, int param);
-    vector<size_t> event_counts(vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max);
+    vector<size_t> event_counts(vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded);
 
 public slots:
     void SetAttribFilterToNeedUpdate();
@@ -264,6 +264,7 @@ public:
     enum EVENT_TYPE {
         EVENT_TYPE_LARGE_DIST_BETWEEN_NUC,
         EVENT_TYPE_MITOSIS,
+        EVENT_TYPE_EXCLUDED,
         EVENT_TYPE_SHORT_LIFE_ISOLATED,
         EVENT_TYPE_SHORT_LIFE_LOOSE_START,
         EVENT_TYPE_SHORT_LIFE_LOOSE_END,
@@ -273,6 +274,7 @@ public:
     const QStringList QSL_EventType = {
         "large dist between nuclei",
         "mitosis",
+        "excluded",
         "short life (isolated)",
         "short life (loose start)",
         "short life (loose end)",

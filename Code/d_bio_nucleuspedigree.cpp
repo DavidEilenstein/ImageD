@@ -2705,7 +2705,7 @@ bool D_Bio_NucleusPedigree::match_load_matches(QString QS_path_NucLifes)
     return true;
 }
 
-bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found, int *y_found, int *x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
+bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found, int *y_found, int *x_found, vector<int> vType_Search, vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded)
 {
     //init found event
     bool found_event_all = false;
@@ -2739,7 +2739,8 @@ bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found,
                         filter_param_x_min,
                         filter_param_x_max,
                         filter_param_y_min,
-                        filter_param_y_max);
+                        filter_param_y_max,
+                        filter_no_excluded);
 
             if(found_event_test)
             {
@@ -2765,7 +2766,7 @@ bool D_Bio_NucleusPedigree::event_find(QString *QS_FoundEventType, int *t_found,
     return found_event_all;
 }
 
-bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found, int type, int param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
+bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found, int type, int param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded)
 {
     if(!state_NucLifesCalced)
         calc_NucLifes();
@@ -2811,16 +2812,19 @@ bool D_Bio_NucleusPedigree::event_find(int *t_found, int *y_found, int *x_found,
                             {
                                 if(!filter_use_range || (event_y > filter_param_y_min && event_y < filter_param_y_max))
                                 {
-                                    //valid event found
-                                    found_event = true;
-
-                                    //event erlier/nearer?
-                                    if(D_Math::Smaller_3D(event_t, event_y, event_x, *t_found, *y_found, *x_found))
+                                    if(!filter_no_excluded || !pNucLife->is_excluded())
                                     {
-                                        //qDebug() << "D_Bio_NucleusPedigree::event_find found event is earlier/closer then t/y/x" << *t_found << *y_found << *x_found;
-                                        *t_found = event_t;
-                                        *y_found = event_y;
-                                        *x_found = event_x;
+                                        //valid event found
+                                        found_event = true;
+
+                                        //event erlier/nearer?
+                                        if(D_Math::Smaller_3D(event_t, event_y, event_x, *t_found, *y_found, *x_found))
+                                        {
+                                            //qDebug() << "D_Bio_NucleusPedigree::event_find found event is earlier/closer then t/y/x" << *t_found << *y_found << *x_found;
+                                            *t_found = event_t;
+                                            *y_found = event_y;
+                                            *x_found = event_x;
+                                        }
                                     }
                                 }
                             }
@@ -2846,34 +2850,6 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
     *event_x = 0;
 
     switch (type) {
-
-    /*
-    case EVENT_TYPE_ISOLATED_NUC:
-    {
-        if(pNucLifeTest->has_NoMitosisStart())
-            if(pNucLifeTest->has_NoMitosisEnd())
-                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) == 0.0)
-                    event_valid = true;
-
-        if(event_valid)
-            pNucBlob_Event = pNucLifeTest->pNuc_member_first();
-    }
-        break;
-        */
-
-        /*
-    case EVENT_TYPE_SPAWN_NOT_AT_BORDER_OR_START:
-    {
-        if(pNucLifeTest->has_NoMitosisStart())
-            //if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > 0.0)
-                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_START) > 0.0)
-                    if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_CLOSTEST_DIST_TO_BORDER_PX) > param)
-                        event_valid = true;
-
-        pNucBlob_Event = pNucLifeTest->pNuc_member_first();
-    }
-        break;
-        */
 
     case EVENT_TYPE_LARGE_DIST_BETWEEN_NUC:
     {
@@ -2901,13 +2877,22 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
     }
         break;
 
+    case EVENT_TYPE_EXCLUDED:
+    {
+        if(pNucLifeTest->is_excluded())
+            event_valid = true;
+
+        if(event_valid)
+            pNucBlob_Event = pNucLifeTest->pNuc_excluded();
+    }
+        break;
+
     case EVENT_TYPE_SHORT_LIFE_ISOLATED:
     {
         if(pNucLifeTest->has_NoMitosisStart())
             if(pNucLifeTest->has_NoMitosisEnd())
-                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) > 0.0)
-                    if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
-                        event_valid = true;
+                if(pNucLifeTest->attrib_nuclife(ATTRIB_NUCLIFE_AGE) <= param)
+                    event_valid = true;
 
         if(event_valid)
             pNucBlob_Event = pNucLifeTest->pNuc_member_last();
@@ -2965,7 +2950,7 @@ bool D_Bio_NucleusPedigree::event_check(int *event_t, int *event_y, int *event_x
     return true;
 }
 
-vector<size_t> D_Bio_NucleusPedigree::event_counts(vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max)
+vector<size_t> D_Bio_NucleusPedigree::event_counts(vector<int> vType_Param, int t_min, int y_min, int x_greater_than, bool filter_use_t_after, int filter_param_t_after, bool filter_use_t_before, int filter_param_t_before, bool filter_use_range, int filter_param_x_min, int filter_param_x_max, int filter_param_y_min, int filter_param_y_max, bool filter_no_excluded)
 {
     vector<size_t> vEventCounts(EVENT_TYPE_NUMBER_OF, 0);
 
@@ -3002,23 +2987,26 @@ vector<size_t> D_Bio_NucleusPedigree::event_counts(vector<int> vType_Param, int 
                                 {
                                     if(!filter_use_range || (event_y > filter_param_y_min && event_y < filter_param_y_max))
                                     {
-                                        size_t events_found = 1;
-                                        if(et == EVENT_TYPE_LARGE_DIST_BETWEEN_NUC)
+                                        if(!filter_no_excluded || !pNucLife->is_excluded())
                                         {
-                                            events_found = 0;
-                                            size_t nb = pNucLife->members_count();
-                                            for(size_t b = 0; b < nb; b++)
+                                            size_t events_found = 1;
+                                            if(et == EVENT_TYPE_LARGE_DIST_BETWEEN_NUC)
                                             {
-                                                D_Bio_NucleusBlob* pNucBlob_Test = pNucLife->pNuc_member(b);
-                                                double dist = pNucBlob_Test->attribute(ATTRIB_NUC_SHIFT_PX, 0, scale_px_to_um);
-                                                if(dist >= vType_Param[et])
+                                                events_found = 0;
+                                                size_t nb = pNucLife->members_count();
+                                                for(size_t b = 0; b < nb; b++)
                                                 {
-                                                    events_found++;
+                                                    D_Bio_NucleusBlob* pNucBlob_Test = pNucLife->pNuc_member(b);
+                                                    double dist = pNucBlob_Test->attribute(ATTRIB_NUC_SHIFT_PX, 0, scale_px_to_um);
+                                                    if(dist >= vType_Param[et])
+                                                    {
+                                                        events_found++;
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        vEventCounts[et] += events_found;
+                                            vEventCounts[et] += events_found;
+                                        }
                                     }
                                 }
                             }
@@ -3092,7 +3080,7 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
                             //parent
                             OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_PARENT].toStdString() << "\n";
                             if(pNuc->matching_foundParent())
-                                OF_NucLife << pNuc->matching_Parent()->get_path_relative().toStdString() + "\n";
+                                OF_NucLife << pNuc->matching_Parent()->get_path_relative().toStdString() << "\n";
 
                             //save member nucleus files
                             OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_MEMBERS].toStdString() << "\n";
@@ -3107,8 +3095,15 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
                             OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_CHILDS].toStdString() << "\n";
                             if(pNuc->matching_isMitosis())
                             {
-                                OF_NucLife << pNuc->matching_Child1()->get_path_relative().toStdString() + "\n";
-                                OF_NucLife << pNuc->matching_Child2()->get_path_relative().toStdString() + "\n";
+                                OF_NucLife << pNuc->matching_Child1()->get_path_relative().toStdString() << "\n";
+                                OF_NucLife << pNuc->matching_Child2()->get_path_relative().toStdString() << "\n";
+                            }
+
+                            //tags
+                            OF_NucLife << QSL_NucLifeFileSections[NUC_LIFE_FILE_SECTION_TAGS].toStdString() << "\n";
+                            if(pNuc->matching_excluded_life())
+                            {
+                                OF_NucLife << QS_NucLifeTag_Excluded.toStdString() << ";" << pNuc->matching_excluded_life_time() << "\n";
                             }
 
                             //end
@@ -3326,6 +3321,9 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                 //if(t_thread == 0) qDebug() << "open file" << F_NucLife;
                                 if(F_NucLife.open(QIODevice::ReadOnly))
                                 {
+                                    //connected nucs (later will be stored as nulifes, now needed for possible exclusion marker)
+                                    vector<D_Bio_NucleusBlob*> vpNuc_Connected;
+
                                     //nucs found before (used to create a match, when nuc after this is found)
                                     bool nuc_before_found = false;
                                     D_Bio_NucleusBlob* nuc_before_ptr = nullptr;
@@ -3432,13 +3430,14 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                             //if(t_thread == 0) qDebug() << "found nuc in pedigree";
                                                                                             nuc_new_found = true;
                                                                                             pNucNew = pNucNewCandidate;
+                                                                                            vpNuc_Connected.push_back(pNucNew);
                                                                                         }
                                                                                     }
 
                                                                                     //connect, if nuc before was found
                                                                                     if(nuc_before_found)
                                                                                     {
-                                                                                        //set new as child for old (reversed setting don internally)
+                                                                                        //set new as child for old (reversed setting done internally)
                                                                                         nuc_before_ptr->matching_SetAsChild(pNucNew, 1);
                                                                                         //if(t_thread == 0) qDebug() << "connected nuclei <3 <3 <3";
                                                                                     }
@@ -3453,6 +3452,31 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_matches_thread(vector<vector<vector
                                                                                 }
                                                                             }
                                                                         }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(section_indicator == NUC_LIFE_FILE_SECTION_TAGS)
+                                            {
+                                                QStringList QSL_Blocks = QS_Line.split(";");
+                                                if(QSL_Blocks.size() == 2)
+                                                {
+                                                    if(QSL_Blocks[0] == QS_NucLifeTag_Excluded)
+                                                    {
+                                                        bool ok;
+                                                        int t_excluded = QSL_Blocks[1].toInt(&ok);
+                                                        if(ok)
+                                                        {
+                                                            for(size_t i = 0; i < vpNuc_Connected.size(); i++)
+                                                            {
+                                                                if(vpNuc_Connected[i] != nullptr)
+                                                                {
+                                                                    if(vpNuc_Connected[i]->time_index() == size_t(t_excluded))
+                                                                    {
+                                                                        vpNuc_Connected[i]->matching_set_excluded(true);
                                                                     }
                                                                 }
                                                             }

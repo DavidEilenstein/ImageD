@@ -109,6 +109,16 @@ D_Bio_Focus *D_Bio_NucleusLife::pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc
     return pNuc->get_pFocus(ch_foc, i_foc);
 }
 
+bool D_Bio_NucleusLife::set_excluded(size_t t, bool exclude)
+{
+    D_Bio_NucleusBlob* pNuc = pNuc_member_byTime(t);
+    if(pNuc == nullptr)
+        return false;
+
+    pNuc->matching_set_excluded(exclude);
+    return true;
+}
+
 double D_Bio_NucleusLife::attrib_foc(size_t i_attrib, size_t ch_val, size_t ch_foc, size_t i_nuc, size_t i_foc)
 {
     if(i_attrib >= ATTRIB_FOC_NUMBER_OF)

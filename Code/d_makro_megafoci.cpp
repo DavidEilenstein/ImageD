@@ -9181,8 +9181,8 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
                 //hovered -----------------------------------------------------------------
 
                 //color
-                QColor col_outer = QColor(192, 192, 0  );
-                QColor col_inner = QColor(0,   0,   0  );
+                QColor col_bright = QColor(192, 192, 0  );
+                QColor col_dark = QColor(0,   0,   0  );
 
                 //qDebug() << "MS5_UpdateImages_Highlight" << "found a nuc to highlight here :-) center x/y" << pNucHovered->centroid(scale, -P_Offset_px_scaled).x << pNucDraw->centroid(scale, -P_Offset_px_scaled).y;
 
@@ -9192,13 +9192,20 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
 
                 //nucs to draw
                 vector<D_Bio_NucleusBlob*> vpNucsToDraw;
-                MS5_FindConnectedNucsToDraw(&vpNucsToDraw, pNucHightlight, t_min, t_max);
+                vector<size_t> vKinshipDegrees;
+                MS5_FindConnectedNucsToDraw(
+                            &vpNucsToDraw,
+                            &vKinshipDegrees,
+                            pNucHightlight,
+                            0, dataset_dim_t,
+                            0);
 
                 //draw nucs
                 for(size_t i = 0; i < vpNucsToDraw.size(); i++)
                 {
                     //Nuc
                     D_Bio_NucleusBlob* pNucDraw = vpNucsToDraw[i];
+                    size_t kinship_degree = vKinshipDegrees[i];
 
                     //time and viewer
                     int t = int(pNucDraw->time_index());
@@ -9207,21 +9214,62 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
                     //seen in viewer?
                     if(v >= 0 && v < int(MS5_ViewersCount))
                     {
-                        //draw nuc outer
-                        //qDebug() << "MS5_UpdateImages_Highlight" << "draw Nuc" << i;
-                        D_Img_Proc::Draw_Contour(
-                                    &(v_MS5_MAs_ShowHighlight[v]),
-                                    vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
-                                    thick1 * 3,
-                                    col_outer.red(), col_outer.green(), col_outer.blue());
+                        switch (kinship_degree) {
 
-                        //draw nuc inner
-                        //qDebug() << "MS5_UpdateImages_Highlight" << "draw Nuc" << i;
-                        D_Img_Proc::Draw_Contour(
-                                    &(v_MS5_MAs_ShowHighlight[v]),
-                                    vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
-                                    thick1,
-                                    col_inner.red(), col_inner.green(), col_inner.blue());
+                        case 0:
+                        {
+                            //draw nuc outer
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 5,
+                                        col_bright.red(), col_bright.green(), col_bright.blue());
+                        }
+                            break;
+
+                        case 1:
+                        {
+                            //draw nuc outer
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 5,
+                                        col_bright.red(), col_bright.green(), col_bright.blue());
+
+                            //draw nuc inner
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 2,
+                                        col_dark.red(), col_dark.green(), col_dark.blue());
+                        }
+                            break;
+
+                        default:
+                        {
+                            //draw nuc outer
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 5,
+                                        col_bright.red(), col_bright.green(), col_bright.blue());
+
+                            //draw nuc middle
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 3,
+                                        col_dark.red(), col_dark.green(), col_dark.blue());
+
+                            //draw nuc inner
+                            D_Img_Proc::Draw_Contour(
+                                        &(v_MS5_MAs_ShowHighlight[v]),
+                                        vpNucsToDraw[i]->contour(scale, -P_Offset_px_scaled),
+                                        thick1 * 1,
+                                        col_bright.red(), col_bright.green(), col_bright.blue());
+                        }
+                            break;
+                        }
                     }
                 }
 
@@ -9426,7 +9474,7 @@ void D_MAKRO_MegaFoci::MS5_UpdateImages_Highlight()
     MS5_Editing_ConnectionCheck();
 }
 
-void D_MAKRO_MegaFoci::MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob *> *pvpNucs, D_Bio_NucleusBlob *pNucCheck, size_t t_min, size_t t_max)
+void D_MAKRO_MegaFoci::MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob *> *pvpNucs, vector<size_t> *pvKinshipDegrees, D_Bio_NucleusBlob *pNucCheck, size_t t_min, size_t t_max, size_t kinship_degree)
 {
     //invalid?
     if(pNucCheck == nullptr)
@@ -9439,23 +9487,42 @@ void D_MAKRO_MegaFoci::MS5_FindConnectedNucsToDraw(vector<D_Bio_NucleusBlob *> *
 
     //out of time window?
     size_t t_check = pNucCheck->time_index();
-    if(t_check < t_min && t_check > t_max)
+    if(t_check < t_min || t_check > t_max)
         return;
 
     //add
     pvpNucs->push_back(pNucCheck);
+    pvKinshipDegrees->push_back(kinship_degree);
 
     //parent?
     if(pNucCheck->matching_foundParent())
-        MS5_FindConnectedNucsToDraw(pvpNucs, pNucCheck->matching_Parent(), t_min, t_max);
+        MS5_FindConnectedNucsToDraw(
+                    pvpNucs,
+                    pvKinshipDegrees,
+                    pNucCheck->matching_Parent(),
+                    t_min,
+                    t_max,
+                    pNucCheck->matching_Parent()->matching_isMitosis() ? kinship_degree + 1 : kinship_degree);
 
     //child1?
     if(pNucCheck->matching_foundChild1())
-        MS5_FindConnectedNucsToDraw(pvpNucs, pNucCheck->matching_Child1(), t_min, t_max);
+        MS5_FindConnectedNucsToDraw(
+                    pvpNucs,
+                    pvKinshipDegrees,
+                    pNucCheck->matching_Child1(),
+                    t_min,
+                    t_max,
+                    pNucCheck->matching_isMitosis() ? kinship_degree + 1 : kinship_degree);
 
     //child2?
     if(pNucCheck->matching_foundChild2())
-        MS5_FindConnectedNucsToDraw(pvpNucs, pNucCheck->matching_Child2(), t_min, t_max);
+        MS5_FindConnectedNucsToDraw(
+                    pvpNucs,
+                    pvKinshipDegrees,
+                    pNucCheck->matching_Child2(),
+                    t_min,
+                    t_max,
+                    pNucCheck->matching_isMitosis() ? kinship_degree + 1 : kinship_degree);
 }
 
 bool D_MAKRO_MegaFoci::MS5_CoordTransform_MosaicPx_2_OriginalPx(int *x, int *y)
@@ -9649,7 +9716,23 @@ void D_MAKRO_MegaFoci::MS5_Editing_ConnectionCheck()
     D_Bio_NucleusBlob* pNuc1        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
     D_Bio_NucleusBlob* pNuc2        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
 
-    if(pNuc1 == nullptr || pNuc2 == nullptr)
+    size_t selected_nucs = 0;
+    if(pNuc1 != nullptr)    selected_nucs++;
+    if(pNuc2 != nullptr)    selected_nucs++;
+
+    if(selected_nucs == 1)
+    {
+        D_Bio_NucleusBlob* pNucSelected = pNuc1 != nullptr ? pNuc1 : pNuc2;
+        ui->pushButton_MS5_Editing_Include->setEnabled(pNucSelected->matching_excluded_this());
+        ui->pushButton_MS5_Editing_Exclude->setEnabled(!pNucSelected->matching_excluded_life());
+    }
+    else
+    {
+        ui->pushButton_MS5_Editing_Exclude->setEnabled(false);
+        ui->pushButton_MS5_Editing_Include->setEnabled(false);
+    }
+
+    if(selected_nucs < 2)
     {
         ui->pushButton_MS5_Editing_ConnectionCreate->setEnabled(false);
         ui->pushButton_MS5_Editing_ConnectionDelete->setEnabled(false);
@@ -9718,6 +9801,68 @@ bool D_MAKRO_MegaFoci::MS5_Editing_ConnectionDelete()
 
     pNucOlder->matching_RemoveChild(pNucYounger);
     pNucYounger->matching_RemoveParent(pNucOlder);
+
+    MS5_Editing_SelectionForget();
+    MS5_UpdateImages_Basic();
+
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_Editing_Include()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    D_Bio_NucleusBlob* pNuc1        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
+    D_Bio_NucleusBlob* pNuc2        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
+
+    size_t selected_nucs = 0;
+    if(pNuc1 != nullptr)    selected_nucs++;
+    if(pNuc2 != nullptr)    selected_nucs++;
+
+    if(selected_nucs != 1)
+        return false;
+
+    D_Bio_NucleusBlob* pNucSelected = pNuc1 != nullptr ? pNuc1 : pNuc2;
+
+    if(!pNucSelected->matching_excluded_this())
+        return false;
+
+    pNucSelected->matching_set_excluded(false);
+
+    MS5_Editing_SelectionForget();
+    MS5_UpdateImages_Basic();
+
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+
+    return true;
+}
+
+bool D_MAKRO_MegaFoci::MS5_Editing_Exclude()
+{
+    if(!MS5_state_imgs_shown_at_lesast_once)
+        return false;
+
+    D_Bio_NucleusBlob* pNuc1        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT1];
+    D_Bio_NucleusBlob* pNuc2        = v_MS5_pNuc_Highlighted[MS5_NUC_HIGHLIGHT_SELECT2];
+
+    size_t selected_nucs = 0;
+    if(pNuc1 != nullptr)    selected_nucs++;
+    if(pNuc2 != nullptr)    selected_nucs++;
+
+    if(selected_nucs != 1)
+        return false;
+
+    D_Bio_NucleusBlob* pNucSelected = pNuc1 != nullptr ? pNuc1 : pNuc2;
+
+    if(pNucSelected->matching_excluded_life())
+        return false;
+
+    pNucSelected->matching_set_excluded(true);
 
     MS5_Editing_SelectionForget();
     MS5_UpdateImages_Basic();
@@ -9923,6 +10068,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumpToNext()
     vector<int> vType_Search = {
         ui->checkBox_MS5_Events_S5intern_LargeDist->isChecked()                     ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_Mitosis->isChecked()                       ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_Excluded->isChecked()                      ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_Isolated->isChecked()        ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_LooseStart->isChecked()      ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_LooseEnd->isChecked()        ? 1 : 0,
@@ -9931,6 +10077,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumpToNext()
 
     vector<int> vType_Param = {
         ui->spinBox_MS5_Events_S5intern_LargeDist_Dist->value(),
+        0,
         0,
         ui->spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration->value(),
         ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Duration->value(),
@@ -9947,6 +10094,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumpToNext()
     bool filter_use_mosaic          = ui->checkBox_Events_S5intern_EventConstraints_Mosaik->isChecked();
     int  filter_param_mosaic_x      = ui->spinBox_Events_S5intern_EventConstraints_Mosaik_MaxX->value();
     int  filter_param_mosaic_y      = ui->spinBox_Events_S5intern_EventConstraints_Mosaik_MaxY->value();
+    bool filter_no_excluded         = ui->checkBox_Events_S5intern_EventConstraints_NoExcluded->isChecked();
 
     bool filter_use_range           = filter_use_border || filter_use_mosaic;
     int filter_param_x_min          = 0;
@@ -9993,7 +10141,8 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_JumpToNext()
                 filter_param_x_min,
                 filter_param_x_max,
                 filter_param_y_min,
-                filter_param_y_max);
+                filter_param_y_max,
+                filter_no_excluded);
 
     if(!MS5_EventS5intern_EventActive)
     {
@@ -10060,9 +10209,9 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_MoveToVP()
     int vp_offset_t = vp_size_t / 2;
 
     //target event pos
-    int target_start_mx = min(max(event_mx  - vp_offset_x, 0), int(dataset_dim_mosaic_x - 1 - vp_size_x));
-    int target_start_my = min(max(event_my  - vp_offset_y, 0), int(dataset_dim_mosaic_y - 1 - vp_size_y));
-    int target_start_t  = min(max(event_t_h - vp_offset_t, 0), int(dataset_dim_t        - 1 - vp_size_t));
+    int target_start_mx = min(max(event_mx  - vp_offset_x, 0), int(dataset_dim_mosaic_x - vp_size_x));
+    int target_start_my = min(max(event_my  - vp_offset_y, 0), int(dataset_dim_mosaic_y - vp_size_y));
+    int target_start_t  = min(max(event_t_h - vp_offset_t, 0), int(dataset_dim_t        - vp_size_t));
 
     //move to vp
     ui->spinBox_MS5_X_start->setValue(target_start_mx);
@@ -10081,6 +10230,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
     vector<int> vType_Search = {
         ui->checkBox_MS5_Events_S5intern_LargeDist->isChecked()                     ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_Mitosis->isChecked()                       ? 1 : 0,
+        ui->checkBox_MS5_Events_S5intern_Excluded->isChecked()                      ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_Isolated->isChecked()        ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_LooseStart->isChecked()      ? 1 : 0,
         ui->checkBox_MS5_Events_S5intern_ShortTracking_LooseEnd->isChecked()        ? 1 : 0,
@@ -10089,6 +10239,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
 
     vector<int> vType_Param = {
         ui->spinBox_MS5_Events_S5intern_LargeDist_Dist->value(),
+        0,
         0,
         ui->spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration->value(),
         ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Duration->value(),
@@ -10105,6 +10256,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
     bool filter_use_mosaic          = ui->checkBox_Events_S5intern_EventConstraints_Mosaik->isChecked();
     int  filter_param_mosaic_x      = ui->spinBox_Events_S5intern_EventConstraints_Mosaik_MaxX->value();
     int  filter_param_mosaic_y      = ui->spinBox_Events_S5intern_EventConstraints_Mosaik_MaxY->value();
+    bool filter_no_excluded         = ui->checkBox_Events_S5intern_EventConstraints_NoExcluded->isChecked();
 
     bool filter_use_range           = filter_use_border || filter_use_mosaic;
     int filter_param_x_min          = 0;
@@ -10141,7 +10293,8 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
                 filter_param_x_min,
                 filter_param_x_max,
                 filter_param_y_min,
-                filter_param_y_max);
+                filter_param_y_max,
+                filter_no_excluded);
 
     vector<size_t> vEventCounts_All = MS5_NucPedigree_Editing.event_counts(
                 vType_Param,
@@ -10156,7 +10309,8 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
                 filter_param_x_min,
                 filter_param_x_max,
                 filter_param_y_min,
-                filter_param_y_max);
+                filter_param_y_max,
+                filter_no_excluded);
 
     vector<size_t> vEventCounts_Done(vEventCounts_All.size());
     for(size_t i = 0; i < vEventCounts_All.size(); i++)
@@ -10164,6 +10318,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
 
     ui->spinBox_MS5_Events_S5intern_LargeDist_Count                     ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_LARGE_DIST_BETWEEN_NUC]));
     ui->spinBox_MS5_Events_S5intern_Mitosis_Count                       ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_MITOSIS]));
+    ui->spinBox_MS5_Events_S5intern_Excluded_Count                      ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_EXCLUDED]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Count        ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_ISOLATED]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Count      ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_LOOSE_START]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseEnd_Count        ->setSuffix("/" + QString::number(vEventCounts_All[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_LOOSE_END]));
@@ -10171,6 +10326,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
 
     ui->spinBox_MS5_Events_S5intern_LargeDist_Count                     ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_LARGE_DIST_BETWEEN_NUC]));
     ui->spinBox_MS5_Events_S5intern_Mitosis_Count                       ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_MITOSIS]));
+    ui->spinBox_MS5_Events_S5intern_Excluded_Count                      ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_EXCLUDED]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Count        ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_ISOLATED]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseStart_Count      ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_LOOSE_START]));
     ui->spinBox_MS5_Events_S5intern_ShortTracking_LooseEnd_Count        ->setValue(int(vEventCounts_Done[D_Bio_NucleusPedigree::EVENT_TYPE_SHORT_LIFE_LOOSE_END]));
@@ -10186,7 +10342,7 @@ void D_MAKRO_MegaFoci::MS5_EventS5intern_CountEvents()
         if(vType_Search[e])
             events_active_count_done += vEventCounts_Done[e];
 
-    double events_done_rel = double(events_active_count_done) / double(events_active_count_all);
+    double events_done_rel = events_active_count_all > 0 ? double(events_active_count_done) / double(events_active_count_all) : 1;
     ui->progressBar_MS5_Events_AllEvents->setValue(int(events_done_rel * ui->progressBar_MS5_Events_AllEvents->maximum()));
 }
 
@@ -10275,9 +10431,32 @@ void D_MAKRO_MegaFoci::MS5_CalcImage_Thread(Mat* pMA_out, vector<vector<Mat>>* p
             {
                 D_Bio_NucleusBlob* pNucDraw = pPedigree->get_pNucleus(t, y, x, i);
 
+                //------------------------------------- exclude marker ----------------------------
+
+                QColor col_exclude(226, 0, 116);
+
+                if(pNucDraw->matching_excluded_this())
+                {
+                    //draw
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->contour(scale, -P_Offset_px_scaled),
+                                -1,
+                                col_exclude.red(), col_exclude.green(), col_exclude.blue());
+                }
+
+                if(pNucDraw->matching_excluded_life())
+                {
+                    //draw
+                    D_Img_Proc::Draw_Contour(
+                                pMA_out,
+                                pNucDraw->contour(scale, -P_Offset_px_scaled),
+                                thick2 * 7,
+                                col_exclude.red(), col_exclude.green(), col_exclude.blue());
+                }
+
                 //------------------------------------- contour of itself ----------------------------
 
-                //qDebug() << "draw contour";
                 if(draw_contour_current)
                 {
                     //color
@@ -10450,6 +10629,16 @@ void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ConnectionDelete_clicked()
     MS5_Editing_ConnectionDelete();
 }
 
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_Exclude_clicked()
+{
+    MS5_Editing_Exclude();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_Include_clicked()
+{
+    MS5_Editing_Include();
+}
+
 void D_MAKRO_MegaFoci::on_pushButton_MS5_Editing_ForgetSelection_clicked()
 {
     MS5_Editing_SelectionForget();
@@ -10600,12 +10789,6 @@ void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_LargeDist_Dist_valueChange
         MS5_EventS5intern_CountEvents();
 }
 
-void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_EarlyMitosis_Time_valueChanged(int arg1)
-{
-    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
-        MS5_EventS5intern_CountEvents();
-}
-
 void D_MAKRO_MegaFoci::on_spinBox_MS5_Events_S5intern_ShortTracking_Isolated_Duration_valueChanged(int arg1)
 {
     if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
@@ -10679,6 +10862,54 @@ void D_MAKRO_MegaFoci::on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxX_v
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_Events_S5intern_EventConstraints_Mosaik_MaxY_valueChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_Events_S5intern_EventConstraints_NoExcluded_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_LargeDist_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_Mitosis_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_ShortTracking_Isolated_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_ShortTracking_LooseStart_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_ShortTracking_LooseEnd_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_ShortTracking_BetweenMitoses_stateChanged(int arg1)
+{
+    if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
+        MS5_EventS5intern_CountEvents();
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS5_Events_S5intern_Excluded_stateChanged(int arg1)
 {
     if(ui->checkBox_MS5_Events_S5intern_AutoUpdateCount->isChecked())
         MS5_EventS5intern_CountEvents();
@@ -12357,6 +12588,13 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
 {
     MS6_Save_NucLifes();
 }
+
+
+
+
+
+
+
 
 
 

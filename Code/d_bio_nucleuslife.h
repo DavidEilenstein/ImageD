@@ -103,11 +103,14 @@ public:
     D_Bio_NucleusBlob*              pNuc_member_first()             {return pNuc_member(0);}
     D_Bio_NucleusBlob*              pNuc_member_last()              {return pNuc_member(members_count() - 1);}
     D_Bio_NucleusBlob*              pNuc_member_byTime(size_t t);
+    D_Bio_NucleusBlob*              pNuc_excluded()                 {return members_count() > 0 ? vNucMembers[0].matching_excluded_pNucMarked() : nullptr;}
 
     size_t                          members_count()                 {return vNucMembers.size();}
 
     D_Bio_Focus*                    pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc);
 
+    bool                            is_excluded()                   {return members_count() > 0 ? vNucMembers[0].matching_excluded_life() : false;}
+    bool                            set_excluded(size_t t, bool exclude);
 
     //foci attribs
     double                          attrib_foc      (size_t i_attrib, size_t ch_val, size_t ch_foc, size_t i_nuc, size_t i_foc);

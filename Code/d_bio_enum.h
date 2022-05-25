@@ -89,6 +89,7 @@ const QStringList QSL_NucLifeFileSections = {
     ":::: Parent",
     ":::: Members",
     ":::: Childs",
+    ":::: Tags",
     ":::: End"
 };
 enum NUC_LIFE_FILE_SECTIONS {
@@ -96,9 +97,11 @@ enum NUC_LIFE_FILE_SECTIONS {
     NUC_LIFE_FILE_SECTION_PARENT,
     NUC_LIFE_FILE_SECTION_MEMBERS,
     NUC_LIFE_FILE_SECTION_CHILDS,
+    NUC_LIFE_FILE_SECTION_TAGS,
     NUC_LIFE_FILE_SECTION_END,
     NUC_LIFE_FILE_SECTION_NUMBER_OF
 };
+const QString QS_NucLifeTag_Excluded = "ExcludedTime";
 
  enum SCORES {
      SCORE_SHIFT,
