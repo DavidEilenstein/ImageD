@@ -8943,17 +8943,25 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiData()
     DIR_ParentMS3.cdUp();
 
     //load data
-    MS5_NucPedigree_Editing.load_nuclei_data(
+    bool ok = MS5_NucPedigree_Editing.load_nuclei_data(
                 DIR_ParentMS3.path(),
                 DIR_MS5_Load_NucleiData.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
                 false,
                 true);
 
-    StatusSet("Finished loading nuclei data from step 3");
-
-    MS5_state_loaded_nuc_data = true;
-    return true;
+    if(ok)
+    {
+        StatusSet("Finished loading nuclei data from step 3");
+        MS5_state_loaded_nuc_data = true;
+        return true;
+    }
+    else
+    {
+        StatusSet("FAILED loading nuclei data from step 3");
+        MS5_state_loaded_nuc_data = false;
+        return false;
+    }
 }
 
 bool D_MAKRO_MegaFoci::MS5_LoadNucleiLifes()
@@ -8966,12 +8974,21 @@ bool D_MAKRO_MegaFoci::MS5_LoadNucleiLifes()
     StatusSet("Start loading nuclei matches from step 4/5");
 
     //load data
-    MS5_NucPedigree_Editing.match_load_matches(DIR_MS5_Load_NucleiLifes.path());
+    bool ok = MS5_NucPedigree_Editing.match_load_matches(DIR_MS5_Load_NucleiLifes.path());
 
-    StatusSet("Finished loading nuclei matches from step 4/5");
 
-    MS5_state_loaded_nuc_lifes = true;
-    return true;
+    if(ok)
+    {
+        StatusSet("Finished loading nuclei matches from step 4/5");
+        MS5_state_loaded_nuc_lifes = true;
+        return true;
+    }
+    else
+    {
+        StatusSet("FAILED loading nuclei matches from step 4/5");
+        MS5_state_loaded_nuc_lifes = false;
+        return false;
+    }
 }
 
 bool D_MAKRO_MegaFoci::MS5_SaveData()
@@ -11110,13 +11127,13 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
     StatusSet("Start spearating linked nucleui into nucleus lifes");
     MS6_NucPedigree_Results.calc_NucLifes();
-    StatusSet("Finished spearating linked nucleui into nucleus lifes");
+    StatusSet("Finished separating linked nucleui into nucleus lifes");
 
     //finish
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "finish ::::::::::::::::::::::::::::::::::::::::::::::::";
     StatusSet("Loaded all needed data " + QS_Fun_Happy);
     //StatusSet(MS6_NucPedigree_Results.info());
-    MS6_NucPedigree_Results.info_debug();
+    //MS6_NucPedigree_Results.info_debug();
     return true;
 }
 
@@ -11148,6 +11165,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
     }
 
     //master dir in
+    QString QS_Path_S1 = QS_LoadMS1.split("/").last();
     DIR_MS6_Load_Mosaics.setPath(QS_LoadMS1 + "/Mosaik");
     if(!DIR_MS6_Load_Mosaics.exists())
     {
@@ -11183,6 +11201,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
     }
 
     //master dir in
+    QString QS_Path_S3 = QS_LoadMS3.split("/").last();
     DIR_MS6_Load_NucleiData.setPath(QS_LoadMS3 + "/DetectionsAssigned");
     if(!DIR_MS6_Load_NucleiData.exists())
     {
@@ -11218,6 +11237,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
     }
 
     //master dir in
+    QString QS_Path_S5 = QS_LoadMS4_5.split("/").last();
     DIR_MS6_Load_NucleiLifes.setPath(QS_LoadMS4_5);
     if(!DIR_MS6_Load_NucleiLifes.exists())
     {
@@ -11232,6 +11252,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadDirs()
 
     //------------------ finished ------------------------------------------------
 
+    StatusSet("Load Folders:\n.../" + QS_Path_S1 + "\n.../" + QS_Path_S3 + "\n.../" + QS_Path_S5);
     MS6_state_loaded_dirs = true;
     return true;
 }
@@ -11406,6 +11427,7 @@ bool D_MAKRO_MegaFoci::MS6_GetChannelsFromUi()
     MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  1,   true,     ATTRIB_NUCLIFE_AGE,                  c_COMPARE_GREATER,  0,   0.0);
     MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  2,   true,     ATTRIB_NUCLIFE_START,                c_COMPARE_GREATER,  0,   0.0);
     MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  3,   true,     ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH,  c_COMPARE_EQUAL,    0,   1.0);
+    MS6_NucPedigree_Results.set_attrib_filter(ATTRIB_FILTER_MODE_NUC_LIFE,  4,   true,     ATTRIB_NUCLIFE_EXCLUDED,             c_COMPARE_EQUAL,    0,   0.0); //included in nuc life filtering in pedigree by default
 
     //----------------- populate dropdowns
 
@@ -11597,9 +11619,9 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_SetMode(size_t i_axis, QString axis_descripti
         case DATA_LEVEL_NUCLIFE_ATTRIB:
         {
             int att_ch_dependency;
-            if(D_Bio_NucleusBlob::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
+            if(D_Bio_NucleusLife::attribute_is_focus_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
                 att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_FOC;
-            else if(D_Bio_NucleusBlob::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
+            else if(D_Bio_NucleusLife::attribute_is_value_channel_dependent(MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentIndex()))
                 att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_ON_VAL;
             else
                 att_ch_dependency = MS6_RES_AXIS_CHANNEL_ATTRIB_OFF;

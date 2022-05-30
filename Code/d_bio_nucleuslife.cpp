@@ -109,9 +109,35 @@ D_Bio_Focus *D_Bio_NucleusLife::pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc
     return pNuc->get_pFocus(ch_foc, i_foc);
 }
 
+bool D_Bio_NucleusLife::is_excluded()
+{
+    if(members_count() < 1)
+        return false;
+
+    //may be true for connected nucs (mega foci tracker S4 or S5)
+    if(vNucMembers[0].matching_excluded_life())
+    {
+        //qDebug() << "D_Bio_NucleusLife::is_excluded" << "exclusion member recursion";
+        return true;
+    }
+
+    //may be true for filtered nuc lifes (mega foci tracker S6)
+    for(size_t b = 0; b < vNucMembers.size(); b++)
+    {
+        if(vNucMembers[b].matching_excluded_this())
+        {
+            //qDebug() << "D_Bio_NucleusLife::is_excluded" << "exclusion member loop";
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool D_Bio_NucleusLife::set_excluded(size_t t, bool exclude)
 {
     D_Bio_NucleusBlob* pNuc = pNuc_member_byTime(t);
+
     if(pNuc == nullptr)
         return false;
 
@@ -350,6 +376,8 @@ double D_Bio_NucleusLife::attrib_nuclife(size_t i_attrib_nuclife)
     case ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH:                return double(has_MitosisStart());
     case ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH:                  return double(has_MitosisEnd());
     case ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH:           return double(has_MitosisStartAndEnd());
+
+    case ATTRIB_NUCLIFE_EXCLUDED:                           return double(is_excluded());
 
     default:                                                return 0;
     }

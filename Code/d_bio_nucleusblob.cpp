@@ -216,6 +216,9 @@ double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale
         return att != 0.0 ? 1.0 / att : 0;
     }
 
+    case ATTRIB_NUC_EXCLUDED_THIS:              return double(matching_excluded_this());
+    case ATTRIB_NUC_EXCLUDED_LIFE:              return double(matching_excluded_life());
+
     default:                                    return 0;
     }
 }
@@ -1361,6 +1364,21 @@ bool D_Bio_NucleusBlob::matching_RemoveParent(D_Bio_NucleusBlob *nuc_remove_pare
     return false;
 }
 
+bool D_Bio_NucleusBlob::matching_excluded_life()
+{
+    return matching_excluded_check_forward() || matching_excluded_check_backward();
+}
+
+int D_Bio_NucleusBlob::matching_excluded_life_time()
+{
+    return matching_excluded_life() ? matching_excluded_pNucMarked()->time_index() : -1;
+}
+
+D_Bio_NucleusBlob *D_Bio_NucleusBlob::matching_excluded_pNucMarked()
+{
+    return matching_excluded_check_forward() ? matching_excluded_seek_pNucMarked_forward() : matching_excluded_seek_pNucMarked_backward();
+}
+
 bool D_Bio_NucleusBlob::matching_excluded_check_forward()
 {
     if(matching_excluded_this())
@@ -1372,6 +1390,9 @@ bool D_Bio_NucleusBlob::matching_excluded_check_forward()
     if(matching_isMitosis())
         return false;
 
+    if(matching_ChildFavorite() == nullptr)
+        return false;
+
     return matching_ChildFavorite()->matching_excluded_check_forward();
 }
 
@@ -1381,6 +1402,9 @@ bool D_Bio_NucleusBlob::matching_excluded_check_backward()
         return true;
 
     if(matching_foundNoParent())
+        return false;
+
+    if(matching_Parent() == nullptr)
         return false;
 
     if(matching_parent_isMitosis())
@@ -1400,6 +1424,9 @@ D_Bio_NucleusBlob *D_Bio_NucleusBlob::matching_excluded_seek_pNucMarked_forward(
     if(matching_isMitosis())
         return nullptr;
 
+    if(matching_ChildFavorite() == nullptr)
+        return nullptr;
+
     return matching_ChildFavorite()->matching_excluded_seek_pNucMarked_forward();
 }
 
@@ -1409,6 +1436,9 @@ D_Bio_NucleusBlob *D_Bio_NucleusBlob::matching_excluded_seek_pNucMarked_backward
         return this;
 
     if(matching_foundNoParent())
+        return nullptr;
+
+    if(matching_Parent() == nullptr)
         return nullptr;
 
     if(matching_parent_isMitosis())

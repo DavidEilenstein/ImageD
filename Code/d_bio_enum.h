@@ -239,6 +239,8 @@ const QString QS_NucLifeTag_Excluded = "ExcludedTime";
      ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_PROB,
      ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND,
      ATTRIB_NUC_FOCI_OVERLAP_CH0_CH1_REL_TO_RAND_INV,
+     ATTRIB_NUC_EXCLUDED_THIS,
+     ATTRIB_NUC_EXCLUDED_LIFE,
      ATTRIB_NUC_NUMBER_OF
  };
  const QStringList QSL_Attrib_Nuc = {
@@ -278,7 +280,9 @@ const QString QS_NucLifeTag_Excluded = "ExcludedTime";
      "Foci area overlap ch0 and ch1 rel. to nuc area",
      "Foci area overlap ch0 and ch1 probability",
      "Foci area overlap ch0 and ch1 rel to rand",
-     "Foci area overlap ch0 and ch1 rel to rand inv"
+     "Foci area overlap ch0 and ch1 rel to rand inv",
+     "Excluded (this nucleus blob)",
+     "Excluded (in same nucleus life)"
  };
 
  enum ATTRIB_NUCLIFE {
@@ -306,6 +310,7 @@ const QString QS_NucLifeTag_Excluded = "ExcludedTime";
      ATTRIB_NUCLIFE_MITOSIS_STARTS_WITH,
      ATTRIB_NUCLIFE_MITOSIS_ENDS_WITH,
      ATTRIB_NUCLIFE_MITOSIS_STARTS_ENDS_WITH,
+     ATTRIB_NUCLIFE_EXCLUDED,
      ATTRIB_NUCLIFE_NUMBER_OF
  };
  const QStringList QSL_Attrib_NucLife = {
@@ -332,7 +337,8 @@ const QString QS_NucLifeTag_Excluded = "ExcludedTime";
      "Is permanently in range",
      "Starts with mitosis",
      "Ends with mitosis",
-     "Starts and ends with mitosis"
+     "Starts and ends with mitosis",
+     "Excluded (contained nucleus blob)"
  };
 
  //filter modi

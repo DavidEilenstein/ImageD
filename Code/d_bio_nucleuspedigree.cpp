@@ -1181,14 +1181,20 @@ bool D_Bio_NucleusPedigree::calc_NucLifes()
                     {
                         D_Bio_NucleusLife NewNucLife;
 
+                        //parent
                         if(pNuc->matching_foundParent())
                             NewNucLife.set_Parent(pNuc->matching_Parent());
 
-                        //loop member nucs
+                        //1st member
                         NewNucLife.add_Member(*pNuc);
+
+                        //loop member nucs
                         while(pNuc->matching_foundExactlyOneChild())
                         {
+                            //jump to next nuc
                             pNuc = pNuc->matching_ChildFavorite();
+
+                            //add nuc and info
                             NewNucLife.add_Member(*pNuc);
                         }
 
@@ -1272,7 +1278,7 @@ bool D_Bio_NucleusPedigree::calc_NucLifes_Filtered()
                     NucBlobFiltered.clear_Foci();
                     NucBlobFiltered.set_FociChannels(pNucBlobOriginal->get_FociChannels());
 
-                    //set filter independednt infos
+                    //set filter independednt and other infos
                     NucBlobFiltered.set_time_irradiation(time_irradiation);
 
                     //loop foci channels

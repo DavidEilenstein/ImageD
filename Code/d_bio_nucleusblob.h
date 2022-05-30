@@ -157,9 +157,9 @@ public:
 
     void                matching_set_excluded(bool exclude)             {nuc_exclude = exclude;}
     bool                matching_excluded_this()                        {return nuc_exclude;}
-    bool                matching_excluded_life()                        {return matching_excluded_check_forward() || matching_excluded_check_backward();}
-    bool                matching_excluded_life_time()                   {return matching_excluded_life() ? matching_excluded_pNucMarked()->time_index() : -1;}
-    D_Bio_NucleusBlob*  matching_excluded_pNucMarked()                  {return matching_excluded_check_forward() ? matching_excluded_seek_pNucMarked_forward() : matching_excluded_seek_pNucMarked_backward();}
+    bool                matching_excluded_life();
+    int                 matching_excluded_life_time();
+    D_Bio_NucleusBlob*  matching_excluded_pNucMarked();
 private:
     bool                matching_excluded_check_forward();
     bool                matching_excluded_check_backward();

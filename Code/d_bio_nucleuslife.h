@@ -109,7 +109,7 @@ public:
 
     D_Bio_Focus*                    pFocus(size_t i_nuc, size_t ch_foc, size_t i_foc);
 
-    bool                            is_excluded()                   {return members_count() > 0 ? vNucMembers[0].matching_excluded_life() : false;}
+    bool                            is_excluded();
     bool                            set_excluded(size_t t, bool exclude);
 
     //foci attribs
