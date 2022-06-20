@@ -8104,7 +8104,6 @@ int D_Img_Proc::Transformation_Watershed_Custom(Mat *pMA_Out, Mat *pMA_In2Fill, 
     }
         break;
 
-
     default:
         return ER_parameter_bad;
     }
@@ -9104,7 +9103,7 @@ int D_Img_Proc::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size)
     medianBlur(
                 *pMA_In,
                 *pMA_Out,
-                2*size + 1);
+                2 * size + 1);
     return ER_okay;
 }
 

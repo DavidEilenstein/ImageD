@@ -1611,6 +1611,7 @@ private slots:
     void MS6_Update_Results();
     void MS6_Update_Result_HistSimple();
     void MS6_Update_Result_PoolStatLine_Single();
+    void MS6_Update_Result_PoolStatLine_DualWithError();
     void MS6_Update_Result_Scatter_2D();
     void MS6_Update_Result_Heatmap_2D();
     void MS6_Update_Result_Heatmap_3D();
@@ -1725,6 +1726,7 @@ private:
     enum MS6_RESULT_TYPES {
         MS6_RES_TYP_HIST_SIMPLE,
         MS6_RES_TYP_POOL_STAT_LINE_SINGLE,
+        MS6_RES_TYP_POOL_STAT_LINE_DUAL_WITH_ERROR,
         MS6_RES_TYP_SCATTER_2D_SIMPLE,
         MS6_RES_TYP_SCATTER_HEATMAP_2D,
         MS6_RES_TYP_SCATTER_HEATMAP_3D,
@@ -1736,6 +1738,7 @@ private:
     const QStringList QSL_MS6_ResultTypes = {
         "Histogram simple",
         "Pooled statistic line single",
+        "Pooled statistic line dual with error",
         "Scatter 2D simple",
         "Scatter 2D heatmap",
         "Scatter 3D heatmap",

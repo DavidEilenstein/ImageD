@@ -2506,7 +2506,6 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
     else
         return;
 
-
     ///remember current pos as calced
     //qDebug() << "save as demcoped";
     vvvImageDecompCalced_TYX[pos_t][pos_y][pos_x] = static_cast<int>(true);
@@ -3035,8 +3034,8 @@ bool D_MAKRO_MegaFoci::Load_Dataset()
     Params_Load_CurrentDir();
 
     //update proc and image
-    StatusSet("Now updating ImgProc for the 1st time");
-    Update_ImageProcessing_CurrentImage();
+    //StatusSet("Now updating ImgProc for the 1st time");
+    //Update_ImageProcessing_CurrentImage();
     state_first_proc_on_start = false;
 
     //return
@@ -11054,8 +11053,11 @@ void D_MAKRO_MegaFoci::MS6_UiInit()
 
     //-------------------------------------------------------------------------------------- Results
 
-    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat,        QSL_StatList,   c_STAT_MEAN_ARITMETIC);
-    Populate_CB_Single(ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat,     QSL_StatList,   c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat,                    QSL_StatList,   c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stVal,     QSL_StatList,   c_STAT_MEAN_ARITMETIC);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stErr,     QSL_StatList,   c_STAT_SEM_ABS_TOTAL);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_2ndVal,     QSL_StatList,   c_STAT_COUNT);
+    Populate_CB_Single(ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat,                 QSL_StatList,   c_STAT_MEAN_ARITMETIC);
 
     connect(ui->pushButton_MS6_UpdateResults,       SIGNAL(clicked(bool)),      this,       SLOT(MS6_Update_Results()));
 
@@ -11542,6 +11544,7 @@ void D_MAKRO_MegaFoci::MS6_ResAxis_UpdateModi()
         break;
 
     case MS6_RES_TYP_POOL_STAT_LINE_SINGLE:
+    case MS6_RES_TYP_POOL_STAT_LINE_DUAL_WITH_ERROR:
         ui->stackedWidget_MS6_ResView->setCurrentIndex(MS6_RES_VIEW_TYPE_PLOT_2D);
         MS6_ResAxis_SetMode(0, "X Pool", axis_data_level);
         MS6_ResAxis_SetMode(1, "Y Stat", axis_data_level);
@@ -11844,15 +11847,16 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
 
     switch (ui->comboBox_MS6_ResultTypes->currentIndex())
     {
-    case MS6_RES_TYP_HIST_SIMPLE:           MS6_Update_Result_HistSimple();             break;
-    case MS6_RES_TYP_POOL_STAT_LINE_SINGLE: MS6_Update_Result_PoolStatLine_Single();    break;
-    case MS6_RES_TYP_SCATTER_2D_SIMPLE:     MS6_Update_Result_Scatter_2D();             break;
-    case MS6_RES_TYP_SCATTER_HEATMAP_2D:    MS6_Update_Result_Heatmap_2D();             break;
-    case MS6_RES_TYP_SCATTER_HEATMAP_3D:    MS6_Update_Result_Heatmap_3D();             break;
-    case MS6_RES_TYP_DATA_TABLE_3D:         MS6_Update_Result_DataTable_3Axis();        break;
-    case MS6_RES_TYP_MOSAIC_DATA:           MS6_Update_Result_MosaicData();             break;
-    case MS6_RES_TYP_NUC_LIFE_IMG:          MS6_Update_Result_NucLifeImg();             break;
-    default:                                                                            break;
+    case MS6_RES_TYP_HIST_SIMPLE:                       MS6_Update_Result_HistSimple();                 break;
+    case MS6_RES_TYP_POOL_STAT_LINE_SINGLE:             MS6_Update_Result_PoolStatLine_Single();        break;
+    case MS6_RES_TYP_POOL_STAT_LINE_DUAL_WITH_ERROR:    MS6_Update_Result_PoolStatLine_DualWithError(); break;
+    case MS6_RES_TYP_SCATTER_2D_SIMPLE:                 MS6_Update_Result_Scatter_2D();                 break;
+    case MS6_RES_TYP_SCATTER_HEATMAP_2D:                MS6_Update_Result_Heatmap_2D();                 break;
+    case MS6_RES_TYP_SCATTER_HEATMAP_3D:                MS6_Update_Result_Heatmap_3D();                 break;
+    case MS6_RES_TYP_DATA_TABLE_3D:                     MS6_Update_Result_DataTable_3Axis();            break;
+    case MS6_RES_TYP_MOSAIC_DATA:                       MS6_Update_Result_MosaicData();                 break;
+    case MS6_RES_TYP_NUC_LIFE_IMG:                      MS6_Update_Result_NucLifeImg();                 break;
+    default:                                                                                            break;
     }
 }
 
@@ -11888,6 +11892,27 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_PoolStatLine_Single()
                 ui->checkBox_MS6_ResType_Param_PoolStatLine_AutoRange->isChecked()),
         "MS6_Update_Result_PoolStatLine_Single",
         "D_Plot::Plot_Line_PoolStat_Single");
+}
+
+void D_MAKRO_MegaFoci::MS6_Update_Result_PoolStatLine_DualWithError()
+{
+    ERR(D_Plot::Plot_Line_PoolStat_DualErr(
+                MS6_pChartView_Plot_2D,
+                MS6_DataForAxis(0),
+                MS6_DataForAxis(1),
+                ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_MinX->value(),
+                ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_MaxX->value(),
+                ui->spinBox_MS6_ResType_Param_PoolStatLine_DualErr_Classes->value(),
+                ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stVal->currentIndex(),
+                ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stErr->currentIndex(),
+                ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_2ndVal->currentIndex(),
+                MS6_DefaultTitle_Result(),
+                MS6_DefaultTitle_Series(),
+                MS6_DefaultTitle_Axis(0),
+                MS6_DefaultTitle_Axis(1),
+                ui->checkBox_MS6_ResType_Param_PoolStatLine_DualErr_AutoRange->isChecked()),
+        "MS6_Update_Result_PoolStatLine_DualWithError",
+        "D_Plot::Plot_Line_PoolStat_DualErr");
 }
 
 void D_MAKRO_MegaFoci::MS6_Update_Result_Scatter_2D()

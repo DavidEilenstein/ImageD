@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_7_3";
-const QString           D_QS_Release  = "30.05.2022";
+const QString           D_QS_Version  = "v2_7_4";
+const QString           D_QS_Release  = "20.06.2022";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -740,6 +740,7 @@ enum D_STATISTIC_ENUM {
     c_STAT_MEAN_ARITMETIC,
     c_STAT_MEAN_ARITMETIC_OF_ABS,
     c_STAT_MEAN_ARITMETIC_OF_NON_ZERO,
+    c_STAT_MEAN_ARITMETIC_OF_NON_NANINF,
     c_STAT_VARIANCE_TOTAL,
     c_STAT_VARIANCE_SAMPLE,
     c_STAT_SKEWNESS_TOTAL,
@@ -803,6 +804,7 @@ const QStringList QSL_StatList = {
     "Arithmetic Mean",
     "Arithmetic Mean of absolutes",
     "Arithmetic Mean of non zero",
+    "Arithmetic Mean of non nan or inf",
     "Variance total",
     "Variance sample",
     "Skewness total",

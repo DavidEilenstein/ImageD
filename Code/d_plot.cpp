@@ -2857,6 +2857,146 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double> > v
     return ER_okay;
 }
 
+int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+{
+    if(v_X_Data.empty())                            return ER_empty;
+    if(v_Y_Data_1stVal.empty())                     return ER_empty;
+    if(v_Y_Data_1stErr.empty())                     return ER_empty;
+    if(v_Y_Data_2ndVal.empty())                     return ER_empty;
+    if(v_X_Data.size() != v_Y_Data_1stVal.size())   return ER_size_missmatch;
+    if(v_X_Data.size() != v_Y_Data_1stErr.size())   return ER_size_missmatch;
+    if(v_X_Data.size() != v_Y_Data_2ndVal.size())   return ER_size_missmatch;
+
+    //clear old content
+    Free_Memory(pChartView);
+
+    //Chart
+    //qDebug() << "==================================Chart";
+    QChart *chart = new QChart();
+    if(!name_title.isEmpty())
+        chart->setTitle(name_title);
+
+    //Axis
+    //qDebug() << "Axis";
+    QValueAxis *x_axis = new QValueAxis();
+    if(!name_x.isEmpty())
+        x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
+    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisX(x_axis);
+
+    QValueAxis *y_axis_1st = new QValueAxis();
+    if(!name_y_1st.isEmpty())
+        y_axis_1st->setTitleText(QSL_AxeTrans_Prefix[y_trans_1st] + name_y_1st + QSL_AxeTrans_Suffix[y_trans_1st]);
+    y_axis_1st->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->setAxisY(y_axis_1st);
+
+    QValueAxis *y_axis_2nd = new QValueAxis();
+    if(!name_y_2nd.isEmpty())
+        y_axis_2nd->setTitleText(QSL_AxeTrans_Prefix[y_trans_2nd] + name_y_2nd + QSL_AxeTrans_Suffix[y_trans_2nd]);
+    y_axis_2nd->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    chart->addAxis(y_axis_2nd, Qt::AlignRight);
+
+    //Series
+
+    //1st val
+    QLineSeries *series_1st_val  = new QLineSeries();
+    if(!name_series_1stVal.isEmpty())
+        series_1st_val->setName(name_series_1stVal);
+    series_1st_val->setColor(QColor(0, 0, 0));
+    series_1st_val->setUseOpenGL(true);
+
+    //1st err
+    //lower
+    QLineSeries *series_1st_err_lower  = new QLineSeries();
+    series_1st_err_lower->setColor(QColor(255, 0, 0));
+    series_1st_err_lower->setUseOpenGL(true);
+    //upper
+    QLineSeries *series_1st_err_upper  = new QLineSeries();
+    series_1st_err_upper->setColor(QColor(255, 0, 0));
+    series_1st_err_upper->setUseOpenGL(true);
+
+    //2nd val
+    QLineSeries *series_2nd_val  = new QLineSeries();
+    if(!name_series_2ndVal.isEmpty())
+        series_2nd_val->setName(name_series_2ndVal);
+    series_2nd_val->setColor(QColor(0, 0, 255));
+    series_2nd_val->setUseOpenGL(true);
+
+
+    //Data for line series
+    //qDebug() << "Data";
+    for(size_t x = 0; x < v_X_Data.size(); x++)
+    {
+        //1st val
+        series_1st_val->append(
+                    D_Stat::AxeTrans(v_X_Data[x], x_trans),
+                    D_Stat::AxeTrans(v_Y_Data_1stVal[x], y_trans_1st));
+
+        //1st err lower
+        series_1st_err_lower->append(
+                    D_Stat::AxeTrans(v_X_Data[x], x_trans),
+                    D_Stat::AxeTrans(v_Y_Data_1stVal[x] - v_Y_Data_1stErr[x], y_trans_1st));
+
+        //1st err upper
+        series_1st_err_upper->append(
+                    D_Stat::AxeTrans(v_X_Data[x], x_trans),
+                    D_Stat::AxeTrans(v_Y_Data_1stVal[x] + v_Y_Data_1stErr[x], y_trans_1st));
+
+        //2nd val
+        series_2nd_val->append(
+                    D_Stat::AxeTrans(v_X_Data[x], x_trans),
+                    D_Stat::AxeTrans(v_Y_Data_2ndVal[x], y_trans_2nd));
+    }
+
+    //area err series
+    QAreaSeries *series_1st_err_area  = new QAreaSeries();
+    if(!name_series_2ndVal.isEmpty())
+        series_1st_err_area->setName(name_series_1stErr);
+    series_1st_err_area->setColor(QColor(255, 192, 192));
+    series_1st_err_area->setUseOpenGL(true);
+    series_1st_err_area->setLowerSeries(series_1st_err_lower);
+    series_1st_err_area->setUpperSeries(series_1st_err_upper);
+
+    //Attach
+    //err 1st area
+    chart->addSeries(series_1st_err_area);
+    series_1st_err_area->attachAxis(x_axis);
+    series_1st_err_area->attachAxis(y_axis_1st);
+    series_1st_err_area->setUseOpenGL(false);
+    /*
+    //err 1st lower
+    series_1st_err_lower->setPointsVisible(dots_visible);
+    chart->addSeries(series_1st_err_lower);
+    series_1st_err_lower->attachAxis(x_axis);
+    series_1st_err_lower->attachAxis(y_axis_1st);
+    series_1st_err_lower->setUseOpenGL(false);
+    //err 1st upper
+    series_1st_err_upper->setPointsVisible(dots_visible);
+    chart->addSeries(series_1st_err_upper);
+    series_1st_err_upper->attachAxis(x_axis);
+    series_1st_err_upper->attachAxis(y_axis_1st);
+    series_1st_err_upper->setUseOpenGL(false);
+    */
+    //val 2nd
+    series_2nd_val->setPointsVisible(dots_visible);
+    chart->addSeries(series_2nd_val);
+    series_2nd_val->attachAxis(x_axis);
+    series_2nd_val->attachAxis(y_axis_2nd);
+    series_2nd_val->setUseOpenGL(false);
+    //val 1st
+    series_1st_val->setPointsVisible(dots_visible);
+    chart->addSeries(series_1st_val);
+    series_1st_val->attachAxis(x_axis);
+    series_1st_val->attachAxis(y_axis_1st);
+    series_1st_val->setUseOpenGL(false);
+    //chart
+    pChartView->setChart(chart);
+    chart->legend()->setAlignment(Qt::AlignTop);
+    //chart->legend()->setVisible(false);
+
+    return ER_okay;
+}
+
 int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range)
 {
     if(auto_range)
@@ -2944,6 +3084,139 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 qs_name_series,
                 name_x + " (pooled)",
                 QSL_StatList[int(y_stat)] + " of " + name_y);
+}
+
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+{
+    if(auto_range)
+        return Plot_Line_PoolStat_DualErr(
+                    pChartView,
+                    vData_X_Pool,
+                    vData_Y_Stat,
+                    x_classes,
+                    stat_y_main_val,
+                    stat_y_main_err,
+                    stat_y_secondary_val,
+                    name_title,
+                    name_series,
+                    name_x,
+                    name_y,
+                    x_trans,
+                    y_trans_1st,
+                    y_trans_2nd,
+                    dots_visible);
+    else
+        return Plot_Line_PoolStat_DualErr(
+                    pChartView,
+                    vData_X_Pool,
+                    vData_Y_Stat,
+                    x_min,
+                    x_max,
+                    x_classes,
+                    stat_y_main_val,
+                    stat_y_main_err,
+                    stat_y_secondary_val,
+                    name_title,
+                    name_series,
+                    name_x,
+                    name_y,
+                    x_trans,
+                    y_trans_1st,
+                    y_trans_2nd,
+                    dots_visible);
+}
+
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+{
+    //calc x range
+    double x_min, x_max;
+    int err = D_Stat::Calc_MinMax(&x_min, &x_max, vData_X_Pool);
+    if(err != ER_okay)
+        return err;
+
+    return Plot_Line_PoolStat_DualErr(
+                pChartView,
+                vData_X_Pool,
+                vData_Y_Stat,
+                x_min,
+                x_max,
+                x_classes,
+                stat_y_main_val,
+                stat_y_main_err,
+                stat_y_secondary_val,
+                name_title,
+                name_series,
+                name_x,
+                name_y,
+                x_trans,
+                y_trans_1st,
+                y_trans_2nd,
+                dots_visible);
+}
+
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+{
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
+
+    //semanctics of axis
+    enum DATA_INDICES {
+        DATA_INDEX_MAIN_VAL,
+        DATA_INDEX_MAIN_ERR,
+        DATA_INDEX_2ND_VAL,
+        DATA_INDEX_NUMBER_OF
+    };
+    vector<size_t> vStatIndices(DATA_INDEX_NUMBER_OF);
+    vStatIndices[DATA_INDEX_MAIN_VAL] = stat_y_main_val;
+    vStatIndices[DATA_INDEX_MAIN_ERR] = stat_y_main_err;
+    vStatIndices[DATA_INDEX_2ND_VAL] = stat_y_secondary_val;
+
+    //Pooled containers
+    vector<double> vData_Pooled_x_Pools;
+    vector<vector<double>> vvData_Pooled_y_Stats(DATA_INDEX_NUMBER_OF);
+
+    //calc pooling and stats
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "polling and stat calc";
+    int err_pooling = D_Stat::PoolStat_Data(
+                &vData_Pooled_x_Pools,
+                &vvData_Pooled_y_Stats,
+                vData_X_Pool,
+                vData_Y_Stat,
+                x_min,
+                x_max,
+                x_classes,
+                vStatIndices);
+    if(err_pooling != ER_okay)
+        return err_pooling;
+
+    //errors?
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "check errors";
+    if(vData_Pooled_x_Pools.empty())                                return ER_empty;
+    if(vvData_Pooled_y_Stats.empty())                               return ER_empty;
+    for(size_t s = 0; s < DATA_INDEX_NUMBER_OF; s++)
+    {
+        if(vvData_Pooled_y_Stats[s].empty())                                return ER_empty;
+        if(vData_Pooled_x_Pools.size() != vvData_Pooled_y_Stats[s].size())  return ER_size_missmatch;
+    }
+
+    //plot as line
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "plot line";
+    return Plot_LineAreaError_XY(
+                pChartView,
+                vData_Pooled_x_Pools,
+                vvData_Pooled_y_Stats[DATA_INDEX_MAIN_VAL],
+                vvData_Pooled_y_Stats[DATA_INDEX_MAIN_ERR],
+                vvData_Pooled_y_Stats[DATA_INDEX_2ND_VAL],
+                name_title,
+                QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_VAL])] + " of "  + name_y,
+                QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_ERR])] + " of "  + name_y,
+                QSL_StatList[int(vStatIndices[DATA_INDEX_2ND_VAL])] + " of "  + name_y,
+                name_x + " (pooled)",
+                QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_VAL])] + " ± " + QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_ERR])] + " of "  + name_y,
+                QSL_StatList[int(vStatIndices[DATA_INDEX_2ND_VAL])] + " of "  + name_y,
+                x_trans,
+                y_trans_1st,
+                y_trans_2nd,
+                dots_visible);
 }
 
 int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > > vvv_XY_Data_Measure, vector<vector<vector<double> > > vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y)

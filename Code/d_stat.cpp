@@ -32,12 +32,13 @@ int D_Stat::Calc_Stats(vector<double> *v_stats, vector<double> v_data, bool calc
         sort(v_data.begin(), v_data.end());
 
     //sum
-    int n_non_zero      = 0;
-    int n_naninf        = 0;
-    double sum          = 0;
-    double sum_abs      = 0;
-    double sum_non_zero = 0;
-    double sum_squares  = 0;
+    int n_non_zero          = 0;
+    int n_naninf            = 0;
+    double sum              = 0;
+    double sum_abs          = 0;
+    double sum_non_zero     = 0;
+    double sum_non_naninf   = 0;
+    double sum_squares      = 0;
     for(size_t i = 0; i < n; i++)
     {
         double val      =  v_data[i];
@@ -55,20 +56,29 @@ int D_Stat::Calc_Stats(vector<double> *v_stats, vector<double> v_data, bool calc
         {
             n_naninf++;
         }
+        else
+        {
+            sum_non_naninf += val;
+        }
     }
+
+    //counts
+    size_t n_non_naninf                     = n - n_naninf;
     (*v_stats)[c_STAT_SUM]                  = sum;
     (*v_stats)[c_STAT_SUM_OF_ABS]           = sum_abs;
     (*v_stats)[c_STAT_SUM_OF_SQUARES]       = sum_squares;
     (*v_stats)[c_STAT_COUNT_NANINF]         = n_naninf;
-    (*v_stats)[c_STAT_COUNT_NON_NANINF]     = n - n_naninf;
+    (*v_stats)[c_STAT_COUNT_NON_NANINF]     = n_non_naninf;
 
     //mean
-    double mean = sum / n;
-    double mean_abs = sum_abs / n;
-    double mean_non_zero = n_non_zero > 0 ? sum_non_zero / n_non_zero : 0;
+    double mean             = sum / n;
+    double mean_abs         = sum_abs / n;
+    double mean_non_zero    = n_non_zero > 0 ? sum_non_zero / n_non_zero : 0;
+    double mean_non_naninf  = n_non_naninf > 0 ? sum_non_naninf / n_non_naninf : 0;
     (*v_stats)[c_STAT_MEAN_ARITMETIC]               = mean;
     (*v_stats)[c_STAT_MEAN_ARITMETIC_OF_ABS]        = mean_abs;
     (*v_stats)[c_STAT_MEAN_ARITMETIC_OF_NON_ZERO]   = mean_non_zero;
+    (*v_stats)[c_STAT_MEAN_ARITMETIC_OF_NON_NANINF] = mean_non_naninf;
 
     //potences of diff of mean
     double variance_cum = 0;
@@ -757,11 +767,31 @@ function<double (vector<double>)> D_Stat::Function_SingleStat(int stat)
             double sum = 0;
 
             for(size_t i = 0; i < v_x.size(); i++)
-                if(v_x[i] != 0)
+                if(v_x[i] != 0.0)
                 {
                     n++;
                     sum += v_x[i];
                 }
+
+            double mean = n > 0 ? sum / n : 0;
+            return mean;
+        };
+
+    case c_STAT_MEAN_ARITMETIC_OF_NON_NANINF:
+        return [](vector<double> v_x)
+        {
+            int n = 0;
+            double sum = 0;
+
+            for(size_t i = 0; i < v_x.size(); i++)
+            {
+                double val = v_x[i];
+                if(!isnan(val) && !isinf(val))
+                {
+                    n++;
+                    sum += v_x[i];
+                }
+            }
 
             double mean = n > 0 ? sum / n : 0;
             return mean;
@@ -4224,7 +4254,7 @@ int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vD
     return ER_okay;
 }
 
-int D_Stat::PoolStat_Data(vector<double> *vData_Out_x_Pools, vector<double> *vData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
+int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
 {
     //errors
     if(vData_X_Pool.empty())                                            return ER_empty;
@@ -4238,10 +4268,10 @@ int D_Stat::PoolStat_Data(vector<double> *vData_Out_x_Pools, vector<double> *vDa
     size_t n = vData_X_Pool.size();
 
     //clear out
-    vData_Out_x_Pools->clear();
-    vData_Out_y_Stats->clear();
-    vData_Out_x_Pools->resize(x_classes);
-    vData_Out_y_Stats->resize(x_classes);
+    pvData_Out_x_Pools->clear();
+    pvData_Out_y_Stats->clear();
+    pvData_Out_x_Pools->resize(x_classes);
+    pvData_Out_y_Stats->resize(x_classes);
 
     //range
     double x_range = x_max - x_min;
@@ -4269,9 +4299,66 @@ int D_Stat::PoolStat_Data(vector<double> *vData_Out_x_Pools, vector<double> *vDa
         //qDebug() << c;
         double val_stat_y = F_Stat(vvData_ClaVal[c]);
 
-        (*vData_Out_x_Pools)[c] = PoolCenter_From_Value(c, x_min, x_range, x_classes);
-        (*vData_Out_y_Stats)[c] = val_stat_y;
+        (*pvData_Out_x_Pools)[c] = PoolCenter_From_Value(c, x_min, x_range, x_classes);
+        (*pvData_Out_y_Stats)[c] = val_stat_y;
     }
+
+    return ER_okay;
+}
+
+int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<double>>* pvvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, vector<size_t> vy_stat)
+{
+    //errors
+    if(vData_X_Pool.empty())                                            return ER_empty;
+    if(vData_Y_Stat.empty())                                            return ER_empty;
+    if(vData_X_Pool.size() != vData_Y_Stat.size())                      return ER_size_missmatch;
+    if(x_min >= x_max)                                                  return ER_parameter_missmatch;
+    if(x_classes < 1)                                                   return ER_parameter_bad;
+    if(vy_stat.size() <= 0)                                             return ER_size_bad;
+    size_t ns = vy_stat.size();
+    for(size_t s = 0; s < ns; s++)
+        if(vy_stat[s] >= c_STAT_NUMBER_OF_STATS)                        return ER_parameter_bad;
+
+    //size of data
+    size_t nx = vData_X_Pool.size();
+
+    //clear out
+    pvData_Out_x_Pools->clear();
+    pvData_Out_x_Pools->resize(x_classes);
+    pvvData_Out_y_Stats->clear();
+    pvvData_Out_y_Stats->resize(ns, vector<double>(x_classes, 0));
+
+    //range
+    double x_range = x_max - x_min;
+
+    //class sorted data
+    vector<vector<double>> vvData_ClaVal(x_classes);
+    for(size_t i = 0; i < nx; i++)
+    {
+        double val_x = vData_X_Pool[i];
+        double val_y = vData_Y_Stat[i];
+
+        size_t i_x = Value2PoolIndex(
+                    val_x,
+                    x_min,
+                    x_range,
+                    x_classes);
+
+        vvData_ClaVal[i_x].push_back(val_y);
+    }
+
+    //stat functions
+    vector<function<double (vector<double>)>> vF_Stat(ns);
+    for(size_t s = 0; s < ns; s++)
+        vF_Stat[s] = Function_SingleStat(int(vy_stat[s]));
+
+    //calc stat
+    for(size_t s = 0; s < ns; s++)
+        for(size_t c = 0; c < x_classes; c++)
+        {
+            (*pvData_Out_x_Pools)[c] = PoolCenter_From_Value(c, x_min, x_range, x_classes);
+            (*pvvData_Out_y_Stats)[s][c] = vF_Stat[s](vvData_ClaVal[c]);
+        }
 
     return ER_okay;
 }

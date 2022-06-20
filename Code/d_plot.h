@@ -36,6 +36,7 @@
 #include <QChart>
 #include <QValueAxis>
 #include <QLineSeries>
+#include <QAreaSeries>
 #include <QSplineSeries>
 #include <QScatterSeries>
 #include <QPieSeries>
@@ -112,9 +113,16 @@ public:
     static int      Plot_Line_XY_Multi          (QChartView *pChartView, vector<vector<double>> vv_X_Data, vector<vector<double>> vv_Y_Data, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool dots_visible = false, bool heat_color = false, bool heat_color_AllColors = false, Qt::Alignment legend_pos = Qt::AlignTop);
     static int      Plot_Line_XY_Multi          (QChartView *pChartView, vector<vector<double>> vv_X_Data, vector<vector<double>> vv_Y_Data, vector<vector<double>> vv_Y_Errors, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y, bool dots_visible = false, bool heat_color = false, bool heat_color_AllColors = false, Qt::Alignment legend_pos = Qt::AlignTop);
 
+    static int      Plot_LineAreaError_XY       (QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans = c_AXE_TRANS_LIN, int y_trans_1st = c_AXE_TRANS_LIN, int y_trans_2nd = c_AXE_TRANS_LIN, bool dots_visible = false);
+
+
     static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range);
     static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y);
     static int      Plot_Line_PoolStat_Single   (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y);
+
+    static int      Plot_Line_PoolStat_DualErr  (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans = c_AXE_TRANS_LIN, int y_trans_1st = c_AXE_TRANS_LIN, int y_trans_2nd = c_AXE_TRANS_LIN, bool dots_visible = false);
+    static int      Plot_Line_PoolStat_DualErr  (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans = c_AXE_TRANS_LIN, int y_trans_1st = c_AXE_TRANS_LIN, int y_trans_2nd = c_AXE_TRANS_LIN, bool dots_visible = false);
+    static int      Plot_Line_PoolStat_DualErr  (QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans = c_AXE_TRANS_LIN, int y_trans_1st = c_AXE_TRANS_LIN, int y_trans_2nd = c_AXE_TRANS_LIN, bool dots_visible = false);
 
     static int      Plot_XY_Fit                 (QChartView *pChartView, vector<vector<vector<double>>> vvv_XY_Data_Measure, vector<vector<vector<double>>> vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y);
 

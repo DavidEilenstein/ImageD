@@ -1311,6 +1311,7 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
     if(pMA_Mask->size[2] % 2 != 1)              return ER_size_bad;
     int ER = ER_okay;
 
+
     //======================================================================    Dimensions
 
     //image dimension
@@ -1322,12 +1323,13 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
     //mask dimension
     int sz_mask_x   = pMA_Mask->size[0];            //mask width
     int sz_mask_y   = pMA_Mask->size[1];            //mask height
-    int sz_mask_z   = pMA_Mask->size[2];            //mask height
+    int sz_mask_z   = pMA_Mask->size[2];            //mask planes
 
     //max shifts
     int shift_x     = static_cast<int>(sz_mask_x / 2); //mask  shift x (center to border, rounded down)
     int shift_y     = static_cast<int>(sz_mask_y / 2); //mask  shift y (center to border, rounded down)
     int shift_z     = static_cast<int>(sz_mask_z / 2); //mask  shift z (center to border, rounded down)
+
 
     //======================================================================    pad & init
 
@@ -1350,6 +1352,7 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
         return ER;
     }
 
+
     //======================================================================    thread & synch
 
     //x and y range (threads only in z)
@@ -1357,8 +1360,8 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
     int y_end       = sz_in_y   +   shift_y;
     int x_start     = 0         +   shift_x;
     int x_end       = sz_in_x   +   shift_x;
-    //qDebug() << "start threads in img dim x/y/z:" << sz_in_x << sz_in_y << sz_in_z;
-    //qDebug() << "start threads each x-range from" << x_start << "to" << x_end << "y-range from" << y_start << "to" << y_end;
+    qDebug() << "start threads in img dim x/y/z:" << sz_in_x << sz_in_y << sz_in_z;
+    qDebug() << "start threads each x-range from" << x_start << "to" << x_end << "y-range from" << y_start << "to" << y_end;
 
     //threads
     if(thread_number > sz_in_z)
@@ -1377,7 +1380,7 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
 
 
         //start thread
-        //qDebug() << "start thread" << t << "of" << thread_number << "- z-range from" << z_start << "to" << z_end;
+        qDebug() << "start thread" << t << "of" << thread_number << "- z-range from" << z_start << "to" << z_end;
         v_threads[t] = thread(
                     Filter_Function_8bit_1C_Thread,
                     pMA_Out,
@@ -1399,18 +1402,18 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_M
     for(int t = 0; t < thread_number; t++)
     {
         v_threads[t].join();
-        //qDebug() << "join thread" << t << "of" << thread_number;
+        qDebug() << "join thread" << t << "of" << thread_number;
     }
 
     MA_tmp_in_padded.release();
 
-    //qDebug() << "Filter_Function_8bit_1C" << "end";
+    qDebug() << "Filter_Function_8bit_1C" << "end";
     return ER;
 }
 
 int D_Img_Proc_3D::Filter_Function_8bit_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Mask, function<uchar (double, double)> F1_CenterImage, function<uchar (double, double)> F2_f1mask, function<uchar (vector<double>)> F3_Combine, function<uchar (double, double)> F4_f3center, int z_start, int z_end, int y_start, int y_end, int x_start, int x_end, bool DoNonZeroMaskOnly)
 {
-    //qDebug() << "Filter_Function_8bit_1C_Thread" << "start" << D_Img_Proc::Type_of_Mat(pMA_In) << D_Img_Proc::Type_of_Mat(pMA_Mask) << "Z-range:" << z_start << "to" << z_end;
+    qDebug() << "Filter_Function_8bit_1C_Thread" << "start" << D_Img_Proc::Type_of_Mat(pMA_In) << D_Img_Proc::Type_of_Mat(pMA_Mask) << "Z-range:" << z_start << "to" << z_end;
     //======================================================================    Error Checks
 
     if(pMA_In->empty())                                     return ER_empty;
@@ -1510,7 +1513,7 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat
 
                             //calculate position value
                             double val_mask = pMA_Mask->at<double>(pos_m);
-                            if(!DoNonZeroMaskOnly || val_mask != 0)
+                            if(!DoNonZeroMaskOnly || val_mask != 0.0)
                             {
                                 v_results.push_back(
                                         F2_f1mask(
@@ -1541,7 +1544,6 @@ int D_Img_Proc_3D::Filter_Function_8bit_1C_Thread(Mat *pMA_Out, Mat *pMA_In, Mat
     return ER_okay;
 }
 
-
 int D_Img_Proc_3D::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size_x, int size_y, int size_z)
 {
     //correct sizes to be consistent with 2D median from openCV
@@ -1549,7 +1551,7 @@ int D_Img_Proc_3D::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size_x, int size
     size_y = size_y * 2 + 1;
     size_z = size_z * 2 + 1;
 
-    //qDebug() << "D_Img_Proc_3D::Filter_Median" << "sizes x/y/z" << size_x << size_y << size_z;
+    qDebug() << "D_Img_Proc_3D::Filter_Median" << "sizes x/y/z" << size_x << size_y << size_z;
 
     //Errors
     if(pMA_In->empty())                         return ER_empty;
@@ -1581,6 +1583,7 @@ int D_Img_Proc_3D::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size_x, int size
     //Filter
     int ER;
     if(pMA_In->depth() == CV_8U)
+    {
         ER = D_Img_Proc_3D::Filter_Function_8bit(
                 pMA_Out,
                 pMA_In,
@@ -1597,7 +1600,9 @@ int D_Img_Proc_3D::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size_x, int size
                     c_MATH_2D_TO_1D_X,
                     1, 0, 1, 0, 0, 0, 0, 0),
                 BORDER_REPLICATE);
+    }
     else
+    {
         ER = D_Img_Proc_3D::Filter_Function(
                 pMA_Out,
                 pMA_In,
@@ -1614,6 +1619,7 @@ int D_Img_Proc_3D::Filter_Median(Mat *pMA_Out, Mat *pMA_In, int size_x, int size
                     c_MATH_2D_TO_1D_X,
                     1, 0, 1, 0, 0, 0, 0, 0),
                 BORDER_REPLICATE);
+    }
 
     //end
     MA_Mask_tmp.release();

@@ -5126,12 +5126,6 @@ int D_VisDat_Proc::Filter_Median(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, 
     {
         return ER_dim_missmatch;
     }
-
-
-    if(!slice.is_2D())
-        return ER_dim_2D_only;
-
-
 }
 
 int D_VisDat_Proc::Filter_RankOrder(D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Mask, double quantil)

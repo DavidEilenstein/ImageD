@@ -386,6 +386,43 @@ void D_MAKRO_DnaFiber::Update_ImgProc_Step(int step)
 
     case c_ST_BLUR:
     {
+        D_VisDat_Obj VD_mask_tmp(
+                    D_VisDat_Dim(
+                        ui->spinBox_Controls_Median_Size_XY->value(),
+                        ui->spinBox_Controls_Median_Size_XY->value(),
+                        ui->spinBox_Controls_Median_Size_Z->value()),
+                    CV_64FC1,
+                    1.0);
+
+        D_VisDat_Obj VD_blured_double;
+        ERR(D_VisDat_Proc::Filter_Function(
+                ProcSlicing,
+                &VD_blured_double,
+                &(vVD_ProcSteps[c_ST_INVERT]),
+                &VD_mask_tmp,
+                D_Math::Function_2D_to_1D_8bit(
+                    c_MATH_2D_TO_1D_Y,
+                    1, 0, 1, 0, 0, 0, 0, 0),
+                D_Math::Function_2D_to_1D_8bit(
+                    c_MATH_2D_TO_1D_X,
+                    1, 0, 1, 0, 0, 0, 0, 0),
+                D_Stat::Function_SingleStat_8bit(
+                    c_STAT_MEDIAN),
+                D_Math::Function_2D_to_1D_8bit(
+                    c_MATH_2D_TO_1D_X,
+                    1, 0, 1, 0, 0, 0, 0, 0),
+                BORDER_REPLICATE),
+            "Update_ImgProc_Step",
+            "c_ST_BLUR - function median double");
+
+        ERR(D_VisDat_Proc::Convert_Depth_NoScaling(
+                &(vVD_ProcSteps[c_ST_BLUR]),
+                &VD_blured_double,
+                CV_8U),
+            "Update_ImgProc_Step",
+            "c_ST_BLUR - function median double");
+
+        /*
         ERR(D_VisDat_Proc::Filter_Median(
                 ProcSlicing,
                 &(vVD_ProcSteps[c_ST_BLUR]),
@@ -395,6 +432,7 @@ void D_MAKRO_DnaFiber::Update_ImgProc_Step(int step)
                 ui->spinBox_Controls_Median_Size_Z->value() / 2),
             "Update_ImgProc_Step",
             "c_ST_BLUR");
+            */
 
          state_cur_img_processed = false;
      }

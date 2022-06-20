@@ -3986,10 +3986,19 @@ void D_MAKRO_CiliaSphereTracker::Save_AnalysisSingle()
 
     //save motion vector field video
     Save_ResultVectorFieldVideo(
-                DIR_SaveStackGraphics_Video.path() + "/MotionVectorField4x5 - " + name_current + ".avi",
+                DIR_SaveStackGraphics_Video.path() + "/MotionVectorField4x5 - 10s t window - " + name_current + ".avi",
                 5, 4,
                 10,
                 BACKGR_VIDEO);
+
+    /*
+    //save motion vector field video
+    Save_ResultVectorFieldVideo(
+                DIR_SaveStackGraphics_Video.path() + "/MotionVectorField4x5 - 2s t window - " + name_current + ".avi",
+                5, 4,
+                2,
+                BACKGR_VIDEO);
+                */
 
 
     //setting 5x4 (for low resolution use)
@@ -5096,9 +5105,11 @@ void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, i
     int old_gridHorizontal  = ui->spinBox_ParamGridHorizontal->value();
     int old_gridVertical    = ui->spinBox_ParamGridVertical->value();
     int old_TimeWindowSize  = ui->spinBox_Res_MovAv_WindowFrames->value();
+    int old_shift_mode      = ui->comboBox_Res_VectorFieldParam_ShiftType->currentIndex();
 
     //Show correct results type
     ui->comboBox_Res_Type->setCurrentIndex(RES_GRAPHICS_VECTORS);
+    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(SHIFT_TYPE_LINEAR);
 
     //apply passed settings
     ui->comboBox_Res_MovAv_TimeWindow->setCurrentIndex(TIME_WINDOW_MOVING_AVERAGE);
@@ -5153,6 +5164,7 @@ void D_MAKRO_CiliaSphereTracker::Save_ResultVectorFieldVideo(QString Path_Out, i
     ui->spinBox_ParamGridHorizontal->setValue(old_gridHorizontal);
     ui->spinBox_ParamGridVertical->setValue(old_gridVertical);
     ui->spinBox_Res_MovAv_WindowFrames->setValue(old_TimeWindowSize);
+    ui->comboBox_Res_VectorFieldParam_ShiftType->setCurrentIndex(old_shift_mode);
 }
 
 

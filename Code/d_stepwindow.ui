@@ -18870,7 +18870,7 @@
                         </size>
                        </property>
                        <property name="text">
-                        <string>Image Mask</string>
+                        <string>S3 Image Mask</string>
                        </property>
                       </widget>
                      </item>
@@ -19021,7 +19021,7 @@
                         </size>
                        </property>
                        <property name="text">
-                        <string>Image Marker</string>
+                        <string>S2 Image Marker</string>
                        </property>
                       </widget>
                      </item>
@@ -19040,7 +19040,7 @@
                         </size>
                        </property>
                        <property name="text">
-                        <string>Image Flood</string>
+                        <string>S1 Image Flood</string>
                        </property>
                       </widget>
                      </item>
