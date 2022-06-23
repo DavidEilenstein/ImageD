@@ -183,14 +183,14 @@ int D_Plot::Plot_AnyReal(QChartView *pChartView, vector<vector<double> > *vvX, v
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x + "\n" + QS_TrafoDescription_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(F_Trafo_x(x_min));
     x_axis->setMax(F_Trafo_x(x_max));
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y + "\n" + QS_TrafoDescription_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(F_Trafo_y(y_min));
     y_axis->setMax(F_Trafo_y(y_max));
@@ -338,12 +338,12 @@ int D_Plot::Plot_Hist(QChartView *pChartView, Mat *pMA_In, bool plot_ch[4], bool
     //Axis
     QValueAxis *X_axis = new QValueAxis();
     X_axis->setTitleText("value");
-    X_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    X_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(X_axis);
 
     QValueAxis *Y_axis = new QValueAxis();
     Y_axis->setTitleText("amount");
-    Y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    Y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(Y_axis);
 
     //Series
@@ -783,12 +783,12 @@ int D_Plot::Plot_Hist_Single_Classes(QChartView *pChartView, vector<double> *v_h
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
 
 
@@ -866,14 +866,14 @@ int D_Plot::Plot_Hist_Multi_Classes(QChartView *pChartView, vector<vector<double
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(min_x);
     x_axis->setMax(max_x);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(0);
     y_axis->setMax(max_y);
@@ -993,14 +993,14 @@ int D_Plot::Plot_Hist_Any(QChartView *pChartView, Mat *pMA_In, int classes, QStr
     //Axis
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(min_x);
     x_axis->setMax(max_x);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(min_y);
     y_axis->setMax(max_y);
@@ -1125,14 +1125,14 @@ int D_Plot::Plot_Hist_Any(QChartView *pChartView, D_VisDat_Obj *pVD_In, int clas
     //Axis
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(min_x);
     x_axis->setMax(max_x);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(min_y);
     y_axis->setMax(max_y);
@@ -1728,12 +1728,12 @@ int D_Plot::Plot_Scatter_2D_Single_Y(QChartView *pChartView, vector<double> *v_X
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
 
     //2D Stats
@@ -1856,12 +1856,12 @@ int D_Plot::Plot_Scatter_2D_Multi_Y(QChartView *pChartView, vector<double> *v_X_
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -2003,14 +2003,14 @@ int D_Plot::Plot_Scatter_2D_Multi_XY(QChartView *pChartView, vector<vector<doubl
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(x_min);
     x_axis->setMax(x_max);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -2217,13 +2217,13 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     x_axis->setRange(min_x, max_x);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     y_axis->setRange(min_y, max_y);
     //y_axis->setReverse(true);
     chart->setAxisY(y_axis);
@@ -2350,13 +2350,13 @@ int D_Plot::Plot_Poincare_XY_Single(QChartView *pChartView, vector<double> v_Dat
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     x_axis->setRange(min, max);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     y_axis->setRange(min, max);
     chart->setAxisY(y_axis);
 
@@ -2502,14 +2502,14 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double> > v
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(x_min);
     x_axis->setMax(x_max);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(QSL_AxeTrans_Prefix[y_trans] + name_y + QSL_AxeTrans_Suffix[y_trans]);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -2648,14 +2648,14 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double>> vv
     //Axis
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(x_min);
     x_axis->setMax(x_max);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -2775,14 +2775,14 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double> > v
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(x_min);
     x_axis->setMax(x_max);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -2857,7 +2857,7 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double> > v
     return ER_okay;
 }
 
-int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, int ticks_x, int ticks_y)
 {
     if(v_X_Data.empty())                            return ER_empty;
     if(v_Y_Data_1stVal.empty())                     return ER_empty;
@@ -2881,19 +2881,19 @@ int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Dat
     QValueAxis *x_axis = new QValueAxis();
     if(!name_x.isEmpty())
         x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(ticks_x);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis_1st = new QValueAxis();
     if(!name_y_1st.isEmpty())
         y_axis_1st->setTitleText(QSL_AxeTrans_Prefix[y_trans_1st] + name_y_1st + QSL_AxeTrans_Suffix[y_trans_1st]);
-    y_axis_1st->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis_1st->setTickCount(ticks_y);
     chart->setAxisY(y_axis_1st);
 
     QValueAxis *y_axis_2nd = new QValueAxis();
     if(!name_y_2nd.isEmpty())
         y_axis_2nd->setTitleText(QSL_AxeTrans_Prefix[y_trans_2nd] + name_y_2nd + QSL_AxeTrans_Suffix[y_trans_2nd]);
-    y_axis_2nd->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis_2nd->setTickCount(ticks_y);
     chart->addAxis(y_axis_2nd, Qt::AlignRight);
 
     //Series
@@ -2997,7 +2997,7 @@ int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Dat
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range)
+int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(auto_range)
         return Plot_Line_PoolStat_Single(
@@ -3009,7 +3009,14 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                     name_title,
                     qs_name_series,
                     name_x,
-                    name_y);
+                    name_y,
+                    man_axis_style,
+                    man_min_x,
+                    man_max_x,
+                    man_min_y,
+                    man_max_y,
+                    ticks_x,
+                    ticks_y);
     else
         return Plot_Line_PoolStat_Single(
                     pChartView,
@@ -3022,11 +3029,18 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                     name_title,
                     qs_name_series,
                     name_x,
-                    name_y);
+                    name_y,
+                    man_axis_style,
+                    man_min_x,
+                    man_max_x,
+                    man_min_y,
+                    man_max_y,
+                    ticks_x,
+                    ticks_y);
 
 }
 
-int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y)
+int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //calc x range
     double x_min, x_max;
@@ -3045,10 +3059,17 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 name_title,
                 qs_name_series,
                 name_x,
-                name_y);
+                name_y,
+                man_axis_style,
+                man_min_x,
+                man_max_x,
+                man_min_y,
+                man_max_y,
+                ticks_x,
+                ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y)
+int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
 
@@ -3083,10 +3104,20 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 name_title,
                 qs_name_series,
                 name_x + " (pooled)",
-                QSL_StatList[int(y_stat)] + " of " + name_y);
+                QSL_StatList[int(y_stat)] + " of " + name_y,
+                c_AXE_TRANS_LIN,
+                c_AXE_TRANS_LIN,
+                false,
+                man_axis_style,
+                man_min_x,
+                man_max_x,
+                man_min_y,
+                man_max_y,
+                ticks_x,
+                ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(auto_range)
         return Plot_Line_PoolStat_DualErr(
@@ -3104,7 +3135,14 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                     x_trans,
                     y_trans_1st,
                     y_trans_2nd,
-                    dots_visible);
+                    dots_visible,
+                    man_axis_style,
+                    man_min_x,
+                    man_max_x,
+                    man_min_y,
+                    man_max_y,
+                    ticks_x,
+                    ticks_y);
     else
         return Plot_Line_PoolStat_DualErr(
                     pChartView,
@@ -3123,10 +3161,17 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                     x_trans,
                     y_trans_1st,
                     y_trans_2nd,
-                    dots_visible);
+                    dots_visible,
+                    man_axis_style,
+                    man_min_x,
+                    man_max_x,
+                    man_min_y,
+                    man_max_y,
+                    ticks_x,
+                    ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //calc x range
     double x_min, x_max;
@@ -3151,10 +3196,12 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 x_trans,
                 y_trans_1st,
                 y_trans_2nd,
-                dots_visible);
+                dots_visible,
+                ticks_x,
+                ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible)
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
 
@@ -3216,7 +3263,9 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 x_trans,
                 y_trans_1st,
                 y_trans_2nd,
-                dots_visible);
+                dots_visible,
+                ticks_x,
+                ticks_y);
 }
 
 int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > > vvv_XY_Data_Measure, vector<vector<vector<double> > > vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y)
@@ -3280,14 +3329,14 @@ int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > >
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     x_axis->setMin(x_min);
     x_axis->setMax(x_max);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
     y_axis->setMin(y_min);
     y_axis->setMax(y_max);
@@ -3344,7 +3393,7 @@ int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > >
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible)
+int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(v_XY_Data.empty())  return ER_empty;
 
@@ -3360,14 +3409,17 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(man_axis_style ? ticks_x : AXE_TICK_COUNT_MAJOR_DEFAULT);
+    if(man_axis_style)
+        x_axis->setRange(man_min_x, man_max_x);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(QSL_AxeTrans_Prefix[y_trans] + name_y + QSL_AxeTrans_Suffix[y_trans]);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(man_axis_style ? ticks_y : AXE_TICK_COUNT_MAJOR_DEFAULT);
+    if(man_axis_style)
+        y_axis->setRange(man_min_y, man_max_y);
     chart->setAxisY(y_axis);
-
 
     //Series
     //qDebug() << "Series";
@@ -3393,7 +3445,7 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible)
+int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(v_X_Data.empty())                    return ER_empty;
     if(v_Y_Data.empty())                    return ER_empty;
@@ -3413,13 +3465,17 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data,
     QValueAxis *x_axis = new QValueAxis();
     if(!name_x.isEmpty())
         x_axis->setTitleText(QSL_AxeTrans_Prefix[x_trans] + name_x + QSL_AxeTrans_Suffix[x_trans]);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(man_axis_style ? ticks_x : AXE_TICK_COUNT_MAJOR_DEFAULT);
+    if(man_axis_style)
+        x_axis->setRange(man_min_x, man_max_x);
     chart->setAxisX(x_axis);
 
     QValueAxis *y_axis = new QValueAxis();
     if(!name_y.isEmpty())
         y_axis->setTitleText(QSL_AxeTrans_Prefix[y_trans] + name_y + QSL_AxeTrans_Suffix[y_trans]);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(man_axis_style ? ticks_y : AXE_TICK_COUNT_MAJOR_DEFAULT);
+    if(man_axis_style)
+        y_axis->setRange(man_min_y, man_max_y);
     chart->setAxisY(y_axis);
 
 
@@ -3473,14 +3529,14 @@ int D_Plot::Plot_StatPar_Quantiles(QChartView *pChartView, vector<vector<vector<
     //qDebug() << "Axis";
     QValueAxis *x_axis = new QValueAxis();
     x_axis->setTitleText(name_x);
-    x_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    x_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisX(x_axis);
     double min = (*vvv_ParSetSta)[par][0][c_STAT_MINIMUM];
     double max = (*vvv_ParSetSta)[par][0][c_STAT_MAXIMUM];
 
     QValueAxis *y_axis = new QValueAxis();
     y_axis->setTitleText(name_y);
-    y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(y_axis);
 
     //Series
@@ -3579,7 +3635,7 @@ int D_Plot::Plot_Stat_Multi_MeanMedian(QChartView *pChartView, vector<vector<dou
 
     QValueAxis *Y_axis = new QValueAxis();
     Y_axis->setTitleText(name_y);
-    Y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    Y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(Y_axis, series);
 
 
@@ -3630,7 +3686,7 @@ int D_Plot::Plot_Stat_Multi_CvSkewKurt(QChartView *pChartView, vector<vector<dou
 
     QValueAxis *Y_axis = new QValueAxis();
     Y_axis->setTitleText(name_y);
-    Y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    Y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(Y_axis, series);
 
 
@@ -3698,7 +3754,7 @@ int D_Plot::Plot_Stat_Multi_Quantiles(QChartView *pChartView, vector<vector<doub
 
     QValueAxis *Y_axis = new QValueAxis();
     Y_axis->setTitleText(name_y);
-    Y_axis->setTickCount(AXE_TICK_COUNT_DEFAULT);
+    Y_axis->setTickCount(AXE_TICK_COUNT_MAJOR_DEFAULT);
     chart->setAxisY(Y_axis, series);
 
 

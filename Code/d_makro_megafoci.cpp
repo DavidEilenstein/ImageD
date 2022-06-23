@@ -11791,13 +11791,19 @@ QString D_MAKRO_MegaFoci::MS6_Data_ChannelSuffix(size_t i_axis)
 QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Result()
 {
     //qDebug() << "MS6_DefaultTitle_Result--------------------------------------------------------------";
-    return ui->comboBox_MS6_ResultDatapointLevel->currentText() + " " + ui->comboBox_MS6_ResultTypes->currentText();
+    if(ui->checkBox_S6_SytleGeneral_CustomTitle->isChecked())
+        return ui->lineEdit_S6_StyleGeneral_CustomTitle->text();
+    else
+        return ui->comboBox_MS6_ResultDatapointLevel->currentText() + " " + ui->comboBox_MS6_ResultTypes->currentText();
 }
 
 QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Series()
 {
     //qDebug() << "MS6_DefaultTitle_Series";
-    return ui->comboBox_MS6_ResultDatapointLevel->currentText();
+    if(ui->checkBox_S6_SytleGeneral_CustomSeries->isChecked())
+        return ui->lineEdit_S6_StyleGeneral_CustomSeries->text();
+    else
+        return ui->comboBox_MS6_ResultDatapointLevel->currentText();
 }
 
 QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Axis_NoChanelSuffix(size_t i_axis)
@@ -11812,23 +11818,23 @@ QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Axis_NoChanelSuffix(size_t i_axis)
     case MS6_RES_AXIS_MODE_NUCLIFE:
     {
         switch (MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentIndex()) {
-        case DATA_LEVEL_NUCLIFE_ATTRIB:                 return MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText();
-        case DATA_LEVEL_NUCLIFE_STAT_NUCBLOB:           return MS6_vCB_ResAxis_Stat_low[i_axis]->currentText()  + " of " + MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText();
-        case DATA_LEVEL_NUCLIFE_STAT_STAT_FOC:          return MS6_vCB_ResAxis_Stat_high[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Stat_low[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText();
+        case DATA_LEVEL_NUCLIFE_ATTRIB:                 return MS6_vCB_ResAxis_Attrib_NucLife[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText() + ")";
+        case DATA_LEVEL_NUCLIFE_STAT_NUCBLOB:           return MS6_vCB_ResAxis_Stat_low[i_axis]->currentText()       + " of (" + MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText() + "))";
+        case DATA_LEVEL_NUCLIFE_STAT_STAT_FOC:          return MS6_vCB_ResAxis_Stat_high[i_axis]->currentText()      + " of (" + MS6_vCB_ResAxis_Stat_low[i_axis]->currentText()       + " of (" + MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_NucLife[i_axis]->currentText() + ")))";
         default:                                        return "Error: MS6_RES_AXIS_MODE_NUCLIFE + default";}
     }
 
     case MS6_RES_AXIS_MODE_NUCBLOB:
     {
         switch (MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentIndex()) {
-        case DATA_LEVEL_NUCBLOB_ATTRIB:                 return MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentText();
-        case DATA_LEVEL_NUCBLOB_STAT_FOC:               return MS6_vCB_ResAxis_Stat_low[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentText();
+        case DATA_LEVEL_NUCBLOB_ATTRIB:                 return MS6_vCB_ResAxis_Attrib_NucBlob[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentText() + ")";
+        case DATA_LEVEL_NUCBLOB_STAT_FOC:               return MS6_vCB_ResAxis_Stat_low[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_NucBlob[i_axis]->currentText() + "))";
         default:                                        return "Error: MS6_RES_AXIS_MODE_NUCBLOB + default";}
     }
 
     case MS6_RES_AXIS_MODE_FOC:
     {
-        return MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentText() + " of " + MS6_vCB_ResAxis_Level_Foc[i_axis]->currentText();
+        return MS6_vCB_ResAxis_Attrib_Foc[i_axis]->currentText() + " of (" + MS6_vCB_ResAxis_Level_Foc[i_axis]->currentText() + ")";
     }
 
     default:
@@ -11838,7 +11844,25 @@ QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Axis_NoChanelSuffix(size_t i_axis)
 
 QString D_MAKRO_MegaFoci::MS6_DefaultTitle_Axis(size_t i_axis)
 {
-    return MS6_DefaultTitle_Axis_NoChanelSuffix(i_axis) + MS6_Data_ChannelSuffix(i_axis);
+    bool custom = false;
+    switch(i_axis) {
+    case 0:     custom = ui->checkBox_S6_StyleAxis_CustomTitle_X->isChecked();  break;
+    case 1:     custom = ui->checkBox_S6_StyleAxis_CustomTitle_Y->isChecked();  break;
+    case 2:     custom = ui->checkBox_S6_StyleAxis_CustomTitle_Z->isChecked();  break;
+    default:                                                                    break;}
+
+    if(custom)
+    {
+        switch(i_axis) {
+        case 0:     return ui->lineEdit_S6_StyleAxis_CustomTitle_X->text();
+        case 1:     return ui->lineEdit_S6_StyleAxis_CustomTitle_Y->text();
+        case 2:     return ui->lineEdit_S6_StyleAxis_CustomTitle_Z->text();
+        default:    return "invalid axis, no default text";}
+    }
+    else
+    {
+        return MS6_DefaultTitle_Axis_NoChanelSuffix(i_axis) + MS6_Data_ChannelSuffix(i_axis);
+    }
 }
 
 void D_MAKRO_MegaFoci::MS6_Update_Results()
@@ -11858,6 +11882,8 @@ void D_MAKRO_MegaFoci::MS6_Update_Results()
     case MS6_RES_TYP_NUC_LIFE_IMG:                      MS6_Update_Result_NucLifeImg();                 break;
     default:                                                                                            break;
     }
+
+    //plot modify
 }
 
 void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
@@ -11870,7 +11896,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_HistSimple()
                 MS6_DefaultTitle_Axis(0),
                 ui->checkBox_MS6_ResType_Param_Hist_Uni->isChecked(),
                 ui->checkBox_MS6_ResType_Param_Hist_Acc->isChecked(),
-                AXE_TICK_COUNT_DEFAULT),
+                AXE_TICK_COUNT_MAJOR_DEFAULT),
         "MS6_Update_Result_HistSimple",
         "D_Plot::Plot_Hist_WithStats");
 }
@@ -12636,20 +12662,49 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_SaveNucLifes_clicked()
     MS6_Save_NucLifes();
 }
 
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomRange_X_clicked(bool checked)
+{
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setEnabled(checked);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setEnabled(checked);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setEnabled(checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomRange_Y_clicked(bool checked)
+{
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setEnabled(checked);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setEnabled(checked);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setEnabled(checked);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomRange_Z_clicked(bool checked)
+{
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Z->setEnabled(checked);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Z->setEnabled(checked);
+    ui->spinBox_S6_StyleAxis_CustomTick_Z->setEnabled(checked);
+}
 
 
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomTitle_X_clicked(bool checked)
+{
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setEnabled(checked);
+}
 
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomTitle_Y_clicked(bool checked)
+{
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setEnabled(checked);
+}
 
+void D_MAKRO_MegaFoci::on_checkBox_S6_StyleAxis_CustomTitle_Z_clicked(bool checked)
+{
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Z->setEnabled(checked);
+}
 
+void D_MAKRO_MegaFoci::on_checkBox_S6_SytleGeneral_CustomTitle_clicked(bool checked)
+{
+    ui->lineEdit_S6_StyleGeneral_CustomTitle->setEnabled(checked);
+}
 
-
-
-
-
-
-
-
-
-
-
-
+void D_MAKRO_MegaFoci::on_checkBox_S6_SytleGeneral_CustomSeries_clicked(bool checked)
+{
+    ui->lineEdit_S6_StyleGeneral_CustomSeries->setEnabled(checked);
+}

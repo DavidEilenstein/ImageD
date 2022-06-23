@@ -1645,6 +1645,22 @@ private slots:
 
 
 
+    void on_checkBox_S6_StyleAxis_CustomRange_X_clicked(bool checked);
+
+    void on_checkBox_S6_StyleAxis_CustomRange_Y_clicked(bool checked);
+
+    void on_checkBox_S6_StyleAxis_CustomRange_Z_clicked(bool checked);
+
+    void on_checkBox_S6_StyleAxis_CustomTitle_X_clicked(bool checked);
+
+    void on_checkBox_S6_StyleAxis_CustomTitle_Y_clicked(bool checked);
+
+    void on_checkBox_S6_StyleAxis_CustomTitle_Z_clicked(bool checked);
+
+    void on_checkBox_S6_SytleGeneral_CustomTitle_clicked(bool checked);
+
+    void on_checkBox_S6_SytleGeneral_CustomSeries_clicked(bool checked);
+
 private:
 
     //Data

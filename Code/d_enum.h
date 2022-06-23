@@ -2526,7 +2526,8 @@ const QString QS_Fun_Cat = "(₌♥ᆽ♥₌)";
 
 //Plot
 const int
-AXE_TICK_COUNT_DEFAULT  = 10;
+AXE_TICK_COUNT_MAJOR_DEFAULT  = 10,
+AXE_TICK_COUNT_MINOR_DEFAULT = 5;
 
 //Angles
 const double
