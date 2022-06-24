@@ -523,7 +523,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
-int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool called_internally)
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool man_axis_style_x, bool man_axis_style_y, bool man_axis_style_z, double man_min_x, double man_max_x, double man_min_y, double man_max_y, double man_min_z, double man_max_z, bool called_internally)
 {
     //---------------------------------------------------------- errors
 
@@ -702,10 +702,17 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
     //graph_heightmap->axisX()->setReversed(true);
     //graph_heightmap->axisZ()->setReversed(true);                                    //graph z / img y axis is reversed (0,0 is in the top left of an img)
 
-    graph_heightmap->axisX()->setMin(min_x);
-    graph_heightmap->axisX()->setMax(max_x);
-    graph_heightmap->axisZ()->setMin(min_y);
-    graph_heightmap->axisZ()->setMax(max_y);
+    graph_heightmap->axisX()->setMin(man_axis_style_x ? man_min_x : min_x);
+    graph_heightmap->axisX()->setMax(man_axis_style_x ? man_max_x : max_x);
+
+    graph_heightmap->axisZ()->setMin(man_axis_style_y ? man_min_y : min_y);
+    graph_heightmap->axisZ()->setMax(man_axis_style_y ? man_max_y : max_y);
+
+    if(man_axis_style_z)
+    {
+        graph_heightmap->axisY()->setMin(man_min_z);
+        graph_heightmap->axisY()->setMax(man_max_z);
+    }
 
     //---------------------------------------------------------- style
 

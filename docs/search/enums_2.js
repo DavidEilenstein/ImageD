@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['file_5fsections_5037',['FILE_SECTIONS',['../d__bio__enum_8h.html#ab5769c014b5e0dd5587bcda63ed54fd1',1,'d_bio_enum.h']]],
-  ['file_5fsubsections_5038',['FILE_SUBSECTIONS',['../d__bio__enum_8h.html#a7cf53879519e32cf43b6dc57203d0869',1,'d_bio_enum.h']]]
+  ['event_5ftype_5101',['EVENT_TYPE',['../class_d___bio___nucleus_pedigree.html#a57680abbecc7a05f6f95d9fd81e90954',1,'D_Bio_NucleusPedigree']]]
 ];

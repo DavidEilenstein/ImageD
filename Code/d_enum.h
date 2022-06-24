@@ -15,8 +15,8 @@
 #include <vector>
 
 const QString           D_QS_State    = "release";
-const QString           D_QS_Version  = "v2_7_4";
-const QString           D_QS_Release  = "20.06.2022";
+const QString           D_QS_Version  = "v2_7_5";
+const QString           D_QS_Release  = "24.06.2022";
 const QString           D_QS_Author   = "David Eilenstein";
 const QString           D_QS_Facility = "GSI Darmstadt";
 
@@ -2526,8 +2526,8 @@ const QString QS_Fun_Cat = "(₌♥ᆽ♥₌)";
 
 //Plot
 const int
-AXE_TICK_COUNT_MAJOR_DEFAULT  = 10,
-AXE_TICK_COUNT_MINOR_DEFAULT = 5;
+AXE_TICK_COUNT_MAJOR_DEFAULT  = 11,
+AXE_TICK_COUNT_MINOR_DEFAULT = 6;
 
 //Angles
 const double
