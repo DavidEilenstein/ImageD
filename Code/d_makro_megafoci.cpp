@@ -12618,10 +12618,10 @@ bool D_MAKRO_MegaFoci::MS6_Save_StatisticAnalysis()
     pStore->set_dir_M_MegaFoci_Results(QS_Save);
 
     //main save dir
-    QDir DIR_SaveMain(QS_Save + "/StatisticAnalysis " + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec));
-    if(!DIR_SaveMain.exists())
-        QDir().mkdir(DIR_SaveMain.path());
-    if(!DIR_SaveMain.exists())
+    DIR_MS6_Out_SaveAnalysisMaster.setPath(QS_Save + "/StatisticAnalysis " + QDateTime::currentDateTime().toString(QS_DateTimeFormat_YearToSec));
+    if(!DIR_MS6_Out_SaveAnalysisMaster.exists())
+        QDir().mkdir(DIR_MS6_Out_SaveAnalysisMaster.path());
+    if(!DIR_MS6_Out_SaveAnalysisMaster.exists())
         return false;
 
     //save data

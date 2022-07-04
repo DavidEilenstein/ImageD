@@ -647,7 +647,7 @@ int D_Plot::Plot_Hist_WithStats_Color(QChartView *pChartView, vector<double> v_D
 
     //Chart
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(n));
 
     //Axis
     //qDebug() << "Axis";
@@ -1351,7 +1351,7 @@ int D_Plot::Plot_BarCore_Single(QChartView *pChartView, vector<double> v_data, Q
     //Chart
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(v_data.size()));
 
     //Axis
     QBarCategoryAxis *x_axis = new QBarCategoryAxis();
@@ -1452,7 +1452,7 @@ int D_Plot::Plot_BarCore_Start1_Single(QChartView *pChartView, vector<double> *v
     //Chart
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(v_hist->size()));
     chart->legend()->setVisible(false);
     chart->legend()->setAlignment(Qt::AlignBottom);
 
@@ -1719,7 +1719,7 @@ int D_Plot::Plot_Scatter_2D_Single_Y(QChartView *pChartView, vector<double> *v_X
     //Chart
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(v_X_Val->size()));
 
     //Range (only x - needed for fit display)
     double x_min = (*v_X_Val)[0];
@@ -1834,7 +1834,7 @@ int D_Plot::Plot_Scatter_2D_Multi_Y(QChartView *pChartView, vector<double> *v_X_
     //Chart
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(v_X_Val->size()));
 
     //min/max & size check
     //qDebug() << "min/max";
@@ -2189,6 +2189,19 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
                 MA_tmp_value.at<double>(y, x) = F_Stat(vvvData_XYI[x][y]);
             }
 
+    //min/max
+    double val_min;
+    double val_max;
+    int err = D_Img_Proc::MinMax_of_Mat(
+                &MA_tmp_value,
+                &val_min,
+                &val_max);
+    if(err != ER_okay)
+    {
+        MA_tmp_value.release();
+        return err;
+    }
+
     //---------------------------------------------------------- texture heatmap
 
     //texture img
@@ -2196,7 +2209,7 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
 
     //calc texture as color heatmap
     Mat MA_tmp_useless_alpha_img = Mat::zeros(MA_tmp_value.size(), CV_8UC1);
-    int err = D_Img_Proc::Convert_toQImage4Ch(
+    err = D_Img_Proc::Convert_toQImage4Ch(
                 &QI_tmp_texture,
                 &MA_tmp_value,
                 &MA_tmp_useless_alpha_img,
@@ -2214,6 +2227,15 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
             if(vvvData_XYI[x][y].empty())
                 QI_tmp_texture.setPixel(int(x), int(y), Qt::white);
 
+    //range and colors
+    double val_range    = val_max - val_min;
+    double val_step     = val_range / 5.0;
+    double val_red      = val_max;
+    double val_yellow   = val_red       - val_step;
+    double val_green    = val_yellow    - val_step;
+    double val_cyan     = val_green     - val_step;
+    double val_blue     = val_cyan      - val_step;
+
     //---------------------------------------------------------- basic plot stuff
 
     //clear old content
@@ -2221,7 +2243,15 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
 
     //Chart
     QChart *chart = new QChart();
-    chart->setTitle("<b>" + name_title + "</b><br>" + "Color: " + QSL_StatList[int(stat_z)] + " of " + name_z);
+    chart->setTitle("<b>" + name_title + "</b>"
+                    "<br>" + "Color: " + QSL_StatList[int(stat_z)] + " of " + name_z +
+                    "<br>Color legend: "
+                    "<span style= \"color:#0000ff;\">" + QString::number(val_blue,   'g', 4) + "</span>, "
+                    "<span style= \"color:#00ffff;\">" + QString::number(val_cyan,   'g', 4) + "</span>, "
+                    "<span style= \"color:#00ff00;\">" + QString::number(val_green,  'g', 4) + "</span>, "
+                    "<span style= \"color:#ffff00;\">" + QString::number(val_yellow, 'g', 4) + "</span>, "
+                    "<span style= \"color:#ff0000;\">" + QString::number(val_red,    'g', 4) + "</span>"
+                    "<br>n=" + QString::number(vData_X.size()));
 
     //---------------------------------------------------------- axis
 
@@ -2348,7 +2378,7 @@ int D_Plot::Plot_Poincare_XY_Single(QChartView *pChartView, vector<double> v_Dat
     //Chart
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + "<br>n=" + QString::number(v_Data.size()));
 
     //Range (only x - needed for fit display)
     double min = v_Data[0];
@@ -2871,7 +2901,7 @@ int D_Plot::Plot_Line_XY_Multi(QChartView *pChartView, vector<vector<double> > v
     return ER_okay;
 }
 
-int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y_1st, double man_max_y_1st, int ticks_x, int ticks_y)
+int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data_1stVal, vector<double> v_Y_Data_1stErr, vector<double> v_Y_Data_2ndVal, QString name_title, QString name_series_1stVal, QString name_series_1stErr, QString name_series_2ndVal, QString name_x, QString name_y_1st, QString name_y_2nd, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y_1st, double man_max_y_1st, int ticks_x, int ticks_y, bool show_n)
 {
     if(v_X_Data.empty())                            return ER_empty;
     if(v_Y_Data_1stVal.empty())                     return ER_empty;
@@ -2888,7 +2918,7 @@ int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Dat
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
     if(!name_title.isEmpty())
-        chart->setTitle(name_title);
+        chart->setTitle(name_title + (show_n ? "<br>n=" + QString::number(v_X_Data.size()) : ""));
 
     //Axis
     //qDebug() << "Axis";
@@ -3122,7 +3152,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 pChartView,
                 vData_Pooled_x_Pools,
                 vData_Pooled_y_Stats,
-                name_title,
+                name_title + "<br>n=" + QString::number(vData_X_Pool.size()),
                 qs_name_series,
                 name_x + " (pooled)",
                 QSL_StatList[int(y_stat)] + " of " + name_y,
@@ -3136,7 +3166,8 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 man_min_y,
                 man_max_y,
                 ticks_x,
-                ticks_y);
+                ticks_y,
+                false);
 }
 
 int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
@@ -3283,7 +3314,7 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 vvData_Pooled_y_Stats[DATA_INDEX_MAIN_VAL],
                 vvData_Pooled_y_Stats[DATA_INDEX_MAIN_ERR],
                 vvData_Pooled_y_Stats[DATA_INDEX_2ND_VAL],
-                name_title,
+                name_title + "<br>n=" + QString::number(vData_X_Pool.size()),
                 QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_VAL])] + " of "  + name_y,
                 QSL_StatList[int(vStatIndices[DATA_INDEX_MAIN_ERR])] + " of "  + name_y,
                 QSL_StatList[int(vStatIndices[DATA_INDEX_2ND_VAL])] + " of "  + name_y,
@@ -3301,7 +3332,8 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 man_min_y,
                 man_max_y,
                 ticks_x,
-                ticks_y);
+                ticks_y,
+                false);
 }
 
 int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > > vvv_XY_Data_Measure, vector<vector<vector<double> > > vvv_XY_Data_Fit, QString name_title, QStringList qsl_name_series, QString name_x, QString name_y)
@@ -3429,7 +3461,7 @@ int D_Plot::Plot_XY_Fit(QChartView *pChartView, vector<vector<vector<double> > >
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y, bool show_n)
 {
     if(v_XY_Data.empty())  return ER_empty;
 
@@ -3439,7 +3471,7 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data
     //Chart
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
-    chart->setTitle(name_title);
+    chart->setTitle(name_title + (show_n ? "<br>n=" + QString::number(v_XY_Data.size()) : ""));
 
     //Axis
     //qDebug() << "Axis";
@@ -3481,7 +3513,7 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_XY_Data
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data, vector<double> v_Y_Data, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y, bool show_n)
 {
     if(v_X_Data.empty())                    return ER_empty;
     if(v_Y_Data.empty())                    return ER_empty;
@@ -3494,7 +3526,7 @@ int D_Plot::Plot_Line_XY_Single(QChartView *pChartView, vector<double> v_X_Data,
     //qDebug() << "==================================Chart";
     QChart *chart = new QChart();
     if(!name_title.isEmpty())
-        chart->setTitle(name_title);
+        chart->setTitle(name_title + (show_n ? "<br>n=" + QString::number(v_X_Data.size()) : ""));
 
     //Axis
     //qDebug() << "Axis";
