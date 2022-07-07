@@ -1661,6 +1661,10 @@ private slots:
 
     void on_checkBox_S6_SytleGeneral_CustomSeries_clicked(bool checked);
 
+    void on_verticalSlider_MS6_ResSize_valueChanged(int value);
+
+    void on_horizontalSlider_MS6_ResSize_valueChanged(int value);
+
 private:
 
     //Data

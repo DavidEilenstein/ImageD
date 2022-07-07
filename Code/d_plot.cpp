@@ -2106,7 +2106,7 @@ int D_Plot::Plot_Scatter_2D_Multi_XY(QChartView *pChartView, vector<vector<doubl
     return ER_okay;
 }
 
-int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, QString name_title, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X, double min_x, double step_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double step_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, QString name_title, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //---------------------------------------------------------- errors
 
@@ -2116,8 +2116,8 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     if(vData_Z.empty())                             return ER_empty;
     if(vData_X.size() != vData_Y.size())            return ER_size_missmatch;
     if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
-    if(min_x >= max_x)                              return ER_parameter_missmatch;
-    if(min_y >= max_y)                              return ER_parameter_missmatch;
+    if(step_x <= 0)                                 return ER_parameter_bad;
+    if(step_y <= 0)                                 return ER_parameter_bad;
     if(classes_x <= 1)                              return ER_parameter_bad;
     if(classes_y <= 1)                              return ER_parameter_bad;
     if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
@@ -2131,6 +2131,11 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     size_t n_y = classes_y;
     //qDebug() << "size data/x/y" << n_data << n_x << n_y;
 
+    double range_x = step_x * classes_x;
+    double range_y = step_y * classes_y;
+    double max_x = min_x + range_x;
+    double max_y = min_y + range_y;
+
     //calc min/max x/y
     if(auto_range_x)
     {
@@ -2142,6 +2147,11 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
             if(val < min_x)     min_x = val;
             if(val > max_x)     max_x = val;
         }
+
+        range_x = max_x - min_x;
+        step_x = range_x / classes_x;
+        if(range_x <= 0)
+            return ER_size_bad;
     }
 
     if(auto_range_y)
@@ -2154,12 +2164,12 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
             if(val < min_y)     min_y = val;
             if(val > max_y)     max_y = val;
         }
-    }
 
-    //ranges
-    double range_x = max_x - min_x;
-    double range_y = max_y - min_y;
-    //qDebug() << "min/max x" << min_x << max_x << "min/max y" << min_y << max_y;
+        range_y = max_y - min_y;
+        step_y = range_y / classes_y;
+        if(range_y <= 0)
+            return ER_size_bad;
+    }
 
     //---------------------------------------------------------- data calculation
 
@@ -2179,6 +2189,10 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
     //2D data field result
     Mat MA_tmp_value = Mat::zeros(n_y, n_x, CV_64FC1);
 
+    //min/max
+    double val_min = INFINITY;
+    double val_max = -INFINITY;
+
     //calc stat
     function<double (vector<double>)> F_Stat = D_Stat::Function_SingleStat(int(stat_z));
     for(size_t x = 0; x < n_x; x++)
@@ -2186,21 +2200,16 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
             if(!vvvData_XYI[x][y].empty())
             {
                 //qDebug() << "x/y/val" << y << x << F_Stat(vvvData_XYI[x][y]);
-                MA_tmp_value.at<double>(y, x) = F_Stat(vvvData_XYI[x][y]);
+                double val = F_Stat(vvvData_XYI[x][y]);
+                MA_tmp_value.at<double>(y, x) = val;
+
+                if(val < val_min)
+                    val_min = val;
+
+                if(val > val_max)
+                    val_max = val;
             }
 
-    //min/max
-    double val_min;
-    double val_max;
-    int err = D_Img_Proc::MinMax_of_Mat(
-                &MA_tmp_value,
-                &val_min,
-                &val_max);
-    if(err != ER_okay)
-    {
-        MA_tmp_value.release();
-        return err;
-    }
 
     //---------------------------------------------------------- texture heatmap
 
@@ -2209,7 +2218,7 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
 
     //calc texture as color heatmap
     Mat MA_tmp_useless_alpha_img = Mat::zeros(MA_tmp_value.size(), CV_8UC1);
-    err = D_Img_Proc::Convert_toQImage4Ch(
+    int err = D_Img_Proc::Convert_toQImage4Ch(
                 &QI_tmp_texture,
                 &MA_tmp_value,
                 &MA_tmp_useless_alpha_img,
@@ -2229,7 +2238,7 @@ int D_Plot::Plot_Scatter_Heatmap(QChartView *pChartView, vector<double> vData_X,
 
     //range and colors
     double val_range    = val_max - val_min;
-    double val_step     = val_range / 5.0;
+    double val_step     = val_range / 4.0;
     double val_red      = val_max;
     double val_yellow   = val_red       - val_step;
     double val_green    = val_yellow    - val_step;
@@ -3045,7 +3054,7 @@ int D_Plot::Plot_LineAreaError_XY(QChartView *pChartView, vector<double> v_X_Dat
     return ER_okay;
 }
 
-int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool auto_range, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(auto_range)
         return Plot_Line_PoolStat_Single(
@@ -3072,7 +3081,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                     vData_X_Pool,
                     vData_Y_Stat,
                     x_min,
-                    x_max,
+                    x_step,
                     x_classes,
                     y_stat,
                     name_title,
@@ -3098,12 +3107,15 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
     if(err != ER_okay)
         return err;
 
+    double x_range = x_max - x_min;
+    double x_step = x_range / x_classes;
+
     return Plot_Line_PoolStat_Single(
                 pChartView,
                 vData_X_Pool,
                 vData_Y_Stat,
                 x_min,
-                x_max,
+                x_step,
                 x_classes,
                 y_stat,
                 name_title,
@@ -3120,7 +3132,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat, QString name_title, QString qs_name_series, QString name_x, QString name_y, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
 
@@ -3134,7 +3146,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 vData_X_Pool,
                 vData_Y_Stat,
                 x_min,
-                x_max,
+                x_step,
                 x_classes,
                 y_stat);
     if(err_pooling != ER_okay)
@@ -3170,7 +3182,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
                 false);
 }
 
-int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, bool auto_range, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     if(auto_range)
         return Plot_Line_PoolStat_DualErr(
@@ -3203,7 +3215,7 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                     vData_X_Pool,
                     vData_Y_Stat,
                     x_min,
-                    x_max,
+                    x_step,
                     x_classes,
                     stat_y_main_val,
                     stat_y_main_err,
@@ -3262,7 +3274,7 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 ticks_y);
 }
 
-int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
+int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t stat_y_main_val, size_t stat_y_main_err, size_t stat_y_secondary_val, QString name_title, QString name_series, QString name_x, QString name_y, int x_trans, int y_trans_1st, int y_trans_2nd, bool dots_visible, bool man_axis_style_x, bool man_axis_style_y, double man_min_x, double man_max_x, double man_min_y, double man_max_y, int ticks_x, int ticks_y)
 {
     //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "start";
 
@@ -3290,7 +3302,7 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
                 vData_X_Pool,
                 vData_Y_Stat,
                 x_min,
-                x_max,
+                x_step,
                 x_classes,
                 vStatIndices);
     if(err_pooling != ER_okay)

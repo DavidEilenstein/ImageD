@@ -4222,7 +4222,7 @@ double D_Stat::PoolCenter_From_Value(size_t class_index, double min, double rang
     return min + (rel_pos * range);
 }
 
-int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
+int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat)
 {
     vector<double> vData_Out_x_Pools;
     vector<double> vData_Out_y_Stats;
@@ -4233,7 +4233,7 @@ int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vD
                 vData_X_Pool,
                 vData_Y_Stat,
                 x_min,
-                x_max,
+                x_step,
                 x_classes,
                 y_stat);
 
@@ -4254,13 +4254,13 @@ int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vD
     return ER_okay;
 }
 
-int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, size_t y_stat)
+int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat)
 {
     //errors
     if(vData_X_Pool.empty())                                            return ER_empty;
     if(vData_Y_Stat.empty())                                            return ER_empty;
     if(vData_X_Pool.size() != vData_Y_Stat.size())                      return ER_size_missmatch;
-    if(x_min >= x_max)                                                  return ER_parameter_missmatch;
+    if(x_step <= 0)                                                     return ER_parameter_bad;
     if(x_classes < 1)                                                   return ER_parameter_bad;
     if(y_stat >= c_STAT_NUMBER_OF_STATS)                                return ER_parameter_bad;
 
@@ -4274,7 +4274,7 @@ int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pv
     pvData_Out_y_Stats->resize(x_classes);
 
     //range
-    double x_range = x_max - x_min;
+    double x_range = x_min + x_step * x_classes;
 
     //class sorted data
     vector<vector<double>> vvData_ClaVal(x_classes);
@@ -4306,13 +4306,13 @@ int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pv
     return ER_okay;
 }
 
-int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<double>>* pvvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_max, size_t x_classes, vector<size_t> vy_stat)
+int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<double>>* pvvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, vector<size_t> vy_stat)
 {
     //errors
     if(vData_X_Pool.empty())                                            return ER_empty;
     if(vData_Y_Stat.empty())                                            return ER_empty;
     if(vData_X_Pool.size() != vData_Y_Stat.size())                      return ER_size_missmatch;
-    if(x_min >= x_max)                                                  return ER_parameter_missmatch;
+    if(x_step <= 0)                                                     return ER_parameter_bad;
     if(x_classes < 1)                                                   return ER_parameter_bad;
     if(vy_stat.size() <= 0)                                             return ER_size_bad;
     size_t ns = vy_stat.size();
@@ -4329,7 +4329,7 @@ int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<doub
     pvvData_Out_y_Stats->resize(ns, vector<double>(x_classes, 0));
 
     //range
-    double x_range = x_max - x_min;
+    double x_range = x_min + x_step * x_classes;
 
     //class sorted data
     vector<vector<double>> vvData_ClaVal(x_classes);

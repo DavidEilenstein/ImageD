@@ -523,7 +523,7 @@ int D_Viewer_Plot_3D::plot_VD_Heightmap(D_VisDat_Obj *pVD, size_t plane_index_xy
                 true);
 }
 
-int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double max_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double max_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool man_axis_style_x, bool man_axis_style_y, bool man_axis_style_z, double man_min_x, double man_max_x, double man_min_y, double man_max_y, double man_min_z, double man_max_z, bool called_internally)
+int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double step_x, bool auto_range_x, size_t classes_x, QString name_x, vector<double> vData_Y, double min_y, double step_y, bool auto_range_y, size_t classes_y, QString name_y, vector<double> vData_Z, size_t stat_z, QString name_z, bool draw_height, bool draw_wireframe, bool man_axis_style_x, bool man_axis_style_y, bool man_axis_style_z, double man_min_x, double man_max_x, double man_min_y, double man_max_y, double man_min_z, double man_max_z, bool called_internally)
 {
     //---------------------------------------------------------- errors
 
@@ -533,8 +533,8 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
     if(vData_Z.empty())                             return ER_empty;
     if(vData_X.size() != vData_Y.size())            return ER_size_missmatch;
     if(vData_X.size() != vData_Z.size())            return ER_size_missmatch;
-    if(min_x >= max_x)                              return ER_parameter_missmatch;
-    if(min_y >= max_y)                              return ER_parameter_missmatch;
+    if(step_x <= 0)                                 return ER_parameter_bad;
+    if(step_y <= 0)                                 return ER_parameter_bad;
     if(classes_x <= 1)                              return ER_parameter_bad;
     if(classes_y <= 1)                              return ER_parameter_bad;
     if(stat_z >= c_STAT_NUMBER_OF_STATS)            return ER_index_out_of_range;
@@ -552,6 +552,11 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
     size_t n_y = classes_y;
     //qDebug() << "size data/x/y" << n_data << n_x << n_y;
 
+    double range_x = step_x * classes_x;
+    double range_y = step_y * classes_y;
+    double max_x = min_x + range_x;
+    double max_y = min_y + range_y;
+
     //calc min/max x/y
     if(auto_range_x)
     {
@@ -563,6 +568,11 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
             if(val < min_x)     min_x = val;
             if(val > max_x)     max_x = val;
         }
+
+        range_x = max_x - min_x;
+        step_x = range_x / classes_x;
+        if(range_x <= 0)
+            return ER_size_bad;
     }
 
     if(auto_range_y)
@@ -575,12 +585,12 @@ int D_Viewer_Plot_3D::plot_Heatmap(vector<double> vData_X, double min_x, double 
             if(val < min_y)     min_y = val;
             if(val > max_y)     max_y = val;
         }
-    }
 
-    //ranges
-    double range_x = max_x - min_x;
-    double range_y = max_y - min_y;
-    //qDebug() << "min/max x" << min_x << max_x << "min/max y" << min_y << max_y;
+        range_y = max_y - min_y;
+        step_y = range_y / classes_y;
+        if(range_y <= 0)
+            return ER_size_bad;
+    }
 
     //---------------------------------------------------------- data calculation
 
