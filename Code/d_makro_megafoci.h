@@ -1665,6 +1665,14 @@ private slots:
 
     void on_horizontalSlider_MS6_ResSize_valueChanged(int value);
 
+    void on_checkBox_MS6_ResType_Param_PoolStatLine_DualErr_AutoRange_clicked(bool checked);
+
+    void on_pushButton_MS6_DefaultPlot_FociVsTime_clicked();
+
+    void on_pushButton_MS6_DefaultPlot_FociVsTime_WithError_clicked();
+
+    void on_pushButton_MS6_DefaultPlot_FociVsTimeAndCellCycle_clicked();
+
 private:
 
     //Data

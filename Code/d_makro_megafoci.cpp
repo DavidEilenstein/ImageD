@@ -11124,6 +11124,7 @@ bool D_MAKRO_MegaFoci::MS6_LoadAll()
     ui->groupBox_MS6_Control_Filters->setEnabled(true);
     ui->groupBox_MS6_Control_Results->setEnabled(true);
     ui->groupBox_MS6_Save->setEnabled(true);
+    ui->groupBox_MS6_DefaultPlots->setEnabled(true);
 
     //split to nuc lifes
     //qDebug() << "D_MAKRO_MegaFoci::MS6_LoadAll" << "split to nuc lifes";
@@ -11915,7 +11916,7 @@ void D_MAKRO_MegaFoci::MS6_Update_Result_PoolStatLine_Single()
                 MS6_DefaultTitle_Series(),
                 MS6_DefaultTitle_Axis(0),
                 MS6_DefaultTitle_Axis(1),
-                ui->checkBox_MS6_ResType_Param_PoolStatLine_DualErr_AutoRange->isChecked(),
+                ui->checkBox_MS6_ResType_Param_PoolStatLine_AutoRange->isChecked(),
                 ui->checkBox_S6_StyleAxis_CustomRange_X->isChecked(),
                 ui->checkBox_S6_StyleAxis_CustomRange_Y->isChecked(),
                 ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->value(),
@@ -12768,4 +12769,206 @@ void D_MAKRO_MegaFoci::on_horizontalSlider_MS6_ResSize_valueChanged(int value)
         ui->label_MS6_ResSize_Width->setFixedWidth(int(ui->horizontalSlider_MS6_ResSize->width() * (1.0 - (value / 1000.0))));
     else
         ui->horizontalSlider_MS6_ResSize->setValue(100);
+}
+
+void D_MAKRO_MegaFoci::on_checkBox_MS6_ResType_Param_PoolStatLine_DualErr_AutoRange_clicked(bool checked)
+{
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_MinX->setEnabled(!checked);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_StepX->setEnabled(!checked);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_DefaultPlot_FociVsTime_clicked()
+{
+    //main
+    ui->comboBox_MS6_ResultTypes->setCurrentIndex(MS6_RES_TYP_POOL_STAT_LINE_SINGLE);
+    ui->comboBox_MS6_ResultDatapointLevel->setCurrentIndex(DATAPOINT_LEVEL_NUCBLOB);
+
+    //x
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_0->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0->setCurrentIndex(ATTRIB_NUC_TIME_DIFF_TO_IRRADIATION);
+
+    //y
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_1->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1->setCurrentIndex(ATTRIB_NUC_FOCI_COUNT_CHX);
+
+    //plot type specific
+    ui->checkBox_MS6_ResType_Param_PoolStatLine_AutoRange->setChecked(false);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_MinX->setValue(-30.5);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_StepX->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_StepX->setValue(1);
+    ui->spinBox_MS6_ResType_Param_PoolStatLine_Classes->setEnabled(true);
+    ui->spinBox_MS6_ResType_Param_PoolStatLine_Classes->setValue(61);
+    ui->comboBox_MS6_ResType_Param_PoolStatLine_Stat->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+
+    //style x
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_X->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setValue(-30);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setValue(+30);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setValue(11);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_X->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setText("Time(irradiation) / h");
+
+    //style y
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_Y->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setValue(0);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setValue(15);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setValue(16);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_Y->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setText(MS6_vCB_ResAxis_AttribChannel_Foc[1]->currentText() + " foci");
+
+    //style general
+    ui->checkBox_S6_SytleGeneral_CustomTitle->setChecked(true);
+    ui->lineEdit_S6_StyleGeneral_CustomTitle->setText(MS6_vCB_ResAxis_AttribChannel_Foc[1]->currentText() + " foci vs time");
+
+    //update
+    MS6_Update_Results();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_DefaultPlot_FociVsTime_WithError_clicked()
+{
+    //main
+    ui->comboBox_MS6_ResultTypes->setCurrentIndex(MS6_RES_TYP_POOL_STAT_LINE_DUAL_WITH_ERROR);
+    ui->comboBox_MS6_ResultDatapointLevel->setCurrentIndex(DATAPOINT_LEVEL_NUCBLOB);
+
+    //x
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_0->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0->setCurrentIndex(ATTRIB_NUC_TIME_DIFF_TO_IRRADIATION);
+
+    //y
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_1->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1->setCurrentIndex(ATTRIB_NUC_FOCI_COUNT_CHX);
+
+    //plot type specific
+    ui->checkBox_MS6_ResType_Param_PoolStatLine_DualErr_AutoRange->setChecked(false);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_MinX->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_MinX->setValue(-30.5);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_StepX->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Param_PoolStatLine_DualErr_StepX->setValue(1);
+    ui->spinBox_MS6_ResType_Param_PoolStatLine_DualErr_Classes->setEnabled(true);
+    ui->spinBox_MS6_ResType_Param_PoolStatLine_DualErr_Classes->setValue(61);
+    ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stVal->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+    ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_1stErr->setCurrentIndex(c_STAT_SEM_ABS_TOTAL);
+    ui->comboBox_MS6_ResType_Param_PoolStatLine_DualErr_Stat_2ndVal->setCurrentIndex(c_STAT_COUNT);
+
+    //style x
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_X->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setValue(-30);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setValue(+30);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setValue(11);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_X->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setText("Time(irradiation) / h");
+
+    //style y
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_Y->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setValue(0);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setValue(15);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setValue(16);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_Y->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setText(MS6_vCB_ResAxis_AttribChannel_Foc[1]->currentText() + " foci");
+
+    //style general
+    ui->checkBox_S6_SytleGeneral_CustomTitle->setChecked(true);
+    ui->lineEdit_S6_StyleGeneral_CustomTitle->setText(MS6_vCB_ResAxis_AttribChannel_Foc[1]->currentText() + " foci vs time");
+
+    //update
+    MS6_Update_Results();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS6_DefaultPlot_FociVsTimeAndCellCycle_clicked()
+{
+    //main
+    ui->comboBox_MS6_ResultTypes->setCurrentIndex(MS6_RES_TYP_SCATTER_HEATMAP_2D);
+    ui->comboBox_MS6_ResultDatapointLevel->setCurrentIndex(DATAPOINT_LEVEL_NUCBLOB);
+
+    //x
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_0->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_0->setCurrentIndex(ATTRIB_NUC_TIME_DIFF_TO_IRRADIATION);
+
+    //y
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_1->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_1->setCurrentIndex(ATTRIB_NUC_TIME_AGE_PAST);
+
+    //color
+    ui->comboBox_MS6_ResAxis_Level_NucBlob_2->setCurrentIndex(DATA_LEVEL_NUCBLOB_ATTRIB);
+    ui->comboBox_MS6_ResAxis_Attrib_NucBlob_2->setCurrentIndex(ATTRIB_NUC_FOCI_COUNT_CHX);
+
+    //plot type specific
+    //x
+    ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_x->setChecked(false);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_x->setValue(-30);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Step_x->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Step_x->setValue(1);
+    ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x->setEnabled(true);
+    ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_x->setValue(61);
+    //y
+    ui->checkBox_MS6_ResType_Params_ScatterHeatmap_ManuelRange_y->setChecked(false);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Min_y->setValue(0);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Step_y->setEnabled(true);
+    ui->doubleSpinBox_MS6_ResType_Params_ScatterHeatmap_Step_y->setValue(1);
+    ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y->setEnabled(true);
+    ui->spinBox_MS6_ResType_Params_ScatterHeatmap_Classes_y->setValue(61);
+    //color
+    ui->comboBox_MS6_ResType_Params_ScatterHeatmap_Stat->setCurrentIndex(c_STAT_MEAN_ARITMETIC);
+
+    //style x
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_X->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_X->setValue(-30);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_X->setValue(+30);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_X->setValue(11);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_X->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_X->setText("Time(irradiation) / h");
+
+    //style y
+    //range
+    ui->checkBox_S6_StyleAxis_CustomRange_Y->setChecked(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMin_Y->setValue(0);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setEnabled(true);
+    ui->doubleSpinBox_S6_StyleAxis_CustomMax_Y->setValue(60);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setEnabled(true);
+    ui->spinBox_S6_StyleAxis_CustomTick_Y->setValue(11);
+    //title
+    ui->checkBox_S6_StyleAxis_CustomTitle_Y->setChecked(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setEnabled(true);
+    ui->lineEdit_S6_StyleAxis_CustomTitle_Y->setText("Time(cell cycle) / h");
+
+    //style general
+    ui->checkBox_S6_SytleGeneral_CustomTitle->setChecked(true);
+    ui->lineEdit_S6_StyleGeneral_CustomTitle->setText(MS6_vCB_ResAxis_AttribChannel_Foc[1]->currentText() + " foci vs irradiation time and cell cycle");
+
+    //update
+    MS6_Update_Results();
 }

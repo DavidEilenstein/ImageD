@@ -3139,7 +3139,7 @@ int D_Plot::Plot_Line_PoolStat_Single(QChartView *pChartView, vector<double> vDa
     //Pool data and calc stat
     vector<double> vData_Pooled_x_Pools;
     vector<double> vData_Pooled_y_Stats;
-    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "polling and stat calc";
+    //qDebug() << "D_Plot::Plot_Line_PoolStat_Single" << "pooling and stat calc" << "min/step" << x_min << x_step;
     int err_pooling = D_Stat::PoolStat_Data(
                 &vData_Pooled_x_Pools,
                 &vData_Pooled_y_Stats,
@@ -3246,12 +3246,15 @@ int D_Plot::Plot_Line_PoolStat_DualErr(QChartView *pChartView, vector<double> vD
     if(err != ER_okay)
         return err;
 
+    double x_range = x_max - x_min;
+    double x_step = x_range / x_classes;
+
     return Plot_Line_PoolStat_DualErr(
                 pChartView,
                 vData_X_Pool,
                 vData_Y_Stat,
                 x_min,
-                x_max,
+                x_step,
                 x_classes,
                 stat_y_main_val,
                 stat_y_main_err,

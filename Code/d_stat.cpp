@@ -4219,9 +4219,11 @@ double D_Stat::PoolCenter_From_Value(size_t class_index, double min, double rang
 
     double rel_pos = double(class_index + 0.5) / double(classes);
 
+    //qDebug() << "D_Stat::PoolCenter_From_Value class_index" << class_index << "min/range" << min << range << "-> center" << min + (rel_pos * range);
     return min + (rel_pos * range);
 }
 
+/*
 int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat)
 {
     vector<double> vData_Out_x_Pools;
@@ -4253,6 +4255,7 @@ int D_Stat::PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vD
 
     return ER_okay;
 }
+*/
 
 int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat)
 {
@@ -4265,7 +4268,7 @@ int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pv
     if(y_stat >= c_STAT_NUMBER_OF_STATS)                                return ER_parameter_bad;
 
     //size of data
-    size_t n = vData_X_Pool.size();
+    size_t n_data = vData_X_Pool.size();
 
     //clear out
     pvData_Out_x_Pools->clear();
@@ -4274,11 +4277,12 @@ int D_Stat::PoolStat_Data(vector<double> *pvData_Out_x_Pools, vector<double> *pv
     pvData_Out_y_Stats->resize(x_classes);
 
     //range
-    double x_range = x_min + x_step * x_classes;
+    double x_range = x_step * x_classes;
+    //qDebug() << "D_Stat::PoolStat_Data min/range/step/classes" << x_min << x_range << x_step << x_classes;
 
     //class sorted data
     vector<vector<double>> vvData_ClaVal(x_classes);
-    for(size_t i = 0; i < n; i++)
+    for(size_t i = 0; i < n_data; i++)
     {
         double val_x = vData_X_Pool[i];
         double val_y = vData_Y_Stat[i];
@@ -4315,25 +4319,25 @@ int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<doub
     if(x_step <= 0)                                                     return ER_parameter_bad;
     if(x_classes < 1)                                                   return ER_parameter_bad;
     if(vy_stat.size() <= 0)                                             return ER_size_bad;
-    size_t ns = vy_stat.size();
-    for(size_t s = 0; s < ns; s++)
+    size_t n_stats = vy_stat.size();
+    for(size_t s = 0; s < n_stats; s++)
         if(vy_stat[s] >= c_STAT_NUMBER_OF_STATS)                        return ER_parameter_bad;
 
     //size of data
-    size_t nx = vData_X_Pool.size();
+    size_t nx_data = vData_X_Pool.size();
 
     //clear out
     pvData_Out_x_Pools->clear();
     pvData_Out_x_Pools->resize(x_classes);
     pvvData_Out_y_Stats->clear();
-    pvvData_Out_y_Stats->resize(ns, vector<double>(x_classes, 0));
+    pvvData_Out_y_Stats->resize(n_stats, vector<double>(x_classes, 0));
 
     //range
-    double x_range = x_min + x_step * x_classes;
+    double x_range = x_step * x_classes;
 
     //class sorted data
     vector<vector<double>> vvData_ClaVal(x_classes);
-    for(size_t i = 0; i < nx; i++)
+    for(size_t i = 0; i < nx_data; i++)
     {
         double val_x = vData_X_Pool[i];
         double val_y = vData_Y_Stat[i];
@@ -4348,12 +4352,12 @@ int D_Stat::PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<doub
     }
 
     //stat functions
-    vector<function<double (vector<double>)>> vF_Stat(ns);
-    for(size_t s = 0; s < ns; s++)
+    vector<function<double (vector<double>)>> vF_Stat(n_stats);
+    for(size_t s = 0; s < n_stats; s++)
         vF_Stat[s] = Function_SingleStat(int(vy_stat[s]));
 
-    //calc stat
-    for(size_t s = 0; s < ns; s++)
+    //calc stats
+    for(size_t s = 0; s < n_stats; s++)
         for(size_t c = 0; c < x_classes; c++)
         {
             (*pvData_Out_x_Pools)[c] = PoolCenter_From_Value(c, x_min, x_range, x_classes);

@@ -74,7 +74,7 @@ public:
 
     static size_t           Value2PoolIndex(double val, double min, double range, size_t classes);
     static double           PoolCenter_From_Value(size_t class_index, double min, double range, size_t classes);
-    static int              PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat);
+    //static int              PoolStat_Data(vector<Point2d>* vData_Out_PoolStat, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat);
     static int              PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<double>* pvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, size_t y_stat);
     static int              PoolStat_Data(vector<double>* pvData_Out_x_Pools, vector<vector<double>>* pvvData_Out_y_Stats, vector<double> vData_X_Pool, vector<double> vData_Y_Stat, double x_min, double x_step, size_t x_classes, vector<size_t> vy_stat);
 
