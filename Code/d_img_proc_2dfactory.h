@@ -216,10 +216,12 @@ public:
 
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_Addition              ();
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_Addition              (double summand);
+    static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_Addition_Weighted     (double factor0, double factor1, double factor2, double factor3);
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_Multiplication        ();
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_Multiplication        (double factor);
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_BitwiseAnd            ();
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_4img_BitwiseOr             ();
+    static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Math_Take1stNon0                (double factor0, double factor1, double factor2, double factor3);
 
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Stitch_Border_abs               (int border_R, int border_B, int overlap_R, int overlap_B, Stitcher::Mode mode = Stitcher::SCANS);
     static function<int (Mat *, Mat *, Mat *, Mat *, Mat *)>    Stitch_Border_rel               (double border_R, double border_B, double overlap_R, double overlap_B, Stitcher::Mode mode = Stitcher::SCANS);

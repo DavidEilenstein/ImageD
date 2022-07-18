@@ -268,6 +268,9 @@ public:
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double summand);
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4);
     static int      Math_Add                    (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4, double summand);
+    static int      Math_Add_Weighted           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, double factor1, double factor2);
+    static int      Math_Add_Weighted           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double factor1, double factor2, double factor3);
+    static int      Math_Add_Weighted           (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4, double factor1, double factor2, double factor3, double factor4);
     static int      Math_Mult                   (Mat *pMA_Out, Mat *pMA_In1, double factor);
     static int      Math_Mult                   (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_Mult                   (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, double factor);
@@ -286,6 +289,7 @@ public:
     static int      Math_Phase                  (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2);
     static int      Math_LimitTop               (Mat *pMA_Out, Mat *pMA_InThresh, Mat *pMA_InToLimit);
     static int      Math_LimitTop               (Mat *pMA_Target, Mat *pMA_InThresh);
+    static int      Math_Take1stNon0            (Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4, double factor1, double factor2, double factor3, double factor4);
 
     static bool     Check_IsSimilar             (Mat *pMA_In1, Mat *pMA_In2);
     static bool     Check_GreaterValue          (Mat *pMA_InSmaller, Mat *pMA_InGreater);

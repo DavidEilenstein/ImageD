@@ -633,1055 +633,1687 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
     }
         break;
 
-    case STEP_PRE_BLUR_GAUSS:
-    {
-        ERR(D_VisDat_Proc::Filter_Gauss(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_PRE_BLUR_GAUSS]),
-                &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
-                ms1 ? ui->spinBox_ImgProc_Pre_Blur_Size->value() : ui->spinBox_MS3_ImgProc_Pre_Blur_Size->value(),
-                ms1 ? ui->spinBox_ImgProc_Pre_Blur_Size->value() : ui->spinBox_MS3_ImgProc_Pre_Blur_Size->value(),
-                BORDER_DEFAULT,
-                ms1 ? ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value() : ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value(),
-                ms1 ? ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value() : ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_BLUR_GAUSS");
-    }
-        break;
 
-    case STEP_PRE_PROJECT_Z:
-    {
-        ERR(D_VisDat_Proc::Dim_Project(
-                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
-                &(vVD_ImgProcSteps[STEP_PRE_BLUR_GAUSS]),
-                c_DIM_Z,
-                ms1 ? ui->comboBox_ImgProc_ProjectZ_Stat->currentIndex() : ui->comboBox_MS3_ImgProc_ProjectZ_Stat->currentIndex(),
-                CV_16UC1),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_PRE_PROJECT_Z - Project Z-dimension to get a 2D image");
-    }
-        break;
+    //Preparation OTHER -------------------------------------------------------------------------------------------------------
 
-    //Pick channels -------------------------------------------------------------------------------------------------------
 
-    case STEP_PCK_OTHER:
+    case STEP_PRE_PICK_OTHER:
     {
         if(dataset_dim_p_exist > 2)
         {
             vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
-            v_pick_dims[c_DIM_P] = index_page_other;
+            v_pick_dims[c_DIM_P] = int(index_page_other);
             ERR(D_VisDat_Proc::Dim_Pick(
-                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
-                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_OTHER]),
+                    &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
                     v_pick_dims),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_PCK_OTHER - Pick other signal");
+                "STEP_PRE_PICK_OTHER");
         }
         else
         {
             //size
-            D_VisDat_Dim dim = vVD_ImgProcSteps[STEP_PRE_PROJECT_Z].Dim();
+            D_VisDat_Dim dim = vVD_ImgProcSteps[STEP_PRE_STITCH].Dim();
             dim.set_size_P(1);
 
             //zeros
             ERR(D_VisDat_Proc::Create_VD_Single_Constant(
-                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_OTHER]),
                     dim,
-                    vVD_ImgProcSteps[STEP_PRE_PROJECT_Z].type(),
+                    vVD_ImgProcSteps[STEP_PRE_STITCH].type(),
                     0),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_PCK_OTHER - Init with 0");
+                "STEP_PRE_PICK_OTHER - Init with 0 because there is no 'other' channel");
         }
     }
         break;
 
-    case STEP_PCK_GFP:
+    case STEP_PRE_CROP_Z_OTHER:
     {
-        vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
-        v_pick_dims[c_DIM_P] = index_GFP;
-        ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
-                v_pick_dims),
+        ERR(D_VisDat_Proc::Dim_Crop(
+                &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_PICK_OTHER]),
+                D_VisDat_Range(
+                    0, -1,
+                    0, -1,
+                    ui->spinBox_MS1_ImgProcParam_CropZ_Min_Other->value(), ui->spinBox_MS1_ImgProcParam_CropZ_Max_Other->value(),
+                    0, -1,
+                    0, -1,
+                    0, -1)),
             "Update_ImageProcessing_StepSingle",
-            "STEP_PCK_GFP - Pick GFP signal");
+            "STEP_PRE_CROP_Z_OTHER");
     }
         break;
 
-    case STEP_PCK_RFP:
+    case STEP_PRE_BLUR_PLANES_INDEPENDENT_OTHER:
     {
-        vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
-        v_pick_dims[c_DIM_P] = index_RFP;
-        ERR(D_VisDat_Proc::Dim_Pick(
-                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
-                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z]),
-                v_pick_dims),
+        ERR(D_VisDat_Proc::Filter_Gauss(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_OTHER]),
+                ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_Other->value(),
+                ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_Other->value(),
+                BORDER_REPLICATE,
+                ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_Other->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_Other->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_PCK_RFP - Pick RFP signal");
+            "STEP_PRE_BLUR_PLANES_INDEPENDENT_OTHER");
     }
         break;
 
-    //Visualtsation -------------------------------------------------------------------------------------------------------
+    case STEP_PRE_PROJECT_Z_OTHER:
+    {
+        ERR(D_VisDat_Proc::Dim_Project(
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_OTHER]),
+                c_DIM_Z,
+                ui->comboBox_MS1_ImgProcParam_Projection_Stat_Other->currentIndex(),
+                CV_16UC1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_PROJECT_Z_OTHER - blablabla");
+    }
+        break;
 
-    case STEP_VIS_OTHER:
+    case STEP_PRE_BACKGROUND_ESTIMATION_OTHER:
+    {
+        ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_OTHER]),
+                ui->doubleSpinBox_MS1_ImgProcParam_BackgroundEstimation_Quantil_Other->value() / 100.0,
+                ui->spinBox_MS1_ImgProcParam_BackgroundEstimation_Size_Other->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_BACKGROUND_ESTIMATION_OTHER");
+    }
+        break;
+
+    case STEP_PRE_SHADING_CORRECTED_OTHER:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_OTHER])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_PRE_SHADING_CORRECTED_OTHER");
+    }
+        break;
+
+    case STEP_PRE_VIS_OTHER:
     {
         ERR(D_VisDat_Proc::GammaSpread(
-                &(vVD_ImgProcSteps[STEP_VIS_OTHER]),
-                &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
-                ms1 ? ui->doubleSpinBox_ImgProc_Vis_Other_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_Other_Gamma->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_Other_Min->value() : ui->spinBox_MS3_ImgProc_Vis_Other_Min->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_Other_Max->value() : ui->spinBox_MS3_ImgProc_Vis_Other_Max->value(),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_OTHER]),
+                1.0,
+                double(ui->spinBox_MS1_ImgProcParam_CropZ_Min_Other->value()),
+                double(ui->spinBox_MS1_ImgProcParam_CropZ_Max_Other->value()),
                 0,
                 255,
                 true),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_OTHER");
+            "STEP_PRE_VIS_OTHER");
     }
         break;
 
-    case STEP_VIS_GFP:
-    {
+        //Preparation GFP -------------------------------------------------------------------------------------------------------
+
+
+        case STEP_PRE_PICK_GFP:
+        {
+            vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
+            v_pick_dims[c_DIM_P] = int(index_GFP);
+            ERR(D_VisDat_Proc::Dim_Pick(
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
+                    v_pick_dims),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_PICK_GFP");
+        }
+            break;
+
+        case STEP_PRE_CROP_Z_GFP:
+        {
+            ERR(D_VisDat_Proc::Dim_Crop(
+                    &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_GFP]),
+                    D_VisDat_Range(
+                        0, -1,
+                        0, -1,
+                        ui->spinBox_MS1_ImgProcParam_CropZ_Min_GFP->value(), ui->spinBox_MS1_ImgProcParam_CropZ_Max_GFP->value(),
+                        0, -1,
+                        0, -1,
+                        0, -1)),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_CROP_Z_GFP");
+        }
+            break;
+
+        case STEP_PRE_BLUR_PLANES_INDEPENDENT_GFP:
+        {
+            ERR(D_VisDat_Proc::Filter_Gauss(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_GFP]),
+                    ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_GFP->value(),
+                    ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_GFP->value(),
+                    BORDER_REPLICATE,
+                    ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_GFP->value(),
+                    ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_GFP->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_BLUR_PLANES_INDEPENDENT_GFP");
+        }
+            break;
+
+        case STEP_PRE_PROJECT_Z_GFP:
+        {
+            ERR(D_VisDat_Proc::Dim_Project(
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_GFP]),
+                    c_DIM_Z,
+                    ui->comboBox_MS1_ImgProcParam_Projection_Stat_GFP->currentIndex(),
+                    CV_16UC1),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_PROJECT_Z_GFP - blablabla");
+        }
+            break;
+
+        case STEP_PRE_BACKGROUND_ESTIMATION_GFP:
+        {
+            ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_GFP]),
+                    ui->doubleSpinBox_MS1_ImgProcParam_BackgroundEstimation_Quantil_GFP->value() / 100.0,
+                    ui->spinBox_MS1_ImgProcParam_BackgroundEstimation_Size_GFP->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_BACKGROUND_ESTIMATION_GFP");
+        }
+            break;
+
+        case STEP_PRE_SHADING_CORRECTED_GFP:
+        {
+            ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                    &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_GFP])),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_SHADING_CORRECTED_GFP");
+        }
+            break;
+
+        case STEP_PRE_VIS_GFP:
+        {
+            ERR(D_VisDat_Proc::GammaSpread(
+                    &(vVD_ImgProcSteps[STEP_PRE_VIS_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_GFP]),
+                    1.0,
+                    double(ui->spinBox_MS1_ImgProcParam_CropZ_Min_GFP->value()),
+                    double(ui->spinBox_MS1_ImgProcParam_CropZ_Max_GFP->value()),
+                    0,
+                    255,
+                    true),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_VIS_GFP");
+        }
+            break;
+
+
+        //Preparation RFP -------------------------------------------------------------------------------------------------------
+
+
+        case STEP_PRE_PICK_RFP:
+        {
+            vector<int> v_pick_dims(c_DIM_NUMBER_OF, -1);
+            v_pick_dims[c_DIM_P] = int(index_RFP);
+            ERR(D_VisDat_Proc::Dim_Pick(
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_STITCH]),
+                    v_pick_dims),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_PICK_RFP");
+        }
+            break;
+
+        case STEP_PRE_CROP_Z_RFP:
+        {
+            ERR(D_VisDat_Proc::Dim_Crop(
+                    &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PICK_RFP]),
+                    D_VisDat_Range(
+                        0, -1,
+                        0, -1,
+                        ui->spinBox_MS1_ImgProcParam_CropZ_Min_RFP->value(), ui->spinBox_MS1_ImgProcParam_CropZ_Max_RFP->value(),
+                        0, -1,
+                        0, -1,
+                        0, -1)),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_CROP_Z_RFP");
+        }
+            break;
+
+        case STEP_PRE_BLUR_PLANES_INDEPENDENT_RFP:
+        {
+            ERR(D_VisDat_Proc::Filter_Gauss(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_CROP_Z_RFP]),
+                    ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_RFP->value(),
+                    ui->spinBox_MS1_ImgProcParam_BlurPlanes_Size_RFP->value(),
+                    BORDER_REPLICATE,
+                    ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_RFP->value(),
+                    ui->doubleSpinBox_MS1_ImgProcParam_BlurPlanes_Sigma_RFP->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_BLUR_PLANES_INDEPENDENT_RFP");
+        }
+            break;
+
+        case STEP_PRE_PROJECT_Z_RFP:
+        {
+            ERR(D_VisDat_Proc::Dim_Project(
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_BLUR_PLANES_INDEPENDENT_RFP]),
+                    c_DIM_Z,
+                    ui->comboBox_MS1_ImgProcParam_Projection_Stat_RFP->currentIndex(),
+                    CV_16UC1),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_PROJECT_Z_RFP - blablabla");
+        }
+            break;
+
+        case STEP_PRE_BACKGROUND_ESTIMATION_RFP:
+        {
+            ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_RFP]),
+                    ui->doubleSpinBox_MS1_ImgProcParam_BackgroundEstimation_Quantil_RFP->value() / 100.0,
+                    ui->spinBox_MS1_ImgProcParam_BackgroundEstimation_Size_RFP->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_BACKGROUND_ESTIMATION_RFP");
+        }
+            break;
+
+        case STEP_PRE_SHADING_CORRECTED_RFP:
+        {
+            ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                    &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_PROJECT_Z_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_BACKGROUND_ESTIMATION_RFP])),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_PRE_SHADING_CORRECTED_RFP");
+        }
+            break;
+
+        case STEP_PRE_VIS_RFP:
+        {
         ERR(D_VisDat_Proc::GammaSpread(
-                &(vVD_ImgProcSteps[STEP_VIS_GFP]),
-                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                ms1 ? ui->doubleSpinBox_ImgProc_Vis_GFP_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_GFP_Gamma->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_GFP_Min->value() : ui->spinBox_MS3_ImgProc_Vis_GFP_Min->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_GFP_Max->value() : ui->spinBox_MS3_ImgProc_Vis_GFP_Max->value(),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_RFP]),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_RFP]),
+                1.0,
+                double(ui->spinBox_MS1_ImgProcParam_CropZ_Min_RFP->value()),
+                double(ui->spinBox_MS1_ImgProcParam_CropZ_Max_RFP->value()),
                 0,
                 255,
                 true),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_GFP");
-    }
-        break;
+            "STEP_PRE_VIS_RFP");
+        }
+            break;
 
-    case STEP_VIS_RFP:
-    {
-        ERR(D_VisDat_Proc::GammaSpread(
-                &(vVD_ImgProcSteps[STEP_VIS_RFP]),
-                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
-                ms1 ? ui->doubleSpinBox_ImgProc_Vis_RFP_Gamma->value() : ui->doubleSpinBox_MS3_ImgProc_Vis_RFP_Gamma->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_RFP_Min->value() : ui->spinBox_MS3_ImgProc_Vis_RFP_Min->value(),
-                ms1 ? ui->spinBox_ImgProc_Vis_RFP_Max->value() : ui->spinBox_MS3_ImgProc_Vis_RFP_Max->value(),
-                0,
-                255,
-                true),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_RFP");
-    }
-        break;
+        //Visualtsation -------------------------------------------------------------------------------------------------------
 
-    case STEP_VIS_PAGES_AS_COLOR_GFP_RFP:
-    {
-        bool use_channels[4] = {true, true, false, false};
-        ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
-                &(vVD_ImgProcSteps[STEP_VIS_RFP]),
-                &(vVD_ImgProcSteps[STEP_VIS_GFP]),
-                &(vVD_ImgProcSteps[STEP_VIS_OTHER]),
-                &(vVD_ImgProcSteps[STEP_VIS_RFP]),
-                3,
-                use_channels),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_PAGES_AS_COLOR_GFP_RFP - Visualize signals in color");
-    }
-        break;
+        case STEP_VIS_PAGES_AS_COLOR_GFP_RFP:
+        {
+            bool use_channels[4] = {true, true, false, false};
+            ERR(D_VisDat_Proc::Channels_Merge(
+                    &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_VIS_RFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_VIS_GFP]),
+                    &(vVD_ImgProcSteps[STEP_PRE_VIS_OTHER]),
+                    &(vVD_ImgProcSteps[STEP_PRE_VIS_OTHER]),
+                    3,
+                    use_channels),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_VIS_PAGES_AS_COLOR_GFP_RFP");
+        }
+            break;
 
     case STEP_VIS_PAGES_AS_COLOR_ALL:
     {
         bool use_channels[4] = {true, true, true, false};
         ERR(D_VisDat_Proc::Channels_Merge(
                 &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
-                &(vVD_ImgProcSteps[STEP_VIS_RFP]),
-                &(vVD_ImgProcSteps[STEP_VIS_GFP]),
-                &(vVD_ImgProcSteps[STEP_VIS_OTHER]),
-                &(vVD_ImgProcSteps[STEP_VIS_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_RFP]),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_GFP]),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_OTHER]),
+                &(vVD_ImgProcSteps[STEP_PRE_VIS_OTHER]),
                 3,
                 use_channels),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_PAGES_AS_COLOR_ALL - Visualize signals in color");
+            "STEP_VIS_PAGES_AS_COLOR_ALL");
 
         Overview_Update();
     }
         break;
 
+    //Find Nuclei - Thres GFP -------------------------------------------------------------------------------------------------------
 
-    //Find Nuclei -------------------------------------------------------------------------------------------------------
-
-    //Nuclei segmentation 0a ......................................... OTHER
-
-    case STEP_NUC_OTHER_SEG0A_BLUR_GAUSS:
+    case STEP_NUC_SEG_GFP_BLUR_MEDIAN:
     {
-        if(ui->groupBox_Seg0A_OTHER->isChecked())
-            ERR(D_VisDat_Proc::Filter_Gauss(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS]),
-                    &(vVD_ImgProcSteps[STEP_PCK_OTHER]),
-                    int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
-                    int(ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize->value()),
-                    BORDER_DEFAULT,
-                    ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value(),
-                    ui->doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma->value()),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_OTHER_SEG0A_BLUR_GAUSS");
-        else
-            vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_PCK_OTHER].Dim(), vVD_ImgProcSteps[STEP_PCK_OTHER].type(), 0);
+        ERR(D_VisDat_Proc::Filter_Median_Circular(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MEDIAN]),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_GFP]),
+                ui->spinBox_MS1_ImgProcParam_TresPre_Median_Size_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_BLUR_MEDIAN");
     }
         break;
 
-    case STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE:
+    case STEP_NUC_SEG_GFP_BLUR_MORPH_A_DILATE:
     {
-        //create out VD
-        vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE] =
-                D_VisDat_Obj(
-                    vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS].Dim(),
-                    vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS].type());
+        ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_A_DILATE]),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_GFP]),
+                1.0,
+                ui->spinBox_MS1_ImgProcParam_TresPre_aDilate_Size_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_BLUR_MORPH_A_DILATE");
+    }
+        break;
 
-        //corners of the 4 subimges
-        int x0 = 0;
-        int x1 = dataset_dim_img_x;
-        int x2 = vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS].pDim()->size_X();
-        int y0 = 0;
-        int y1 = dataset_dim_img_y;
-        int y2 = vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS].pDim()->size_Y();
-        vector<Point> vP_TL = {Point(x0, y0), Point(x1, y0), Point(x0, y1), Point(x1, y1)};
-        vector<Point> vP_BR = {Point(x1, y1), Point(x2, y1), Point(x1, y2), Point(x2, y2)};
+    case STEP_NUC_SEG_GFP_BLUR_MORPH_B_ERODE:
+    {
+        ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_B_ERODE]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_A_DILATE]),
+                0.0,
+                ui->spinBox_MS1_ImgProcParam_TresPre_bErode_Size_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_BLUR_MORPH_B_ERODE");
+    }
+        break;
 
-        //crop, filter and insert sub images - treat mosaik segments separatly
-        for(size_t i = 0; i < 4; i++)
+    case STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE:
+    {
+        ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_B_ERODE]),
+                1.0,
+                ui->spinBox_MS1_ImgProcParam_TresPre_cDilate_Size_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_0_AREA:
+    {
+        ERR(D_VisDat_Proc::Threshold_Absolute(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE]),
+                ui->spinBox_MS1_ImgProcParam_Tres0_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_0_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_1_AREA:
+    {
+        ERR(D_VisDat_Proc::Threshold_Absolute(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE]),
+                ui->spinBox_MS1_ImgProcParam_Tres1_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_1_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_2_AREA:
+    {
+        ERR(D_VisDat_Proc::Threshold_Absolute(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE]),
+                ui->spinBox_MS1_ImgProcParam_Tres2_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_2_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_3_AREA:
+    {
+        ERR(D_VisDat_Proc::Threshold_Absolute(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_3_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE]),
+                ui->spinBox_MS1_ImgProcParam_Tres3_GFP->value()),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_3_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_0_CONTOUR:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_0_CONTOUR");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_1_CONTOUR:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_1_CONTOUR");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_2_CONTOUR:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_2_CONTOUR");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_3_CONTOUR:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_3_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_3_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_3_CONTOUR");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS:
+    {
+        ERR(D_VisDat_Proc::Math_4img_Addition_Weighted(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_3_AREA]),
+                0.25,
+                0.25,
+                0.25,
+                0.25),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS");
+    }
+        break;
+
+    case STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_CONTOUR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_3_CONTOUR]),
+                0.25,
+                0.50,
+                0.75,
+                1.00),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS");
+    }
+        break;
+
+        //Find Nuclei - Thres RFP -------------------------------------------------------------------------------------------------------
+
+        case STEP_NUC_SEG_RFP_BLUR_MEDIAN:
         {
-            //crop
-            D_VisDat_Obj VD_tmp_Croped;
-            ERR(D_VisDat_Proc::Crop_Rect_Abs(
+            ERR(D_VisDat_Proc::Filter_Median_Circular(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &VD_tmp_Croped,
-                    &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS]),
-                    vP_TL[i].x,
-                    vP_TL[i].y,
-                    vP_BR[i].x - vP_TL[i].x,
-                    vP_BR[i].y - vP_TL[i].y),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MEDIAN]),
+                    &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_RFP]),
+                    ui->spinBox_MS1_ImgProcParam_TresPre_Median_Size_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE - Crop_Rect_Abs (sub img " + QString::number(i) + ")");
+                "STEP_NUC_SEG_RFP_BLUR_MEDIAN");
+        }
+            break;
 
-            //rank order filter
-            D_VisDat_Obj VD_tmp_Filtered;
+        case STEP_NUC_SEG_RFP_BLUR_MORPH_A_DILATE:
+        {
             ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &VD_tmp_Filtered,
-                    &VD_tmp_Croped,
-                    ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil->value() / 100.0,
-                    ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius->value()),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_A_DILATE]),
+                    &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_RFP]),
+                    1.0,
+                    ui->spinBox_MS1_ImgProcParam_TresPre_aDilate_Size_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE - Filter_RankOrder_Circular (sub img " + QString::number(i) + ")");
-
-            //insert
-            ERR(D_VisDat_Proc::Insert_atPos(
-                    &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE]),
-                    &VD_tmp_Filtered,
-                    vector<int>{
-                        vP_TL[i].x,
-                        vP_TL[i].y,
-                        0,
-                        0,
-                        0,
-                        0}),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE - Insert_atPos (sub img " + QString::number(i) + ")");
-        }
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED:
-    {
-        ERR(D_VisDat_Proc::Math_2img_Function(
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BLUR_GAUSS]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE]),
-                D_Math::Function_2D_to_1D(
-                    c_MATH_2D_TO_1D_X_minus_Y,
-                    1, 0,
-                    1, 0)),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR:
-    {
-        ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED]),
-                ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS:
-    {
-        ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED]),
-                ui->doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS:
-    {
-        ERR(D_VisDat_Proc::Hysteresis(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS]),
-                false),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING:
-    {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS]),
-                ui->spinBox_ImgProc_Seg0A_ClosingSize->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_FILL_HOLES:
-    {
-        ERR(D_VisDat_Proc::Fill_Holes(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING])),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG0_FILL_HOLES");
-    }
-        break;
-
-    case STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT:
-    {
-        ERR(D_VisDat_Proc::ValueStat_Select(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED]),
-                ui->comboBox_ImgProc_Seg0A_IgnoreDirt_Stat->currentIndex(),
-                0,
-                ui->doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres->value(),
-                8),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT");
-    }
-        break;
-
-        //Nuclei segmentation 0b ......................................... GFP
-
-        case STEP_NUC_GFP_SEG0B_BLUR_GAUSS:
-        {
-            if(ui->groupBox_Seg0B_GFP->isChecked())
-                ERR(D_VisDat_Proc::Filter_Gauss(
-                        D_VisDat_Slicing(c_SLICE_2D_XY),
-                        &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS]),
-                        &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                        int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
-                        int(ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize->value()),
-                        BORDER_DEFAULT,
-                        ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value(),
-                        ui->doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma->value()),
-                    "Update_ImageProcessing_StepSingle",
-                    "STEP_NUC_GFP_SEG0B_BLUR_GAUSS");
-            else
-                vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS] = D_VisDat_Obj(vVD_ImgProcSteps[STEP_PCK_GFP].Dim(), vVD_ImgProcSteps[STEP_PCK_GFP].type(), 0);
+                "STEP_NUC_SEG_RFP_BLUR_MORPH_A_DILATE");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE:
+        case STEP_NUC_SEG_RFP_BLUR_MORPH_B_ERODE:
         {
-            //create out VD
-            vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE] =
-                    D_VisDat_Obj(
-                        vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS].Dim(),
-                        vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS].type());
-
-            //corners of the 4 subimges
-            int x0 = 0;
-            int x1 = dataset_dim_img_x;
-            int x2 = vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS].pDim()->size_X();
-            int y0 = 0;
-            int y1 = dataset_dim_img_y;
-            int y2 = vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS].pDim()->size_Y();
-            vector<Point> vP_TL = {Point(x0, y0), Point(x1, y0), Point(x0, y1), Point(x1, y1)};
-            vector<Point> vP_BR = {Point(x1, y1), Point(x2, y1), Point(x1, y2), Point(x2, y2)};
-
-            //crop, filter and insert sub images - treat mosaik segments separatly
-            for(size_t i = 0; i < 4; i++)
-            {
-                //crop
-                D_VisDat_Obj VD_tmp_Croped;
-                ERR(D_VisDat_Proc::Crop_Rect_Abs(
-                        D_VisDat_Slicing(c_SLICE_2D_XY),
-                        &VD_tmp_Croped,
-                        &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS]),
-                        vP_TL[i].x,
-                        vP_TL[i].y,
-                        vP_BR[i].x - vP_TL[i].x,
-                        vP_BR[i].y - vP_TL[i].y),
-                    "Update_ImageProcessing_StepSingle",
-                    "STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE - Crop_Rect_Abs (sub img " + QString::number(i) + ")");
-
-                //rank order filter
-                D_VisDat_Obj VD_tmp_Filtered;
-                ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
-                        D_VisDat_Slicing(c_SLICE_2D_XY),
-                        &VD_tmp_Filtered,
-                        &VD_tmp_Croped,
-                        ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil->value() / 100.0,
-                        ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius->value()),
-                    "Update_ImageProcessing_StepSingle",
-                    "STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE - Filter_RankOrder_Circular (sub img " + QString::number(i) + ")");
-
-                //insert
-                ERR(D_VisDat_Proc::Insert_atPos(
-                        &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE]),
-                        &VD_tmp_Filtered,
-                        vector<int>{
-                            vP_TL[i].x,
-                            vP_TL[i].y,
-                            0,
-                            0,
-                            0,
-                            0}),
-                    "Update_ImageProcessing_StepSingle",
-                    "STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE - Insert_atPos (sub img " + QString::number(i) + ")");
-            }
-        }
-            break;
-
-        case STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED:
-        {
-            ERR(D_VisDat_Proc::Math_2img_Function(
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BLUR_GAUSS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE]),
-                    D_Math::Function_2D_to_1D(
-                        c_MATH_2D_TO_1D_X_minus_Y,
-                        1, 0,
-                        1, 0)),
+            ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_B_ERODE]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_A_DILATE]),
+                    0.0,
+                    ui->spinBox_MS1_ImgProcParam_TresPre_bErode_Size_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED");
+                "STEP_NUC_SEG_RFP_BLUR_MORPH_B_ERODE");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR:
+        case STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE:
+        {
+            ERR(D_VisDat_Proc::Filter_RankOrder_Circular(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_B_ERODE]),
+                    1.0,
+                    ui->spinBox_MS1_ImgProcParam_TresPre_cDilate_Size_RFP->value()),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE");
+        }
+            break;
+
+        case STEP_NUC_SEG_RFP_THRES_0_AREA:
         {
             ERR(D_VisDat_Proc::Threshold_Absolute(
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED]),
-                    ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator->value()),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE]),
+                    ui->spinBox_MS1_ImgProcParam_Tres0_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR");
+                "STEP_NUC_SEG_RFP_THRES_0_AREA");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS:
+        case STEP_NUC_SEG_RFP_THRES_1_AREA:
         {
             ERR(D_VisDat_Proc::Threshold_Absolute(
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED]),
-                    ui->doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis->value()),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE]),
+                    ui->spinBox_MS1_ImgProcParam_Tres1_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS");
+                "STEP_NUC_SEG_RFP_THRES_1_AREA");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS:
+        case STEP_NUC_SEG_RFP_THRES_2_AREA:
         {
-            ERR(D_VisDat_Proc::Hysteresis(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS]),
-                    false),
+            ERR(D_VisDat_Proc::Threshold_Absolute(
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE]),
+                    ui->spinBox_MS1_ImgProcParam_Tres2_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS");
+                "STEP_NUC_SEG_RFP_THRES_2_AREA");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_MORPH_CLOSEING:
+        case STEP_NUC_SEG_RFP_THRES_3_AREA:
         {
-            ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_MORPH_CLOSEING]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS]),
-                    ui->spinBox_ImgProc_Seg0B_ClosingSize->value()),
+            ERR(D_VisDat_Proc::Threshold_Absolute(
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE]),
+                    ui->spinBox_MS1_ImgProcParam_Tres3_RFP->value()),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0B_MORPH_CLOSEING");
+                "STEP_NUC_SEG_RFP_THRES_3_AREA");
         }
             break;
 
-        case STEP_NUC_GFP_SEG0B_FILL_HOLES:
+        case STEP_NUC_SEG_RFP_THRES_0_CONTOUR:
         {
-            ERR(D_VisDat_Proc::Fill_Holes(
+            ERR(D_VisDat_Proc::Geometric_Reduce(
                     D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_FILL_HOLES]),
-                    &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_MORPH_CLOSEING])),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_AREA]),
+                    c_GEO_CONTOUR,
+                    8,
+                    2,
+                    255),
                 "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_GFP_SEG0_FILL_HOLES");
+                "STEP_NUC_SEG_RFP_THRES_0_CONTOUR");
         }
             break;
 
-    case STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT:
+        case STEP_NUC_SEG_RFP_THRES_1_CONTOUR:
+        {
+            ERR(D_VisDat_Proc::Geometric_Reduce(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_AREA]),
+                    c_GEO_CONTOUR,
+                    8,
+                    2,
+                    255),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_THRES_1_CONTOUR");
+        }
+            break;
+
+        case STEP_NUC_SEG_RFP_THRES_2_CONTOUR:
+        {
+            ERR(D_VisDat_Proc::Geometric_Reduce(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_AREA]),
+                    c_GEO_CONTOUR,
+                    8,
+                    2,
+                    255),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_THRES_2_CONTOUR");
+        }
+            break;
+
+        case STEP_NUC_SEG_RFP_THRES_3_CONTOUR:
+        {
+            ERR(D_VisDat_Proc::Geometric_Reduce(
+                    D_VisDat_Slicing(c_SLICE_2D_XY),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_AREA]),
+                    c_GEO_CONTOUR,
+                    8,
+                    2,
+                    255),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_THRES_3_CONTOUR");
+        }
+            break;
+
+        case STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_AREAS:
+        {
+            ERR(D_VisDat_Proc::Math_4img_Addition_Weighted(
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_AREAS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_AREA]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_AREA]),
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_AREAS");
+        }
+            break;
+
+        case STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_CONTOURS:
+        {
+            ERR(D_VisDat_Proc::Math_Take1stNon0(
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_CONTOUR]),
+                    &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_CONTOUR]),
+                    0.25,
+                    0.50,
+                    0.75,
+                    1.00),
+                "Update_ImageProcessing_StepSingle",
+                "STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_CONTOURS");
+        }
+            break;
+
+    //Find Nuclei - Thres visualize -------------------------------------------------------------------------------------------------------
+
+    case STEP_NUC_SEG_BOTH_THRES_BASE_VIS_AREAS:
     {
-        ERR(D_VisDat_Proc::ValueStat_Select(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_FILL_HOLES]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED]),
-                ui->comboBox_ImgProc_Seg0B_IgnoreDirt_Stat->currentIndex(),
-                0,
-                ui->doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres->value(),
-                8),
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_BOTH_THRES_BASE_VIS_AREAS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_AREAS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS]),
+                3,
+                use_channels),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT");
+            "STEP_NUC_SEG_BOTH_THRES_BASE_VIS_AREAS");
     }
         break;
 
-    //Nuclei segmentation 0 .........................................
-
-    case STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER:
+    case STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS:
     {
-        ERR(D_VisDat_Proc::Math_2img_Addition(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER]),
-                &(vVD_ImgProcSteps[STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT]),
-                &(vVD_ImgProcSteps[STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT])),
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS]),
+                3,
+                use_channels),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER");
+            "STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG0_CLOSE_GAPS:
+    case STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS_ON_IMG:
     {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_CLOSE_GAPS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER]),
-                ui->spinBox_ImgProc_Seg0_CloseGaps_Size->value()),
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS_ON_IMG]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_CLOSE_GAPS");
+            "STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS_ON_IMG");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL:
+    //Find Nuclei - Thres level combi -------------------------------------------------------------------------------------------------------
+
+    //RFP T3 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_CLOSE_GAPS]),
-                c_FEAT_CONVEX_AREA,
-                ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min->value(),
-                ui->doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max->value(),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_AREA]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_RFP_3->value(),
+                INFINITY,
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL");
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL:
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT:
     {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Closing(
+        ERR(D_VisDat_Proc::Geometric_Reduce(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL]),
-                ui->doubleSpinBox_ImgProc_ConnectSmall_CloseSize->value()),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL");
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL:
+        //GFP T3 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T3_WITHOUT_ACCEPTED_OBJECTS:
     {
-        ERR(D_VisDat_Proc::Math_2img_Addition(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_CLOSE_GAPS])),
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_3_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL");
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T3_WITHOUT_ACCEPTED_OBJECTS");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG:
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T3_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_3->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_3->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T3_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA:
     {
         ERR(D_VisDat_Proc::Feature_Select(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL]),
-                c_FEAT_CONVEX_AREA,
-                ui->doubleSpinBox_ImgProc_Seg0_Area_Min->value(),
-                ui->doubleSpinBox_ImgProc_Seg0_Area_Max->value(),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_GFP_3->value(),
+                INFINITY,
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG");
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA");
     }
         break;
 
-    //Nuclei segmentation 1 .........................................
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT");
+    }
+        break;
 
-    case STEP_NUC_BOTH_SEG1_DISTANCE:
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL");
+    }
+        break;
+
+    //RFP T2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T2_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_2_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T2_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_2->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_2->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_RFP_2->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL");
+    }
+        break;
+
+    //GFP T2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T2_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_2_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T2_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T2_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_2->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_2->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T2_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_GFP_2->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL");
+    }
+        break;
+
+    //RFP T1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T1_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_1_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T1_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T1_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_1->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_1->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T1_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_RFP_1->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL");
+    }
+        break;
+
+    //GFP T2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T1_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_1_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T1_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T1_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_1->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_1->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T1_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_GFP_1->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL");
+    }
+        break;
+
+    //RFP T0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T0_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_RFP_THRES_0_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T0_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T0_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_0->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_RFP_0->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T0_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_RFP_0->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL");
+    }
+        break;
+
+    //GFP T0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T0_WITHOUT_ACCEPTED_OBJECTS:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_WITHOUT_ACCEPTED_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_GFP_THRES_0_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T0_WITHOUT_ACCEPTED_OBJECTS");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T0_BASE_MORPH_CLEAR:
+    {
+        ERR(D_VisDat_Proc::Morphology_Elemental(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_BASE_MORPH_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_WITHOUT_ACCEPTED_OBJECTS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_0->value(),
+                ui->spinBox_MS1_ImgProcParam_Lvl_MorphClear_GFP_0->value(),
+                BORDER_REPLICATE,
+                1),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T0_BASE_MORPH_CLEAR");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA:
+    {
+        ERR(D_VisDat_Proc::Feature_Select(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_BASE_MORPH_CLEAR]),
+                c_FEAT_AREA,
+                ui->spinBox_MS1_ImgProcParam_Lvl_AreatMin_GFP_0->value(),
+                INFINITY,
+                8),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT:
+    {
+        ERR(D_VisDat_Proc::Geometric_Reduce(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA]),
+                c_GEO_CONTOUR,
+                8,
+                2,
+                255),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_ALL:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_ALL");
+    }
+        break;
+
+    //Find Nuclei - all levels (vis) -------------------------------------------------------------------------------------------------------
+
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT]),
+                1.00,
+                0.75,
+                0.50,
+                0.25),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_INTENSITY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT]),
+                1.00,
+                0.75,
+                0.50,
+                0.25),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY:
+    {
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY]),
+                3,
+                use_channels),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY_ON_IMG:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY_ON_IMG]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY_ON_IMG");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY:
+    {
+        ERR(D_VisDat_Proc::Math_4img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY:
+    {
+        ERR(D_VisDat_Proc::Math_4img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_BINARY:
+    {
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY]),
+                3,
+                use_channels),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_BOTH_MONO_BINARY:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_BOTH_MONO_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_BOTH_MONO_BINARY");
+    }
+        break;
+
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA]),
+                1.00,
+                0.75,
+                0.50,
+                0.25),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_INTENSITY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT]),
+                1.00,
+                0.75,
+                0.50,
+                0.25),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_INTENSITY:
+    {
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY]),
+                3,
+                use_channels),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_INTENSITY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA]),
+                1.00,
+                1.00,
+                1.00,
+                1.00),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY:
+    {
+        ERR(D_VisDat_Proc::Math_Take1stNon0(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT]),
+                1.00,
+                1.00,
+                1.00,
+                1.00),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_BINARY:
+    {
+        bool use_channels[4] = {true, true, false, false};
+        ERR(D_VisDat_Proc::Channels_Merge(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY]),
+                3,
+                use_channels),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_BINARY");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO:
+    {
+        ERR(D_VisDat_Proc::Math_2img_BitwiseOr(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO");
+    }
+        break;
+
+    case STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO_SEPARATED:
+    {
+        ERR(D_VisDat_Proc::Math_2img_Subtraction(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO_SEPARATED]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_BOTH_MONO_BINARY])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO_SEPARATED");
+    }
+        break;
+
+    //Find Nuclei - Dist Sep -------------------------------------------------------------------------------------------------------
+
+    case STEP_NUC_SEG_DISTSEP_DIST:
     {
         ERR(D_VisDat_Proc::Transformation_Distance(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_DISTANCE]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_DIST]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO]),
                 DIST_L2,
                 DIST_MASK_PRECISE),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG1_DISTANCE");
+            "STEP_NUC_SEG_DISTSEP_DIST");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG1_SEEDS:
+    case STEP_NUC_SEG_DISTSEP_SEEDS:
     {
         ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_SEEDS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_DISTANCE]),
-                ui->doubleSpinBox_ImgProc_Seg1_DistThresh->value()),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_SEEDS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_DIST]),
+                ui->doubleSpinBox_MS1_ImgProcParam_DistSep_DistThres->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG1_SEEDS");
+            "STEP_NUC_SEG_DISTSEP_SEEDS");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG1_SEEDS_CLEAR:
+    case STEP_NUC_SEG_DISTSEP_SEEDS_CLEAR:
     {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Opening(
+        ERR(D_VisDat_Proc::Morphology_Elemental(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_SEEDS_CLEAR]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_SEEDS]),
-                ui->spinBox_ImgProc_Seg1_OpenSeeds->value()),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_SEEDS_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_SEEDS]),
+                MORPH_OPEN,
+                MORPH_ELLIPSE,
+                ui->spinBox_MS1_ImgProcParam_DistSep_SeedClearSize->value(),
+                ui->spinBox_MS1_ImgProcParam_DistSep_SeedClearSize->value(),
+                BORDER_REPLICATE,
+                1),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG1_SEEDS_CLEAR");
+            "STEP_NUC_SEG_DISTSEP_SEEDS_CLEAR");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG1_WATERSHED:
+    case STEP_NUC_SEG_DISTSEP_WATERSHED:
     {
         ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_WATERSHED]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_SEEDS_CLEAR]),
-                true,
-                false,
-                false),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG1_WATERSHED\nROI:\n" + vVD_ImgProcSteps[STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG].info_short() + "\nSeeds:\n" + vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_SEEDS_CLEAR].info_short());
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS:
-    {
-        ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_WATERSHED]),
-                0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS");
-    }
-        break;
-
-    //Nuclei segmentation 2 .........................................
-
-    case STEP_NUC_BOTH_SEG2_DISTANCE:
-    {
-        ERR(D_VisDat_Proc::Transformation_Distance(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_DISTANCE]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS]),
-                DIST_L2,
-                DIST_MASK_PRECISE),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG2_DISTANCE");
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG2_SEEDS:
-    {
-        ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_DISTANCE]),
-                ui->doubleSpinBox_ImgProc_Seg2_DistThresh->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG2_SEEDS");
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG2_SEEDS_CLEAR:
-    {
-        ERR(D_VisDat_Proc::MorphSimple_Circ_Opening(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS]),
-                ui->spinBox_ImgProc_Seg2_OpenSeeds->value()),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG2_SEEDS_CLEAR");
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG2_WATERSHED:
-    {
-        ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_WATERSHED]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_WATERSHED]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO_SEPARATED]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_SEEDS_CLEAR]),
                 true,
                 false,
                 true),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG2_WATERSHED");
+            "STEP_NUC_SEG_DISTSEP_WATERSHED");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG2_SELECT_AREA:
-    {
-        ERR(D_VisDat_Proc::Feature_Select(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_WATERSHED]),
-                c_FEAT_CONVEX_AREA,
-                ui->doubleSpinBox_ImgProc_Seg2_Area_Min->value(),
-                ui->doubleSpinBox_ImgProc_Seg2_Area_Max->value(),
-                8),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG2_SELECT_AREA");
-    }
-        break;
-
-    //Nuclei segmentation 3 .........................................
-
-    case STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL:
-    {
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
-                c_GEO_CONTOUR,
-                4,
-                2,
-                255),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_NUC_BORDERS_ORIGINAL");
-    }
-        break;
-
-    //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Convex Hull
-    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL:
-    {
-        //contour of convex hull
-        D_VisDat_Obj VD_tmp_ConvexHullContour;
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &VD_tmp_ConvexHullContour,
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
-                c_GEO_CONVEX_HULL,
-                4,
-                2,
-                255),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL - hull contour");
-
-        //fill contour
-        ERR(D_VisDat_Proc::Fill_Holes(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL]),
-                &VD_tmp_ConvexHullContour),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL - fill contour");
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS:
-    {
-        ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
-                true,
-                false,
-                true),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS");
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS:
+    case STEP_NUC_SEG_DISTSEP_OBJECTS:
     {
         ERR(D_VisDat_Proc::Threshold_Absolute(
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS]),
-                0),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_WATERSHED]),
+                0.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS");
+            "STEP_NUC_SEG_DISTSEP_OBJECTS");
     }
         break;
 
-    case STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL:
+    case STEP_NUC_SEG_DISTSEP_CONTOURS:
     {
         ERR(D_VisDat_Proc::Geometric_Reduce(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_OBJECTS]),
                 c_GEO_CONTOUR,
-                4,
+                8,
                 2,
                 255),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL");
+            "STEP_NUC_SEG_DISTSEP_CONTOURS");
     }
         break;
 
+    //Find Nuclei - Final Segmentation -------------------------------------------------------------------------------------------------------
 
-        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Ellipse
-        case STEP_NUC_BOTH_SEG3B_ELLIPSE:
-        {
-            //contour of convex hull
-            D_VisDat_Obj VD_tmp_EllipseContour;
-            ERR(D_VisDat_Proc::Geometric_Reduce(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &VD_tmp_EllipseContour,
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
-                    c_GEO_ELLIPSE_FIT,
-                    4,
-                    2,
-                    255),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3B_ELLIPSE - ellipse contour");
-
-            //fill contour
-            ERR(D_VisDat_Proc::Fill_Holes(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE]),
-                    &VD_tmp_EllipseContour),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3B_ELLIPSE - fill contour");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
-                    true,
-                    false,
-                    true),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Threshold_Absolute(
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS]),
-                    0),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS");
-        }
-            break;
-
-    case STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE:
+    case STEP_NUC_SEG_FINAL_OBJECTS:
     {
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS]),
-                c_GEO_CONTOUR,
-                4,
-                2,
-                255),
+        ERR(D_VisDat_Proc::Create_VD_Copy(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_FINAL_OBJECTS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_OBJECTS])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE");
+            "STEP_NUC_SEG_FINAL_OBJECTS");
     }
         break;
 
-
-        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . opened
-        case STEP_NUC_BOTH_SEG3C_OPEND:
-        {
-            //contour of convex hull
-            D_VisDat_Obj VD_tmp_OpenedContour;
-            ERR(D_VisDat_Proc::MorphSimple_Circ_Opening(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &VD_tmp_OpenedContour,
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SELECT_AREA]),
-                    ui->spinBox_ImgProc_Seg3_Open->value()),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3C_OPEND - opened contour");
-
-            //fill contour
-            ERR(D_VisDat_Proc::Fill_Holes(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND]),
-                    &VD_tmp_OpenedContour),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3C_OPEND - fill contour");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
-                    true,
-                    false,
-                    true),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Threshold_Absolute(
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS]),
-                    0),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS");
-        }
-            break;
-
-    case STEP_NUC_BOTH_SEG3C_BORDERS_OPENED:
+    case STEP_NUC_SEG_FINAL_CONTOURS:
     {
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS]),
-                c_GEO_CONTOUR,
-                4,
-                2,
-                255),
+        ERR(D_VisDat_Proc::Create_VD_Copy(
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_FINAL_CONTOURS]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_DISTSEP_CONTOURS])),
             "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3C_BORDERS_OPENED");
+            "STEP_NUC_SEG_FINAL_CONTOURS");
     }
         break;
 
 
-        //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . opened ellipse
-        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE:
-        {
-            //contour of convex hull
-            D_VisDat_Obj VD_tmp_ConvexHullContour;
-            ERR(D_VisDat_Proc::Geometric_Reduce(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &VD_tmp_ConvexHullContour,
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
-                    c_GEO_ELLIPSE_FIT,
-                    4,
-                    2,
-                    255),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE - ellipse contour");
 
-            //fill contour
-            ERR(D_VisDat_Proc::Fill_Holes(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE]),
-                    &VD_tmp_ConvexHullContour),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE - fill contour");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Transformation_Watershed_Auto(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG2_SEEDS_CLEAR]),
-                    true,
-                    false,
-                    true),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS");
-        }
-            break;
-
-        case STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS:
-        {
-            ERR(D_VisDat_Proc::Threshold_Absolute(
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS]),
-                    &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS]),
-                    0),
-                "Update_ImageProcessing_StepSingle",
-                "STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS");
-        }
-            break;
-
-    case STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE:
-    {
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS]),
-                c_GEO_CONTOUR,
-                4,
-                2,
-                255),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE");
-    }
-        break;
-
-    //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . select
-    case STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED:
-    {
-        vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED] = vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS];
-    }
-        break;
-
-    case STEP_NUC_BOTH_SEG3_BORDERS_USED:
-    {
-        ERR(D_VisDat_Proc::Geometric_Reduce(
-                D_VisDat_Slicing(c_SLICE_2D_XY),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
-                c_GEO_CONTOUR,
-                4,
-                2,
-                255),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_NUC_BORDERS_USED");
-    }
-        break;
-
-    //Nuclei segmentation vis .........................................
-
-
-
-        //Find Foci GFP -------------------------------------------------------------------------------------------------------
+    //Find Foci GFP -------------------------------------------------------------------------------------------------------
 
     case STEP_FOC_GFP_BLUR_MEDIAN:
     {
         ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_PCK_GFP]),
-                ui->spinBox_ImgProc_Foc_GFP_BlurMedianSize->value()),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_GFP]),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_BlurSize_GFP->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_GFP_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
@@ -1693,10 +2325,10 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_BLUR_MEDIAN]),
-                ui->spinBox_ImgProc_Foc_GFP_BinarySize->value(),
-                ui->doubleSpinBox_ImgProc_Foc_GFP_BinarySigma->value(),
-                ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset->value(),
-                ui->doubleSpinBox_ImgProc_Foc_GFP_BinaryScale->value()),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_BlurSize_GFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Sigma_GFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Offset_GFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Scale_GFP->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_GFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
     }
@@ -1709,8 +2341,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
                 &(vVD_ImgProcSteps[STEP_FOC_GFP_BINARY_THRES]),
                 c_FEAT_AREA,
-                ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value(),
-                ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MinArea_GFP->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MaxArea_GFP->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_GFP_SELECT_AREA - (GFP) Select foci candidates by area");
@@ -1725,8 +2357,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
         ERR(D_VisDat_Proc::Filter_Median_Circular(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_BLUR_MEDIAN]),
-                &(vVD_ImgProcSteps[STEP_PCK_RFP]),
-                ui->spinBox_ImgProc_Foc_RFP_BlurMedianSize->value()),
+                &(vVD_ImgProcSteps[STEP_PRE_SHADING_CORRECTED_RFP]),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_BlurSize_RFP->value()),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_RFP_BLUR_MEDIAN - Median blur GFP in order to get foci");
     }
@@ -1738,12 +2370,12 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_BLUR_MEDIAN]),
-                ui->spinBox_ImgProc_Foc_RFP_BinarySize->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_BinarySigma->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_BinaryScale->value()),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_BlurSize_RFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Sigma_RFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Offset_RFP->value(),
+                ui->doubleSpinBox_MS1_ImgProcParam_FindFoci_LocThres_Scale_RFP->value()),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_RFP_BINARY_THRES - Locally adaptive gaussian threshold to blured GFP image to get possible foci");
+            "STEP_FOC_RFP_BINARY_THRES - Locally adaptive gaussian threshold to blured RFP image to get possible foci");
     }
         break;
 
@@ -1754,11 +2386,11 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
                 &(vVD_ImgProcSteps[STEP_FOC_RFP_BINARY_THRES]),
                 c_FEAT_AREA,
-                ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MinArea_RFP->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MaxArea_RFP->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
-            "STEP_FOC_RFP_SELECT_AREA - (GFP) Select foci candidates by area");
+            "STEP_FOC_RFP_SELECT_AREA - (RFP) Select foci candidates by area");
     }
         break;
 
@@ -1782,8 +2414,8 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
                 &(vVD_ImgProcSteps[STEP_FOC_BOTH_SELECT_AREA]),
                 &(vVD_ImgProcSteps[STEP_FOC_BOTH_INTERSECT]),
                 c_FEAT_AREA,
-                ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value(),
-                ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MinArea_both->value(),
+                ui->spinBox_MS1_ImgProcParam_FindFoci_MaxArea_both->value(),
                 8),
             "Update_ImageProcessing_StepSingle",
             "STEP_FOC_BOTH_SELECT_AREA - Select by area");
@@ -1843,175 +2475,114 @@ void D_MAKRO_MegaFoci::Update_ImageProcessing_StepSingle_MS1(size_t step)
 
     //Visualization -------------------------------------------------------------------------------------------------------
 
-    case STEP_VIS_REGIONS_NUCLEI:
+    case STEP_VIS_REGIONS_FOCI_COLOR:
     {
-        //color code:
-        //STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL           //red       R
-        //STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL       //blue              B
-        //STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE           //yellow    R   G
-        //STEP_NUC_BOTH_SEG3C_BORDERS_OPENED            //magenta   R       B
-        //STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE    //cyan          G   B
-        //STEP_NUC_BOTH_SEG3_BORDERS_USED               //white     R   G   B
-
-        //dummy VD
-        D_VisDat_Obj VD_tmp_dummy;
-
-        //black BG
-        vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI] =
-                D_VisDat_Obj(
-                    vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL].Dim(),
-                    CV_8UC3,
-                    0);
-
-        //qDebug() << vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI].info_short();
-
-        //nuclei original
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL]),
-                255.0, 0.0, 0.0,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - original");
-
-        //nuclei convex hull
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL]),
-                0.0, 0.0, 255.0,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - convex hull");
-
-        //nuclei ellipse
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE]),
-                255.0, 255.0, 0.0,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - ellipse");
-
-        //nuclei opened
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3C_BORDERS_OPENED]),
-                255.0, 0.0, 255.0,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - opened");
-
-        //nuclei opened ellipse
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE]),
-                0.0, 255.0, 255.0,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - opened ellipse");
-
-        //nuclei used
-        ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                &VD_tmp_dummy,
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
-                255, 255, 255,
-                1.0, 1.0),
-            "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_NUCLEI - OverlayOverwrite - used");
-    }
-        break;
-
-    case STEP_VIS_REGIONS_FOCI:
-    {
-        //foci
-        D_VisDat_Obj VD_tmp_Foci;
+        bool use_channels[4] = {true, true, false, false};
         ERR(D_VisDat_Proc::Channels_Merge(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI]),     //out
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),  //B
-                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),  //G
-                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA])), //R
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COLOR]),
+                &(vVD_ImgProcSteps[STEP_FOC_RFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                &(vVD_ImgProcSteps[STEP_FOC_GFP_SELECT_AREA]),
+                3,
+                use_channels),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_FOCI - Channels_Merge foci");
+            "STEP_VIS_REGIONS_FOCI");
     }
         break;
 
-    case STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL:
+    case STEP_VIS_REGIONS_FOCI_MONO:
+    {
+        ERR(D_VisDat_Proc::Create_VD_Copy(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_MONO]),
+                &(vVD_ImgProcSteps[STEP_CLA_FOC_ALL])),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_FOCI_MONO");
+    }
+        break;
+
+    case STEP_VIS_REGIONS_FOCI_ON_IMG_ALL:
     {
         ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_ON_IMG_ALL]),
                 &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI]),
-                ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
-                ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value() / 100.0),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COLOR]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL - OverlayOverwrite");
+            "STEP_VIS_REGIONS_FOCI_ON_IMG_ALL");
     }
         break;
 
-    case STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED:
+    case STEP_VIS_REGIONS_FOCI_ON_IMG_USED:
     {
         ERR(D_VisDat_Proc::OverlayOverwrite(
-                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED]),
-                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
-                &(vVD_ImgProcSteps[STEP_NUC_BOTH_SEG3_BORDERS_USED]),
-                255, 255, 255,
-                ui->doubleSpinBox_ImgProc_Vis_Intensity_Overlay->value() / 100.0,
-                ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value() / 100.0),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_ON_IMG_USED]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COLOR]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
             "Update_ImageProcessing_StepSingle",
-            "STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED - OverlayOverwrite");
+            "STEP_VIS_REGIONS_FOCI_ON_IMG_USED");
     }
         break;
 
-    /*
-    case STEP_VIS_REGIONS_FOCI_COUNT:
+    case STEP_VIS_REGIONS_NUCLEI_ON_IMG_ALL_MONO:
     {
-        if(!state_image_decomposed)
-        {
-            ERR(ER_other, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT tried to acces unsuccesfull image decomp");
-            return;
-        }
-
-        //get pos in dataset
-        int pos_x = ui->spinBox_Viewport_X->value();
-        int pos_y = ui->spinBox_Viewport_Y->value();
-        int pos_t = ui->spinBox_Viewport_T->value();
-
-        //img decomp
-        D_Bio_NucleusImage NucImg = vvvImageDecomp_TYX[pos_t][pos_y][pos_x];
-
-        //get foci counts as QStringList
-        QStringList QSL_LabelTexts = QStringList();
-        NucImg.get_FociCount_append(&QSL_LabelTexts);
-
-        ///geometric moisaik offset in pixels
-        Point MosaikOffset_Coordinates(
-                    pos_x * (dataset_dim_img_x - ui->spinBox_ImgProc_Stitch_Overlap_x->value()),
-                    pos_y * (dataset_dim_img_y - ui->spinBox_ImgProc_Stitch_Overlap_y->value()));
-        Point MosaikOffset_Grid(pos_x, pos_y);
-
-        int ER = D_VisDat_Proc::Draw_ContourText(
-                    D_VisDat_Slicing(c_SLICE_2D_XY),
-                    &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COUNT]),
-                    &(vVD_ImgProcSteps[STEP_VIS_REGIONS_BACKGROUND]),
-                    NucImg.get_nuclei_contours(1, -MosaikOffset_Coordinates),
-                    NucImg.get_FociCounts(),
-                    NucImg.get_Centroids(1, -MosaikOffset_Coordinates),
-                    2,
-                    1,
-                    1,
-                    255);
-        ERR(ER, "Update_ImageProcessing_StepSingle", "STEP_VIS_REGIONS_FOCI_COUNT - put numbers on image");
-        if(ER != ER_okay)
-            return;
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI_ON_IMG_ALL_MONO]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_FINAL_CONTOURS]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI_ON_IMG_ALL_MONO"
+            "<br>D_VisDat_Proc::OverlayOverwrite"
+            "<br>" + vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_ALL].info_short() +
+            "<br>" + vVD_ImgProcSteps[STEP_NUC_SEG_FINAL_CONTOURS].info_short() +
+            "<br>" + QString::number(ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0) +
+            "<br>" + QString::number(ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0));
     }
         break;
-    */
+
+    case STEP_VIS_REGIONS_NUCLEI_ON_IMG_USED_MONO:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI_ON_IMG_USED_MONO]),
+                &(vVD_ImgProcSteps[STEP_VIS_PAGES_AS_COLOR_GFP_RFP]),
+                &(vVD_ImgProcSteps[STEP_NUC_SEG_FINAL_CONTOURS]),
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityBackground->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEI_ON_IMG_USED_MONO");
+    }
+        break;
+
+    case STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_ALL:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_ALL]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI_ON_IMG_ALL_MONO]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COLOR]),
+                1.00,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_ALL");
+    }
+        break;
+
+    case STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_USED:
+    {
+        ERR(D_VisDat_Proc::OverlayOverwrite(
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_USED]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_NUCLEI_ON_IMG_USED_MONO]),
+                &(vVD_ImgProcSteps[STEP_VIS_REGIONS_FOCI_COLOR]),
+                1.00,
+                ui->doubleSpinBox_MS1_ImgProcParam_Vis_IntensityOverlay->value() / 100.0),
+            "Update_ImageProcessing_StepSingle",
+            "STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_USED");
+    }
+        break;
 
     default:
     {
@@ -2401,15 +2972,15 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
 
         ///list of value image indices (GFP and RFP)
         vector<size_t> vIndices_Values(3);
-        vIndices_Values[0] = STEP_PCK_OTHER;
-        vIndices_Values[1] = STEP_PCK_GFP;
-        vIndices_Values[2] = STEP_PCK_RFP;
+        vIndices_Values[0] = STEP_PRE_SHADING_CORRECTED_OTHER;
+        vIndices_Values[1] = STEP_PRE_SHADING_CORRECTED_GFP;
+        vIndices_Values[2] = STEP_PRE_SHADING_CORRECTED_RFP;
 
         ///calculate image decomposition to bio info format
         StatusSet("Nuclei image decomposition");
         int err = vvvImageDecomp_TYX[pos_t][pos_y][pos_x].calc_NucleiDecomposition(
                     &vVD_ImgProcSteps,
-                    STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED,
+                    STEP_NUC_SEG_FINAL_OBJECTS,
                     vIndices_FociBinary,
                     vIndices_Values,
                     MosaikOffset_Coordinates,
@@ -2522,7 +3093,7 @@ void D_MAKRO_MegaFoci::Update_ImageDecomposition()
         if(pos_x > 0 && pos_y > 0)  vNeighborNucImg.push_back(vvvImageDecomp_TYX[pos_t][pos_y - 1][pos_x - 1]);
 
         //relative area overlap needed to trigger remove
-        double rel_overlap_thresh = mode_major_current == MODE_MAJOR_1_AUTO_DETECTION ? ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->value() / 100.0 : ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->value() / 100.0;
+        double rel_overlap_thresh = mode_major_current == MODE_MAJOR_1_AUTO_DETECTION ? ui->doubleSpinBox_MS1_ImgProcParam_DuplicateRelThres->value() / 100.0 : ui->doubleSpinBox_MS3_ImgProc_DuplicateRelThres->value() / 100.0;
 
         //remove nuclei that were detected in left/top/topleft image previously
         vvvImageDecomp_TYX[pos_t][pos_y][pos_x].remove_nuclei_dulicates(vNeighborNucImg, rel_overlap_thresh);
@@ -2834,11 +3405,11 @@ void D_MAKRO_MegaFoci::Populate_CB_AtStart()
     Populate_CB_Single(ui->comboBox_VisTrafo_AnchorMode,                    QSL_VisTrafo_Anchor,    c_VIS_TRAFO_ANCHOR_DYNAMIC);
     Populate_CB_Single(ui->comboBox_VisTrafo_RangeMode,                     QSL_VisTrafo_Range,     c_VIS_TRAFO_RANGE_DYNAMIC);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,              STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
+    Populate_CB_Single(ui->comboBox_ImgProc_StepShow,                       QSL_Steps,              STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_USED);
 
-    Populate_CB_Single(ui->comboBox_ImgProc_ProjectZ_Stat,                  QSL_StatList,           c_STAT_QUANTIL_95);
-    Populate_CB_Single(ui->comboBox_ImgProc_Seg0A_IgnoreDirt_Stat,          QSL_StatList,           c_STAT_QUANTIL_95);
-    Populate_CB_Single(ui->comboBox_ImgProc_Seg0B_IgnoreDirt_Stat,          QSL_StatList,           c_STAT_QUANTIL_95);
+    Populate_CB_Single(ui->comboBox_MS1_ImgProcParam_Projection_Stat_Other, QSL_StatList,           c_STAT_MAXIMUM);
+    Populate_CB_Single(ui->comboBox_MS1_ImgProcParam_Projection_Stat_GFP,   QSL_StatList,           c_STAT_MAXIMUM);
+    Populate_CB_Single(ui->comboBox_MS1_ImgProcParam_Projection_Stat_RFP,   QSL_StatList,           c_STAT_MAXIMUM);
 
     Populate_CB_Single(ui->comboBox_OverviewBig_Type,                       QSL_OverviewTypes,      OVERVIEW_TYPE_COLOR);
 }
@@ -3130,6 +3701,7 @@ bool D_MAKRO_MegaFoci::Params_Load(QString QS_FileName)
 
                         switch (param_index)
                         {
+                        /*
                         case MS1_PARAM_PRE5_BLUR_SIZE:              ui->spinBox_ImgProc_Pre_Blur_Size->setValue(int(param_value));                          break;
                         case MS1_PARAM_PRE5_BLUR_SIGMA:             ui->doubleSpinBox_ImgProc_Pre_Blur_Sigma->setValue(param_value);                        break;
                         case MS1_PARAM_PRE6_STAT:                   ui->comboBox_ImgProc_ProjectZ_Stat->setCurrentIndex(int(param_value));                  break;
@@ -3206,6 +3778,7 @@ bool D_MAKRO_MegaFoci::Params_Load(QString QS_FileName)
                         case MS1_PARAM_VIS8_INTENSITY_BACKGROUND:   ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->setValue(param_value);              break;
 
                         case MS1_PARAM_OTHER_DUPLICATE_OVERLAP:     ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->setValue(param_value);                 break;
+                            */
 
                         default:                                                                                                                            break;
                         }
@@ -3290,6 +3863,7 @@ void D_MAKRO_MegaFoci::Params_Save()
 
     case MODE_MAJOR_1_AUTO_DETECTION:
     {
+        /*
         //Params
         os_param
                 << MS1_PARAM_PRE5_BLUR_SIZE             << "," << ui->spinBox_ImgProc_Pre_Blur_Size->value()                            << "," << QSL_MS1_Params[MS1_PARAM_PRE5_BLUR_SIZE].toStdString() << "\n"
@@ -3368,6 +3942,7 @@ void D_MAKRO_MegaFoci::Params_Save()
                 << MS1_PARAM_VIS8_INTENSITY_BACKGROUND  << "," << ui->doubleSpinBox_ImgProc_Vis_Intensity_Background->value()           << "," << QSL_MS1_Params[MS1_PARAM_VIS8_INTENSITY_BACKGROUND].toStdString() << "\n"
 
                 << MS1_PARAM_OTHER_DUPLICATE_OVERLAP    << "," << ui->doubleSpinBox_MS1_ImgProc_DuplicateRelThres->value()              << "," << QSL_MS1_Params[MS1_PARAM_OTHER_DUPLICATE_OVERLAP].toStdString() << "\n";
+                */
 
         os_param.close();
     }
@@ -6910,8 +7485,8 @@ void D_MAKRO_MegaFoci::on_comboBox_VisTrafo_RangeMode_currentIndexChanged(int in
 void D_MAKRO_MegaFoci::on_comboBox_ImgProc_StepShow_currentIndexChanged(int index)
 {
     ///enable/disable viewport plane and page selection
-    ui->spinBox_Viewport_Z->setEnabled(index < STEP_PRE_PROJECT_Z);
-    ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_OTHER);
+    //ui->spinBox_Viewport_Z->setEnabled(index < STEP_PRE_PROJECT_Z);
+    //ui->spinBox_Viewport_P->setEnabled(index < STEP_PCK_OTHER);
 
     ///update data dimension info in statusbar
     L_SB_InfoVD->setText(vVD_ImgProcSteps[index].info_short());
@@ -6999,377 +7574,9 @@ void D_MAKRO_MegaFoci::on_tabWidget_Control_currentChanged(int index)
 }
 
 
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_STITCH);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Pre_Blur_Size_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Pre_Blur_Sigma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_PRE_PROJECT_Z);
-    index++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_Other_Min_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_OTHER);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_Other_Max_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_OTHER);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Other_Gamma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_OTHER);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_GFP_Min_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_GFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_GFP_Max_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_GFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_GFP_Gamma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_GFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_RFP_Min_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_RFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Vis_RFP_Max_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_RFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_RFP);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg0A_ClosingSize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_comboBox_ImgProc_Seg0A_IgnoreDirt_Stat_currentIndexChanged(int index)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT);
-    index++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BLUR_GAUSS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg0B_ClosingSize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_MORPH_CLOSEING);
-    arg1++;//useless opration to supress warning
-}
-
-
-void D_MAKRO_MegaFoci::on_comboBox_ImgProc_Seg0B_IgnoreDirt_Stat_activated(int index)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT);
-    index++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg0_CloseGaps_Size_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_CLOSE_GAPS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_ConnectSmall_CloseSize_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg1_DistThresh_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG1_SEEDS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg1_OpenSeeds_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG1_SEEDS_CLEAR);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg2_DistThresh_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG2_SEEDS);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg2_OpenSeeds_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG2_SEEDS_CLEAR);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg2_Area_Min_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG2_SELECT_AREA);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Seg2_Area_Max_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG2_SELECT_AREA);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1)
-{
-    arg1++;//useless opration to supress warning
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_BOTH_SEG3C_OPEND);
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BLUR_MEDIAN);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_BINARY_THRES);
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1)
-{
-    if(arg1 > ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->value())
-        ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMax->setValue(arg1);
-    else
-        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_SELECT_AREA);
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1)
-{
-    if(arg1 < ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->value())
-        ui->doubleSpinBox_ImgProc_Foc_GFP_AreaMin->setValue(arg1);
-    else
-        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_GFP_SELECT_AREA);
-}
-
-
-
-
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BLUR_MEDIAN);
-}
-
-void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_BINARY_THRES);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1)
-{
-    if(arg1 > ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->value())
-        ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMax->setValue(arg1);
-    else
-        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_SELECT_AREA);
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1)
-{
-    if(arg1 < ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->value())
-        ui->doubleSpinBox_ImgProc_Foc_RFP_AreaMin->setValue(arg1);
-    else
-        Update_ImageProcessing_StepFrom_MS1(STEP_FOC_RFP_SELECT_AREA);
-}
-
-
-
 void D_MAKRO_MegaFoci::on_spinBox_DataDim_P_exist_valueChanged(int arg1)
 {
     ui->spinBox_PageIndex_Other->setEnabled(arg1 > 2);
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_BOTH_SELECT_AREA);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_FOC_BOTH_SELECT_AREA);
-
-    arg1++;//useless opration to supress warning
 }
 
 void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1)
@@ -7384,30 +7591,6 @@ void D_MAKRO_MegaFoci::on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1
     ui->spinBox_ImgProc_Stitch_Overlap_y->setSuffix("px (" + QString::number((100.0 * arg1) / static_cast<double>(dataset_dim_img_y), 'g', 4) + "%)");
     Update_ImageProcessing_StepFrom_MS1(STEP_PRE_STITCH);
     Overview_Init();
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1)
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED);
-
-    arg1++;//useless opration to supress warning
-}
-
-void D_MAKRO_MegaFoci::on_groupBox_Seg0A_OTHER_clicked()
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_OTHER_SEG0A_BLUR_GAUSS);
-}
-
-void D_MAKRO_MegaFoci::on_groupBox_Seg0B_GFP_clicked()
-{
-    Update_ImageProcessing_StepFrom_MS1(STEP_NUC_GFP_SEG0B_BLUR_GAUSS);
 }
 
 void D_MAKRO_MegaFoci::on_pushButton_StepMajor_1_clicked()
@@ -12971,4 +13154,19 @@ void D_MAKRO_MegaFoci::on_pushButton_MS6_DefaultPlot_FociVsTimeAndCellCycle_clic
 
     //update
     MS6_Update_Results();
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS1_UdateImgProc_Single_clicked()
+{
+    Update_ImageProcessing_StepSingle(ui->comboBox_ImgProc_StepShow->currentIndex());
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS1_UdateImgProc_All_clicked()
+{
+    Update_ImageProcessing_StepFrom(0);
+}
+
+void D_MAKRO_MegaFoci::on_pushButton_MS1_UdateImgProc_ThisToEnd_clicked()
+{
+    Update_ImageProcessing_StepFrom(ui->comboBox_ImgProc_StepShow->currentIndex());
 }

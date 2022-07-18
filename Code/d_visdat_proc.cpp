@@ -1400,6 +1400,12 @@ int D_VisDat_Proc::Save_VD_ListFull(D_VisDat_Obj *pVD_Save, QString QS_Dir, QStr
     return ER_okay;
 }
 
+int D_VisDat_Proc::Create_VD_Copy(D_VisDat_Obj *pVD_New, D_VisDat_Obj *pVD_ToCopy)
+{
+    *pVD_New = *pVD_ToCopy;
+    return ER_okay;
+}
+
 int D_VisDat_Proc::Create_VD_Single_Constant(D_VisDat_Obj *pVD_New, D_VisDat_Dim dim_new, int type, double value)
 {
     *pVD_New = D_VisDat_Obj(
@@ -6326,6 +6332,22 @@ int D_VisDat_Proc::Math_4img_Addition(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_I
                 pVD_In3);
 }
 
+int D_VisDat_Proc::Math_4img_Addition_Weighted(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double factor0, double factor1, double factor2, double factor3)
+{
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Math_4img_Addition_Weighted(
+                    factor0,
+                    factor1,
+                    factor2,
+                    factor3),
+                pVD_Out,
+                pVD_In0,
+                pVD_In1,
+                pVD_In2,
+                pVD_In3);
+}
+
 int D_VisDat_Proc::Math_4img_Multiplication(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3)
 {
     return Wrap_VD_SameSizeType(
@@ -6368,6 +6390,22 @@ int D_VisDat_Proc::Math_4img_BitwiseOr(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_
     return Wrap_VD_SameSizeType(
                 D_VisDat_Slicing(c_SLICE_2D_XY),
                 D_Img_Proc_2dFactory::Math_4img_BitwiseOr(),
+                pVD_Out,
+                pVD_In0,
+                pVD_In1,
+                pVD_In2,
+                pVD_In3);
+}
+
+int D_VisDat_Proc::Math_Take1stNon0(D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double factor0, double factor1, double factor2, double factor3)
+{
+    return Wrap_VD_SameSizeType(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Math_Take1stNon0(
+                    factor0,
+                    factor1,
+                    factor2,
+                    factor3),
                 pVD_Out,
                 pVD_In0,
                 pVD_In1,

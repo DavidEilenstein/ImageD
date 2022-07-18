@@ -116,6 +116,7 @@ public:
     static int  Save_VD_ListFull        (D_VisDat_Obj *pVD_Save, QString QS_Dir, QString QS_ImgName, QString QS_Suffix, int plane2D, bool transVis, int mode_crop, int mode_trafo, int mode_anchor, int mode_range, double val_anchor, double val_range, double val_min, double val_max, double val_gamma, double val_center, double val_scale, bool keep_min_max = false);
 
     //create files->VD
+    static int  Create_VD_Copy              (D_VisDat_Obj *pVD_New, D_VisDat_Obj *pVD_ToCopy);
     static int  Create_VD_Single_Constant   (D_VisDat_Obj *pVD_New, D_VisDat_Dim dim_new, int type = CV_8UC1, double value = 0);
     static int  Create_VD_Single            (D_VisDat_Obj *pVD_New, QString QS_Path,                                                            int DimImgX = c_DIM_X, int DimImgY = c_DIM_Y);
     static int  Create_VD_Single            (D_VisDat_Obj *pVD_New, QFileInfo FI_Path,                                                          int DimImgX = c_DIM_X, int DimImgY = c_DIM_Y);
@@ -291,14 +292,16 @@ public:
     static int  Math_3img_BitwiseOr                 (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2);
     static int  Math_4img_Addition                  (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
     static int  Math_4img_Addition                  (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double summand);
+    static int  Math_4img_Addition_Weighted         (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double factor0, double factor1, double factor2, double factor3);
     static int  Math_4img_Multiplication            (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
     static int  Math_4img_Multiplication            (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double factor);
     static int  Math_4img_BitwiseAnd                (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
     static int  Math_4img_BitwiseOr                 (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3);
+    static int  Math_Take1stNon0                    (D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1, D_VisDat_Obj *pVD_In2, D_VisDat_Obj *pVD_In3, double factor0, double factor1, double factor2, double factor3);
     static int  Matrix_Product                      (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In0, D_VisDat_Obj *pVD_In1);
 
     //Transformation
-    static int  Transformation_Distance         (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int metric, int precision, double spacing_x3d = 1.0, double spacing_y3d = 1.0, double spacing_z3d = 1.0);
+    static int  Transformation_Distance         (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, int metric = DIST_L2, int precision =  DIST_MASK_PRECISE, double spacing_x3d = 1.0, double spacing_y3d = 1.0, double spacing_z3d = 1.0);
     static int  Transformation_Fourier          (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In_Re, D_VisDat_Obj *pVD_In_Im, bool complex_input = true, bool invers = false, bool force_fft = true, bool out_real = false, int out_complex_mode = c_COMPLEX2REAL_ABS, bool out_scale = false, bool out_center = true, bool out_nof0 = true);
     static int  Transformation_Watershed        (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Marker);
     static int  Transformation_Watershed_Auto   (D_VisDat_Slicing slice, D_VisDat_Obj *pVD_Out, D_VisDat_Obj *pVD_In, D_VisDat_Obj *pVD_Marker, bool include_not_seeded, bool conv_8bit, bool exclude_border);

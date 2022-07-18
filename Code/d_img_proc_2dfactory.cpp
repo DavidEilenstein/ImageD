@@ -1793,6 +1793,24 @@ function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_4im
     };
 }
 
+function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_4img_Addition_Weighted(double factor0, double factor1, double factor2, double factor3)
+{
+    return
+            [factor0, factor1, factor2, factor3](Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)
+    {
+        return D_Img_Proc::Math_Add_Weighted(
+                    pMA_Out,
+                    pMA_In0,
+                    pMA_In1,
+                    pMA_In2,
+                    pMA_In3,
+                    factor0,
+                    factor1,
+                    factor2,
+                    factor3);
+    };
+}
+
 function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_4img_Multiplication()
 {
     return
@@ -1847,6 +1865,24 @@ function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_4im
                     pMA_In1,
                     pMA_In2,
                     pMA_In3);
+    };
+}
+
+function<int (Mat *, Mat *, Mat *, Mat *, Mat *)> D_Img_Proc_2dFactory::Math_Take1stNon0(double factor0, double factor1, double factor2, double factor3)
+{
+    return
+            [factor0, factor1, factor2, factor3](Mat *pMA_Out, Mat *pMA_In0, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3)
+    {
+        return D_Img_Proc::Math_Take1stNon0(
+                    pMA_Out,
+                    pMA_In0,
+                    pMA_In1,
+                    pMA_In2,
+                    pMA_In3,
+                    factor0,
+                    factor1,
+                    factor2,
+                    factor3);
     };
 }
 

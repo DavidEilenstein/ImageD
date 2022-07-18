@@ -150,91 +150,10 @@ private slots:
 
     void on_tabWidget_Control_currentChanged(int index);
 
-    //img proc prepare
-    void on_doubleSpinBox_ImgProc_Stitch_Border_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Pre_Blur_Size_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Pre_Blur_Sigma_valueChanged(double arg1);
-    void on_comboBox_ImgProc_ProjectZ_Stat_currentIndexChanged(int index);
-
-    //visualize
-    void on_spinBox_ImgProc_Vis_Other_Min_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Vis_Other_Max_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Vis_Other_Gamma_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Vis_GFP_Min_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Vis_GFP_Max_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Vis_GFP_Gamma_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Vis_RFP_Min_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Vis_RFP_Max_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Vis_RFP_Gamma_valueChanged(double arg1);
-
-    //img proc nuclei
-    //SEEK
-    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_FilterRadius_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_Quantil_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresHysteresis_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0A_BaseBin_ThresIndicator_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSigma_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0A_Blur_GaussSize_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Seg0A_ClosingSize_valueChanged(int arg1);
-    void on_comboBox_ImgProc_Seg0A_IgnoreDirt_Stat_currentIndexChanged(int index);
-    void on_doubleSpinBox_ImgProc_Seg0A_IgnoreDirt_Thres_valueChanged(double arg1);
-
-    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_FilterRadius_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_Quantil_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresHysteresis_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0B_BaseBin_ThresIndicator_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSigma_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0B_Blur_GaussSize_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Seg0B_ClosingSize_valueChanged(int arg1);
-    void on_comboBox_ImgProc_Seg0B_IgnoreDirt_Stat_activated(int index);
-    void on_doubleSpinBox_ImgProc_Seg0B_IgnoreDirt_Thres_valueChanged(double arg1);
-
-    void on_spinBox_ImgProc_Seg0_CloseGaps_Size_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Min_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_GetSmall_Area_Max_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_ConnectSmall_CloseSize_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_Area_Min_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg0_Area_Max_valueChanged(double arg1);
-
-    void on_doubleSpinBox_ImgProc_Seg1_DistThresh_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Seg1_OpenSeeds_valueChanged(int arg1);
-
-    void on_doubleSpinBox_ImgProc_Seg2_DistThresh_valueChanged(double arg1);
-    void on_spinBox_ImgProc_Seg2_OpenSeeds_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Seg2_Area_Min_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Seg2_Area_Max_valueChanged(double arg1);
-
-    void on_spinBox_ImgProc_Seg3_Open_valueChanged(int arg1);
-
-    //img proc foci gfp
-    void on_spinBox_ImgProc_Foc_GFP_BlurMedianSize_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Foc_GFP_BinarySize_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Foc_GFP_BinaryOffset_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_GFP_AreaMax_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_GFP_BinarySigma_valueChanged(double arg1);
-
-    //img proc foci rfp
-    void on_spinBox_ImgProc_Foc_RFP_BlurMedianSize_valueChanged(int arg1);
-    void on_spinBox_ImgProc_Foc_RFP_BinarySize_valueChanged(int arg1);
-    void on_doubleSpinBox_ImgProc_Foc_RFP_BinaryOffset_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_RFP_AreaMax_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_RFP_BinarySigma_valueChanged(double arg1);
-
     void on_spinBox_DataDim_P_exist_valueChanged(int arg1);
-
-    void on_doubleSpinBox_ImgProc_Foc_Both_AreaMin_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Foc_Both_AreaMax_valueChanged(double arg1);
 
     void on_spinBox_ImgProc_Stitch_Overlap_x_valueChanged(int arg1);
     void on_spinBox_ImgProc_Stitch_Overlap_y_valueChanged(int arg1);
-
-    void on_doubleSpinBox_ImgProc_Vis_Intensity_Background_valueChanged(double arg1);
-    void on_doubleSpinBox_ImgProc_Vis_Intensity_Overlay_valueChanged(double arg1);
-
-    void on_groupBox_Seg0A_OTHER_clicked();
-    void on_groupBox_Seg0B_GFP_clicked();
 
     void on_horizontalSlider_OverviewBig_T_valueChanged(int value);
 
@@ -381,93 +300,156 @@ private:
 
     //Img Proc Step
     enum STEPS {
-        //Prepare (Load, Stitch, Project)
+        //Prepare
         STEP_PRE_LOAD_MAIN,
         STEP_PRE_LOAD_RIGHT,
         STEP_PRE_LOAD_BOTTOM,
         STEP_PRE_LOAD_BOTTOM_RIGHT,
         STEP_PRE_STITCH,
-        STEP_PRE_BLUR_GAUSS,
-        STEP_PRE_PROJECT_Z,
 
-        //Pick Channels
-        STEP_PCK_OTHER,
-        STEP_PCK_GFP,
-        STEP_PCK_RFP,
+        //Preprocessing OTHER
+        STEP_PRE_PICK_OTHER,
+        STEP_PRE_CROP_Z_OTHER,
+        STEP_PRE_BLUR_PLANES_INDEPENDENT_OTHER,
+        STEP_PRE_PROJECT_Z_OTHER,
+        STEP_PRE_BACKGROUND_ESTIMATION_OTHER,
+        STEP_PRE_SHADING_CORRECTED_OTHER,
+        STEP_PRE_VIS_OTHER,
 
-        //Visualization
-        STEP_VIS_OTHER,
-        STEP_VIS_GFP,
-        STEP_VIS_RFP,
+        //Preprocessing GFP
+        STEP_PRE_PICK_GFP,
+        STEP_PRE_CROP_Z_GFP,
+        STEP_PRE_BLUR_PLANES_INDEPENDENT_GFP,
+        STEP_PRE_PROJECT_Z_GFP,
+        STEP_PRE_BACKGROUND_ESTIMATION_GFP,
+        STEP_PRE_SHADING_CORRECTED_GFP,
+        STEP_PRE_VIS_GFP,
+
+        //Preprocessing RFP
+        STEP_PRE_PICK_RFP,
+        STEP_PRE_CROP_Z_RFP,
+        STEP_PRE_BLUR_PLANES_INDEPENDENT_RFP,
+        STEP_PRE_PROJECT_Z_RFP,
+        STEP_PRE_BACKGROUND_ESTIMATION_RFP,
+        STEP_PRE_SHADING_CORRECTED_RFP,
+        STEP_PRE_VIS_RFP,
+
+        //Visualization Color
         STEP_VIS_PAGES_AS_COLOR_GFP_RFP,
         STEP_VIS_PAGES_AS_COLOR_ALL,
 
-        //Find Nuclei other
-        //segmentation level 0a
-        STEP_NUC_OTHER_SEG0A_BLUR_GAUSS,
-        STEP_NUC_OTHER_SEG0A_BASEBIN_BG_REFERENCE,
-        STEP_NUC_OTHER_SEG0A_BASEBIN_REF_CORRECTED,
-        STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_INDICATOR,
-        STEP_NUC_OTHER_SEG0A_BASEBIN_THRESH_HYSTERESIS,
-        STEP_NUC_OTHER_SEG0A_BASEBIN_HYSTERESIS,
-        STEP_NUC_OTHER_SEG0A_MORPH_CLOSEING,
-        STEP_NUC_OTHER_SEG0A_FILL_HOLES,
-        STEP_NUC_OTHER_SEG0A_EXCLUDE_DIRT_BY_STAT,
+        //Nuclei thres GFP
+        STEP_NUC_SEG_GFP_BLUR_MEDIAN,
+        STEP_NUC_SEG_GFP_BLUR_MORPH_A_DILATE,
+        STEP_NUC_SEG_GFP_BLUR_MORPH_B_ERODE,
+        STEP_NUC_SEG_GFP_BLUR_MORPH_C_DILATE,
+        STEP_NUC_SEG_GFP_THRES_0_AREA,
+        STEP_NUC_SEG_GFP_THRES_1_AREA,
+        STEP_NUC_SEG_GFP_THRES_2_AREA,
+        STEP_NUC_SEG_GFP_THRES_3_AREA,
+        STEP_NUC_SEG_GFP_THRES_0_CONTOUR,
+        STEP_NUC_SEG_GFP_THRES_1_CONTOUR,
+        STEP_NUC_SEG_GFP_THRES_2_CONTOUR,
+        STEP_NUC_SEG_GFP_THRES_3_CONTOUR,
+        STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_AREAS,
+        STEP_NUC_SEG_GFP_THRES_BASE_VIS_ALL_CONTOURS,
 
-        //Find Nuclei GFP
-        //segmentation level 0b
-        STEP_NUC_GFP_SEG0B_BLUR_GAUSS,
-        STEP_NUC_GFP_SEG0B_BASEBIN_BG_REFERENCE,
-        STEP_NUC_GFP_SEG0B_BASEBIN_REF_CORRECTED,
-        STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_INDICATOR,
-        STEP_NUC_GFP_SEG0B_BASEBIN_THRESH_HYSTERESIS,
-        STEP_NUC_GFP_SEG0B_BASEBIN_HYSTERESIS,
-        STEP_NUC_GFP_SEG0B_MORPH_CLOSEING,
-        STEP_NUC_GFP_SEG0B_FILL_HOLES,
-        STEP_NUC_GFP_SEG0B_EXCLUDE_DIRT_BY_STAT,
+        //Nuclei thres RFP
+        STEP_NUC_SEG_RFP_BLUR_MEDIAN,
+        STEP_NUC_SEG_RFP_BLUR_MORPH_A_DILATE,
+        STEP_NUC_SEG_RFP_BLUR_MORPH_B_ERODE,
+        STEP_NUC_SEG_RFP_BLUR_MORPH_C_DILATE,
+        STEP_NUC_SEG_RFP_THRES_0_AREA,
+        STEP_NUC_SEG_RFP_THRES_1_AREA,
+        STEP_NUC_SEG_RFP_THRES_2_AREA,
+        STEP_NUC_SEG_RFP_THRES_3_AREA,
+        STEP_NUC_SEG_RFP_THRES_0_CONTOUR,
+        STEP_NUC_SEG_RFP_THRES_1_CONTOUR,
+        STEP_NUC_SEG_RFP_THRES_2_CONTOUR,
+        STEP_NUC_SEG_RFP_THRES_3_CONTOUR,
+        STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_AREAS,
+        STEP_NUC_SEG_RFP_THRES_BASE_VIS_ALL_CONTOURS,
 
-        //merge other and gfp seg 0a/0b-> seg 0
-        STEP_NUC_BOTH_SEG0_ADD_GFP_OTHER,
-        STEP_NUC_BOTH_SEG0_CLOSE_GAPS,
-        STEP_NUC_BOTH_SEG0_SELECT_AREA_SMALL,
-        STEP_NUC_BOTH_SEG0_MORPH_CLOSE_SMALL,
-        STEP_NUC_BOTH_SEG0_ADD_CLOSED_SMALL,
-        STEP_NUC_BOTH_SEG0_SELECT_AREA_BIG,
+        //thres vis
+        STEP_NUC_SEG_BOTH_THRES_BASE_VIS_AREAS,
+        STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS,
+        STEP_NUC_SEG_BOTH_THRES_BASE_VIS_CONTOURS_ON_IMG,
 
-        //segmentation level 1
-        STEP_NUC_BOTH_SEG1_DISTANCE,
-        STEP_NUC_BOTH_SEG1_SEEDS,
-        STEP_NUC_BOTH_SEG1_SEEDS_CLEAR,
-        STEP_NUC_BOTH_SEG1_WATERSHED,
-        STEP_NUC_BOTH_SEG1_BINARY_SEGMENTS,
-        //segmentation level 2
-        STEP_NUC_BOTH_SEG2_DISTANCE,
-        STEP_NUC_BOTH_SEG2_SEEDS,
-        STEP_NUC_BOTH_SEG2_SEEDS_CLEAR,
-        STEP_NUC_BOTH_SEG2_WATERSHED,
-        STEP_NUC_BOTH_SEG2_SELECT_AREA,
-        //segmentation level 3
-        STEP_NUC_BOTH_SEG3_BORDERS_ORIGINAL,
-        STEP_NUC_BOTH_SEG3A_CONVEX_HULL,
-        STEP_NUC_BOTH_SEG3A_CONVEX_HULL_WATERSHED_SEGMENTS,
-        STEP_NUC_BOTH_SEG3A_CONVEX_HULL_BINARY_SEGMENTS,
-        STEP_NUC_BOTH_SEG3A_BORDERS_CONVEX_HULL,
-        STEP_NUC_BOTH_SEG3B_ELLIPSE,
-        STEP_NUC_BOTH_SEG3B_ELLIPSE_WATERSHED_SEGMENTS,
-        STEP_NUC_BOTH_SEG3B_ELLIPSE_BINARY_SEGMENTS,
-        STEP_NUC_BOTH_SEG3B_BORDERS_ELLIPSE,
-        STEP_NUC_BOTH_SEG3C_OPEND,
-        STEP_NUC_BOTH_SEG3C_OPEND_WATERSHED_SEGMENTS,
-        STEP_NUC_BOTH_SEG3C_OPEND_BINARY_SEGMENTS,
-        STEP_NUC_BOTH_SEG3C_BORDERS_OPENED,
-        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE,
-        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_WATERSHED_SEGMENTS,
-        STEP_NUC_BOTH_SEG3D_OPEND_ELLIPSE_BINARY_SEGMENTS,
-        STEP_NUC_BOTH_SEG3D_BORDERS_OPENED_ELLIPSE,
-        STEP_NUC_BOTH_SEG3_BINARY_SEGMENTS_USED,
-        STEP_NUC_BOTH_SEG3_BORDERS_USED,
+        //nuc seg combi
+        //rfp t3
+        STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T3_OBJECTS_NEW_CONT,
+        //gfp t3
+        STEP_NUC_SEG_LVLCOMBI_GFP_T3_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T3_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T3_OBJECTS_ALL,
+        //rfp t2
+        STEP_NUC_SEG_LVLCOMBI_RFP_T2_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T2_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T2_OBJECTS_ALL,
+        //gfp t2
+        STEP_NUC_SEG_LVLCOMBI_GFP_T2_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T2_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T2_OBJECTS_ALL,
+        //rfp t1
+        STEP_NUC_SEG_LVLCOMBI_RFP_T1_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T1_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T1_OBJECTS_ALL,
+        //gfp t1
+        STEP_NUC_SEG_LVLCOMBI_GFP_T1_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T1_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T1_OBJECTS_ALL,
+        //rfp t0
+        STEP_NUC_SEG_LVLCOMBI_RFP_T0_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T0_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_RFP_T0_OBJECTS_ALL,
+        //gfp t0
+        STEP_NUC_SEG_LVLCOMBI_GFP_T0_WITHOUT_ACCEPTED_OBJECTS,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T0_BASE_MORPH_CLEAR,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_AREA,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_NEW_CONT,
+        STEP_NUC_SEG_LVLCOMBI_GFP_T0_OBJECTS_ALL,
+        //all
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_INTENSITY_ON_IMG,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_GFP_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_RFP_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_VIS_BOTH_COLOR_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_CONTOURS_ALL_BOTH_MONO_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_INTENSITY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_GFP_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_RFP_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_VIS_BOTH_COLOR_BINARY,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO,
+        STEP_NUC_SEG_LVLCOMBI_OBJECTS_ALL_BOTH_MONO_SEPARATED,
 
-        //Visualization
+        //distance separation of objs
+        STEP_NUC_SEG_DISTSEP_DIST,
+        STEP_NUC_SEG_DISTSEP_SEEDS,
+        STEP_NUC_SEG_DISTSEP_SEEDS_CLEAR,
+        STEP_NUC_SEG_DISTSEP_WATERSHED,
+        STEP_NUC_SEG_DISTSEP_OBJECTS,
+        STEP_NUC_SEG_DISTSEP_CONTOURS,
+
+        //nuc sep final
+        STEP_NUC_SEG_FINAL_OBJECTS,
+        STEP_NUC_SEG_FINAL_CONTOURS,
 
         //Find Foci GFP
         STEP_FOC_GFP_BLUR_MEDIAN,
@@ -490,119 +472,202 @@ private:
         STEP_CLA_FOC_IN_RFP_ONLY,
 
         //Visualization
-        STEP_VIS_REGIONS_NUCLEI,
-        STEP_VIS_REGIONS_FOCI,
-        STEP_VIS_REGIONS_BACKGROUND_NUCLEI_ALL,
-        STEP_VIS_REGIONS_BACKGROUND_NUCLEI_USED,
-        //STEP_VIS_REGIONS_FOCI_COUNT,
+        STEP_VIS_REGIONS_FOCI_COLOR,
+        STEP_VIS_REGIONS_FOCI_MONO,
+        STEP_VIS_REGIONS_FOCI_ON_IMG_ALL,
+        STEP_VIS_REGIONS_FOCI_ON_IMG_USED,
+        STEP_VIS_REGIONS_NUCLEI_ON_IMG_ALL_MONO,
+        STEP_VIS_REGIONS_NUCLEI_ON_IMG_USED_MONO,
+        STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_ALL,
+        STEP_VIS_REGIONS_NUCLEIFOCI_ON_IMG_USED,
 
+        //this huge list finally has an end...
         STEP_NUMBER_OF
     };
     const QStringList QSL_Steps = {
-        "pre-0 Load main image",
-        "pre-1 Load border image R",
-        "pre-2 Load border image B",
-        "pre-3 Load border image BR",
-        "pre-4 Stitch borders to main image",
-        "pre-5 blur input images in XY",
-        "pre-6 Z-Projection",
+        //Prepare
+        "p0 - load main",
+        "p1 - load right",
+        "p2 - load bottom",
+        "p3 - load bottom right",
+        "p4 - stitch",
 
-        "pck-0 OTHER pick signal",
-        "pck-1 GFP pick signal",
-        "pck-2 RFP pick Signal",
+        //Preprocessing OTHER
+        "po0 - other - pick channel",
+        "po1 - other - crop z",
+        "po2 - other - blur planes",
+        "po3 - other - project z",
+        "po4 - other - background estimation",
+        "po5 - other - shading corrected",
+        "po6 - other - visualize 8bit",
 
-        "vis-0 Visualize OTHER",
-        "vis-1 Visualize GFP",
-        "vis-2 Visualize RFP",
-        "vis-3 Color GFP green RFP blue",
-        "vis-4 Color all channels",
+        //Preprocessing GFP
+        "pg0 - GFP - pick channel",
+        "pg1 - GFP - crop z",
+        "pg2 - GFP - blur planes",
+        "pg3 - GFP - project z",
+        "pg4 - GFP - background estimation",
+        "pg5 - GFP - shading corrected",
+        "pg6 - GFP - visualize 8bit",
 
-        //segmentation level 0A..........................................
-        "nuc-0 OTHER seg0a gaussain blur",
-        "nuc-1 OTHER seg0a rank order filter for backgound ref",
-        "nuc-2 OTHER seg0a difference to background",
-        "nuc-3 OTHER seg0a threshhold object indicator",
-        "nuc-4 OTHER seg0a threshold possible objects",
-        "nuc-5 OTHER seg0a hysteresis of two thresholds",
-        "nuc-6 OTHER seg0a connect foreground objects",
-        "nuc-7 OTHER seg0a fill holes",
-        "nuc-8 OTHER seg0a exclude dirt",
+        //Preprocessing RFP
+        "pr0 - RFP - pick channel",
+        "pr1 - RFP - crop z",
+        "pr2 - RFP - blur planes",
+        "pr3 - RFP - project z",
+        "pr4 - RFP - background estimation",
+        "pr5 - RFP - shading corrected",
+        "pr6 - RFP - visualize 8bit",
 
-        //segmentation level 0B..........................................
-        "nuc-9 GFP seg0b gaussain blur",
-        "nuc-10 GFP seg0b rank order filter for backgound ref",
-        "nuc-11 GFP seg0b difference to background",
-        "nuc-12 GFP seg0b threshhold object indicator",
-        "nuc-13 GFP seg0b threshold possible objects",
-        "nuc-14 GFP seg0b hysteresis of two thresholds",
-        "nuc-15 GFP seg0b connect foreground objects",
-        "nuc-16 GFP seg0b fill holes",
-        "nuc-17 OTHER seg0b exclude dirt",
+        //Visualization Color
+        "v0 - pages as color (GFP and RFP)",
+        "v1 - pages as color (all)",
 
-        //segmentation level 0..........................................
-        "nuc-18 BOTH seg0 add GFP and OTHER binary",
-        "nuc-19 BOTH seg0 close gaps",
-        "nuc-20 BOTH seg0 select small",
-        "nuc-21 BOTH seg0 connect small",
-        "nuc-22 BOTH seg0 add connected small",
-        "nuc-23 BOTH seg0 select by area",
+        //Nuclei thres GFP
+        "ntg00 - GFP - blur median",
+        "ntg01 - GFP - morph a dilate",
+        "ntg02 - GFP - morph b erode",
+        "ntg03 - GFP - morph c dilate",
+        "ntg04 - GFP - thres 0 area",
+        "ntg05 - GFP - thres 1 area",
+        "ntg06 - GFP - thres 2 area",
+        "ntg07 - GFP - thres 3 area",
+        "ntg08 - GFP - thres 0 contour",
+        "ntg09 - GFP - thres 1 contour",
+        "ntg10 - GFP - thres 2 contour",
+        "ntg11 - GFP - thres 3 contour",
+        "ntg12 - GFP - base vis all areas",
+        "ntg13 - GFP - base vis all contours",
 
-        //segmentation level 1..........................................
-        "nuc-24 BOTH seg1 distance transformation",
-        "nuc-25 BOTH seg1 get seeds",
-        "nuc-26 BOTH seg1 clear seeds",
-        "nuc-27 BOTH seg1 watershed segmentation",
-        "nuc-28 BOTH seg1 binary segments",
+        //Nuclei thres RFP
+        "ntr00 - RFP - blur median",
+        "ntr01 - RFP - morph a dilate",
+        "ntr02 - RFP - morph b erode",
+        "ntr03 - RFP - morph c dilate",
+        "ntr04 - RFP - thres 0 area",
+        "ntr05 - RFP - thres 1 area",
+        "ntr06 - RFP - thres 2 area",
+        "ntr07 - RFP - thres 3 area",
+        "ntr08 - RFP - thres 0 contour",
+        "ntr09 - RFP - thres 1 contour",
+        "ntr10 - RFP - thres 2 contour",
+        "ntr11 - RFP - thres 3 contour",
+        "ntr12 - RFP - base vis all areas",
+        "ntr13 - RFP - base vis all contours",
 
-        //segmentation level 2..........................................
-        "nuc-29 BOTH seg2 distance transformation",
-        "nuc-30 BOTH seg2 get seeds",
-        "nuc-31 BOTH seg2 clear seeds",
-        "nuc-32 BOTH seg2 watershed segmentation",
-        "nuc-33 BOTH seg2 select by area",
+        //thres vis
+        "ntb0 - both - base vis areas",
+        "ntb1 - both - base vis contours",
+        "ntb2 - both - base vis contours on image",
 
-        //segmentation level 3..........................................
-        "vis-5 Nuclei segemntation borders (original)",
-        "nuc-34 BOTH seg3a convex hull",
-        "nuc-35 BOTH seg3a convex hull watershed",
-        "nuc-36 BOTH seg3a convex hull binary segments",
-        "vis-6 Nuclei segemntation borders (convex hull)",
-        "nuc-37 BOTH seg3b ellipse",
-        "nuc-38 BOTH seg3b ellipse watershed",
-        "nuc-39 BOTH seg3b ellipse binary segments",
-        "vis-7 Nuclei segemntation borders (ellipse)",
-        "nuc-40 BOTH seg3c opened",
-        "nuc-41 BOTH seg3c opened watershed",
-        "nuc-42 BOTH seg3c opened binary segments",
-        "vis-8 Nuclei segemntation borders (opened)",
-        "nuc-43 BOTH seg3d opened ellipse",
-        "nuc-44 BOTH seg3d opened ellipse watershed",
-        "nuc-45 BOTH seg3d opened ellipse binary segments",
-        "vis-9 Nuclei segemntation borders (opened ellipse)",
-        "nuc-46 BOTH seg3 binary segments used",
-        "vis-10 Nuclei segemntation borders (used)",
+        //nuc seg combi
+        //rfp t3
+        "nlr30 - RFP - objects new",
+        "nlr31 - RFP - objects new contours",
+        //gfp t3
+        "nlg30 - GFP - without accepted objects",
+        "nlg31 - GFP - base morphological clear",
+        "nlg32 - GFP - objects new",
+        "nlg33 - GFP - objects new contour",
+        "nlg34 - GFP - objects all",
+        //rfp t2
+        "nlr20 - RFP - without accepted objects",
+        "nlr21 - RFP - base morphological clear",
+        "nlr22 - RFP - objects new",
+        "nlr23 - RFP - objects new contour",
+        "nlr24 - RFP - objects all",
+        //gfp t2
+        "nlg20 - GFP - without accepted objects",
+        "nlg21 - GFP - base morphological clear",
+        "nlg22 - GFP - objects new",
+        "nlg23 - GFP - objects new contour",
+        "nlg24 - GFP - objects all",
+        //rfp t1
+        "nlr10 - RFP - without accepted objects",
+        "nlr11 - RFP - base morphological clear",
+        "nlr12 - RFP - objects new",
+        "nlr13 - RFP - objects new contour",
+        "nlr14 - RFP - objects all",
+        //gfp t1
+        "nlg10 - GFP - without accepted objects",
+        "nlg11 - GFP - base morphological clear",
+        "nlg12 - GFP - objects new",
+        "nlg13 - GFP - objects new contour",
+        "nlg14 - GFP - objects all",
+        //rfp t0
+        "nlr00 - RFP - without accepted objects",
+        "nlr01 - RFP - base morphological clear",
+        "nlr02 - RFP - objects new",
+        "nlr03 - RFP - objects new contour",
+        "nlr04 - RFP - objects all",
+        //gfp t0
+        "nlg00 - GFP - without accepted objects",
+        "nlg01 - GFP - base morphological clear",
+        "nlg02 - GFP - objects new",
+        "nlg03 - GFP - objects new contour",
+        "nlg04 - GFP - objects all",
+        //all
+        "nla00 - GFP - contours gfp vis intensity",
+        "nla01 - RFP - contours rfp vis intensity",
+        "nla02 - both - contours color vis intensity",
+        "nla03 - both - contours color vis intensity on image",
+        "nla04 - GFP - contours gfp vis binary",
+        "nla05 - RFP - contours rfp vis binary",
+        "nla06 - both - contours color vis binary",
+        "nla07 - both - contours both mono binary",
+        "nla08 - GFP - objects gfp vis intensity",
+        "nla09 - RFP - objects rfp vis intensity",
+        "nla10 - both - objects color vis intensity",
+        "nla11 - GFP - objects gfp vis binary",
+        "nla12 - RFP - objects rfp vis binary",
+        "nla13 - both - objects color vis binary",
+        "nla14 - both - objects both mono",
+        "nla15 - both - objects both mono separated",
 
-        "foc-gfp-0 circular median blur",
-        "foc-gfp-1 binarize by threshold",
-        "foc-gfp-2 Select by Area",
+        //distance separation of objs
+        "nd0 - distance",
+        "nd1 - seeds",
+        "nd2 - seeds clear",
+        "nd3 - watershed",
+        "nd4 - objects",
+        "nd5 - contours",
 
-        "foc-rfp-0 circular median blur",
-        "foc-rfp-1 binarize by threshold",
-        "foc-rfp-2 Select by Area",
+        //nuc sep final
+        "nf0 - objects",
+        "nf1 - contours",
 
-        "foc-both-0 foci detected in GFP and RFP",
-        "foc-both-0 Select by Area",
+        //Find Foci GFP
+        "fg0 - GFP - blur",
+        "fg1 - GFP - thres",
+        "fg2 - GFP - select area",
 
-        "cla-0 Foci in at least one channel",
-        "cla-1 Foci in one channel only",
-        "cla-2 Foci in GFP only",
-        "cla-3 Foci in RFP only",
+        //Find Foci RFP
+        "fr0 - RFP - blur",
+        "fr1 - RFP - thres",
+        "fr2 - RFP - select area",
 
-        "vis-11 Regions Nuclei",
-        "vis-11 Regions Foci",
-        "vis-12 Regions nuclei with background (used)",
-        "vis-13 Regions nuclei with background (all)",
-        //"vis-13 Regions with foci counts"
+        //Match Foci
+        "fb0 - both - intersect",
+        "fb1 - both - select area",
+
+        //Classification
+        "fc0 - all",
+        "fc1 - only one",
+        "fc2 - only GFP",
+        "fc3 - only RFP",
+
+        //Visualization
+        "v04 - regions foci color",
+        "v05 - regions foci mono",
+        "v06 - regions foci color on image all",
+        "v07 - regions foci color on image used",
+        "v08 - regions nuclei mono on img all",
+        "v09 - regions nuclei mono on image used",
+        "v10 - regions nuclei and foci on image all",
+        "v11 - regions nuclei and foci on image used"
+
+        //this huge list finally has an end...
+
     };
 
     enum MS1_PARAMS {
@@ -1672,6 +1737,12 @@ private slots:
     void on_pushButton_MS6_DefaultPlot_FociVsTime_WithError_clicked();
 
     void on_pushButton_MS6_DefaultPlot_FociVsTimeAndCellCycle_clicked();
+
+    void on_pushButton_MS1_UdateImgProc_Single_clicked();
+
+    void on_pushButton_MS1_UdateImgProc_All_clicked();
+
+    void on_pushButton_MS1_UdateImgProc_ThisToEnd_clicked();
 
 private:
 

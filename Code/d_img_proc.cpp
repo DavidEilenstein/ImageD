@@ -6688,7 +6688,7 @@ int D_Img_Proc::Threshold_Adaptive(Mat *pMA_Out, Mat *pMA_In, int out_mode, doub
 
 int D_Img_Proc::Threshold_Adaptive_Gauss(Mat *pMA_Out, Mat *pMA_In, int size, double sigma, double offset, double scale)
 {
-    //multichannel vaersion will be added when needed
+    ///multichannel version will be added when needed - currently only mono
     return Threshold_Adaptive_Gauss_1C(
                 pMA_Out,
                 pMA_In,
@@ -12501,6 +12501,75 @@ int D_Img_Proc::Math_Add(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3,
     return ER;
 }
 
+int D_Img_Proc::Math_Add_Weighted(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, double factor1, double factor2)
+{
+    return Math_ImgImg_AddWeighted(
+                pMA_Out,
+                pMA_In1,
+                pMA_In2,
+                factor1,
+                factor2,
+                1.0);
+}
+
+int D_Img_Proc::Math_Add_Weighted(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, double factor1, double factor2, double factor3)
+{
+    int ER;
+
+    Mat MA_tmp;
+    ER = Math_Add_Weighted(
+                &MA_tmp,
+                pMA_In1,
+                pMA_In2,
+                factor1,
+                factor2);
+    if(ER != ER_okay)
+    {
+        MA_tmp.release();
+        return ER;
+    }
+
+    ER = Math_Add_Weighted(
+                pMA_Out,
+                &MA_tmp,
+                pMA_In3,
+                1.0,
+                factor3);
+
+    MA_tmp.release();
+    return ER;
+}
+
+int D_Img_Proc::Math_Add_Weighted(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4, double factor1, double factor2, double factor3, double factor4)
+{
+    int ER;
+
+    Mat MA_tmp;
+    ER = Math_Add_Weighted(
+                &MA_tmp,
+                pMA_In1,
+                pMA_In2,
+                pMA_In3,
+                factor1,
+                factor2,
+                factor3);
+    if(ER != ER_okay)
+    {
+        MA_tmp.release();
+        return ER;
+    }
+
+    ER = Math_Add_Weighted(
+                pMA_Out,
+                &MA_tmp,
+                pMA_In4,
+                1.0,
+                factor4);
+
+    MA_tmp.release();
+    return ER;
+}
+
 int D_Img_Proc::Math_Mult(Mat *pMA_Out, Mat *pMA_In1, double factor)
 {
     return Math_ImgScal_Mult(
@@ -12851,6 +12920,7 @@ int D_Img_Proc::Math_LimitTop(Mat *pMA_Target, Mat *pMA_InThresh)
     if(pMA_InThresh->empty())                                       return ER_empty;
     if(pMA_Target->empty())                                         return ER_empty;
     if(pMA_InThresh->type() != pMA_Target->type())                  return ER_type_missmatch;
+    if(pMA_InThresh->size() != pMA_Target->size())                  return ER_size_missmatch;
     if(pMA_InThresh->channels() != 1)                               return ER_channel_bad;
 
     //type switch
@@ -12923,6 +12993,197 @@ int D_Img_Proc::Math_LimitTop(Mat *pMA_Target, Mat *pMA_InThresh)
         for(int px = 0; px < pMA_Target->cols * pMA_Target->rows; px++, ptr_tar++, ptr_thr++)
             if(*ptr_tar > *ptr_thr)
                 *ptr_tar = *ptr_thr;
+    }
+        break;
+
+    default:
+        return ER_type_bad;
+    }
+
+    return ER_okay;
+}
+
+int D_Img_Proc::Math_Take1stNon0(Mat *pMA_Out, Mat *pMA_In1, Mat *pMA_In2, Mat *pMA_In3, Mat *pMA_In4, double factor1, double factor2, double factor3, double factor4)
+{
+    if(pMA_In1->empty())                                            return ER_empty;
+    if(pMA_In2->empty())                                            return ER_empty;
+    if(pMA_In3->empty())                                            return ER_empty;
+    if(pMA_In4->empty())                                            return ER_empty;
+    if(pMA_In1->channels() != 1)                                    return ER_channel_bad;
+    if(pMA_In2->channels() != 1)                                    return ER_channel_bad;
+    if(pMA_In3->channels() != 1)                                    return ER_channel_bad;
+    if(pMA_In4->channels() != 1)                                    return ER_channel_bad;
+    if(pMA_In1->type() != pMA_In2->type())                          return ER_type_missmatch;
+    if(pMA_In1->type() != pMA_In3->type())                          return ER_type_missmatch;
+    if(pMA_In1->type() != pMA_In4->type())                          return ER_type_missmatch;
+    if(pMA_In1->size() != pMA_In2->size())                          return ER_size_missmatch;
+    if(pMA_In1->size() != pMA_In3->size())                          return ER_size_missmatch;
+    if(pMA_In1->size() != pMA_In4->size())                          return ER_size_missmatch;
+
+    //init out
+    *pMA_Out = Mat::zeros(pMA_In1->size(), pMA_In1->type());
+
+    //type switch
+    switch (pMA_In1->type()) {
+
+    case CV_8UC1:
+    {
+        uchar* ptr_out = reinterpret_cast<uchar*>(pMA_Out->data);
+        uchar* ptr_in1 = reinterpret_cast<uchar*>(pMA_In1->data);
+        uchar* ptr_in2 = reinterpret_cast<uchar*>(pMA_In2->data);
+        uchar* ptr_in3 = reinterpret_cast<uchar*>(pMA_In3->data);
+        uchar* ptr_in4 = reinterpret_cast<uchar*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = uchar(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = uchar(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = uchar(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = uchar(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_8SC1:
+    {
+        char* ptr_out = reinterpret_cast<char*>(pMA_Out->data);
+        char* ptr_in1 = reinterpret_cast<char*>(pMA_In1->data);
+        char* ptr_in2 = reinterpret_cast<char*>(pMA_In2->data);
+        char* ptr_in3 = reinterpret_cast<char*>(pMA_In3->data);
+        char* ptr_in4 = reinterpret_cast<char*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = char(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = char(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = char(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = char(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_16UC1:
+    {
+        ushort* ptr_out = reinterpret_cast<ushort*>(pMA_Out->data);
+        ushort* ptr_in1 = reinterpret_cast<ushort*>(pMA_In1->data);
+        ushort* ptr_in2 = reinterpret_cast<ushort*>(pMA_In2->data);
+        ushort* ptr_in3 = reinterpret_cast<ushort*>(pMA_In3->data);
+        ushort* ptr_in4 = reinterpret_cast<ushort*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = ushort(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = ushort(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = ushort(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = ushort(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_16SC1:
+    {
+        short* ptr_out = reinterpret_cast<short*>(pMA_Out->data);
+        short* ptr_in1 = reinterpret_cast<short*>(pMA_In1->data);
+        short* ptr_in2 = reinterpret_cast<short*>(pMA_In2->data);
+        short* ptr_in3 = reinterpret_cast<short*>(pMA_In3->data);
+        short* ptr_in4 = reinterpret_cast<short*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = short(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = short(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = short(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = short(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_32SC1:
+    {
+        int* ptr_out = reinterpret_cast<int*>(pMA_Out->data);
+        int* ptr_in1 = reinterpret_cast<int*>(pMA_In1->data);
+        int* ptr_in2 = reinterpret_cast<int*>(pMA_In2->data);
+        int* ptr_in3 = reinterpret_cast<int*>(pMA_In3->data);
+        int* ptr_in4 = reinterpret_cast<int*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = int(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = int(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = int(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = int(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_32FC1:
+    {
+        float* ptr_out = reinterpret_cast<float*>(pMA_Out->data);
+        float* ptr_in1 = reinterpret_cast<float*>(pMA_In1->data);
+        float* ptr_in2 = reinterpret_cast<float*>(pMA_In2->data);
+        float* ptr_in3 = reinterpret_cast<float*>(pMA_In3->data);
+        float* ptr_in4 = reinterpret_cast<float*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = float(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = float(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = float(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = float(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
+    }
+        break;
+
+    case CV_64FC1:
+    {
+        double* ptr_out = reinterpret_cast<double*>(pMA_Out->data);
+        double* ptr_in1 = reinterpret_cast<double*>(pMA_In1->data);
+        double* ptr_in2 = reinterpret_cast<double*>(pMA_In2->data);
+        double* ptr_in3 = reinterpret_cast<double*>(pMA_In3->data);
+        double* ptr_in4 = reinterpret_cast<double*>(pMA_In4->data);
+        for(int px = 0; px < pMA_Out->cols * pMA_Out->rows; px++, ptr_out++, ptr_in1++, ptr_in2++, ptr_in3++, ptr_in4++)
+        {
+            if(*ptr_in1 != 0.0)
+                *ptr_out = double(*ptr_in1 * factor1);
+            else if(*ptr_in2 != 0.0)
+                *ptr_out = double(*ptr_in2 * factor2);
+            else if(*ptr_in3 != 0.0)
+                *ptr_out = double(*ptr_in3 * factor3);
+            else if(*ptr_in4 != 0.0)
+                *ptr_out = double(*ptr_in4 * factor4);
+            else
+                *ptr_out = 0;
+        }
     }
         break;
 
@@ -19555,11 +19816,11 @@ int D_Img_Proc::OverlayImage(Mat *pMA_Out, Mat *pMA_BaseR, Mat *pMA_BaseG, Mat *
 
 int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, double intensity_overlay, double intensity_backgr)
 {
-    if(pMA_In->type() != CV_8UC3)                       return ER_type_bad;
-    if(pMA_Overlay->type() != CV_8UC3)                  return ER_type_bad;
-    if(pMA_In->size() != pMA_Overlay->size())           return ER_size_missmatch;
-    if(intensity_overlay < 0 || intensity_overlay > 1)  return ER_parameter_bad;
-    if(intensity_backgr < 0 || intensity_backgr > 1)    return ER_parameter_bad;
+    if(pMA_In->type() != CV_8UC3)                                           return ER_type_bad;
+    if(pMA_Overlay->type() != CV_8UC3 && pMA_Overlay->type() != CV_8UC1)    return ER_type_bad;
+    if(pMA_In->size() != pMA_Overlay->size())                               return ER_size_missmatch;
+    if(intensity_overlay < 0 || intensity_overlay > 1)                      return ER_parameter_bad;
+    if(intensity_backgr < 0 || intensity_backgr > 1)                        return ER_parameter_bad;
 
     //init out
     int ER = Math_ImgScal_Mult(
@@ -19574,13 +19835,28 @@ int D_Img_Proc::OverlayOverwrite(Mat *pMA_Out, Mat *pMA_In, Mat *pMA_Overlay, do
 
     //loop & replace
     Vec3b* ptr_out = reinterpret_cast<Vec3b*>(pMA_Out->data);
-    Vec3b* ptr_ovr = reinterpret_cast<Vec3b*>(pMA_Overlay->data);
-    for(int px = 0; px < area; px++, ptr_out++, ptr_ovr++)
-        if((*ptr_ovr)[0] > 0 || (*ptr_ovr)[1] > 0 || (*ptr_ovr)[2] > 0)
-            *ptr_out = Vec3b(
-                    (*ptr_ovr)[0] * intensity_overlay,
-                    (*ptr_ovr)[1] * intensity_overlay,
-                    (*ptr_ovr)[2] * intensity_overlay);
+    if(pMA_Overlay->type() == CV_8UC3)
+    {
+        Vec3b* ptr_ovr = reinterpret_cast<Vec3b*>(pMA_Overlay->data);
+        for(int px = 0; px < area; px++, ptr_out++, ptr_ovr++)
+            if((*ptr_ovr)[0] > 0 || (*ptr_ovr)[1] > 0 || (*ptr_ovr)[2] > 0)
+                *ptr_out = Vec3b(
+                        uchar((*ptr_ovr)[0] * intensity_overlay),
+                        uchar((*ptr_ovr)[1] * intensity_overlay),
+                        uchar((*ptr_ovr)[2] * intensity_overlay));
+    }
+    else //CV_8UC1
+    {
+        //qDebug() << "D_Img_Proc::OverlayOverwrite CV_8UC1 loop start";
+        uchar* ptr_ovr = reinterpret_cast<uchar*>(pMA_Overlay->data);
+        for(int px = 0; px < area; px++, ptr_out++, ptr_ovr++)
+            if((*ptr_ovr) > 0)
+                *ptr_out = Vec3b(
+                        uchar((*ptr_ovr) * intensity_overlay),
+                        uchar((*ptr_ovr) * intensity_overlay),
+                        uchar((*ptr_ovr) * intensity_overlay));
+        //qDebug() << "D_Img_Proc::OverlayOverwrite CV_8UC1 loop end";
+    }
 
     return ER_okay;
 }
