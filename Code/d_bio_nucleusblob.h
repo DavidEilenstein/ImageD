@@ -59,6 +59,8 @@ public:
     void                            add_Focus(size_t channel, D_Bio_Focus focus);
     void                            clear_Foci()                                                {vvFoci.clear();}
 
+    void                            apply_shift(int shift_x, int shift_y);
+
     double                          attribute(size_t i_attrib, size_t ch_val, double scale_px2um);
     static bool                     attribute_is_value_channel_dependent(size_t i_attrib);
     static bool                     attribute_is_focus_channel_dependent(size_t i_attrib);

@@ -84,7 +84,7 @@ public:
     size_t                      get_NucleusLifesCount(bool filtered);
     D_Bio_NucleusLife*          get_pNucleusLife(size_t index, bool filtered);
 
-    bool load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files);
+    bool load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files, bool correct_shift = false, int shift_t = 0, int shift_x = 0, int shift_y = 0);
     bool add_nucleus_blob(size_t t, size_t y, size_t x, D_Bio_NucleusBlob nuc);
 
     bool initMatching(vector<double> score_weights, vector<double> score_maxima, double shift_limit, double max_rel_area_inc_to, double max_rel_area_dec_to, double max_age, double thres_tm1_go1, double thres_tm2_go1, double thres_tm3_go1, double thres_tm1_go2, double thres_tm2_go2, double thres_tm3_go2, double mitosis_mult_go1, double mitosis_mult_go2);
@@ -163,7 +163,7 @@ public slots:
 private:
 
     static bool match_save_results_time_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirSaveMaster, size_t t_thread);
-    static bool load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err);
+    static bool load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err, bool correct_shift = false, int shift_t = 0, int shift_x = 0, int shift_y = 0);
     static bool load_time_nuclei_matches_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadNucLifes, size_t t_thread, int *err);
 
     void        match_correct_mitosis(  size_t t_parents, size_t t_childs, double score_multiplier, bool allow_new_mitosis);

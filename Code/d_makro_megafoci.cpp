@@ -8217,6 +8217,7 @@ bool D_MAKRO_MegaFoci::MS4_LoadData()
         return false;
     }
 
+    ui->groupBox_MS4_IrrShift->setEnabled(false);
     ui->groupBox_MS4_Matching->setEnabled(true);
     ui->groupBox_MS4_ScoreFeats->setEnabled(true);
     ui->groupBox_MS4_ScoreNoGoThres->setEnabled(true);
@@ -8310,7 +8311,11 @@ bool D_MAKRO_MegaFoci::MS4_LoadDetectionsToPedigree()
                 DIR_MS4_In_DetectionsAssigned.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
                 true,
-                true);
+                true,
+                ui->checkBox_MS4_IrrShift_CorrectShift->isChecked(),
+                ui->spinBox_MS4_IrrShift_Shift_T->value(),
+                ui->spinBox_MS4_IrrShift_ShiftPx_X->value(),
+                ui->spinBox_MS4_IrrShift_ShiftPx_Y->value());
 
     state_MS4_detections_loaded_to_pedigree = true;
     StatusSet("Finished loading nuclei data from step 3");
@@ -11537,7 +11542,11 @@ bool D_MAKRO_MegaFoci::MS6_LoadNucleiData()
                 DIR_MS6_Load_NucleiData.path(),
                 dataset_dim_t, dataset_dim_mosaic_y, dataset_dim_mosaic_x,
                 false,
-                true);
+                true,
+                ui->checkBox_MS6_IrrShift_CorrectShift->isChecked(),
+                int(ui->doubleSpinBox_MS6_IrradiationTime->value()),
+                ui->spinBox_MS6_IrrShift_ShiftPx_X->value(),
+                ui->spinBox_MS6_IrrShift_ShiftPx_Y->value());
 
     if(ok)
     {

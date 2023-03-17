@@ -113,6 +113,27 @@ void D_Bio_NucleusBlob::add_Focus(size_t channel, D_Bio_Focus focus)
     if(channel < vvFoci.size())
         vvFoci[channel].push_back(focus);}
 
+void D_Bio_NucleusBlob::apply_shift(int shift_x, int shift_y)
+{
+    //only shift, if there is a shift
+    if(shift_x == 0 && shift_y == 0)
+        return;
+
+    //shift as a point
+    Point P_shift(shift_x, shift_y);
+
+    //shift contour
+    for(size_t p = 0; p < m_contour.size(); p++)
+        m_contour[p] += P_shift;
+
+    //shift foci
+    for(size_t c = 0; c < vvFoci.size(); c++)
+        for(size_t f = 0; f < vvFoci[c].size(); f++)
+            vvFoci[c][f].apply_shift(shift_x, shift_y);
+
+    state_feats_calced  = false;
+}
+
 double D_Bio_NucleusBlob::attribute(size_t i_attrib, size_t ch_val, double scale_px2um)
 {
     if(i_attrib >= ATTRIB_NUC_NUMBER_OF)

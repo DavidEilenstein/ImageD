@@ -69,6 +69,12 @@ D_Bio_Focus::D_Bio_Focus(Point2f centroid, double area, double compactness, doub
     state_feats_calced = true;
 }
 
+void D_Bio_Focus::apply_shift(int shift_x, int shift_y)
+{
+    //shift centroid
+    m_centroid += Point2f(shift_x, shift_y);
+}
+
 double D_Bio_Focus::attribute(size_t i_attrib, size_t ch_val, double scale_px2um)
 {
     if(i_attrib >= ATTRIB_FOC_NUMBER_OF)

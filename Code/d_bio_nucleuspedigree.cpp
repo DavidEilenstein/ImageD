@@ -434,7 +434,7 @@ D_Bio_NucleusLife *D_Bio_NucleusPedigree::get_pNucleusLife(size_t index, bool fi
     return filtered ? &(vNucLifes_Filtered[index]) : &(vNucLifes[index]);
 }
 
-bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files)
+bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QString QS_path_NucData, size_t nt, size_t ny, size_t nx, bool forget_contour, bool foci_are_part_of_nuc_files, bool correct_shift, int shift_t, int shift_x, int shift_y)
 {
     QDir DIR_LoadNucDataMaster(QS_path_NucDataMaster);
     QDir DIR_LoadNucData(QS_path_NucData);
@@ -460,7 +460,11 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                     t,
                     forget_contour,
                     foci_are_part_of_nuc_files,
-                    &(vErrors[t]));
+                    &(vErrors[t]),
+                    correct_shift,
+                    shift_t,
+                    shift_x,
+                    shift_y);
 
     //join threds
     for(size_t t = 0; t < nt; t++)
@@ -476,7 +480,11 @@ bool D_Bio_NucleusPedigree::load_nuclei_data(QString QS_path_NucDataMaster, QStr
                         t,
                         forget_contour,
                         foci_are_part_of_nuc_files,
-                        &(vErrors[t]));
+                        &(vErrors[t]),
+                        correct_shift,
+                        shift_t,
+                        shift_x,
+                        shift_y);
 
     //check again and count remaining errors
     size_t fails = 0;
@@ -3127,7 +3135,7 @@ bool D_Bio_NucleusPedigree::match_save_results_time_thread(vector<vector<vector<
     return true;
 }
 
-bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err)
+bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<vector<D_Bio_NucleusBlob>>>> *pvvvvNucsTYXI, QDir DirLoadMaster, QDir DirLoadNucs, size_t t_thread, bool forget_contour, bool foci_are_part_of_nuc_files, int *err, bool correct_shift, int shift_t, int shift_x, int shift_y)
 {
     //sizes
     size_t nt = (*pvvvvNucsTYXI).size();
@@ -3238,6 +3246,13 @@ bool D_Bio_NucleusPedigree::load_time_nuclei_data_thread(vector<vector<vector<ve
                                     {
                                         //get Nuc
                                         D_Bio_NucleusBlob NucBlob = NucImg.get_nucleus(nuc);
+
+                                        //correct shift (only after shift time)
+                                        if(correct_shift && int(t_thread) > shift_t)
+                                        {
+                                            //minus shift, to correct it
+                                            NucBlob.apply_shift(-shift_x, -shift_y);
+                                        }
 
                                         //forget contour to save memory in this step
                                         if(forget_contour)

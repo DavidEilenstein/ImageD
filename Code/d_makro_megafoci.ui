@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1655</width>
-    <height>945</height>
+    <width>1658</width>
+    <height>1031</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -256,7 +256,7 @@
     <item row="0" column="1" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget_StepMajor">
       <property name="currentIndex">
-       <number>1</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="stackedWidget_StepMajor_0">
        <layout class="QGridLayout" name="gridLayout_17">
@@ -7556,7 +7556,7 @@ QProgressBar::chunk {
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="2" column="2">
+        <item row="4" column="2">
          <widget class="QGroupBox" name="groupBox_MS4_ScoreNoGoThres">
           <property name="enabled">
            <bool>false</bool>
@@ -7737,8 +7737,11 @@ QProgressBar::chunk {
           </layout>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QGroupBox" name="groupBox_MS4_Data">
+        <item row="5" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_PedigreePropertys">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -7758,9 +7761,320 @@ QProgressBar::chunk {
            </size>
           </property>
           <property name="title">
-           <string>Data</string>
+           <string>Pedigree propertys</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_65">
+          <layout class="QGridLayout" name="gridLayout_63">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="6" column="1" colspan="2">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_TrackingBorderWidth">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="prefix">
+              <string>tracking not safe in border of </string>
+             </property>
+             <property name="maximum">
+              <number>9999</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+             <property name="value">
+              <number>400</number>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_108">
+             <property name="text">
+              <string>Mitosis start</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="prefix">
+              <string>X: </string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
+             </property>
+             <property name="value">
+              <number>999999999</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Scale_px2um">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>X/Y: 1px = </string>
+             </property>
+             <property name="suffix">
+              <string>um</string>
+             </property>
+             <property name="decimals">
+              <number>6</number>
+             </property>
+             <property name="minimum">
+              <double>0.000001000000000</double>
+             </property>
+             <property name="maximum">
+              <double>999.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.000001000000000</double>
+             </property>
+             <property name="value">
+              <double>0.121212000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="prefix">
+              <string>Y:</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
+             </property>
+             <property name="value">
+              <number>999999999</number>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_104">
+             <property name="text">
+              <string>size full mosaik</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_107">
+             <property name="text">
+              <string>Margin</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Scale_T2h">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>T: 1 T-step = </string>
+             </property>
+             <property name="suffix">
+              <string>h</string>
+             </property>
+             <property name="minimum">
+              <double>0.010000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="4">
+            <widget class="Line" name="line_25">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_102">
+             <property name="text">
+              <string>Size single img</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string> px</string>
+             </property>
+             <property name="prefix">
+              <string>X:</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>9999</number>
+             </property>
+             <property name="value">
+              <number>1004</number>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1" colspan="2">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_EarliestMitosisT">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string/>
+             </property>
+             <property name="prefix">
+              <string>earliest possible mitosis at T=</string>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string> px</string>
+             </property>
+             <property name="prefix">
+              <string>Y:</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>9999</number>
+             </property>
+             <property name="value">
+              <number>1002</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_106">
+             <property name="text">
+              <string>Axis scale</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0" rowspan="11" colspan="2">
+         <widget class="QGroupBox" name="groupBox_MS4_Pedigree">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="title">
+           <string>Pedigree</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_66">
            <property name="leftMargin">
             <number>3</number>
            </property>
@@ -7777,26 +8091,1328 @@ QProgressBar::chunk {
             <number>1</number>
            </property>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_MS4_LoadData">
-             <property name="text">
-              <string>Load Datasets</string>
+            <widget class="QTabWidget" name="tabWidget_MS4_PedigreeViewers">
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="tab_MS4_Pedigree_Plot3D">
+              <attribute name="title">
+               <string>Plot 3D</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout_67">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_MS4_Pedigree_Plot3D"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_MS4_Pedigree_Volumetric3D">
+              <attribute name="title">
+               <string>Volumetric rendered 3D image</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout_72">
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <property name="horizontalSpacing">
+                <number>2</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>1</number>
+               </property>
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_MS4_Pedigree_Volumetric3D"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="10" column="2">
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_IrrShift">
+          <property name="title">
+           <string>Shift on irradiation</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_169">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="0" column="3">
+            <widget class="QSpinBox" name="spinBox_MS4_IrrShift_ShiftPx_Y">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="prefix">
+              <string>shift y = </string>
+             </property>
+             <property name="minimum">
+              <number>-999999</number>
+             </property>
+             <property name="maximum">
+              <number>999999</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="spinBox_MS4_IrrShift_ShiftPx_X">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="prefix">
+              <string>shift x = </string>
+             </property>
+             <property name="minimum">
+              <number>-999999</number>
+             </property>
+             <property name="maximum">
+              <number>999999</number>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_MS4_SaveData">
-             <property name="enabled">
-              <bool>false</bool>
+            <widget class="QSpinBox" name="spinBox_MS4_IrrShift_Shift_T">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
+             <property name="prefix">
+              <string>shifted T &gt; </string>
+             </property>
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="value">
+              <number>24</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="checkBox_MS4_IrrShift_CorrectShift">
              <property name="text">
-              <string>Save Pedigree</string>
+              <string>Correct shift</string>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="9" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_PedigreeView_Volumetric">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>2</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>410</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>410</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Pedigree View - Volumetric</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_74">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="8" column="0" colspan="5">
+            <spacer name="verticalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox_11">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_75">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_95">
+                <property name="text">
+                 <string>Node size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Edge">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>2</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Node">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>3</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="value">
+                 <number>3</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_94">
+                <property name="text">
+                 <string>Edge size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0" colspan="2">
+               <spacer name="verticalSpacer_10">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_12">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>3</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_80">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <property name="horizontalSpacing">
+               <number>3</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>1</number>
+              </property>
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>30</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>30</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="minimum">
+                 <number>3</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_X">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
+                <property name="maximum">
+                 <number>999999</number>
+                </property>
+                <property name="value">
+                 <number>999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_Y">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
+                <property name="maximum">
+                 <number>999999</number>
+                </property>
+                <property name="value">
+                 <number>999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_T">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
+                <property name="maximum">
+                 <number>999999</number>
+                </property>
+                <property name="value">
+                 <number>999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_92">
+                <property name="text">
+                 <string>Y</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_93">
+                <property name="text">
+                 <string>T</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_82">
+                <property name="text">
+                 <string>Single img scaling</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_88">
+                <property name="text">
+                 <string>X</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_103">
+                <property name="text">
+                 <string>All images</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_85">
+                <property name="text">
+                 <string>Texture memory</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3" rowspan="4">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_PedigreeView_Param_Memory">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                  <horstretch>3</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string> MB</string>
+                </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <double>999999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>999999.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_Matching">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>410</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>410</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Matching</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_68">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="5" column="0" colspan="4">
+            <widget class="Line" name="line_26">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_79">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Eliminate mitoses</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0" colspan="4">
+            <layout class="QGridLayout" name="gridLayout_64">
+             <property name="horizontalSpacing">
+              <number>3</number>
+             </property>
+             <property name="verticalSpacing">
+              <number>1</number>
+             </property>
+             <item row="1" column="2">
+              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_None">
+               <property name="text">
+                <string>Do not plot autom.</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" rowspan="6">
+              <widget class="QPushButton" name="pushButton_MS4_StartPedigreeReconstruction">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>reconstruct pedigree</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_Finished">
+               <property name="text">
+                <string>Plot when finished</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_GosAndCorrection">
+               <property name="text">
+                <string>Plot Go1/2 and Mitosis Cor.</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_EachStep">
+               <property name="text">
+                <string>Plot each T Step</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_87">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Compare nuc(T-3), no new mitosis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_83">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Compare to nuc(T-1)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_74">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Match T-1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_75">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Match T-2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go1">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>rel </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLabel" name="label_91">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>score Go2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>25.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>55.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go2">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>100.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>30.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_90">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>score Go1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_84">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Compare nuc(T-2), no new mitosis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_86">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Match T-3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go1">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>100.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>60.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="4">
+            <widget class="Line" name="line_24">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>50.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>min </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLabel" name="label_80">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Kill mitoses to connect to open ends</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_109">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Change mitoses</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QLabel" name="label_110">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Change parents to make mitoses better</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go2">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string>rel </string>
+             </property>
+             <property name="suffix">
+              <string>%</string>
+             </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <double>999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>150.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_PedigreeView_General">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>410</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>410</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Pedigree View - General</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_71">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="2" column="0" colspan="2">
+            <widget class="QPushButton" name="pushButton_MS4_UpdatePedigreeView">
+             <property name="text">
+              <string>Update pedigree view</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="3" column="2">
          <widget class="QGroupBox" name="groupBox_MS4_ScoreFeats">
           <property name="enabled">
            <bool>false</bool>
@@ -8822,1597 +10438,7 @@ QProgressBar::chunk {
           </layout>
          </widget>
         </item>
-        <item row="7" column="2">
-         <widget class="QGroupBox" name="groupBox_MS4_PedigreeView_Volumetric">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-            <horstretch>2</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>410</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>410</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Pedigree View - Volumetric</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_74">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <item row="8" column="0" colspan="5">
-            <spacer name="verticalSpacer_8">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_11">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="title">
-              <string/>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_75">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_95">
-                <property name="text">
-                 <string>Node size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Edge">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>2</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_ObjectSize_Node">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>3</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="value">
-                 <number>3</number>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_94">
-                <property name="text">
-                 <string>Edge size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" colspan="2">
-               <spacer name="verticalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>0</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_12">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>3</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="title">
-              <string/>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_80">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <property name="horizontalSpacing">
-               <number>3</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>1</number>
-              </property>
-              <item row="2" column="1">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_Y">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="prefix">
-                 <string/>
-                </property>
-                <property name="minimum">
-                 <number>10</number>
-                </property>
-                <property name="maximum">
-                 <number>999</number>
-                </property>
-                <property name="value">
-                 <number>30</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_X">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="prefix">
-                 <string/>
-                </property>
-                <property name="minimum">
-                 <number>10</number>
-                </property>
-                <property name="maximum">
-                 <number>999</number>
-                </property>
-                <property name="value">
-                 <number>30</number>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_SubVolumeSize_T">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="minimum">
-                 <number>3</number>
-                </property>
-                <property name="maximum">
-                 <number>999</number>
-                </property>
-                <property name="value">
-                 <number>10</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_X">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="prefix">
-                 <string/>
-                </property>
-                <property name="maximum">
-                 <number>999999</number>
-                </property>
-                <property name="value">
-                 <number>999999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_Y">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="prefix">
-                 <string/>
-                </property>
-                <property name="maximum">
-                 <number>999999</number>
-                </property>
-                <property name="value">
-                 <number>999999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QSpinBox" name="spinBox_MS4_PedigreeView_Param_Volumetric_AllVolumeSize_T">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>1</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>18</height>
-                 </size>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> px</string>
-                </property>
-                <property name="prefix">
-                 <string/>
-                </property>
-                <property name="maximum">
-                 <number>999999</number>
-                </property>
-                <property name="value">
-                 <number>999999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_92">
-                <property name="text">
-                 <string>Y</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_93">
-                <property name="text">
-                 <string>T</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_82">
-                <property name="text">
-                 <string>Single img scaling</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_88">
-                <property name="text">
-                 <string>X</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_103">
-                <property name="text">
-                 <string>All images</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="label_85">
-                <property name="text">
-                 <string>Texture memory</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3" rowspan="4">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_PedigreeView_Param_Memory">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                  <horstretch>3</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string> MB</string>
-                </property>
-                <property name="decimals">
-                 <number>0</number>
-                </property>
-                <property name="maximum">
-                 <double>999999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>999999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="8" column="2">
-         <spacer name="verticalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0" rowspan="9" colspan="2">
-         <widget class="QGroupBox" name="groupBox_MS4_Pedigree">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="title">
-           <string>Pedigree</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_66">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QTabWidget" name="tabWidget_MS4_PedigreeViewers">
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="tab_MS4_Pedigree_Plot3D">
-              <attribute name="title">
-               <string>Plot 3D</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_67">
-               <property name="leftMargin">
-                <number>3</number>
-               </property>
-               <property name="topMargin">
-                <number>3</number>
-               </property>
-               <property name="rightMargin">
-                <number>3</number>
-               </property>
-               <property name="bottomMargin">
-                <number>3</number>
-               </property>
-               <property name="spacing">
-                <number>1</number>
-               </property>
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_MS4_Pedigree_Plot3D"/>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_MS4_Pedigree_Volumetric3D">
-              <attribute name="title">
-               <string>Volumetric rendered 3D image</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_72">
-               <property name="leftMargin">
-                <number>3</number>
-               </property>
-               <property name="topMargin">
-                <number>3</number>
-               </property>
-               <property name="rightMargin">
-                <number>3</number>
-               </property>
-               <property name="bottomMargin">
-                <number>3</number>
-               </property>
-               <property name="horizontalSpacing">
-                <number>2</number>
-               </property>
-               <property name="verticalSpacing">
-                <number>1</number>
-               </property>
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_MS4_Pedigree_Volumetric3D"/>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QGroupBox" name="groupBox_MS4_PedigreeView_General">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>410</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>410</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Pedigree View - General</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_71">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <item row="2" column="0" colspan="2">
-            <widget class="QPushButton" name="pushButton_MS4_UpdatePedigreeView">
-             <property name="text">
-              <string>Update pedigree view</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QGroupBox" name="groupBox_MS4_Matching">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>410</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>410</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Matching</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_68">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <item row="5" column="0" colspan="4">
-            <widget class="Line" name="line_26">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_79">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Eliminate mitoses</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0" colspan="4">
-            <layout class="QGridLayout" name="gridLayout_64">
-             <property name="horizontalSpacing">
-              <number>3</number>
-             </property>
-             <property name="verticalSpacing">
-              <number>1</number>
-             </property>
-             <item row="1" column="2">
-              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_None">
-               <property name="text">
-                <string>Do not plot autom.</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0" rowspan="6">
-              <widget class="QPushButton" name="pushButton_MS4_StartPedigreeReconstruction">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>reconstruct pedigree</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_Finished">
-               <property name="text">
-                <string>Plot when finished</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="3">
-              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_GosAndCorrection">
-               <property name="text">
-                <string>Plot Go1/2 and Mitosis Cor.</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QRadioButton" name="radioButton_MS4_PedigreePlotUpdate_EachStep">
-               <property name="text">
-                <string>Plot each T Step</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLabel" name="label_87">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Compare nuc(T-3), no new mitosis</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="label_83">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Compare to nuc(T-1)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_74">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Match T-1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_75">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Match T-2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go1">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>rel </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>999.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>20.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="label_91">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>score Go2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go2">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>25.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm2_Go1">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>55.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go2">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>100.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>30.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_90">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>score Go1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLabel" name="label_84">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Compare nuc(T-2), no new mitosis</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_86">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Match T-3</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm3_Go1">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>100.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>60.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0" colspan="4">
-            <widget class="Line" name="line_24">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go1">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>50.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_Thresh_Score_Tm1_Go2">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>min </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="value">
-              <double>20.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QLabel" name="label_80">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Kill mitoses to connect to open ends</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_109">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Change mitoses</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QLabel" name="label_110">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Change parents to make mitoses better</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Match_ScoreMultiplier_MitosisCorrection_Go2">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>rel </string>
-             </property>
-             <property name="suffix">
-              <string>%</string>
-             </property>
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>999.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>150.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QGroupBox" name="groupBox_MS4_PedigreePropertys">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>410</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>410</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Pedigree propertys</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_63">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <item row="3" column="1">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Single_X">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string> px</string>
-             </property>
-             <property name="prefix">
-              <string>X:</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>9999</number>
-             </property>
-             <property name="value">
-              <number>1004</number>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_107">
-             <property name="text">
-              <string>Margin</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_106">
-             <property name="text">
-              <string>Axis scale</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Single_Y">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>18</height>
-              </size>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string> px</string>
-             </property>
-             <property name="prefix">
-              <string>Y:</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>9999</number>
-             </property>
-             <property name="value">
-              <number>1002</number>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1" colspan="2">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_EarliestMitosisT">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string/>
-             </property>
-             <property name="prefix">
-              <string>earliest possible mitosis at T=</string>
-             </property>
-             <property name="maximum">
-              <number>999</number>
-             </property>
-             <property name="value">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Full_X">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string>px</string>
-             </property>
-             <property name="prefix">
-              <string>X: </string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>999999999</number>
-             </property>
-             <property name="value">
-              <number>999999999</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Scale_px2um">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>X/Y: 1px = </string>
-             </property>
-             <property name="suffix">
-              <string>um</string>
-             </property>
-             <property name="decimals">
-              <number>6</number>
-             </property>
-             <property name="minimum">
-              <double>0.000001000000000</double>
-             </property>
-             <property name="maximum">
-              <double>999.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.000001000000000</double>
-             </property>
-             <property name="value">
-              <double>0.121212000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_OriginalImgSize_Full_Y">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string>px</string>
-             </property>
-             <property name="prefix">
-              <string>Y:</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>999999999</number>
-             </property>
-             <property name="value">
-              <number>999999999</number>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1" colspan="2">
-            <widget class="QSpinBox" name="spinBox_MS4_PedigreeProp_TrackingBorderWidth">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string>px</string>
-             </property>
-             <property name="prefix">
-              <string>tracking not safe in border of </string>
-             </property>
-             <property name="maximum">
-              <number>9999</number>
-             </property>
-             <property name="singleStep">
-              <number>10</number>
-             </property>
-             <property name="value">
-              <number>400</number>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_102">
-             <property name="text">
-              <string>Size single img</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_104">
-             <property name="text">
-              <string>size full mosaik</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" colspan="4">
-            <widget class="Line" name="line_25">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_MS4_Scale_T2h">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="prefix">
-              <string>T: 1 T-step = </string>
-             </property>
-             <property name="suffix">
-              <string>h</string>
-             </property>
-             <property name="minimum">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_108">
-             <property name="text">
-              <string>Mitosis start</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="6" column="2">
          <widget class="QGroupBox" name="groupBox_MS4_PedigreeView_Plot3D">
           <property name="enabled">
            <bool>false</bool>
@@ -10900,6 +10926,65 @@ QProgressBar::chunk {
                </spacer>
               </item>
              </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QGroupBox" name="groupBox_MS4_Data">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>410</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>410</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Data</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_65">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButton_MS4_LoadData">
+             <property name="text">
+              <string>Load Datasets</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_MS4_SaveData">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Save Pedigree</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -13273,24 +13358,10 @@ color: red;</string>
               <property name="spacing">
                <number>1</number>
               </property>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_141">
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_152">
                 <property name="text">
-                 <string>Scaling</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButton_MS6_LoadData">
-                <property name="text">
-                 <string>Load Data</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_140">
-                <property name="text">
-                 <string>Irradiation</string>
+                 <string>Base img size</string>
                 </property>
                </widget>
               </item>
@@ -13320,35 +13391,6 @@ color: red;</string>
                 </property>
                 <property name="value">
                  <number>1004</number>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="2">
-               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_y">
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-                <property name="prefix">
-                 <string>y: </string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-                <property name="value">
-                 <number>1002</number>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_139">
-                <property name="text">
-                 <string>Managment</string>
                 </property>
                </widget>
               </item>
@@ -13383,64 +13425,8 @@ color: red;</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_138">
-                <property name="text">
-                 <string>Value Channels</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" colspan="2">
-               <layout class="QGridLayout" name="gridLayout_132">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_143">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
-                  <property name="text">
-                   <string>GFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
-                  <property name="text">
-                   <string>RFP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="4">
-                 <widget class="QLabel" name="label_145">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_144">
-                  <property name="text">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="5">
-                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
-                  <property name="text">
-                   <string>both</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="3" column="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+              <item row="5" column="1" colspan="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>1</horstretch>
@@ -13451,22 +13437,73 @@ color: red;</string>
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="prefix">
-                 <string>1T ≙ </string>
-                </property>
-                <property name="suffix">
-                 <string>h</string>
+                 <string>irradiation at T=</string>
                 </property>
                 <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="minimum">
-                 <double>1.000000000000000</double>
+                 <number>1</number>
                 </property>
                 <property name="maximum">
-                 <double>1.000000000000000</double>
+                 <double>51.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>27.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>Irradiation</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QSpinBox" name="spinBox_MS6_BaseImgSize_y">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="prefix">
+                 <string>y: </string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="value">
+                 <number>1002</number>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_167">
+                <property name="text">
+                 <string>Border</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>Managment</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_138">
+                <property name="text">
+                 <string>Value Channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButton_MS6_LoadData">
+                <property name="text">
+                 <string>Load Data</string>
                 </property>
                </widget>
               </item>
@@ -13552,15 +13589,57 @@ color: red;</string>
                 </item>
                </layout>
               </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_152">
-                <property name="text">
-                 <string>Base img size</string>
-                </property>
-               </widget>
+              <item row="2" column="1" colspan="2">
+               <layout class="QGridLayout" name="gridLayout_132">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_143">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_0">
+                  <property name="text">
+                   <string>GFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_1">
+                  <property name="text">
+                   <string>RFP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_145">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_144">
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QLineEdit" name="lineEdit_MS6_FociChannel_Name_2">
+                  <property name="text">
+                   <string>both</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
-              <item row="5" column="1" colspan="2">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_IrradiationTime">
+              <item row="3" column="2">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_MS6_Scale_T2h">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>1</horstretch>
@@ -13571,27 +13650,26 @@ color: red;</string>
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="prefix">
-                 <string>irradiation at T=</string>
+                 <string>1T ≙ </string>
+                </property>
+                <property name="suffix">
+                 <string>h</string>
                 </property>
                 <property name="decimals">
-                 <number>1</number>
+                 <number>2</number>
+                </property>
+                <property name="minimum">
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="maximum">
-                 <double>51.000000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>27.000000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_167">
-                <property name="text">
-                 <string>Border</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1" colspan="2">
+              <item row="7" column="1" colspan="2">
                <widget class="QSpinBox" name="spinBox_MS6_MarginToBorder">
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
@@ -13609,6 +13687,76 @@ color: red;</string>
                  <number>200</number>
                 </property>
                </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_141">
+                <property name="text">
+                 <string>Scaling</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_216">
+                <property name="text">
+                 <string>Shift</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1" colspan="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_MS6_IrrShift">
+                <item>
+                 <widget class="QCheckBox" name="checkBox_MS6_IrrShift_CorrectShift">
+                  <property name="text">
+                   <string>Correct shift</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_217">
+                  <property name="text">
+                   <string>T_shift, if T &gt;  T_irr</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_MS6_IrrShift_ShiftPx_X">
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string>px</string>
+                  </property>
+                  <property name="prefix">
+                   <string>shift x = </string>
+                  </property>
+                  <property name="minimum">
+                   <number>-999999</number>
+                  </property>
+                  <property name="maximum">
+                   <number>999999</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_MS6_IrrShift_ShiftPx_Y">
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string>px</string>
+                  </property>
+                  <property name="prefix">
+                   <string>shift y = </string>
+                  </property>
+                  <property name="minimum">
+                   <number>-999999</number>
+                  </property>
+                  <property name="maximum">
+                   <number>999999</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -17144,8 +17292,8 @@ color: red;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1655</width>
-     <height>22</height>
+     <width>1658</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProcess">
