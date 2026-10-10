@@ -2926,6 +2926,28 @@ void D_StepWindow::Update_Img_Proc()
         }
             break;
 
+        case c_sT_OT_PASCAL_TRIANGLE:          //-----------------------------------------------------------   pascal triangle
+        {
+            if(ui->checkBox_09_Pascal_Triangle_Modulo->isChecked())
+            {
+                ERR(D_VisDat_Proc::Pascal_Triangle_Modulo(
+                        pStore->get_pVD(pos_Dest),
+                        ui->spinBox_09_Pascal_size->value(),
+                        ui->spinBox_09_Pascal_Triangle_Divisor->value() + 1),
+                    "Update_Img_Proc",
+                    "Pascal_Triangle_Modulo");
+            }
+            else
+            {
+                ERR(D_VisDat_Proc::Pascal_Triangle(
+                        pStore->get_pVD(pos_Dest),
+                        ui->spinBox_09_Pascal_size->value()),
+                    "Update_Img_Proc",
+                    "Pascal_Triangle");
+            }
+        }
+            break;
+
         default:            //-------------------------------------------------------------------   Default
             break;
 
@@ -5840,6 +5862,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         connect(ui->checkBox_09_Michelson_Beam_atDE_SP_M1_SO,       SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->checkBox_09_Michelson_Beam_atDE_M2_SP_SO,       SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         connect(ui->comboBox_09_Michelson_Show_IorE,                SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        //Pascal Triangle
+        connect(ui->spinBox_09_Pascal_size,                         SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->spinBox_09_Pascal_Triangle_Divisor,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        connect(ui->checkBox_09_Pascal_Triangle_Modulo,             SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //DIMENSION
         //Pick
         connect(ui->checkBox_10_Pick_X,                     SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -6437,7 +6463,7 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->doubleSpinBox_09_Michelson_Mirror2_angle_y,     SIGNAL(valueChanged(double)),       this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atSO_SO,             SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atSO_M1_SO,          SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
-        disconnect(ui->checkBox_09_Michelson_Beam_atSO_SP_M2_SP_SO,       SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_09_Michelson_Beam_atSO_SP_M2_SP_SO,    SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atM1_SO,             SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atM1_M1_SO,          SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atM2_SP_SO,          SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -6445,6 +6471,10 @@ void D_StepWindow::Connect_ImgProcSettings_2_UpdateImgProc(bool con)
         disconnect(ui->checkBox_09_Michelson_Beam_atDE_SP_M1_SO,       SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->checkBox_09_Michelson_Beam_atDE_M2_SP_SO,       SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         disconnect(ui->comboBox_09_Michelson_Show_IorE,                SIGNAL(currentIndexChanged(int)),   this,   SLOT(Update_Img_Proc()));
+        //Pascal Triangle
+        disconnect(ui->spinBox_09_Pascal_size,                         SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->spinBox_09_Pascal_Triangle_Divisor,             SIGNAL(valueChanged(int)),          this,   SLOT(Update_Img_Proc()));
+        disconnect(ui->checkBox_09_Pascal_Triangle_Modulo,             SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
         //DIMENSION
         //Pick
         disconnect(ui->checkBox_10_Pick_X,                     SIGNAL(stateChanged(int)),          this,   SLOT(Update_Img_Proc()));
@@ -7033,6 +7063,9 @@ void D_StepWindow::AdaptUi_SourceNumber_ProcDims()
             proc_dim = true;
             source_2 = true;
         }
+
+        if(ui->comboBox_Type_09_Other->currentIndex() == c_sT_OT_PASCAL_TRIANGLE)
+            source_1 = false;
 
         if(ui->comboBox_Type_09_Other->currentIndex() == c_sT_OT_RADIOMETRIC_STEREO)
         {
@@ -8340,4 +8373,9 @@ void D_StepWindow::on_comboBox_02_Depth_Norm_currentIndexChanged(int index)
 {
     ui->doubleSpinBox_02_Depth_Minimum->setEnabled(index == 1);
     ui->doubleSpinBox_02_Depth_Maximum->setEnabled(index == 1);
+}
+
+void D_StepWindow::on_checkBox_09_Pascal_Triangle_Modulo_clicked(bool checked)
+{
+    ui->spinBox_09_Pascal_Triangle_Divisor->setEnabled(checked);
 }

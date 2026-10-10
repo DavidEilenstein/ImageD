@@ -2657,6 +2657,74 @@ int D_Img_Proc_3D::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, in
     return ER_okay;
 }
 
+int D_Img_Proc_3D::Pascal_Triangle_Modulo(Mat *pMA_Out, int n, int d_max)
+{
+    //errors
+    if(n < 1)         return ER_size_bad;
+    if(d_max < 1)     return ER_parameter_bad;
+
+    //2D image size
+    int sx = 2 * n;
+    int sy = 2 * n;
+
+    //3D image size
+    int sz = d_max;
+    int s[] = {sx, sy, sz};
+
+    //init 3D image
+    *pMA_Out = Mat(3, s, CV_16UC1, Scalar(0));
+
+    //loop divisors (z layers)
+    for(int z = 1; z < sz; z++)
+    {
+        uint64_t mod = (uint64_t)z;
+
+        //only two Pascal rows are needed
+        vector<uint64_t> row_prev(n, 0);
+        vector<uint64_t> row_curr(n, 0);
+
+        //first Pascal row
+        row_prev[0] = 1 % mod;
+
+        //loop Pascal rows
+        for(int row = 0; row < n; row++)
+        {
+            //calculate current Pascal row
+            if(row > 0)
+            {
+                for(int k = 0; k <= row; k++)
+                {
+                    uint64_t left  = (k > 0) ? row_prev[k-1] : 0;
+                    uint64_t right = (k < row) ? row_prev[k] : 0;
+
+                    row_curr[k] = (left + right) % mod;
+                }
+
+                row_prev.swap(row_curr);
+            }
+
+            //write 2x2 blocks to output image
+            for(int k = 0; k <= row; k++)
+            {
+                int x = n - row - 1 + 2*k;
+                int y = 2*row;
+
+                ushort val = (ushort)row_prev[k];
+
+                //write all four pixels of the block
+                for(int dy = 0; dy < 2; dy++)
+                    for(int dx = 0; dx < 2; dx++)
+                    {
+                        int px[] = {x+dx, y+dy, z};
+                        pMA_Out->at<ushort>(px) = val;
+                    }
+            }
+        }
+    }
+
+    return ER_okay;
+}
+
 
 
 

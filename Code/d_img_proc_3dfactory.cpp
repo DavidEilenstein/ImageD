@@ -202,3 +202,15 @@ function<int (Mat *)> D_Img_Proc_3dFactory::InterferometerMichelson(int scene_si
                     beam_atDE_M2_SP_SO);
     };
 }
+
+function<int (Mat *)> D_Img_Proc_3dFactory::Pascal_Triangle_Modulo(int n, int d_max)
+{
+    return
+            [n, d_max](Mat *pMA_Out)
+    {
+        return D_Img_Proc_3D::Pascal_Triangle_Modulo(
+                    pMA_Out,
+                    n,
+                    d_max);
+    };
+}

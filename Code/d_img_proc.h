@@ -463,6 +463,8 @@ public:
 
     static int      InterferometerMichelson     (Mat *pMA_Out, int scene_size_x_px, int scene_size_y_px, int scale_px, double scale_m, double wavelength_m, double dist_source_m, double dist_detector_m, double dist_mirror1_m, double dist_mirror2_m, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y);
 
+    static int      Pascal_Triangle             (Mat *pMA_Out, int n);
+
 };
 
 #endif // D_IMG_PROC_H

@@ -74,6 +74,8 @@ public:
 
     static function<int (Mat *)>                                InterferometerMichelson         (int scene_size_x_px, int scene_size_y_px, int scene_size_z_px, double scale_px2um, double wavelength_um, double dist_source_um, double dist_detector_um, double dist_mirror1_um, double dist_mirror2_um, double angle_mirror1_x, double angle_mirror1_y, double angle_mirror2_x, double angle_mirror2_y, bool intensity_notfield, bool beam_atSO_SO, bool beam_atSO_M1_SO, bool beam_atSO_SP_M2_SP_SO, bool beam_atM1_SO, bool beam_atM1_M1_SO, bool beam_atM2_SP_SO, bool beam_atM2_M2_SP_SO, bool beam_atDE_SP_M1_SO, bool beam_atDE_M2_SP_SO);
 
+    static function<int (Mat *)>                                Pascal_Triangle_Modulo          (int n, int d_max);
+
 
 };
 

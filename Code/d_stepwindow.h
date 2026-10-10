@@ -345,6 +345,8 @@ private slots:
 
     void on_comboBox_02_Depth_Norm_currentIndexChanged(int index);
 
+    void on_checkBox_09_Pascal_Triangle_Modulo_clicked(bool checked);
+
 private:
     Ui::D_StepWindow *ui;
 
@@ -578,7 +580,8 @@ private:
         c_sT_OT_RELATION_STAT,
         c_sT_OT_ZERNIKE_STACK,
         c_sT_OT_MICHELSON,
-        c_sT_OT_RADIOMETRIC_STEREO
+        c_sT_OT_PASCAL_TRIANGLE,
+        c_sT_OT_RADIOMETRIC_STEREO,
     };
 
     //Subtypes: Dimension

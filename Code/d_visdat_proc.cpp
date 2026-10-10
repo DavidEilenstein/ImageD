@@ -7695,6 +7695,33 @@ int D_VisDat_Proc::InterferometerMichelson(D_VisDat_Obj *pVD_Out, int scene_size
                 pVD_Out);
 }
 
+int D_VisDat_Proc::Pascal_Triangle(D_VisDat_Obj *pVD_Out, int n)
+{
+    *pVD_Out = D_VisDat_Obj(
+                D_VisDat_Dim(2 * n, 2 * n, 1, 1, 1, 1),
+                CV_64FC1);
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_2D_XY),
+                D_Img_Proc_2dFactory::Pascal_Triangle(
+                    n),
+                pVD_Out);
+}
+
+int D_VisDat_Proc::Pascal_Triangle_Modulo(D_VisDat_Obj *pVD_Out, int n, int d_max)
+{
+    *pVD_Out = D_VisDat_Obj(
+                D_VisDat_Dim(2 * n, 2 * n, d_max, 1, 1, 1),
+                CV_16UC1);
+
+    return Wrap_VD(
+                D_VisDat_Slicing(c_SLICE_3D_XYZ),
+                D_Img_Proc_3dFactory::Pascal_Triangle_Modulo(
+                    n,
+                    d_max),
+                pVD_Out);
+}
+
 int D_VisDat_Proc::Calc_MinMax(D_VisDat_Obj *pVD_In, double *min_ext, double *max_ext)
 {
     if(pVD_In->pMA_full()->empty())             return ER_empty;

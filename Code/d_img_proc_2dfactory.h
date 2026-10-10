@@ -61,6 +61,7 @@ public:
     static function<int (Mat *)>                                Load_From_Path_Raw                  (string path, int width, int height, int out_type);
     static function<int (Mat *)>                                Draw_Contours                       (vector<vector<Point>> vContours, int line_thickness, double value);
     static function<int (Mat *)>                                Draw_ContourText_InPlace            (vector<vector<Point>> vContours, QStringList QSL_Texts, vector<Point2f> vTextOrigins, int line_thickness, int text_thickness, double text_scale, double value);
+    static function<int (Mat *)>                                Pascal_Triangle                     (int n);
 
 
     //1 Input -> 1 Output

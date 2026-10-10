@@ -21291,6 +21291,67 @@ int D_Img_Proc::InterferometerMichelson(Mat *pMA_Out, int scene_size_x_px, int s
     return ER_okay;
 }
 
+int D_Img_Proc::Pascal_Triangle(Mat *pMA_Out, int n)
+{
+    //errors
+    if(n < 1)         return ER_size_bad;
+
+    //image size
+    int sx = 2 * n;
+    int sy = 2 * n;
+
+    //init image with 0 and 64bit double
+    *pMA_Out = Mat(sx, sy, CV_64FC1, Scalar(0));
+
+    //color inital ones on the sides of the triangle
+    int r = n;
+    int l = n;
+    for(int y = 0; y < sy; y += 2)
+    {
+        //left 4px
+        pMA_Out->at<double>(y,   r  ) = 1;
+        pMA_Out->at<double>(y,   r-1) = 1;
+        pMA_Out->at<double>(y+1, r  ) = 1;
+        pMA_Out->at<double>(y+1, r-1) = 1;
+
+        //right 4px
+        pMA_Out->at<double>(y,   l  ) = 1;
+        pMA_Out->at<double>(y,   l-1) = 1;
+        pMA_Out->at<double>(y+1, l  ) = 1;
+        pMA_Out->at<double>(y+1, l-1) = 1;
+
+        //shift left and right for next line
+        l--;
+        r++;
+    }
+
+    //calc the sums of the remaining ones
+    for(int y = 4; y < sy; y++)
+    {
+        int ones_found = 0;
+        for(int x = 0; x < sx; x++)
+        {
+            //read px to check if value should be calced
+            double px = pMA_Out->at<double>(y, x);
+            if(px == 1.0)
+                ones_found++;
+
+            //only calc between one-valued-pixels 2 and 3
+            if(px != 1.0 && ones_found == 2)
+            {
+                //read values top left and top right
+                double tr = pMA_Out->at<double>(y-2, x+1);
+                double tl = pMA_Out->at<double>(y-2, x-1);
+
+                //write the result
+                pMA_Out->at<double>(y, x) = tr + tl;
+            }
+        }
+    }
+
+    return ER_okay;
+}
+
 int D_Img_Proc::Draw_Label_Numbers_Corner(Mat *pMA_Out, Mat *pMA_Label, double scale, double thickness)
 {
     if(pMA_Label->empty())                                                  return ER_empty;

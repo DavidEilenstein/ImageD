@@ -75,6 +75,17 @@ function<int (Mat *)> D_Img_Proc_2dFactory::Draw_ContourText_InPlace(vector<vect
     };
 }
 
+function<int (Mat *)> D_Img_Proc_2dFactory::Pascal_Triangle(int n)
+{
+    return
+            [n](Mat *pMA_Target)
+    {
+        return D_Img_Proc::Pascal_Triangle(
+                    pMA_Target,
+                    n);
+    };
+}
+
 
 
 function<int (Mat *, Mat *)> D_Img_Proc_2dFactory::Convert_Color(int cvt_mode)
